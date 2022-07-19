@@ -61,7 +61,7 @@
 		<div class="column">
 			<h5 class="title is-5">Spirit Card</h5>
 			<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="nameAndArt">Spirit Name & Art
-			<span class="icon">
+			<span>
 				{#if spiritCard.nameAndArt.isVisible}
 					<ion-icon name="chevron-down-outline"></ion-icon>
 				{:else}
@@ -82,7 +82,7 @@
 				</div>
 			{/if}
 			<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="specialRules">Special Rules
-				<span class="icon">
+				<span>
 				{#if spiritCard.specialRules.isVisible}
 					<ion-icon name="chevron-down-outline"></ion-icon>
 				{:else}
