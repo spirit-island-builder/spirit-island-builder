@@ -1,5 +1,15 @@
 <script>
   export let spiritBoard
+  
+    function addGrowthSet() {
+		spiritBoard.growth.growthSets.push({
+      id: spiritBoard.growth.growthSets.length,
+			name: "",
+			effect: "",
+		});
+		spiritBoard.growth.growthSets = spiritBoard.growth.growthSets;
+	}
+  
   export let showOrHideSection
 
 </script>
@@ -15,15 +25,15 @@
 			{#if spiritBoard.growth.isVisible}
 					<div class="field">
 						<div class="control">
-							<button class="button is-primary is-light" on:click={addSpecialRule}>Add Group Set (ie. Lure)</button>
+							<button class="button is-primary is-light" on:click={addGrowthSet}>Add Growth Set (ie. Lure)</button>
 						</div>
 					</div>
 					<div class="field">
 						<div class="control">
-							<button class="button is-primary is-light" on:click={addSpecialRule}>Add Growth Group (ie. Lure)</button>
+							<button class="button is-primary is-light" on:click={addGrowthSet}>Add Growth Group</button>
 						</div>
 					</div>
-				{#each spiritBoard.growth.subGroups as subGroup, i (subGroups.id)}
+				{#each spiritBoard.growth.growthSets as growthSet, i (growthSet.id)}
 					<div class="field">
 						<label class="label" for="spiritGrowthInput">Growth</label>
 						<div class="control">
