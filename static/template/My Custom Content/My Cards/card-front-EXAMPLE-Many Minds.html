@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<head>
+  <link href="../../_global/css/global.css" rel="stylesheet" />
+  <link href="../../_global/css/card.css" rel="stylesheet" />
+  <script type="text/javascript" src="../../_global/js/general.js"></script>
+  <script src="../../_global/js/card.js" defer></script>
+</head>
+<body>
+
+  <quick-card 
+    speed="fast"
+    cost="0" 
+    name="A dreadful tide of scurrying flesh"
+    image="example1.png"
+    elements="moon,air,water,animal"
+    range="sacred-site,1"
+    target="{beasts}{beasts}"
+	target-title="TARGET LAND"
+    artist-name="ARTIST NAME">
+    <rules>
+      Remove up to half (round down) of {beasts} in target land.<br><br>
+      For each {beasts} Removed, 2 {fear} and skip one Invader Action.
+    </rules>
+  </quick-card>
+
+  <quick-card
+    speed="fast"
+    cost="0"
+    name="BOON OF SWARMING BEDEVILMENT"
+    image="example2.png"
+    elements="air,water,animal"
+    range="none"
+    target="ANOTHER {spirit}"
+    target-title="TARGET"
+    artist-name="ARTIST NAME">
+    <rules>
+        For the rest of this turn, each of target Spirit's {presence} grants Defend 1 in its land.
+
+Target Spirit may Push up to 1 of their {presence}.
+    </rules>
+  </quick-card>
+  
+  <quick-card
+    speed="slow"
+    cost="1"
+    name="EVER-MULTIPLYING SWARM"
+    image="example3.png"
+    elements="fire,earth,animal"
+    range="0"
+    target="ANY"
+	target-title="TARGET LAND"
+    artist-name="ARTIST NAME">
+    <rules>
+        Add 2 {beasts}.
+    </rules>
+  </quick-card>
+
+  <quick-card
+    speed="fast"
+    cost="0"
+    name="GUIDE THE WAY ON FEATHERED WINGS"
+    image="example4.png"
+    elements="sun,air,animal"
+    range="1"
+    target="ANY"
+	target-title="TARGET LAND"
+    artist-name="ARTIST-NAME">
+    <rules>
+        Move 1 {beasts} up to two lands. As it moves, up to 2 {dahan} may move with it, for part or all of the way.
+
+(The {beasts} / {dahan} may move to an adjacent land and then back.)
+    </rules>
+  </quick-card>
+  
+    <quick-card
+    speed="fast"
+    cost="0"
+    name="PURSUE WITH SCRATCHES, PECKS, AND STINGS"
+    image="example4.png"
+    elements="sun,fire,air,animal"
+    range="2"
+    target="{beasts}"
+	target-title="TARGET LAND"
+    artist-name="ARTIST-NAME">
+    <rules>
+1 {fear}.
+For each {beasts} past the first, Push 1 {explorer} / {town}.
+    </rules>
+  </quick-card>
+
+</body>
+</html>

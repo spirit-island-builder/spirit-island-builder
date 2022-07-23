@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<head>
+    <link href="../../_global/css/global.css" rel="stylesheet" />
+    <link href="../../_global/css/board_front.css" rel="stylesheet" />
+    <script type="text/javascript" src="../../_global/js/general.js"></script>
+    <script type="text/javascript" src="../../_global/js/board_front.js"></script>
+</head>
+
+<body>
+
+  <board spirit-image="example1.png" spirit-image-scale="190%"  spirit-border="example2.png">
+    
+    <spirit-name>
+      Grinning Trickster Stirs Up Trouble
+    </spirit-name>
+	<artist-name>
+	
+	</artist-name>
+	
+    <special-rules-container>
+      <section-title>SPECIAL RULES</section-title>
+      <special-rules-subtitle>A REAL FLAIR FOR DISCORD</special-rules-subtitle>
+      <special-rule>
+        After one of your Powers adds {strife} in a land, you may pay 1 Energy to add 1 {strife} within {range-1} of that land.
+      </special-rule>
+      <special-rules-subtitle>CLEANING UP MESSES IS A DRAG</special-rules-subtitle>
+      <special-rule>
+        After one of your Powers Removes {blight}, Destroy 1 of your {presence}. Ignore this rule for Let's See What Happens.
+      </special-rule>
+    </special-rules-container>
+
+    <right>
+		<!-- GROWTH  
+			Examples include: reclaim-all; reclaim-one; move-presence(1); gain-energy(2);
+			Gaining Elements: gain-element(water,fire); gain-element(water,2);
+			Adding Presence: add-presence(1); add-presence(1,jungle); add-presence(2,town,city,blight,or); add-presence(2,strife,city,and);
+			
+			Sub-Groups of Growth are possible (think Lure)
+			Example: <sub-growth title="pick one of:" bordered>   here 'bordered' creates the double line border
+					 </sub-growth>
+		-->
+		<growth title="Growth (Pick Two)">
+			<growth-group cost="1" values="reclaim-all;move-presence(1)"></growth-group>
+			<growth-group values="add-presence(2)"></growth-group>
+			<growth-group values="gain-power-card"></growth-group>
+			<growth-group values="energy-per-play"></growth-group>
+		</growth>
+
+		<presence-tracks>
+		  <energy-track banner="example2.png" banner-v-scale="50%" values="1,moon,2,any,fire,3"></energy-track>
+		  <card-play-track banner="example2.png" banner-v-scale="50%" values="2,push(dahan),3,3,4,air,5"></card-play-track>
+		</presence-tracks>
+
+		<!-- INNATE POWERS  
+			To create powers which scale with elements ("For Each"), use the shortcut {fire,2} to include the numeral
+			Tokens can be included in level thresholds (as seen on Many Minds). Try '1-dahan','2-beast','3-wilds',etc.
+			speed: "fast" or "slow"
+		-->
+    <innate-powers>
+      <quick-innate-power
+        name="LET'S SEE WHAT HAPPENS"
+        speed="fast"
+        range="1"
+        target="any"
+        target-title="TARGET LAND">
+        <level threshold="1-moon,1-fire,2-air">
+          Discard Minor Powers from the deck until you get one that targets a land. Use its text effects on target land immediately, ignoring normal Range/Targeting restrictions. All "up to" instructions must be used at max value. Treat all "OR"s as "AND"s.
+		  <em>(It is not considered a card of yours/a card in play. Its effects are treated as performed by this Power, as if its text was copied here.)</em>
+        </level>
+        <level threshold="2-moon,1-fire,2-air">
+          You may Forget a Power Card to gain the just-used Power Card (to hand) and 1 Energy.
+        </level>
+      </quick-innate-power>
+      <quick-innate-power
+      name="WHY DON'T YOU AND THEM FIGHT"
+      speed="fast"
+      range="0"
+      target="any"
+      target-title="TARGET LAND">
+      <level threshold="3-moon">
+          This Power may be {slow}.
+        </level>
+		<level threshold="3-air">
+           Add 1 {strife}.
+        </level>
+		<level threshold="3-sun,OR,3-fire">
+          1 Invader and 1 {dahan} deal Damage to each other.
+        </level>
+		<level threshold="3-animal">
+          If target land has {beasts}, 2 Damage. Otherwise, you may Gather 1 {beasts}.
+        </level>
+      </quick-innate-power>
+    </innate-powers>
+  </right>
+  </board>
+</body>
+
+</html>

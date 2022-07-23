@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<head>
+  <link href="../../_global/css/global.css" rel="stylesheet" />
+  <link href="../../_global/css/adversary.css" rel="stylesheet" />
+  <script type="text/javascript" src="../../_global/js/general.js"></script>
+  <script type="text/javascript" src="../../_global/js/adversary.js"></script>
+</head>
+<body>
+
+  <quick-adversary
+    name="THE KINGDOM OF EXAMPLE"
+    base-difficulty="1"
+    flag-image="flag.png"
+	>
+	<loss-condition
+	name="Big enough"
+	rules="Before Setup, return all but 4 {city} per player to the box. 
+          Invaders win if you ever cannot place a {city}."
+	></loss-condition>
+
+	<escalation-effect
+	name="Fast expansion"
+	rules="On each land you explored this turn, add 1
+          {town} if there is no
+          {town}/{city}
+          on this land."
+	></escalation-effect>
+
+	<level-1
+	difficulty="2"
+	fear-cards="3,4,3"
+	name="Overcrowded"
+	rules="When you would build a {city}
+          in a land which already contains a {city}, 
+          instead add a {blight} 
+          and build in an adjacent even if there is no Invaders. This {blight} does not cause cascades.<br />
+          <level-info>(This effect may trigger itself.)</level-info>"
+	></level-1>
+
+	<level-2
+	difficulty="3"
+	fear-cards="3,4,4"
+	name="Economic boom"
+	rules="During Setup, on each board add 1 {town}
+            to land #2 and 1 {town} to land #3."
+	></level-2>
+
+	<level-3
+	difficulty="5"
+	fear-cards="4/5/4"
+	name="High Immigration (full)"
+	rules="Put the 'High Immigration' tile on the Invader board, to the left of 'Ravage'. The Invaders take this Build action each Invader phase before Ravaging. Cards slide left from Ravage to it, and from it to the discard pile. The extra Build tile remains out the entire game."
+	></level-3>
+	
+	<level-4
+	difficulty="6"
+	fear-cards="4,5,5"
+	name="Shopping Mall"
+	rules="You cannot destroy or drown {city} 
+          unless it is the last remaining Invader in the land. Replace and remove works as usual.<br />
+          <level-info>(This includes destroy by damage but you can still do partial damage.)</level-info>"
+	></level-4>
+	
+	<level-5
+	difficulty="8"
+	fear-cards="4/5/4"
+	name="Independent Resolve"
+	rules="During Setup, add an additional {fear} to the Fear Pool per player in the game. During any Invader Phase where you resolve no Fear Cards, perform the Build from High Immigration twice.<br />
+          (This has no effect if no card is on the extra Build slot.)"
+	></level-5>
+	
+	<level-6
+	difficulty="10"
+	fear-cards="4,4,5"
+	name="Renovation"
+	rules="{city} have +1 health."
+	></level-6>
+  </quick-adversary>
+
+</body>
+</html>

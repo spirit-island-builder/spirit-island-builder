@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<head>
+    <link href="../../_global/css/global.css" rel="stylesheet" />
+    <link href="../../_global/css/board_front.css" rel="stylesheet" />
+    <script type="text/javascript" src="../../_global/js/general.js"></script>
+    <script type="text/javascript" src="../../_global/js/board_front.js"></script>
+</head>
+
+<body>
+
+  <board spirit-image="example1.png" spirit-image-scale="190%"  spirit-border="example2.png">
+    
+    <spirit-name>
+      Volcano Looming High
+    </spirit-name>
+	<artist-name>
+	
+	</artist-name>
+	
+    <special-rules-container>
+      <section-title>SPECIAL RULES</section-title>
+      <special-rules-subtitle>Mountain Home</special-rules-subtitle>
+      <special-rule>
+        Your {presence} may only be added/moved into Mountains.
+      </special-rule>
+      <special-rules-subtitle>COLLAPSE IN A BLAST OF LAVA AND STEAM</special-rules-subtitle>
+      <special-rule>
+        When your {presence} is destroyed, in that land, deal 1 Damage per destroyed {presence} to both Invaders and to {dahan}.
+      </special-rule>
+      <special-rules-subtitle>VOLCANIC PEAKS TOWER OVER THE LANDSCAPE</special-rules-subtitle>
+      <special-rule>
+        Your Power Cards gain {gain-range-1} if you have 3 or more {presence} in the origin land.
+      </special-rule>
+    </special-rules-container>
+
+    <right>
+		<!-- GROWTH  
+			Examples include: reclaim-all; reclaim-one; move-presence(1); gain-energy(2);
+			Gaining Elements: gain-element(water,fire); gain-element(water,2);
+			Adding Presence: add-presence(1); add-presence(1,jungle); add-presence(2,town,city,blight,or); add-presence(2,strife,city,and);
+			
+			Sub-Groups of Growth are possible (think Lure)
+			Example: <sub-growth title="pick one of:" bordered>   here 'bordered' creates the double line border
+					 </sub-growth>
+		-->
+		<growth title="Growth">
+			<growth-group values="reclaim-all;gain-power-card;gain-energy(3)"></growth-group>
+			<growth-group values="add-presence(0);add-presence(0)"></growth-group>
+			<growth-group values="gain-power-card;add-presence(4);gain-card-play(1);gain-energy(2)"></growth-group>
+		</growth>
+
+		<presence-tracks>
+		  <energy-track banner="example2.png" banner-v-scale="50%" values="1,2,earth,3,4,5"></energy-track>
+		  <card-play-track banner="example2.png" banner-v-scale="50%" values="1,fire,earth,2,air,3,fire,4"></card-play-track>
+		</presence-tracks>
+
+		<!-- INNATE POWERS  
+			To create powers which scale with elements ("For Each"), use the shortcut {fire,2} to include the numeral
+			Tokens can be included in level thresholds (as seen on Many Minds). Try '1-dahan','2-beast','3-wilds',etc.
+			speed: "fast" or "slow"
+		-->
+    <innate-powers>
+      <quick-innate-power
+        name="EXPLOSIVE ERUPTION"
+        speed="fast"
+        range="0"
+        target="any"
+        target-title="TARGET LAND"
+		note="Destroy X (1 or more) of your {presence} in target land; {destroyed-presence} checks how many you destroyed. This Power does Damage (separately and equally) to both Invaders and {dahan}. Ranges below can't be increased.">
+        <level threshold="2-fire,2-earth,2-destroyed-presence">
+          In one land within {range-1}, X Damage.
+        </level>
+        <level threshold="3-fire,3-earth,4-destroyed-presence">
+          X {fear}.
+        </level>
+        <level threshold="4-fire,2-air,4-earth,6-destroyed-presence">
+          In each land within {range-1}, 4 Damage. Add 1 {blight} to target land; doing so does not Destroy your {presence}.
+        </level>
+        <level threshold="5-fire,3-air,5-earth,10-destroyed-presence" long>
+           In each land within {range-2}, +4 Damage. In each land adjacent to the target, add 1 {blight} if it doesn't have any.
+        </level>
+      </quick-innate-power>
+      <quick-innate-power
+      name="POWERED BY THE FURNACE OF THE EARTH"
+      speed="slow"
+      range="0"
+      target="any"
+      target-title="TARGET LAND">
+      <level threshold="3-earth">
+          Add 1 of your destroyed {presence}.
+        </level>
+		<level threshold="3-fire,cost-2">
+          Gain a Power Card.
+        </level>
+		<level threshold="4-earth,4-fire">
+          Move up to 2 of your {presence} from other lands to target land.
+        </level>
+		<level threshold="5-fire">
+          Return up to 2 of your destroyed {presence} to your {presence} tracks.
+        </level>
+      </quick-innate-power>
+    </innate-powers>
+  </right>
+  </board>
+</body>
+
+</html>
