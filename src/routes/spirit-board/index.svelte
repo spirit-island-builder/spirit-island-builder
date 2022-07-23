@@ -23,7 +23,13 @@
 		},
 		growth: {
 			isVisible: true,
+			growthSets: [
+				{
+      id: 0,
 			name: "",
+			effect: "",
+		}
+			],
 		},
 		presenceTrack: {
 			isVisible: true,
