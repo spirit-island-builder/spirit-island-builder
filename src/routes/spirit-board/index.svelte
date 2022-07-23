@@ -25,10 +25,10 @@
 			isVisible: true,
 			growthSets: [
 				{
-      id: 0,
-			name: "",
-			effect: "",
-		}
+					id: 0,
+					name: "",
+					effect: "",
+				}
 			],
 		},
 		presenceTrack: {

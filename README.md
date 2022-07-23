@@ -1,6 +1,6 @@
 ## Developing
 
-Install the latest version of Node 16.
+Install the latest version of Node 16. I recommend using a node manager such as nvm (windows: https://github.com/coreybutler/nvm-windows, mac/linux: https://github.com/nvm-sh/nvm)
 
 Install dependencies by running:
 
