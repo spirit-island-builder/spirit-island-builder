@@ -65,9 +65,12 @@
     frame.addEventListener('load', onLoad());
   })
   function onLoad() {
+		if (frame) {
     const spiritName = frame.contentDocument.querySelectorAll('spirit-name')[0]
-				console.log('spiritName: ', spiritName);
+			if (spiritName) {
 				spiritName.textContent = ''
+			}
+		}
   }
 
 	function setBoardValues(spiritBoard) {
@@ -92,15 +95,8 @@
       <PresenceTracks bind:spiritBoard={spiritBoard} {showOrHideSection}></PresenceTracks>
       <InnatePowers bind:spiritBoard={spiritBoard} {showOrHideSection}></InnatePowers>
       </div>
-<!--       <div class="column">
-			<h5 class="subtitle is-5">Spirit Card Values</h5>
-			<p>Name: {spiritBoard.nameAndArt.name}</p>
-			{#each spiritBoard.specialRules.rules as rule, i}
-				<p>Special Rule {i + 1} Name: {rule.name}</p>
-				<p>Special Rule {i + 1} Effect: {rule.effect}</p>
-			{/each}
-
-      <iframe bind:this={frame} src='/template/My Custom Content/My Spirit/board_front.html' height=1177 width=1766 title='yay'></iframe>
-		</div> -->
+		<div class="column">
+      <iframe bind:this={frame} src='/template/My Custom Content/My Spirit/board_front.html' height=400 width=600 title='yay'></iframe>
+		</div> 
 
 	</div>
