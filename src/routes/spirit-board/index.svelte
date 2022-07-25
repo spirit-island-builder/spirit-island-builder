@@ -8,11 +8,11 @@
 
   let spiritBoard = {
 		nameAndArt: {
-			isVisible: true,
+			isVisible: false,
 			name: "",
 		},
 		specialRules: {
-			isVisible: true,
+			isVisible: false,
 			rules: [
 				{
           id: 0,
@@ -22,7 +22,7 @@
 			],
 		},
 		growth: {
-			isVisible: true,
+			isVisible: false,
 			useGrowthSets: false,
 			growthSets: [
 				{
@@ -47,11 +47,11 @@
 			],
 		},
 		presenceTrack: {
-			isVisible: true,
+			isVisible: false,
 			name: "",
 		},
 		innatePowers: {
-			isVisible: true,
+			isVisible: false,
 			name: "",
 		},
 	};

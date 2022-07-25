@@ -104,9 +104,6 @@
 										</div>
 									</div>
 									<div class="growth-group-info">
-										<div class="control">
-											<button class="button is-primary is-light row-button" on:click={addGrowthAction(i,j)}>Add Growth Action</button> <!-- Could I just pass the growthgroup as growthGroup instead of the indexes? -->
-										</div>
 										{#each growthGroup.growthActions as growthAction, k (growthAction.id)}
 											<div class="control">
 												<input
@@ -118,6 +115,9 @@
 												/> <!-- Eric, does the bind syntax look right? -->
 											</div>
 										{/each}
+										<div class="control">
+											<button class="button is-primary is-light row-button" on:click={addGrowthAction(i,j)}>Add Growth Action</button> <!-- Could I just pass the growthgroup as growthGroup instead of the indexes? -->
+										</div>
 									</div>
 								</div>
 							{/each}
