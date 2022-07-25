@@ -12592,10 +12592,14 @@ a.has-text-danger-dark:focus {
 	flex-direction: row;
 }
 .growth-set-title, .growth-group-title {
-	display: flex;
+    display: flex;
     flex-direction: column-reverse;
-	background-color: #eff1fa!important;
-	width: 1.8em;
+    background-color: #eff1fa!important;
+    width: 1.8em;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+	min-height:8rem;
 }
 .growth-set-info {
 	display: flex;
@@ -12612,6 +12616,5 @@ a.has-text-danger-dark:focus {
 }
 .growth-set-title > .label, .growth-group-title > .label{
 	transform: rotate(270deg);
-    transform-origin: 0 0;
 	min-width: 10rem;
 }

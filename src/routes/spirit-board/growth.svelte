@@ -111,7 +111,7 @@
 						<button class="button is-primary is-light row-button" on:click={addGrowthSet}>Add Growth Set</button>
 					</div>
 					<div class="control">
-						<button class="button is-primary is-light row-button" on:click={removeGrowthSets}>Remove All Growth Sets</button>
+						<button class="button is-primary is-light row-button" on:click={removeAllGrowthSets}>Remove All Growth Sets</button>
 					</div>
 				{/if}
 			{/if}
