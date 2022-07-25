@@ -49,11 +49,11 @@
 				{/if}
 				</span></h6>
 			{#if spiritBoard.growth.isVisible}
-					<div class="field">
-						<div class="control">
-							<button class="button is-primary is-light row-button" on:click={useGrowthSets}>Use Growth Sets</button>
-						</div>
+				<div class="field">
+					<div class="control">
+						<button class="button is-primary is-light row-button" on:click={useGrowthSets}>Use Growth Sets</button>
 					</div>
+				</div>
 				{#each spiritBoard.growth.growthSets as growthSet, i (growthSet.id)}
 					<div class="growth-set field">
 						{#if spiritBoard.growth.useGrowthSets}
@@ -70,11 +70,11 @@
 										class="input"
 										type="text"
 										placeholder="Growth Set Action ie. (PICK ONE OF)"
-										bind:value={spiritBoard.growth.name}
+										bind:value={growthSet.choiceText}
 									/>
 								</div>
 							{/if}
-							{#each spiritBoard.growth.growthSets.growthGroups as growthGroup, j (growthGroup.id)}
+							{#each growthSet.growthGroups as growthGroup, j (growthGroup.id)}
 								<div class="growth-group field">
 									<div class="growth-group-title field">
 										<div class="label">Growth Group
@@ -82,17 +82,17 @@
 									</div>
 									<div class="growth-group-info field">
 										<div class="control">
-											<button class="button is-primary is-light row-button" on:click={addGrowthAction(i,j)}>Add Growth Action</button>
+											<button class="button is-primary is-light row-button" on:click={addGrowthAction(i,j)}>Add Growth Action</button> <!-- Could I just pass the growthgroup as growthGroup instead of the indexes? -->
 										</div>
-										{#each spiritBoard.growth.growthSets.growthGroups.growthActions as growthAction, k (growthAction.id)}
+										{#each growthGroup.growthActions as growthAction, k (growthAction.id)}
 											<div class="control">
 												<input
 													id="spiritGrowthInput" 
 													class="input"
 													type="text"
 													placeholder="Growth Action"
-													bind:value={spiritBoard.growth.name}
-												/> <!-- may need to update to track index -->
+													bind:value={growthAction.effect}
+												/> <!-- Eric, does the bind syntax look right? -->
 											</div>
 										{/each}
 									</div>

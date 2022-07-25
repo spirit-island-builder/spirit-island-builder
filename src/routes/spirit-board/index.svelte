@@ -23,11 +23,26 @@
 		},
 		growth: {
 			isVisible: true,
+			useGrowthSets: false,
 			growthSets: [
 				{
 					id: 0,
 					name: "",
-					effect: "",
+					choiceText: "",
+					growthGroups: [
+						{
+							id: 0,
+							name: "",
+							effect: "",
+							growthActions: [
+								{
+									id: 0,
+									name: "",
+									effect: "",
+								}
+							],
+						}
+					],
 				}
 			],
 		},
