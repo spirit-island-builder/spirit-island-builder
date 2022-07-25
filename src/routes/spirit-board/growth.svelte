@@ -13,7 +13,21 @@
 		spiritBoard.growth.growthSets.push({
       id: spiritBoard.growth.growthSets.length,
 			name: "",
-			effect: "",
+			choiceText: "",
+			growthGroups: [
+				{
+					id: 0,
+					name: "",
+					effect: "",
+					growthActions: [
+						{
+							id: 0,
+							name: "",
+							effect: "",
+						}
+					],
+				}
+			],
 		});
 		spiritBoard.growth.growthSets = spiritBoard.growth.growthSets;
 	}
@@ -23,6 +37,13 @@
       id: spiritBoard.growth.growthSets[setIndex].growthGroups.length,
 			name: "",
 			effect: "",
+			growthActions: [
+				{
+					id: 0,
+					name: "",
+					effect: "",
+				}
+			],
 		});
 		spiritBoard.growth.growthSets[setIndex].growthGroups = spiritBoard.growth.growthSets[setIndex].growthGroups;
 	}

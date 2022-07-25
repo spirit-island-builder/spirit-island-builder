@@ -12616,6 +12616,7 @@ a.has-text-danger-dark:focus {
 }
 .growth-set-title > .label, .growth-group-title > .label{
 	transform-origin: center;
+	transform: rotate(270deg);
     text-align: center;
     width: 8rem;
 }
