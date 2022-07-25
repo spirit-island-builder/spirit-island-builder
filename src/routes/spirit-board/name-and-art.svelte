@@ -1,4 +1,5 @@
 <script>
+	// exports allow for properties to be passed into this component. So the value of spiritBoard can be set by whatever component is the parent of this one. See https://svelte.dev/tutorial/declaring-props
   export let spiritBoard
   export let showOrHideSection
 </script>
