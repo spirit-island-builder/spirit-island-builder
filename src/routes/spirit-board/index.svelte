@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
   import NameAndArt from './name-and-art.svelte'
   import SpecialRules from './special-rules.svelte'
   import Growth from './growth.svelte'
@@ -22,7 +23,13 @@
 		},
 		growth: {
 			isVisible: true,
-			name: "",
+			growthSets: [
+				{
+					id: 0,
+					name: "",
+					effect: "",
+				}
+			],
 		},
 		presenceTrack: {
 			isVisible: true,
@@ -37,6 +44,25 @@
   function showOrHideSection(event) {
 		spiritBoard[event.target.id].isVisible = !spiritBoard[event.target.id].isVisible;
 	}
+
+	let frame
+	onMount(() => {
+    frame.addEventListener('load', onLoad());
+  })
+  function onLoad() {
+    const spiritName = frame.contentDocument.querySelectorAll('spirit-name')[0]
+				console.log('spiritName: ', spiritName);
+				spiritName.textContent = ''
+  }
+
+	function setBoardValues(spiritBoard) {
+		if (frame) {
+			const spiritName = frame.contentDocument.querySelectorAll('spirit-name')[0]
+			spiritName.textContent = spiritBoard.nameAndArt.name
+		}
+	}
+
+	$: setBoardValues(spiritBoard)
 </script>
 
 <section class="section">
@@ -58,5 +84,8 @@
 				<p>Special Rule {i + 1} Name: {rule.name}</p>
 				<p>Special Rule {i + 1} Effect: {rule.effect}</p>
 			{/each}
+
+      <iframe bind:this={frame} src='/template/My Custom Content/My Spirit/board_front.html' height=1177 width=1766 title='yay'></iframe>
 		</div> -->
+
 	</div>

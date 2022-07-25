@@ -1,0 +1,675 @@
+innate-powers {
+	display: block;
+	position: relative;
+	margin-left: 22px;
+	background-image: url("../../images/board/Innate_Without_Text.png");
+	background-position: top;
+	z-index: 1;
+	margin-top: -1px;
+	flex-grow: 1;
+}
+/* innate-powers::after { */
+/* content: ''; */
+/* background-image: url('../../images/board/Innate_Without_Text.png'); */
+/* background-position: top; */
+/* display: block; */
+/* height: 9000px; */
+/* } */
+
+innate-powers section-title {
+	margin-left: 25px;
+	padding-top: 0px;
+}
+
+innate-power-container {
+	display: flex;
+	position: relative;
+	margin-left: 25px;
+	margin-top: 8px;
+}
+
+innate-power {
+	display: inline-block;
+	flex-shrink: 1;
+	flex-grow: 1;
+}
+
+innate-power:only-child level {
+	width: 1000px !important;
+}
+
+innate-power:only-child note {
+	width: 1000px !important;
+}
+
+innate-power-title {
+	width: 420px;
+	font-family: "JosefinSans";
+	font-weight: bold;
+	font-style: italic;
+	font-size: 14pt;
+	text-transform: uppercase;
+	letter-spacing: -0.5px;
+	word-spacing: 0.5px;
+}
+
+info-container {
+	width: 463px;
+	background-color: rgba(255, 255, 255, 0.5);
+	position: relative;
+	display: block;
+	box-sizing: content-box;
+}
+
+info-title {
+	height: 20px;
+	display: flex;
+	align-items: center;
+	color: white;
+	font-family: "Name Headings";
+	text-transform: uppercase;
+	font-size: 14pt;
+	letter-spacing: 1.25pt;
+	text-align: center;
+	white-space: normal;
+	background-color: #7f5623;
+	box-sizing: content-box;
+	border-top: 3px solid black;
+	border-left: 3px solid black;
+	border-right: 3px solid black;
+}
+
+innate-info {
+	width: 463px;
+	display: flex;
+	font-family: "Name Headings";
+	text-transform: uppercase;
+	box-sizing: border-box;
+	border-bottom: 3px solid black;
+	border-left: 3px solid black;
+	border-right: 3px solid black;
+}
+
+info-title-speed {
+	width: 143px;
+	padding-bottom: 4px;
+}
+
+innate-info-speed {
+	width: 141px;
+	padding-bottom: 4px;
+	border-right: 2px solid #7f5623;
+}
+
+info-title-range {
+	width: 155px;
+	padding-bottom: 4px;
+}
+
+innate-info-range {
+	width: 153px;
+	padding-bottom: 4px;
+	border-right: 2px solid #7f5623;
+}
+
+info-title-target,
+innate-info-target {
+	width: 165px;
+	padding-bottom: 4px;
+}
+
+innate-info-speed,
+innate-info-range,
+innate-info-target {
+	height: 44px;
+	box-sizing: content-box;
+}
+
+innate-info-range,
+innate-info-target {
+	font-size: 34px;
+	line-height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+range {
+	background-image: url("../../images/50px-Rangeicon.png");
+	width: 70px;
+	height: 40px;
+	margin-top: 5px;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position-y: 27px;
+}
+
+no-range {
+	width: 88px;
+	height: 4px;
+	text-align: center;
+	background-image: url("../../images/no-range.png");
+	background-repeat: no-repeat;
+	background-size: 88px 4px;
+}
+
+info-target,
+innate-info-target {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	font-size: 18pt;
+}
+
+innate-power.fast innate-info-speed {
+	background-image: url("../../images/50px-Fasticon.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 50px auto;
+}
+
+innate-power.slow innate-info-speed {
+	background-image: url("../../images/50px-Slowicon.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 50px auto;
+}
+
+description-container {
+	width: 465px;
+	height: auto;
+	display: block;
+	margin-top: 10px;
+}
+
+.long {
+	width: 900px;
+}
+
+note {
+	display: inline-block;
+	height: auto;
+	width: 487px;
+	font-family: "JosefinSans-Regular";
+	font-size: 17pt;
+	margin-bottom: 8px;
+	margin-top: -4px;
+	line-height: 1;
+}
+
+note icon {
+	width: 24px;
+}
+
+note icon.town,
+note icon.blight,
+note icon.dahan,
+note icon.presence,
+note icon.wilds,
+note icon.beasts,
+note icon.disease,
+note icon.strife,
+note icon.explorer,
+note icon.badlands,
+note icon.fear,
+note icon.range-plus-1,
+note icon.range-plus-2,
+note icon.range-plus-3,
+note icon.destroyed-presence,
+note icon.major,
+note icon.minor,
+note icon.star {
+	width: 24px;
+	height: 26px;
+	margin-bottom: -4px;
+	background-position: bottom;
+}
+
+note icon.star {
+	margin-bottom: -9px;
+	margin-top: -9px;
+	margin-left: -3px;
+	margin-right: -3px;
+	width: 33px;
+	height: 33px;
+}
+
+note icon.beasts {
+	width: 28px;
+	margin-bottom: -6px;
+}
+
+note icon.beasts {
+	margin-bottom: -4px;
+}
+
+note icon.presence {
+	margin-bottom: -1px;
+	margin-top: -12px;
+	width: 26px;
+}
+
+div.description {
+	margin-bottom: -5px;
+}
+
+.description icon.city {
+	width: 35px;
+	height: 35px;
+	margin-bottom: -10px;
+	margin-left: -2px;
+	margin-right: -2px;
+	margin-top: -10px;
+}
+
+.description icon.badlands,
+.description icon.beasts,
+.description icon.disease,
+.description icon.wilds,
+.description icon.strife,
+.description icon.blight,
+.description icon.town,
+.description icon.dahan,
+.description icon.fear,
+.description icon.slow,
+.description icon.fast {
+	width: 27px;
+	height: 27px;
+	margin-bottom: -5px;
+	margin-top: -10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	background-position: bottom;
+}
+
+.description icon.slow,
+.description icon.fast {
+	width: 35px;
+	height: 35px;
+}
+
+.description icon.explorer {
+	height: 30px;
+	margin-bottom: -6px;
+}
+
+.description icon.badlands,
+.description icon.wilds {
+	width: 33px;
+	margin-left: -2px;
+}
+
+.description icon.range-0,
+.description icon.range-1,
+.description icon.range-2,
+.description icon.range-3,
+.description icon.range-4,
+.description icon.range-X,
+.description icon.range-x {
+	width: 50px;
+	height: 30px;
+	margin-left: 0px;
+	margin-top: -20px;
+	margin-bottom: -7px;
+}
+
+.description icon.gain-range-1,
+.description icon.gain-range-2,
+.description icon.gain-range-3,
+.description icon.gain-range-x,
+.description icon.gain-range-X {
+	width: 45px;
+	height: 40px;
+	margin-left: 0px;
+	margin-top: -20px;
+	margin-bottom: -9px;
+}
+
+.description icon.sun,
+.description icon.earth,
+.description icon.plant,
+.description icon.fire,
+.description icon.air,
+.description icon.moon,
+.description icon.animal,
+.description icon.water,
+.description icon.any {
+	width: 45px;
+	height: 30px;
+	margin-left: -9px;
+	margin-right: -10px;
+	margin-bottom: -7px;
+}
+
+.description icon.sun {
+	background-image: url(../../images/board/element_simple_sun.png);
+}
+.description icon.earth {
+	background-image: url(../../images/board/element_simple_earth.png);
+}
+.description icon.plant {
+	background-image: url(../../images/board/element_simple_plant.png);
+}
+.description icon.fire {
+	background-image: url(../../images/board/element_simple_fire.png);
+}
+.description icon.air {
+	background-image: url(../../images/board/element_simple_air.png);
+}
+.description icon.moon {
+	background-image: url(../../images/board/element_simple_moon.png);
+}
+.description icon.animal {
+	background-image: url(../../images/board/element_simple_animal.png);
+}
+.description icon.water {
+	background-image: url(../../images/board/element_simple_water.png);
+}
+.description icon.any {
+	background-image: url(../../images/board/element_simple_any.png);
+}
+
+.description icon.presence {
+	height: 25px;
+	width: 32px;
+	margin-bottom: -8px;
+}
+
+.description icon.sacred-site {
+	height: 30px;
+	width: 50px;
+	margin-bottom: -9px;
+	margin-top: -10px;
+	margin-left: -4px;
+	margin-right: 0px;
+}
+
+.element-for-each {
+	font-family: "Gobold Extra2", "Noto Sans";
+	font-size: 17pt;
+	color: #431e0aff;
+	margin-top: -13px;
+	margin-right: 0px;
+	margin-left: -1px;
+	width: 15px;
+	display: inline-block;
+	transform: translate(0px, 3px);
+}
+
+note icon.city {
+	width: 32px;
+	height: 35px;
+	margin-bottom: -11px;
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-top: -10px;
+}
+
+note icon.sacred-site {
+	width: 46px;
+	height: 31px;
+	margin-bottom: -11px;
+	margin-left: -2px;
+	margin-right: -2px;
+	margin-top: -10px;
+}
+
+note icon.destroyed-presence {
+	background-image: url(../../images/board/NewIcons/50px_Presence_Destroy.png);
+	width: 30px;
+	margin-bottom: -1px;
+}
+
+level {
+	display: inline-block;
+	height: auto;
+	width: 487px;
+	font-family: "JosefinSans-Regular";
+	font-size: 17pt;
+	padding-bottom: 15px;
+	letter-spacing: -0.5px;
+}
+
+threshold {
+	font-family: "Gobold Extra2", "Noto Sans";
+	font-size: 24pt;
+	color: #431e0aff;
+	float: left;
+	margin-right: 6px;
+}
+
+innate-info icon.range-0,
+innate-info icon.range-1,
+innate-info icon.range-2,
+innate-info icon.range-3,
+innate-info icon.range-4 {
+	width: 75px;
+	height: 75px;
+	margin-left: -10px;
+	margin-bottom: 10px;
+}
+
+info-range icon {
+	width: 40px;
+	height: 32px;
+}
+
+info-target icon {
+	width: 70px;
+	height: 32px;
+}
+
+info-target spirit {
+	width: 32px;
+	height: 28px;
+}
+
+innate-info icon {
+	height: 30px;
+	width: 30px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+innate-info icon.wilds {
+	width: 36px;
+}
+
+innate-info icon.sacred-site {
+	width: 50px;
+	height: 50px;
+	margin-bottom: -10px;
+	margin-left: 0px;
+	margin-right: 10px;
+}
+
+innate-info icon.sands-presence,
+innate-info icon.wetland-presence,
+innate-info icon.jungle-presence,
+innate-info icon.mountain-presence {
+	width: 50px;
+	height: 50px;
+	margin-top: 4px;
+	margin-left: 0px;
+	margin-right: 10px;
+}
+
+innate-info icon.blight,
+innate-info icon.no-blight {
+	height: 30px;
+	width: 30px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+innate-info icon.spirit {
+	height: 35px;
+	width: 35px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+cost-threshold {
+	font-family: "JosefinSans-Regular";
+	font-weight: bold;
+	font-style: italic;
+	font-size: 10pt;
+	margin-left: 7px;
+	margin-bottom: -36px;
+	top: 12px;
+	text-transform: capitalize;
+	position: relative;
+	margin-right: -34px;
+	height: 50px;
+	width: 1px;
+}
+
+cost-energy {
+	background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
+	width: 45px;
+	height: 45px;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	display: inline-block;
+	z-index: 1;
+	position: relative;
+	top: -34px;
+	left: -33px;
+	margin-bottom: -15px;
+}
+
+.cost-custom {
+	width: 45px;
+	height: 45px;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	display: inline-block;
+	z-index: 1;
+	position: relative;
+	top: -34px;
+	left: -33px;
+	margin-bottom: -15px;
+	margin-left: 1px;
+}
+
+.cost-custom > value {
+	text-shadow: -0.5px 0.5px 0 #fff, 0.5px 0.5px 0 #fff, 0.5px -0.5px 0 #fff, -0.5px -0.5px 0 #fff;
+}
+
+cost-energy value,
+cost-threshold value {
+	font-family: "Gobold Extra2", "Noto Sans";
+	font-weight: normal;
+	font-style: normal;
+	color: #431e0a;
+	font-size: 16pt;
+	position: relative;
+	top: 8px;
+	left: 11px;
+}
+
+threshold icon {
+	width: 45px;
+	height: 45px;
+	margin-bottom: -5px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+threshold icon.wilds,
+threshold icon.disease,
+threshold icon.strife,
+threshold icon.badlands,
+threshold icon.blight,
+threshold icon.destroyed-presence,
+threshold icon.sacred-site {
+	width: 45px;
+	height: 45px;
+	margin-bottom: -9px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+threshold icon.sun {
+	background-image: url(../../images/board/element_simple_sun.png);
+}
+threshold icon.earth {
+	background-image: url(../../images/board/element_simple_earth.png);
+}
+threshold icon.plant {
+	background-image: url(../../images/board/element_simple_plant.png);
+}
+threshold icon.fire {
+	background-image: url(../../images/board/element_simple_fire.png);
+}
+threshold icon.air {
+	background-image: url(../../images/board/element_simple_air.png);
+}
+threshold icon.moon {
+	background-image: url(../../images/board/element_simple_moon.png);
+}
+threshold icon.animal {
+	background-image: url(../../images/board/element_simple_animal.png);
+}
+threshold icon.water {
+	background-image: url(../../images/board/element_simple_water.png);
+}
+threshold icon.any {
+	background-image: url(../../images/board/element_simple_any.png);
+}
+
+threshold icon.star {
+	width: 53px;
+	height: 53px;
+	margin-bottom: -9px;
+	margin-top: -9px;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+threshold-or {
+	font-family: "Name Headings";
+	text-transform: uppercase;
+	font-size: 18pt;
+	display: inline-block;
+	position: relative;
+	top: -8px;
+	left: -26px;
+	height: 15px;
+	width: 1px;
+	margin-bottom: 8px;
+	margin-top: -28px;
+	margin-left: 26px;
+}
+
+note icon.sun {
+	background-image: url(../../images/board/element_simple_sun.png);
+}
+note icon.earth {
+	background-image: url(../../images/board/element_simple_earth.png);
+}
+note icon.plant {
+	background-image: url(../../images/board/element_simple_plant.png);
+}
+note icon.fire {
+	background-image: url(../../images/board/element_simple_fire.png);
+}
+note icon.air {
+	background-image: url(../../images/board/element_simple_air.png);
+}
+note icon.moon {
+	background-image: url(../../images/board/element_simple_moon.png);
+}
+note icon.animal {
+	background-image: url(../../images/board/element_simple_animal.png);
+}
+note icon.water {
+	background-image: url(../../images/board/element_simple_water.png);
+}
+note icon.any {
+	background-image: url(../../images/board/element_simple_any.png);
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<head>
+    <link href="../../_global/css/global.css" rel="stylesheet" />
+    <link href="../../_global/css/board_front.css" rel="stylesheet" />
+    <script type="text/javascript" src="../../_global/js/general.js"></script>
+    <script type="text/javascript" src="../../_global/js/board_front.js"></script>
+	
+<!-- 	Custom Icons. Instructions 
+				1) place image in same folder as HTLM (this file) 
+				2) replace demo file name with your file name below 
+				3) use custom1, custom2, or custom3 in your HTLM to reference 
+-->
+	<style>
+	icon.custom1{background-image: url('rot.png'); }
+	icon.custom2{background-image: url('filename.png'); }
+	icon.custom3{background-image: url('filename.png'); }
+	</style>
+
+</head>
+
+<body>
+
+  <board spirit-image="example1.png" spirit-image-scale="190%"  spirit-border="example2.png">
+    
+    <spirit-name>
+      SPREADING ROT RENEWS THE EARTH
+    </spirit-name>
+	<artist-name>
+	
+	</artist-name>
+
+
+    <special-rules-container>
+      <section-title>SPECIAL RULES</section-title>
+      <special-rules-subtitle>SLOW CYCLE OF DEATH AND REBIRTH</special-rules-subtitle>
+      <special-rule>
+        You have a resource called Rot. Use spare {wilds}/{disease} to track it.
+During Time Passes, lose half of your Rot (round down) and gain
+Energy equal to half the Rot you lost (round down).
+      </special-rule>
+      <special-rules-subtitle>BODIES FEED THE EARTH</special-rules-subtitle>
+      <special-rule>
+        After Invaders/{dahan}/{beasts} are destroyed in your lands, Gain 1 Rot.
+(For this rule, treat removing {beasts} as destroying them.)
+      </special-rule>
+      <special-rules-subtitle>SETTLEMENTS CRUMBLE WITH DECAY AND PLAGUE</special-rules-subtitle>
+      <special-rule>
+        In your lands with {wilds}/{disease}, Invaders and {dahan} have -1 Health (min 1).
+      </special-rule>
+    </special-rules-container>
+
+    <right>
+		<!-- GROWTH  
+			Examples include: reclaim-all; reclaim-one; move-presence(1); gain-energy(2);
+			Gaining Elements: gain-element(water,fire); gain-element(water,2);
+			Adding Presence: add-presence(1); add-presence(1,jungle); add-presence(2,town,city,blight,or); add-presence(2,strife,city,and);
+			
+			Sub-Groups of Growth are possible (think Lure)
+			Example: <sub-growth title="pick one of:" bordered>   here 'bordered' creates the double line border
+					 </sub-growth>
+		-->
+		<growth title="Growth (Pick <u>two</u>)">
+			<growth-group values="reclaim-all;gain-energy(1)"></growth-group>
+			<growth-group values="add-presence(2,text,and Gain 1 Rot if added to Jungle/Wetland,jungle-wetland,custom1)"></growth-group>
+			<growth-group values="gain-power-card"></growth-group>
+			<growth-group values="custom(Forget a Power Card from Discard,forget-power-card);gain-power-card;custom(Gain 2 Rot,custom1,custom1);gain-element(moon,water,earth,plant,and)"></growth-group>
+		</growth>
+
+		<presence-tracks>
+		  <energy-track banner="example2.png" banner-v-scale="50%" values="2,custom(Gain 1 Rot;custom1)+water,3,custom(Gain 1 Rot;custom1)+plant,custom(Gain 1 Rot;custom1)+earth,4"></energy-track>
+		  <card-play-track banner="example2.png" banner-v-scale="50%" values="1,2,custom(Gain 1 Rot;custom1),3,moon,4,5+reclaim-one"></card-play-track>
+		</presence-tracks>
+
+		<!-- INNATE POWERS  
+			To create powers which scale with elements ("For Each"), use the shortcut {fire,2} to include the numeral
+			Tokens can be included in level thresholds (as seen on Many Minds). Try '1-dahan','2-beast','3-wilds',etc.
+			speed: "fast" or "slow"
+		-->
+    <innate-powers>
+      <quick-innate-power
+        name="NOURISH LICHEN, VINES AND TREES"
+        speed="slow"
+        range="1"
+        target="any"
+        target-title="TARGET LAND"
+        >
+        <level threshold="1-moon,1-water,2-plant">
+          Gain {custom1,1} per {moon} (max. 4).
+        </level>
+		<level threshold="1-earth,2-plant,3-cost(custom1)">
+          If no {town}/{city} are present, Remove 1 {blight}.
+        </level>
+        <level threshold="3-plant,1-cost(custom1)">
+          Add 1 {wilds}.
+        </level>
+        <level threshold="2-water,2-earth,4-plant">
+          Remove 1 {blight}.
+        </level>
+      </quick-innate-power>
+      <quick-innate-power
+      name="SPREAD CHOKING DEATH"
+      speed="slow"
+      range="1"
+      target="{disease}/{wilds}"
+      target-title="TARGET LAND"
+	  >
+        <level threshold="2-moon,3-water,2-animal,2-cost(custom1)">
+          Add 1 {disease}.
+        </level>
+		<level threshold="1-moon,3-water,1-plant">
+          1 Damage. Push 2 {dahan}.
+        </level>
+        <level threshold="1-moon,2-water">
+          1 {fear}.
+        </level>
+        <level threshold="2-water">
+          Push up to 3 {wilds}/{disease}.
+        </level>
+		<level threshold="4-water,3-plant,4-cost(custom1)">
+          Repeat this Power.
+        </level>
+      </quick-innate-power>
+    </innate-powers>
+  </right>
+  </board>
+</body>
+
+</html>

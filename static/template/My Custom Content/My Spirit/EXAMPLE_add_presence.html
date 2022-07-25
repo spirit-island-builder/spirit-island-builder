@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<head>
+    <link href="../../_global/css/global.css" rel="stylesheet" />
+    <link href="../../_global/css/board_front.css" rel="stylesheet" />
+    <script type="text/javascript" src="../../_global/js/general.js"></script>
+    <script type="text/javascript" src="../../_global/js/board_front.js"></script>
+	
+<!-- 	Custom Icons. Instructions 
+				1) place image in same folder as HTLM (this file) 
+				2) replace demo file name with your file name below 
+				3) use custom1, custom2, or custom3 in your HTLM to reference 
+-->
+	<style>
+	icon.custom1{background-image: url('demo_custom_icon.png'); }
+	icon.custom2{background-image: url('filename.png'); }
+	icon.custom3{background-image: url('filename.png'); }
+	</style>
+	
+</head>
+
+<body>
+
+  <board spirit-image="example1.png" spirit-image-scale="190%"  spirit-border="example2.png">
+    
+    <spirit-name>
+      River Surges in Sunlight
+    </spirit-name>
+	<artist-name>
+	
+	</artist-name>
+	
+    <special-rules-container>
+      <section-title>SPECIAL RULES</section-title>
+      <special-rules-subtitle>Rivers Domain</special-rules-subtitle>
+      <special-rule>
+        Your {presence} in Wetlands counts as {sacred-site}.
+      </special-rule>
+    </special-rules-container>
+
+    <right>
+
+      <growth title="Growth (Pick One)">
+        <growth-group values="add-presence(3);add-presence(any);add-presence(2,wilds);add-presence(2,wetland-sand);add-presence(any,mountain,badlands,or)"></growth-group>
+        <growth-group values="add-presence(2,town,city,disease,or);add-presence(4,city,strife,and)"></growth-group>
+    </growth>
+
+    <presence-tracks>
+      <energy-track values="1,2,gain-card-play^minor,3^major,3^wilds,4^town,5"></energy-track>
+      <card-play-track values="1,2,push(city)^minor,3^fire,custom(Destroy all Invaders in one of your lands)^city,4^explorer,gain-card-pay-2"></card-play-track>
+    </presence-tracks>
+
+    <innate-powers>
+      <quick-innate-power
+        name="Massive Flooding"
+        speed="slow"
+        range="sacred-site,1"
+        target="ANY"
+        target-title="TARGET LAND"
+		>
+        <level threshold="1-sun,2-water">
+          Push 1 {explorer} / {town} / {dahan}.
+        </level>
+        <level threshold="2-sun,3-water">
+          Instead, 2 Damage. Push up to 3 {explorer} / {town} .
+        </level>
+        <level threshold="3-sun,4-water,1-earth,1-animal">
+          Instead, 2 Damage to each Invader. {dahan}.
+        </level>
+      </quick-innate-power>
+	        <quick-innate-power
+        name="Massive Flooding"
+        speed="slow"
+        range="sacred-site,1"
+        target="ANY"
+        target-title="TARGET LAND"
+		>
+        <level threshold="1-sun,2-water">
+          Push 1 {explorer} / {town} / {dahan}.
+        </level>
+        <level threshold="2-sun,3-water">
+          Instead, 2 Damage. Push up to 3 {explorer} / {town} .
+        </level>
+        <level threshold="3-sun,2-moon,1-fire,1-air,4-water,1-earth,1-plant,1-animal">
+          Instead, 2 Damage to each Invader. {dahan}.
+        </level>
+      </quick-innate-power>
+    </innate-powers>
+  </right>
+  </board>
+</body>
+
+</html>

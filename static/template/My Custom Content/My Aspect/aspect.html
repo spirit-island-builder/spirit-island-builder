@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+  <link href="../../_global/css/global.css" rel="stylesheet" />
+  <link href="../../_global/css/aspect.css" rel="stylesheet" />
+  <script type="text/javascript" src="../../_global/js/general.js"></script>
+  <script type="text/javascript" src="../../_global/js/board_front.js"></script>
+  <script type="text/javascript" src="../../_global/js/aspect.js"></script>
+</head>
+<body>
+  <aspect>
+    <aspect-name>Example aspect</aspect-name>
+    <aspect-subtext>Replaces Special Rule: <i>Some original rule</i></aspect-subtext>
+    <aspect-container>
+    
+      <special-rules-subtitle>Mountain Home</special-rules-subtitle>
+      <special-rule>
+        In lands with your {presence}, Defend 1.
+      </special-rule>
+      
+      <quick-innate-power
+        name="explosion"
+        speed="fast"
+        range="wetland-presence,1"
+        target="any {spirit}"
+        target-title="TARGET LAND"
+        note="Destroy X (1 or more) of your {presence} in target land; {destroyed-presence} checks how many you destroyed. This Power does Damage (separately and equally) to both Invaders and {dahan}. Ranges below can't be increased.">
+        <level threshold="1-plant">
+          1 Damage per 2 {fire} you have.
+        </level>
+      </quick-innate-power>
+      
+    </aspect-container>
+  </aspect>
+  
+  <aspect-back spirit-name="original spirit name" src="example-back.png">
+  </aspect-back>
+
+</body>
+</html>
