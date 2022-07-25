@@ -70,11 +70,13 @@
 				{/if}
 				</span></h6>
 			{#if spiritBoard.growth.isVisible}
-				<div class="field">
-					<div class="control">
-						<button class="button is-primary is-light row-button" on:click={useGrowthSets}>Use Growth Sets</button>
+				{#if !spiritBoard.growth.useGrowthSets}
+					<div class="field">
+						<div class="control">
+							<button class="button is-primary is-light row-button" on:click={useGrowthSets}>Use Growth Sets</button>
+						</div>
 					</div>
-				</div>
+				{/if}
 				{#each spiritBoard.growth.growthSets as growthSet, i (growthSet.id)}
 					<div class="growth-set">
 						{#if spiritBoard.growth.useGrowthSets}

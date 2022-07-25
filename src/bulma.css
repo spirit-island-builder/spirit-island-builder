@@ -12600,10 +12600,12 @@ a.has-text-danger-dark:focus {
     align-content: center;
     justify-content: center;
 	min-height:10rem;
+	margin: 1px;
 }
 .growth-set-info {
 	display: flex;
 	flex-direction: column;
+	min-width: 20rem;
 }
 .growth-group {
 	display: flex;
