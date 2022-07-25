@@ -51,12 +51,12 @@
       <PresenceTracks bind:spiritBoard={spiritBoard} {showOrHideSection}></PresenceTracks>
       <InnatePowers bind:spiritBoard={spiritBoard} {showOrHideSection}></InnatePowers>
       </div>
-      <div class="column">
+<!--       <div class="column">
 			<h5 class="subtitle is-5">Spirit Card Values</h5>
 			<p>Name: {spiritBoard.nameAndArt.name}</p>
 			{#each spiritBoard.specialRules.rules as rule, i}
 				<p>Special Rule {i + 1} Name: {rule.name}</p>
 				<p>Special Rule {i + 1} Effect: {rule.effect}</p>
 			{/each}
-		</div>
+		</div> -->
 	</div>
