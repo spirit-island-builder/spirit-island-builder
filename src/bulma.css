@@ -3516,7 +3516,7 @@ a.tag:hover {
 }
 
 .title:not(.is-spaced) + .subtitle {
-	margin-top: -1.25rem;
+	margin-top: -1rem;
 }
 
 .title.is-1 {
@@ -3585,6 +3585,7 @@ a.tag:hover {
 
 .subtitle.is-6 {
 	font-size: 1rem;
+	margin-bottom: 0.25rem; /* is this the right spot to put this? maybe not */
 }
 
 .subtitle.is-7 {
@@ -12580,3 +12581,28 @@ a.has-text-danger-dark:focus {
 	padding: 3rem 1.5rem 6rem;
 }
 /*# sourceMappingURL=bulma.css.map */
+
+.row-button {
+	display: inline;
+	padding: 0.2rem;
+}
+
+.growth-set {
+}
+.growth-set-title {
+	background-color: #eff1fa!important;
+}
+.growth-set-info {
+}
+.growth-group {
+}
+.growth-group-title {
+	background-color: #eff1fa!important;
+	content:"Growth Group";
+}
+.growth-group-info {
+}
+.growth-set-title > .label, .growth-group-title > .label{
+	transform: rotate(270deg);
+    transform-origin: 0 0;
+}
