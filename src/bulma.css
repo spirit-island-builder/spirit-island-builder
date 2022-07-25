@@ -12588,26 +12588,30 @@ a.has-text-danger-dark:focus {
 }
 
 .growth-set {
+	display: flex;
 	flex-direction: row;
 }
-.growth-set-title {
+.growth-set-title, .growth-group-title {
+	display: flex;
+    flex-direction: column-reverse;
 	background-color: #eff1fa!important;
-	width: 1.2em;
+	width: 1.8em;
 }
 .growth-set-info {
+	display: flex;
 	flex-direction: column;
 }
 .growth-group {
+	display: flex;
 	flex-direction: row;
 }
-.growth-group-title {
-	background-color: #eff1fa!important;
-	width: 1.2em;
-}
+
 .growth-group-info {
+	display: flex;
 	flex-direction: column;
 }
 .growth-set-title > .label, .growth-group-title > .label{
 	transform: rotate(270deg);
     transform-origin: 0 0;
+	min-width: 10rem;
 }
