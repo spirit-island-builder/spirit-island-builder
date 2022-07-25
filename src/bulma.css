@@ -12599,7 +12599,7 @@ a.has-text-danger-dark:focus {
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
-	min-height:8rem;
+	min-height:10rem;
 }
 .growth-set-info {
 	display: flex;
@@ -12615,6 +12615,7 @@ a.has-text-danger-dark:focus {
 	flex-direction: column;
 }
 .growth-set-title > .label, .growth-group-title > .label{
-	transform: rotate(270deg);
-	min-width: 10rem;
+	transform-origin: center;
+    text-align: center;
+    width: 8rem;
 }

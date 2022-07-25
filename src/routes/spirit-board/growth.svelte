@@ -55,14 +55,14 @@
 					</div>
 				</div>
 				{#each spiritBoard.growth.growthSets as growthSet, i (growthSet.id)}
-					<div class="growth-set field">
+					<div class="growth-set">
 						{#if spiritBoard.growth.useGrowthSets}
-							<div class="growth-set-title field">
+							<div class="growth-set-title">
 								<div class="label">Growth Set
 								</div>
 							</div>
 						{/if}
-						<div class="growth-set-info field">
+						<div class="growth-set-info">
 							{#if spiritBoard.growth.useGrowthSets}
 								<div class="control">
 									<input
@@ -75,12 +75,12 @@
 								</div>
 							{/if}
 							{#each growthSet.growthGroups as growthGroup, j (growthGroup.id)}
-								<div class="growth-group field">
-									<div class="growth-group-title field">
+								<div class="growth-group">
+									<div class="growth-group-title">
 										<div class="label">Growth Group
 										</div>
 									</div>
-									<div class="growth-group-info field">
+									<div class="growth-group-info">
 										<div class="control">
 											<button class="button is-primary is-light row-button" on:click={addGrowthAction(i,j)}>Add Growth Action</button> <!-- Could I just pass the growthgroup as growthGroup instead of the indexes? -->
 										</div>
