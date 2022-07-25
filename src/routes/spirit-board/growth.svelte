@@ -54,7 +54,8 @@
 			name: "",
 			effect: "",
 		});
-		spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions = spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions;
+		// This works and is easier to read
+		spiritBoard = spiritBoard
 	}
   
   export let showOrHideSection
@@ -121,11 +122,13 @@
 									</div>
 								</div>
 							{/each}
+							{#if spiritBoard.growth.useGrowthSets || i === spiritBoard.growth.growthSets.length - 1}
 							<div class="field">
 								<div class="control">
 									<button class="button is-primary is-light row-button" on:click={addGrowthGroup(i)}>Add Growth Group</button>
 								</div>
 							</div>
+							{/if}
 						</div>
 					</div>
 				{/each}
