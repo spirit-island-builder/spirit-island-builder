@@ -12588,19 +12588,24 @@ a.has-text-danger-dark:focus {
 }
 
 .growth-set {
+	flex-direction: row;
 }
 .growth-set-title {
 	background-color: #eff1fa!important;
+	width: 1.2em;
 }
 .growth-set-info {
+	flex-direction: column;
 }
 .growth-group {
+	flex-direction: row;
 }
 .growth-group-title {
 	background-color: #eff1fa!important;
-	content:"Growth Group";
+	width: 1.2em;
 }
 .growth-group-info {
+	flex-direction: column;
 }
 .growth-set-title > .label, .growth-group-title > .label{
 	transform: rotate(270deg);

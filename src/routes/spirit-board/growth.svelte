@@ -4,6 +4,10 @@
     function useGrowthSets() {
 		spiritBoard.growth.useGrowthSets = true;
 	}
+
+    function removeAllGrowthSets() {
+		spiritBoard.growth.useGrowthSets = false;
+	} <!-- also remove all the growth sets -->
 	
     function addGrowthSet() {
 		spiritBoard.growth.growthSets.push({
@@ -59,6 +63,17 @@
 							</div>
 						{/if}
 						<div class="growth-set-info field">
+							{#if spiritBoard.growth.useGrowthSets}
+								<div class="control">
+									<input
+										id="spiritGrowthInput"
+										class="input"
+										type="text"
+										placeholder="Growth Set Action ie. (PICK ONE OF)"
+										bind:value={spiritBoard.growth.name}
+									/>
+								</div>
+							{/if}
 							{#each spiritBoard.growth.growthSets.growthGroups as growthGroup, j (growthGroup.id)}
 								<div class="growth-group field">
 									<div class="growth-group-title field">
@@ -67,17 +82,17 @@
 									</div>
 									<div class="growth-group-info field">
 										<div class="control">
-											<button class="button is-primary is-light row-button" on:click={addGrowthSet}>Add Growth Action</button>
+											<button class="button is-primary is-light row-button" on:click={addGrowthAction(i,j)}>Add Growth Action</button>
 										</div>
 										{#each spiritBoard.growth.growthSets.growthGroups.growthActions as growthAction, k (growthAction.id)}
 											<div class="control">
 												<input
-													id="spiritGrowthInput"
+													id="spiritGrowthInput" 
 													class="input"
 													type="text"
 													placeholder="Growth Action"
 													bind:value={spiritBoard.growth.name}
-												/>
+												/> <!-- may need to update to track index -->
 											</div>
 										{/each}
 									</div>
@@ -85,7 +100,7 @@
 								{#if j === spiritBoard.growth.growthSets.growthGroups.length - 1}
 									<div class="field">
 										<div class="control">
-											<button class="button is-primary is-light row-button" on:click={addGrowthGroup}>Add Growth Group</button>
+											<button class="button is-primary is-light row-button" on:click={addGrowthGroup(i)}>Add Growth Group</button>
 										</div>
 									</div>
 								{/if}
@@ -93,4 +108,12 @@
 						</div>
 					</div>
 				{/each}
+				{#if spiritBoard.growth.useGrowthSets}
+					<div class="control">
+						<button class="button is-primary is-light row-button" on:click={addGrowthSet}>Add Growth Set</button>
+					</div>
+					<div class="control">
+						<button class="button is-primary is-light row-button" on:click={removeGrowthSets}>Remove All Growth Sets</button>
+					</div>
+				{/if}
 			{/if}
