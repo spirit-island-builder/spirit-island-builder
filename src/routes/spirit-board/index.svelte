@@ -76,7 +76,9 @@
 	function setBoardValues(spiritBoard) {
 		if (frame) {
 			const spiritName = frame.contentDocument.querySelectorAll('spirit-name')[0]
-			spiritName.textContent = spiritBoard.nameAndArt.name
+			if (spiritName) {
+				spiritName.textContent = spiritBoard.nameAndArt.name
+			}
 		}
 	}
 
