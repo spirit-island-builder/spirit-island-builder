@@ -7,7 +7,7 @@
 
     function removeAllGrowthSets() {
 		spiritBoard.growth.useGrowthSets = false;
-	} <!-- also remove all the growth sets -->
+	} /* <!-- also remove all the growth sets --> */
 	
     function addGrowthSet() {
 		spiritBoard.growth.growthSets.push({
