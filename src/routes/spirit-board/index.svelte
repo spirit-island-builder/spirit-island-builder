@@ -82,6 +82,7 @@
 		}
 	}
 
+	// A script line that starts with $: is a "reactive declaration". It will run whenever a variable after the $: is modified. So in this case, we want setBoardValues to run whenever spiritBoard changes. See https://svelte.dev/tutorial/reactive-statements
 	$: setBoardValues(spiritBoard)
 </script>
 
@@ -90,15 +91,20 @@
 	</section>
 	<div class="columns">
 		<div class="column">
+
 			<h5 class="title is-5">Spirit Board</h5>
+			<!-- Any kind of property can be passed to a component. Functions and variables. As long as they are also exported from the nested component (i.e. NameAndArt) they will be available for use in the nested component -->
+
       <NameAndArt bind:spiritBoard={spiritBoard} {showOrHideSection}></NameAndArt>
       <SpecialRules bind:spiritBoard={spiritBoard} {showOrHideSection}></SpecialRules>
       <Growth bind:spiritBoard={spiritBoard} {showOrHideSection}></Growth>
       <PresenceTracks bind:spiritBoard={spiritBoard} {showOrHideSection}></PresenceTracks>
       <InnatePowers bind:spiritBoard={spiritBoard} {showOrHideSection}></InnatePowers>
       </div>
+
 		<div class="column">
       <iframe bind:this={frame} src='/template/My Custom Content/My Spirit/board_front.html' height=400 width=600 title='yay'></iframe>
 		</div> 
+
 
 	</div>

@@ -12,6 +12,8 @@
 
   function removeSpecialRule(index) {
 		spiritBoard.specialRules.rules.splice(index, 1);
+
+		// I might not be handling id's correctly, but with this current set up each id in the array needs to be reset when a element is removed so that we don't end up with duplicate id's.
     spiritBoard.specialRules.rules.forEach((rule, i) => {
       rule.id = i
     })
@@ -31,6 +33,7 @@
 				</span>
 			</h6>
 			{#if spiritBoard.specialRules.isVisible}
+				<!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
 				{#each spiritBoard.specialRules.rules as rule, i (rule.id)}
 					<div class="field">
 						<label
