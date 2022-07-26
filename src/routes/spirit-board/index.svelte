@@ -8,11 +8,11 @@
 
   let spiritBoard = {
 		nameAndArt: {
-			isVisible: true,
+			isVisible: false,
 			name: "",
 		},
 		specialRules: {
-			isVisible: true,
+			isVisible: false,
 			rules: [
 				{
           id: 0,
@@ -22,21 +22,36 @@
 			],
 		},
 		growth: {
-			isVisible: true,
+			isVisible: false,
+			useGrowthSets: false,
 			growthSets: [
 				{
 					id: 0,
 					name: "",
-					effect: "",
+					choiceText: "",
+					growthGroups: [
+						{
+							id: 0,
+							name: "",
+							effect: "",
+							growthActions: [
+								{
+									id: 0,
+									name: "",
+									effect: "",
+								}
+							],
+						}
+					],
 				}
 			],
 		},
 		presenceTrack: {
-			isVisible: true,
+			isVisible: false,
 			name: "",
 		},
 		innatePowers: {
-			isVisible: true,
+			isVisible: false,
 			name: "",
 		},
 	};
@@ -50,15 +65,20 @@
     frame.addEventListener('load', onLoad());
   })
   function onLoad() {
+		if (frame) {
     const spiritName = frame.contentDocument.querySelectorAll('spirit-name')[0]
-				console.log('spiritName: ', spiritName);
+			if (spiritName) {
 				spiritName.textContent = ''
+			}
+		}
   }
 
 	function setBoardValues(spiritBoard) {
 		if (frame) {
 			const spiritName = frame.contentDocument.querySelectorAll('spirit-name')[0]
-			spiritName.textContent = spiritBoard.nameAndArt.name
+			if (spiritName) {
+				spiritName.textContent = spiritBoard.nameAndArt.name
+			}
 		}
 	}
 
@@ -67,25 +87,24 @@
 </script>
 
 <section class="section">
-		<h3 class="title is-3">Spirit Card</h3>
+		<h3 class="title is-3">Spirit Board</h3>
 	</section>
 	<div class="columns">
 		<div class="column">
-			<h5 class="title is-5">Spirit Card</h5>
+
+			<h5 class="title is-5">Spirit Board</h5>
 			<!-- Any kind of property can be passed to a component. Functions and variables. As long as they are also exported from the nested component (i.e. NameAndArt) they will be available for use in the nested component -->
+
       <NameAndArt bind:spiritBoard={spiritBoard} {showOrHideSection}></NameAndArt>
       <SpecialRules bind:spiritBoard={spiritBoard} {showOrHideSection}></SpecialRules>
       <Growth bind:spiritBoard={spiritBoard} {showOrHideSection}></Growth>
       <PresenceTracks bind:spiritBoard={spiritBoard} {showOrHideSection}></PresenceTracks>
       <InnatePowers bind:spiritBoard={spiritBoard} {showOrHideSection}></InnatePowers>
       </div>
-      <div class="column">
-			<h5 class="subtitle is-5">Spirit Card Values</h5>
-			<p>Name: {spiritBoard.nameAndArt.name}</p>
-			{#each spiritBoard.specialRules.rules as rule, i}
-				<p>Special Rule {i + 1} Name: {rule.name}</p>
-				<p>Special Rule {i + 1} Effect: {rule.effect}</p>
-			{/each}
-      <!--<iframe bind:this={frame} src='/template/My Custom Content/My Spirit/board_front.html' height=1177 width=1766 title='yay'></iframe>-->
-		</div>
+
+		<div class="column">
+      <iframe bind:this={frame} src='/template/My Custom Content/My Spirit/board_front.html' height=400 width=600 title='yay'></iframe>
+		</div> 
+
+
 	</div>

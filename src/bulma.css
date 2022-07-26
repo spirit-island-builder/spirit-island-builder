@@ -3516,7 +3516,7 @@ a.tag:hover {
 }
 
 .title:not(.is-spaced) + .subtitle {
-	margin-top: -1.25rem;
+	margin-top: -1rem;
 }
 
 .title.is-1 {
@@ -3585,6 +3585,7 @@ a.tag:hover {
 
 .subtitle.is-6 {
 	font-size: 1rem;
+	margin-bottom: 0.25rem; /* is this the right spot to put this? maybe not */
 }
 
 .subtitle.is-7 {
