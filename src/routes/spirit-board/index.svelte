@@ -86,11 +86,11 @@
 </script>
 
 <section class="section">
-		<h3 class="title is-3">Spirit Card</h3>
+		<h3 class="title is-3">Spirit Board</h3>
 	</section>
 	<div class="columns">
 		<div class="column">
-			<h5 class="title is-5">Spirit Card</h5>
+			<h5 class="title is-5">Spirit Board</h5>
       <NameAndArt bind:spiritBoard={spiritBoard} {showOrHideSection}></NameAndArt>
       <SpecialRules bind:spiritBoard={spiritBoard} {showOrHideSection}></SpecialRules>
       <Growth bind:spiritBoard={spiritBoard} {showOrHideSection}></Growth>
