@@ -57,6 +57,15 @@
 		// This works and is easier to read
 		spiritBoard = spiritBoard
 	}
+	
+	function removeGrowthAction(setIndex, groupIndex, actionIndex) {
+	
+		spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.splice(actionIndex, 1);
+    spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.forEach((growthAction, i) => {
+      growthAction.id = i
+    })
+		spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions = spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions;
+	}
   
   export let showOrHideSection
 
@@ -69,13 +78,12 @@
 				{:else}
 					<ion-icon id="growth" on:click={showOrHideSection} name="chevron-up-outline"></ion-icon>
 				{/if}
-				</span></h6>
+			</span>
+</h6>
 			{#if spiritBoard.growth.isVisible}
 				{#if !spiritBoard.growth.useGrowthSets}
-					<div class="field">
-						<div class="control">
-							<button class="button is-primary is-light row-button" on:click={useGrowthSets}>Use Growth Sets</button>
-						</div>
+					<div class="control">
+						<button class="button is-primary is-light row-button" on:click={useGrowthSets}>Use Growth Sets</button>
 					</div>
 				{/if}
 				{#each spiritBoard.growth.growthSets as growthSet, i (growthSet.id)}
@@ -106,14 +114,17 @@
 									</div>
 									<div class="growth-group-info">
 										{#each growthGroup.growthActions as growthAction, k (growthAction.id)}
-											<div class="control">
-												<input
-													id="spiritGrowthInput" 
-													class="input"
-													type="text"
-													placeholder="Growth Action"
-													bind:value={growthAction.effect}
-												/> <!-- Eric, does the bind syntax look right? -->
+											<div class="growth-action-container">
+												<div class="control">
+													<input
+														id="spiritGrowthInput" 
+														class="input"
+														type="text"
+														placeholder="Growth Action"
+														bind:value={growthAction.effect}
+													/>
+												</div>
+												<button class="button is-primary is-light row-button" on:click={removeGrowthAction(i,j,k)}>Remove</button>
 											</div>
 										{/each}
 										<div class="control">
@@ -133,11 +144,13 @@
 					</div>
 				{/each}
 				{#if spiritBoard.growth.useGrowthSets}
-					<div class="control">
-						<button class="button is-primary is-light row-button" on:click={addGrowthSet}>Add Growth Set</button>
-					</div>
-					<div class="control">
-						<button class="button is-primary is-light row-button" on:click={removeAllGrowthSets}>Remove All Growth Sets</button>
+					<div class="field">
+						<div class="control">
+							<button class="button is-primary is-light row-button" on:click={addGrowthSet}>Add Growth Set</button>
+						</div>
+						<div class="control">
+							<button class="button is-primary is-light row-button" on:click={removeAllGrowthSets}>Remove All Growth Sets</button>
+						</div>
 					</div>
 				{/if}
 			{/if}

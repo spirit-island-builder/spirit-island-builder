@@ -1,0 +1,40 @@
+.row-button {
+	display: inline;
+	padding: 0.2rem;
+}
+
+.growth-set {
+	display: flex;
+	flex-direction: row;
+}
+.growth-set-title, .growth-group-title {
+    display: flex;
+    flex-direction: column-reverse;
+    background-color: #eff1fa!important;
+    width: 1.8em;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+	min-height:10rem;
+	margin: 1px;
+}
+.growth-set-info {
+	display: flex;
+	flex-direction: column;
+	min-width: 20rem;
+}
+.growth-group {
+	display: flex;
+	flex-direction: row;
+}
+
+.growth-group-info {
+	display: flex;
+	flex-direction: column;
+}
+.growth-set-title > .label, .growth-group-title > .label{
+	transform-origin: center;
+	transform: rotate(270deg);
+    text-align: center;
+    width: 8rem;
+}
