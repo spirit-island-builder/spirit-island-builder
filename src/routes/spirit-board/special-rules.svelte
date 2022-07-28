@@ -7,7 +7,7 @@
 			name: "",
 			effect: "",
 		});
-		spiritBoard.specialRules.rules = spiritBoard.specialRules.rules;
+		spiritBoard = spiritBoard;
 	}
 
   function removeSpecialRule(index) {
@@ -17,7 +17,7 @@
     spiritBoard.specialRules.rules.forEach((rule, i) => {
       rule.id = i
     })
-		spiritBoard.specialRules.rules = spiritBoard.specialRules.rules;
+		spiritBoard = spiritBoard;
 	}
 
   export let showOrHideSection
@@ -39,7 +39,7 @@
 						<label
 							class="label is-flex is-justify-content-space-between"
 							for={`ruleNameInput${i}`}
-							>Special Rule {i + 1} Name {#if spiritBoard.specialRules.rules.length > 1}<span
+							>Special Rule {i + 1} {#if spiritBoard.specialRules.rules.length > 1}<span
 									on:click={removeSpecialRule(i)}>Remove This Rule X</span
 								>{/if}</label
 						>
@@ -48,18 +48,15 @@
 								id={`ruleNameInput${i}`}
 								class="input"
 								type="text"
+								placeholder='Name'
 								bind:value={spiritBoard.specialRules.rules[i].name}
 							/>
 						</div>
-					</div>
-					<div class="field">
-						<label class="label" for={`ruleEffectInput${i}`}
-							>Special Rule {i + 1} Effect</label
-						>
 						<div class="control">
 							<textarea
 								id={`ruleEffectInput${i}`}
 								class="textarea"
+								placeholder='Effect'
 								bind:value={spiritBoard.specialRules.rules[i].effect}
 							/>
 						</div>

@@ -6,7 +6,11 @@
   import PresenceTracks from './presence-tracks.svelte'
   import InnatePowers from './innate-powers.svelte'
 
+
   let spiritBoard = {
+		previewBoard: {
+			isVisible: false,
+		},
 		nameAndArt: {
 			isVisible: false,
 			name: "",
@@ -48,11 +52,49 @@
 		},
 		presenceTrack: {
 			isVisible: false,
+			useMiddleNodes: false,
 			name: "",
+			energyNodes: [
+				{
+					id: 0,
+					effect: "",
+				}
+			],
+			playsNodes: [
+				{
+					id: 0,
+					effect: "",
+				}
+			],
+			middleNodes: [
+				{
+					id: 0,
+					effect: "",
+				}
+			],
 		},
 		innatePowers: {
 			isVisible: false,
 			name: "",
+			powers: [
+				{
+					id: 0,
+					name: "",
+					speed:"",
+					range:"",
+					target:"",
+					effect: "",
+					note:"",
+					noteShow:false,
+					levels: [
+						{
+							id: 0,
+							threshold: "",
+							effect: "",
+						},
+					],
+				},
+			],
 		},
 	};
 
@@ -71,13 +113,37 @@
 				spiritName.textContent = ''
 			}
 		}
+		//for (var i = 0; i < 6; i++) {
+		//	addEnergyTrackNode();
+		//	addPlaysTrackNode();
+		//}
   }
 
 	function setBoardValues(spiritBoard) {
 		if (frame) {
+			//Load Spirit Name and Image
 			const spiritName = frame.contentDocument.querySelectorAll('spirit-name')[0]
 			if (spiritName) {
 				spiritName.textContent = spiritBoard.nameAndArt.name
+			}
+			//Load Special Rules
+			const specialRulesContainer = frame.contentDocument.querySelectorAll('special-rules-container')[0]
+			const specialRulesNames = frame.contentDocument.querySelectorAll('special-rules-subtitle')
+			const specialRulesEffects = frame.contentDocument.querySelectorAll('special-rule')
+			for (let j = 0; j < spiritBoard.specialRules.rules.length; j++) {
+				if (specialRulesNames[j]) {
+					// check for existing special rule and overwrite
+					specialRulesNames[j].textContent = spiritBoard.specialRules.rules[j].name;
+					specialRulesEffects[j].textContent = spiritBoard.specialRules.rules[j].effect;
+				} else {
+					// add new special rule
+					var newRuleName = frame.contentDocument.createElement('special-rules-subtitle');
+					newRuleName.textContent = spiritBoard.specialRules.rules[j].name;
+					var newRuleEffect = frame.contentDocument.createElement('special-rule');
+					newRuleEffect.textContent = spiritBoard.specialRules.rules[j].effect;
+					specialRulesContainer.appendChild(newRuleName)
+					specialRulesContainer.appendChild(newRuleEffect)
+				}
 			}
 		}
 	}
@@ -86,25 +152,39 @@
 	$: setBoardValues(spiritBoard)
 </script>
 
-<section class="section">
+<!-- <section class="section">
 		<h3 class="title is-3">Spirit Board</h3>
-	</section>
+	</section> -->
+	<h5 class="title is-5">Spirit Board</h5>
+	<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="previewBoard">Preview Board
+	<span on:click={showOrHideSection}>
+	{#if spiritBoard.previewBoard.isVisible}
+			<ion-icon id="previewBoard" on:click={showOrHideSection} name="chevron-down-outline"></ion-icon>
+		{:else}
+			<ion-icon id="previewBoard" on:click={showOrHideSection} name="chevron-up-outline"></ion-icon>
+		{/if}
+		</span></h6>
+	{#if spiritBoard.previewBoard.isVisible}
+	<div id="board-wrap">
+		<iframe bind:this={frame} src='/template/My Custom Content/My Spirit/board_front.html' height=600 width=100% id="scaled-frame" title='yay'></iframe>
+	</div>
+		
+	{/if}
 	<div class="columns">
 		<div class="column">
 
-			<h5 class="title is-5">Spirit Board</h5>
+			
 			<!-- Any kind of property can be passed to a component. Functions and variables. As long as they are also exported from the nested component (i.e. NameAndArt) they will be available for use in the nested component -->
 
-      <NameAndArt bind:spiritBoard={spiritBoard} {showOrHideSection}></NameAndArt>
-      <SpecialRules bind:spiritBoard={spiritBoard} {showOrHideSection}></SpecialRules>
-      <Growth bind:spiritBoard={spiritBoard} {showOrHideSection}></Growth>
-      <PresenceTracks bind:spiritBoard={spiritBoard} {showOrHideSection}></PresenceTracks>
-      <InnatePowers bind:spiritBoard={spiritBoard} {showOrHideSection}></InnatePowers>
-      </div>
-
+				
+			<NameAndArt bind:spiritBoard={spiritBoard} {showOrHideSection}></NameAndArt>
+			<SpecialRules bind:spiritBoard={spiritBoard} {showOrHideSection}></SpecialRules>
+		</div>
 		<div class="column">
-      <iframe bind:this={frame} src='/template/My Custom Content/My Spirit/board_front.html' height=400 width=600 title='yay'></iframe>
-		</div> 
+			<Growth bind:spiritBoard={spiritBoard} {showOrHideSection}></Growth>
+			<PresenceTracks bind:spiritBoard={spiritBoard} {showOrHideSection}></PresenceTracks>
+			<InnatePowers bind:spiritBoard={spiritBoard} {showOrHideSection}></InnatePowers>
+		</div>
 
 
 	</div>
