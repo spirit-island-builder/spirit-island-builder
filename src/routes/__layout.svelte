@@ -4,6 +4,7 @@
   import "../growth.css";
   import "../presenceTracks.css";
   import "../previewBoard.css";
+
 </script>
 
 <slot />

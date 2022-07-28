@@ -81,6 +81,41 @@
     })
 		spiritBoard = spiritBoard;
 	}
+	
+	function addGrowthGroup(setIndex) {
+		spiritBoard.growth.growthSets[setIndex].growthGroups.push({
+      id: spiritBoard.growth.growthSets[setIndex].growthGroups.length,
+			name: "",
+			effect: "",
+			growthActions: [
+				{
+					id: 0,
+					name: "",
+					effect: "",
+				}
+			],
+		});
+		spiritBoard.growth.growthSets[setIndex].growthGroups = spiritBoard.growth.growthSets[setIndex].growthGroups;
+	}
+
+	function addGrowthAction(setIndex, groupIndex) {
+		spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.push({
+      id: spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.length,
+			name: "",
+			effect: "",
+		});
+		// This works and is easier to read
+		spiritBoard = spiritBoard
+	}
+	
+	function removeGrowthAction(setIndex, groupIndex, actionIndex) {
+	
+		spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.splice(actionIndex, 1);
+    spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.forEach((growthAction, i) => {
+      growthAction.id = i
+    })
+		spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions = spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions;
+	}
   
   export let showOrHideSection
 
@@ -96,6 +131,7 @@
 			</span>
 </h6>
 			{#if spiritBoard.growth.isVisible}
+
 				<div class="control">
 					<input
 						id="growthDirections"
@@ -105,6 +141,7 @@
 						bind:value={spiritBoard.growth.directions}
 					/>
 				</div>
+
 				{#if !spiritBoard.growth.useGrowthSets}
 					<div class="control">
 						<button class="button is-primary is-light row-button" on:click={useGrowthSets}>Use Growth Sets</button>
@@ -137,7 +174,7 @@
 										<div class="label">Growth Group
 										</div>
 										<button class="button growth-group-button" on:click={removeGrowthGroup(i,j)}>&#10006;</button>
-									</div>
+								</div>
 									<div class="growth-group-info">
 										{#each growthGroup.growthActions as growthAction, k (growthAction.id)}
 											<div class="growth-action-container">
