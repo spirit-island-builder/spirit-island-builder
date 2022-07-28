@@ -82,40 +82,6 @@
 		spiritBoard = spiritBoard;
 	}
 	
-	function addGrowthGroup(setIndex) {
-		spiritBoard.growth.growthSets[setIndex].growthGroups.push({
-      id: spiritBoard.growth.growthSets[setIndex].growthGroups.length,
-			name: "",
-			effect: "",
-			growthActions: [
-				{
-					id: 0,
-					name: "",
-					effect: "",
-				}
-			],
-		});
-		spiritBoard.growth.growthSets[setIndex].growthGroups = spiritBoard.growth.growthSets[setIndex].growthGroups;
-	}
-
-	function addGrowthAction(setIndex, groupIndex) {
-		spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.push({
-      id: spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.length,
-			name: "",
-			effect: "",
-		});
-		// This works and is easier to read
-		spiritBoard = spiritBoard
-	}
-	
-	function removeGrowthAction(setIndex, groupIndex, actionIndex) {
-	
-		spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.splice(actionIndex, 1);
-    spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.forEach((growthAction, i) => {
-      growthAction.id = i
-    })
-		spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions = spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions;
-	}
   
   export let showOrHideSection
 
