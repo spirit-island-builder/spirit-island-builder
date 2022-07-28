@@ -117,6 +117,7 @@
 		//	addEnergyTrackNode();
 		//	addPlaysTrackNode();
 		//}
+
   }
 
 	function setBoardValues(spiritBoard) {
@@ -126,6 +127,7 @@
 			if (spiritName) {
 				spiritName.textContent = spiritBoard.nameAndArt.name
 			}
+
 			//Load Special Rules
 			const specialRulesContainer = frame.contentDocument.querySelectorAll('special-rules-container')[0]
 			const specialRulesNames = frame.contentDocument.querySelectorAll('special-rules-subtitle')
@@ -151,6 +153,7 @@
 	// A script line that starts with $: is a "reactive declaration". It will run whenever a variable after the $: is modified. So in this case, we want setBoardValues to run whenever spiritBoard changes. See https://svelte.dev/tutorial/reactive-statements
 	$: setBoardValues(spiritBoard)
 </script>
+
 
 <!-- <section class="section">
 		<h3 class="title is-3">Spirit Board</h3>
@@ -185,6 +188,4 @@
 			<PresenceTracks bind:spiritBoard={spiritBoard} {showOrHideSection}></PresenceTracks>
 			<InnatePowers bind:spiritBoard={spiritBoard} {showOrHideSection}></InnatePowers>
 		</div>
-
-
 	</div>
