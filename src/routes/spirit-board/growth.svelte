@@ -97,7 +97,6 @@
 			</span>
 </h6>
 			{#if spiritBoard.growth.isVisible}
-
 				<div class="control">
 					<input
 						id="growthDirections"
@@ -107,7 +106,6 @@
 						bind:value={spiritBoard.growth.directions}
 					/>
 				</div>
-
 				{#if !spiritBoard.growth.useGrowthSets}
 					<div class="control">
 						<button class="button is-primary is-light row-button" on:click={useGrowthSets}>Use Growth Sets</button>

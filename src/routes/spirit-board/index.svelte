@@ -149,7 +149,32 @@
 			}
 		}
 	}
+	
+	function showOrHideBoard() {
+		if(document.getElementById("board-wrap").style.display == "none"){
+			document.getElementById("board-wrap").style.display = "block";
+		}else{
+			document.getElementById("board-wrap").style.display = "none";
+		}
+		console.log("this iiis a test")
+		console.log(document.getElementById("board-wrap"))
+		console.log(document.getElementById("board-wrap").style.display)
+	}
+	
+	function copyHTML() {
+		console.log("attempting to copy html");
+		console.log(document.getElementById("scaled-frame").contentWindow.document.body);
+		console.log(document.getElementById("mod-frame").contentWindow.document.body);
+		let bodyClone
+		bodyClone = document.getElementById("mod-frame").contentWindow.document.body.cloneNode(true);
+		document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
+	}
 
+	function reloadPreview() {
+		console.log("attempting to reload preview");
+		document.getElementById("scaled-frame").contentWindow.startMain();
+	}
+	
 	// A script line that starts with $: is a "reactive declaration". It will run whenever a variable after the $: is modified. So in this case, we want setBoardValues to run whenever spiritBoard changes. See https://svelte.dev/tutorial/reactive-statements
 	$: setBoardValues(spiritBoard)
 </script>
@@ -159,20 +184,17 @@
 		<h3 class="title is-3">Spirit Board</h3>
 	</section> -->
 	<h5 class="title is-5">Spirit Board</h5>
-	<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="previewBoard">Preview Board
-	<span on:click={showOrHideSection}>
+	<h6 on:click={showOrHideBoard} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="previewBoard">Preview Board
+	<span on:click={showOrHideBoard}>
 	{#if spiritBoard.previewBoard.isVisible}
-			<ion-icon id="previewBoard" on:click={showOrHideSection} name="chevron-down-outline"></ion-icon>
+			<ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline"></ion-icon>
 		{:else}
-			<ion-icon id="previewBoard" on:click={showOrHideSection} name="chevron-up-outline"></ion-icon>
+			<ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline"></ion-icon>
 		{/if}
 		</span></h6>
-	{#if spiritBoard.previewBoard.isVisible}
 	<div id="board-wrap">
 		<iframe bind:this={frame} src='/template/My Custom Content/My Spirit/board_front.html' height=600 width=100% id="scaled-frame" title='yay'></iframe>
 	</div>
-		
-	{/if}
 	<div class="columns mt-0">
 		<div class="column pt-0">
 
@@ -188,4 +210,9 @@
 			<PresenceTracks bind:spiritBoard={spiritBoard} {showOrHideSection}></PresenceTracks>
 			<InnatePowers bind:spiritBoard={spiritBoard} {showOrHideSection}></InnatePowers>
 		</div>
+	</div>
+	<button class="button is-primary is-light" on:click={copyHTML}>Copy HTML</button>
+	<button class="button is-primary is-light" on:click={reloadPreview}>Reload Preview</button>
+	<div id="holder">
+		<iframe src='/template/My Custom Content/My Spirit/board_front_website.html' height=600 width=100% title='yay' style="display:none;" id="mod-frame"></iframe>
 	</div>
