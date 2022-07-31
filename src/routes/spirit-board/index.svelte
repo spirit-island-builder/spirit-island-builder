@@ -132,6 +132,27 @@
 			const specialRulesContainer = frame.contentDocument.querySelectorAll('special-rules-container')[0]
 			const specialRulesNames = frame.contentDocument.querySelectorAll('special-rules-subtitle')
 			const specialRulesEffects = frame.contentDocument.querySelectorAll('special-rule')
+			for (let j = 0; j < spiritBoard.growth.growthSets.length; j++) {
+				//sort out the looping
+				if (specialRulesNames[j]) {
+					// check for existing special rule and overwrite
+					specialRulesNames[j].textContent = spiritBoard.specialRules.rules[j].name;
+					specialRulesEffects[j].textContent = spiritBoard.specialRules.rules[j].effect;
+				} else {
+					// add new special rule
+					var newRuleName = frame.contentDocument.createElement('special-rules-subtitle');
+					newRuleName.textContent = spiritBoard.specialRules.rules[j].name;
+					var newRuleEffect = frame.contentDocument.createElement('special-rule');
+					newRuleEffect.textContent = spiritBoard.specialRules.rules[j].effect;
+					specialRulesContainer.appendChild(newRuleName)
+					specialRulesContainer.appendChild(newRuleEffect)
+				}
+			}
+			
+			//Load Growth
+			const growthContainer = frame.contentDocument.querySelectorAll('growth')[0]
+			const growthGroups = frame.contentDocument.querySelectorAll('growth-groups')
+			const growthSets = frame.contentDocument.querySelectorAll('sub-growth')
 			for (let j = 0; j < spiritBoard.specialRules.rules.length; j++) {
 				if (specialRulesNames[j]) {
 					// check for existing special rule and overwrite
@@ -147,6 +168,11 @@
 					specialRulesContainer.appendChild(newRuleEffect)
 				}
 			}
+			//Load Presence Tracks
+			
+			//Load Innate Powers
+			
+			
 		}
 	}
 	
@@ -161,6 +187,10 @@
 		console.log(document.getElementById("board-wrap").style.display)
 	}
 	
+	function readHTML() {
+		//Similar to setting, but backwards
+	}
+
 	function copyHTML() {
 		console.log("attempting to copy html");
 		console.log(document.getElementById("scaled-frame").contentWindow.document.body);
@@ -193,7 +223,7 @@
 		{/if}
 		</span></h6>
 	<div id="board-wrap">
-		<iframe bind:this={frame} src='/template/My Custom Content/My Spirit/board_front.html' height=600 width=100% id="scaled-frame" title='yay'></iframe>
+		<iframe src='/template/My Custom Content/My Spirit/board_front.html' height=600 width=100% id="scaled-frame" title='yay'></iframe>
 	</div>
 	<div class="columns mt-0">
 		<div class="column pt-0">
@@ -211,8 +241,9 @@
 			<InnatePowers bind:spiritBoard={spiritBoard} {showOrHideSection}></InnatePowers>
 		</div>
 	</div>
+	<button class="button is-primary is-light" on:click={readHTML}>Read Spirit Board into Form</button>
 	<button class="button is-primary is-light" on:click={copyHTML}>Copy HTML</button>
 	<button class="button is-primary is-light" on:click={reloadPreview}>Reload Preview</button>
 	<div id="holder">
-		<iframe src='/template/My Custom Content/My Spirit/board_front_website.html' height=600 width=100% title='yay' style="display:none;" id="mod-frame"></iframe>
+		<iframe bind:this={frame} src='/template/My Custom Content/My Spirit/board_front_website.html' height=600 width=100% title='yay' style="display:none;" id="mod-frame"></iframe>
 	</div>
