@@ -35,7 +35,7 @@
 	
 </script>
 
-<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="presenceTrack">Presence Tracks
+<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1" id="presenceTrack">Presence Tracks
 			<span id="presenceTrack" on:click={showOrHideSection}>
 				{#if spiritBoard.presenceTrack.isVisible}
 					<ion-icon id="presenceTrack" on:click={showOrHideSection} name="chevron-down-outline"></ion-icon>
@@ -60,12 +60,11 @@
 						{/each}
 					</div>
 				</div>
-				{#if spiritBoard.presenceTrack.useMiddleNodes}
+<!-- 				{#if spiritBoard.presenceTrack.useMiddleNodes}
 				<div class="field">
 					<label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput">Middle Track<button class="button presence-track-button" on:click={addMiddleTrackNode}>Add Node</button></label>
 					<div class="presence-track-row">
 						{#each spiritBoard.presenceTrack.middleNodes as middleNode, i (middleNode.id)}
-						<!-- {#each Array(8) as _, i} -->
 							<div class="control">
 								<input
 									id={`middle${i}`}
@@ -77,7 +76,7 @@
 						{/each}
 					</div>
 				</div>
-				{/if}
+				{/if} -->
 				<div class="field">
 					<label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput">Plays Track<button class="button presence-track-button" on:click={addPlaysTrackNode}>Add Node</button></label>
 					<div class="presence-track-row">
@@ -95,10 +94,10 @@
 					</div>
 				</div>
 				<div class="control">
-				{#if !spiritBoard.presenceTrack.useMiddleNodes}
+<!-- 				{#if !spiritBoard.presenceTrack.useMiddleNodes}
 					<button class="button is-primary is-light row-button" on:click={useMiddleNodes}>Use Middle Nodes</button>
 				{:else}
 					<button class="button is-primary is-light row-button" on:click={disableMiddleNodes}>Disable Middle Nodes</button>
-				{/if}
+				{/if} -->
 				</div>
 			{/if}

@@ -7,6 +7,20 @@
 
     function removeAllGrowthSets() {
 		spiritBoard.growth.useGrowthSets = false;
+		var firstSet = spiritBoard.growth.growthSets[0];
+		for (let i = 1; i < spiritBoard.growth.growthSets.length; i++) {
+			var growthSet = spiritBoard.growth.growthSets[i];
+			while (spiritBoard.growth.growthSets[i].growthGroups.length > 0) {
+				firstSet.growthGroups.push(spiritBoard.growth.growthSets[i].growthGroups.shift());
+				firstSet.growthGroups[firstSet.growthGroups.length-1].id = firstSet.growthGroups.length;
+			}
+			spiritBoard = spiritBoard;
+		}
+		while(spiritBoard.growth.growthSets.length>1){
+		console.log(spiritBoard)
+		console.log('poppin')
+			spiritBoard.growth.growthSets.pop();
+		}
 	} /* <!-- also remove all the growth sets --> */
 	
     function addGrowthSet() {
@@ -87,7 +101,7 @@
 
 </script>
 
-<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="growth">Growth
+<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1" id="growth">Growth
 			<span id="growth" on:click={showOrHideSection}>
 				{#if spiritBoard.growth.isVisible}
 					<ion-icon id="growth" on:click={showOrHideSection} name="chevron-down-outline"></ion-icon>
@@ -97,6 +111,7 @@
 			</span>
 </h6>
 			{#if spiritBoard.growth.isVisible}
+				{#if !spiritBoard.growth.useGrowthSets}
 				<div class="control">
 					<input
 						id="growthDirections"
@@ -106,6 +121,7 @@
 						bind:value={spiritBoard.growth.directions}
 					/>
 				</div>
+				{/if}
 				{#if !spiritBoard.growth.useGrowthSets}
 					<div class="control">
 						<button class="button is-primary is-light row-button" on:click={useGrowthSets}>Use Growth Sets</button>

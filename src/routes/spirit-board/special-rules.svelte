@@ -23,7 +23,7 @@
   export let showOrHideSection
 </script>
 
-<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="specialRules">Special Rules
+<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1" id="specialRules">Special Rules
 				<span on:click={showOrHideSection}>
 				{#if spiritBoard.specialRules.isVisible}
 					<ion-icon id="specialRules" on:click={showOrHideSection} name="chevron-down-outline"></ion-icon>
@@ -43,14 +43,17 @@
 									on:click={removeSpecialRule(i)}>Remove This Rule X</span
 								>{/if}</label
 						>
-						<div class="control">
-							<input
-								id={`ruleNameInput${i}`}
-								class="input"
-								type="text"
-								placeholder='Name'
-								bind:value={spiritBoard.specialRules.rules[i].name}
-							/>
+						<div class="growth-action-container">
+							<div class="control" style="width:100%">
+								<input
+									id={`ruleNameInput${i}`}
+									class="input"
+									type="text"
+									placeholder='Name'
+									bind:value={spiritBoard.specialRules.rules[i].name}
+								/>
+							</div>
+							<button class="button is-primary is-light" on:click={removeSpecialRule(i)}>Remove</button>
 						</div>
 						<div class="control">
 							<textarea

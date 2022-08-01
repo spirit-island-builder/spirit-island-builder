@@ -39,14 +39,6 @@
 					 </sub-growth>
 		-->
 		<growth title="Growth">
-		  <sub-growth title="pick one of:" bordered>
-			<growth-group values="reclaim-one;gain-power-card"></growth-group>
-			<growth-group values="gain-power-card;gain-energy(3)"></growth-group>
-		  </sub-growth>
-		  <sub-growth title="and one of:">
-			<growth-group values="add-presence(2,ocean);gain-element(fire)"></growth-group>
-			<growth-group cost="3" values="add-presence(3,mountain-jungle);move-presence(4)"></growth-group>
-		  </sub-growth>
 		</growth>
 
 		<presence-tracks>
@@ -75,25 +67,6 @@
         </level>
         <level threshold="4-fire,2-air">
           You may split this Power's damage among any number of lands with {blight} where you have {presence}.
-        </level>
-      </quick-innate-power>
-      <quick-innate-power
-      name="explosion2"
-      speed="slow"
-      range="none"
-      target="{blight}/{no-blight}"
-      target-title="TARGET">
-      <level threshold="1-plant">
-          1 Damage per {fire,2} you have.
-        </level>
-        <level threshold="3-plant,2-blight">
-          Instead, 1 Damage per {fire} you have.
-        </level>
-        <level threshold="4-fire,2-disease,2-wilds">
-          You may split this Power's damage among any number of lands with {blight} where you have {presence}.
-        </level>
-        <level threshold="7-fire,3-strife,1-badlands">
-          In {blight} where {presence} you {dahan} have {wilds} and {strife} then {badlands} and {disease}.
         </level>
       </quick-innate-power>
     </innate-powers>

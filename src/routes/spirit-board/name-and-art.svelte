@@ -6,7 +6,7 @@
 
 
 
-<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="nameAndArt">Spirit Name & Art
+<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1" id="nameAndArt">Spirit Name & Art
 			<span on:click={showOrHideSection}>
 				{#if spiritBoard.nameAndArt.isVisible}
 					<ion-icon id="nameAndArt" on:click={showOrHideSection} name="chevron-down-outline"></ion-icon>
