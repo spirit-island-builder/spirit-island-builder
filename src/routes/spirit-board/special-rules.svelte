@@ -1,13 +1,10 @@
 <script>
+	import * as Lib from './lib'
+	
   export let spiritBoard
 
     function addSpecialRule() {
-		spiritBoard.specialRules.rules.push({
-      id: spiritBoard.specialRules.rules.length,
-			name: "",
-			effect: "",
-		});
-		spiritBoard = spiritBoard;
+		spiritBoard = Lib.addSpecialRule(spiritBoard);
 	}
 
   function removeSpecialRule(index) {
