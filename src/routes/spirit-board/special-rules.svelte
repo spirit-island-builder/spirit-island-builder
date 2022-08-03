@@ -7,21 +7,23 @@
 			name: "",
 			effect: "",
 		});
-		spiritBoard.specialRules.rules = spiritBoard.specialRules.rules;
+		spiritBoard = spiritBoard;
 	}
 
   function removeSpecialRule(index) {
 		spiritBoard.specialRules.rules.splice(index, 1);
+
+		// I might not be handling id's correctly, but with this current set up each id in the array needs to be reset when a element is removed so that we don't end up with duplicate id's.
     spiritBoard.specialRules.rules.forEach((rule, i) => {
       rule.id = i
     })
-		spiritBoard.specialRules.rules = spiritBoard.specialRules.rules;
+		spiritBoard = spiritBoard;
 	}
 
   export let showOrHideSection
 </script>
 
-<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="specialRules">Special Rules
+<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1" id="specialRules">Special Rules
 				<span on:click={showOrHideSection}>
 				{#if spiritBoard.specialRules.isVisible}
 					<ion-icon id="specialRules" on:click={showOrHideSection} name="chevron-down-outline"></ion-icon>
@@ -31,32 +33,33 @@
 				</span>
 			</h6>
 			{#if spiritBoard.specialRules.isVisible}
+				<!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
 				{#each spiritBoard.specialRules.rules as rule, i (rule.id)}
 					<div class="field">
 						<label
 							class="label is-flex is-justify-content-space-between"
 							for={`ruleNameInput${i}`}
-							>Special Rule {i + 1} Name {#if spiritBoard.specialRules.rules.length > 1}<span
+							>Special Rule {i + 1} {#if spiritBoard.specialRules.rules.length > 1}<span
 									on:click={removeSpecialRule(i)}>Remove This Rule X</span
 								>{/if}</label
 						>
-						<div class="control">
-							<input
-								id={`ruleNameInput${i}`}
-								class="input"
-								type="text"
-								bind:value={spiritBoard.specialRules.rules[i].name}
-							/>
+						<div class="growth-action-container">
+							<div class="control" style="width:100%">
+								<input
+									id={`ruleNameInput${i}`}
+									class="input"
+									type="text"
+									placeholder='Name'
+									bind:value={spiritBoard.specialRules.rules[i].name}
+								/>
+							</div>
+							<button class="button is-primary is-light" on:click={removeSpecialRule(i)}>Remove</button>
 						</div>
-					</div>
-					<div class="field">
-						<label class="label" for={`ruleEffectInput${i}`}
-							>Special Rule {i + 1} Effect</label
-						>
 						<div class="control">
 							<textarea
 								id={`ruleEffectInput${i}`}
 								class="textarea"
+								placeholder='Effect'
 								bind:value={spiritBoard.specialRules.rules[i].effect}
 							/>
 						</div>

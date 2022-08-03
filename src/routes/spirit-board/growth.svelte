@@ -7,6 +7,20 @@
 
     function removeAllGrowthSets() {
 		spiritBoard.growth.useGrowthSets = false;
+		var firstSet = spiritBoard.growth.growthSets[0];
+		for (let i = 1; i < spiritBoard.growth.growthSets.length; i++) {
+			var growthSet = spiritBoard.growth.growthSets[i];
+			while (spiritBoard.growth.growthSets[i].growthGroups.length > 0) {
+				firstSet.growthGroups.push(spiritBoard.growth.growthSets[i].growthGroups.shift());
+				firstSet.growthGroups[firstSet.growthGroups.length-1].id = firstSet.growthGroups.length;
+			}
+			spiritBoard = spiritBoard;
+		}
+		while(spiritBoard.growth.growthSets.length>1){
+		console.log(spiritBoard)
+		console.log('poppin')
+			spiritBoard.growth.growthSets.pop();
+		}
 	} /* <!-- also remove all the growth sets --> */
 	
     function addGrowthSet() {
@@ -29,7 +43,7 @@
 				}
 			],
 		});
-		spiritBoard.growth.growthSets = spiritBoard.growth.growthSets;
+		spiritBoard = spiritBoard;
 	}
 	
 	function addGrowthGroup(setIndex) {
@@ -45,7 +59,7 @@
 				}
 			],
 		});
-		spiritBoard.growth.growthSets[setIndex].growthGroups = spiritBoard.growth.growthSets[setIndex].growthGroups;
+		spiritBoard = spiritBoard;
 	}
 
 	function addGrowthAction(setIndex, groupIndex) {
@@ -57,25 +71,60 @@
 		// This works and is easier to read
 		spiritBoard = spiritBoard
 	}
+	
+	function removeGrowthAction(setIndex, groupIndex, actionIndex) {
+		spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.splice(actionIndex, 1);
+    spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.forEach((growthAction, i) => {
+      growthAction.id = i
+    })
+		spiritBoard = spiritBoard;
+	}
+	
+	function removeGrowthGroup(setIndex, groupIndex) {
+		spiritBoard.growth.growthSets[setIndex].growthGroups.splice(groupIndex, 1);
+    spiritBoard.growth.growthSets[setIndex].growthGroups.forEach((growthGroup, i) => {
+      growthGroup.id = i
+    })
+		spiritBoard = spiritBoard;
+	}
+	
+	function removeGrowthSet(setIndex) {
+		spiritBoard.growth.growthSets.splice(setIndex, 1);
+    spiritBoard.growth.growthSets.forEach((growthSet, i) => {
+      growthSet.id = i
+    })
+		spiritBoard = spiritBoard;
+	}
+	
   
   export let showOrHideSection
 
 </script>
 
-<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="growth">Growth
+<h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1" id="growth">Growth
 			<span id="growth" on:click={showOrHideSection}>
 				{#if spiritBoard.growth.isVisible}
 					<ion-icon id="growth" on:click={showOrHideSection} name="chevron-down-outline"></ion-icon>
 				{:else}
 					<ion-icon id="growth" on:click={showOrHideSection} name="chevron-up-outline"></ion-icon>
 				{/if}
-				</span></h6>
+			</span>
+</h6>
 			{#if spiritBoard.growth.isVisible}
 				{#if !spiritBoard.growth.useGrowthSets}
-					<div class="field">
-						<div class="control">
-							<button class="button is-primary is-light row-button" on:click={useGrowthSets}>Use Growth Sets</button>
-						</div>
+				<div class="control">
+					<input
+						id="growthDirections"
+						class="input"
+						type="text"
+						placeholder='Growth Directions (ie. "Pick Two")'
+						bind:value={spiritBoard.growth.directions}
+					/>
+				</div>
+				{/if}
+				{#if !spiritBoard.growth.useGrowthSets}
+					<div class="control">
+						<button class="button is-primary is-light row-button" on:click={useGrowthSets}>Use Growth Sets</button>
 					</div>
 				{/if}
 				{#each spiritBoard.growth.growthSets as growthSet, i (growthSet.id)}
@@ -84,16 +133,17 @@
 							<div class="growth-set-title">
 								<div class="label">Growth Set
 								</div>
+								<button class="button growth-set-button" on:click={removeGrowthSet(i)}>&#10006;</button>
 							</div>
 						{/if}
 						<div class="growth-set-info">
 							{#if spiritBoard.growth.useGrowthSets}
 								<div class="control">
 									<input
-										id="spiritGrowthInput"
+										id={`growthSetChoice${i}`}
 										class="input"
 										type="text"
-										placeholder="Growth Set Action ie. (PICK ONE OF)"
+										placeholder="Growth Set Choice ie. (PICK ONE OF)"
 										bind:value={growthSet.choiceText}
 									/>
 								</div>
@@ -103,17 +153,21 @@
 									<div class="growth-group-title">
 										<div class="label">Growth Group
 										</div>
-									</div>
+										<button class="button growth-group-button" on:click={removeGrowthGroup(i,j)}>&#10006;</button>
+								</div>
 									<div class="growth-group-info">
 										{#each growthGroup.growthActions as growthAction, k (growthAction.id)}
-											<div class="control">
-												<input
-													id="spiritGrowthInput" 
-													class="input"
-													type="text"
-													placeholder="Growth Action"
-													bind:value={growthAction.effect}
-												/> <!-- Eric, does the bind syntax look right? -->
+											<div class="growth-action-container">
+												<div class="control">
+													<input
+														id={`growthSet{i}Group{j}Action{k}`}
+														class="input"
+														type="text"
+														placeholder="Growth Action"
+														bind:value={growthAction.effect}
+													/>
+												</div>
+												<button class="button is-primary is-light row-button" on:click={removeGrowthAction(i,j,k)}>Remove</button>
 											</div>
 										{/each}
 										<div class="control">
@@ -133,49 +187,13 @@
 					</div>
 				{/each}
 				{#if spiritBoard.growth.useGrowthSets}
-					<div class="control">
-						<button class="button is-primary is-light row-button" on:click={addGrowthSet}>Add Growth Set</button>
-					</div>
-					<div class="control">
-						<button class="button is-primary is-light row-button" on:click={removeAllGrowthSets}>Remove All Growth Sets</button>
+					<div class="field">
+						<div class="control">
+							<button class="button is-primary is-light row-button" on:click={addGrowthSet}>Add Growth Set</button>
+						</div>
+						<div class="control">
+							<button class="button is-primary is-light row-button" on:click={removeAllGrowthSets}>Remove All Growth Sets</button>
+						</div>
 					</div>
 				{/if}
 			{/if}
-
-<style>
-	.growth-set {
-	display: flex;
-	flex-direction: row;
-}
-.growth-set-title, .growth-group-title {
-    display: flex;
-    flex-direction: column-reverse;
-    background-color: #eff1fa!important;
-    width: 1.8em;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
-	min-height:10rem;
-	margin: 1px;
-}
-.growth-set-info {
-	display: flex;
-	flex-direction: column;
-	min-width: 20rem;
-}
-.growth-group {
-	display: flex;
-	flex-direction: row;
-}
-
-.growth-group-info {
-	display: flex;
-	flex-direction: column;
-}
-.growth-set-title > .label, .growth-group-title > .label{
-	transform-origin: center;
-	transform: rotate(270deg);
-    text-align: center;
-    width: 8rem;
-}
-</style>
