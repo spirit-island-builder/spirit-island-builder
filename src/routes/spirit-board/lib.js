@@ -27,10 +27,16 @@ export const addGrowthSet = (spiritBoard, growthChoiceText="") => {
 };
 
 export const addGrowthGroup = (spiritBoard, setIndex, groupCost="",groupTint="") => {
+	let groupHasCost = false;
+	let groupHasTint = false;
+	if(groupCost){groupHasCost = true;}
+	if(groupTint){groupHasTint = true;}
 	spiritBoard.growth.growthSets[setIndex].growthGroups.push({
 		id: spiritBoard.growth.growthSets[setIndex].growthGroups.length,
 		cost:groupCost,
 		tint:groupTint,
+		hasCost:groupHasCost,
+		hasTint:groupHasTint,
 		growthActions: [],
 	});
 	spiritBoard = spiritBoard;

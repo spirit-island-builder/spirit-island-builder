@@ -40,6 +40,8 @@
 							id: 0,
 							cost: "",
 							tint: "",
+							hasCost: false,
+							hasTint: false,
 							growthActions: [
 								{
 									id: 0,
@@ -162,8 +164,9 @@
 					var growthGroupOutput = frame.contentDocument.createElement('growth-group');
 					
 					//Cost
+					if(growthGroup.hasCost){growthGroupOutput.setAttribute("cost",growthGroup.cost)}
 					//Tint
-					
+					if(growthGroup.hasTint){growthGroupOutput.setAttribute("tint",growthGroup.tint)}
 					//Values
 					var values = ""
 					growthGroup.growthActions.forEach(growthAction => {
@@ -244,7 +247,7 @@
 	
 	function readHTML() {
 		console.log('calling readHTML')
-		//Similar to setting, but backwards
+		//Reads the Template HTML file into the Form
 		if (frame) {
 			//Set Spirit Name and Image
 			const spiritName = frame.contentDocument.querySelectorAll('spirit-name')[0]
@@ -284,7 +287,7 @@
 				let groups = topGrowthLayer.querySelectorAll('growth-group')
 				spiritBoard = Lib.addGrowthSet(spiritBoard, containerLayer[i].getAttribute("title"));
 				groups.forEach((group, j) => {
-					spiritBoard = Lib.addGrowthGroup(spiritBoard, i);
+					spiritBoard = Lib.addGrowthGroup(spiritBoard, i,group.getAttribute("cost"),group.getAttribute("tint"));
 					let values = group.getAttribute("values").split(";");
 					values.forEach(growthValue => {
 						spiritBoard = Lib.addGrowthAction(spiritBoard, i, j, growthValue);

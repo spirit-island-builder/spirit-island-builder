@@ -62,6 +62,16 @@
 		spiritBoard = spiritBoard;
 	}
 	
+	function setCost(setIndex, groupIndex) {
+		spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost = !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost;
+		console.log('hasCost='+spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost)
+	}
+	
+	function setTint(setIndex, groupIndex) {
+		spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint = !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint;
+		console.log('hasTint='+spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint)
+	}
+	
 	//Drag and Drop stuff
 /* 	function allowDrop(ev) {
 	  ev.preventDefault();
@@ -143,9 +153,45 @@
 									</div>
 									<div class="growth-group-info">
 										<div>
-											<button class="button is-warning is-light is-small row-button" on:click={removeGrowthAction(i,j,k)}>Add Cost</button>
-											<button class="button is-warning is-light is-small row-button" on:click={removeGrowthAction(i,j,k)}>Color Tint</button>
+											{#if !growthGroup.hasCost}
+											<button class="button is-warning is-light is-small row-button" on:click={setCost(i,j)}>Add Cost</button>
+											{/if}
+											{#if !growthGroup.hasTint}
+											<button class="button is-warning is-light is-small row-button" on:click={setTint(i,j)}>Color Tint</button>
+											{/if}
 										</div>
+										{#if growthGroup.hasCost}
+										<div class="growth-action-container">
+											<div class="field-label  is-small is-unselectable">Cost
+											</div>
+											<div class="control">
+												<input
+													id={`set${i}group${j}cost`}
+													class="input  is-small"
+													type="text"
+													placeholder="Cost (Energy)"
+													bind:value={growthGroup.cost}
+												/>
+											</div>
+											<button class="button is-warning is-light is-small row-button" on:click={setCost(i,j)}>Remove</button>
+										</div>
+										{/if}
+										{#if growthGroup.hasTint}
+										<div class="growth-action-container">
+											<div class="field-label  is-small is-unselectable">Tint
+											</div>
+											<div class="control">
+												<input
+													id={`set${i}group${j}tint`}
+													class="input  is-small"
+													type="text"
+													placeholder="Tint Color"
+													bind:value={growthGroup.tint}
+												/>
+											</div>
+											<button class="button is-warning is-light is-small row-button" on:click={setTint(i,j)}>Remove</button>
+										</div>
+										{/if}
 										{#each growthGroup.growthActions as growthAction, k (growthAction.id)}
 											<div class="growth-action-container">
 												<div class="control">
