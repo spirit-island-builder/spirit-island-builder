@@ -350,7 +350,7 @@
 		{/if}
 		</span></h6>
 	<div id="board-wrap">
-		<iframe src='/template/My Custom Content/My Spirit/board_front.html' height=600 width=100% id="scaled-frame" title='yay'></iframe>
+		<iframe src='/template/MyCustomContent/MySpirit/board_front.html' height=600 width=100% id="scaled-frame" title='yay'></iframe>
 	</div>
 	<div class="field mb-1">
 		<button class="button is-primary is-light" on:click={readHTML}>Load Template File</button>
@@ -374,5 +374,5 @@
 		</div>
 	</div>
 	<div id="holder">
-		<iframe bind:this={frame} src='/template/My Custom Content/My Spirit/OFFICIAL_Lure of Deep Wilderness.html' height=600 width=100% title='yay' style="display:none;" id="mod-frame"></iframe>
+		<iframe bind:this={frame} src='/template/MyCustomContent/MySpirit/OFFICIAL_Lure of Deep Wilderness.html' height=600 width=100% title='yay' style="display:none;" id="mod-frame"></iframe>
 	</div>
