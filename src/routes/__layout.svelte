@@ -5,7 +5,8 @@
   import "../presenceTracks.css";
   import "../previewBoard.css";
   import "../specialRules.css";
-
+  import "../innatePowers.css";
+  
 </script>
 
 <slot />

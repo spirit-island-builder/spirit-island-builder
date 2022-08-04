@@ -1,29 +1,30 @@
 <script>
   export let spiritBoard
   export let showOrHideSection
-	
+  import * as Lib from './lib'
+  
 	function addEnergyTrackNode() {
-	spiritBoard.presenceTrack.energyNodes.push({
-	id: spiritBoard.presenceTrack.energyNodes.length,
-		effect: "",
-	});
-	spiritBoard = spiritBoard;
+		spiritBoard = Lib.addEnergyTrackNode(spiritBoard);
 	}
 	
 	function addPlaysTrackNode() {
-	spiritBoard.presenceTrack.playsNodes.push({
-	id: spiritBoard.presenceTrack.playsNodes.length,
-		effect: "",
-	});
-	spiritBoard = spiritBoard;
+		spiritBoard = Lib.addPlaysTrackNode(spiritBoard);
 	}
 	
-	function addMiddleTrackNode() {
-	spiritBoard.presenceTrack.middleNodes.push({
-	id: spiritBoard.presenceTrack.middleNodes.length,
-		effect: "",
-	});
-	spiritBoard = spiritBoard;
+	function removeEnergyTrackNode() {
+		spiritBoard.presenceTrack.energyNodes.splice(spiritBoard.presenceTrack.energyNodes.length-1, 1);
+		spiritBoard.presenceTrack.energyNodes.forEach((node, i) => {
+			node.id = i
+		})
+		spiritBoard = spiritBoard;
+	}
+	
+	function removePlaysTrackNode() {
+		spiritBoard.presenceTrack.playsNodes.splice(spiritBoard.presenceTrack.playsNodes.length-1, 1);
+		spiritBoard.presenceTrack.playsNodes.forEach((node, i) => {
+			node.id = i
+		})
+		spiritBoard = spiritBoard;
 	}
 	
 	function useMiddleNodes() {
@@ -45,10 +46,9 @@
 				</span></h6>
 			{#if spiritBoard.presenceTrack.isVisible}
 				<div class="field">
-					<label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput">Energy Track<button class="button presence-track-button" on:click={addEnergyTrackNode}>Add Node</button></label>
+					<label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput">Energy Track<div class="buttons has-addons"><button class="button presence-track-button" on:click={addEnergyTrackNode}>Add Node</button><button class="button presence-track-button" on:click={removeEnergyTrackNode}>Remove Node</button></div></label>
 					<div class="presence-track-row">
 						{#each spiritBoard.presenceTrack.energyNodes as energyNode, i (energyNode.id)}
-						<!-- {#each Array(8) as _, i} -->
 							<div class="control">
 								<input
 									id={`energy${i}`}
@@ -60,28 +60,10 @@
 						{/each}
 					</div>
 				</div>
-<!-- 				{#if spiritBoard.presenceTrack.useMiddleNodes}
 				<div class="field">
-					<label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput">Middle Track<button class="button presence-track-button" on:click={addMiddleTrackNode}>Add Node</button></label>
-					<div class="presence-track-row">
-						{#each spiritBoard.presenceTrack.middleNodes as middleNode, i (middleNode.id)}
-							<div class="control">
-								<input
-									id={`middle${i}`}
-									class="input is-small"
-									type="text"
-									bind:value={spiritBoard.presenceTrack.middleNodes[i].effect}
-								/>
-							</div>
-						{/each}
-					</div>
-				</div>
-				{/if} -->
-				<div class="field">
-					<label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput">Plays Track<button class="button presence-track-button" on:click={addPlaysTrackNode}>Add Node</button></label>
+					<label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput">Plays Track<div class="buttons has-addons"><button class="button presence-track-button" on:click={addPlaysTrackNode}>Add Node</button><button class="button presence-track-button" on:click={removePlaysTrackNode}>Remove Node</button></div></label>
 					<div class="presence-track-row">
 						{#each spiritBoard.presenceTrack.playsNodes as playNode, i (playNode.id)}
-						<!-- {#each Array(8) as _, i} -->
 							<div class="control">
 								<input
 									id={`plays${i}`}
@@ -94,10 +76,5 @@
 					</div>
 				</div>
 				<div class="control">
-<!-- 				{#if !spiritBoard.presenceTrack.useMiddleNodes}
-					<button class="button is-primary is-light row-button" on:click={useMiddleNodes}>Use Middle Nodes</button>
-				{:else}
-					<button class="button is-primary is-light row-button" on:click={disableMiddleNodes}>Disable Middle Nodes</button>
-				{/if} -->
 				</div>
 			{/if}
