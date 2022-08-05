@@ -6,7 +6,7 @@ const config = {
     adapter: adapter({
       pages: "build",
       assets: "build",
-      fallback: "test.html",
+      fallback: "index.html",
       precompress: false,
     }),
 
