@@ -80,8 +80,8 @@
 				<div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
 					<div>
 						<div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-						  <button class="button button-hold mb-0" id="fast-button" on:click={setSpeedTextbox("Fast", innatePower, event)}>Fast</button>
-						  <button class="button button-hold mb-0" id="slow-button" on:click={setSpeedTextbox("Slow", innatePower, event)}>Slow</button>
+						  <button class="button button-hold mb-0" id="fast-button" on:click={setSpeedTextbox("Fast", innatePower)}>Fast</button>
+						  <button class="button button-hold mb-0" id="slow-button" on:click={setSpeedTextbox("Slow", innatePower)}>Slow</button>
 						</div>
 						<div class="control">
 							<input

@@ -1,7 +1,6 @@
 <script>
-	export let spiritBoard
 	import * as Lib from './lib'
-	
+
     function useGrowthSets() {
 		spiritBoard.growth.useGrowthSets = true;
 	}
@@ -87,10 +86,8 @@
 	  ev.target.appendChild(document.getElementById(data));
 	} */
 
-  
+	export let spiritBoard
   export let showOrHideSection
-
-
 </script>
 
 <h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1" id="growth">Growth
