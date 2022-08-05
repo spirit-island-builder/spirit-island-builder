@@ -1,5 +1,5 @@
 {
-	"useTabs": true,
+	"useTabs": false,
 	"printWidth": 100,
 	"quoteProps": "consistent",
 	"bracketSameLine": true

@@ -13,6 +13,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/adapter-cloudflare": "^1.0.0-next.31",
+		"@sveltejs/adapter-static": "^1.0.0-next.38",
 		"@sveltejs/kit": "next",
 		"cross-env": "^7.0.3",
 		"eslint": "^8.16.0",
