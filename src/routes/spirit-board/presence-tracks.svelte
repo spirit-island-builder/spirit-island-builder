@@ -46,7 +46,7 @@
 				</span></h6>
 			{#if spiritBoard.presenceTrack.isVisible}
 				<div class="field">
-					<label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput">Energy Track<div class="buttons has-addons"><button class="button presence-track-button" on:click={addEnergyTrackNode}>Add Node</button><button class="button presence-track-button" on:click={removeEnergyTrackNode}>Remove Node</button></div></label>
+					<label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput">Energy Track<div class="buttons has-addons"><button class="button is-primary is-light presence-track-button" on:click={addEnergyTrackNode}>Add Node</button><button class="button is-warning is-light presence-track-button" on:click={removeEnergyTrackNode}>Remove Node</button></div></label>
 					<div class="presence-track-row">
 						{#each spiritBoard.presenceTrack.energyNodes as energyNode, i (energyNode.id)}
 							<div class="control">
@@ -61,7 +61,7 @@
 					</div>
 				</div>
 				<div class="field">
-					<label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput">Plays Track<div class="buttons has-addons"><button class="button presence-track-button" on:click={addPlaysTrackNode}>Add Node</button><button class="button presence-track-button" on:click={removePlaysTrackNode}>Remove Node</button></div></label>
+					<label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput">Plays Track<div class="buttons has-addons"><button class="button is-primary is-light presence-track-button" on:click={addPlaysTrackNode}>Add Node</button><button class="button is-warning is-light presence-track-button" on:click={removePlaysTrackNode}>Remove Node</button></div></label>
 					<div class="presence-track-row">
 						{#each spiritBoard.presenceTrack.playsNodes as playNode, i (playNode.id)}
 							<div class="control">

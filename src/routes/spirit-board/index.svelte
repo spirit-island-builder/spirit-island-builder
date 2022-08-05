@@ -5,6 +5,7 @@
   import Growth from './growth.svelte'
   import PresenceTracks from './presence-tracks.svelte'
   import InnatePowers from './innate-powers.svelte'
+  import CustomIcons from './custom-icons.svelte'
   import * as Lib from './lib'
   // import addGrowthAction from './growth.svelte'
   // import { addGrowthSet, addGrowthGroup, addGrowthAction, removeGrowthAction, removeGrowthGroup, removeGrowthSet } from './growth.svelte'
@@ -16,6 +17,13 @@
 		nameAndArt: {
 			isVisible: false,
 			name: "",
+			artPath: "",
+			artScale:"",
+			bannerPath:"",
+			energyBannerPath:"",
+			energyBannerScale:"",
+			playsBannerPath:"",
+			playsBannerScale:"",
 		},
 		specialRules: {
 			isVisible: false,
@@ -93,6 +101,15 @@
 				},
 			],
 		},
+		customIcons: {
+			isVisible: false,
+			icons: [
+				{
+					id: 0,
+					name: "",
+				},
+			],
+		},
 	};
 
   function showOrHideSection(event) {
@@ -120,6 +137,10 @@
 			if (spiritName) {
 				spiritName.textContent = spiritBoard.nameAndArt.name
 			}
+			const board = frame.contentDocument.querySelectorAll('board')[0]
+			board.setAttribute("spirit-image",spiritBoard.nameAndArt.artPath)
+			board.setAttribute("spirit-image-scale",spiritBoard.nameAndArt.artScale)
+			board.setAttribute("spirit-border",spiritBoard.nameAndArt.bannerPath)
 
 			//Set Special Rules
 			const specialRulesContainer = frame.contentDocument.querySelectorAll('special-rules-container')[0]
@@ -127,6 +148,9 @@
 			const specialRulesEffects = frame.contentDocument.querySelectorAll('special-rule')
 			if(specialRulesContainer){
 				specialRulesContainer.textContent=""; // (easiest to start fresh each time)
+				var specialRulesHeader = frame.contentDocument.createElement('section-title');
+				specialRulesHeader.textContent="SPECIAL RULES";
+				specialRulesContainer.appendChild(specialRulesHeader);
 			}
 			spiritBoard.specialRules.rules.forEach(rule => {
 				var newRuleName = frame.contentDocument.createElement('special-rules-subtitle');
@@ -192,6 +216,8 @@
 			}
 			
 			var energyTrack = frame.contentDocument.createElement('energy-track');
+			energyTrack.setAttribute("banner",spiritBoard.nameAndArt.energyBannerPath);
+			energyTrack.setAttribute("banner-v-scale",spiritBoard.nameAndArt.energyBannerScale);
 			var energyValues = ""
 			spiritBoard.presenceTrack.energyNodes.forEach(energyNode => {
 				energyValues += energyNode.effect + ","
@@ -200,6 +226,8 @@
 			presenceTrackContainer.appendChild(energyTrack);
 			
 			var playsTrack = frame.contentDocument.createElement('card-play-track');
+			playsTrack.setAttribute("banner",spiritBoard.nameAndArt.playsBannerPath);
+			playsTrack.setAttribute("banner-v-scale",spiritBoard.nameAndArt.playsBannerScale);
 			var playsValues = ""
 			spiritBoard.presenceTrack.playsNodes.forEach(playsNode => {
 				playsValues += playsNode.effect + ","
@@ -208,7 +236,7 @@
 			presenceTrackContainer.appendChild(playsTrack);
 			
 			
-			//Load Innate Powers
+			//Set Innate Powers
 			const innatePowerContainer = frame.contentDocument.querySelectorAll('innate-powers')[0]
 			if(innatePowerContainer){
 				//(easiest to start fresh each time)
@@ -232,6 +260,20 @@
 					});
 					innatePowerContainer.appendChild(newInnatePower)
 			});
+			
+			
+			//Set Custom Icons
+			let spiritStyle = frame.contentDocument.querySelectorAll('style')[0]
+			if(!spiritStyle){
+				const spiritHead = frame.contentDocument.querySelectorAll('head')[0]
+				spiritStyle = frame.contentDocument.createElement('style');
+				spiritHead.appendChild(spiritStyle)
+			}
+			var customIconText = "";
+			spiritBoard.customIcons.icons.forEach(icon => {
+				customIconText += "icon.custom"+(icon.id+1)+"{background-image: url"+icon.name+"; }\n"
+			});
+			spiritStyle.textContent=customIconText;
 		}
 	}
 	
@@ -250,13 +292,17 @@
 		console.log('calling readHTML')
 		//Reads the Template HTML file into the Form
 		if (frame) {
-			//Set Spirit Name and Image
+			//Load Spirit Name and Image
 			const spiritName = frame.contentDocument.querySelectorAll('spirit-name')[0]
 			if (spiritName) {
 				spiritBoard.nameAndArt.name = spiritName.textContent.trim();
 			}
-
-			//Set Special Rules
+			const board = frame.contentDocument.querySelectorAll('board')[0]
+			spiritBoard.nameAndArt.artPath = board.getAttribute("spirit-image")
+			spiritBoard.nameAndArt.artScale= board.getAttribute("spirit-image-scale")
+			spiritBoard.nameAndArt.bannerPath = board.getAttribute("spirit-border")
+			
+			//Load Special Rules
 			const specialRulesNames = frame.contentDocument.querySelectorAll('special-rules-subtitle')
 			const specialRulesEffects = frame.contentDocument.querySelectorAll('special-rule')
 			spiritBoard.specialRules.rules.splice(0, spiritBoard.specialRules.rules.length) //Clear the Form first
@@ -264,7 +310,7 @@
 				spiritBoard = Lib.addSpecialRule(spiritBoard,specialRulesName.textContent,specialRulesEffects[j].textContent.trim());
 			});
 
-			//Set Growth
+			//Load Growth
 			const growthContainer = frame.contentDocument.querySelectorAll('growth')
 			var htmlGrowthSets = growthContainer[0].querySelectorAll('sub-growth')
 			var containerLayer
@@ -298,12 +344,16 @@
 
 			//Set Presence Tracks
 			var energyTrack = frame.contentDocument.querySelectorAll('energy-track')[0]
+			spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner")
+			spiritBoard.nameAndArt.energyBannerScale = energyTrack.getAttribute("banner-v-scale")
 			var energyValues = energyTrack.getAttribute("values").split(",");
 			spiritBoard.presenceTrack.energyNodes.splice(0, spiritBoard.presenceTrack.energyNodes.length) //Clear the Form first
 			energyValues.forEach(value => {
 				spiritBoard = Lib.addEnergyTrackNode(spiritBoard,value);
 			});
 			var playsTrack = frame.contentDocument.querySelectorAll('card-play-track')[0]
+			spiritBoard.nameAndArt.playsBannerPath = playsTrack.getAttribute("banner")
+			spiritBoard.nameAndArt.playsBannerScale = playsTrack.getAttribute("banner-v-scale")
 			var playsValues = playsTrack.getAttribute("values").split(",");
 			spiritBoard.presenceTrack.playsNodes.splice(0, spiritBoard.presenceTrack.playsNodes.length) //Clear the Form first
 			playsValues.forEach(value => {
@@ -320,6 +370,17 @@
 					spiritBoard = Lib.addLevel(spiritBoard,k,htmlLevel.getAttribute("threshold"),htmlLevel.textContent.trim(),htmlLevel.hasAttribute("long"));
 				});
 			});
+			
+			//Load Custom Icons
+			const spiritStyle = frame.contentDocument.querySelectorAll('style')[0]
+			spiritBoard.customIcons.icons.splice(0, spiritBoard.customIcons.icons.length) //Clear the Form first
+			if (spiritStyle) {
+				const regExp = new RegExp(/\(([^)]+)\)/,'g');
+				let iconList = spiritStyle.textContent.match(regExp)
+				iconList.forEach(customIcon => {
+					spiritBoard = Lib.addCustomIcon(spiritBoard,customIcon);
+				});
+			}
 		}
 	}
 
@@ -333,6 +394,7 @@
 	}
 
 	function reloadPreview() {
+		setBoardValues(spiritBoard)
 		console.log("calling reloadPreview");
 		copyHTML();
 		document.getElementById("scaled-frame").contentWindow.startMain();
@@ -341,11 +403,8 @@
 </script>
 
 
-<!-- <section class="section">
-		<h3 class="title is-3">Spirit Board</h3>
-	</section> -->
 	<h5 class="title is-5">Spirit Board</h5>
-	<h6 on:click={showOrHideBoard} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="previewBoard">Preview Board
+	<h6 on:click={showOrHideBoard} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light" id="previewBoard">Preview Spirit Board
 	<span on:click={showOrHideBoard}>
 	{#if spiritBoard.previewBoard.isVisible}
 			<ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline"></ion-icon>
@@ -354,12 +413,12 @@
 		{/if}
 		</span></h6>
 	<div id="board-wrap">
-		<iframe src='/template/MyCustomContent/MySpirit/board_front.html' height=600 width=100% id="scaled-frame" title='yay'></iframe>
+		<iframe src='/template/MyCustomContent/MySpirit/start_OFFICIAL_Lure of Deep Wilderness.html' height=600 width=100% id="scaled-frame" title='yay'></iframe>
 	</div>
 	<div class="field mb-1">
-		<button class="button is-primary is-light" on:click={readHTML}>Load Template File</button>
-		<button class="button is-primary is-light" on:click={setBoardValues(spiritBoard)}>Save Template File</button>
-		<button class="button is-primary is-light" on:click={reloadPreview}>Generate Spirit Board</button>
+		<button class="button is-primary is-light" on:click={readHTML}>Load File into Form</button>
+		<button class="button is-primary is-light" on:click={setBoardValues(spiritBoard)}>Save File</button>
+		<button class="button is-primary is-light" on:click={reloadPreview}>Save & Generate Spirit Board</button>
 	</div>
 	<div class="columns mt-0">
 		<div class="column pt-0">
@@ -370,6 +429,7 @@
 				
 			<NameAndArt bind:spiritBoard={spiritBoard} {showOrHideSection}></NameAndArt>
 			<SpecialRules bind:spiritBoard={spiritBoard} {showOrHideSection}></SpecialRules>
+			<CustomIcons bind:spiritBoard={spiritBoard} {showOrHideSection}></CustomIcons>
 		</div>
 		<div class="column pt-0">
 			<Growth bind:spiritBoard={spiritBoard} {showOrHideSection}></Growth>
@@ -377,6 +437,11 @@
 			<InnatePowers bind:spiritBoard={spiritBoard} {showOrHideSection}></InnatePowers>
 		</div>
 	</div>
+	<article class="message is-small mb-1">
+		<div class="message-body p-1">
+		This is an unofficial website. GUI created by Neubee & Resonant. Adapted from HTML template developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
+		</div>
+	</article>
 	<div id="holder">
-		<iframe bind:this={frame} src='/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html' height=600 width=100% title='yay' style="display:none;" id="mod-frame"></iframe>
+		<iframe bind:this={frame} src='/template/MyCustomContent/MySpirit/OFFICIAL_Lure of Deep Wilderness.html' height=600 width=100% title='yay' style="display:none;" id="mod-frame"></iframe>
 	</div>

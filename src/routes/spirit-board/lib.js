@@ -12,7 +12,6 @@ export const removeSpecialRule = (spiritBoard, index, ruleName="", ruleEffect=""
 	spiritBoard.specialRules.rules.forEach((rule, i) => {
 		rule.id = i
 	})
-	spiritBoard = spiritBoard;
 	return spiritBoard;
 };
 
@@ -22,7 +21,6 @@ export const addGrowthSet = (spiritBoard, growthChoiceText="") => {
 		choiceText: growthChoiceText,
 		growthGroups: [],
 	});
-	spiritBoard = spiritBoard;
 	return spiritBoard;
 };
 
@@ -39,7 +37,6 @@ export const addGrowthGroup = (spiritBoard, setIndex, groupCost="",groupTint="")
 		hasTint:groupHasTint,
 		growthActions: [],
 	});
-	spiritBoard = spiritBoard;
 	return spiritBoard;
 };
 
@@ -48,7 +45,6 @@ export const addGrowthAction = (spiritBoard, setIndex, groupIndex, actionEffect=
 		id: spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.length,
 		effect: actionEffect,
 	});
-	spiritBoard = spiritBoard;
 	return spiritBoard;
 };
 
@@ -57,7 +53,6 @@ export const addEnergyTrackNode = (spiritBoard,nodeEffect="") => {
 		id: spiritBoard.presenceTrack.energyNodes.length,
 		effect: nodeEffect,
 	});
-	spiritBoard = spiritBoard;
 	return spiritBoard;
 };
 
@@ -66,7 +61,6 @@ export const addPlaysTrackNode = (spiritBoard,nodeEffect="") => {
 		id: spiritBoard.presenceTrack.playsNodes.length,
 		effect: nodeEffect,
 	});
-	spiritBoard = spiritBoard;
 	return spiritBoard;
 };
 
@@ -83,7 +77,6 @@ export const addInnatePower = (spiritBoard, powerName="", powerSpeed="", powerRa
 		noteShow:true,
 		levels: [],
 	});
-	spiritBoard = spiritBoard;
 	return spiritBoard;
 };
 
@@ -94,6 +87,13 @@ export const addLevel = (spiritBoard, powerIndex, levelThreshold="", levelEffect
 		effect: levelEffect,
 		isLong: levelLong,
 	});
-	spiritBoard = spiritBoard;
+	return spiritBoard;
+};
+
+export const addCustomIcon = (spiritBoard,iconName="") => {
+	spiritBoard.customIcons.icons.push({
+		id: spiritBoard.customIcons.icons.length,
+		name: iconName,
+	});
 	return spiritBoard;
 };

@@ -26,4 +26,114 @@
 						/>
 					</div>
 				</div>
+				
+				<div class="field has-addons is-horizontal is-justify-content-left mb-0">
+					<div class="field-label is-small">
+						<label class="label" for="spiritArtInput">Spirit Art</label>
+					</div>
+					<div class="control">
+						<input
+							id="spiritArtInput"
+							class="input is-small"
+							type="text"
+							disabled
+							placeholder="File Name"
+							bind:value={spiritBoard.nameAndArt.artPath}
+						/>
+					</div>
+					<button class="button is-warning is-light is-small row-button">Load File</button>
+				</div>
+				<div class="field has-addons is-horizontal is-justify-content-left">
+					<div class="field-label is-small">
+						<label class="label" for="spiritArtInput">Scale:</label>
+					</div>
+					<div class="control">
+						<input
+							id="spiritArtScale"
+							class="input is-small"
+							type="text"
+							placeholder="%"
+							bind:value={spiritBoard.nameAndArt.artScale}
+						/>
+					</div>
+				</div>
+				<div class="field has-addons is-horizontal is-justify-content-left">
+					<div class="field-label is-small">
+						<label class="label" for="spiritBannerInput">Banner Art</label>
+					</div>
+					<div class="control">
+						<input
+							id="spiritBannerInput"
+							class="input is-small"
+							type="text"
+							disabled
+							placeholder="File Name"
+							bind:value={spiritBoard.nameAndArt.bannerPath}
+						/>
+					</div>
+					<button class="button is-warning is-light is-small row-button">Load File</button>
+				</div>
+				<div class="field has-addons is-horizontal is-justify-content-left mb-0">
+					<div class="field-label is-small">
+						<label class="label" for="spiritPTInput">Energy Track Banner</label>
+					</div>
+					<div class="control">
+						<input
+							id="energyBannerInput"
+							class="input is-small"
+							type="text"
+							disabled
+							placeholder="File Name"
+							bind:value={spiritBoard.nameAndArt.energyBannerPath}
+						/>
+					</div>
+					<button class="button is-warning is-light is-small row-button">Load File</button>
+				</div>
+				<div class="field has-addons is-horizontal is-justify-content-left">
+					<div class="field-label is-small">
+						<label class="label" for="spiritArtInput">Scale:</label>
+					</div>
+					<div class="control">
+						<input
+							id="energyBannerScaleInput"
+							class="input is-small"
+							type="text"
+							placeholder="%"
+							bind:value={spiritBoard.nameAndArt.energyBannerScale}
+						/>
+					</div>
+				</div>
+				<div class="field has-addons is-horizontal is-justify-content-left mb-0">
+					<div class="field-label is-small">
+						<label class="label" for="playsBannerInput">Plays Track Banner</label>
+					</div>
+					<div class="control">
+						<input
+							id="playsBannerInput"
+							class="input is-small"
+							type="text"
+							disabled
+							placeholder="File Name"
+							bind:value={spiritBoard.nameAndArt.playsBannerPath}
+						/>
+					</div>
+					<button class="button is-warning is-light is-small row-button">Load File</button>
+				</div>
+				<div class="field has-addons is-horizontal is-justify-content-left">
+					<div class="field-label is-small">
+						<label class="label" for="playsBannerScaleInput">Scale:</label>
+					</div>
+					<div class="control">
+						<input
+							id="playsBannerScaleInput"
+							class="input is-small"
+							type="text"
+							placeholder="%"
+							bind:value={spiritBoard.nameAndArt.playsBannerScale}
+						/>
+					</div>
+				</div>
+				<!-- Need to add art here. We'll need a way for the user to add an art file. 
+				The template looks for the art in the same folder as the template file 
+				itself...how would that work with the website?  -->
 			{/if}

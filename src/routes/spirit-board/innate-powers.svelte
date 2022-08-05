@@ -3,10 +3,8 @@
   export let showOrHideSection
   import * as Lib from './lib'
 
-	function setSpeedTextbox(powerSpeed, innatePower, event) {
+	function setSpeedTextbox(powerSpeed, innatePower) {
 		innatePower.speed = powerSpeed;
-		console.log(event)
-		event.target.classList.add("active-highlight"); //yeah but somehow i need this to switch back and forth
 		spiritBoard = spiritBoard;
 	}
 	
@@ -83,12 +81,22 @@
 					</div>
 				</div>
 				<div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
-					<div>
+					<div class="is-flex is-flex-direction-column-reverse">
 						<div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-						  <button class="button button-hold mb-0" id="fast-button" on:click={setSpeedTextbox("Fast", innatePower)}>Fast</button>
-						  <button class="button button-hold mb-0" id="slow-button" on:click={setSpeedTextbox("Slow", innatePower)}>Slow</button>
+						{#if innatePower.speed==""}
+							<button class="button is-danger is-light button-hold mb-0" id="fast-button" on:click={setSpeedTextbox("Fast", innatePower)}>Fast</button>
+							<button class="button is-info is-light button-hold mb-0" id="slow-button" on:click={setSpeedTextbox("Slow", innatePower)}>Slow</button>
+						{:else}
+							{#if innatePower.speed=="Fast" || innatePower.speed=="fast"}
+								<button class="button is-danger button-hold mb-0" id="fast-button" on:click={setSpeedTextbox("Fast", innatePower)}>Fast</button>
+								<button class="button is-info is-light button-hold mb-0" id="slow-button" on:click={setSpeedTextbox("Slow", innatePower)}>Slow</button>
+							{:else}
+								<button class="button is-danger is-light button-hold mb-0" id="fast-button" on:click={setSpeedTextbox("Fast", innatePower)}>Fast</button>
+								<button class="button is-info button-hold mb-0" id="slow-button" on:click={setSpeedTextbox("Slow", innatePower)}>Slow</button>
+							{/if}
+						{/if}
 						</div>
-						<div class="control">
+<!-- 						<div class="control">
 							<input
 								id={`powerSpeed${i}`}
 								class="input"
@@ -97,23 +105,23 @@
 								disabled
 								bind:value={innatePower.speed}
 							/>
-						</div>
+						</div> -->
 					</div>
 					<div class="is-flex is-flex-direction-column is-flex-wrap-nowrap">
 						<div class="is-flex is-flex-direction-row-reverse is-flex-wrap-nowrap">
-							<div class="control">
-								<input
-									id={`targetTitle${i}`}
-									class="input"
-									type="text"
-									placeholder="Target Title"
-									disabled
-									bind:value={innatePower.targetTitle}
-								/>
-							</div>
 							<div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-							  <button class="button mb-0" on:click={setTargetTextbox("Target Land", innatePower)}>Land</button>
-							  <button class="button mb-0" on:click={setTargetTextbox("Target", innatePower)}>Spirit</button>
+							{#if innatePower.targetTitle==""}
+							  <button class="button is-success is-light is-small mb-0" on:click={setTargetTextbox("Target Land", innatePower)}>Target Land</button>
+							  <button class="button is-success is-light is-small mb-0" on:click={setTargetTextbox("Target", innatePower)}>Target</button>
+							{:else}
+								{#if innatePower.targetTitle=="target" || innatePower.targetTitle=="Target"}
+									<button class="button is-success is-light is-small mb-0" on:click={setTargetTextbox("Target Land", innatePower)}>Target Land</button>
+									<button class="button is-success is-small mb-0" on:click={setTargetTextbox("Target", innatePower)}>Target</button>
+								{:else}
+									<button class="button is-success is-small mb-0" on:click={setTargetTextbox("Target Land", innatePower)}>Target Land</button>
+									<button class="button is-success is-light is-small mb-0" on:click={setTargetTextbox("Target", innatePower)}>Target</button>
+								{/if}
+							{/if}
 							</div>
 						</div>
 						<div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
@@ -147,7 +155,7 @@
 						bind:value={innatePower.note}
 					/>
 				</div>
-				<button class="button is-primary is-light" on:click={addLevel(i)}>Add Level</button>
+				<button class="button is-primary is-light is-small" on:click={addLevel(i)}>Add Level</button>
 				{#each innatePower.levels as level, j (level.id)}
 					<div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
 						<div class="control">
@@ -176,12 +184,6 @@
 						<button class="button is-primary is-light is-warning row-button" on:click={removeLevel(i,j)}>Remove</button>
 					</div>
 				{/each}
-<!-- 				{#if !innatePower.noteShow}
-					<button class="button is-primary is-light" on:click={addNote(innatePower)}>Add Note</button>
-				{/if}
-				{#if innatePower.noteShow}
-					<button class="button is-primary is-light" on:click={removeNote(innatePower)}>Delete Note</button>
-				{/if} -->
 				{/each}
 				<div class="pt-1">
 					<button class="button is-primary is-light" on:click={addInnatePower}>Add Innate Power</button>
