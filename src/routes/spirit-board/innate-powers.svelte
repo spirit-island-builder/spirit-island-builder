@@ -50,6 +50,11 @@
 		spiritBoard = spiritBoard;
 	}
 	
+	function switchLong(powerIndex, levelIndex) {
+		spiritBoard.innatePowers.powers[powerIndex].levels[levelIndex].isLong = !spiritBoard.innatePowers.powers[powerIndex].levels[levelIndex].isLong;
+		console.log('isLong='+spiritBoard.innatePowers.powers[powerIndex].levels[levelIndex].isLong)
+	}
+	
 </script>
 
 <h6 on:click={showOrHideSection} class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1" id="innatePowers">Innate Powers
@@ -74,7 +79,7 @@
 								bind:value={innatePower.name}
 							/>
 						</div>
-						<button class="button is-primary is-light" on:click={removeInnatePower(i)}>Remove Innate Power</button>
+						<button class="button is-primary is-light is-warning" on:click={removeInnatePower(i)}>Remove Innate Power</button>
 					</div>
 				</div>
 				<div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
@@ -163,7 +168,12 @@
 								bind:value={level.effect}
 							/>
 						</div>
-						<button class="button is-primary is-light row-button" on:click={removeLevel(i,j)}>Remove</button>
+						{#if !level.isLong}
+						<button class="button is-primary is-light is-warning row-button" on:click={switchLong(i, j)}>Long</button>
+						{:else}
+						<button class="button is-primary is-warning row-button" on:click={switchLong(i, j)}>Long</button>
+						{/if}
+						<button class="button is-primary is-light is-warning row-button" on:click={removeLevel(i,j)}>Remove</button>
 					</div>
 				{/each}
 <!-- 				{#if !innatePower.noteShow}

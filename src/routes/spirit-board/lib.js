@@ -87,11 +87,12 @@ export const addInnatePower = (spiritBoard, powerName="", powerSpeed="", powerRa
 	return spiritBoard;
 };
 
-export const addLevel = (spiritBoard, powerIndex, levelThreshold="", levelEffect="") => {
+export const addLevel = (spiritBoard, powerIndex, levelThreshold="", levelEffect="",levelLong=false) => {
 	spiritBoard.innatePowers.powers[powerIndex].levels.push({
 		id: spiritBoard.innatePowers.powers[powerIndex].levels.length,
 		threshold: levelThreshold,
 		effect: levelEffect,
+		isLong: levelLong,
 	});
 	spiritBoard = spiritBoard;
 	return spiritBoard;

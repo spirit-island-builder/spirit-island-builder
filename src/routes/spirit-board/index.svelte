@@ -222,11 +222,12 @@
 					newInnatePower.setAttribute("range",power.range);
 					newInnatePower.setAttribute("target",power.target);
 					newInnatePower.setAttribute("target-title",power.targetTitle);
-					if(power.noteShow){newInnatePower.setAttribute("note",power.note);} // may need to clear it?
+					if(power.note){newInnatePower.setAttribute("note",power.note);} // may need to clear it?
 					power.levels.forEach(level => {
 						var newLevel = frame.contentDocument.createElement('level');
 						newLevel.setAttribute("threshold",level.threshold)
 						newLevel.textContent = level.effect;
+						if(level.isLong){newLevel.setAttribute("long","")}
 						newInnatePower.appendChild(newLevel)
 					});
 					innatePowerContainer.appendChild(newInnatePower)
@@ -316,7 +317,7 @@
 				spiritBoard = Lib.addInnatePower(spiritBoard,innatePower.getAttribute("name"),innatePower.getAttribute("speed"),innatePower.getAttribute("range"),innatePower.getAttribute("target"),innatePower.getAttribute("target-title"),innatePower.getAttribute("note"));
 				var htmlLevels = innatePower.querySelectorAll('level')
 				htmlLevels.forEach(htmlLevel => {
-					spiritBoard = Lib.addLevel(spiritBoard,k,htmlLevel.getAttribute("threshold"),htmlLevel.textContent.trim());
+					spiritBoard = Lib.addLevel(spiritBoard,k,htmlLevel.getAttribute("threshold"),htmlLevel.textContent.trim(),htmlLevel.hasAttribute("long"));
 				});
 			});
 		}
@@ -377,5 +378,5 @@
 		</div>
 	</div>
 	<div id="holder">
-		<iframe bind:this={frame} src='/template/MyCustomContent/MySpirit/OFFICIAL_Lure of Deep Wilderness.html' height=600 width=100% title='yay' style="display:none;" id="mod-frame"></iframe>
+		<iframe bind:this={frame} src='/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html' height=600 width=100% title='yay' style="display:none;" id="mod-frame"></iframe>
 	</div>
