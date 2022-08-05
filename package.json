@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build && mv static/test.html build",
+		"build": "vite build && cp static/test.html build",
 		"package": "svelte-kit package",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync && husky install",
