@@ -1,0 +1,4 @@
+.special-rule-name-container {
+	display: flex;
+	flex-direction: row;
+}

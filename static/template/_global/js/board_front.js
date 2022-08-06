@@ -1,4 +1,9 @@
-window.onload = function startMain() {
+window.onload = (event) => {
+	startMain();
+	console.log("Page Loaded");
+};
+
+function startMain() {
 	parseGrowthTags();
 
 	if (document.getElementById("presence-table")) {
@@ -20,7 +25,7 @@ window.onload = function startMain() {
 	}, 200);
 	dynamicSpecialRuleHeight(board);
 	addImages(board);
-};
+}
 
 function dynamicSpecialRuleHeight(board) {
 	const specialRules = board.querySelectorAll("special-rules-container")[0];
@@ -43,7 +48,7 @@ function dynamicSpecialRuleHeight(board) {
 
 function addImages(board) {
 	const spiritImage = board.getAttribute("spirit-image");
-	const artistCredit = document.getElementsByTagName("artist-name");
+	const artistCredit = board.getElementsByTagName("artist-name");
 	const spiritBorder = board.getAttribute("spirit-border");
 
 	const imageSize = board.getAttribute("spirit-image-scale");
@@ -79,14 +84,15 @@ function addImages(board) {
 	}
 
 	//Add Meeple
-	const spiritName = document.getElementsByTagName("spirit-name");
+	const spiritName = board.getElementsByTagName("spirit-name");
 	spiritName[0].outerHTML += "<custom-meeple></custom-meeple>";
 }
 
 function parseGrowthTags() {
-	// console.log("BUILDING GROWTH PANEL")
+	console.log("BUILDING GROWTH PANEL");
 	var fullHTML = "";
-	var growthHTML = document.getElementsByTagName("growth");
+	const board = document.querySelectorAll("board")[0];
+	var growthHTML = board.getElementsByTagName("growth");
 
 	var growthTitle = "<section-title>" + growthHTML[0].title + "</section-title>";
 
@@ -147,8 +153,8 @@ function parseGrowthTags() {
 	fullHTML +=
 		growthTitle + subTitle + newGrowthTableTagOpen + newGrowthCellHTML + newGrowthTableTagClose;
 
-	document.getElementsByTagName("growth")[0].removeAttribute("title");
-	document.getElementsByTagName("growth")[0].innerHTML = fullHTML;
+	board.getElementsByTagName("growth")[0].removeAttribute("title");
+	board.getElementsByTagName("growth")[0].innerHTML = fullHTML;
 
 	function writeGrowthNode(childElement, nextElement, headerIndex) {
 		const cost = childElement.getAttribute("cost");
@@ -181,8 +187,8 @@ function parseGrowthTags() {
 			"animal",
 		]);
 
-		// console.log("--Growth Group:--")
-		// console.log(classPieces)
+		console.log("--Growth Group:--");
+		console.log(classPieces);
 
 		// Create some tools for 'or' growth options
 		let isOr = false;
@@ -195,7 +201,7 @@ function parseGrowthTags() {
 		for (j = 0; j < classPieces.length; j++) {
 			//Find a parenthesis and split out the string before it
 			let growthItem = classPieces[j].split("(")[0].split("^")[0];
-			// console.log("Growth Option: "+classPieces[j]+", "+j)
+			console.log("Growth Option: " + classPieces[j] + ", " + j);
 			// Check for OR
 			var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
 			var regExpCommaNoParentheses = /,(?![^(]*\))/;
@@ -207,28 +213,28 @@ function parseGrowthTags() {
 				// orGrowthOptions = matches.split(",")
 				classPieces[j] = orGrowthOptions[1];
 				classPieces.splice(j, 0, orGrowthOptions[0]);
-				// console.log(classPieces)
-				// console.log(j)
+				console.log(classPieces);
+				console.log(j);
 				growthItem = classPieces[j].split("(")[0].split("^")[0];
 			}
 
 			// Check for Presence Node in Growth
 			if (growthItem == "presence-node") {
 				let matches = regExpOuterParentheses.exec(classPieces[j])[1];
-				// console.log(matches)
+				console.log(matches);
 				isPresenceNode = true;
 				classPieces[j] = matches;
 				growthItem = classPieces[j].split("(")[0].split("^")[0];
 			}
 
-			// console.log('growth item= '+growthItem)
+			console.log("growth item= " + growthItem);
 
 			//Find if a growth effect is repeated (Fractured Days)
 			repeatOpen = "";
 			repeatClose = "";
 			repeatText = "";
 			if (classPieces[j].split("^")[1]) {
-				// console.log("repeat detected")
+				console.log("repeat detected");
 				const repeat = classPieces[j].split("^")[1];
 				repeatOpen = "<repeat-growth><value>" + repeat + "</value></repeat-growth>";
 				repeatClose = "";
@@ -321,7 +327,7 @@ function parseGrowthTags() {
 					const matches = regExpOuterParentheses.exec(classPieces[j]);
 					const gainEnergyBy = matches[1];
 					let energyOptions = matches[1].split(",");
-					// console.log(energyOptions)
+					console.log(energyOptions);
 					let energyManyIconOpen = "";
 					let energyManyIconClose = "";
 					if (isNaN(energyOptions[0]) || energyOptions.length != 1) {
@@ -1050,9 +1056,9 @@ function parseGrowthTags() {
 				orIconsHold += growthIcons + "or";
 				orGrowthOpenHold = growthOpen;
 				orGrowthTextOpenHold = orGrowthTextOpenHold == "" ? growthTextOpen : orGrowthTextOpenHold;
-				// console.log(orGrowthTextOpenHold)
+				console.log(orGrowthTextOpenHold);
 				isOr = false;
-				// console.log(orTextHold)
+				console.log(orTextHold);
 			} else if (orTextHold) {
 				growthText = orTextHold + growthText;
 				growthIcons = "<growth-cell-double>" + orIconsHold + growthIcons + "</growth-cell-double>";
@@ -1079,18 +1085,19 @@ function parseGrowthTags() {
 }
 
 function parseEnergyTrackTags() {
-	var energyValues = document.getElementsByTagName("energy-track")[0].getAttribute("values");
+	const board = document.querySelectorAll("board")[0];
+	var energyValues = board.getElementsByTagName("energy-track")[0].getAttribute("values");
 	var energyOptions = energyValues.split(",");
 
-	var energyBanner = document.getElementsByTagName("energy-track")[0].getAttribute("banner");
-	var energyBannerScale = document
+	var energyBanner = board.getElementsByTagName("energy-track")[0].getAttribute("banner");
+	var energyBannerScale = board
 		.getElementsByTagName("energy-track")[0]
 		.getAttribute("banner-v-scale");
 	if (!energyBannerScale) {
 		energyBannerScale = "100";
 	}
 	if (energyBannerScale.at(-1) != "%") {
-		// console.log('banner reported in px')
+		console.log("banner reported in px");
 		energyBannerScale = energyBannerScale + "px";
 	}
 	var energyHTML = "";
@@ -1127,22 +1134,23 @@ function parseEnergyTrackTags() {
 			"<td" + isMiddle + ">" + getPresenceNodeHtml(nodeText, i == 0, "energy", true) + "</td>";
 	}
 	energyHTML += "</tr>";
-	document.getElementsByTagName("energy-track")[0].removeAttribute("values");
+	board.getElementsByTagName("energy-track")[0].removeAttribute("values");
 	return energyHTML;
 }
 
 function parseCardPlayTrackTags() {
-	var cardPlayValues = document.getElementsByTagName("card-play-track")[0].getAttribute("values");
+	const board = document.querySelectorAll("board")[0];
+	var cardPlayValues = board.getElementsByTagName("card-play-track")[0].getAttribute("values");
 	var cardPlayOptions = cardPlayValues.split(",");
-	var cardPlayBanner = document.getElementsByTagName("card-play-track")[0].getAttribute("banner");
-	var cardPlayBannerScale = document
+	var cardPlayBanner = board.getElementsByTagName("card-play-track")[0].getAttribute("banner");
+	var cardPlayBannerScale = board
 		.getElementsByTagName("card-play-track")[0]
 		.getAttribute("banner-v-scale");
 	if (!cardPlayBannerScale) {
 		cardPlayBannerScale = "100";
 	}
 	if (cardPlayBannerScale.at(-1) != "%") {
-		// console.log('banner reported in px')
+		console.log("banner reported in px");
 		cardPlayBannerScale = cardPlayBannerScale + "px";
 	}
 	var energyHTML = "";
@@ -1172,17 +1180,18 @@ function parseCardPlayTrackTags() {
 			"<td>" + getPresenceNodeHtml(cardPlayOptions[i], i == 0, "card", false) + "</td>";
 	}
 	cardPlayHTML += "</tr>";
-	document.getElementsByTagName("card-play-track")[0].removeAttribute("values");
+	board.getElementsByTagName("card-play-track")[0].removeAttribute("values");
 	return cardPlayHTML;
 }
 
 function enhancePresenceTracksTable() {
-	// console.log("BUILDING PRESENCE TRACK PANEL")
-	var elmt = document.getElementsByTagName("presence-tracks")[0];
+	console.log("BUILDING PRESENCE TRACK PANEL");
+	const board = document.querySelectorAll("board")[0];
+	var elmt = board.getElementsByTagName("presence-tracks")[0];
 	var title = document.createElement("section-title");
 	title.innerHTML = "Presence";
 	elmt.insertBefore(title, elmt.firstChild);
-	// console.log('creating dynamic presence tracks...')
+	console.log("creating dynamic presence tracks...");
 	var table = document.getElementById("presence-table");
 	table.innerHTML = table.innerHTML.replaceAll('middle=""', 'rowspan="2" class="middle"');
 
@@ -1203,7 +1212,6 @@ function enhancePresenceTracksTable() {
 
 function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
 	var result = "";
-
 	//Find values between parenthesis
 	var regExp = /\(([^)]+)\)/;
 
@@ -1316,7 +1324,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
 					subText = "Add 1 " + Capitalise(tokenAdd) + " to 1 of your Lands";
 					break;
 				case "custom":
-					// console.log(splitOptions[0])
+					console.log(splitOptions[0]);
 					var matches = regExp.exec(splitOptions[0]);
 					var custom_node = matches[1].split(";");
 					var custom_text = custom_node[0];
@@ -1650,8 +1658,9 @@ function Capitalise(str) {
 }
 
 function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
-	// console.log("BUILDING PRESENCE TRACK PANEL")
-	document.getElementsByTagName("presence-tracks")[0].innerHTML =
+	console.log("BUILDING PRESENCE TRACK PANEL");
+	const board = document.querySelectorAll("board")[0];
+	board.getElementsByTagName("presence-tracks")[0].innerHTML =
 		"<section-title>Presence</section-title>" +
 		"<table id='presence-table'>" +
 		energyHTML +
@@ -1660,12 +1669,13 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
 }
 
 function dynamicCellWidth() {
-	// console.log("RESIZING: Growth")
+	console.log("RESIZING: Growth");
+	const board = document.querySelectorAll("board")[0];
 
 	// Growth Sizing
-	growthCells = document.getElementsByTagName("growth-cell");
+	growthCells = board.getElementsByTagName("growth-cell");
 	growthCellCount = growthCells.length;
-	growthBorders = Array.from(document.getElementsByTagName("growth-border"));
+	growthBorders = Array.from(board.getElementsByTagName("growth-border"));
 	growthBorderCount = growthBorders.length;
 
 	let borderPixels = 0;
@@ -1674,14 +1684,14 @@ function dynamicCellWidth() {
 	)) {
 		borderPixels += borderWidth;
 	}
-	let growthTable = document.getElementsByTagName("growth-table")[0];
+	let growthTable = board.getElementsByTagName("growth-table")[0];
 	let totalWidth = 0;
 	for (i = 0; i < growthCells.length; i++) {
 		totalWidth += growthCells[i].offsetWidth;
 	}
 
 	// Add additional Growth Row if necessary
-	let growthTexts = document.getElementsByTagName("growth-text");
+	let growthTexts = board.getElementsByTagName("growth-text");
 	let tallGrowthText = false;
 	for (i = 0; i < growthTexts.length; i++) {
 		tallGrowthText = growthTexts[i].offsetHeight > 95 ? true : tallGrowthText;
@@ -1701,13 +1711,15 @@ function dynamicCellWidth() {
 		var growthLine = document.createElement("growth-row-line");
 		newGrowthTable.innerHTML = lastGrowth;
 		document.getElementsByTagName("growth")[0].append(growthLine);
+		console.log("HERE IS THE GROWTH TABLE");
+		console.log(newGrowthTable);
 		document.getElementsByTagName("growth")[0].append(newGrowthTable);
 	}
 
 	//Iterate through growth table(s) to resize
 	const largeCellScale = 1.5;
 	const extraLargeCellScale = 1.8;
-	const growthTables = document.getElementsByTagName("growth-table");
+	const growthTables = board.getElementsByTagName("growth-table");
 
 	let tightFlag = false; // flag for tightening presence tracks later
 	for (i = 0; i < growthTables.length; i++) {
@@ -1715,9 +1727,9 @@ function dynamicCellWidth() {
 		if (growthTables.length > 1) {
 			growthTable.style.marginTop = "10px";
 			tightFlag = true;
-			// console.log('will tighten presence tracks')
+			console.log("will tighten presence tracks");
 		}
-		const growthCells = document
+		const growthCells = board
 			.getElementsByTagName("growth-table")
 			[i].getElementsByTagName("growth-cell");
 		const growthTableStyle = window.getComputedStyle(growthTable);
@@ -1766,12 +1778,12 @@ function dynamicCellWidth() {
 			totalWidth += growthCells[j].offsetWidth;
 		}
 		if (i > 0) {
-			growthLines = document.getElementsByTagName("growth-row-line");
+			growthLines = board.getElementsByTagName("growth-row-line");
 			growthLines[i - 1].style.width = totalWidth + "px";
 		}
 	}
 
-	growthTable = document.getElementsByTagName("growth-table")[0];
+	growthTable = board.getElementsByTagName("growth-table")[0];
 	const headerWith = {};
 	const headerAdditionalWidth = {};
 	let maxIndex = undefined;
@@ -1802,7 +1814,7 @@ function dynamicCellWidth() {
 		}
 	}
 
-	const subGrowthTitle = document.getElementsByTagName("sub-section-title");
+	const subGrowthTitle = board.getElementsByTagName("sub-section-title");
 	let position = 0;
 	for (let i = 0; i < subGrowthTitle.length; i++) {
 		subGrowthTitle[i].style.left = `${position}px`;
@@ -1811,13 +1823,13 @@ function dynamicCellWidth() {
 	}
 
 	// Final resize (catches really big things that were missed)
-	let growthItems = document.getElementsByTagName("growth-cell");
+	let growthItems = board.getElementsByTagName("growth-cell");
 	for (i = 0; i < growthItems.length; i++) {
 		if (checkOverflowWidth(growthItems[i])) {
 			var children = growthItems[i].children;
-			// console.log('scroll width is larger for')
-			// console.log(growthItems[i])
-			// console.log(children)
+			console.log("scroll width is larger for");
+			console.log(growthItems[i]);
+			console.log(children);
 			var childrenWidth = 0;
 			for (var j = 0; j < children.length; j++) {
 				childrenWidth = Math.max(children[j].offsetWidth, childrenWidth);
@@ -1827,25 +1839,25 @@ function dynamicCellWidth() {
 	}
 
 	// Balance Growth Text
-	maxGrowthTextHeight = newGrowthTable != undefined ? 50 : 100;
+	maxGrowthTextHeight = newGrowthTable !== undefined ? 50 : 100;
 	for (i = 0; i < growthTexts.length; i++) {
 		if (growthTexts[i].offsetHeight < 50) {
-			// console.log('balancing lines: ')
-			// console.log(growthTexts[i])
+			console.log("balancing lines: ");
+			console.log(growthTexts[i]);
 
 			balanceText(growthTexts[i]);
 		} else if (growthTexts[i].offsetHeight > maxGrowthTextHeight) {
-			// console.log('reducing lines: ')
-			// console.log(growthTexts[i])
+			console.log("reducing lines: ");
+			console.log(growthTexts[i]);
 
 			reduceLines(growthTexts[i]);
 		}
 	}
 
 	// Innate Power Sizing
-	// console.log("RESIZING: Innate Powers")
+	console.log("RESIZING: Innate Powers");
 	// Innate Power Notes (scale font size)
-	noteBlocks = document.getElementsByTagName("note");
+	noteBlocks = board.getElementsByTagName("note");
 	for (let i = 0; i < noteBlocks.length; i++) {
 		let noteHeight = noteBlocks[i].offsetHeight;
 		let j = 0;
@@ -1864,7 +1876,7 @@ function dynamicCellWidth() {
 	}
 
 	// Innate Power Thresholds
-	thresholds = document.getElementsByTagName("threshold");
+	thresholds = board.getElementsByTagName("threshold");
 	thresholdsCount = thresholds.length;
 	ICONWIDTH = 60;
 	let dynamicThresholdWidth = [];
@@ -1886,7 +1898,7 @@ function dynamicCellWidth() {
 	}
 
 	// Innate Power Descriptions
-	var description = document.getElementsByClassName("description");
+	var description = board.getElementsByClassName("description");
 	for (i = 0; i < description.length; i++) {
 		// Scale the text width to the threshold size...
 		description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
@@ -1901,9 +1913,9 @@ function dynamicCellWidth() {
 		}
 	}
 
-	// console.log("RESIZING: Presence Tracks")
+	console.log("RESIZING: Presence Tracks");
 	// Presence node subtext (for longer descriptions, allows flowing over into neighbors.
-	var presenceTrack = document.getElementsByTagName("presence-tracks")[0];
+	var presenceTrack = board.getElementsByTagName("presence-tracks")[0];
 	var subtext = presenceTrack.getElementsByTagName("subtext");
 	var presence_nodes = presenceTrack.getElementsByTagName("presence-node");
 	let adjustment_flag = 0;
@@ -1930,9 +1942,13 @@ function dynamicCellWidth() {
 				subtext[i].className = "adjust-subtext";
 				textHeight = subtext[i].offsetHeight;
 				adjustment_flag = 1;
-				// console.log('adjusting node: '+subtext[i].innerHTML)
+				console.log("adjusting node: " + subtext[i].innerHTML);
 			} else {
-				// console.log('rejected text adjstment for: '+subtext[i].innerHTML+' :Reason: neighbor already adjusted: ')
+				console.log(
+					"rejected text adjstment for: " +
+						subtext[i].innerHTML +
+						" :Reason: neighbor already adjusted: "
+				);
 				adjustment_flag = 0;
 			}
 		} else {
@@ -1955,34 +1971,36 @@ function dynamicCellWidth() {
 		presenceNode[0].style.top = firstRowHeight / 2 + "px";
 	}
 
-	// console.log('CHECKING INNATE NOTES FOR SPACE IF NEEDED')
+	console.log("CHECKING INNATE NOTES FOR SPACE IF NEEDED");
 	// Size Innate Power box
-	growth = document.getElementsByTagName("growth")[0];
-	presenceTracks = document.getElementsByTagName("presence-tracks")[0];
-	right = document.getElementsByTagName("right")[0];
-	innatePowers = document.getElementsByTagName("innate-powers")[0];
+	growth = board.getElementsByTagName("growth")[0];
+	presenceTracks = board.getElementsByTagName("presence-tracks")[0];
+	right = board.getElementsByTagName("right")[0];
+	innatePowers = board.getElementsByTagName("innate-powers")[0];
 	innatePowers.style.height =
 		right.clientHeight - presenceTracks.clientHeight - growth.clientHeight + "px";
 
 	// Shrink Innate Power notes if needed for space
-	var innatePowerBox = document.getElementsByTagName("innate-powers")[0];
+	var innatePowerBox = board.getElementsByTagName("innate-powers")[0];
 	let k = 0;
 	if (checkOverflowHeight(innatePowerBox)) {
-		// console.log('IP overflowing, shrinking notes (if applicable)...')
+		console.log("IP overflowing, shrinking notes (if applicable)...");
 		descriptionContainers = innatePowerBox.getElementsByTagName("description-container");
 		tallest = 0;
 		tallest_index = 0;
 		for (i = 0; i < descriptionContainers.length; i++) {
-			// console.log('client height = '+descriptionContainers[i].clientHeight)
 			if (descriptionContainers[i].clientHeight > tallest) {
 				tallest = descriptionContainers[i].clientHeight;
 				tallest_index = i;
 			}
 		}
-		// console.log('tallest is: ' + tallest_index)
-		while (checkOverflowHeight(innatePowerBox)) {
-			noteBox = descriptionContainers[tallest_index].getElementsByTagName("note")[0];
-			if (noteBox) {
+		console.log("tallest is Innate Power: " + (tallest_index + 1));
+
+		//check for note in tallest innate power
+		noteBox = descriptionContainers[tallest_index].getElementsByTagName("note")[0];
+		if (noteBox) {
+			console.log("notebox detected, attempting to shrink");
+			while (checkOverflowHeight(innatePowerBox)) {
 				var style = window.getComputedStyle(noteBox, null).getPropertyValue("font-size");
 				var fontSize = parseFloat(style);
 				noteBox.style.fontSize = fontSize - 1 + "px";
@@ -1990,12 +2008,14 @@ function dynamicCellWidth() {
 				var lineHeight = parseFloat(line);
 				noteBox.style.lineHeight = lineHeight - 1 + "px";
 				// safety valve
-				j += 1;
-				if (j > 10) {
-					// console.log('Notes shrunk as far as reasonable')
+				k += 1;
+				if (k > 10) {
+					console.log("Notes shrunk as far as reasonable");
 					break;
 				}
 			}
+		} else {
+			console.log("notebox not detected in tallest element");
 		}
 	}
 }
@@ -2011,8 +2031,8 @@ function balanceText(el) {
 		currentHeight = el.offsetHeight;
 		j += 1;
 		if (j > 10) {
-			// console.log('Max text reduction reached for')
-			// console.log(el)
+			console.log("Max text reduction reached for");
+			console.log(el);
 			break;
 		}
 	}
@@ -2031,8 +2051,8 @@ function reduceLines(el) {
 		currentHeight = el.offsetHeight;
 		j += 1;
 		if (j > 10) {
-			// console.log('Max text reduction reached for')
-			// console.log(el)
+			console.log("Max text reduction reached for");
+			console.log(el);
 			break;
 		}
 	}
@@ -2046,9 +2066,9 @@ function checkOverflowWidth(el) {
 	}
 	let isOverflowing = el.clientWidth + 30 < el.scrollWidth ? el.scrollWidth : false;
 	el.style.overflow = curOverflow;
-	// /* 	console.log('el.clientHeight='+el.clientHeight)
-	// console.log('el.scrollHeight='+el.scrollHeight)
-	// console.log('isOverflowing?='+isOverflowing) */
+	/* 	console.log('el.clientHeight='+el.clientHeight)
+	console.log('el.scrollHeight='+el.scrollHeight)
+	console.log('isOverflowing?='+isOverflowing) */
 
 	return isOverflowing;
 }
@@ -2065,20 +2085,22 @@ function checkOverflowHeight(el) {
 }
 
 function parseInnatePowers() {
-	var fullHTML = "";
+	console.log("PARSING INNATE POWERS");
+	const board = document.querySelectorAll("board")[0];
 
-	var innateHTML = document.getElementsByTagName("quick-innate-power");
+	var fullHTML = "";
+	var innateHTML = board.getElementsByTagName("quick-innate-power");
 
 	for (i = 0; i < innateHTML.length; i++) {
 		fullHTML += parseInnatePower(innateHTML[i]);
 	}
-	document.getElementsByTagName("innate-powers")[0].innerHTML =
+	board.getElementsByTagName("innate-powers")[0].innerHTML =
 		"<section-title>Innate Powers</section-title><innate-power-container>" +
 		fullHTML +
 		"</innate-power-container>";
 
 	//Enable custom spacing
-	var levelList = document.getElementsByClassName("description");
+	var levelList = board.getElementsByClassName("description");
 
 	for (let j = 0; j < levelList.length; j++) {
 		ruleLines = levelList[j].innerHTML.split("\n");
@@ -2163,7 +2185,7 @@ function parseInnatePower(innatePowerHTML) {
 	for (j = 0; j < currentLevels.length; j++) {
 		var currentThreshold = currentLevels[j].getAttribute("threshold");
 		var isText = currentLevels[j].getAttribute("text");
-		// console.log(isText)
+		console.log(isText);
 		if (isText != null) {
 			// User wants a special text-only line
 			currentPowerHTML += "<level><level-note>";
@@ -2206,7 +2228,7 @@ function parseInnatePower(innatePowerHTML) {
 				} else if (currentElement.toUpperCase().startsWith("TEXT")) {
 					if (currentElement.split("(")[1]) {
 						customText = regExp.exec(currentElement)[1];
-						// console.log(customText)
+						console.log(customText);
 						currentThresholdPieces[k] = currentNumeral + " " + customText;
 					} else {
 						currentThresholdPieces[k] = currentNumeral + " " + "X";
@@ -2214,7 +2236,7 @@ function parseInnatePower(innatePowerHTML) {
 				} else if (currentElement.toUpperCase().startsWith("COST")) {
 					if (currentElement.split("(")[1]) {
 						customCost = regExp.exec(currentElement)[1];
-						// console.log(customCost)
+						console.log(customCost);
 						currentThresholdPieces[k] =
 							"<cost-threshold>Cost<icon class='" +
 							customCost +
@@ -2243,10 +2265,13 @@ function parseInnatePower(innatePowerHTML) {
 }
 
 function parseSpecialRules() {
-	var specialRules = document.getElementsByTagName("special-rules-container")[0];
+	console.log("PARSING SPECIAL RULES");
+	const board = document.querySelectorAll("board")[0];
+
+	var specialRules = board.getElementsByTagName("special-rules-container")[0];
 
 	// Enable snake-like presence track in special rules
-	var specialTrack = document.getElementsByTagName("special-rules-track")[0];
+	var specialTrack = board.getElementsByTagName("special-rules-track")[0];
 	if (specialTrack) {
 		var specialValues = specialTrack.getAttribute("values");
 		var specialOptions = specialValues.split(",");
@@ -2257,7 +2282,7 @@ function parseSpecialRules() {
 			specialHTML += "<td>" + getPresenceNodeHtml(nodeText, i == 0, "special", true) + "</td>";
 		}
 		specialHTML += "</tr>";
-		document.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
+		board.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
 		specialTrack.innerHTML = specialHTML;
 		var subtextList = specialTrack.getElementsByTagName("subtext");
 		for (var i = subtextList.length - 1; i >= 0; --i) {

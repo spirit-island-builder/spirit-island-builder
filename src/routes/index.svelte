@@ -4,7 +4,7 @@
 
 <nav class="navbar">
 	<div class="navbar-brand">
-		<h1 class="title is-1">Build Your Spirit Island Components!</h1>
+		<h1 class="title is-1">Build Custom Spirit Island Components!</h1>
 	</div>
 </nav>
 <div class="container">
