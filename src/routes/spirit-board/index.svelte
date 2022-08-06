@@ -429,6 +429,20 @@
     copyHTML();
     document.getElementById("scaled-frame").contentWindow.startMain();
   }
+  
+  let frameLarge = false;
+  function toggleSize() {
+    var displayFrame = document.getElementById("scaled-frame")
+    var displayWrap = document.getElementById("board-wrap")
+    if(!frameLarge){
+      displayFrame.style.webkitTransform = "scale(0.75)";
+      displayWrap.style.height="915px";
+    }else{
+      displayFrame.style.webkitTransform = "scale(0.55)";
+      displayWrap.style.height="670px";
+    }
+    frameLarge=!frameLarge;
+  }
 </script>
 
 <h5 class="title is-5">Spirit Board</h5>
@@ -454,11 +468,12 @@
     title="yay" />
 </div>
 <div class="field mb-1">
-  <button class="button is-primary is-light" on:click={readHTML}>Load File into Form</button>
-  <button class="button is-primary is-light" on:click={setBoardValues(spiritBoard)}
-    >Save File</button>
+  <button class="button is-primary is-light" on:click={readHTML}
+    >Load File into Form</button>
   <button class="button is-primary is-light" on:click={reloadPreview}
     >Save & Generate Spirit Board</button>
+  <button class="button is-primary is-light" on:click={toggleSize}
+    >Toggle Size</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
