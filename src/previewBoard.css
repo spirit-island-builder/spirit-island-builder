@@ -1,26 +1,26 @@
 #board-wrap {
-	width: 100%;
-	height: 670px;
-	padding: 0;
-	overflow: hidden;
+  width: 100%;
+  height: 670px;
+  padding: 0;
+  overflow: hidden;
 }
 #scaled-frame {
-	width: 1800px;
-	height: 1210px;
-	border: 0px;
+  width: 1800px;
+  height: 1210px;
+  border: 0px;
 }
 #scaled-frame {
-	zoom: 0.55;
-	-moz-transform: scale(0.55);
-	-moz-transform-origin: 0 0;
-	-o-transform: scale(0.55);
-	-o-transform-origin: 0 0;
-	-webkit-transform: scale(0.55);
-	-webkit-transform-origin: 0 0;
+  zoom: 0.55;
+  -moz-transform: scale(0.55);
+  -moz-transform-origin: 0 0;
+  -o-transform: scale(0.55);
+  -o-transform-origin: 0 0;
+  -webkit-transform: scale(0.55);
+  -webkit-transform-origin: 0 0;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
-	#scaled-frame {
-		zoom: 1;
-	}
+  #scaled-frame {
+    zoom: 1;
+  }
 }
