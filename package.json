@@ -1,38 +1,38 @@
 {
-	"name": "spirit-island-builder",
-	"version": "0.0.1",
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"package": "svelte-kit package",
-		"preview": "vite preview",
-		"prepare": "svelte-kit sync && husky install",
-		"lint": "prettier --check --plugin-search-dir=. . && eslint .",
-		"format": "prettier --write --plugin-search-dir=. .",
-		"svelteCheck": "svelte-check"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/adapter-cloudflare": "^1.0.0-next.31",
-		"@sveltejs/adapter-static": "^1.0.0-next.38",
-		"@sveltejs/kit": "next",
-		"cross-env": "^7.0.3",
-		"eslint": "^8.16.0",
-		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-svelte3": "^4.0.0",
-		"husky": "^8.0.1",
-		"lint-staged": "^13.0.3",
-		"prettier": "^2.6.2",
-		"prettier-plugin-svelte": "^2.7.0",
-		"svelte": "^3.44.0",
-		"svelte-check": "^2.8.0",
-		"vite": "^3.0.0"
-	},
-	"type": "module",
-	"lint-staged": {
-		"*.{js,css,md,svelte}": [
-			"eslint",
-			"prettier --write --plugin-search-dir=."
-		]
-	}
+  "name": "spirit-island-builder",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "package": "svelte-kit package",
+    "preview": "vite preview",
+    "prepare": "svelte-kit sync && husky install",
+    "lint": "prettier --check --plugin-search-dir=. . && eslint .",
+    "format": "prettier --write --plugin-search-dir=. .",
+    "svelteCheck": "svelte-check"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "next",
+    "@sveltejs/adapter-cloudflare": "^1.0.0-next.31",
+    "@sveltejs/adapter-static": "^1.0.0-next.38",
+    "@sveltejs/kit": "next",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.16.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-svelte3": "^4.0.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.6.2",
+    "prettier-plugin-svelte": "^2.7.0",
+    "svelte": "^3.44.0",
+    "svelte-check": "^2.8.0",
+    "vite": "^3.0.0"
+  },
+  "type": "module",
+  "lint-staged": {
+    "*.{js,css,md,svelte}": [
+      "eslint",
+      "prettier --write --plugin-search-dir=."
+    ]
+  }
 }
