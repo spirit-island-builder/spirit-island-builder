@@ -161,14 +161,14 @@ The two presence tracks (energy & plays) are filled out here, with options for s
 |Pay 2 to Gain Power Card|gain-card-pay-2|Pay 2 Energy to Gain Power Card|Many Minds cardplay track: 1,2,gain-card-pay-2,3,3,4,5|
 |Gain Card Play|gain-card-play|Gain an additional card play not in the normal way (think Stone or Finder)|Stone energy track: 2,3,gain-card-play^minor,4,gain-card-play^minor,6,gain-card-play^minor|
 |Gain Range|gain-range(x)|Gain +x range||
-||gain-range(x;y)|Gain +x range on "y"|range(1,everything)|
+||gain-range(x;y)|Gain +x range on "y"|range(1;everything)|
 |Add Token|token(x)|Adds a token x to 1 of your lands||
 |Notate with Icon (like Stone)|^x|Puts icon x in top left corner of presence node|Stone top row: 2,3,gain-card-play^minor,4,gain-card-play^minor,6,gain-card-play^minor|
 |Notate with Energy (like Starlight)|^energy(x)|Puts an energy icon in the top left with value x (can be negative, use + to show +). Recommended to use with custom|custom(Pay 2 Energy to Gain a Card Play,gain-card-play)^energy(-2)|
 |Forget Power|forget-power-card|Forget a power card. Unlikely to be useful because presence track actions are optional|Custom energy track: 1,3+forget-power-card,5+forget-power-card,7+forget-power-card|
 |Custom|custom(*your_text*)|Add custom text to the presence node. Image will be !!!.|Custom energy track: 1,2,custom(Draw 1 Minor Power),3,water,4|
 ||custom(*your_text*;{x})|Add custom text to the presence node. x is an icon(s) and/or text. Note the semicolon.|Custom energy track: 1,2,custom(Destroy 1 Town or City;{town}/{city}),3,water,4|
-|Middle Nodes|middle(~node text~)|Wrap your presence node options in middle() to have them appear in the middle of the tracks. Only do this to energy track nodes.|Serpent energy track: 1,fire,any,reclaim-one,**middle(earth)**,6,any,12|
+|Middle Nodes|middle(wrap other node options)|Wrap your presence node options in middle() to have them appear in the middle of the tracks. Only do this to energy track nodes.|Serpent energy track: 1,fire,any,reclaim-one,**middle(earth)**,6,any,12|
 
 </details>
 
