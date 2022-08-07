@@ -1,6 +1,6 @@
 # Spirit Board Editor Interface
 
-The fastest way to get started is to start from an example in the "My Custom Content/My Spirits" folder. Return here for detailed explanations of options for different parts of the board.
+Welcome to the Spirit Island Spirit Board editor! This document will help you fill in the various fields in the editor.
 
 ### General Icons
 Icons for invaders, elements, dahan, etc can be used by enclosing its name with "{}". For example, {dahan} or {fire}. Here is a list of what is available:
@@ -17,13 +17,9 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - Range icons (range, range-0, range-1, range-2, range-3, range-4, jungle-presence, sand-presence, mountain-presence, wetland-presence)
 - Targeting icons (spirit)  
 - Power effect icon (isolate, gain-range-1, gain-range-2, gain-range-3, gain-range-x)
-- Growth icons (see [Growth](#growth) section and [Supported Growth Group Values](#supported-growth-group-values) for examples)
+- Growth icons (see [Growth](#growth) section and [Supported Growth Actions](#supported-growth-actions) for examples)
 - Presence track icons (see [Presence Track](#presence-tracks) section for examples)
-- Custom icons can be added in the \<head\>\<style\> section at the top of the spirit board HTML
-	 - Save the custom icon image file in the same folder as the HTML
-	 - Update the custom icon reference with the .png or .jpg of the custom icon
-	 - Use the icon name 'custom1' (or custom2 or custom3) to use your icons in your design
-	 - Example: icon.custom1{background-image: url('demo_custom_icon.png'); }
+- Custom icons are not yet fully implemented.
 
 
 ### Spirit Name & Art
@@ -48,29 +44,29 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 </details>
 
 ### Custom Icons
-
+Not fully implemented.
 
 ### Growth
 Growth is broken into Growth Sets, Groups, and Actions. 
-- Growth Directions: When NOT using sets, the Growth Directions tell the player how many growth groups to pick (usually, Pick One or Pick Two).
-- **Growth Sets** are used for cases like Lure and Rampant Spread of Green, where the player has two sets to choose from.
-  - Use Growth Sets: Adds Growth Sets to the interface. All Growth Groups are automatically added to the first Set.
+- Growth Directions: When NOT using sets, the Growth Directions tell the player how many growth groups to pick (usually, Pick One or Pick Two). When using Sets, these instructions are instead added to the set.
+- **Growth Sets** are used for Growth on spirits such as Lure and Spread of Rampant Green, where the player has two sets to choose from.
+  - Use Growth Sets: Adds Growth Sets to the interface. All current Growth Groups are automatically added to the first Set.
   - Growth Set Choice: The instructions for the Growth Set, such as 'Pick one of' or 'Always'.
   - Add Growth Set: Adds additional Growth Sets.
   - **X**: Deletes the current Growth Set and all of its Growth Groups and Actions
   - Remove All Growth Sets: Switches back to not using Growth Sets. All Growth Groups & Actions are preserved.
-- **Growth Groups** are clusters of Growth Action. During play, the player typically chooses on Growth Group and then does the Growth Actions in that Group. 
+- **Growth Groups** are clusters of Growth Actions. During play, the player typically chooses on Growth Group and then does the Growth Actions in that Group. 
   - Add Cost: Optional. Allows for an energy cost associated with this group (as seen on Keeper).
   - Add Tint: Optional. Allows a color shift on growth options (as seen on Spread of Rampant Green).
   - Add Growth Group: Adds an additional Growth Group.
   - **X**: Deletes the current Growth Group & all of its Growth Actions
-- **Growth Actions** are the individual growth actions, such as gaining energy or adding a presence. These are detailed below.
+- **Growth Actions** are the individual growth actions, such as gaining energy or adding a presence. How to write these actions are detailed below.
   - Add Growth Action: Adds an additional Growth Action to the Group.
   - Remove: Deletes the Growth Action.
 
 #### Supported Growth Actions
 <details>
-  <summary>Expand for Supported Growth Actions</summary>
+  <summary>Click to Expand for Supported Growth Actions</summary>
 
 |Category|Action|Usage|Details|Examples|
 |------|------|------|------|----|
@@ -81,16 +77,16 @@ Growth is broken into Growth Sets, Groups, and Actions.
 ||Add Presence with Multiple Conditions|add-presence(x,y,z,...,*and/or*)|Add a Presence with multiple conditions y, z, etc at x Range, the last parameter must be 'or' or 'and'.|Sharp Fangs: <br>add-presence(3,jungle,beast,or)<br>Vengeance: <br>add-presence(2,town,city,blight,or)|
 ||Add Presence and/or Tokens|add-presence(x,token,y,and/or)|Add a Presence and/or a token y (beasts, disease, etc) at x Range.|Many Minds: <br>add-presence(3,token,beast,and)<br>Vengeance: <br>add-presence(1,token,disease,or)|
 ||Add Presence with Custom Text|add-presence(x,text,*your_text_here*)|Add a Presence at x Range. The presence text will read "Add a Presence *your_text_here*". The icon will be **!!!**||
-||Add Presence with Custom Text and Icon(s)|add-presence(x,text,*your_text_here*,y,...)|Add a Presence at x Range. The presence text will read "Add a Presence *your_text_here*". The icon will be y and any number of additional icons||
-|Gaining Elements|Gain One Element|gain-element(x)|Gain Element x, which can by all the elements or 'any' or 'star'|'star' is the Starlight element icon|
-||Gain Multiple Elements|gain-element(x,y)|If y is a number, gain y of x Element||
-||Gain Multiple Elements|gain-element(x,y,z,...)|If y is an element, gain x or y or z Elements|Lure: <br>gain-element(moon,air,plant)|
-||Gain Multiple Elements|gain-element(x,y,z,...,*and*)|Gain elements x, y, and z (or more). The last option must *and*||
+||Add Presence with Custom Text and Icon(s)|add-presence(x,text,*your_text_here*,y,...)|Add a Presence at x Range. The presence text will read "Add a Presence *your_text_here*". The icon will be y and any number of additional icons separated by commas||
+|Gaining Elements|Gain One Element|gain-element(x)|Gain Element x, which can be any the elements or 'any' or 'star'|'star' is the Starlight element icon|
+||Gain Multiple of the Same Element|gain-element(x,y)|If y is a number, gain y of x Element||
+||Gain a Choice Elements|gain-element(x,y,z,...)|If y is an element, gain x or y or z Elements|Lure: <br>gain-element(moon,air,plant)|
+||Gain Multiple Elements|gain-element(x,y,z,...,*and*)|Gain elements x, y, and z (or more). The last option must *and*|Spreading Rot: gain-element(moon,water,earth,plant,and)|
 |Preparing/Discarding Element Markers|Prepare One Element Marker|element-marker|Prepare 1 element marker||
 ||Prepare Multiple Element Marker|element-marker(x)|Prepare x element markers (x can be more than 2, or negative)|element-marker(2)|
 ||Discard Element Markers|element-marker(-x)|x is the number to discard|element-marker(-2)|
 |Pushing|Push from Your Lands|push(x)|Push entity x (dahan, beasts, presence, etc) from 1 of your lands.||
-||Push from Your Lands|push(x,y)|Push entity x (dahan, beasts, presence, etc) a land at range y.||
+||Push at Range|push(x,y)|Push entity x (dahan, beasts, presence, etc) from a land at range y.||
 ||Push with Conditions|push(x,y)|If y is a condition, push x from 1 of your lands with y condition (sacred site, beasts, etc).||
 ||Push from Multiple Lands with Conditions|push(x,y,z)|Push x from z lands of condition y. y can be terrain types, sacred site, token types, etc. z can be a numeral or 'each' (or another word at your own risk).|Ocean: push(presence,ocean,each)|
 |Gathering|Gather into Your Lands|gather(x)|Gather entity x (dahan, beasts, presence, etc) into 1 of your lands.||
@@ -140,7 +136,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 </details>
 
 ### Presence Tracks
-The two presence tracks (energy & plays) are filled out here, with options for special tracks (such as Serpent or Finder).
+The two presence tracks (energy & plays) are filled out here, with options for special tracks (such as Serpent or Finder. See 'middle' in Supported Presence Track Options).
   - Node boxes: Each text box represents the effect of one node. See 'Supported Presence Track Options'. In most cases, icon brackets {} are NOT needed in Presence Track nodes (custom is the exception).
   - Add Node: Adds a node on the right side of the track.
   - Remove Node: Removes the right-most node of the track.
@@ -172,6 +168,7 @@ The two presence tracks (energy & plays) are filled out here, with options for s
 |Forget Power|forget-power-card|Forget a power card. Unlikely to be useful because presence track actions are optional|Custom energy track: 1,3+forget-power-card,5+forget-power-card,7+forget-power-card|
 |Custom|custom(*your_text*)|Add custom text to the presence node. Image will be !!!.|Custom energy track: 1,2,custom(Draw 1 Minor Power),3,water,4|
 ||custom(*your_text*;{x})|Add custom text to the presence node. x is an icon(s) and/or text. Note the semicolon.|Custom energy track: 1,2,custom(Destroy 1 Town or City;{town}/{city}),3,water,4|
+|Middle Nodes|middle(~node text~)|Wrap your presence node options in middle() to have them appear in the middle of the tracks. Only do this to energy track nodes.|Serpent energy track: 1,fire,any,reclaim-one,**middle(earth)**,6,any,12|
 
 </details>
 
