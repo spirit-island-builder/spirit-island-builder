@@ -218,7 +218,7 @@
         //(easiest to start fresh each time)
         presenceTrackContainer.textContent = "";
       }
-
+      checkTracksForCommas() //swap commas for semicolons
       var energyTrack = frame.contentDocument.createElement("energy-track");
       energyTrack.setAttribute("banner", spiritBoard.nameAndArt.energyBannerPath);
       energyTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.energyBannerScale);
@@ -282,6 +282,18 @@
       });
       spiritStyle.textContent = customIconText;
     }
+  }
+
+  function checkTracksForCommas() {
+    //The original template is inconsistent in its use of commas and semicolons. For Presence Tracks, commas are used to separate node values and therefore
+    //semicolons are used to separate arguments, but intuitively it should be the opposite (and Growth is indeed the opposite). Since the user of the
+    //form doesn't need to separate the node values, this will detect any 'erroneously' used commas and switch them to semicolons.
+    spiritBoard.presenceTrack.playsNodes.forEach((playsNode) => {
+      playsNode.effect = playsNode.effect.replace(',',';')
+    });
+    spiritBoard.presenceTrack.energyNodes.forEach((energyNode) => {
+      energyNode.effect = energyNode.effect.replace(',',';')
+    });
   }
 
   function showOrHideBoard() {
@@ -358,7 +370,7 @@
         });
       });
 
-      //Set Presence Tracks
+      //Load Presence Tracks
       var energyTrack = frame.contentDocument.querySelectorAll("energy-track")[0];
       spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
       spiritBoard.nameAndArt.energyBannerScale = energyTrack.getAttribute("banner-v-scale");
@@ -429,6 +441,20 @@
     copyHTML();
     document.getElementById("scaled-frame").contentWindow.startMain();
   }
+  
+  let frameLarge = false;
+  function toggleSize() {
+    var displayFrame = document.getElementById("scaled-frame")
+    var displayWrap = document.getElementById("board-wrap")
+    if(!frameLarge){
+      displayFrame.style.webkitTransform = "scale(0.75)";
+      displayWrap.style.height="915px";
+    }else{
+      displayFrame.style.webkitTransform = "scale(0.55)";
+      displayWrap.style.height="670px";
+    }
+    frameLarge=!frameLarge;
+  }
 </script>
 
 <h5 class="title is-5">Spirit Board</h5>
@@ -454,11 +480,12 @@
     title="yay" />
 </div>
 <div class="field mb-1">
-  <button class="button is-primary is-light" on:click={readHTML}>Load File into Form</button>
-  <button class="button is-primary is-light" on:click={setBoardValues(spiritBoard)}
-    >Save File</button>
+  <button class="button is-primary is-light" on:click={readHTML}
+    >Load File into Form</button>
   <button class="button is-primary is-light" on:click={reloadPreview}
     >Save & Generate Spirit Board</button>
+  <button class="button is-primary is-light" on:click={toggleSize}
+    >Toggle Size</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
@@ -476,7 +503,8 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
-    This is an unofficial website. GUI created by Neubee & Resonant. Adapted from HTML template
+    See <a href="https://github.com/neubee/spirit-island-builder/blob/andrew-edits/docs/instructions.md">Instructions</a>. 
+    This is an unofficial website. GUI created by Neubee & Resonant. Spirit Board builder adapted from HTML template
     developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
   </div>
 </article>
