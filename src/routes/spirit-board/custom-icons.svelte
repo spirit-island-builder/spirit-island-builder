@@ -1,21 +1,31 @@
 <script>
   import * as Lib from "./lib";
-
   export let spiritBoard;
-
   export let showOrHideSection;
+   
+  function addCustomIcon() {
+    spiritBoard = Lib.addCustomIcon(spiritBoard);
+  }
+  
+  function removeCustomIcon(iconIndex) {
+    spiritBoard.customIcons.icons.splice(iconIndex, 1);
+    spiritBoard.customIcons.icons.forEach((icon, i) => {
+      icon.id = i
+    })
+    spiritBoard = spiritBoard;
+  }
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
+<h6 
+  on:click={showOrHideSection} 
+  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1" 
   id="customIcons">
   Custom Icons (optional)
   <span on:click={showOrHideSection}>
     {#if spiritBoard.customIcons.isVisible}
-      <ion-icon id="customIcons" on:click={showOrHideSection} name="chevron-down-outline" />
+      <ion-icon id="customIcons" on:click={showOrHideSection} name="chevron-down-outline"></ion-icon>
     {:else}
-      <ion-icon id="customIcons" on:click={showOrHideSection} name="chevron-up-outline" />
+      <ion-icon id="customIcons" on:click={showOrHideSection} name="chevron-up-outline"></ion-icon>
     {/if}
   </span>
 </h6>
@@ -28,7 +38,7 @@
   {#each spiritBoard.customIcons.icons as icon, i (icon.id)}
     <div class="field has-addons is-horizontal is-justify-content-left mb-0">
       <div class="field-label is-small">
-        <label class="label" for={`customIconInput${i}`}>&lbrace;custom{i + 1}&rbrace;</label>
+        <label class="label" for={`customIconInput${i}`}>&lbrace;custom{i+1}&rbrace;</label>
       </div>
       <div class="control">
         <input
@@ -37,9 +47,12 @@
           type="text"
           disabled
           placeholder="File Name"
-          bind:value={spiritBoard.customIcons.icons[i].name} />
+          bind:value={spiritBoard.customIcons.icons[i].name}
+        />
       </div>
       <button class="button is-warning is-light is-small row-button">Load File</button>
+      <button class="button is-warning is-light is-small row-button" on:click={removeCustomIcon(i)}>Remove</button>
     </div>
   {/each}
+  <button class="button is-primary is-light is-small row-button is-pulled-right mt-1" on:click={addCustomIcon}>Add Custom Icon</button>
 {/if}
