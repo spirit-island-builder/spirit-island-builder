@@ -126,6 +126,9 @@
       // readHTML();
       // setBoardValues(spiritBoard);
       // reloadPreview();
+      setTimeout(() => {
+        readHTML();
+      }, 200);
     }
   }
 
@@ -133,16 +136,15 @@
     console.log("CALLING setBoardValues");
     console.log("document.getElementById('mod-frame')")
     console.log(document.getElementById("mod-frame"))
-    console.log("frame")
-    console.log(frame)
+    console.log("frame contentDoc")
+    console.log(frame.contentDocument)
     console.log('are they the same?')
     console.log(frame===document.getElementById("mod-frame"))
     console.log('check the content doc')
     console.log(frame.contentWindow)
-    frame=document.getElementById("mod-frame")
     if (frame) {
       //Set Spirit Name and Image
-      const spiritName = frame.contentWindow.querySelectorAll("spirit-name")[0];
+      const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
       if (spiritName) {
         spiritName.textContent = spiritBoard.nameAndArt.name;
       }
@@ -485,49 +487,36 @@
 
   function handleTextFileInputB(event) {
     console.log('TEXT FILE INPUT')
+    if(document.getElementById('dummy')){
+      document.getElementById('dummy').remove();
+      console.log('removed old dummy')
+    }
+    var dummyEl = document.createElement('html');
+    var dummyDiv = document.createElement('div');
+    dummyDiv.style.display="none";
+    dummyDiv.setAttribute("id","dummy")
+    dummyDiv.appendChild(dummyEl)
+    document.getElementById('holder').parentNode.appendChild(dummyDiv);
+    
+    
     const file = event.target.files.item(0);
+    console.log(file)
     if (file) {
       const fileReader = new FileReader();
       fileReader.onload = (data) => {
-        replaceIframeContent(document.getElementById("mod-frame"), data.target.result)
-      
-      
-/*         const fileText = data.target.result;
+        const fileText = data.target.result;
         var dummyFrame = document.createElement('iframe');
-        var dummyEl = document.createElement('html');
+        console.log(fileText)
         dummyEl.innerHTML = fileText;
-        console.log(dummyFrame.contentDocument)
-        console.log(dummyEl)
-        console.log(dummyFrame)
-        dummyFrame.contentWindow.document.body=dummyEl.body;
-        dummyFrame.style.display="none";
-        document.getElementById('holder').parentNode.appendChild(dummyFrame);
-        let bodyClone;
-        bodyClone = dummyFrame.contentWindow.document.body.cloneNode(true);
-        document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
-        
-        console.log(document.getElementById("mod-frame"))
-        console.log(frame)
-        frame.src = fileText;
-        frame = frame; */
+        console.log(dummyDiv)
+        console.log(document.getElementById('holder').parentNode)
       };
 
       // This reads the file and then triggers the onload function above once it finishes
       fileReader.readAsText(file);
     }
   }
-  
-  function replaceIframeContent(iframeElement, newHTML)
-  {
-    iframeElement.src = "about:blank";
-    iframeElement.contentWindow.document.open();
-    console.log(iframeElement)
-    console.log(iframeElement.contentWindow)
-    console.log(iframeElement.contentWindow.document)
-    console.log(newHTML)
-    iframeElement.contentWindow.document.write(newHTML);
-    iframeElement.contentWindow.document.close();
-  }
+
 
   
 </script>
@@ -554,23 +543,21 @@
     id="scaled-frame"
     title="yay" />
 </div>
-<div class="field mb-1">
-  <button class="button is-primary is-light" on:click={readHTML}
-    >Load Default File into Form</button>
-  <button class="button is-primary is-light" on:click={reloadPreview}
-    >Save & Generate Spirit Board</button>
-  <button class="button is-primary is-light" on:click={toggleSize}
-    >Toggle Size</button>
-  <div class="control">
-      <!-- Can use CSS to change how this looks. Maybe we could use a toggle to switch between file input and URL input -->
-      <input
-        accept=".html"
-        on:change={handleTextFileInputB}
-        id="userHTMLInput"
-        name="userHTMLInput"
-        type="file"
-        class="button" />
+<div class="field has-addons mb-2">
+  <div class="file is-success mr-1">
+    <label class="file-label">
+      <input class="file-input" id="userHTMLInput" type="file" name="userHTMLInput" accept=".html" on:change={handleTextFileInputB}/>
+      <span class="file-cta">
+        <span class="file-label">
+          Load Spirit Board file
+        </span>
+      </span>
+    </label>
   </div>
+  <button class="button is-success  mr-1" on:click={reloadPreview}
+    >Generate Spirit Board</button>
+  <button class="button is-success  mr-1" on:click={toggleSize}
+    >Toggle Board Size</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
