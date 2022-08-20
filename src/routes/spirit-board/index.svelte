@@ -130,15 +130,19 @@
   }
 
   function setBoardValues(spiritBoard) {
-    console.log("calling setBoardValues");
+    console.log("CALLING setBoardValues");
     console.log("document.getElementById('mod-frame')")
     console.log(document.getElementById("mod-frame"))
     console.log("frame")
     console.log(frame)
+    console.log('are they the same?')
     console.log(frame===document.getElementById("mod-frame"))
+    console.log('check the content doc')
+    console.log(frame.contentWindow)
+    frame=document.getElementById("mod-frame")
     if (frame) {
       //Set Spirit Name and Image
-      const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
+      const spiritName = frame.contentWindow.querySelectorAll("spirit-name")[0];
       if (spiritName) {
         spiritName.textContent = spiritBoard.nameAndArt.name;
       }
@@ -462,25 +466,67 @@
   }
   
   function handleTextFileInput(event) {
+    console.log('TEXT FILE INPUT')
     const file = event.target.files.item(0);
     if (file) {
       const fileReader = new FileReader();
       fileReader.onload = (data) => {
         const fileText = data.target.result;
         console.log(document.getElementById("mod-frame"))
-        document.getElementById("mod-frame").src = fileText;
-        // document.getElementById("mod-frame").contentDocument = fileText;
-        // var jsScripts = document.getElementById("mod-frame").contentWindow.document.head.getElementsByTagName('script');
-        // console.log(jsScripts[0])
-        // while(jsScripts[0]) jsScripts[0].parentNode.removeChild(jsScripts[0]);
-        
-        console.log(document.getElementById("mod-frame"))
-        console.log(document.getElementById("mod-frame").contentDocument)
+        console.log(frame)
+        frame.src = fileText;
+        frame = frame;
       };
 
       // This reads the file and then triggers the onload function above once it finishes
       fileReader.readAsDataURL(file);
     }
+  }
+
+  function handleTextFileInputB(event) {
+    console.log('TEXT FILE INPUT')
+    const file = event.target.files.item(0);
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = (data) => {
+        replaceIframeContent(document.getElementById("mod-frame"), data.target.result)
+      
+      
+/*         const fileText = data.target.result;
+        var dummyFrame = document.createElement('iframe');
+        var dummyEl = document.createElement('html');
+        dummyEl.innerHTML = fileText;
+        console.log(dummyFrame.contentDocument)
+        console.log(dummyEl)
+        console.log(dummyFrame)
+        dummyFrame.contentWindow.document.body=dummyEl.body;
+        dummyFrame.style.display="none";
+        document.getElementById('holder').parentNode.appendChild(dummyFrame);
+        let bodyClone;
+        bodyClone = dummyFrame.contentWindow.document.body.cloneNode(true);
+        document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
+        
+        console.log(document.getElementById("mod-frame"))
+        console.log(frame)
+        frame.src = fileText;
+        frame = frame; */
+      };
+
+      // This reads the file and then triggers the onload function above once it finishes
+      fileReader.readAsText(file);
+    }
+  }
+  
+  function replaceIframeContent(iframeElement, newHTML)
+  {
+    iframeElement.src = "about:blank";
+    iframeElement.contentWindow.document.open();
+    console.log(iframeElement)
+    console.log(iframeElement.contentWindow)
+    console.log(iframeElement.contentWindow.document)
+    console.log(newHTML)
+    iframeElement.contentWindow.document.write(newHTML);
+    iframeElement.contentWindow.document.close();
   }
 
   
@@ -519,7 +565,7 @@
       <!-- Can use CSS to change how this looks. Maybe we could use a toggle to switch between file input and URL input -->
       <input
         accept=".html"
-        on:change={handleTextFileInput}
+        on:change={handleTextFileInputB}
         id="userHTMLInput"
         name="userHTMLInput"
         type="file"
