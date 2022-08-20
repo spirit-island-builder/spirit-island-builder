@@ -52,7 +52,7 @@
         bind:value={spiritBoard.nameAndArt.name} />
     </div>
   </div>
-
+  <!-- Spirit Art -->
   <div class="field has-addons is-horizontal is-justify-content-left mb-0">
     <div class="field-label is-small">
       <label class="label" for="spiritArtInput">Spirit Art</label>
@@ -75,10 +75,12 @@
         class="input is-small"
         type="text"
         placeholder="File Name"
+        disabled
         bind:value={spiritBoard.nameAndArt.artPath} />
       <!-- No need for a button because spiritBoard.nameAndArt.artPath is bound to this input already, and the image won't be loaded until the board gets generated again -->
     </div>
   </div>
+  <!-- Spirit Art Scale -->
   <div class="field has-addons is-horizontal is-justify-content-left">
     <div class="field-label is-small">
       <label class="label" for="spiritArtInput">Scale:</label>
@@ -92,78 +94,117 @@
         bind:value={spiritBoard.nameAndArt.artScale} />
     </div>
   </div>
+  <!-- Banner Art -->
   <div class="field has-addons is-horizontal is-justify-content-left">
     <div class="field-label is-small">
       <label class="label" for="spiritBannerInput">Banner Art</label>
     </div>
     <div class="control">
+      <!-- Can use CSS to change how this looks. Maybe we could use a toggle to switch between file input and URL input -->
+      <input
+        accept="image/png, image/jpeg"
+        on:change={handleImageFileInput}
+        id="spiritBannerFileInput"
+        name="spiritBannerFileInput"
+        type="file"
+        class="input" />
+      <!-- Showing that the image is available -->
+      {#if spiritBoard.nameAndArt.bannerPath}
+        <img id="spiritBannerInputImage" src={spiritBoard.nameAndArt.bannerPath} alt="spirit banner" />
+      {/if}
       <input
         id="spiritBannerInput"
         class="input is-small"
         type="text"
-        disabled
         placeholder="File Name"
+        disabled
         bind:value={spiritBoard.nameAndArt.bannerPath} />
+      <!-- No need for a button because spiritBoard.nameAndArt.artPath is bound to this input already, and the image won't be loaded until the board gets generated again -->
     </div>
-    <button class="button is-warning is-light is-small row-button">Load File</button>
   </div>
+  <!-- Energy Track Banner -->
   <div class="field has-addons is-horizontal is-justify-content-left mb-0">
     <div class="field-label is-small">
-      <label class="label" for="spiritPTInput">Energy Track Banner</label>
+      <label class="label" for="energyBannerInput">Energy Track Banner</label>
     </div>
     <div class="control">
+      <!-- Can use CSS to change how this looks. Maybe we could use a toggle to switch between file input and URL input -->
+      <input
+        accept="image/png, image/jpeg"
+        on:change={handleImageFileInput}
+        id="energyBannerFileInput"
+        name="energyBannerFileInput"
+        type="file"
+        class="input" />
+      <!-- Showing that the image is available -->
+      {#if spiritBoard.nameAndArt.energyBannerPath}
+        <img id="spiritArtInputImage" src={spiritBoard.nameAndArt.energyBannerPath} alt="energy banner art" />
+      {/if}
       <input
         id="energyBannerInput"
         class="input is-small"
         type="text"
-        disabled
         placeholder="File Name"
+        disabled
         bind:value={spiritBoard.nameAndArt.energyBannerPath} />
+      <!-- No need for a button because spiritBoard.nameAndArt.artPath is bound to this input already, and the image won't be loaded until the board gets generated again -->
     </div>
-    <button class="button is-warning is-light is-small row-button">Load File</button>
   </div>
+  <!-- Energy Track Banner Scale -->
   <div class="field has-addons is-horizontal is-justify-content-left">
     <div class="field-label is-small">
-      <label class="label" for="spiritArtInput">Scale:</label>
+      <label class="label" for="energyBannerScale">Vertical Scale:</label>
     </div>
     <div class="control">
       <input
-        id="energyBannerScaleInput"
+        id="energyBannerScale"
         class="input is-small"
         type="text"
         placeholder="%"
         bind:value={spiritBoard.nameAndArt.energyBannerScale} />
     </div>
   </div>
+  
+  <!-- Plays Track Banner -->
   <div class="field has-addons is-horizontal is-justify-content-left mb-0">
     <div class="field-label is-small">
       <label class="label" for="playsBannerInput">Plays Track Banner</label>
     </div>
     <div class="control">
+      <!-- Can use CSS to change how this looks. Maybe we could use a toggle to switch between file input and URL input -->
+      <input
+        accept="image/png, image/jpeg"
+        on:change={handleImageFileInput}
+        id="playsBannerFileInput"
+        name="playsBannerFileInput"
+        type="file"
+        class="input" />
+      <!-- Showing that the image is available -->
+      {#if spiritBoard.nameAndArt.playsBannerPath}
+        <img id="spiritArtInputImage" src={spiritBoard.nameAndArt.playsBannerPath} alt="plays banner art" />
+      {/if}
       <input
         id="playsBannerInput"
         class="input is-small"
         type="text"
-        disabled
         placeholder="File Name"
+        disabled
         bind:value={spiritBoard.nameAndArt.playsBannerPath} />
+      <!-- No need for a button because spiritBoard.nameAndArt.artPath is bound to this input already, and the image won't be loaded until the board gets generated again -->
     </div>
-    <button class="button is-warning is-light is-small row-button">Load File</button>
   </div>
+  <!-- Plays Track Banner Scale -->
   <div class="field has-addons is-horizontal is-justify-content-left">
     <div class="field-label is-small">
-      <label class="label" for="playsBannerScaleInput">Scale:</label>
+      <label class="label" for="playsBannerScale">Vertical Scale:</label>
     </div>
     <div class="control">
       <input
-        id="playsBannerScaleInput"
+        id="playsBannerScale"
         class="input is-small"
         type="text"
         placeholder="%"
         bind:value={spiritBoard.nameAndArt.playsBannerScale} />
     </div>
   </div>
-  <!-- Need to add art here. We'll need a way for the user to add an art file. 
-				The template looks for the art in the same folder as the template file 
-				itself...how would that work with the website?  -->
 {/if}

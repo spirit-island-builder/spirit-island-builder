@@ -131,6 +131,11 @@
 
   function setBoardValues(spiritBoard) {
     console.log("calling setBoardValues");
+    console.log("document.getElementById('mod-frame')")
+    console.log(document.getElementById("mod-frame"))
+    console.log("frame")
+    console.log(frame)
+    console.log(frame===document.getElementById("mod-frame"))
     if (frame) {
       //Set Spirit Name and Image
       const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
@@ -455,6 +460,30 @@
     }
     frameLarge=!frameLarge;
   }
+  
+  function handleTextFileInput(event) {
+    const file = event.target.files.item(0);
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = (data) => {
+        const fileText = data.target.result;
+        console.log(document.getElementById("mod-frame"))
+        document.getElementById("mod-frame").src = fileText;
+        // document.getElementById("mod-frame").contentDocument = fileText;
+        // var jsScripts = document.getElementById("mod-frame").contentWindow.document.head.getElementsByTagName('script');
+        // console.log(jsScripts[0])
+        // while(jsScripts[0]) jsScripts[0].parentNode.removeChild(jsScripts[0]);
+        
+        console.log(document.getElementById("mod-frame"))
+        console.log(document.getElementById("mod-frame").contentDocument)
+      };
+
+      // This reads the file and then triggers the onload function above once it finishes
+      fileReader.readAsDataURL(file);
+    }
+  }
+
+  
 </script>
 
 <h5 class="title is-5">Spirit Board</h5>
@@ -481,11 +510,21 @@
 </div>
 <div class="field mb-1">
   <button class="button is-primary is-light" on:click={readHTML}
-    >Load File into Form</button>
+    >Load Default File into Form</button>
   <button class="button is-primary is-light" on:click={reloadPreview}
     >Save & Generate Spirit Board</button>
   <button class="button is-primary is-light" on:click={toggleSize}
     >Toggle Size</button>
+  <div class="control">
+      <!-- Can use CSS to change how this looks. Maybe we could use a toggle to switch between file input and URL input -->
+      <input
+        accept=".html"
+        on:change={handleTextFileInput}
+        id="userHTMLInput"
+        name="userHTMLInput"
+        type="file"
+        class="button" />
+  </div>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
