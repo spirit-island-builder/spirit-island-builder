@@ -142,7 +142,6 @@
   }
 
   function setBoardValues(spiritBoard) {
-    console.log(spiritBoard)
     if (frame) {
       //Set Spirit Name and Image
       const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
@@ -157,8 +156,6 @@
       //Set Special Rules
       const specialRulesContainer =
         frame.contentDocument.querySelectorAll("special-rules-container")[0];
-      const specialRulesNames = frame.contentDocument.querySelectorAll("special-rules-subtitle");
-      const specialRulesEffects = frame.contentDocument.querySelectorAll("special-rule");
       if (specialRulesContainer) {
         specialRulesContainer.textContent = ""; // (easiest to start fresh each time)
         var specialRulesHeader = frame.contentDocument.createElement("section-title");
@@ -197,7 +194,7 @@
         } else {
           containerLayer = growthContainer;
         }
-        growthSet.growthGroups.forEach((growthGroup, j) => {
+        growthSet.growthGroups.forEach((growthGroup) => {
           var growthGroupOutput = frame.contentDocument.createElement("growth-group");
 
           //Cost
@@ -230,7 +227,7 @@
         //(easiest to start fresh each time)
         presenceTrackContainer.textContent = "";
       }
-      checkTracksForCommas() //swap commas for semicolons
+      checkTracksForCommas(); //swap commas for semicolons
       var energyTrack = frame.contentDocument.createElement("energy-track");
       energyTrack.setAttribute("banner", spiritBoard.nameAndArt.energyBannerPath);
       energyTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.energyBannerScale);
@@ -301,10 +298,10 @@
     //semicolons are used to separate arguments, but intuitively it should be the opposite (and Growth is indeed the opposite). Since the user of the
     //form doesn't need to separate the node values, this will detect any 'erroneously' used commas and switch them to semicolons.
     spiritBoard.presenceTrack.playsNodes.forEach((playsNode) => {
-      playsNode.effect = playsNode.effect.replace(',',';')
+      playsNode.effect = playsNode.effect.replace(",", ";");
     });
     spiritBoard.presenceTrack.energyNodes.forEach((energyNode) => {
-      energyNode.effect = energyNode.effect.replace(',',';')
+      energyNode.effect = energyNode.effect.replace(",", ";");
     });
   }
 
@@ -326,6 +323,7 @@
       //Load Spirit Name and Image
       const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
       if (spiritName) {
+        console.log(spiritName);
         spiritBoard.nameAndArt.name = spiritName.textContent.trim();
       }
       const board = htmlElement.querySelectorAll("board")[0];
@@ -349,11 +347,9 @@
       const growthContainer = htmlElement.querySelectorAll("growth");
       var htmlGrowthSets = growthContainer[0].querySelectorAll("sub-growth");
       var containerLayer;
-      var numSets = 1;
       if (htmlGrowthSets[0]) {
         // if the HTML file isn't using subgroups (Growth Sets), then there's a whole layer that's missing... this gynamstics accounts for it.
         spiritBoard.growth.useGrowthSets = true;
-        numSets = htmlGrowthSets.length;
         containerLayer = htmlGrowthSets;
       } else {
         containerLayer = growthContainer;
@@ -443,24 +439,24 @@
     }
   }
 
+
   function copyHTML(){
     console.log("Copying HTML from Form to Preview (f=copyHTML)");
-    var modFrame = document.getElementById("mod-frame")
+    var modFrame = document.getElementById("mod-frame");
     modFrame.doc = document.getElementById("mod-frame").contentWindow.document;
     modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
     modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
     
-    var scaledFrame = document.getElementById("scaled-frame")
+    var scaledFrame = document.getElementById("scaled-frame");
     scaledFrame.doc = document.getElementById("scaled-frame").contentWindow.document;
     scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
     scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
-    
+
     let bodyClone;
     bodyClone = document.getElementById("mod-frame").contentWindow.document.body.cloneNode(true);
     document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
     let headClone = modFrame.head.cloneNode(true);
-    scaledFrame.head.parentElement.replaceChild(headClone,scaledFrame.head)
-
+    scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
 
   }
 
@@ -471,19 +467,44 @@
     copyHTML();
     document.getElementById("scaled-frame").contentWindow.startMain();
   }
-  
+
   let frameLarge = false;
   function toggleSize() {
-    var displayFrame = document.getElementById("scaled-frame")
-    var displayWrap = document.getElementById("board-wrap")
-    if(!frameLarge){
+    var displayFrame = document.getElementById("scaled-frame");
+    var displayWrap = document.getElementById("board-wrap");
+    if (!frameLarge) {
       displayFrame.style.webkitTransform = "scale(0.75)";
-      displayWrap.style.height="915px";
-    }else{
+      displayWrap.style.height = "915px";
+    } else {
       displayFrame.style.webkitTransform = "scale(0.55)";
-      displayWrap.style.height="670px";
+      displayWrap.style.height = "670px";
     }
-    frameLarge=!frameLarge;
+    frameLarge = !frameLarge;
+  }
+
+  function handleTextFileInputB(event) {
+    var dummyEl = document.createElement("html");
+
+    const file = event.target.files.item(0);
+    console.log(file);
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = (data) => {
+        const fileText = data.target.result;
+        dummyEl.innerHTML = fileText;
+        console.log(dummyEl);
+        dummyEl.head = dummyEl.getElementsByTagName("head")[0];
+        dummyEl.body = dummyEl.getElementsByTagName("body")[0];
+        dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
+        console.log(dummyEl.head);
+        console.log(dummyEl.body);
+        console.log(dummyEl.spiritName);
+        readHTML(dummyEl);
+      };
+
+      // This reads the file and then triggers the onload function above once it finishes
+      fileReader.readAsText(file);
+    }
   }
 
   function handleTextFileInputB(event) {
@@ -550,6 +571,7 @@
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
     <label class="file-label">
+
       <input class="file-input" id="userHTMLInput" type="file" name="userHTMLInput" accept=".html" on:change={handleTextFileInputB}/>
       <span class="file-cta">
         <span class="file-label">
