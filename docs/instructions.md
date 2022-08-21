@@ -233,4 +233,4 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 
 ### Tips and Tricks
 - The template uses html so you can use some html to customize your board:
-  - For example, you can create a line break by typing /<br/> (useful in notes, levels, and special rules).
+  - For example, you can create a line break by typing \<br\> (useful in notes, levels, and special rules).
