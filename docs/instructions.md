@@ -18,6 +18,8 @@ Click 'Preview Board' to show or hide the preview of your spirit board. Note tha
 - Load Spirit Board file: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage.
 - Generate Spirit Board: Click this button to load a new preview board and see your changes.
 - Toggle Board Size: Click this to change the size of the preview. NOTE: There is no way to export the image of your board, so use a screen capture tool such as the snipping tool on Windows.
+
+
 [Home](#index)
 
 ### Spirit Name and Art
