@@ -375,7 +375,9 @@
       });
 
       //Load Presence Tracks
+
       var energyTrack = htmlElement.querySelectorAll("energy-track")[0];
+
       spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
       spiritBoard.nameAndArt.energyBannerScale = energyTrack.getAttribute("banner-v-scale");
       var energyValues = energyTrack.getAttribute("values").split(",");
@@ -474,6 +476,7 @@
     }
     frameLarge=!frameLarge;
   }
+
   
   function handleTextFileInput(event) {
     console.log('TEXT FILE INPUT')
@@ -520,8 +523,6 @@
 
   }
 
-
-  
 </script>
 
 <h5 class="title is-5">Spirit Board</h5>
@@ -546,6 +547,7 @@
     id="scaled-frame"
     title="yay" />
 </div>
+
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
     <label class="file-label">
@@ -561,6 +563,7 @@
     >Generate Spirit Board</button>
   <button class="button is-success  mr-1" on:click={toggleSize}
     >Toggle Board Size</button>
+
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">

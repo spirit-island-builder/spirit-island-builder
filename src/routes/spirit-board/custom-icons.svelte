@@ -14,6 +14,7 @@
     })
     spiritBoard = spiritBoard;
   }
+
   
   function handleImageFileInput(event, i) {
     const file = event.target.files.item(0);
@@ -28,6 +29,7 @@
       fileReader.readAsDataURL(file);
     }
   }
+
 </script>
 
 <h6 
@@ -52,6 +54,7 @@
   {#each spiritBoard.customIcons.icons as icon, i (icon.id)}
     <div class="field has-addons is-horizontal is-justify-content-left mb-0">
       <div class="field-label is-small">
+
         <label class="label" for={`customIconInput${i}`}>Use: &lbrace;custom{i+1}&rbrace;</label>
       </div>
       {#if icon.name}
@@ -67,6 +70,7 @@
           </span>
         </label>
       </div>
+
       <button class="button is-warning is-light is-small row-button" on:click={removeCustomIcon(i)}>Remove</button>
     </div>
   {/each}
