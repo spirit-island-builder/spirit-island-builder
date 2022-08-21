@@ -1,6 +1,11 @@
 # Spirit Board Editor Interface
 
-Welcome to the Spirit Island Spirit Board editor! This document will help you fill in the various fields in the editor.
+Welcome to the Spirit Island Spirit Board editor! This document will help you use the Spirit Board builder.
+
+### Index
+[General Icons](#general-icons) - Instructions for using icon shortcuts to have icons like dahan and elements show up on your board.
+[Form field: Spirit Name & Art](#spirit-name-&-art) - How to fill out the Name & Art formfield
+
 
 ### General Icons
 Icons for invaders, elements, dahan, etc can be used by enclosing its name with "{}". For example, {dahan} or {fire}. Here is a list of what is available:
