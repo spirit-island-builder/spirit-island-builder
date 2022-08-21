@@ -208,6 +208,7 @@ The two presence tracks (energy & plays) are filled out here, with options for s
     - To achieve 'for each element' effects, use the notation {element, #}.
     - Example: Serpent's Second Innate, Second Level: For each ***{moon,2} {earth,2}***, 2 {fear} and push 1 {town}.
   - Add Innate Power: Adds another Innate Power. You can add more than 2... but it won't be pretty so don't do it.
+
 [Home](#index)
 
 ### General Icons
@@ -227,4 +228,5 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - Power effect icon (isolate, gain-range-1, gain-range-2, gain-range-3, gain-range-x)
 - Growth icons (see [Growth](#growth) section and [Supported Growth Actions](#supported-growth-actions) for examples)
 - Presence track icons (see [Presence Track](#presence-tracks) section for examples)
+
 [Home](#index)
