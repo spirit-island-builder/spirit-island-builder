@@ -29,6 +29,7 @@ Click 'Preview Board' to show or hide the preview of your spirit board. Note tha
 - Banner Art: The image that sits behind the Spirit name.
 - Energy Track Banner & Plays Track Banner: The banners behind the presence tracks.
 	- Scale (optional): Stretches the vertical dimension of the banner (horizontal is automatically set based on the number of nodes).
+
 [Home](#index)
 
 ### Special Rules
@@ -37,6 +38,7 @@ Use these fields to modify your spirit's special rules. You can and should use t
 - Effect: The special rule effect. Use icon shortcuts here.
 - Remove: Button to **permanently** delete the special rule.
 - Add Another Rule: Adds an additional special rule.
+
 [Home](#index)
 
 ### Custom Icons
@@ -44,6 +46,7 @@ This field allows you to upload and use your own custom icons. Reference these i
 - Add Custom Icon: Adds an additional custom icon field.
 - Load: Allows you to chose a file from your computer to be a custom icon.
 - Remove: Removes the custom icon. WARNING: deleting a custom icon might re-number the remaining ones, so be careful.
+
 [Home](#index)
 
 ### Growth
