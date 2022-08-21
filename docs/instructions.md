@@ -230,3 +230,7 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - Presence track icons (see [Presence Track](#presence-tracks) section for examples)
 
 [Home](#index)
+
+### Tips and Tricks
+- The template uses html so you can use some html to customize your board:
+  - For example, you can create a line break by typing <br> (useful in notes, levels, and special rules).
