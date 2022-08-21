@@ -4,12 +4,13 @@ Welcome to the Spirit Island Spirit Board editor! This document will help you us
 
 ## Index
 - [Preview Board and Interface](#previewboard-and-interface)
-- [Spirit Name & Art](#spirit-name-and-art)
-- [Special Rules](#special-rules)
-- [Custom Icons](#custom-icons)
-- [Growth](#growth)
-- [Presence Tracks](#presence-tracks)
-- [Innate Powers](#innate-powers)
+- Form Fields:
+  - [Spirit Name & Art](#spirit-name-and-art)
+  - [Special Rules](#special-rules)
+  - [Custom Icons](#custom-icons)
+  - [Growth](#growth)
+  - [Presence Tracks](#presence-tracks)
+  - [Innate Powers](#innate-powers)
 - [General Icons](#general-icons)
 
 ### Preview Board and Interface
