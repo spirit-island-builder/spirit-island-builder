@@ -482,32 +482,7 @@
     frameLarge = !frameLarge;
   }
 
-  function handleTextFileInputB(event) {
-    var dummyEl = document.createElement("html");
-
-    const file = event.target.files.item(0);
-    console.log(file);
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const fileText = data.target.result;
-        dummyEl.innerHTML = fileText;
-        console.log(dummyEl);
-        dummyEl.head = dummyEl.getElementsByTagName("head")[0];
-        dummyEl.body = dummyEl.getElementsByTagName("body")[0];
-        dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
-        console.log(dummyEl.head);
-        console.log(dummyEl.body);
-        console.log(dummyEl.spiritName);
-        readHTML(dummyEl);
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsText(file);
-    }
-  }
-
-  function handleTextFileInputB(event) {
+  function handleTextFileInput(event) {
     hideAll()
     var dummyEl = document.createElement('html');
     const file = event.target.files.item(0);
@@ -517,13 +492,9 @@
       fileReader.onload = (data) => {
         const fileText = data.target.result;
         dummyEl.innerHTML = fileText;
-        console.log(dummyEl)
         dummyEl.head = dummyEl.getElementsByTagName("head")[0];
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
-        console.log(dummyEl.head)
-        console.log(dummyEl.body)
-        console.log(dummyEl.spiritName)
         readHTML(dummyEl)
       };
 
@@ -572,7 +543,7 @@
   <div class="file is-success mr-1">
     <label class="file-label">
 
-      <input class="file-input" id="userHTMLInput" type="file" name="userHTMLInput" accept=".html" on:change={handleTextFileInputB}/>
+      <input class="file-input" id="userHTMLInput" type="file" name="userHTMLInput" accept=".html" on:change={handleTextFileInput}/>
       <span class="file-cta">
         <span class="file-label">
           Load Spirit Board file
