@@ -2,9 +2,15 @@
 
 Welcome to the Spirit Island Spirit Board editor! This document will help you use the Spirit Board builder.
 
-### Index
-- [General Icons](#general-icons): Instructions for using icon shortcuts to have icons like dahan and elements show up on your board.
-- [Form field: Spirit Name & Art](#spirit-name-and-art): How to fill out the Name & Art formfield
+## Index
+- [Preview Board and Interface](#previewboard-and-interface)
+- [Spirit Name & Art](#spirit-name-and-art)
+- [Special Rules](#special-rules)
+- [Custom Icons](#custom-icons)
+- [Growth](#growth)
+- [Presence Tracks](#presence-tracks)
+- [Innate Powers](#innate-powers)
+- [General Icons](#general-icons)
 
 ### Preview Board and Interface
 Click 'Preview Board' to show or hide the preview of your spirit board. Note that the board won't reload when you do this. Click 'Generate Spirit Board' to load changes into the preview.
