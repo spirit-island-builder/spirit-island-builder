@@ -6,26 +6,11 @@ Welcome to the Spirit Island Spirit Board editor! This document will help you us
 - [General Icons](#general-icons): Instructions for using icon shortcuts to have icons like dahan and elements show up on your board.
 - [Form field: Spirit Name & Art](#spirit-name-and-art): How to fill out the Name & Art formfield
 
-
-### General Icons
-Icons for invaders, elements, dahan, etc can be used by enclosing its name with "{}". For example, {dahan} or {fire}. Here is a list of what is available:
-- Elements (fire, water, earth, air, plant, animal, sun, moon)
-	- any: the Any element icon
-	- star: the Element icon (from Starlight)
-	- markerplus, markerminus: the Prepare Element Marker and Discard Element Marker (from Shifting Memory)
-- Invaders (explorer, town, city)  
-- Presence (presence, sacred-site, no-presence, no-own-presence, destroyed-presence, move-presence-1, move-presence-2, move-presence-3, move-presence-4)  
-- Island icons (blight, dahan, beasts, wilds, disease, strife, badlands)  
-- Fear icons (fear, terror1, terror2, terror3)
-- Land icons (sand, mountain, jungle, wetland, ocean, jungle-wetland, jungle-sand, sand-wetland, mountain-jungle, mountain-wetland, mountain-sand)  
-- Power icons (fast, slow, minor, major, spirit, or)
-- Range icons (range, range-0, range-1, range-2, range-3, range-4, jungle-presence, sand-presence, mountain-presence, wetland-presence)
-- Targeting icons (spirit)  
-- Power effect icon (isolate, gain-range-1, gain-range-2, gain-range-3, gain-range-x)
-- Growth icons (see [Growth](#growth) section and [Supported Growth Actions](#supported-growth-actions) for examples)
-- Presence track icons (see [Presence Track](#presence-tracks) section for examples)
-- Custom icons are not yet fully implemented.
-
+### Preview Board and Interface
+Click 'Preview Board' to show or hide the preview of your spirit board. Note that the board won't reload when you do this. Click 'Generate Spirit Board' to load changes into the preview.
+- Load Spirit Board file: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage.
+- Generate Spirit Board: Click this button to load a new preview board and see your changes.
+- Toggle Board Size: Click this to change the size of the preview. NOTE: There is no way to export the image of your board, so use a screen capture tool such as the snipping tool on Windows.
 
 ### Spirit Name and Art
 - Spirit Name: The name of your spirit. Will automatically be displayed in all capitals.
@@ -36,23 +21,20 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 	- Scale (optional): Stretches the vertical dimension of the banner (horizontal is automatically set based on the number of nodes).
   
 ### Special Rules
+Use these fields to modify your spirit's special rules. You can and should use the [icon shortcuts](#general-icons) here (such as {dahan}).
 - Name: The name of the Special Rule.
-- Effect: The special rule effect. You can use icon shortcuts here (such as {dahan}).
-- Remove: Button to permanently delete the special rule.
+- Effect: The special rule effect. Use icon shortcuts here.
+- Remove: Button to **permanently** delete the special rule.
 - Add Another Rule: Adds an additional special rule.
-<details>
-  <summary>Advanced Special Rule Options</summary>
-
-- Serpent style presence nodes in the special rule
-	- Example: *\<special-rules-track values="5,7,8,10,11,12,13"\>\<\/special-rules-track\>*
-
-</details>
 
 ### Custom Icons
-Not fully implemented.
+This field allows you to upload and use your own custom icons. Reference these icons using {custom1}, {custom2}, etc.
+- Add Custom Icon: Adds an additional custom icon field.
+- Load: Allows you to chose a file from your computer to be a custom icon.
+- Remove: Removes the custom icon. WARNING: deleting a custom icon might re-number the remaining ones, so be careful.
 
 ### Growth
-Growth is broken into Growth Sets, Groups, and Actions. 
+Growth is broken into Growth Sets, Groups, and Actions.
 - Growth Directions: When NOT using sets, the Growth Directions tell the player how many growth groups to pick (usually, Pick One or Pick Two). When using Sets, these instructions are instead added to the set.
 - **Growth Sets** are used for Growth on spirits such as Lure and Spread of Rampant Green, where the player has two sets to choose from.
   - Use Growth Sets: Adds Growth Sets to the interface. All current Growth Groups are automatically added to the first Set.
@@ -190,7 +172,7 @@ The two presence tracks (energy & plays) are filled out here, with options for s
       - wetland-presence,1
   - Target: The target of the innate. Unlike Range, this uses the same HTML code as the rest of the template, so you can use any icons and the shorthand syntax (ie. {dahan}).
   - Target Land/Target: Toggle between Target Land (for land targetting powers) and Target (for Powers that target spirits, etc).
-  - Note (optional): Allows adding notes to the top of the innate (See Volcano Looming High or Lure of the Deep Wilderness as an example). Use {icons} here.
+  - Note (optional): Allows adding notes to the top of the innate (See Volcano Looming High or Lure of the Deep Wilderness as an example). Use [{icon shortcuts}](#general-icons) here (such as {dahan}).
   - Add Level: Adds a Thershold Level to the Innate Power.
     - Threshold: Contains the threshold informatioin. Can include:
       - Elements: 1-plant,2-fire
@@ -206,3 +188,21 @@ The two presence tracks (energy & plays) are filled out here, with options for s
     - To achieve 'for each element' effects, use the notation {element, #}.
     - Example: Serpent's Second Innate, Second Level: For each ***{moon,2} {earth,2}***, 2 {fear} and push 1 {town}.
   - Add Innate Power: Adds another Innate Power. You can add more than 2... but it won't be pretty so don't do it.
+	
+### General Icons
+Icons for invaders, elements, dahan, etc can be used by enclosing its name with "{}". For example, {dahan} or {fire}. Here is a list of what is available:
+- Elements (fire, water, earth, air, plant, animal, sun, moon)
+	- any: the Any element icon
+	- star: the Element icon (from Starlight)
+	- markerplus, markerminus: the Prepare Element Marker and Discard Element Marker (from Shifting Memory)
+- Invaders (explorer, town, city)  
+- Presence (presence, sacred-site, no-presence, no-own-presence, destroyed-presence, move-presence-1, move-presence-2, move-presence-3, move-presence-4)  
+- Island icons (blight, dahan, beasts, wilds, disease, strife, badlands)  
+- Fear icons (fear, terror1, terror2, terror3)
+- Land icons (sand, mountain, jungle, wetland, ocean, jungle-wetland, jungle-sand, sand-wetland, mountain-jungle, mountain-wetland, mountain-sand)  
+- Power icons (fast, slow, minor, major, spirit, or)
+- Range icons (range, range-0, range-1, range-2, range-3, range-4, jungle-presence, sand-presence, mountain-presence, wetland-presence)
+- Targeting icons (spirit)  
+- Power effect icon (isolate, gain-range-1, gain-range-2, gain-range-3, gain-range-x)
+- Growth icons (see [Growth](#growth) section and [Supported Growth Actions](#supported-growth-actions) for examples)
+- Presence track icons (see [Presence Track](#presence-tracks) section for examples)
