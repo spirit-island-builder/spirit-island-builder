@@ -511,6 +511,16 @@
     }
 
   }
+  
+  function exportSpiritBoard() {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURI(document.getElementById("mod-frame").contentWindow.document.getElementsByTagName("html")[0].innerHTML));
+    element.setAttribute('download', spiritBoard.nameAndArt.name.replaceAll(" ","_")+'_spiritBoard.html');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
 
 </script>
 
@@ -550,7 +560,9 @@
   </div>
   <button class="button is-success  mr-1" on:click={reloadPreview}
     >Generate Spirit Board</button>
-  <button class="button is-success  mr-1" on:click={toggleSize}
+  <button class="button is-success  mr-1" on:click={exportSpiritBoard}
+    >Export file (not image)</button>
+  <button class="button is-success mr-1" on:click={toggleSize}
     >Toggle Board Size</button>
 
 </div>
