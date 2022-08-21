@@ -228,6 +228,7 @@
               <div class="control">
                 <button
                   class="button is-primary is-light is-small row-button"
+                  tabindex="1"
                   on:click={addGrowthAction(i, j)}>Add Growth Action</button>
                 <!-- Could I just pass the growthgroup as growthGroup instead of the indexes? -->
               </div>
@@ -239,6 +240,7 @@
             <div class="control">
               <button
                 class="button is-primary is-light is-small row-button"
+                tabindex="1"
                 on:click={addGrowthGroup(i)}>Add Growth Group</button>
             </div>
           </div>
@@ -249,7 +251,10 @@
   {#if spiritBoard.growth.useGrowthSets}
     <div class="field">
       <div class="control">
-        <button class="button is-primary is-light is-small row-button" on:click={addGrowthSet}
+        <button 
+          class="button is-primary is-light is-small row-button"
+          tabindex="1"
+          on:click={addGrowthSet}
           >Add Growth Set</button>
       </div>
     </div>
