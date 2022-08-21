@@ -3,8 +3,8 @@
 Welcome to the Spirit Island Spirit Board editor! This document will help you use the Spirit Board builder.
 
 ### Index
-[General Icons](#general-icons) - Instructions for using icon shortcuts to have icons like dahan and elements show up on your board.
-[Form field: Spirit Name & Art](#spirit-name-&-art) - How to fill out the Name & Art formfield
+- [General Icons](#general-icons): Instructions for using icon shortcuts to have icons like dahan and elements show up on your board.
+- [Form field: Spirit Name & Art](#spirit-name-and-art): How to fill out the Name & Art formfield
 
 
 ### General Icons
@@ -27,7 +27,7 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - Custom icons are not yet fully implemented.
 
 
-### Spirit Name & Art
+### Spirit Name and Art
 - Spirit Name: The name of your spirit. Will automatically be displayed in all capitals.
 - Spirit Art: The main Spirit image. Press 'Load' to select an image.
 	- Scale (optional): Used to scale the image. Include the percentage sign in your input. Will default to 100% 
