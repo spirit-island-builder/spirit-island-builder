@@ -41,6 +41,7 @@
             class="input"
             type="text"
             placeholder="Name"
+            tabindex="1"
             bind:value={spiritBoard.specialRules.rules[i].name} />
         </div>
         <button class="button is-warning is-light" on:click={removeSpecialRule(i)}>Remove</button>
@@ -50,6 +51,7 @@
           id={`ruleEffectInput${i}`}
           class="textarea"
           placeholder="Effect"
+          tabindex="1"
           bind:value={spiritBoard.specialRules.rules[i].effect} />
       </div>
     </div>

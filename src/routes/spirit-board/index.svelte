@@ -115,6 +115,15 @@
   function showOrHideSection(event) {
     spiritBoard[event.target.id].isVisible = !spiritBoard[event.target.id].isVisible;
   }
+  
+  function hideAll() {
+    spiritBoard.nameAndArt.isVisible=false;
+    spiritBoard.specialRules.isVisible=false;
+    spiritBoard.growth.isVisible=false;
+    spiritBoard.presenceTrack.isVisible=false;
+    spiritBoard.innatePowers.isVisible=false;
+    spiritBoard.customIcons.isVisible=false;
+  }
 
   let frame;
   onMount(() => {
@@ -317,7 +326,6 @@
       //Load Spirit Name and Image
       const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
       if (spiritName) {
-        console.log(spiritName)
         spiritBoard.nameAndArt.name = spiritName.textContent.trim();
       }
       const board = htmlElement.querySelectorAll("board")[0];
@@ -423,11 +431,12 @@
       if (spiritStyle) {
         const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
         let iconList = spiritStyle.textContent.match(regExp);
-        console.log(iconList)
-        iconList.forEach((customIcon) => {
-          spiritBoard = Lib.addCustomIcon(spiritBoard, customIcon);
-          console.log(customIcon)
-        });
+        if(iconList){
+          iconList.forEach((customIcon) => {
+            spiritBoard = Lib.addCustomIcon(spiritBoard, customIcon);
+            console.log(customIcon)
+          });
+        }
       }
     }
   }
@@ -474,29 +483,10 @@
     }
     frameLarge=!frameLarge;
   }
-  
-  function handleTextFileInput(event) {
-    console.log('TEXT FILE INPUT')
-    const file = event.target.files.item(0);
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const fileText = data.target.result;
-        console.log(document.getElementById("mod-frame"))
-        console.log(frame)
-        frame.src = fileText;
-        frame = frame;
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsDataURL(file);
-    }
-  }
 
   function handleTextFileInputB(event) {
+    hideAll()
     var dummyEl = document.createElement('html');
-    
-    
     const file = event.target.files.item(0);
     console.log(file)
     if (file) {
@@ -578,8 +568,10 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
-    See <a href="https://github.com/neubee/spirit-island-builder/blob/andrew-edits/docs/instructions.md">Instructions</a>. 
-    This is an unofficial website. GUI created by Neubee & Resonant. Spirit Board builder adapted from HTML template
+    See <a href="https://github.com/neubee/spirit-island-builder/blob/andrew-edits/docs/instructions.md" target="_blank">Instructions</a>
+    for details on how to use the form (particularly for Growth and Presence Tracks).
+    For custom art, <a href="https://www.wombo.art/" target="_blank">Wombo</a> (unaffiliated) is a popular art generator.
+    <br>This is an unofficial website. Interface created by Neubee & Resonant. Spirit Board builder adapted from <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
     developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
   </div>
 </article>

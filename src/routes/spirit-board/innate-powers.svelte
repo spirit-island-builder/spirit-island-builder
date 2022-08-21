@@ -71,13 +71,14 @@
 {#if spiritBoard.innatePowers.isVisible}
   {#each spiritBoard.innatePowers.powers as innatePower, i (innatePower.id)}
     <div class="field mt-2">
-      <label class="label mb-1" for="spiritGrowthInput">{`Innate Power ${i + 1}`}</label>
+      <label class="label mb-1 is-unselectable" for="spiritGrowthInput">{`Innate Power ${i + 1}`}</label>
       <div class="is-flex is-flex-direction-row">
         <div class="control" style="width:100%">
           <input
             id={`powerName${i}`}
             class="input"
             type="text"
+            tabindex="1"
             placeholder="Power Name"
             bind:value={innatePower.name} />
         </div>
@@ -161,6 +162,7 @@
               id={`powerRange${i}`}
               class="input"
               type="text"
+              tabindex="1"
               placeholder="Range"
               bind:value={innatePower.range} />
           </div>
@@ -169,6 +171,7 @@
               id={`powerTarget${i}`}
               class="input"
               type="text"
+              tabindex="1"
               placeholder="Target"
               bind:value={innatePower.target} />
           </div>
@@ -180,6 +183,7 @@
         id={`powerNote${i}`}
         class="input"
         type="text"
+        tabindex="1"
         placeholder="Note (optional)"
         bind:value={innatePower.note} />
     </div>
@@ -189,29 +193,31 @@
         <div class="control">
           <input
             id={`levelThreshold${j}`}
-            class="input"
+            class="input is-small"
             type="text"
+            tabindex="1"
             placeholder="Threshold"
             bind:value={level.threshold} />
         </div>
         <div class="control" style="width:100%">
           <input
             id={`levelEffect${j}`}
-            class="input"
+            class="input is-small"
             type="text"
+            tabindex="1"
             placeholder="Effect"
             bind:value={level.effect} />
         </div>
         {#if !level.isLong}
           <button
-            class="button is-primary is-light is-warning row-button"
+            class="button is-primary is-light is-warning is-small row-button"
             on:click={switchLong(i, j)}>Long</button>
         {:else}
-          <button class="button is-primary is-warning row-button" on:click={switchLong(i, j)}
+          <button class="button is-primary is-warning is-small row-button" on:click={switchLong(i, j)}
             >Long</button>
         {/if}
         <button
-          class="button is-primary is-light is-warning row-button"
+          class="button is-primary is-light is-warning is-small row-button"
           on:click={removeLevel(i, j)}>Remove</button>
       </div>
     {/each}

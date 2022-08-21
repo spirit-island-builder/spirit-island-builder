@@ -152,6 +152,7 @@
               id={`growthSetChoice${i}`}
               class="input"
               type="text"
+              tabindex="1"
               placeholder="Growth Set Choice ie. (PICK ONE OF)"
               bind:value={growthSet.choiceText} />
           </div>
@@ -215,6 +216,7 @@
                       id={`growthSet${i}Group${j}Action${k}`}
                       class="input"
                       type="text"
+                      tabindex="1"
                       placeholder="Growth Action"
                       bind:value={growthAction.effect} />
                   </div>
