@@ -1,10 +1,10 @@
-# Spirit Board Editor Interface
+# Spirit Board Builder Interface
 
-Welcome to the Spirit Island Spirit Board editor! This document will help you use the Spirit Board builder.
+Welcome to the Spirit Island Spirit Board Builder! This document will help you use the Spirit Board builder.
 
 ## Index
-- [Preview Board and Interface](#previewboard-and-interface)
-- Form Fields:
+- [Preview Board and Builder Interface](#previewboard-and-interface)
+- Sections:
   - [Spirit Name & Art](#spirit-name-and-art)
   - [Special Rules](#special-rules)
   - [Custom Icons](#custom-icons)
