@@ -52,7 +52,7 @@
   {#each spiritBoard.customIcons.icons as icon, i (icon.id)}
     <div class="field has-addons is-horizontal is-justify-content-left mb-0">
       <div class="field-label is-small">
-        <label class="label" for={`customIconInput${i}`}>&lbrace;custom{i+1}&rbrace;</label>
+        <label class="label" for={`customIconInput${i}`}>Use: &lbrace;custom{i+1}&rbrace;</label>
       </div>
       <div class="control">
         <input

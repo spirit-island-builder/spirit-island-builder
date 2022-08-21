@@ -127,7 +127,7 @@
       // setBoardValues(spiritBoard);
       // reloadPreview();
       setTimeout(() => {
-        readHTML();
+        readHTML(frame.contentDocument);
       }, 200);
     }
   }
@@ -310,23 +310,24 @@
     console.log(document.getElementById("board-wrap").style.display);
   }
 
-  function readHTML() {
+  function readHTML(htmlElement) {
     console.log("Loading default spirit board into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     if (frame) {
       //Load Spirit Name and Image
-      const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
+      const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
       if (spiritName) {
+        console.log(spiritName)
         spiritBoard.nameAndArt.name = spiritName.textContent.trim();
       }
-      const board = frame.contentDocument.querySelectorAll("board")[0];
+      const board = htmlElement.querySelectorAll("board")[0];
       spiritBoard.nameAndArt.artPath = board.getAttribute("spirit-image");
       spiritBoard.nameAndArt.artScale = board.getAttribute("spirit-image-scale");
       spiritBoard.nameAndArt.bannerPath = board.getAttribute("spirit-border");
 
       //Load Special Rules
-      const specialRulesNames = frame.contentDocument.querySelectorAll("special-rules-subtitle");
-      const specialRulesEffects = frame.contentDocument.querySelectorAll("special-rule");
+      const specialRulesNames = htmlElement.querySelectorAll("special-rules-subtitle");
+      const specialRulesEffects = htmlElement.querySelectorAll("special-rule");
       spiritBoard.specialRules.rules.splice(0, spiritBoard.specialRules.rules.length); //Clear the Form first
       specialRulesNames.forEach((specialRulesName, j) => {
         spiritBoard = Lib.addSpecialRule(
@@ -337,7 +338,7 @@
       });
 
       //Load Growth
-      const growthContainer = frame.contentDocument.querySelectorAll("growth");
+      const growthContainer = htmlElement.querySelectorAll("growth");
       var htmlGrowthSets = growthContainer[0].querySelectorAll("sub-growth");
       var containerLayer;
       var numSets = 1;
@@ -374,7 +375,7 @@
       });
 
       //Load Presence Tracks
-      var energyTrack = frame.contentDocument.querySelectorAll("energy-track")[0];
+      var energyTrack = htmlElement.querySelectorAll("energy-track")[0];
       spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
       spiritBoard.nameAndArt.energyBannerScale = energyTrack.getAttribute("banner-v-scale");
       var energyValues = energyTrack.getAttribute("values").split(",");
@@ -382,7 +383,7 @@
       energyValues.forEach((value) => {
         spiritBoard = Lib.addEnergyTrackNode(spiritBoard, value);
       });
-      var playsTrack = frame.contentDocument.querySelectorAll("card-play-track")[0];
+      var playsTrack = htmlElement.querySelectorAll("card-play-track")[0];
       spiritBoard.nameAndArt.playsBannerPath = playsTrack.getAttribute("banner");
       spiritBoard.nameAndArt.playsBannerScale = playsTrack.getAttribute("banner-v-scale");
       var playsValues = playsTrack.getAttribute("values").split(",");
@@ -392,7 +393,7 @@
       });
 
       //Load Innate Powers
-      var innatePowers = frame.contentDocument.querySelectorAll("quick-innate-power");
+      var innatePowers = htmlElement.querySelectorAll("quick-innate-power");
       spiritBoard.innatePowers.powers.splice(0, spiritBoard.innatePowers.powers.length); //Clear the Form first
       innatePowers.forEach((innatePower, k) => {
         spiritBoard = Lib.addInnatePower(
@@ -417,7 +418,7 @@
       });
 
       //Load Custom Icons
-      const spiritStyle = frame.contentDocument.querySelectorAll("style")[0];
+      const spiritStyle = htmlElement.querySelectorAll("style")[0];
       spiritBoard.customIcons.icons.splice(0, spiritBoard.customIcons.icons.length); //Clear the Form first
       if (spiritStyle) {
         const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
@@ -467,15 +468,16 @@
     let bodyClone;
     bodyClone = document.getElementById("mod-frame").contentWindow.document.body.cloneNode(true);
     document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
-    // let headClone = modFrame.head.cloneNode(true);
-    // scaledFrame.head.parentElement.replaceChild(headClone,scaledFrame.head)
+    let headClone = modFrame.head.cloneNode(true);
+    scaledFrame.head.parentElement.replaceChild(headClone,scaledFrame.head)
 
 
   }
 
   function reloadPreview() {
+    console.log("Updating Preview Board (f=setBoardValues)");
     setBoardValues(spiritBoard);
-    console.log("calling reloadPreview");
+    console.log("Reloading Preview (f=copyHTML)");
     copyHTML();
     document.getElementById("scaled-frame").contentWindow.startMain();
   }
@@ -513,17 +515,7 @@
   }
 
   function handleTextFileInputB(event) {
-    console.log('TEXT FILE INPUT')
-    if(document.getElementById('dummy')){
-      document.getElementById('dummy').remove();
-      console.log('removed old dummy')
-    }
     var dummyEl = document.createElement('html');
-    var dummyDiv = document.createElement('div');
-    dummyDiv.style.display="none";
-    dummyDiv.setAttribute("id","dummy")
-    dummyDiv.appendChild(dummyEl)
-    document.getElementById('holder').parentNode.appendChild(dummyDiv);
     
     
     const file = event.target.files.item(0);
@@ -532,16 +524,21 @@
       const fileReader = new FileReader();
       fileReader.onload = (data) => {
         const fileText = data.target.result;
-        var dummyFrame = document.createElement('iframe');
-        console.log(fileText)
         dummyEl.innerHTML = fileText;
-        console.log(dummyDiv)
-        console.log(document.getElementById('holder').parentNode)
+        console.log(dummyEl)
+        dummyEl.head = dummyEl.getElementsByTagName("head")[0];
+        dummyEl.body = dummyEl.getElementsByTagName("body")[0];
+        dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
+        console.log(dummyEl.head)
+        console.log(dummyEl.body)
+        console.log(dummyEl.spiritName)
+        readHTML(dummyEl)
       };
 
       // This reads the file and then triggers the onload function above once it finishes
       fileReader.readAsText(file);
     }
+
   }
 
 
