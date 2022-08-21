@@ -126,11 +126,14 @@
       // readHTML();
       // setBoardValues(spiritBoard);
       // reloadPreview();
+      setTimeout(() => {
+        readHTML(frame.contentDocument);
+      }, 200);
     }
   }
 
   function setBoardValues(spiritBoard) {
-    console.log("calling setBoardValues");
+    console.log(spiritBoard)
     if (frame) {
       //Set Spirit Name and Image
       const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
@@ -278,7 +281,7 @@
       var customIconText = "";
       spiritBoard.customIcons.icons.forEach((icon) => {
         customIconText +=
-          "icon.custom" + (icon.id + 1) + "{background-image: url" + icon.name + "; }\n";
+          "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
       });
       spiritStyle.textContent = customIconText;
     }
@@ -307,23 +310,24 @@
     console.log(document.getElementById("board-wrap").style.display);
   }
 
-  function readHTML() {
-    console.log("calling readHTML");
+  function readHTML(htmlElement) {
+    console.log("Loading default spirit board into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     if (frame) {
       //Load Spirit Name and Image
-      const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
+      const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
       if (spiritName) {
+        console.log(spiritName)
         spiritBoard.nameAndArt.name = spiritName.textContent.trim();
       }
-      const board = frame.contentDocument.querySelectorAll("board")[0];
+      const board = htmlElement.querySelectorAll("board")[0];
       spiritBoard.nameAndArt.artPath = board.getAttribute("spirit-image");
       spiritBoard.nameAndArt.artScale = board.getAttribute("spirit-image-scale");
       spiritBoard.nameAndArt.bannerPath = board.getAttribute("spirit-border");
 
       //Load Special Rules
-      const specialRulesNames = frame.contentDocument.querySelectorAll("special-rules-subtitle");
-      const specialRulesEffects = frame.contentDocument.querySelectorAll("special-rule");
+      const specialRulesNames = htmlElement.querySelectorAll("special-rules-subtitle");
+      const specialRulesEffects = htmlElement.querySelectorAll("special-rule");
       spiritBoard.specialRules.rules.splice(0, spiritBoard.specialRules.rules.length); //Clear the Form first
       specialRulesNames.forEach((specialRulesName, j) => {
         spiritBoard = Lib.addSpecialRule(
@@ -334,7 +338,7 @@
       });
 
       //Load Growth
-      const growthContainer = frame.contentDocument.querySelectorAll("growth");
+      const growthContainer = htmlElement.querySelectorAll("growth");
       var htmlGrowthSets = growthContainer[0].querySelectorAll("sub-growth");
       var containerLayer;
       var numSets = 1;
@@ -371,7 +375,9 @@
       });
 
       //Load Presence Tracks
-      var energyTrack = frame.contentDocument.querySelectorAll("energy-track")[0];
+
+      var energyTrack = htmlElement.querySelectorAll("energy-track")[0];
+
       spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
       spiritBoard.nameAndArt.energyBannerScale = energyTrack.getAttribute("banner-v-scale");
       var energyValues = energyTrack.getAttribute("values").split(",");
@@ -379,7 +385,7 @@
       energyValues.forEach((value) => {
         spiritBoard = Lib.addEnergyTrackNode(spiritBoard, value);
       });
-      var playsTrack = frame.contentDocument.querySelectorAll("card-play-track")[0];
+      var playsTrack = htmlElement.querySelectorAll("card-play-track")[0];
       spiritBoard.nameAndArt.playsBannerPath = playsTrack.getAttribute("banner");
       spiritBoard.nameAndArt.playsBannerScale = playsTrack.getAttribute("banner-v-scale");
       var playsValues = playsTrack.getAttribute("values").split(",");
@@ -389,7 +395,7 @@
       });
 
       //Load Innate Powers
-      var innatePowers = frame.contentDocument.querySelectorAll("quick-innate-power");
+      var innatePowers = htmlElement.querySelectorAll("quick-innate-power");
       spiritBoard.innatePowers.powers.splice(0, spiritBoard.innatePowers.powers.length); //Clear the Form first
       innatePowers.forEach((innatePower, k) => {
         spiritBoard = Lib.addInnatePower(
@@ -414,30 +420,45 @@
       });
 
       //Load Custom Icons
-      const spiritStyle = frame.contentDocument.querySelectorAll("style")[0];
+      const spiritStyle = htmlElement.querySelectorAll("style")[0];
       spiritBoard.customIcons.icons.splice(0, spiritBoard.customIcons.icons.length); //Clear the Form first
       if (spiritStyle) {
-        const regExp = new RegExp(/\(([^)]+)\)/, "g");
+        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
         let iconList = spiritStyle.textContent.match(regExp);
+        console.log(iconList)
         iconList.forEach((customIcon) => {
           spiritBoard = Lib.addCustomIcon(spiritBoard, customIcon);
+          console.log(customIcon)
         });
       }
     }
   }
 
-  function copyHTML() {
-    console.log("calling copyHTML");
-    console.log(document.getElementById("scaled-frame").contentWindow.document.body);
-    console.log(document.getElementById("mod-frame").contentWindow.document.body);
+  function copyHTML(){
+    console.log("Copying HTML from Form to Preview (f=copyHTML)");
+    var modFrame = document.getElementById("mod-frame")
+    modFrame.doc = document.getElementById("mod-frame").contentWindow.document;
+    modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
+    modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
+    
+    var scaledFrame = document.getElementById("scaled-frame")
+    scaledFrame.doc = document.getElementById("scaled-frame").contentWindow.document;
+    scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
+    scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
+    
     let bodyClone;
     bodyClone = document.getElementById("mod-frame").contentWindow.document.body.cloneNode(true);
     document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
+    let headClone = modFrame.head.cloneNode(true);
+    scaledFrame.head.parentElement.replaceChild(headClone,scaledFrame.head)
+
+
   }
 
   function reloadPreview() {
+    console.log("Updating Preview Board (f=setBoardValues)");
     setBoardValues(spiritBoard);
-    console.log("calling reloadPreview");
+    console.log("Reloading Preview (f=copyHTML)");
     copyHTML();
     document.getElementById("scaled-frame").contentWindow.startMain();
   }
@@ -455,6 +476,53 @@
     }
     frameLarge=!frameLarge;
   }
+
+  
+  function handleTextFileInput(event) {
+    console.log('TEXT FILE INPUT')
+    const file = event.target.files.item(0);
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = (data) => {
+        const fileText = data.target.result;
+        console.log(document.getElementById("mod-frame"))
+        console.log(frame)
+        frame.src = fileText;
+        frame = frame;
+      };
+
+      // This reads the file and then triggers the onload function above once it finishes
+      fileReader.readAsDataURL(file);
+    }
+  }
+
+  function handleTextFileInputB(event) {
+    var dummyEl = document.createElement('html');
+    
+    
+    const file = event.target.files.item(0);
+    console.log(file)
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = (data) => {
+        const fileText = data.target.result;
+        dummyEl.innerHTML = fileText;
+        console.log(dummyEl)
+        dummyEl.head = dummyEl.getElementsByTagName("head")[0];
+        dummyEl.body = dummyEl.getElementsByTagName("body")[0];
+        dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
+        console.log(dummyEl.head)
+        console.log(dummyEl.body)
+        console.log(dummyEl.spiritName)
+        readHTML(dummyEl)
+      };
+
+      // This reads the file and then triggers the onload function above once it finishes
+      fileReader.readAsText(file);
+    }
+
+  }
+
 </script>
 
 <h5 class="title is-5">Spirit Board</h5>
@@ -479,13 +547,23 @@
     id="scaled-frame"
     title="yay" />
 </div>
-<div class="field mb-1">
-  <button class="button is-primary is-light" on:click={readHTML}
-    >Load File into Form</button>
-  <button class="button is-primary is-light" on:click={reloadPreview}
-    >Save & Generate Spirit Board</button>
-  <button class="button is-primary is-light" on:click={toggleSize}
-    >Toggle Size</button>
+
+<div class="field has-addons mb-2">
+  <div class="file is-success mr-1">
+    <label class="file-label">
+      <input class="file-input" id="userHTMLInput" type="file" name="userHTMLInput" accept=".html" on:change={handleTextFileInputB}/>
+      <span class="file-cta">
+        <span class="file-label">
+          Load Spirit Board file
+        </span>
+      </span>
+    </label>
+  </div>
+  <button class="button is-success  mr-1" on:click={reloadPreview}
+    >Generate Spirit Board</button>
+  <button class="button is-success  mr-1" on:click={toggleSize}
+    >Toggle Board Size</button>
+
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
