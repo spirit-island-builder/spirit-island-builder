@@ -14,6 +14,20 @@
     })
     spiritBoard = spiritBoard;
   }
+  
+  function handleImageFileInput(event, i) {
+    const file = event.target.files.item(0);
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = (data) => {
+        const imageURL = data.target.result;
+        spiritBoard.customIcons.icons[i].name = imageURL;
+      };
+
+      // This reads the file and then triggers the onload function above once it finishes
+      fileReader.readAsDataURL(file);
+    }
+  }
 </script>
 
 <h6 
@@ -50,7 +64,16 @@
           bind:value={spiritBoard.customIcons.icons[i].name}
         />
       </div>
-      <button class="button is-warning is-light is-small row-button">Load File</button>
+      <div class="file is-warning is-small">
+        <label class="file-label">
+          <input class="file-input" id={`customIconInput${i}`} type="file" name={`customIconInput${i}`} accept="image/png, image/jpeg" on:change={(e) => {handleImageFileInput(e,i);}}>
+          <span class="file-cta">
+            <span class="file-label">
+              Load
+            </span>
+          </span>
+        </label>
+      </div>
       <button class="button is-warning is-light is-small row-button" on:click={removeCustomIcon(i)}>Remove</button>
     </div>
   {/each}

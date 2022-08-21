@@ -133,15 +133,7 @@
   }
 
   function setBoardValues(spiritBoard) {
-    console.log("CALLING setBoardValues");
-    console.log("document.getElementById('mod-frame')")
-    console.log(document.getElementById("mod-frame"))
-    console.log("frame contentDoc")
-    console.log(frame.contentDocument)
-    console.log('are they the same?')
-    console.log(frame===document.getElementById("mod-frame"))
-    console.log('check the content doc')
-    console.log(frame.contentWindow)
+    console.log(spiritBoard)
     if (frame) {
       //Set Spirit Name and Image
       const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
@@ -289,7 +281,7 @@
       var customIconText = "";
       spiritBoard.customIcons.icons.forEach((icon) => {
         customIconText +=
-          "icon.custom" + (icon.id + 1) + "{background-image: url" + icon.name + "; }\n";
+          "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
       });
       spiritStyle.textContent = customIconText;
     }
@@ -319,7 +311,7 @@
   }
 
   function readHTML() {
-    console.log("calling readHTML");
+    console.log("Loading default spirit board into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     if (frame) {
       //Load Spirit Name and Image
@@ -428,22 +420,57 @@
       const spiritStyle = frame.contentDocument.querySelectorAll("style")[0];
       spiritBoard.customIcons.icons.splice(0, spiritBoard.customIcons.icons.length); //Clear the Form first
       if (spiritStyle) {
-        const regExp = new RegExp(/\(([^)]+)\)/, "g");
+        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
         let iconList = spiritStyle.textContent.match(regExp);
+        console.log(iconList)
         iconList.forEach((customIcon) => {
           spiritBoard = Lib.addCustomIcon(spiritBoard, customIcon);
+          console.log(customIcon)
         });
       }
     }
   }
 
-  function copyHTML() {
-    console.log("calling copyHTML");
-    console.log(document.getElementById("scaled-frame").contentWindow.document.body);
-    console.log(document.getElementById("mod-frame").contentWindow.document.body);
+  function copyHTML(){
+    console.log("Copying HTML from Form to Preview (f=copyHTML)");
+    var modFrame = document.getElementById("mod-frame")
+    modFrame.doc = document.getElementById("mod-frame").contentWindow.document;
+    modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
+    modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
+    
+    var scaledFrame = document.getElementById("scaled-frame")
+    scaledFrame.doc = document.getElementById("scaled-frame").contentWindow.document;
+    scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
+    scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
+    
+    //Copy the header (for some reason, the cloneNode technique I used for the body doesn't work
+/*     while (scaledFrame.head.firstChild) { 
+      console.log("removing: " + scaledFrame.head.firstChild.textContent);
+      scaledFrame.head.removeChild(scaledFrame.head.firstChild); 
+    }
+    var child = modFrame.head.firstChild;
+    while (child) { 
+        console.log("appending: " + child.nodeName + " " + child.textContent);
+        if (child.nodeName === "SCRIPT") {
+            // We need to create the script element the old-fashioned way
+            // and append it to the DOM for IE to recognize it.
+            var script = scaledFrame.doc.createElement("script");
+            script.type = child.type;
+            script.src = child.src
+            scaledFrame.head.appendChild(script);
+        } else { 
+            scaledFrame.head.appendChild(scaledFrame.doc.importNode(child, true)); 
+        } 
+    child = child.nextSibling;
+    } */
+    
     let bodyClone;
     bodyClone = document.getElementById("mod-frame").contentWindow.document.body.cloneNode(true);
     document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
+    // let headClone = modFrame.head.cloneNode(true);
+    // scaledFrame.head.parentElement.replaceChild(headClone,scaledFrame.head)
+
+
   }
 
   function reloadPreview() {
