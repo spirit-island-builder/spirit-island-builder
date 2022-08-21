@@ -11,7 +11,7 @@ Welcome to the Spirit Island Spirit Board editor! This document will help you us
   - [Growth](#growth)
   - [Presence Tracks](#presence-tracks)
   - [Innate Powers](#innate-powers)
-- [General Icons](#general-icons)
+- [How to Use {Icons}](#general-icons)
 
 ### Preview Board and Interface
 Click 'Preview Board' to show or hide the preview of your spirit board. Note that the board won't reload when you do this. Click 'Generate Spirit Board' to load changes into the preview.
