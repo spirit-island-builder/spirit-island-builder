@@ -54,16 +54,9 @@
       <div class="field-label is-small">
         <label class="label" for={`customIconInput${i}`}>Use: &lbrace;custom{i+1}&rbrace;</label>
       </div>
-      <div class="control">
-        <input
-          id={`customIconInput${i}`}
-          class="input is-small"
-          type="text"
-          disabled
-          placeholder="File Name"
-          bind:value={spiritBoard.customIcons.icons[i].name}
-        />
-      </div>
+      {#if icon.name}
+        <img id={`customIconDisplay${i}`} class="has-ratio" style="height:2rem; width:2rem; object-fit: contain;" src={icon.name} alt={`custom${i+1}`} />
+      {/if}
       <div class="file is-warning is-small">
         <label class="file-label">
           <input class="file-input" id={`customIconInput${i}`} type="file" name={`customIconInput${i}`} accept="image/png, image/jpeg" on:change={(e) => {handleImageFileInput(e,i);}}>

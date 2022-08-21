@@ -444,27 +444,6 @@
     scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
     scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
     
-    //Copy the header (for some reason, the cloneNode technique I used for the body doesn't work
-/*     while (scaledFrame.head.firstChild) { 
-      console.log("removing: " + scaledFrame.head.firstChild.textContent);
-      scaledFrame.head.removeChild(scaledFrame.head.firstChild); 
-    }
-    var child = modFrame.head.firstChild;
-    while (child) { 
-        console.log("appending: " + child.nodeName + " " + child.textContent);
-        if (child.nodeName === "SCRIPT") {
-            // We need to create the script element the old-fashioned way
-            // and append it to the DOM for IE to recognize it.
-            var script = scaledFrame.doc.createElement("script");
-            script.type = child.type;
-            script.src = child.src
-            scaledFrame.head.appendChild(script);
-        } else { 
-            scaledFrame.head.appendChild(scaledFrame.doc.importNode(child, true)); 
-        } 
-    child = child.nextSibling;
-    } */
-    
     let bodyClone;
     bodyClone = document.getElementById("mod-frame").contentWindow.document.body.cloneNode(true);
     document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
