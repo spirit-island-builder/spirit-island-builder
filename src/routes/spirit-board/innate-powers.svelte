@@ -181,7 +181,7 @@
     <div class="control field">
       <input
         id={`powerNote${i}`}
-        class="input"
+        class="input is-small"
         type="text"
         tabindex="1"
         placeholder="Note (optional)"

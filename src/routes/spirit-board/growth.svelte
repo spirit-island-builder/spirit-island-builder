@@ -4,6 +4,10 @@
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
   }
+  
+  function easyReport() {
+    console.log('it ran')
+  }
 
   function removeAllGrowthSets() {
     // "Turns off" Growth Sets, collapsing all growth groups into the first Set
@@ -218,6 +222,7 @@
                       type="text"
                       tabindex="1"
                       placeholder="Growth Action"
+                      on:blur={easyReport}
                       bind:value={growthAction.effect} />
                   </div>
                   <button
