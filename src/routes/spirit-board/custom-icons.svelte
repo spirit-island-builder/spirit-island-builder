@@ -46,7 +46,7 @@
 {#if spiritBoard.customIcons.isVisible}
   <article class="message is-small mb-1">
     <div class="message-body p-1">
-      Custom Icons allow you to load and then use icons that aren't pre-built into the template.
+      Custom Icons allow you to load and then use icons that aren't pre-built into the template. <a href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#custom-icons" target="_blank">Instructions</a>
     </div>
   </article>
   {#each spiritBoard.customIcons.icons as icon, i (icon.id)}

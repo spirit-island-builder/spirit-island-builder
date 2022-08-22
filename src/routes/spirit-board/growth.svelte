@@ -4,6 +4,10 @@
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
   }
+  
+  function easyReport() {
+    console.log('it ran')
+  }
 
   function removeAllGrowthSets() {
     // "Turns off" Growth Sets, collapsing all growth groups into the first Set
@@ -116,6 +120,11 @@
   </span>
 </h6>
 {#if spiritBoard.growth.isVisible}
+  <article class="message is-small mb-1">
+    <div class="message-body p-1">
+      <span><a href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#growth" target="_blank">Instructions</a></span>
+    </div>
+  </article>
   {#if !spiritBoard.growth.useGrowthSets}
     <div class="control">
       <input
@@ -218,6 +227,7 @@
                       type="text"
                       tabindex="1"
                       placeholder="Growth Action"
+                      on:blur={easyReport}
                       bind:value={growthAction.effect} />
                   </div>
                   <button

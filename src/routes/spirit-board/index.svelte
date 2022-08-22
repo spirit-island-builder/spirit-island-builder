@@ -112,6 +112,110 @@
     },
   };
 
+  function clearAllFields() {
+    spiritBoard = {
+      previewBoard: {
+        isVisible: false,
+      },
+      nameAndArt: {
+        isVisible: false,
+        name: "",
+        artPath: "",
+        artScale: "",
+        bannerPath: "",
+        energyBannerPath: "",
+        energyBannerScale: "",
+        playsBannerPath: "",
+        playsBannerScale: "",
+      },
+      specialRules: {
+        isVisible: false,
+        rules: [
+          {
+            id: 0,
+            name: "",
+            effect: "",
+          },
+        ],
+      },
+      growth: {
+        isVisible: false,
+        useGrowthSets: false,
+        directions: "",
+        growthSets: [
+          {
+            id: 0,
+            choiceText: "",
+            growthGroups: [
+              {
+                id: 0,
+                cost: "",
+                tint: "",
+                hasCost: false,
+                hasTint: false,
+                growthActions: [
+                  {
+                    id: 0,
+                    effect: "",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      presenceTrack: {
+        isVisible: false,
+        useMiddleNodes: false,
+        name: "",
+        energyNodes: [
+          {
+            id: 0,
+            effect: "",
+          },
+        ],
+        playsNodes: [
+          {
+            id: 0,
+            effect: "",
+          },
+        ],
+      },
+      innatePowers: {
+        isVisible: false,
+        powers: [
+          {
+            id: 0,
+            name: "",
+            speed: "",
+            range: "",
+            target: "",
+            targetTitle: "",
+            effect: "",
+            note: "",
+            noteShow: true,
+            levels: [
+              {
+                id: 0,
+                threshold: "",
+                effect: "",
+              },
+            ],
+          },
+        ],
+      },
+      customIcons: {
+        isVisible: false,
+        icons: [
+          {
+            id: 0,
+            name: "",
+          },
+        ],
+      },
+    };
+  }
+
   function showOrHideSection(event) {
     spiritBoard[event.target.id].isVisible = !spiritBoard[event.target.id].isVisible;
   }
@@ -547,12 +651,14 @@
       </span>
     </label>
   </div>
-  <button class="button is-success  mr-1" on:click={reloadPreview}
-    >Generate Spirit Board</button>
   <button class="button is-success  mr-1" on:click={exportSpiritBoard}
-    >Export file (not image)</button>
-  <button class="button is-success mr-1" on:click={toggleSize}
+    >Download Spirit Board file</button>
+  <button class="button is-info  mr-1" on:click={reloadPreview}
+    >Generate Spirit Board</button>
+  <button class="button is-warning mr-1" on:click={toggleSize}
     >Toggle Board Size</button>
+  <button class="button is-danger mr-1" on:click={clearAllFields}
+    >Clear All Fields</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">

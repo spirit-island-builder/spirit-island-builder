@@ -69,6 +69,11 @@
   </span>
 </h6>
 {#if spiritBoard.innatePowers.isVisible}
+  <article class="message is-small mb-1">
+    <div class="message-body p-1">
+      <span><a href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#innate-powers" target="_blank">Instructions</a></span>
+    </div>
+  </article>
   {#each spiritBoard.innatePowers.powers as innatePower, i (innatePower.id)}
     <div class="field mt-2">
       <label class="label mb-1 is-unselectable" for="spiritGrowthInput">{`Innate Power ${i + 1}`}</label>
@@ -181,7 +186,7 @@
     <div class="control field">
       <input
         id={`powerNote${i}`}
-        class="input"
+        class="input is-small"
         type="text"
         tabindex="1"
         placeholder="Note (optional)"

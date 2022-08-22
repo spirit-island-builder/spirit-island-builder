@@ -29,6 +29,11 @@
 </h6>
 {#if spiritBoard.specialRules.isVisible}
   <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
+  <article class="message is-small mb-1">
+    <div class="message-body p-1">
+      <span><a href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#special-rules" target="_blank">Instructions</a></span>
+    </div>
+  </article>
   {#each spiritBoard.specialRules.rules as rule, i (rule.id)}
     <div class="field">
       <label class="label is-flex is-justify-content-space-between" for={`ruleNameInput${i}`}
