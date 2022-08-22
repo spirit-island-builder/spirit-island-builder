@@ -115,6 +115,15 @@
   function showOrHideSection(event) {
     spiritBoard[event.target.id].isVisible = !spiritBoard[event.target.id].isVisible;
   }
+  
+  function hideAll() {
+    spiritBoard.nameAndArt.isVisible=false;
+    spiritBoard.specialRules.isVisible=false;
+    spiritBoard.growth.isVisible=false;
+    spiritBoard.presenceTrack.isVisible=false;
+    spiritBoard.innatePowers.isVisible=false;
+    spiritBoard.customIcons.isVisible=false;
+  }
 
   let frame;
   onMount(() => {
@@ -133,7 +142,6 @@
   }
 
   function setBoardValues(spiritBoard) {
-    console.log(spiritBoard);
     if (frame) {
       //Set Spirit Name and Image
       const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
@@ -421,11 +429,12 @@
       if (spiritStyle) {
         const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
         let iconList = spiritStyle.textContent.match(regExp);
-        console.log(iconList);
-        iconList.forEach((customIcon) => {
-          spiritBoard = Lib.addCustomIcon(spiritBoard, customIcon);
-          console.log(customIcon);
-        });
+        if(iconList){
+          iconList.forEach((customIcon) => {
+            spiritBoard = Lib.addCustomIcon(spiritBoard, customIcon);
+            console.log(customIcon)
+          });
+        }
       }
     }
   }
@@ -436,7 +445,6 @@
     modFrame.doc = document.getElementById("mod-frame").contentWindow.document;
     modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
     modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
-
     var scaledFrame = document.getElementById("scaled-frame");
     scaledFrame.doc = document.getElementById("scaled-frame").contentWindow.document;
     scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
@@ -471,30 +479,38 @@
     frameLarge = !frameLarge;
   }
 
-  function handleTextFileInputB(event) {
-    var dummyEl = document.createElement("html");
-
+  function handleTextFileInput(event) {
+    hideAll()
+    var dummyEl = document.createElement('html');
     const file = event.target.files.item(0);
-    console.log(file);
+    console.log(file)
     if (file) {
       const fileReader = new FileReader();
       fileReader.onload = (data) => {
         const fileText = data.target.result;
         dummyEl.innerHTML = fileText;
-        console.log(dummyEl);
         dummyEl.head = dummyEl.getElementsByTagName("head")[0];
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
-        console.log(dummyEl.head);
-        console.log(dummyEl.body);
-        console.log(dummyEl.spiritName);
-        readHTML(dummyEl);
+        readHTML(dummyEl)
       };
 
       // This reads the file and then triggers the onload function above once it finishes
       fileReader.readAsText(file);
     }
+
   }
+  
+  function exportSpiritBoard() {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURI(document.getElementById("mod-frame").contentWindow.document.getElementsByTagName("html")[0].innerHTML));
+    element.setAttribute('download', spiritBoard.nameAndArt.name.replaceAll(" ","_")+'_spiritBoard.html');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
 </script>
 
 <h5 class="title is-5">Spirit Board</h5>
@@ -523,20 +539,20 @@
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
     <label class="file-label">
-      <input
-        class="file-input"
-        id="userHTMLInput"
-        type="file"
-        name="userHTMLInput"
-        accept=".html"
-        on:change={handleTextFileInputB} />
+      <input class="file-input" id="userHTMLInput" type="file" name="userHTMLInput" accept=".html" on:change={handleTextFileInput}/>
       <span class="file-cta">
-        <span class="file-label"> Load Spirit Board file </span>
+        <span class="file-label">
+          Load Spirit Board file
+        </span>
       </span>
     </label>
   </div>
-  <button class="button is-success  mr-1" on:click={reloadPreview}>Generate Spirit Board</button>
-  <button class="button is-success  mr-1" on:click={toggleSize}>Toggle Board Size</button>
+  <button class="button is-success  mr-1" on:click={reloadPreview}
+    >Generate Spirit Board</button>
+  <button class="button is-success  mr-1" on:click={exportSpiritBoard}
+    >Export file (not image)</button>
+  <button class="button is-success mr-1" on:click={toggleSize}
+    >Toggle Board Size</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
@@ -554,12 +570,11 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
-    See <a
-      href="https://github.com/neubee/spirit-island-builder/blob/andrew-edits/docs/instructions.md"
-      >Instructions</a
-    >. This is an unofficial website. GUI created by Neubee & Resonant. Spirit Board builder adapted
-    from HTML template developed by Spirit Island fanbase. All materials belong to Greater Than
-    Games, LLC.
+    See <a href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md" target="_blank">Instructions</a>
+    for details on how to use the form (particularly for Growth and Presence Tracks).
+    For custom art, <a href="https://www.wombo.art/" target="_blank">Wombo</a> (unaffiliated) is a popular art generator.
+    <br>This is an unofficial website. Interface created by Neubee & Resonant. Spirit Board builder adapted from <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
+    developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
   </div>
 </article>
 <div id="holder">
