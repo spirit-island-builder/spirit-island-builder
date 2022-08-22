@@ -543,14 +543,12 @@
     }
   }
 
-
-  function copyHTML(){
+  function copyHTML() {
     console.log("Copying HTML from Form to Preview (f=copyHTML)");
     var modFrame = document.getElementById("mod-frame");
     modFrame.doc = document.getElementById("mod-frame").contentWindow.document;
     modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
     modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
-    
     var scaledFrame = document.getElementById("scaled-frame");
     scaledFrame.doc = document.getElementById("scaled-frame").contentWindow.document;
     scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
@@ -561,7 +559,6 @@
     document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
     let headClone = modFrame.head.cloneNode(true);
     scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
-
   }
 
   function reloadPreview() {
@@ -646,7 +643,6 @@
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
     <label class="file-label">
-
       <input class="file-input" id="userHTMLInput" type="file" name="userHTMLInput" accept=".html" on:change={handleTextFileInput}/>
       <span class="file-cta">
         <span class="file-label">
@@ -680,7 +676,7 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
-    See <a href="https://github.com/neubee/spirit-island-builder/blob/andrew-edits/docs/instructions.md" target="_blank">Instructions</a>
+    See <a href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md" target="_blank">Instructions</a>
     for details on how to use the form (particularly for Growth and Presence Tracks).
     For custom art, <a href="https://www.wombo.art/" target="_blank">Wombo</a> (unaffiliated) is a popular art generator.
     <br>This is an unofficial website. Interface created by Neubee & Resonant. Spirit Board builder adapted from <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>

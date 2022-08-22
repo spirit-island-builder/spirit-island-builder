@@ -74,7 +74,6 @@
             <span class="file-label">
               Load
             </span>
-
           </span>
         </label>
       </div>
