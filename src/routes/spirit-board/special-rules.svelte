@@ -80,6 +80,11 @@
 </h6>
 {#if spiritBoard.specialRules.isVisible}
   <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
+  <article class="message is-small mb-1">
+    <div class="message-body p-1">
+      <span><a href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#special-rules" target="_blank">Instructions</a></span>
+    </div>
+  </article>
   {#each spiritBoard.specialRules.rules as rule, i (rule.id)}
     <div class="field">
       <label class="label is-flex is-justify-content-space-between" for={`ruleNameInput${i}`}
@@ -92,6 +97,7 @@
             class="input"
             type="text"
             placeholder="Name"
+            tabindex="1"
             bind:value={spiritBoard.specialRules.rules[i].name} />
         </div>
         <button class="button is-warning is-light" on:click={removeSpecialRule(i)}>Remove</button>
@@ -103,6 +109,7 @@
           placeholder="Effect"
           autocomplete="off"
           on:input={showAutoComplete}
+          tabindex="1"
           bind:value={spiritBoard.specialRules.rules[i].effect} />
         {#if showAutoCompleteList}
           <div id={`ruleEffectInput${i}AutoCompleteList`} class='autocomplete-items' on:keydown={handleAutoCompleteKeyboardInput}>
@@ -119,7 +126,7 @@
     {#if i === spiritBoard.specialRules.rules.length - 1}
       <div class="field">
         <div class="control">
-          <button class="button is-primary is-light" on:click={addSpecialRule}
+          <button class="button is-primary is-light" tabindex="1" on:click={addSpecialRule}
             >Add Another Rule</button>
         </div>
       </div>

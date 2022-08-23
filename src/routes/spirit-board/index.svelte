@@ -112,8 +112,121 @@
     },
   };
 
+  function clearAllFields() {
+    spiritBoard = {
+      previewBoard: {
+        isVisible: false,
+      },
+      nameAndArt: {
+        isVisible: false,
+        name: "",
+        artPath: "",
+        artScale: "",
+        bannerPath: "",
+        energyBannerPath: "",
+        energyBannerScale: "",
+        playsBannerPath: "",
+        playsBannerScale: "",
+      },
+      specialRules: {
+        isVisible: false,
+        rules: [
+          {
+            id: 0,
+            name: "",
+            effect: "",
+          },
+        ],
+      },
+      growth: {
+        isVisible: false,
+        useGrowthSets: false,
+        directions: "",
+        growthSets: [
+          {
+            id: 0,
+            choiceText: "",
+            growthGroups: [
+              {
+                id: 0,
+                cost: "",
+                tint: "",
+                hasCost: false,
+                hasTint: false,
+                growthActions: [
+                  {
+                    id: 0,
+                    effect: "",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      presenceTrack: {
+        isVisible: false,
+        useMiddleNodes: false,
+        name: "",
+        energyNodes: [
+          {
+            id: 0,
+            effect: "",
+          },
+        ],
+        playsNodes: [
+          {
+            id: 0,
+            effect: "",
+          },
+        ],
+      },
+      innatePowers: {
+        isVisible: false,
+        powers: [
+          {
+            id: 0,
+            name: "",
+            speed: "",
+            range: "",
+            target: "",
+            targetTitle: "",
+            effect: "",
+            note: "",
+            noteShow: true,
+            levels: [
+              {
+                id: 0,
+                threshold: "",
+                effect: "",
+              },
+            ],
+          },
+        ],
+      },
+      customIcons: {
+        isVisible: false,
+        icons: [
+          {
+            id: 0,
+            name: "",
+          },
+        ],
+      },
+    };
+  }
+
   function showOrHideSection(event) {
     spiritBoard[event.target.id].isVisible = !spiritBoard[event.target.id].isVisible;
+  }
+  
+  function hideAll() {
+    spiritBoard.nameAndArt.isVisible=false;
+    spiritBoard.specialRules.isVisible=false;
+    spiritBoard.growth.isVisible=false;
+    spiritBoard.presenceTrack.isVisible=false;
+    spiritBoard.innatePowers.isVisible=false;
+    spiritBoard.customIcons.isVisible=false;
   }
 
   let frame;
@@ -126,11 +239,13 @@
       // readHTML();
       // setBoardValues(spiritBoard);
       // reloadPreview();
+      setTimeout(() => {
+        readHTML(frame.contentDocument);
+      }, 200);
     }
   }
 
   function setBoardValues(spiritBoard) {
-    console.log("calling setBoardValues");
     if (frame) {
       //Set Spirit Name and Image
       const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
@@ -145,8 +260,6 @@
       //Set Special Rules
       const specialRulesContainer =
         frame.contentDocument.querySelectorAll("special-rules-container")[0];
-      const specialRulesNames = frame.contentDocument.querySelectorAll("special-rules-subtitle");
-      const specialRulesEffects = frame.contentDocument.querySelectorAll("special-rule");
       if (specialRulesContainer) {
         specialRulesContainer.textContent = ""; // (easiest to start fresh each time)
         var specialRulesHeader = frame.contentDocument.createElement("section-title");
@@ -185,7 +298,7 @@
         } else {
           containerLayer = growthContainer;
         }
-        growthSet.growthGroups.forEach((growthGroup, j) => {
+        growthSet.growthGroups.forEach((growthGroup) => {
           var growthGroupOutput = frame.contentDocument.createElement("growth-group");
 
           //Cost
@@ -218,7 +331,7 @@
         //(easiest to start fresh each time)
         presenceTrackContainer.textContent = "";
       }
-
+      checkTracksForCommas(); //swap commas for semicolons
       var energyTrack = frame.contentDocument.createElement("energy-track");
       energyTrack.setAttribute("banner", spiritBoard.nameAndArt.energyBannerPath);
       energyTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.energyBannerScale);
@@ -278,10 +391,22 @@
       var customIconText = "";
       spiritBoard.customIcons.icons.forEach((icon) => {
         customIconText +=
-          "icon.custom" + (icon.id + 1) + "{background-image: url" + icon.name + "; }\n";
+          "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
       });
       spiritStyle.textContent = customIconText;
     }
+  }
+
+  function checkTracksForCommas() {
+    //The original template is inconsistent in its use of commas and semicolons. For Presence Tracks, commas are used to separate node values and therefore
+    //semicolons are used to separate arguments, but intuitively it should be the opposite (and Growth is indeed the opposite). Since the user of the
+    //form doesn't need to separate the node values, this will detect any 'erroneously' used commas and switch them to semicolons.
+    spiritBoard.presenceTrack.playsNodes.forEach((playsNode) => {
+      playsNode.effect = playsNode.effect.replace(",", ";");
+    });
+    spiritBoard.presenceTrack.energyNodes.forEach((energyNode) => {
+      energyNode.effect = energyNode.effect.replace(",", ";");
+    });
   }
 
   function showOrHideBoard() {
@@ -295,23 +420,24 @@
     console.log(document.getElementById("board-wrap").style.display);
   }
 
-  function readHTML() {
-    console.log("calling readHTML");
+  function readHTML(htmlElement) {
+    console.log("Loading default spirit board into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     if (frame) {
       //Load Spirit Name and Image
-      const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
+      const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
       if (spiritName) {
+        console.log(spiritName);
         spiritBoard.nameAndArt.name = spiritName.textContent.trim();
       }
-      const board = frame.contentDocument.querySelectorAll("board")[0];
+      const board = htmlElement.querySelectorAll("board")[0];
       spiritBoard.nameAndArt.artPath = board.getAttribute("spirit-image");
       spiritBoard.nameAndArt.artScale = board.getAttribute("spirit-image-scale");
       spiritBoard.nameAndArt.bannerPath = board.getAttribute("spirit-border");
 
       //Load Special Rules
-      const specialRulesNames = frame.contentDocument.querySelectorAll("special-rules-subtitle");
-      const specialRulesEffects = frame.contentDocument.querySelectorAll("special-rule");
+      const specialRulesNames = htmlElement.querySelectorAll("special-rules-subtitle");
+      const specialRulesEffects = htmlElement.querySelectorAll("special-rule");
       spiritBoard.specialRules.rules.splice(0, spiritBoard.specialRules.rules.length); //Clear the Form first
       specialRulesNames.forEach((specialRulesName, j) => {
         spiritBoard = Lib.addSpecialRule(
@@ -322,14 +448,12 @@
       });
 
       //Load Growth
-      const growthContainer = frame.contentDocument.querySelectorAll("growth");
+      const growthContainer = htmlElement.querySelectorAll("growth");
       var htmlGrowthSets = growthContainer[0].querySelectorAll("sub-growth");
       var containerLayer;
-      var numSets = 1;
       if (htmlGrowthSets[0]) {
         // if the HTML file isn't using subgroups (Growth Sets), then there's a whole layer that's missing... this gynamstics accounts for it.
         spiritBoard.growth.useGrowthSets = true;
-        numSets = htmlGrowthSets.length;
         containerLayer = htmlGrowthSets;
       } else {
         containerLayer = growthContainer;
@@ -358,8 +482,10 @@
         });
       });
 
-      //Set Presence Tracks
-      var energyTrack = frame.contentDocument.querySelectorAll("energy-track")[0];
+      //Load Presence Tracks
+
+      var energyTrack = htmlElement.querySelectorAll("energy-track")[0];
+
       spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
       spiritBoard.nameAndArt.energyBannerScale = energyTrack.getAttribute("banner-v-scale");
       var energyValues = energyTrack.getAttribute("values").split(",");
@@ -367,7 +493,7 @@
       energyValues.forEach((value) => {
         spiritBoard = Lib.addEnergyTrackNode(spiritBoard, value);
       });
-      var playsTrack = frame.contentDocument.querySelectorAll("card-play-track")[0];
+      var playsTrack = htmlElement.querySelectorAll("card-play-track")[0];
       spiritBoard.nameAndArt.playsBannerPath = playsTrack.getAttribute("banner");
       spiritBoard.nameAndArt.playsBannerScale = playsTrack.getAttribute("banner-v-scale");
       var playsValues = playsTrack.getAttribute("values").split(",");
@@ -377,7 +503,7 @@
       });
 
       //Load Innate Powers
-      var innatePowers = frame.contentDocument.querySelectorAll("quick-innate-power");
+      var innatePowers = htmlElement.querySelectorAll("quick-innate-power");
       spiritBoard.innatePowers.powers.splice(0, spiritBoard.innatePowers.powers.length); //Clear the Form first
       innatePowers.forEach((innatePower, k) => {
         spiritBoard = Lib.addInnatePower(
@@ -402,33 +528,93 @@
       });
 
       //Load Custom Icons
-      const spiritStyle = frame.contentDocument.querySelectorAll("style")[0];
+      const spiritStyle = htmlElement.querySelectorAll("style")[0];
       spiritBoard.customIcons.icons.splice(0, spiritBoard.customIcons.icons.length); //Clear the Form first
       if (spiritStyle) {
-        const regExp = new RegExp(/\(([^)]+)\)/, "g");
+        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
         let iconList = spiritStyle.textContent.match(regExp);
-        iconList.forEach((customIcon) => {
-          spiritBoard = Lib.addCustomIcon(spiritBoard, customIcon);
-        });
+        if(iconList){
+          iconList.forEach((customIcon) => {
+            spiritBoard = Lib.addCustomIcon(spiritBoard, customIcon);
+            console.log(customIcon)
+          });
+        }
       }
     }
   }
 
   function copyHTML() {
-    console.log("calling copyHTML");
-    console.log(document.getElementById("scaled-frame").contentWindow.document.body);
-    console.log(document.getElementById("mod-frame").contentWindow.document.body);
+    console.log("Copying HTML from Form to Preview (f=copyHTML)");
+    var modFrame = document.getElementById("mod-frame");
+    modFrame.doc = document.getElementById("mod-frame").contentWindow.document;
+    modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
+    modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
+    var scaledFrame = document.getElementById("scaled-frame");
+    scaledFrame.doc = document.getElementById("scaled-frame").contentWindow.document;
+    scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
+    scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
+
     let bodyClone;
     bodyClone = document.getElementById("mod-frame").contentWindow.document.body.cloneNode(true);
     document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
+    let headClone = modFrame.head.cloneNode(true);
+    scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
   }
 
   function reloadPreview() {
+    console.log("Updating Preview Board (f=setBoardValues)");
     setBoardValues(spiritBoard);
-    console.log("calling reloadPreview");
+    console.log("Reloading Preview (f=copyHTML)");
     copyHTML();
     document.getElementById("scaled-frame").contentWindow.startMain();
   }
+
+  let frameLarge = false;
+  function toggleSize() {
+    var displayFrame = document.getElementById("scaled-frame");
+    var displayWrap = document.getElementById("board-wrap");
+    if (!frameLarge) {
+      displayFrame.style.webkitTransform = "scale(0.75)";
+      displayWrap.style.height = "915px";
+    } else {
+      displayFrame.style.webkitTransform = "scale(0.55)";
+      displayWrap.style.height = "670px";
+    }
+    frameLarge = !frameLarge;
+  }
+
+  function handleTextFileInput(event) {
+    hideAll()
+    var dummyEl = document.createElement('html');
+    const file = event.target.files.item(0);
+    console.log(file)
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = (data) => {
+        const fileText = data.target.result;
+        dummyEl.innerHTML = fileText;
+        dummyEl.head = dummyEl.getElementsByTagName("head")[0];
+        dummyEl.body = dummyEl.getElementsByTagName("body")[0];
+        dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
+        readHTML(dummyEl)
+      };
+
+      // This reads the file and then triggers the onload function above once it finishes
+      fileReader.readAsText(file);
+    }
+
+  }
+  
+  function exportSpiritBoard() {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURI(document.getElementById("mod-frame").contentWindow.document.getElementsByTagName("html")[0].innerHTML));
+    element.setAttribute('download', spiritBoard.nameAndArt.name.replaceAll(" ","_")+'_spiritBoard.html');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
 </script>
 
 <h5 class="title is-5">Spirit Board</h5>
@@ -453,12 +639,26 @@
     id="scaled-frame"
     title="yay" />
 </div>
-<div class="field mb-1">
-  <button class="button is-primary is-light" on:click={readHTML}>Load File into Form</button>
-  <button class="button is-primary is-light" on:click={setBoardValues(spiritBoard)}
-    >Save File</button>
-  <button class="button is-primary is-light" on:click={reloadPreview}
-    >Save & Generate Spirit Board</button>
+
+<div class="field has-addons mb-2">
+  <div class="file is-success mr-1">
+    <label class="file-label">
+      <input class="file-input" id="userHTMLInput" type="file" name="userHTMLInput" accept=".html" on:change={handleTextFileInput}/>
+      <span class="file-cta">
+        <span class="file-label">
+          Load Spirit Board file
+        </span>
+      </span>
+    </label>
+  </div>
+  <button class="button is-success  mr-1" on:click={exportSpiritBoard}
+    >Download Spirit Board file</button>
+  <button class="button is-info  mr-1" on:click={reloadPreview}
+    >Generate Spirit Board</button>
+  <button class="button is-warning mr-1" on:click={toggleSize}
+    >Toggle Board Size</button>
+  <button class="button is-danger mr-1" on:click={clearAllFields}
+    >Clear All Fields</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
@@ -476,7 +676,10 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
-    This is an unofficial website. GUI created by Neubee & Resonant. Adapted from HTML template
+    See <a href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md" target="_blank">Instructions</a>
+    for details on how to use the form (particularly for Growth and Presence Tracks).
+    For custom art, <a href="https://www.wombo.art/" target="_blank">Wombo</a> (unaffiliated) is a popular art generator.
+    <br>This is an unofficial website. Interface created by Neubee & Resonant. Spirit Board builder adapted from <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
     developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
   </div>
 </article>

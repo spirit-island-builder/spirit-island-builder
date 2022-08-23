@@ -4,6 +4,10 @@
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
   }
+  
+  function easyReport() {
+    console.log('it ran')
+  }
 
   function removeAllGrowthSets() {
     // "Turns off" Growth Sets, collapsing all growth groups into the first Set
@@ -116,6 +120,11 @@
   </span>
 </h6>
 {#if spiritBoard.growth.isVisible}
+  <article class="message is-small mb-1">
+    <div class="message-body p-1">
+      <span><a href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#growth" target="_blank">Instructions</a></span>
+    </div>
+  </article>
   {#if !spiritBoard.growth.useGrowthSets}
     <div class="control">
       <input
@@ -152,6 +161,7 @@
               id={`growthSetChoice${i}`}
               class="input"
               type="text"
+              tabindex="1"
               placeholder="Growth Set Choice ie. (PICK ONE OF)"
               bind:value={growthSet.choiceText} />
           </div>
@@ -215,7 +225,9 @@
                       id={`growthSet${i}Group${j}Action${k}`}
                       class="input"
                       type="text"
+                      tabindex="1"
                       placeholder="Growth Action"
+                      on:blur={easyReport}
                       bind:value={growthAction.effect} />
                   </div>
                   <button
@@ -226,6 +238,7 @@
               <div class="control">
                 <button
                   class="button is-primary is-light is-small row-button"
+                  tabindex="1"
                   on:click={addGrowthAction(i, j)}>Add Growth Action</button>
                 <!-- Could I just pass the growthgroup as growthGroup instead of the indexes? -->
               </div>
@@ -237,6 +250,7 @@
             <div class="control">
               <button
                 class="button is-primary is-light is-small row-button"
+                tabindex="1"
                 on:click={addGrowthGroup(i)}>Add Growth Group</button>
             </div>
           </div>
@@ -247,7 +261,10 @@
   {#if spiritBoard.growth.useGrowthSets}
     <div class="field">
       <div class="control">
-        <button class="button is-primary is-light is-small row-button" on:click={addGrowthSet}
+        <button 
+          class="button is-primary is-light is-small row-button"
+          tabindex="1"
+          on:click={addGrowthSet}
           >Add Growth Set</button>
       </div>
     </div>
