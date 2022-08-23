@@ -84,7 +84,4 @@
   <button
     class="button is-primary is-light is-small row-button is-pulled-right mt-1"
     on:click={addCustomIcon}>Add Custom Icon</button>
-  <button
-    class="button is-primary is-light is-small row-button is-pulled-right mt-1"
-    on:click={addCustomIcon}>Add Custom Icon</button>
 {/if}
