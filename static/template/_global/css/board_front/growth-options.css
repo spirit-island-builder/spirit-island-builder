@@ -629,7 +629,10 @@ growth-damage value {
 	font-style: normal;
 }
 
-
+growth icon.damage-1, growth icon.damage-2 {
+  height:80px;
+  width:80px;
+}
 
 card-play-num {
     background-image: url('../../images/board/NewIcons/Cardplay Gain Blank.png');
