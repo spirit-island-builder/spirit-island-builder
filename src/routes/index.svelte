@@ -113,6 +113,9 @@
 
   let spiritBoardBack = {
     prop: "value",
+    previewBoard: {
+      isVisible: false,
+    },
   };
 </script>
 

@@ -528,7 +528,7 @@
   }
 </script>
 
-<h5 class="title is-5">Spirit Board</h5>
+<h5 class="title is-5">Spirit Board Play Side</h5>
 <h6
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
