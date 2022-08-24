@@ -412,12 +412,11 @@
   function showOrHideBoard() {
     if (document.getElementById("board-wrap").style.display == "none") {
       document.getElementById("board-wrap").style.display = "block";
+      spiritBoard.previewBoard.isVisible=true;
     } else {
       document.getElementById("board-wrap").style.display = "none";
+      spiritBoard.previewBoard.isVisible=false;
     }
-    console.log("this iiis a test");
-    console.log(document.getElementById("board-wrap"));
-    console.log(document.getElementById("board-wrap").style.display);
   }
 
   function readHTML(htmlElement) {
