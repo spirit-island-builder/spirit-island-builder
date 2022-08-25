@@ -632,6 +632,7 @@ growth-damage value {
 growth icon.damage-1, growth icon.damage-2 {
   height:80px;
   width:80px;
+  margin-bottom: 17px;
 }
 
 card-play-num {

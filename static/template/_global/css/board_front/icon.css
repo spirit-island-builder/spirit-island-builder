@@ -305,7 +305,7 @@ icon.sand-mountain, icon.wetland-mountain, icon.jungle-mountain {
 } */
 
 icon.ocean {
-    display: block;
+    display: inline-block;
     height: 45px;
     width: 70px;
     margin-top: 0px;

@@ -204,11 +204,21 @@ note icon.disease, note icon.strife, note icon.explorer,
 note icon.badlands, note icon.fear, note icon.range-plus-1,
 note icon.range-plus-2, note icon.range-plus-3,
 note icon.destroyed-presence, note icon.major, note icon.minor,
-note icon.star{
+note icon.star, note icon.isolate{
     width: 24px;
     height: 26px;
     margin-bottom: -4px;
     background-position: bottom;
+}
+
+note icon.range-0, note icon.range-1, note icon.range-2, 
+note icon.range-3, note icon.range-4,
+note icon.range-X, note icon.range-x  {
+    width: 50px;
+    height: 30px;
+    margin-left: 0px;
+    margin-top: -20px;
+    margin-bottom: -7px;
 }
 
 note icon.star{
@@ -258,8 +268,9 @@ div.description {
 .description icon.town,
 .description icon.dahan,
 .description icon.fear,
-.description icon.slow,
-.description icon.fast {
+.description icon.slow, .description icon.fast,
+.description icon.major, .description icon.minor,
+.description icon.isolate {
     width: 27px;
     height: 27px;
     margin-bottom: -5px;
