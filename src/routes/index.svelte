@@ -1,6 +1,9 @@
 <script>
   import SpiritBoard from "./spirit-board/index.svelte";
   import SpiritBoardBack from "./spirit-board-back/index.svelte";
+  import PowerCards from "./power-cards/index.svelte";
+  import Aspect from "./aspect/index.svelte";
+  import Adversary from "./adversary/index.svelte";
 
   let currentPage = "spiritBoardFront";
 
@@ -116,7 +119,54 @@
     previewBoard: {
       isVisible: false,
     },
+    lore: {
+      isVisible: false,
+      loreText: "",
+    },
+    setup: {
+      isVisible: false,
+      setupText: "",
+    },
+    playStyle: {
+      isVisible: false,
+      playStyleText: "",
+    },
+    complexity: {
+      isVisible: false,
+      complexityValue: "",
+      complexityDescriptor: "",
+    },
+    summary: {
+      isVisible: false,
+      offenseValue: "",
+      controlValue: "",
+      fearValue: "",
+      defenseValue: "",
+      utilityValue: "",
+      usesTokens: "",
+    },
   };
+  
+  let powerCards = {
+    prop: "value",
+    previewBoard: {
+      isVisible: false,
+    },
+  }
+
+  let aspect = {
+    prop: "value",
+    previewBoard: {
+      isVisible: false,
+    },
+  }
+  
+  let adversary = {
+    prop: "value",
+    previewBoard: {
+      isVisible: false,
+    },
+  }
 </script>
 
 <h1 class="title is-1">Build Custom Spirit Island Components!</h1>
@@ -129,7 +179,7 @@
       on:click={() => {
         setCurrentPage("spiritBoardFront");
       }}>
-      Spirit Board Front
+      Spirit Board Play Side
     </button>
     <button
       class={`button navbar-item ${
@@ -138,7 +188,34 @@
       on:click={() => {
         setCurrentPage("spiritBoardBack");
       }}>
-      Spirit Board Back
+      Spirit Board Lore Side
+    </button>
+    <button
+      class={`button navbar-item ${
+        currentPage === "powerCards" ? "is-primary" : "is-link is-light"
+      }`}
+      on:click={() => {
+        setCurrentPage("powerCards");
+      }}>
+      Power Cards
+    </button>
+    <button
+      class={`button navbar-item ${
+        currentPage === "aspect" ? "is-primary" : "is-link is-light"
+      }`}
+      on:click={() => {
+        setCurrentPage("aspect");
+      }}>
+      Aspect
+    </button>
+    <button
+      class={`button navbar-item ${
+        currentPage === "adversary" ? "is-primary" : "is-link is-light"
+      }`}
+      on:click={() => {
+        setCurrentPage("adversary");
+      }}>
+      Adversary
     </button>
   </div>
 </nav>
@@ -147,5 +224,11 @@
     <SpiritBoard bind:spiritBoard />
   {:else if currentPage === "spiritBoardBack"}
     <SpiritBoardBack bind:spiritBoardBack />
+  {:else if currentPage === "powerCards"}
+    <PowerCards bind:powerCards />
+  {:else if currentPage === "aspect"}
+    <Aspect bind:aspect />
+  {:else if currentPage === "adversary"}
+    <Adversary bind:adversary />
   {/if}
 </div>
