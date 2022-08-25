@@ -110,7 +110,10 @@
   on:click={showOrHideSection}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
   id="growth">
-  Growth
+  <div class="section-header">
+    <div class="img-section-header" style="background-image: url('/template/_global/images/board/50px_presence.png')"/>
+    Growth
+  </div>
   <span id="growth" on:click={showOrHideSection}>
     {#if spiritBoard.growth.isVisible}
       <ion-icon id="growth" on:click={showOrHideSection} name="chevron-down-outline" />

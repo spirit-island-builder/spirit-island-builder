@@ -59,7 +59,10 @@
   on:click={showOrHideSection}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
   id="innatePowers">
-  Innate Powers
+  <div class="section-header">
+    <div class="img-section-header" style="background-image: url('/template/_global/images/25px-Fasticon.png')"/>
+    Innate Powers
+  </div>
   <span id="innatePowers" on:click={showOrHideSection}>
     {#if spiritBoard.innatePowers.isVisible}
       <ion-icon id="innatePowers" on:click={showOrHideSection} name="chevron-down-outline" />

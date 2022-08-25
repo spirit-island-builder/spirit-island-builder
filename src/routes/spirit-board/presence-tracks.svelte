@@ -42,7 +42,10 @@
   on:click={showOrHideSection}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
   id="presenceTrack">
-  Presence Tracks
+  <div class="section-header">
+    <div class="img-section-header" style="background-image: url('/template/_global/images/50px-Energy_1.png')"/>
+    Presence Tracks
+  </div>
   <span id="presenceTrack" on:click={showOrHideSection}>
     {#if spiritBoard.presenceTrack.isVisible}
       <ion-icon id="presenceTrack" on:click={showOrHideSection} name="chevron-down-outline" />
