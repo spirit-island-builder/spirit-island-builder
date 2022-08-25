@@ -123,45 +123,33 @@
               on:click={setSpeedTextbox("Slow", innatePower)}>Slow</button>
           {/if}
         </div>
-        <!-- 						<div class="control">
-							<input
-								id={`powerSpeed${i}`}
-								class="input"
-								type="text"
-								placeholder="Speed"
-								disabled
-								bind:value={innatePower.speed}
-							/>
-						</div> -->
       </div>
       <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap">
         <div class="is-flex is-flex-direction-row-reverse is-flex-wrap-nowrap">
           <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
             {#if innatePower.targetTitle == ""}
               <button
-                class="button is-success is-light is-small mb-0"
+                class="button is-success is-light mb-0 pl-2 pr-2"
                 on:click={setTargetTextbox("Target Land", innatePower)}>Target Land</button>
               <button
-                class="button is-success is-light is-small mb-0"
+                class="button is-success is-light mb-0 pl-2 pr-2"
                 on:click={setTargetTextbox("Target", innatePower)}>Target</button>
             {:else if innatePower.targetTitle == "target" || innatePower.targetTitle == "Target"}
               <button
-                class="button is-success is-light is-small mb-0"
+                class="button is-success is-light mb-0  pl-2 pr-2"
                 on:click={setTargetTextbox("Target Land", innatePower)}>Target Land</button>
               <button
-                class="button is-success is-small mb-0"
+                class="button is-success mb-0 pl-2 pr-2"
                 on:click={setTargetTextbox("Target", innatePower)}>Target</button>
             {:else}
               <button
-                class="button is-success is-small mb-0"
+                class="button is-success  mb-0 pl-2 pr-2"
                 on:click={setTargetTextbox("Target Land", innatePower)}>Target Land</button>
               <button
-                class="button is-success is-light is-small mb-0"
+                class="button is-success is-light  mb-0 pl-2 pr-2"
                 on:click={setTargetTextbox("Target", innatePower)}>Target</button>
             {/if}
           </div>
-        </div>
-        <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
           <div class="control">
             <input
               id={`powerRange${i}`}
