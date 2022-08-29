@@ -4,22 +4,22 @@
   // import NameAndArt from "./name-and-art.svelte";
   // import SpecialRules from "./special-rules.svelte";
 
-  let loreframe;
+  let adversaryFrame;
   onMount(() => {
-    loreframe.addEventListener("load", onLoad());
+    adversaryFrame.addEventListener("load", onLoad());
   });
 
   function onLoad() {
-    if (loreframe) {
+    if (adversaryFrame) {
 
     }
   }
 
   function showOrHideBoard() {
-    if (document.getElementById("lore-board-wrap").style.display == "none") {
-      document.getElementById("lore-board-wrap").style.display = "block";
+    if (document.getElementById("adversaryBoardWrap").style.display == "none") {
+      document.getElementById("adversaryBoardWrap").style.display = "block";
     } else {
-      document.getElementById("lore-board-wrap").style.display = "none";
+      document.getElementById("adversaryBoardWrap").style.display = "none";
     }
   }
 </script>
@@ -38,12 +38,12 @@
     {/if}
   </span>
 </h6>
-<div id="lore-board-wrap">
+<div id="adversaryBoardWrap">
   <iframe
     src=""
     height="600"
     width="100%"
-    id="lore-scaled-frame"
+    id="adversary-scaled-frame"
     title="yay" />
 </div>
 <div class="columns mt-0">
@@ -52,13 +52,13 @@
 </div>
 </div>
 <div>{`adversary ${adversary.prop}`}</div>
-<div id="lore-holder">
+<div id="adversary-holder">
   <iframe
-    bind:this={loreframe}
+    bind:this={adversaryFrame}
     src=""
     height="600"
     width="100%"
     title="yay"
     style="display:none;"
-    id="lore-mod-frame" />
+    id="adversary-mod-frame" />
 </div>

@@ -152,6 +152,23 @@
     previewBoard: {
       isVisible: false,
     },
+    cards: [
+      {
+        id: 0,
+        speed: "",
+        cost: "",
+        cardImage:"",
+        powerElements:"",
+        range:"",
+        target:"",
+        targetTitle:"",
+        rules:"",
+        threshold:"",
+        thresholdCondition:"",
+        thresholdText:"",
+      },
+     ],
+
   }
 
   let aspect = {
@@ -166,6 +183,26 @@
     previewBoard: {
       isVisible: false,
     },
+    name:"",
+    baseDif:"",
+    flagImg:"",
+    lossCondition: {
+      name: "",
+      effect:"",
+    },
+    escalation:{
+      name:"",
+      effect:"",
+    },
+    level: [
+      {
+        id:0,
+        name:"",
+        difficulty:"",
+        fearCards:"",
+        effect:"",
+      },
+    ],
   }
 </script>
 
