@@ -1,0 +1,261 @@
+@font-face{
+  font-family: JosefinSans-Regular;
+  src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf);
+}
+
+html, body{
+  padding:0px;
+  margin:0px; 
+  height:100%;
+  width:100%;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size:14px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+adversary{
+  display:block;
+  background-image: url(../images/adversary-frame.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width:800px;
+  height:534px;
+  border-radius: 15.1px;
+  position:relative;
+}
+
+adversary-title{
+  display:block;
+  position:absolute;
+  left:0px;
+  top:16px;
+  height:44px;
+  width:603px;
+  
+  text-align:center;
+  line-height: 36px;
+  font-size:36px;
+  font-family: 'DK Snemand';
+  text-transform: uppercase;
+}
+
+.flag{
+  display:block;
+  position:absolute;
+  left: 604px;
+  top: 28px;
+  height: 100px;
+  width: 143px;
+}
+
+adversary-base-dif{
+  display:block;
+  position:absolute;
+  right:207px;
+  top:45px;
+  height:44px;
+  width:600px;
+  
+  text-align:right;
+  line-height: 36px;
+  font-size:16px;
+  font-family: 'DK Snemand';
+  text-transform: uppercase;
+}
+
+top-info{
+  display:block;
+  position:absolute;
+  left:35px;
+  top:76px;
+  height:78px;
+  width:566px;
+
+  display:flex;
+  flex-wrap: nowrap;
+  font-family: 'JosefinSans-Regular';
+  font-size:12px;
+  line-height:17px;
+
+  padding-top:6px;
+  padding-left:20px;
+  padding-right:2px;
+}
+
+section-title{
+  font-weight: bold;
+  font-style: italic;
+  font-size:14px;
+}
+
+loss-condition{
+  margin-right:5px;
+  flex:1 0 215px;
+}
+
+escalation{
+  margin-right:5px;
+  flex:1 0 220px;
+}
+
+header-level{
+	margin-bottom: -15px;
+    margin-left: 0px;
+    text-align: center;
+	    display: flex;
+    justify-content: center;
+}
+
+adversary-levels{
+  display:block;
+  position:absolute;
+  left:35px;
+  top:157px;
+  height:360px;
+  width:726px;
+
+  font-family: 'JosefinSans-Regular';
+  font-size:12px;
+  
+  padding-left:20px;
+  padding-right:20px;
+  padding-top:7px;
+  padding-bottom:20px;
+
+  display:flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+adversary-levels header{
+  font-weight: bold;
+  font-style: italic;
+  font-size:13px;
+  text-align:left;
+
+  display:flex;
+  flex-wrap:nowrap;
+}
+
+adversary-levels header div:not(:last-child){
+
+}
+
+adversary-levels header div:nth-child(1),
+adversary-levels header header-level:nth-child(1),
+adversary-levels level div:nth-child(1){
+  flex:0 0 50px;
+  width: 50px;
+}
+
+adversary-levels header div:nth-child(2),
+adversary-levels level div:nth-child(2){
+  white-space: nowrap;
+  flex:0 0 90px;
+   text-align:center;
+}
+
+adversary-levels header div:nth-child(3),
+adversary-levels level div:nth-child(3){
+  flex-grow:1;
+}
+
+adversary-levels level{
+  display:flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+adversary-levels level div:first-child{
+  font-size:23px;
+  font-family:'Gobold Extra2';
+  padding-left:10px;
+}
+
+adversary-levels level div:nth-child(2){
+}
+
+adversary-levels level div:last-child{
+  line-height:17px;
+  padding-top:2px;
+}
+
+adversary-levels line{
+  height:0.5px; /* half pixel is intentional - when it is scaled it, it will still be one pixel wide. Was having issues with some lines being two pixels wide and some just one */
+  background-color:black;
+}
+
+level-info{
+  font-style:italic;
+}
+
+.cumulative{
+  font-weight: normal;
+  color:rgb(100, 100, 100);
+}
+
+div.level-difficulty{
+  font-size:8px;
+}
+
+level-difficulty{
+    font-size: 9px;
+    position: relative;
+    top: 2px;
+    font-family: 'Lato SemiBold';
+}
+
+icon{
+  height:17px;
+  width:17px;
+  margin-bottom:-3px;
+  margin-top:-4px;
+}
+
+adversary-levels icon{
+  margin-top:-2px;
+}
+
+icon.city{
+  height:19px;
+  width:19px;
+  margin-top:-5px;
+  background-image: url('../images/50px-Citiyicon.png');
+}
+
+icon.escalation{
+  height:17px;
+  width:15px;
+  margin-bottom:-2px;
+  margin-top:-10px;
+  background-image: url('../images/25px-Stage_II_Escalation.png');
+}
+
+icon.presence{
+  background-image: url('../images/board/50px_presence.png');
+  margin-bottom: -5px;
+}
+
+adversary-levels icon.city{
+    margin-top: -4px;
+    margin-bottom: -4px;
+}
+
+icon.town{
+  height:15px;
+  width:15px;
+}
+
+icon.range-1, icon.range-2, icon.range-3 {
+  height:15px;
+  width:28px;
+}

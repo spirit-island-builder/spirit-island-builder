@@ -1,313 +1,165 @@
-@font-face {
-	font-family: "Lato SemiBold";
-	src: url(../fonts/lato/Lato-Semibold.ttf);
+@font-face{
+  font-family: 'Lato SemiBold';
+  src: url(../fonts/lato/Lato-Semibold.ttf);
+}
+
+@font-face{
+  font-family: 'Mouse Memoirs';
+  src: url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf);
+}
+
+@font-face{
+  font-family: 'SI-Crushed';
+  src: url(../fonts/SI-Crushed/CrushedAlt04.ttf);
+}
+
+@font-face{
+  font-family: 'Noto Sans';
+  src: url(../fonts/Noto_Sans/NotoSans-Bold.ttf);
+}
+
+@font-face{
+  font-family: "Name Headings";
+  src: url(../fonts/DKSnemand/DK-Snemand.otf),
+	   url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf),
+	   local('DK Snemand');
+}
+
+@font-face{
+  font-family: 'Lato SemiBold';
+  src: url(../fonts/lato/Lato-BoldItalic.ttf);
+  font-style: italic;
 }
 
 @font-face {
-	font-family: "Mouse Memoirs";
-	src: url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf);
-}
-
-@font-face {
-	font-family: "SI-Crushed";
-	src: url(../fonts/SI-Crushed/CrushedAlt04.ttf);
-}
-
-@font-face {
-	font-family: "Noto Sans";
-	src: url(../fonts/Noto_Sans/NotoSans-Bold.ttf);
-}
-
-@font-face {
-	font-family: "Name Headings";
-	src: url(../fonts/DKSnemand/DK-Snemand.otf), url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf),
-		local("DK Snemand");
-}
-
-@font-face {
-	font-family: "Lato SemiBold";
-	src: url(../fonts/lato/Lato-BoldItalic.ttf);
-	font-style: italic;
-}
-
-@font-face {
-	font-family: "JosefinSans";
-	src: url(../fonts/josefin-sans/JosefinSans-BoldItalic.ttf) format("truetype");
+    font-family: 'JosefinSans';
+    src: url(../fonts/josefin-sans/JosefinSans-BoldItalic.ttf) format("truetype");
 	font-weight: bold;
 	font-style: italic;
 	letter-spacing: -0.5px;
 }
 
-icon {
-	display: inline-block;
-	background-repeat: no-repeat;
-	background-size: contain;
-	background-position: center;
+icon{
+  display:inline-block;
+  background-repeat: no-repeat;
+  background-size:contain;
+  background-position:center;
 }
 
 icon.no {
-	position: relative;
-	display: inline-flex;
-	align-items: center;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 icon.no::before {
-	content: "";
-	background-image: url("../images/board/no.png");
-	background-position: center center;
-	background-size: contain;
-	background-repeat: no-repeat;
-	display: block;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	margin: auto;
+  content: '';
+  background-image: url('../images/board/no.png');
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: auto;
 }
 
-icon.range {
-	background-image: url("../images/50px-Rangeicon.png");
-}
-icon.spirit {
-	background-image: url("../images/50px-Spiriticon.png");
-}
-icon.player {
-	background-image: url("../images/50px-Spiriticon.png");
-}
-icon.player-spirit {
-	background-image: url("../images/50px-Spiriticon.png");
+icon.range{background-image: url('../images/50px-Rangeicon.png');}
+icon.spirit{background-image: url('../images/50px-Spiriticon.png'); }
+icon.player{background-image: url('../images/50px-Spiriticon.png'); }
+icon.player-spirit{background-image: url('../images/50px-Spiriticon.png'); }
+
+icon.badland{background-image: url('../images/board/48px_badlands.png'); }
+icon.badlands{background-image: url('../images/board/48px_badlands.png'); }
+icon.beast{background-image: url('../images/board/beast.png'); }
+icon.beasts{background-image: url('../images/board/beast.png'); }
+icon.disease{background-image: url('../images/board/75px_disease.png'); }
+icon.strife{background-image: url('../images/25px-Strifeicon.png'); }
+icon.wild{background-image: url('../images/board/wilds.png'); }
+icon.wilds{background-image: url('../images/board/wilds.png'); }
+
+icon.fast{background-image: url('../images/50px-Fasticon.png');}
+icon.slow{background-image: url('../images/50px-Slowicon.png');}
+icon.blight{background-image: url('../images/25px-Blighticon.png');}
+icon.dahan{background-image: url('../images/board/dahan.png');}
+icon.fear{background-image: url('../images/25px-Fearicon.png');}
+icon.escalation {background-image: url('../images/25px-Stage_II_Escalation.png'); margin-bottom:0px;}
+
+icon.explorer{background-image: url('../images/15px-Explorericon.png'); margin-left:-4px; margin-right:-7px;}
+icon.town{background-image: url('../images/25px-Townicon.png');}
+icon.city{background-image: url('../images/25px-Citiyicon.png');}
+
+icon.presence-white {background-image: url('../images/25px-Presenceicon-inverse.png'); margin-left:3px; margin-right:3px;}
+icon.presence {background-image: url('../images/board/50px_presence.png');}
+icon.destroyed-presence {background-image: url('../images/board/NewIcons/Misc Presence Destroy.png');}
+icon.sacred-site {background-image: url('../images/board/sacred_site.png') }
+
+icon.earth{ background-image: url('../images/80px-Earthelement.png'); }
+icon.sun{ background-image: url('../images/80px-Sunelement.png'); }
+icon.plant{ background-image: url('../images/80px-Plantelement.png'); }
+icon.water{ background-image: url('../images/80px-Waterelement.png'); }
+icon.moon{background-image: url('../images/80px-Moonelement.png'); }
+icon.fire{background-image: url('../images/80px-Fireelement.png'); }
+icon.air{background-image: url('../images/80px-Airelement.png'); }
+icon.animal{background-image: url('../images/80px-Animalelement.png'); }
+icon.any-element{background-image: url('../images/Anyelement.png'); }
+
+icon.jungle{background-image: url('../images/50px-jungle.png'); }
+icon.mountain{background-image: url('../images/50px-mountain.png'); }
+icon.sand{background-image: url('../images/50px-sand.png'); }
+icon.wetland{background-image: url('../images/50px-wetland.png'); }
+icon.ocean{background-image: url('../images/50px-ocean.png'); }
+
+icon.jungle-presence{background-image: url('../images/50px-jungle-presence.png'); }
+icon.mountain-presence{background-image: url('../images/50px-mountain-presence.png'); }
+icon.sand-presence{background-image: url('../images/50px-sand-presence.png'); }
+icon.wetland-presence{background-image: url('../images/50px-wetland-presence.png'); }
+
+icon.jungle-sand{background-image: url('../images/50px-jungle-sand.png'); }
+icon.jungle-wetland{background-image: url('../images/50px-jungle-wetland.png'); }
+icon.mountain-jungle{background-image: url('../images/50px-mountain-jungle.png'); }
+icon.mountain-sand{background-image: url('../images/50px-mountain-sand.png'); }
+icon.mountain-wetland{background-image: url('../images/50px-mountain-wetland.png'); }
+icon.sand-wetland{background-image: url('../images/50px-sand-wetland.png'); }
+
+icon.terror-1{background-image: url('../images/board/NewIcons/TerrorLevel1.png'); width:50px; padding: 5px; margin-bottom: -8px; }
+icon.terror-2{background-image: url('../images/board/NewIcons/TerrorLevel1.png'); width:50px; padding: 5px; margin-bottom: -8px; }
+icon.terror-3{background-image: url('../images/board/NewIcons/TerrorLevel1.png'); width:50px; padding: 5px; margin-bottom: -8px; }
+
+icon.markerplus { background-image: url('../images/board/NewIcons/Element Marker Gain 1.png'); }
+icon.markerminus { background-image: url('../images/board/NewIcons/Element Marker Pay 1.png'); }
+icon.markerquestion { background-image: url('../images/customIcons/marker-question.png'); }
+
+icon.range-0 { background-image: url('../images/board/presence_range_0.png'); }
+icon.range-1 { background-image: url('../images/board/presence_range_1.png'); }
+icon.range-2 { background-image: url('../images/board/presence_range_2.png'); }
+icon.range-3 { background-image: url('../images/board/presence_range_3.png'); }
+icon.range-4 { background-image: url('../images/board/presence_range_4.png'); }
+icon.range-x, icon.range-X { background-image: url('../images/board/presence_range_x.png'); }
+icon.gain-range-1 { background-image: url('../images/board/NewIcons/Range Gain 1.png'); }
+icon.gain-range-2 { background-image: url('../images/board/NewIcons/Range Gain 2.png'); }
+icon.gain-range-3 { background-image: url('../images/board/NewIcons/Range Gain 3.png'); }
+icon.gain-range-X, icon.gain-range-x { background-image: url('../images/board/NewIcons/Range Gain X.png'); }
+
+icon.destroyed-presence, icon.destroy-presence { background-image: url('../images/board/NewIcons/Misc Presence Destroy.png');}
+
+range{
+  width:50px;
+  height:32px;
+  display:inline-block;
+  text-align:center;
+  background-image:url('../images/50px-Rangeicon.png');
+  background-repeat: no-repeat;
+  background-position-y:23px;
+  background-size: contain;
 }
 
-icon.badland {
-	background-image: url("../images/board/48px_badlands.png");
-}
-icon.badlands {
-	background-image: url("../images/board/48px_badlands.png");
-}
-icon.beast {
-	background-image: url("../images/board/beast.png");
-}
-icon.beasts {
-	background-image: url("../images/board/beast.png");
-}
-icon.disease {
-	background-image: url("../images/board/75px_disease.png");
-}
-icon.strife {
-	background-image: url("../images/25px-Strifeicon.png");
-}
-icon.wild {
-	background-image: url("../images/board/wilds.png");
-}
-icon.wilds {
-	background-image: url("../images/board/wilds.png");
-}
-
-icon.fast {
-	background-image: url("../images/50px-Fasticon.png");
-}
-icon.slow {
-	background-image: url("../images/50px-Slowicon.png");
-}
-icon.blight {
-	background-image: url("../images/25px-Blighticon.png");
-}
-icon.dahan {
-	background-image: url("../images/board/dahan.png");
-}
-icon.fear {
-	background-image: url("../images/25px-Fearicon.png");
-}
-icon.escalation {
-	background-image: url("../images/25px-Stage_II_Escalation.png");
-	margin-bottom: 0px;
-}
-
-icon.explorer {
-	background-image: url("../images/15px-Explorericon.png");
-	margin-left: -4px;
-	margin-right: -7px;
-}
-icon.town {
-	background-image: url("../images/25px-Townicon.png");
-}
-icon.city {
-	background-image: url("../images/25px-Citiyicon.png");
-}
-
-icon.presence-white {
-	background-image: url("../images/25px-Presenceicon-inverse.png");
-	margin-left: 3px;
-	margin-right: 3px;
-}
-icon.presence {
-	background-image: url("../images/board/50px_presence.png");
-}
-icon.destroyed-presence {
-	background-image: url("../images/board/NewIcons/Misc Presence Destroy.png");
-}
-icon.sacred-site {
-	background-image: url("../images/board/sacred_site.png");
-}
-
-icon.earth {
-	background-image: url("../images/80px-Earthelement.png");
-}
-icon.sun {
-	background-image: url("../images/80px-Sunelement.png");
-}
-icon.plant {
-	background-image: url("../images/80px-Plantelement.png");
-}
-icon.water {
-	background-image: url("../images/80px-Waterelement.png");
-}
-icon.moon {
-	background-image: url("../images/80px-Moonelement.png");
-}
-icon.fire {
-	background-image: url("../images/80px-Fireelement.png");
-}
-icon.air {
-	background-image: url("../images/80px-Airelement.png");
-}
-icon.animal {
-	background-image: url("../images/80px-Animalelement.png");
-}
-icon.any-element {
-	background-image: url("../images/Anyelement.png");
-}
-
-icon.jungle {
-	background-image: url("../images/50px-jungle.png");
-}
-icon.mountain {
-	background-image: url("../images/50px-mountain.png");
-}
-icon.sand {
-	background-image: url("../images/50px-sand.png");
-}
-icon.wetland {
-	background-image: url("../images/50px-wetland.png");
-}
-icon.ocean {
-	background-image: url("../images/50px-ocean.png");
-}
-
-icon.jungle-presence {
-	background-image: url("../images/50px-jungle-presence.png");
-}
-icon.mountain-presence {
-	background-image: url("../images/50px-mountain-presence.png");
-}
-icon.sand-presence {
-	background-image: url("../images/50px-sand-presence.png");
-}
-icon.wetland-presence {
-	background-image: url("../images/50px-wetland-presence.png");
-}
-
-icon.jungle-sand {
-	background-image: url("../images/50px-jungle-sand.png");
-}
-icon.jungle-wetland {
-	background-image: url("../images/50px-jungle-wetland.png");
-}
-icon.mountain-jungle {
-	background-image: url("../images/50px-mountain-jungle.png");
-}
-icon.mountain-sand {
-	background-image: url("../images/50px-mountain-sand.png");
-}
-icon.mountain-wetland {
-	background-image: url("../images/50px-mountain-wetland.png");
-}
-icon.sand-wetland {
-	background-image: url("../images/50px-sand-wetland.png");
-}
-
-icon.terror-1 {
-	background-image: url("../images/board/NewIcons/TerrorLevel1.png");
-	width: 50px;
-	padding: 5px;
-	margin-bottom: -8px;
-}
-icon.terror-2 {
-	background-image: url("../images/board/NewIcons/TerrorLevel1.png");
-	width: 50px;
-	padding: 5px;
-	margin-bottom: -8px;
-}
-icon.terror-3 {
-	background-image: url("../images/board/NewIcons/TerrorLevel1.png");
-	width: 50px;
-	padding: 5px;
-	margin-bottom: -8px;
-}
-
-icon.markerplus {
-	background-image: url("../images/board/NewIcons/Element Marker Gain 1.png");
-}
-icon.markerminus {
-	background-image: url("../images/board/NewIcons/Element Marker Pay 1.png");
-}
-icon.markerquestion {
-	background-image: url("../images/customIcons/marker-question.png");
-}
-
-icon.range-0 {
-	background-image: url("../images/board/presence_range_0.png");
-}
-icon.range-1 {
-	background-image: url("../images/board/presence_range_1.png");
-}
-icon.range-2 {
-	background-image: url("../images/board/presence_range_2.png");
-}
-icon.range-3 {
-	background-image: url("../images/board/presence_range_3.png");
-}
-icon.range-4 {
-	background-image: url("../images/board/presence_range_4.png");
-}
-icon.range-x,
-icon.range-X {
-	background-image: url("../images/board/presence_range_x.png");
-}
-icon.gain-range-1 {
-	background-image: url("../images/board/NewIcons/Range Gain 1.png");
-}
-icon.gain-range-2 {
-	background-image: url("../images/board/NewIcons/Range Gain 2.png");
-}
-icon.gain-range-3 {
-	background-image: url("../images/board/NewIcons/Range Gain 3.png");
-}
-icon.gain-range-X,
-icon.gain-range-x {
-	background-image: url("../images/board/NewIcons/Range Gain X.png");
-}
-
-icon.destroyed-presence,
-icon.destroy-presence {
-	background-image: url("../images/board/NewIcons/Misc Presence Destroy.png");
-}
-
-range {
-	width: 50px;
-	height: 32px;
-	display: inline-block;
-	text-align: center;
-	background-image: url("../images/50px-Rangeicon.png");
-	background-repeat: no-repeat;
-	background-position-y: 23px;
-	background-size: contain;
-}
-
-no-range {
-	width: 88px;
-	height: 4px;
-	text-align: center;
-	background-image: url("../images/no-range.png");
-	background-repeat: no-repeat;
-	background-size: 88px 4px;
+no-range{
+  width:88px;
+  height:4px;
+  text-align:center;
+  background-image:url('../images/no-range.png');
+  background-repeat: no-repeat;
+  background-size:88px 4px;
 }
