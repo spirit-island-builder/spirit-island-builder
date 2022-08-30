@@ -183,26 +183,67 @@
     previewBoard: {
       isVisible: false,
     },
-    name:"",
-    baseDif:"",
-    flagImg:"",
-    lossCondition: {
-      name: "",
-      effect:"",
-    },
-    escalation:{
+    nameLossEscalation:{
+      isVisible: false,
       name:"",
-      effect:"",
-    },
-    level: [
-      {
-        id:0,
-        name:"",
-        difficulty:"",
-        fearCards:"",
+      baseDif:"",
+      flagImg:"",
+      lossCondition: {
+        name: "",
         effect:"",
       },
-    ],
+      escalation:{
+        name:"",
+        effect:"",
+      },
+    },
+    levelSummary:{
+      isVisible: false,
+      levels: [
+        {
+          id:1,
+          name:"",
+          difficulty:"",
+          fearCards:"",
+          effect:"",
+        },
+        {
+          id:2,
+          name:"",
+          difficulty:"",
+          fearCards:"",
+          effect:"",
+        },
+        {
+          id:3,
+          name:"",
+          difficulty:"",
+          fearCards:"",
+          effect:"",
+        },
+        {
+          id:4,
+          name:"",
+          difficulty:"",
+          fearCards:"",
+          effect:"",
+        },
+        {
+          id:5,
+          name:"",
+          difficulty:"",
+          fearCards:"",
+          effect:"",
+        },
+        {
+          id:6,
+          name:"",
+          difficulty:"",
+          fearCards:"",
+          effect:"",
+        },
+      ],
+    },
   }
 </script>
 

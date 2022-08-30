@@ -1,4 +1,10 @@
-window.onload = function startMain(){
+window.onload = (event) =>{
+	startMain();
+    console.log('Page Loaded');
+
+};
+
+function startMain(){
 	quickAdversary = document.querySelectorAll('quick-adversary')[0];
 	console.log(quickAdversary)
 	if (quickAdversary){

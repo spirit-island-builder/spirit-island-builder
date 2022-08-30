@@ -1,6 +1,8 @@
 <script>
   import { onMount } from "svelte";
   export let adversary;
+  import NameLossAndEscalation from "./name-loss-escalation.svelte";
+  import AdversaryLevels from "./adversary-levels.svelte";
   // import NameAndArt from "./name-and-art.svelte";
   // import SpecialRules from "./special-rules.svelte";
 
@@ -11,10 +13,16 @@
 
   function onLoad() {
     if (adversaryFrame) {
-
+        setTimeout(() => {
+          readHTML(adversaryFrame.contentDocument);
+        }, 200);
     }
   }
 
+  function showOrHideSection(event) {
+    adversary[event.target.id].isVisible = !adversary[event.target.id].isVisible;
+  }
+  
   function showOrHideBoard() {
     if (document.getElementById("adversaryBoardWrap").style.display == "none") {
       document.getElementById("adversaryBoardWrap").style.display = "block";
@@ -22,6 +30,95 @@
       document.getElementById("adversaryBoardWrap").style.display = "none";
     }
   }
+
+  function reloadPreview() {
+    console.log("Updating Preview Board (f=setBoardValues)");
+    setBoardValues(adversary);
+    console.log("Reloading Preview (f=copyHTML)");
+    copyHTML();
+    document.getElementById("adversary-scaled-frame").contentWindow.startMain();
+  }
+
+  function copyHTML() {
+    console.log("Copying HTML from Form to Preview (f=copyHTML)");
+    var modFrame = document.getElementById("adversary-mod-frame");
+    modFrame.doc = document.getElementById("adversary-mod-frame").contentWindow.document;
+    modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
+    modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
+    var scaledFrame = document.getElementById("adversary-scaled-frame");
+    scaledFrame.doc = document.getElementById("adversary-scaled-frame").contentWindow.document;
+    scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
+    scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
+
+    let bodyClone;
+    bodyClone = document.getElementById("adversary-mod-frame").contentWindow.document.body.cloneNode(true);
+    document.getElementById("adversary-scaled-frame").contentWindow.document.body = bodyClone;
+    let headClone = modFrame.head.cloneNode(true);
+    scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
+  }
+
+  function setBoardValues(adversary) {
+    if (adversaryFrame) {
+      //Set Adversary Name, Diffuclty and Flag Image
+      const adversaryHeader = adversaryFrame.contentDocument.querySelectorAll("quick-adversary")[0];
+      console.log(adversaryFrame)
+      console.log(adversaryFrame.contentDocument)
+      adversaryHeader.setAttribute("name", adversary.nameLossEscalation.name);
+      adversaryHeader.setAttribute("base-difficulty", adversary.nameLossEscalation.baseDif);
+      adversaryHeader.setAttribute("flag-image", adversary.nameLossEscalation.flagImg);
+
+      //Set Loss Condition
+      const lossConditionHeader = adversaryFrame.contentDocument.querySelectorAll("loss-condition")[0];
+      lossConditionHeader.setAttribute("name", adversary.nameLossEscalation.lossCondition.name);
+      lossConditionHeader.setAttribute("rules", adversary.nameLossEscalation.lossCondition.effect);
+
+      //Set Escalation
+      const escalationHeader = adversaryFrame.contentDocument.querySelectorAll("escalation-effect")[0];
+      escalationHeader.setAttribute("name", adversary.nameLossEscalation.escalation.name);
+      escalationHeader.setAttribute("rules", adversary.nameLossEscalation.escalation.effect);
+      
+      //Set Levels
+      adversary.levelSummary.levels.forEach((level, i) => {
+        var HTMLlevel = adversaryFrame.contentDocument.querySelectorAll("level-"+(i+1))[0];
+        HTMLlevel.setAttribute("name", level.name);
+        HTMLlevel.setAttribute("difficulty", level.difficulty);
+        HTMLlevel.setAttribute("fear-cards", level.fearCards);
+        HTMLlevel.setAttribute("rules", level.effect);
+      });
+    }
+  }
+  
+  function readHTML(htmlElement) {
+    console.log("Loading default spirit board into form (f=readHTML)");
+    //Reads the Template HTML file into the Form
+    if (adversaryFrame) {
+      //Load Adversary Name, Base Difficulty and Flag Image
+      const adversaryHeader = htmlElement.querySelectorAll("quick-adversary")[0];
+      adversary.nameLossEscalation.name = adversaryHeader.getAttribute("name");
+      adversary.nameLossEscalation.baseDif = adversaryHeader.getAttribute("base-difficulty");
+      adversary.nameLossEscalation.flagImg = adversaryHeader.getAttribute("flag-image");
+      
+      //Load Loss Condition
+      const lossConditionHeader = htmlElement.querySelectorAll("loss-condition")[0];
+      adversary.nameLossEscalation.lossCondition.name = lossConditionHeader.getAttribute("name");
+      adversary.nameLossEscalation.lossCondition.effect = lossConditionHeader.getAttribute("rules");
+
+      //Load Escalation
+      const escalationHeader = htmlElement.querySelectorAll("escalation-effect")[0];
+      adversary.nameLossEscalation.escalation.name = escalationHeader.getAttribute("name");
+      adversary.nameLossEscalation.escalation.effect = escalationHeader.getAttribute("rules");
+      
+      //Load Levels
+      for (let i = 0; i < 6; i++) {
+        var HTMLLevel = htmlElement.querySelectorAll("level-"+(i+1))[0];
+        adversary.levelSummary.levels[i].name = HTMLLevel.getAttribute("name");
+        adversary.levelSummary.levels[i].difficulty = HTMLLevel.getAttribute("difficulty");
+        adversary.levelSummary.levels[i].fearCards = HTMLLevel.getAttribute("fear-cards");
+        adversary.levelSummary.levels[i].effect = HTMLLevel.getAttribute("rules");
+      }
+    }
+  }
+  
 </script>
 
 <h5 class="title is-5">Adversary</h5>
@@ -40,22 +137,46 @@
 </h6>
 <div id="adversaryBoardWrap">
   <iframe
-    src=""
+    src="/template/MyCustomContent/MyAdversary/adversary.html"
     height="600"
     width="100%"
     id="adversary-scaled-frame"
     title="yay" />
 </div>
+<div class="field has-addons mb-2">
+<!--   <div class="file is-success mr-1">
+    <label class="file-label">
+      <input
+        class="file-input"
+        id="userHTMLInput"
+        type="file"
+        name="userHTMLInput"
+        accept=".html"
+        on:change={handleTextFileInput} />
+      <span class="file-cta">
+        <span class="file-label"> Load Spirit Board file </span>
+      </span>
+    </label>
+  </div> -->
+<!--   <button class="button is-success  mr-1" on:click={exportSpiritBoard}
+    >Download Spirit Board file</button> -->
+  <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Adversary</button>
+<!--   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
+  <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button> -->
+</div>
 <div class="columns mt-0">
   <div class="column pt-0">
-
+    <!-- Any kind of property can be passed to a component. Functions and variables. As long as they are also exported from the nested component (i.e. NameAndArt) they will be available for use in the nested component -->
+    <NameLossAndEscalation bind:adversary {showOrHideSection} />
+  </div>
+  <div class="column pt-0">
+    <AdversaryLevels bind:adversary {showOrHideSection} />
+  </div>
 </div>
-</div>
-<div>{`adversary ${adversary.prop}`}</div>
 <div id="adversary-holder">
   <iframe
     bind:this={adversaryFrame}
-    src=""
+    src="/template/MyCustomContent/MyAdversary/adversary_noJS.html"
     height="600"
     width="100%"
     title="yay"

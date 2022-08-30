@@ -317,9 +317,6 @@
     } else {
       document.getElementById("board-wrap").style.display = "none";
     }
-    console.log("this iiis a test");
-    console.log(document.getElementById("board-wrap"));
-    console.log(document.getElementById("board-wrap").style.display);
   }
 
   function readHTML(htmlElement) {
