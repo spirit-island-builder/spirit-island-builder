@@ -1,6 +1,5 @@
 <script>
   import * as Lib from "./lib";
-  // import * as AutoComplete from '../../autoComplete'
   import AutoComplete from "../auto-complete/index.svelte";
 
   export let spiritBoard;
