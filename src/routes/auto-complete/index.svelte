@@ -1,5 +1,5 @@
 <script>
-  import { afterUpdate, beforeUpdate } from "svelte";
+  import { afterUpdate } from "svelte";
 
   export let elementType;
   export let placeholder;
@@ -20,8 +20,6 @@
   let currentAutoCompleteTermLength = 0;
   let selectedWord = "";
   let inputElementThatWasCompleted;
-
-  beforeUpdate(() => {});
 
   afterUpdate(() => {
     // Refocus the input element that was just completed
