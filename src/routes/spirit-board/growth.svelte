@@ -1,12 +1,33 @@
 <script>
   import * as Lib from "./lib";
+  import AutoComplete from "../auto-complete/index.svelte";
+
+  const validAutoCompleteValues = [
+    { label: "reclaim-all", value: "reclaim-all" },
+    {
+      label: "gain-energy",
+      value: "gain-energy",
+    },
+    {
+      label: "add-presence",
+      value: "add-presence",
+    },
+    {
+      label: "gain-element",
+      value: "gain-element",
+    },
+    {
+      label: "gain-power-card",
+      value: "gain-power-card",
+    },
+  ];
 
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
   }
-  
+
   function easyReport() {
-    console.log('it ran')
+    console.log("it ran");
   }
 
   function removeAllGrowthSets() {
@@ -15,7 +36,6 @@
     spiritBoard.growth.directions = "";
     var firstSet = spiritBoard.growth.growthSets[0];
     for (let i = 1; i < spiritBoard.growth.growthSets.length; i++) {
-      var growthSet = spiritBoard.growth.growthSets[i];
       while (spiritBoard.growth.growthSets[i].growthGroups.length > 0) {
         firstSet.growthGroups.push(spiritBoard.growth.growthSets[i].growthGroups.shift());
         firstSet.growthGroups[firstSet.growthGroups.length - 1].id =
@@ -122,7 +142,11 @@
 {#if spiritBoard.growth.isVisible}
   <article class="message is-small mb-1">
     <div class="message-body p-1">
-      <span><a href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#growth" target="_blank">Instructions</a></span>
+      <span
+        ><a
+          href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#growth"
+          target="_blank">Instructions</a
+        ></span>
     </div>
   </article>
   {#if !spiritBoard.growth.useGrowthSets}
@@ -221,12 +245,12 @@
               {#each growthGroup.growthActions as growthAction, k (growthAction.id)}
                 <div class="growth-action-container">
                   <div class="control">
-                    <input
+                    <AutoComplete
                       id={`growthSet${i}Group${j}Action${k}`}
-                      class="input"
-                      type="text"
-                      tabindex="1"
+                      elementType="input"
                       placeholder="Growth Action"
+                      showListImmediately={true}
+                      {validAutoCompleteValues}
                       on:blur={easyReport}
                       bind:value={growthAction.effect} />
                   </div>
@@ -240,7 +264,6 @@
                   class="button is-primary is-light is-small row-button"
                   tabindex="1"
                   on:click={addGrowthAction(i, j)}>Add Growth Action</button>
-                <!-- Could I just pass the growthgroup as growthGroup instead of the indexes? -->
               </div>
             </div>
           </div>
@@ -261,11 +284,10 @@
   {#if spiritBoard.growth.useGrowthSets}
     <div class="field">
       <div class="control">
-        <button 
+        <button
           class="button is-primary is-light is-small row-button"
           tabindex="1"
-          on:click={addGrowthSet}
-          >Add Growth Set</button>
+          on:click={addGrowthSet}>Add Growth Set</button>
       </div>
     </div>
   {/if}
