@@ -260,6 +260,7 @@
       Spirit Board Play Side
     </button>
     <button
+      style="display:none"
       class={`button navbar-item ${
         currentPage === "spiritBoardBack" ? "is-primary" : "is-link is-light"
       }`}
@@ -269,6 +270,7 @@
       Spirit Board Lore Side
     </button>
     <button
+      style="display:none"
       class={`button navbar-item ${
         currentPage === "powerCards" ? "is-primary" : "is-link is-light"
       }`}
@@ -278,6 +280,7 @@
       Power Cards
     </button>
     <button
+      style="display:none"
       class={`button navbar-item ${
         currentPage === "aspect" ? "is-primary" : "is-link is-light"
       }`}

@@ -4,6 +4,7 @@
   padding: 0;
   overflow: hidden;
 }
+
 #scaled-frame {
   width: 1800px;
   height: 1210px;
@@ -21,6 +22,34 @@
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   #scaled-frame {
+    zoom: 1;
+  }
+}
+
+#adversaryBoardWrap {
+  width: 100%;
+  height: 550px;
+  padding: 0;
+  overflow: hidden;
+}
+
+#adversary-scaled-frame {
+  width: 860px;
+  height: 540px;
+  border: 0px;
+}
+#adversary-scaled-frame {
+  zoom: 1;
+  -moz-transform: scale(1);
+  -moz-transform-origin: 0 0;
+  -o-transform: scale(1);
+  -o-transform-origin: 0 0;
+  -webkit-transform: scale(1);
+  -webkit-transform-origin: 0 0;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  #adversary-scaled-frame {
     zoom: 1;
   }
 }

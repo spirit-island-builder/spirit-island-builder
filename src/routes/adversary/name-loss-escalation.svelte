@@ -7,6 +7,21 @@
   export let showOrHideSection;
   
   
+  function handleImageFileInput(event) {
+    const file = event.target.files.item(0);
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = (data) => {
+        const imageURL = data.target.result;
+        adversary.nameLossEscalation.flagImg = imageURL;
+
+      };
+
+      // This reads the file and then triggers the onload function above once it finishes
+      fileReader.readAsDataURL(file);
+    }
+  }
+  
 </script>
 
 <h6
@@ -54,7 +69,7 @@
         </div>
       </div>
       <!-- FLAG ART -->
-<!--       <div class="field has-addons is-horizontal is-justify-content-left mb-0">
+      <div class="field has-addons is-horizontal is-justify-content-left mb-0">
         <div class="field-label is-small">
           <label class="label" for="adversaryFlagArt">Flag Art</label>
         </div>
@@ -70,7 +85,7 @@
             <img id="adversaryFlagArtImage" src={adversary.nameLossEscalation.flagImg} alt="flag art" />
           {/if}
         </div>
-      </div> -->
+      </div>
     </div>
     <!-- Loss Condition -->
     <div class="field">

@@ -119,6 +119,131 @@
     }
   }
   
+  let adversaryFrameLarge = false;
+  function toggleSize() {
+    var displayFrame = document.getElementById("adversary-scaled-frame");
+    var displayWrap = document.getElementById("adversaryBoardWrap");
+    if (!adversaryFrameLarge) {
+      displayFrame.style.webkitTransform = "scale(1.55)";
+      displayWrap.style.height = "845px";
+    } else {
+      displayFrame.style.webkitTransform = "scale(1)";
+      displayWrap.style.height = "550px";
+    }
+    adversaryFrameLarge = !adversaryFrameLarge;
+  }
+  
+  function exportAdversary() {
+    var element = document.createElement("a");
+    element.setAttribute(
+      "href",
+      "data:text/html;charset=utf-8," +
+        encodeURIComponent(
+          document
+            .getElementById("adversary-mod-frame")
+            .contentWindow.document.getElementsByTagName("html")[0].innerHTML
+        )
+    );
+    console.log(document.getElementById("adversary-mod-frame").contentWindow.document.getElementsByTagName("html")[0].innerHTML)
+    element.setAttribute(
+      "download",
+      adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_adversary.html"
+    );
+    element.style.display = "none";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+  
+  function handleTextFileInput(event) {
+    var dummyEl = document.createElement("html");
+    const file = event.target.files.item(0);
+    console.log(file);
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = (data) => {
+        const fileText = data.target.result;
+        dummyEl.innerHTML = fileText;
+        dummyEl.head = dummyEl.getElementsByTagName("head")[0];
+        dummyEl.body = dummyEl.getElementsByTagName("body")[0];
+        readHTML(dummyEl);
+      };
+
+      // This reads the file and then triggers the onload function above once it finishes
+      fileReader.readAsText(file);
+    }
+  }
+  
+  function clearAllFields() {
+  adversary = {
+    prop: "value",
+    previewBoard: {
+      isVisible: false,
+    },
+    nameLossEscalation:{
+      isVisible: false,
+      name:"",
+      baseDif:"",
+      flagImg:"",
+      lossCondition: {
+        name: "",
+        effect:"",
+      },
+      escalation:{
+        name:"",
+        effect:"",
+      },
+    },
+    levelSummary:{
+      isVisible: false,
+      levels: [
+        {
+          id:1,
+          name:"",
+          difficulty:"",
+          fearCards:"",
+          effect:"",
+        },
+        {
+          id:2,
+          name:"",
+          difficulty:"",
+          fearCards:"",
+          effect:"",
+        },
+        {
+          id:3,
+          name:"",
+          difficulty:"",
+          fearCards:"",
+          effect:"",
+        },
+        {
+          id:4,
+          name:"",
+          difficulty:"",
+          fearCards:"",
+          effect:"",
+        },
+        {
+          id:5,
+          name:"",
+          difficulty:"",
+          fearCards:"",
+          effect:"",
+        },
+        {
+          id:6,
+          name:"",
+          difficulty:"",
+          fearCards:"",
+          effect:"",
+        },
+      ],
+    },
+  }
+  }
+  
 </script>
 
 <h5 class="title is-5">Adversary</h5>
@@ -126,7 +251,7 @@
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
   id="previewBoard">
-  Preview Spirit Board
+  Preview Adversary
   <span on:click={showOrHideBoard}>
     {#if adversary.previewBoard.isVisible}
       <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline" />
@@ -144,7 +269,7 @@
     title="yay" />
 </div>
 <div class="field has-addons mb-2">
-<!--   <div class="file is-success mr-1">
+  <div class="file is-success mr-1">
     <label class="file-label">
       <input
         class="file-input"
@@ -154,15 +279,15 @@
         accept=".html"
         on:change={handleTextFileInput} />
       <span class="file-cta">
-        <span class="file-label"> Load Spirit Board file </span>
+        <span class="file-label"> Load Adversary file </span>
       </span>
     </label>
-  </div> -->
-<!--   <button class="button is-success  mr-1" on:click={exportSpiritBoard}
-    >Download Spirit Board file</button> -->
+  </div>
+  <button class="button is-success  mr-1" on:click={exportAdversary}
+    >Download Adversary file</button>
   <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Adversary</button>
-<!--   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
-  <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button> -->
+  <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
+  <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
