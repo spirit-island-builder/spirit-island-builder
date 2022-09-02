@@ -12,6 +12,7 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
   - [Presence Tracks](#presence-tracks)
   - [Innate Powers](#innate-powers)
 - [How to Use {Icons}](#general-icons)
+- [Fonts](#fonts) 
 
 ### Preview Board and Interface
 Click 'Preview Board' to show or hide the preview of your spirit board. Note that the board won't reload when you do this. Click 'Generate Spirit Board' to load changes into the preview.
@@ -234,3 +235,11 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 ### Tips and Tricks
 - The template uses html so you can use some html to customize your board:
   - For example, you can create a line break by typing \<br\> (useful in notes, levels, and special rules).
+
+### Fonts
+You can download additional fonts that will make your board look closer to the real deal. These fonts couldn't be included in the package, but you can get free previews.
+- DK Snemand Demo: Not included. You can download this font [here](https://www.dafont.com/dk-snemand.font).
+  - Used for: Headings and Spirit Name.
+- Gobold Extra2: Not included. You can download this font [here](https://www.dafont.com/fr/gobold.font).
+  - Used for: Energy Icons and Card Play text
+
