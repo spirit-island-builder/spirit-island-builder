@@ -4,13 +4,16 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
 
 ## Index
 - [Preview Board and Builder Interface](#previewboard-and-interface)
-- Sections:
+- Spirit Board Play Side:
   - [Spirit Name & Art](#spirit-name-and-art)
   - [Special Rules](#special-rules)
   - [Custom Icons](#custom-icons)
   - [Growth](#growth)
   - [Presence Tracks](#presence-tracks)
   - [Innate Powers](#innate-powers)
+- Adversary:
+  - [Name, Loss Condition, Escalation](#adversary-name)
+  - [Levels](#adversary-levels)
 - [How to Use {Icons}](#general-icons)
 
 ### Preview Board and Interface
@@ -208,6 +211,28 @@ The two presence tracks (energy & plays) are filled out here, with options for s
     - To achieve 'for each element' effects, use the notation {element, #}.
     - Example: Serpent's Second Innate, Second Level: For each ***{moon,2} {earth,2}***, 2 {fear} and push 1 {town}.
   - Add Innate Power: Adds another Innate Power. You can add more than 2... but it won't be pretty so don't do it.
+
+[Home](#index)
+
+### <a name="adversary-name"></a>Adversary Name, Loss Condition and Escalation
+- Name: The name of your adversary. Will automatically be displayed in all capitals.
+- Flag Art: The flag art that appears on the adversary. Press 'Load' to select an image.
+  - Image Size: The ratio of the image should be roughly 4 by 3. (Demo flag is 1280 by 934) 
+- Additional Loss Condition
+  - Name: The name of your Adversary's Additional Loss Condition.
+  - Effect: The rules of your Additional Loss Condition.  You can use the [{icon shortcuts}](#general-icons) here.
+- Escalation Effect (formerly Stage II Escalation)
+  - Name: The name of your Adversary's Escalation Effect.
+  - Effect: The rules of your Escalation Effect.  You can use the [{icon shortcuts}](#general-icons) here.
+
+[Home](#index)
+
+### <a name="adversary-level"></a>Adversary Levels
+For now, your adversary must have 6 levels. If you want to do less, you'll have to leave the later ones blank.
+- Name: The name of the level.
+- Difficulty: The first box next to name. The difficulty appears in small () next to the level number.
+- Fear Cards: The number of fear cards for this adversary level. You can separate with commas or forward slash.
+- Effect: The rules of your level. You can use the [{icon shortcuts}](#general-icons) here.
 
 [Home](#index)
 
