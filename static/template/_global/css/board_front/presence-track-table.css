@@ -1,343 +1,324 @@
 presence-tracks section-title {
-	margin-left: 2px;
-	margin-bottom: 12px;
-	padding-top: 0px;
+  margin-left: 2px;
+  margin-bottom: 12px;
+  padding-top: 0px;
 }
 
 presence-tracks {
-	display: block;
-	position: relative;
-	z-index: 2;
-	margin-left: 10px;
-
-	padding-left: 50px;
-	padding-bottom: 0px;
-
-	background-image: url("../../images/board/Presence_Without_Text.png");
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	background-position: top left;
+  display: block;
+  position:relative;
+  z-index:2;
+  margin-left: 10px;
+  
+  padding-left: 50px;
+  padding-bottom: 0px;
+  
+  background-image: url('../../images/board/Presence_Without_Text.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: top left;
 }
 
-presence-tracks table {
-	display: inline-block;
-	height: 273px;
-	margin-left: -50px; /* adding a blank row for an image. This gives us some space. */
-	border-collapse: collapse;
+presence-tracks table {	
+  display: inline-block;
+  height: 273px;
+  margin-left: -50px; /* adding a blank row for an image. This gives us some space. */
+  border-collapse: collapse;
 }
 
 presence-tracks table td {
-	padding: 0px;
-	vertical-align: top;
+  padding: 0px;
+  vertical-align: top;
 }
 
 presence-tracks table td[rowspan="2"] {
-	vertical-align: top;
-	position: relative;
+  vertical-align: top;
+  position: relative;
 }
 
 td.middle > presence-node {
-	position: relative;
+  position: relative;
 }
 
 presence-node {
-	display: inline-table;
-	max-width: 130px;
+  display: inline-table;
+  max-width: 130px;
 }
 
 subtext {
-	font-family: "Lato SemiBold";
-	font-size: 15pt;
-	font-style: italic;
-	text-align: center;
-	display: table-row;
+  font-family: 'Lato SemiBold';
+  font-size: 15pt;
+  font-style: italic;
+  text-align: center;
+  display: table-row;
 }
 
 .adjust-subtext {
-	width: 166px;
-	position: absolute;
-	transform: translateX(-18px);
+    width: 166px;
+    position: absolute;
+    transform: translateX(-18px);
 }
 
 presence-node ring-icon {
-	background-repeat: no-repeat;
-	background-size: contain;
-	display: inline-block;
-	height: 130px;
-	width: 130px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  height: 130px;
+  width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 presence-node.first ring-icon {
-	background-image: url("../../images/board/PresenceInitialRing.png");
+  background-image: url('../../images/board/PresenceInitialRing.png');
 }
 
 presence-node ring-icon {
-	background-image: url("../../images/board/CardPlayRing.png");
+  background-image: url('../../images/board/CardPlayRing.png');
 }
 
 presence-node icon.reclaim-one {
-	background-image: url("../../images/board/Reclaimone-white.png");
-	display: block;
-	height: 90px;
-	width: 75px;
+  background-image: url('../../images/board/Reclaimone-white.png');
+  display: block;
+  height: 90px;
+  width:75px;
 }
 
 presence-node icon.star {
-	width: 80px;
-	height: 80px;
+  width: 80px;
+  height: 80px;
 }
 
+
 presence-node card-icon {
-	background-image: url("../../images/board/CardPlayBlank.png");
-	background-repeat: no-repeat;
-	background-size: contain;
-	height: 75px;
-	width: 53px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  background-image: url('../../images/board/CardPlayBlank.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 75px;
+  width: 53px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .small-reclaim {
-	margin-left: -5px;
-	margin-right: 0px;
-	margin-top: -25px;
+    margin-left: -5px;
+    margin-right: 0px;
+    margin-top: -25px;
 }
 
 card-icon.small {
-	margin-left: 0px;
-	margin-right: 0px;
-	margin-top: -10px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: -10px;
 }
 
 .move-presence-1.small,
 .move-presence-2.small,
 .move-presence-3.small,
 .move-presence-4.small {
-	margin-left: 0px;
-	margin-right: 0px;
-	margin-top: 0px;
-	width: 75px;
-	z-index: 2;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    width: 75px;
+    z-index: 2;
 }
 
 .gain-card-play.small {
 	height: 80px;
-	width: 80px;
-	margin-left: -7px;
-	margin-right: -5px;
-	margin-top: -14px;
+    width: 80px;
+    margin-left: -7px;
+    margin-right: -5px;
+    margin-top: -14px;
 }
 
 presence-node energy-icon {
-	background-image: url("../../images/board/EnergyBlank.png");
-	background-repeat: no-repeat;
-	background-size: contain;
-	height: 130px;
-	width: 130px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  background-image: url('../../images/board/EnergyBlank.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 130px;
+  width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 energy-icon.small {
-	height: 80px;
-	width: 80px;
-	margin-left: -10px;
-	margin-top: -20px;
+  height: 80px;
+  width: 80px;
+  margin-left: -10px;
+  margin-top: -20px;
 }
 
 presence-node icon-shadow {
-	background-image: url("../../images/customIcons/Presence Track Back.png");
-	background-repeat: no-repeat;
-	background-size: contain;
-	height: 130px;
-	width: 130px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  background-image: url('../../images/customIcons/Presence Track Back.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 130px;
+  width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 icon-shadow.small {
-	height: 94px;
-	width: 94px;
-	margin-left: -20px;
-	margin-top: -16px;
-	z-index: 0;
-	position: absolute;
+    height: 94px;
+    width: 94px;
+    margin-left: -20px;
+    margin-top: -16px;
+    z-index: 0;
+    position: absolute;
 }
 
 presence-node icon.gain-range-1,
 presence-node icon.gain-range-2,
 presence-node icon.gain-range-3 {
-	margin-bottom: 2px;
-	height: 78px;
+  margin-bottom:2px;
+  height: 78px;
 }
 
 .gain-range-1.small,
 .gain-range-2.small,
 .gain-range-3.small,
 .gain-range-4.small {
-	margin-left: 0px;
-	margin-right: 0px;
-	margin-top: -7px;
-	width: 70px;
-	z-index: 2;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: -7px;
+    width: 70px;
+    z-index: 2;
 }
 
-icon.energy-blank {
+icon.energy-blank{
 	display: flex;
-	align-items: center;
-	justify-content: center;
+    align-items: center;
+    justify-content: center;
 }
 
 presence-node value {
-	font-family: "Gobold Extra2", "Noto Sans";
-	font-size: 36pt;
-	display: inline-block;
+  font-family: 'Gobold Extra2', 'Noto Sans';
+  font-size: 36pt;
+  display: inline-block;
 }
 
 energy-icon.small value {
-	font-size: 26pt;
+  font-size: 26pt;
 }
 
 card-icon.small value {
-	font-size: 35pt;
+  font-size: 35pt;
 }
 
 presence-node icon {
-	width: 65px;
-	height: 65px;
+  width: 65px;
+  height: 65px;
 }
 
 presence-node icon.isolate,
-presence-node icon.custom1,
-presence-node icon.custom2,
-presence-node icon.custom3 {
-	height: 90px;
-	width: 90px;
-	margin-top: -3px;
+presence-node icon.custom1, presence-node icon.custom2, presence-node icon.custom3 {
+    height: 90px;
+    width: 90px;
+    margin-top: -3px;
 }
 
-icon-multi-element icon.custom1,
-icon-multi-element icon.custom2,
-icon-multi-element icon.custom3 {
-	height: 65px;
-	width: 65px;
-	margin-top: -3px;
+icon-multi-element icon.custom1, icon-multi-element icon.custom2, icon-multi-element icon.custom3 {
+    height: 65px;
+    width: 65px;
+    margin-top: -3px;
 }
 
 presence-node icon.gather {
-	left: 65px;
-	top: 17px;
-	width: 76px;
-	margin-right: 34px;
+  left: 65px;
+  top: 17px;
+  width: 76px;
+  margin-right: 34px
 }
 
-presence-node icon.gather > icon {
-	left: 77px;
-	top: 17px;
+presence-node icon.gather>icon {
+  left: 77px;
+  top: 17px;
 }
 
-presence-node icon.gain-card-play > icon {
-	position: relative;
-	left: -39px;
-	top: -28px;
-	height: 40px;
-	width: 60px;
+presence-node icon.gain-card-play>icon {
+    position: relative;
+    left: -39px;
+    top: -28px;
+    height: 40px;
+    width: 60px;
 }
 
-presence-node > icon.deep-layers {
-	position: relative;
-	left: -22px;
-	top: -135px;
-	height: 40px;
-	width: 60px;
+presence-node>icon.deep-layers {
+    position: relative;
+    left: -22px;
+    top: -135px;
+    height: 40px;
+    width: 60px;
 }
 
-presence-node > icon.energy-deep-layers,
-presence-node > icon.card-deep-layers {
-	position: relative;
-	height: 35px;
-	width: 60px;
-	float: left;
-	background-position: center;
+presence-node>icon.energy-deep-layers,
+presence-node>icon.card-deep-layers {
+    position: relative;
+    height: 35px;
+    width: 60px;
+    float: left;
+    background-position: center;
 }
 
-presence-node > icon.energy-blank {
+presence-node>icon.energy-blank{
 	height: 50px;
-	margin-top: -10px;
+    margin-top: -10px;
 }
 
-presence-node > icon.energy-deep-layers {
-	left: -44px;
-	top: -4px;
-	margin-bottom: -90px;
-	transform: translateX(50%);
+presence-node>icon.energy-deep-layers {
+    left: -44px;
+    top: -4px;
+    margin-bottom: -90px;
+    transform: translateX(50%);
 }
 
-presence-node > icon.card-deep-layers {
-	left: -45px;
-	top: -4px;
-	margin-bottom: -90px;
-	transform: translateX(50%);
+presence-node>icon.card-deep-layers {
+    left: -45px;
+    top: -4px;
+    margin-bottom: -90px;
+    transform: translateX(50%);
 }
 
 icon.push {
-	height: 68px;
-	width: 110px;
+    height: 68px;
+    width: 110px;
 }
 
 icon-multi {
-	position: absolute;
+    position: absolute;
 }
 
 .custom-presence-track-icon {
-	width: 65px;
-	height: 65px;
+    width: 65px;
+    height: 65px;
 	margin-top: 0px;
 }
 
 custom-presence-track-icon {
-	width: 90px;
-	height: 65px;
+    width: 90px;
+    height: 65px;
 	margin-top: 0px;
 	display: flex;
-	flex-direction: row;
-	align-items: center;
+    flex-direction: row;
+    align-items: center;
 	justify-content: center;
-	font-family: "Gobold Extra2", "Noto Sans";
-	font-size: 24pt;
-	color: #431e0aff;
+	font-family: 'Gobold Extra2', 'Noto Sans';
+    font-size: 24pt;
+    color: #431E0AFF;
 }
 
-icon.card-deep-layers.sun {
-	background-image: url(../../images/board/element_simple_sun.png);
-}
-icon.card-deep-layers.earth {
-	background-image: url(../../images/board/element_simple_earth.png);
-}
-icon.card-deep-layers.plant {
-	background-image: url(../../images/board/element_simple_plant.png);
-}
-icon.card-deep-layers.fire {
-	background-image: url(../../images/board/element_simple_fire.png);
-}
-icon.card-deep-layers.air {
-	background-image: url(../../images/board/element_simple_air.png);
-}
-icon.card-deep-layers.moon {
-	background-image: url(../../images/board/element_simple_moon.png);
-}
-icon.card-deep-layers.animal {
-	background-image: url(../../images/board/element_simple_animal.png);
-}
-icon.card-deep-layers.water {
-	background-image: url(../../images/board/element_simple_water.png);
-}
-icon.card-deep-layers.any {
-	background-image: url(../../images/board/element_simple_any.png);
-}
+
+
+icon.card-deep-layers.sun {background-image: url(../../images/board/element_simple_sun.png);}
+icon.card-deep-layers.earth {background-image: url(../../images/board/element_simple_earth.png);}
+icon.card-deep-layers.plant {background-image: url(../../images/board/element_simple_plant.png);}
+icon.card-deep-layers.fire {background-image: url(../../images/board/element_simple_fire.png);}
+icon.card-deep-layers.air {background-image: url(../../images/board/element_simple_air.png);}
+icon.card-deep-layers.moon {background-image: url(../../images/board/element_simple_moon.png);}
+icon.card-deep-layers.animal {background-image: url(../../images/board/element_simple_animal.png);}
+icon.card-deep-layers.water {background-image: url(../../images/board/element_simple_water.png);}
+icon.card-deep-layers.any {background-image: url(../../images/board/element_simple_any.png);}
