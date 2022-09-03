@@ -3,23 +3,33 @@
   import AutoComplete from "../auto-complete/index.svelte";
 
   const validAutoCompleteValues = [
-    { label: "reclaim-all", value: "reclaim-all" },
-    {
-      label: "gain-energy",
-      value: "gain-energy",
-    },
-    {
-      label: "add-presence",
-      value: "add-presence",
-    },
-    {
-      label: "gain-element",
-      value: "gain-element",
-    },
-    {
-      label: "gain-power-card",
-      value: "gain-power-card",
-    },
+    { label: "add-presence", value: "add-presence(" },
+    { label: "add-token", value: "add-token(" },
+    { label: "custom", value: "custom(" },
+    { label: "damage", value: "damage(" },
+    { label: "damage-1", value: "damage-1" },
+    { label: "damage-2", value: "damage-2" },
+    { label: "destroy-presence", value: "destroy-presence(" },
+    { label: "discard-card", value: "discard-card" },
+    { label: "discard-cards", value: "discard-cards" },
+    { label: "element-marker", value: "element-marker(" },
+    { label: "energy-per-play", value: "energy-per-play(" },
+    { label: "fear", value: "fear(" },
+    { label: "forget-power-card", value: "forget-power-card" },
+    { label: "gain-card-play", value: "gain-card-play(" },
+    { label: "gain-element", value: "gain-element(" },
+    { label: "gain-energy", value: "gain-energy(" },
+    { label: "gain-power-card", value: "gain-power-card" },
+    { label: "gain-range", value: "gain-range(" },
+    { label: "gather", value: "gather(" },
+    { label: "ignore-range", value: "ignore-range" },
+    { label: "isolate", value: "isolate(" },
+    { label: "make-fast", value: "make-fast(" },
+    { label: "move-presence", value: "move-presence(" },
+    { label: "or", value: "or(" },
+    { label: "presence-node", value: "presence-node(" },
+    { label: "push", value: "push(" },
+    { label: "reclaim", value: "reclaim(" },
   ];
 
   function useGrowthSets() {
