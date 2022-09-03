@@ -4,75 +4,80 @@
   <link href="../../_global/css/adversary.css" rel="stylesheet" />
 </head>
 <body>
-
   <quick-adversary
-    name="THE KINGDOM OF EXAMPLE"
+    name="THE IBERIAN UNION"
     base-difficulty="1"
     flag-image="flag.png"
 	>
 	<loss-condition
-	name="Big enough"
-	rules="Before Setup, return all but 4 {city} per player to the box. 
-          Invaders win if you ever cannot place a {city}."
+	name="Purge Heresy"
+	rules="At the start of each Invader Phase of turn 3+, Invaders win if there are at least as many <strong>Cathedrals</strong> as {presence} on a board."
 	></loss-condition>
 
 	<escalation-effect
-	name="Fast expansion"
-	rules="On each land you explored this turn, add 1
-          {town} if there is no
-          {town}/{city}
-          on this land."
+	name="Reclaim the Churches"
+	rules="<strong>On each board:</strong> Build in the Faithless land with the most Invaders. 
+	If no Faithless land exists, destroy a {presence} per <strong>Cathedral</strong> on that Board (min. 1 {presence})."
 	></escalation-effect>
 
 	<level-1
 	difficulty="2"
 	fear-cards="3,4,3"
-	name="Overcrowded"
-	rules="When you would build a {city}
-          in a land which already contains a {city}, 
-          instead add a {blight} 
-          and build in an adjacent even if there is no Invaders. This {blight} does not cause cascades.<br />
-          (This effect may trigger itself.)"
+	name="Grand Cathedrals"
+	rules="During Setup, on each board, mark 1 {city} in a Coastal land as a <strong>Cathedral</strong>.
+	During Play, <strong>Cathedral</strong> have +1 Health.
+	Lands with or adjacent to <strong>Cathedral</strong> are Faithful, other lands are Faithless.
+		  Whenever Invaders Build {city} in a Faithless land, mark it as a <strong>Cathedral</strong> (it is also a {city}).
+		  "
 	></level-1>
-
+<!-- During Setup, on each board, add a Faith Marker to 1 {city} in a Coastal land <em>(if no Coastal {city} exists, add a Faith Marker to land #2)</em>.
+	During Play, {city} with a Faith Marker also counts as a <strong>Cathedral</strong>. 
+		  A <strong>Cathedral</strong> has +1 Health. When a <strong>Cathedral</strong> is Destroyed, Removed, Moved, or Replaced, leave the Faith Marker in the land.
+Whenever Invaders Build {city} in a land with no <strong>Cathedral</strong>, if there are no Faith Markers in adjacent lands, add a Faith Marker to the {city} (from its land if possible, otherwise from the box).
+ -->
 	<level-2
 	difficulty="3"
-	fear-cards="3,4,4"
-	name="Economic boom"
-	rules="During Setup, on each board add 1 {town} to land 2 and 1 {town} to land #3."
+	fear-cards="4,4,3"
+	name="Early Missions"
+	rules="During Setup, on each board, add 1 {town} to the two highest-numbered lands without {town}."
 	></level-2>
 
 	<level-3
 	difficulty="5"
-	fear-cards="4/5/4"
-	name="High Immigration (full)"
-	rules="Put the 'High Immigration' tile on the Invader board, to the left of 'Ravage'. The Invaders take this Build action each Invader phase before Ravaging. Cards slide left from Ravage to it, and from it to the discard pile. The extra Build tile remains out the entire game."
+	fear-cards="4/5/3"
+	name="Relentless Proselytization"
+	rules="After Setup, Explore Cards add 1 {town} in addition to 1 {explorer} in Faithful lands. Do this once per matching land type per board, choosing lands with {presence} if possible."
 	></level-3>
-	
+<!-- 	rules="After Setup, in lands with or adjacent to <strong>Cathedrals</strong>, Explore Cards add 1 {town} in addition to 1 {explorer} . 
+		Do this once per board, choosing lands with {presence} if possible." -->
 	<level-4
-	difficulty="6"
-	fear-cards="4,5,5"
-	name="Shopping Mall"
-	rules="You cannot destroy {city} 
-          unless it is the last remaining Invader in the land. Replace and remove works as usual.<br />
-          (This includes destroy by damage but you can still do partial damage.)"
+	difficulty="7"
+	fear-cards="4/4/2/4"
+	name="Bastion of Faith"
+	rules='During Setup, under the bottom Fear Card, add the Iberian Union Divider then 4 Fear Cards. 
+		  Treat the Iberian Union Divider as 
+		  "<strong>Terror Level III</strong>, Victory Condition: No <strong>Cathedrals</strong>. Discard Earned Fear Cards when they are earned".
+		  During Play, <strong>Cathedrals</strong> have an additional +1 Health <em>(normally, +2 Health total)</em>.'
 	></level-4>
 	
 	<level-5
 	difficulty="8"
-	fear-cards="4/5/4"
-	name="Independent Resolve"
-	rules="During Setup, add an additional {fear} to the Fear Pool per player in the game. During any Invader Phase where you resolve no Fear Cards, perform the Build from High Immigration twice.<br />
-          (This has no effect if no card is on the extra Build slot.)"
+	fear-cards="4/5/2/4"
+	name="Religious Fervor"
+	rules="Ravages do +1 Damage (total) in Faithful lands.</em>"
 	></level-5>
 	
+<!--  When Invaders Ravage in a land with one or more <strong>Cathedrals</strong>, first Gather 1 {presence} <em>(into the Ravaging land).
+<strong>Cathedrals</strong> have an additional +1 Health <em>(normally, +2 Health total)</em>. 
+	In lands with or adjacent to one or more <strong>Cathedral</strong>, Ravages do +1 Damage (total). -->
 	<level-6
 	difficulty="10"
-	fear-cards="4,4,5"
-	name="Renovation"
-	rules="{city} have +1 health."
+	fear-cards="5/4/2/4"
+	name="Pillars of the Earth"
+	rules="Whenever a Ravage Action destroys {presence} in a land with Faith, put a marker here. When there are N markers, remove them and {escalation} (N = # of players.)"
 	></level-6>
   </quick-adversary>
+  <!-- rules="When Invaders would Build {town} in a land with Faith but no <strong>Cathedral</strong>, they instead Build {city}." -->
 
 </body>
 </html>

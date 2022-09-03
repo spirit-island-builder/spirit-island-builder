@@ -41,7 +41,7 @@
   <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
   <article class="message is-small mb-1">
     <div class="message-body p-1">
-      <span><a href="" target="_blank">Instructions</a></span>
+      <span><a href="https://github.com/neubee/spirit-island-builder/blob/feature/start-of-tabbed-interface/docs/instructions.md#adversary-name" target="_blank">Instructions</a></span>
     </div>
   </article>
     <div class="field">
