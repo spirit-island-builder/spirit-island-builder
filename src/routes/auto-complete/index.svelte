@@ -6,12 +6,15 @@
   export let validAutoCompleteValues;
   export let endCharacters = ["}", " "];
   export let startCharacter = "{";
+  export let listLengthLimit;
   export let value;
   export let id;
   export let showListImmediately;
 
   let showAutoCompleteList = false;
-  let valuesToShow = validAutoCompleteValues;
+  let valuesToShow;
+  let trimmedList = false;
+  updateValuesToShow();
   let startOfWordPosition = 0;
   let startingCharacterPosition = 0;
   let previousCursorPosition = 0;
@@ -56,13 +59,23 @@
   }
 
   function updateValuesToShow(inputValue) {
-    const autoCompleteStartText = inputValue.substring(
-      startOfWordPosition,
-      startingCharacterPosition + currentAutoCompleteTermLength
-    );
-    valuesToShow = validAutoCompleteValues.filter((autoCompleteItem) =>
-      autoCompleteItem.value.startsWith(autoCompleteStartText)
-    );
+    if (inputValue) {
+      const autoCompleteStartText = inputValue.substring(
+        startOfWordPosition,
+        startingCharacterPosition + currentAutoCompleteTermLength
+      );
+      valuesToShow = validAutoCompleteValues.filter((autoCompleteItem) =>
+        autoCompleteItem.value.startsWith(autoCompleteStartText)
+      );
+    } else {
+      valuesToShow = validAutoCompleteValues;
+    }
+    if (listLengthLimit && valuesToShow.length > listLengthLimit) {
+      valuesToShow = valuesToShow.slice(0, listLengthLimit);
+      trimmedList = true;
+    } else {
+      trimmedList = false;
+    }
   }
 
   function hasCursorMovedOutsideOfCurrentAutoCompleteTerm(inputValue, currentCursorPostion) {
@@ -139,6 +152,7 @@
       // Wrap from the top of the list to the bottom
       currentKeyBoardFocus = valuesToShow.length - 1;
     }
+    valuesToShow = valuesToShow;
   }
 
   function handleAutoCompleteSelectionFromList(event) {
@@ -166,11 +180,12 @@
     // selectedWord, startOfWordPosition, and inputElementThatWasCompleted are intentionally not reset here so that cursor repositioning in afterUpdate() works
     showAutoCompleteList = false;
     showActiveSelection = true;
-    valuesToShow = validAutoCompleteValues;
+    updateValuesToShow();
     previousCursorPosition = 0;
     currentKeyBoardFocus = 0;
     startingCharacterPosition = 0;
     currentAutoCompleteTermLength = 0;
+    trimmedList = false;
   }
 
   function openAutoComplete(currentCursorPostion, inputValue) {
@@ -178,7 +193,7 @@
     startOfWordPosition = currentCursorPostion;
     startingCharacterPosition = currentCursorPostion - 1;
     currentAutoCompleteTermLength = 1;
-    valuesToShow = validAutoCompleteValues;
+    updateValuesToShow();
     selectedWord = "";
     inputElementThatWasCompleted = undefined;
     if (showListImmediately === true) {
@@ -198,11 +213,12 @@
     return showAutoCompleteList === true;
   }
 
-  function renderListValue(autoCompleteItem) {
+  function renderListValue(autoCompleteItem, j) {
     const boldEndIndex = showListImmediately
       ? currentAutoCompleteTermLength
       : currentAutoCompleteTermLength - 1;
-    return `<strong>${autoCompleteItem.label.substring(
+    const activeItemPrefix = currentKeyBoardFocus === j && showActiveSelection ? "> " : "";
+    return `${activeItemPrefix}<strong>${autoCompleteItem.label.substring(
       0,
       boldEndIndex
     )}</strong>${autoCompleteItem.label.substring(boldEndIndex)}`;
@@ -246,9 +262,15 @@
           on:click={handleAutoCompleteSelectionFromList}
           on:mousedown={handleMouseDown}>
           <!-- @html lets you return HTML from a function to render. Helps to keep things readable. -->
-          {@html renderListValue(autoCompleteItem)}
+          {@html renderListValue(autoCompleteItem, j)}
         </div>
       {/each}
+      {#if trimmedList === true}
+        <div style="background-color: #f4f4f4" autoCompleteForId={id}>
+          <!-- @html lets you return HTML from a function to render. Helps to keep things readable. -->
+          ...
+        </div>
+      {/if}
     </div>
   {/if}
 </div>
@@ -256,7 +278,6 @@
 <style>
   .autocomplete {
     position: relative;
-    display: inline-block;
   }
 
   .autocomplete-items {
@@ -272,19 +293,18 @@
   }
   .autocomplete-items div:hover {
     /*when hovering an item:*/
-    background-color: #e9e9e9;
+    background-color: #ffebc8;
   }
 
   .autocomplete-active {
     /*when navigating through the items using the arrow keys:*/
-    background-color: DodgerBlue !important;
-    color: #ffffff;
+    background-color: #f8c75d !important;
   }
 
   .autocomplete-items div {
-    padding: 10px;
+    padding: 7px;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #f4f4f4;
     border-bottom: 1px solid #d4d4d4;
   }
 </style>
