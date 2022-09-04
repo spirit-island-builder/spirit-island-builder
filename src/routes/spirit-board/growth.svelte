@@ -260,7 +260,7 @@
                       elementType="input"
                       placeholder="Growth Action"
                       showListImmediately={true}
-                      listLengthLimit="10"
+                      listLengthLimit={10}
                       {validAutoCompleteValues}
                       on:blur={easyReport}
                       bind:value={growthAction.effect} />
