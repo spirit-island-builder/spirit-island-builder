@@ -10,107 +10,7 @@
   // import addGrowthAction from './growth.svelte'
   // import { addGrowthSet, addGrowthGroup, addGrowthAction, removeGrowthAction, removeGrowthGroup, removeGrowthSet } from './growth.svelte'
 
-  let spiritBoard = {
-    previewBoard: {
-      isVisible: false,
-    },
-    nameAndArt: {
-      isVisible: false,
-      name: "",
-      artPath: "",
-      artScale: "",
-      bannerPath: "",
-      energyBannerPath: "",
-      energyBannerScale: "",
-      playsBannerPath: "",
-      playsBannerScale: "",
-    },
-    specialRules: {
-      isVisible: false,
-      rules: [
-        {
-          id: 0,
-          name: "",
-          effect: "",
-        },
-      ],
-    },
-    growth: {
-      isVisible: false,
-      useGrowthSets: false,
-      directions: "",
-      growthSets: [
-        {
-          id: 0,
-          choiceText: "",
-          growthGroups: [
-            {
-              id: 0,
-              cost: "",
-              tint: "",
-              hasCost: false,
-              hasTint: false,
-              growthActions: [
-                {
-                  id: 0,
-                  effect: "",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    presenceTrack: {
-      isVisible: false,
-      useMiddleNodes: false,
-      name: "",
-      energyNodes: [
-        {
-          id: 0,
-          effect: "",
-        },
-      ],
-      playsNodes: [
-        {
-          id: 0,
-          effect: "",
-        },
-      ],
-    },
-    innatePowers: {
-      isVisible: false,
-      powers: [
-        {
-          id: 0,
-          name: "",
-          speed: "",
-          range: "",
-          target: "",
-          targetTitle: "",
-          effect: "",
-          note: "",
-          noteShow: true,
-          levels: [
-            {
-              id: 0,
-              threshold: "",
-              effect: "",
-            },
-          ],
-        },
-      ],
-    },
-    customIcons: {
-      isVisible: false,
-      icons: [
-        {
-          id: 0,
-          name: "",
-        },
-      ],
-    },
-  };
+  export let spiritBoard;
 
   function clearAllFields() {
     spiritBoard = {
@@ -219,14 +119,14 @@
   function showOrHideSection(event) {
     spiritBoard[event.target.id].isVisible = !spiritBoard[event.target.id].isVisible;
   }
-  
+
   function hideAll() {
-    spiritBoard.nameAndArt.isVisible=false;
-    spiritBoard.specialRules.isVisible=false;
-    spiritBoard.growth.isVisible=false;
-    spiritBoard.presenceTrack.isVisible=false;
-    spiritBoard.innatePowers.isVisible=false;
-    spiritBoard.customIcons.isVisible=false;
+    spiritBoard.nameAndArt.isVisible = false;
+    spiritBoard.specialRules.isVisible = false;
+    spiritBoard.growth.isVisible = false;
+    spiritBoard.presenceTrack.isVisible = false;
+    spiritBoard.innatePowers.isVisible = false;
+    spiritBoard.customIcons.isVisible = false;
   }
 
   let frame;
@@ -236,12 +136,14 @@
 
   function onLoad() {
     if (frame) {
-      // readHTML();
-      // setBoardValues(spiritBoard);
-      // reloadPreview();
-      setTimeout(() => {
-        readHTML(frame.contentDocument);
-      }, 200);
+      if (spiritBoard.demoBoardWasLoaded === false)
+        // readHTML();
+        // setBoardValues(spiritBoard);
+        // reloadPreview();
+        setTimeout(() => {
+          readHTML(frame.contentDocument);
+          spiritBoard.demoBoardWasLoaded = true;
+        }, 200);
     }
   }
 
@@ -415,9 +317,6 @@
     } else {
       document.getElementById("board-wrap").style.display = "none";
     }
-    console.log("this iiis a test");
-    console.log(document.getElementById("board-wrap"));
-    console.log(document.getElementById("board-wrap").style.display);
   }
 
   function readHTML(htmlElement) {
@@ -533,10 +432,10 @@
       if (spiritStyle) {
         const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
         let iconList = spiritStyle.textContent.match(regExp);
-        if(iconList){
+        if (iconList) {
           iconList.forEach((customIcon) => {
             spiritBoard = Lib.addCustomIcon(spiritBoard, customIcon);
-            console.log(customIcon)
+            console.log(customIcon);
           });
         }
       }
@@ -584,10 +483,10 @@
   }
 
   function handleTextFileInput(event) {
-    hideAll()
-    var dummyEl = document.createElement('html');
+    hideAll();
+    var dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
-    console.log(file)
+    console.log(file);
     if (file) {
       const fileReader = new FileReader();
       fileReader.onload = (data) => {
@@ -596,28 +495,37 @@
         dummyEl.head = dummyEl.getElementsByTagName("head")[0];
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
-        readHTML(dummyEl)
+        readHTML(dummyEl);
       };
 
       // This reads the file and then triggers the onload function above once it finishes
       fileReader.readAsText(file);
     }
-
   }
-  
+
   function exportSpiritBoard() {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURI(document.getElementById("mod-frame").contentWindow.document.getElementsByTagName("html")[0].innerHTML));
-    element.setAttribute('download', spiritBoard.nameAndArt.name.replaceAll(" ","_")+'_spiritBoard.html');
-    element.style.display = 'none';
+    var element = document.createElement("a");
+    element.setAttribute(
+      "href",
+      "data:text/html;charset=utf-8," +
+        encodeURI(
+          document
+            .getElementById("mod-frame")
+            .contentWindow.document.getElementsByTagName("html")[0].innerHTML
+        )
+    );
+    element.setAttribute(
+      "download",
+      spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_spiritBoard.html"
+    );
+    element.style.display = "none";
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
   }
-
 </script>
 
-<h5 class="title is-5">Spirit Board</h5>
+<h5 class="title is-5">Spirit Board Play Side</h5>
 <h6
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
@@ -643,22 +551,23 @@
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
     <label class="file-label">
-      <input class="file-input" id="userHTMLInput" type="file" name="userHTMLInput" accept=".html" on:change={handleTextFileInput}/>
+      <input
+        class="file-input"
+        id="userHTMLInput"
+        type="file"
+        name="userHTMLInput"
+        accept=".html"
+        on:change={handleTextFileInput} />
       <span class="file-cta">
-        <span class="file-label">
-          Load Spirit Board file
-        </span>
+        <span class="file-label"> Load Spirit Board file </span>
       </span>
     </label>
   </div>
   <button class="button is-success  mr-1" on:click={exportSpiritBoard}
     >Download Spirit Board file</button>
-  <button class="button is-info  mr-1" on:click={reloadPreview}
-    >Generate Spirit Board</button>
-  <button class="button is-warning mr-1" on:click={toggleSize}
-    >Toggle Board Size</button>
-  <button class="button is-danger mr-1" on:click={clearAllFields}
-    >Clear All Fields</button>
+  <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Spirit Board</button>
+  <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
+  <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
@@ -676,10 +585,15 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
-    See <a href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md" target="_blank">Instructions</a>
-    for details on how to use the form (particularly for Growth and Presence Tracks).
-    For custom art, <a href="https://www.wombo.art/" target="_blank">Wombo</a> (unaffiliated) is a popular art generator.
-    <br>This is an unofficial website. Interface created by Neubee & Resonant. Spirit Board builder adapted from <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
+    See <a
+      href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md"
+      target="_blank">Instructions</a>
+    for details on how to use the form (particularly for Growth and Presence Tracks). For custom art,
+    <a href="https://www.wombo.art/" target="_blank">Wombo</a>
+    (unaffiliated) is a popular art generator.
+    <br />This is an unofficial website. Interface created by Neubee & Resonant. Spirit Board
+    builder adapted from
+    <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
     developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
   </div>
 </article>

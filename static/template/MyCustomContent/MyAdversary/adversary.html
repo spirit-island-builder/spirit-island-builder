@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<head>
+  <link href="../../_global/css/global.css" rel="stylesheet" />
+  <link href="../../_global/css/adversary.css" rel="stylesheet" />
+  <script type="text/javascript" src="../../_global/js/general.js"></script>
+  <script type="text/javascript" src="../../_global/js/adversary.js"></script>
+</head>
+
+<body>
+
+  <quick-adversary
+    name="DEMO - THE IBERIAN UNION"
+    base-difficulty="1"
+    flag-image="flag.png"
+	>
+	<loss-condition
+	name="Purge Heresy"
+	rules="At the start of each Invader Phase of turn 3+, Invaders win if there are at least as many <strong>Cathedrals</strong> as {presence} on a board."
+	></loss-condition>
+
+	<escalation-effect
+	name="Reclaim the Churches"
+	rules="<strong>On each board:</strong> Build in the Faithless land with the most Invaders. 
+	If no Faithless land exists, destroy a {presence} per <strong>Cathedral</strong> on that Board (min. 1 {presence})."
+	></escalation-effect>
+
+	<level-1
+	difficulty="2"
+	fear-cards="3,4,3"
+	name="Grand Cathedrals"
+	rules="During Setup, on each board, mark 1 {city} in a Coastal land as a <strong>Cathedral</strong>.
+	During Play, <strong>Cathedral</strong> have +1 Health.
+	Lands with or adjacent to <strong>Cathedral</strong> are Faithful, other lands are Faithless.
+		  Whenever Invaders Build {city} in a Faithless land, mark it as a <strong>Cathedral</strong> (it is also a {city}).
+		  "
+	></level-1>
+  
+	<level-2
+	difficulty="3"
+	fear-cards="4,4,3"
+	name="Early Missions"
+	rules="During Setup, on each board, add 1 {town} to the two highest-numbered lands without {town}."
+	></level-2>
+
+	<level-3
+	difficulty="5"
+	fear-cards="4/5/3"
+	name="Relentless Proselytization"
+	rules="After Setup, Explore Cards add 1 {town} in addition to 1 {explorer} in Faithful lands. Do this once per matching land type per board, choosing lands with {presence} if possible."
+	></level-3>
+
+	<level-4
+	difficulty="7"
+	fear-cards="4/4/2/4"
+	name="Bastion of Faith"
+	rules='During Setup, under the bottom Fear Card, add the Iberian Union Divider then 4 Fear Cards. 
+		  Treat the Iberian Union Divider as 
+		  "<strong>Terror Level III</strong>, Victory Condition: No <strong>Cathedrals</strong>. Discard Earned Fear Cards when they are earned".
+		  During Play, <strong>Cathedrals</strong> have an additional +1 Health <em>(normally, +2 Health total)</em>.'
+	></level-4>
+	
+	<level-5
+	difficulty="8"
+	fear-cards="4/5/2/4"
+	name="Religious Fervor"
+	rules="Ravages do +1 Damage (total) in Faithful lands.</em>"
+	></level-5>
+	
+	<level-6
+	difficulty="10"
+	fear-cards="5/4/2/4"
+	name="Pillars of the Earth"
+	rules="Whenever a Ravage Action destroys {presence} in a land with Faith, put a marker here. When there are N markers, remove them and {escalation} (N = # of players.)"
+	></level-6>
+  </quick-adversary>
+
+</body>
+</html>
