@@ -290,6 +290,8 @@
     top: 100%;
     left: 0;
     right: 0;
+    max-height: 210px;
+    overflow: auto;
   }
   .autocomplete-items div:hover {
     /*when hovering an item:*/
@@ -302,7 +304,7 @@
   }
 
   .autocomplete-items div {
-    padding: 7px;
+    padding: 5px;
     cursor: pointer;
     background-color: #f4f4f4;
     border-bottom: 1px solid #d4d4d4;
