@@ -13,7 +13,7 @@
     { label: "discard-card", value: "discard-card" },
     { label: "discard-cards", value: "discard-cards" },
     { label: "element-marker", value: "element-marker(" },
-    { label: "energy-per-play", value: "energy-per-play(" },
+    { label: "energy-per-play", value: "energy-per-play" },
     { label: "fear", value: "fear(" },
     { label: "forget-power-card", value: "forget-power-card" },
     { label: "gain-card-play", value: "gain-card-play(" },
