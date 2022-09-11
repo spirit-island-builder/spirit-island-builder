@@ -6,14 +6,14 @@
   export let validAutoCompleteValues;
   export let endCharacters = ["}", " "];
   export let startCharacter = "{";
-  export let listLengthLimit;
   export let value;
   export let id;
+  export let tabindex = "1";
+  export let classNames = "";
   export let showListImmediately;
 
   let showAutoCompleteList = false;
   let valuesToShow;
-  let trimmedList = false;
   updateValuesToShow();
   let startOfWordPosition = 0;
   let startingCharacterPosition = 0;
@@ -70,12 +70,6 @@
     } else {
       valuesToShow = validAutoCompleteValues;
     }
-    if (listLengthLimit && valuesToShow.length > listLengthLimit) {
-      valuesToShow = valuesToShow.slice(0, listLengthLimit);
-      trimmedList = true;
-    } else {
-      trimmedList = false;
-    }
   }
 
   function hasCursorMovedOutsideOfCurrentAutoCompleteTerm(inputValue, currentCursorPostion) {
@@ -124,11 +118,9 @@
             // This, and the same line in the ArrowUp case, stops the cursor from jumping around
             event.preventDefault();
             updateCurrentKeyBoardFocus(1);
-            showActiveSelection = true;
           } else if (event.key === "ArrowUp") {
             event.preventDefault();
             updateCurrentKeyBoardFocus(-1);
-            showActiveSelection = true;
           } else if (event.key === "Enter" || event.key === "Tab") {
             showActiveSelection = false;
             // Stop other events, such as moving to the next form input with tab, from happening
@@ -153,6 +145,20 @@
       currentKeyBoardFocus = valuesToShow.length - 1;
     }
     valuesToShow = valuesToShow;
+    showActiveSelection = true;
+    // Scroll the currently focused list element into view.
+    const autoCompleteListDiv = document.getElementById(`${id}AutoCompleteList`);
+    const halfOfListDivHeight = autoCompleteListDiv.clientHeight / 2;
+    const centerOfListDiv = autoCompleteListDiv.scrollTop + halfOfListDivHeight;
+    const currentItemElement = document.getElementById(`item${currentKeyBoardFocus}`);
+    if (currentItemElement.offsetTop !== centerOfListDiv) {
+      const halfOfItemElementHeight = currentItemElement.clientHeight / 2;
+      // Position the middle of the item element in the middle of the the list
+      autoCompleteListDiv.scrollTo(
+        0,
+        currentItemElement.offsetTop - halfOfListDivHeight + halfOfItemElementHeight
+      );
+    }
   }
 
   function handleAutoCompleteSelectionFromList(event) {
@@ -172,8 +178,10 @@
 
   // This is needed for on:mousedown on the autocomplete list because without it a physical click on a list item will close the list due to the on:blur={closeAutoComplete} handlers on the input element
   function handleMouseDown(event) {
-    event.preventDefault();
-    handleAutoCompleteSelectionFromList(event);
+    if (event.button === 1) {
+      event.preventDefault();
+      handleAutoCompleteSelectionFromList(event);
+    }
   }
 
   function closeAutoComplete() {
@@ -185,7 +193,6 @@
     currentKeyBoardFocus = 0;
     startingCharacterPosition = 0;
     currentAutoCompleteTermLength = 0;
-    trimmedList = false;
   }
 
   function openAutoComplete(currentCursorPostion, inputValue) {
@@ -229,10 +236,10 @@
   {#if elementType === "input"}
     <input
       {id}
-      class="input"
+      class={`input ${classNames}`}
       type="text"
       {placeholder}
-      tabindex="1"
+      {tabindex}
       autocomplete="off"
       on:input={handleInputAndFocus}
       on:focus={handleInputAndFocus}
@@ -242,20 +249,21 @@
   {:else if elementType === "textarea"}
     <textarea
       {id}
-      class="textarea"
+      class={`textarea ${classNames}`}
       {placeholder}
       autocomplete="off"
       on:input={handleInputAndFocus}
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
-      tabindex="1"
+      {tabindex}
       bind:value />
   {/if}
   {#if showAutoCompleteList === true}
     <div id={`${id}AutoCompleteList`} class="autocomplete-items">
       {#each valuesToShow as autoCompleteItem, j}
         <div
+          id={`item${j}`}
           autoCompleteForId={id}
           class:autocomplete-active={currentKeyBoardFocus === j && showActiveSelection}
           value={autoCompleteItem.value}
@@ -265,12 +273,6 @@
           {@html renderListValue(autoCompleteItem, j)}
         </div>
       {/each}
-      {#if trimmedList === true}
-        <div style="background-color: #f4f4f4" autoCompleteForId={id}>
-          <!-- @html lets you return HTML from a function to render. Helps to keep things readable. -->
-          ...
-        </div>
-      {/if}
     </div>
   {/if}
 </div>
@@ -292,6 +294,9 @@
     right: 0;
     max-height: 210px;
     overflow: auto;
+    position: relative;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
   }
   .autocomplete-items div:hover {
     /*when hovering an item:*/

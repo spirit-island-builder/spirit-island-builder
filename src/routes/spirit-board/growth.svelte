@@ -1,6 +1,6 @@
 <script>
   import * as Lib from "./lib";
-  import AutoComplete from "../auto-complete/index.svelte";
+  import AutoComplete from "$lib/auto-complete/index.svelte";
 
   const validAutoCompleteValues = [
     { label: "add-presence", value: "add-presence(" },

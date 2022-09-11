@@ -2,7 +2,7 @@
   export let spiritBoard;
   export let showOrHideSection;
   import * as Lib from "./lib";
-  import AutoComplete from "../auto-complete/index.svelte";
+  import AutoComplete from "$lib/auto-complete/index.svelte";
 
   function setSpeedTextbox(powerSpeed, innatePower) {
     innatePower.speed = powerSpeed;
@@ -11,17 +11,6 @@
 
   function setTargetTextbox(targetTitle, innatePower) {
     innatePower.targetTitle = targetTitle;
-    spiritBoard = spiritBoard;
-  }
-
-  function addNote(innatePower) {
-    innatePower.noteShow = true;
-    spiritBoard = spiritBoard;
-  }
-
-  function removeNote(innatePower) {
-    innatePower.noteShow = false;
-    innatePower.note = "";
     spiritBoard = spiritBoard;
   }
 
@@ -54,7 +43,7 @@
       !spiritBoard.innatePowers.powers[powerIndex].levels[levelIndex].isLong;
     console.log("isLong=" + spiritBoard.innatePowers.powers[powerIndex].levels[levelIndex].isLong);
   }
-  
+
   const validAutoCompleteValues = [
     { label: "air", value: "air" },
     { label: "animal", value: "animal" },
@@ -143,12 +132,17 @@
 {#if spiritBoard.innatePowers.isVisible}
   <article class="message is-small mb-1">
     <div class="message-body p-1">
-      <span><a href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#innate-powers" target="_blank">Instructions</a></span>
+      <span
+        ><a
+          href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#innate-powers"
+          target="_blank">Instructions</a
+        ></span>
     </div>
   </article>
   {#each spiritBoard.innatePowers.powers as innatePower, i (innatePower.id)}
     <div class="field mt-2">
-      <label class="label mb-1 is-unselectable" for="spiritGrowthInput">{`Innate Power ${i + 1}`}</label>
+      <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
+        >{`Innate Power ${i + 1}`}</label>
       <div class="is-flex is-flex-direction-row">
         <div class="control" style="width:100%">
           <input
@@ -271,7 +265,7 @@
             id={`levelEffect${j}`}
             elementType="input"
             placeholder="Effect"
-            tabindex="1"
+            classNames="is-small"
             {validAutoCompleteValues}
             bind:value={level.effect} />
         </div>
@@ -280,8 +274,9 @@
             class="button is-primary is-light is-warning is-small row-button"
             on:click={switchLong(i, j)}>Long</button>
         {:else}
-          <button class="button is-primary is-warning is-small row-button" on:click={switchLong(i, j)}
-            >Long</button>
+          <button
+            class="button is-primary is-warning is-small row-button"
+            on:click={switchLong(i, j)}>Long</button>
         {/if}
         <button
           class="button is-primary is-light is-warning is-small row-button"

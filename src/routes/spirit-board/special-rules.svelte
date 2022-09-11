@@ -1,6 +1,6 @@
 <script>
   import * as Lib from "./lib";
-  import AutoComplete from "../auto-complete/index.svelte";
+  import AutoComplete from "$lib/auto-complete/index.svelte";
 
   export let spiritBoard;
   export let showOrHideSection;
