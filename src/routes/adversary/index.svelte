@@ -251,7 +251,7 @@
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
   id="previewBoard">
-  Preview Adversary
+  Preview
   <span on:click={showOrHideBoard}>
     {#if adversary.previewBoard.isVisible}
       <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline" />
@@ -291,7 +291,6 @@
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
-    <!-- Any kind of property can be passed to a component. Functions and variables. As long as they are also exported from the nested component (i.e. NameAndArt) they will be available for use in the nested component -->
     <NameLossAndEscalation bind:adversary {showOrHideSection} />
   </div>
   <div class="column pt-0">

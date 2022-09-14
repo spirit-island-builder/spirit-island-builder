@@ -473,7 +473,7 @@
     var displayFrame = document.getElementById("scaled-frame");
     var displayWrap = document.getElementById("board-wrap");
     if (!frameLarge) {
-      displayFrame.style.webkitTransform = "scale(0.75)";
+      displayFrame.style.webkitTransform = "scale(0.745)";
       displayWrap.style.height = "915px";
     } else {
       displayFrame.style.webkitTransform = "scale(0.55)";
@@ -530,7 +530,7 @@
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
   id="previewBoard">
-  Preview Spirit Board
+  Preview
   <span on:click={showOrHideBoard}>
     {#if spiritBoard.previewBoard.isVisible}
       <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline" />

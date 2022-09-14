@@ -4,15 +4,23 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
 
 ## Index
 - [Preview Board and Builder Interface](#previewboard-and-interface)
-- Sections:
+- [Spirit Board Play Side](#spirit-board-play-side):
   - [Spirit Name & Art](#spirit-name-and-art)
   - [Special Rules](#special-rules)
   - [Custom Icons](#custom-icons)
   - [Growth](#growth)
   - [Presence Tracks](#presence-tracks)
   - [Innate Powers](#innate-powers)
+- [Spirit Board Lore Side](#spirit-board-lore-side):
+  - [Name, Art, Lore](#spirit-lore-name)
+  - [Setup, Play Style, Complexity, Summary of Powers](#spirit-lore-setup)
+- [Adversary](#adversary):
+  - [Name, Loss Condition, Escalation](#adversary-name)
+  - [Levels](#adversary-levels)
 - [How to Use {Icons}](#general-icons)
 - [Fonts](#fonts) 
+
+## Spirit Board Play Side
 
 ### Preview Board and Interface
 Click 'Preview Board' to show or hide the preview of your spirit board. Note that the board won't reload when you do this. Click 'Generate Spirit Board' to load changes into the preview.
@@ -212,6 +220,50 @@ The two presence tracks (energy & plays) are filled out here, with options for s
 
 [Home](#index)
 
+## Spirit Board Lore Side
+
+### <a name="spirit-lore-name"></a>Spirit Name, Art and Lore
+- Name: The name of your Spirit
+- Spirit Art: The art for your spirit. Press 'Choose File' to select an image.
+- Lore: The lore associated with your spirit. Icon shortcuts do NOT work here (icons are never used in lore).
+
+[Home](#index)
+
+### <a name="spirit-lore-setup"></a>Spirit Setup, Play Style, Complexity and Summary of Powers
+
+- Setup: How to setup your spirit for play. You can use the [{icon shortcuts}](#general-icons) here.
+- Play Style: How to play your spirit. You can use the [{icon shortcuts}](#general-icons) here.
+- Complexity:
+  - Complexity Description appears inside the red complexity bar. Official complexity descriptors: Low, Moderate, High, Very High
+  - Complexity Value is between 1 to 10
+- Summary of Powers:
+  - Assign values 1 to 10 for Offense, Defense, Fear, Control and Utility
+  - Uses indicates what game pieces the Spirit interacts with. Do not use icon shortcuts, just list the pieces with comma separation (ie. badlands,wilds)
+
+## Adversary
+
+### <a name="adversary-name"></a>Adversary Name, Loss Condition and Escalation
+- Name: The name of your adversary. Will automatically be displayed in all capitals.
+- Flag Art: The flag art that appears on the adversary. Press 'Load' to select an image.
+  - Image Size: The ratio of the image should be roughly 4 by 3. (Demo flag is 1280 by 934) 
+- Additional Loss Condition
+  - Name: The name of your Adversary's Additional Loss Condition.
+  - Effect: The rules of your Additional Loss Condition.  You can use the [{icon shortcuts}](#general-icons) here.
+- Escalation Effect (formerly Stage II Escalation)
+  - Name: The name of your Adversary's Escalation Effect.
+  - Effect: The rules of your Escalation Effect.  You can use the [{icon shortcuts}](#general-icons) here.
+
+[Home](#index)
+
+### <a name="adversary-level"></a>Adversary Levels
+For now, your adversary must have 6 levels. If you want to do less, you'll have to leave the later ones blank.
+- Name: The name of the level.
+- Difficulty: The first box next to name. The difficulty appears in small () next to the level number.
+- Fear Cards: The number of fear cards for this adversary level. You can separate with commas or forward slash.
+- Effect: The rules of your level. You can use the [{icon shortcuts}](#general-icons) here.
+
+[Home](#index)
+
 ### General Icons
 Icons for invaders, elements, dahan, etc can be used by enclosing its name with "{}". For example, {dahan} or {fire}. Here is a list of what is available:
 - Elements (fire, water, earth, air, plant, animal, sun, moon)
@@ -235,11 +287,10 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 ### Tips and Tricks
 - The template uses html so you can use some html to customize your board:
   - For example, you can create a line break by typing \<br\> (useful in notes, levels, and special rules).
-
+  
 ### Fonts
 You can download additional fonts that will make your board look closer to the real deal. These fonts couldn't be included in the package, but you can get free previews.
 - DK Snemand Demo: Not included. You can download this font [here](https://www.dafont.com/dk-snemand.font).
   - Used for: Headings and Spirit Name.
 - Gobold Extra2: Not included. You can download this font [here](https://www.dafont.com/fr/gobold.font).
   - Used for: Energy Icons and Card Play text
-
