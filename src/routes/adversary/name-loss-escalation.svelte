@@ -178,6 +178,7 @@
           id="lossConditionEffectInput"
           elementType="textarea"
           placeholder="Effect"
+          classNames="is-small"
           tabindex="1"
           {validAutoCompleteValues}
           bind:value={adversary.nameLossEscalation.lossCondition.effect} />
@@ -203,6 +204,7 @@
         <AutoComplete
           id="escalationEffectInput"
           elementType="textarea"
+          classNames="is-small"
           placeholder="Effect"
           tabindex="1"
           {validAutoCompleteValues}

@@ -1,6 +1,8 @@
 <script>
   import { onMount } from "svelte";
   export let spiritBoardBack;
+  import NameArtLore from "./name-art-lore.svelte";
+  import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";
   // import NameAndArt from "./name-and-art.svelte";
   // import SpecialRules from "./special-rules.svelte";
 
@@ -15,6 +17,10 @@
           readHTML(loreFrame.contentDocument);
         }, 200);
     }
+  }
+
+  function showOrHideSection(event) {
+    spiritBoardBack[event.target.id].isVisible = !spiritBoardBack[event.target.id].isVisible;
   }
 
   function showOrHideBoard() {
@@ -275,7 +281,10 @@
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
-
+    <NameArtLore bind:spiritBoardBack {showOrHideSection} />
+  </div>
+  <div class="column pt-0">
+    <SetupPlaystyleComplexityPowers bind:spiritBoardBack {showOrHideSection} />
   </div>
 </div>
 <div>{`spiritBoardBack ${spiritBoardBack.prop}`}</div>

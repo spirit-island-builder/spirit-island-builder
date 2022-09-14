@@ -119,6 +119,12 @@
     previewBoard: {
       isVisible: false,
     },
+    nameArtLore:{
+      isVisible: false,
+    },
+    setupPlaystyleComplexityPowers:{
+      isVisible: false,
+    },
     nameImage: {
       name:"",
       img:"",
