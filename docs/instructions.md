@@ -34,7 +34,7 @@ Click 'Preview Board' to show or hide the preview of your spirit board. Note tha
 [Home](#index)
 
 ### Special Rules
-Use these fields to modify your spirit's special rules. You can and should use the [icon shortcuts](#general-icons) here (such as {dahan}).
+Use these fields to modify your spirit's special rules. You can and should use the [icon shortcuts](#general-icons) here (such as {dahan}). Shortcuts will trigger autocomplete when you type "{". Press tab to finish the autocomplete.
 - Name: The name of the Special Rule.
 - Effect: The special rule effect. Use icon shortcuts here.
 - Remove: Button to **permanently** delete the special rule.
