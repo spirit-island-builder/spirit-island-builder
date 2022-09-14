@@ -251,7 +251,7 @@
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
   id="previewBoard">
-  Preview Adversary
+  Preview
   <span on:click={showOrHideBoard}>
     {#if adversary.previewBoard.isVisible}
       <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline" />
