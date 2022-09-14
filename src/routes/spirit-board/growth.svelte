@@ -1,12 +1,43 @@
 <script>
   import * as Lib from "./lib";
+  import AutoComplete from "$lib/auto-complete/index.svelte";
+
+  const validAutoCompleteValues = [
+    { label: "add-presence", value: "add-presence(" },
+    { label: "add-token", value: "add-token(" },
+    { label: "custom", value: "custom(" },
+    { label: "damage", value: "damage(" },
+    { label: "damage-1", value: "damage-1" },
+    { label: "damage-2", value: "damage-2" },
+    { label: "destroy-presence", value: "destroy-presence(" },
+    { label: "discard-card", value: "discard-card" },
+    { label: "discard-cards", value: "discard-cards" },
+    { label: "element-marker", value: "element-marker(" },
+    { label: "energy-per-play", value: "energy-per-play" },
+    { label: "fear", value: "fear(" },
+    { label: "forget-power-card", value: "forget-power-card" },
+    { label: "gain-card-play", value: "gain-card-play(" },
+    { label: "gain-element", value: "gain-element(" },
+    { label: "gain-energy", value: "gain-energy(" },
+    { label: "gain-power-card", value: "gain-power-card" },
+    { label: "gain-range", value: "gain-range(" },
+    { label: "gather", value: "gather(" },
+    { label: "ignore-range", value: "ignore-range" },
+    { label: "isolate", value: "isolate(" },
+    { label: "make-fast", value: "make-fast(" },
+    { label: "move-presence", value: "move-presence(" },
+    { label: "or", value: "or(" },
+    { label: "presence-node", value: "presence-node(" },
+    { label: "push", value: "push(" },
+    { label: "reclaim", value: "reclaim(" },
+  ];
 
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
   }
-  
+
   function easyReport() {
-    console.log('it ran')
+    console.log("it ran");
   }
 
   function removeAllGrowthSets() {
@@ -15,7 +46,6 @@
     spiritBoard.growth.directions = "";
     var firstSet = spiritBoard.growth.growthSets[0];
     for (let i = 1; i < spiritBoard.growth.growthSets.length; i++) {
-      var growthSet = spiritBoard.growth.growthSets[i];
       while (spiritBoard.growth.growthSets[i].growthGroups.length > 0) {
         firstSet.growthGroups.push(spiritBoard.growth.growthSets[i].growthGroups.shift());
         firstSet.growthGroups[firstSet.growthGroups.length - 1].id =
@@ -122,7 +152,11 @@
 {#if spiritBoard.growth.isVisible}
   <article class="message is-small mb-1">
     <div class="message-body p-1">
-      <span><a href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#growth" target="_blank">Instructions</a></span>
+      <span
+        ><a
+          href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#growth"
+          target="_blank">Instructions</a
+        ></span>
     </div>
   </article>
   {#if !spiritBoard.growth.useGrowthSets}
@@ -221,12 +255,12 @@
               {#each growthGroup.growthActions as growthAction, k (growthAction.id)}
                 <div class="growth-action-container">
                   <div class="control">
-                    <input
+                    <AutoComplete
                       id={`growthSet${i}Group${j}Action${k}`}
-                      class="input"
-                      type="text"
-                      tabindex="1"
+                      elementType="input"
                       placeholder="Growth Action"
+                      showListImmediately={true}
+                      {validAutoCompleteValues}
                       on:blur={easyReport}
                       bind:value={growthAction.effect} />
                   </div>
@@ -240,7 +274,6 @@
                   class="button is-primary is-light is-small row-button"
                   tabindex="1"
                   on:click={addGrowthAction(i, j)}>Add Growth Action</button>
-                <!-- Could I just pass the growthgroup as growthGroup instead of the indexes? -->
               </div>
             </div>
           </div>
@@ -261,11 +294,10 @@
   {#if spiritBoard.growth.useGrowthSets}
     <div class="field">
       <div class="control">
-        <button 
+        <button
           class="button is-primary is-light is-small row-button"
           tabindex="1"
-          on:click={addGrowthSet}
-          >Add Growth Set</button>
+          on:click={addGrowthSet}>Add Growth Set</button>
       </div>
     </div>
   {/if}
