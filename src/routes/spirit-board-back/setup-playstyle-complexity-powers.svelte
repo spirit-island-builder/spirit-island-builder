@@ -76,34 +76,6 @@
     { label: "wetland-presence", value: "wetland-presence" },
     { label: "wilds", value: "wilds" },
   ];
-
-
-/*   let adversary = {
-    prop: "value",
-    previewBoard: {
-      isVisible: false,
-    },
-    name:"",
-    baseDif:"",
-    flagImg:"",
-    lossCondition: {
-      name: "",
-      effect:"",
-    },
-    escalation:{
-      name:"",
-      effect:"",
-    },
-    level: [
-      {
-        id:0,
-        name:"",
-        difficulty:"",
-        fearCards:"",
-        effect:"",
-      },
-    ],
-  } */
   
 </script>
 
