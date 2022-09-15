@@ -57,6 +57,12 @@ special-rule icon.range, special-rule icon.isolate {
     height:30px;
 }
 
+special-rule icon.presence {
+    margin-bottom: -8px;
+    margin-left: -2px;
+    margin-right: -2px;
+}
+
 special-rule icon.sand, special-rule icon.wetland, special-rule icon.jungle, special-rule icon.mountain, 
 special-rule icon.jungle-wetland, special-rule icon.jungle-sand, special-rule icon.sand-wetland {
     width:38px;

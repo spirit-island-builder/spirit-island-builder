@@ -856,6 +856,10 @@ gain.or {
 
 growth-cell icon.presence{
   margin-left: 5px;
+  width: 35px;
+  height: 35px;
+  margin-bottom: -8px;
+  margin-right: -2px;
 }
 
 growth-cell div.custom-scaling{
