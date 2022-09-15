@@ -106,6 +106,7 @@
     
       //Set Spirit Name
       const loreName = loreBoardHTML.querySelectorAll("spirit-name")[0];
+
       spiritBoardBack.nameImage.name = loreName.innerHTML.trim();
 
       //Set Spirit Image
@@ -114,6 +115,7 @@
 
       //Set Lore Description
       const loreDescription = loreBoardHTML.querySelectorAll("lore-description")[0];
+
       spiritBoardBack.lore.loreText = loreDescription.innerHTML.trim();
 
       //Set Lore Setup
@@ -123,6 +125,7 @@
       //Set Lore Play Style
       const lorePlayStyle = loreBoardHTML.querySelectorAll("play-style-description")[0];
       spiritBoardBack.playStyle.playStyleText = lorePlayStyle.innerHTML.trim();
+
 
       //Set Complexity
       const complexityHeader = loreBoardHTML.querySelectorAll("complexity")[0];
