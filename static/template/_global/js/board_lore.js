@@ -1,4 +1,10 @@
-window.onload = function startMain(){
+window.onload = (event) =>{
+	startMain();
+    console.log('Page Loaded');
+
+};
+
+function startMain(){
     var html = document.querySelectorAll('board')[0].innerHTML;
     document.querySelectorAll('board')[0].innerHTML = replaceIcon(html);
     adjustComplexityValue();

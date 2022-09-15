@@ -119,25 +119,30 @@
     previewBoard: {
       isVisible: false,
     },
-    lore: {
+    nameArtLore:{
       isVisible: false,
+    },
+    setupPlaystyleComplexityPowers:{
+      isVisible: false,
+    },
+    nameImage: {
+      name:"",
+      img:"",
+    },
+    lore: {
       loreText: "",
     },
     setup: {
-      isVisible: false,
       setupText: "",
     },
     playStyle: {
-      isVisible: false,
       playStyleText: "",
     },
     complexity: {
-      isVisible: false,
       complexityValue: "",
       complexityDescriptor: "",
     },
     summary: {
-      isVisible: false,
       offenseValue: "",
       controlValue: "",
       fearValue: "",
@@ -260,7 +265,7 @@
       Spirit Board Play Side
     </button>
     <button
-      style="display:none"
+      style=""
       class={`button navbar-item ${
         currentPage === "spiritBoardBack" ? "is-primary" : "is-link is-light"
       }`}
