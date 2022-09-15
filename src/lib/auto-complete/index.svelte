@@ -178,10 +178,8 @@
 
   // This is needed for on:mousedown on the autocomplete list because without it a physical click on a list item will close the list due to the on:blur={closeAutoComplete} handlers on the input element
   function handleMouseDown(event) {
-    if (event.button === 1) {
-      event.preventDefault();
-      handleAutoCompleteSelectionFromList(event);
-    }
+    event.preventDefault();
+    handleAutoCompleteSelectionFromList(event);
   }
 
   function closeAutoComplete() {
