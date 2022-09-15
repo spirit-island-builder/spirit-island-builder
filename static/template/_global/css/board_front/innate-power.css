@@ -241,9 +241,11 @@ note icon.beasts{
 }
 
 note icon.presence{
-    margin-bottom: -1px;
-    margin-top: -12px;
-	width: 26px;
+  margin-bottom: -1px;
+  margin-top: -12px;
+  width: 26px;
+  margin-left: -2px;
+  margin-right: -2px;
 }
 
 div.description {
@@ -340,6 +342,8 @@ div.description {
   height: 25px;
   width: 32px;
   margin-bottom: -8px;
+  margin-left: -2px;
+  margin-right: -2px;
 }
 
 .description icon.sacred-site {
@@ -532,11 +536,12 @@ cost-energy value, cost-threshold value{
 }
 
 threshold icon {
-    width: 45px;
-    height: 45px;
-    margin-bottom: -5px;
-    margin-left: 5px;
-    margin-right: 5px;
+  width: 45px;
+  height: 45px;
+  margin-bottom: -5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  background-position: bottom;
 }
 
 threshold icon.wilds, threshold icon.disease, threshold icon.strife,
@@ -547,6 +552,11 @@ threshold icon.sacred-site {
     margin-bottom: -9px;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+threshold icon.destroyed-presence {
+    margin-bottom: 0px;
+    margin-top: -10px;
 }
 
 threshold icon.sun {background-image: url(../../images/board/element_simple_sun.png);}
