@@ -76,10 +76,10 @@ icon.none {
 
 icon.presence {
   background-image: url('../../images/board/75px_presence.png');
-  height: 25px;
+/*   height: 25px;
   width: 35px;
   margin-bottom:-9px;
-  margin-left:0px;
+  margin-left:0px; */
 }
 
 icon.backslash {
@@ -165,13 +165,13 @@ icon.sacred-site {
 icon.presence { background-image: url('../../images/board/50px_presence.png'); }
 
 
-icon.presence {
+/* icon.presence {
   width: 35px;
   height: 35px;
   margin-bottom: -8px;
   margin-left: -2px;
   margin-right: -2px;
-}
+} */
 
 icon.destroyed-presence, icon.destroy-presence {
   background-image: url('../../images/board/NewIcons/Misc Presence Destroy.png');
