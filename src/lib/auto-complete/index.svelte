@@ -292,7 +292,6 @@
     right: 0;
     max-height: 210px;
     overflow: auto;
-    position: relative;
     scroll-behavior: smooth;
     overflow-y: scroll;
   }
