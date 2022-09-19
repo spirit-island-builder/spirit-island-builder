@@ -177,7 +177,7 @@
   {:else}
     <div class="control">
       <button class="button is-danger is-light row-button" on:click={removeAllGrowthSets}
-        >Remove All Growth Sets</button>
+        >Stop Using Growth Sets</button>
     </div>
   {/if}
   {#each spiritBoard.growth.growthSets as growthSet, i (growthSet.id)}
