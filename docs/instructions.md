@@ -69,6 +69,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
   - Remove All Growth Sets: Switches back to not using Growth Sets. All Growth Groups & Actions are preserved.
 - **Growth Groups** are clusters of Growth Actions. During play, the player typically chooses on Growth Group and then does the Growth Actions in that Group. 
   - Add Cost: Optional. Allows for an energy cost associated with this group (as seen on Keeper).
+    - Non-Energy Costs: Optional. Try '1,dahan' or '1,custom1' or other icon names  	
   - Add Tint: Optional. Allows a color shift on growth options (as seen on Spread of Rampant Green).
   - Add Growth Group: Adds an additional Growth Group.
   - **X**: Deletes the current Growth Group & all of its Growth Actions
