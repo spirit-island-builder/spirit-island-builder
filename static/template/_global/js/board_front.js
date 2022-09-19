@@ -158,24 +158,31 @@ function parseGrowthTags(){
     board.getElementsByTagName("growth")[0].removeAttribute("title");
     board.getElementsByTagName("growth")[0].innerHTML = fullHTML;
 
-    function writeGrowthNode(childElement, nextElement, headerIndex) {
-        const cost = childElement.getAttribute("cost");
-        if (cost) {
-            newGrowthCellHTML += `<growth-cost>-${cost}</growth-cost>`;
-        }
-		
-		const tint = childElement.getAttribute("tint");
-		let tint_text = ""
-		if (tint) {
-			tint_text += "<div class='tint' style='background-color:"+tint+";'></div>"
-		}
-		
-        const growthClass = childElement.getAttribute("values");
-        const classPieces = growthClass.split(';');
-        const openTag = headerIndex !== undefined
-            ? `<growth-cell header="${headerIndex}">` + tint_text
-            : "<growth-cell>" + tint_text
-        const closeTag = '</growth-cell>'
+  function writeGrowthNode(childElement, nextElement, headerIndex) {
+    const cost = childElement.getAttribute("cost");
+    if (cost) {
+      costSplit=cost.split(",");
+      if (costSplit[1]){
+        if(debug){console.log("Cost with custom icon")};
+        newGrowthCellHTML += "<growth-cost-custom><icon class='"+costSplit[1]+"'><value>-" + costSplit[0] + "</value></icon></growth-cost-custom>";
+      }else{
+        // Its just a number, so do energy cost
+        newGrowthCellHTML += `<growth-cost>-${costSplit[0]}</growth-cost>`;
+      }
+    }
+    
+    const tint = childElement.getAttribute("tint");
+    let tint_text = ""
+    if (tint) {
+      tint_text += "<div class='tint' style='background-color:"+tint+";'></div>"
+    }
+    
+    const growthClass = childElement.getAttribute("values");
+    const classPieces = growthClass.split(';');
+    const openTag = headerIndex !== undefined
+        ? `<growth-cell header="${headerIndex}">` + tint_text
+        : "<growth-cell>" + tint_text
+    const closeTag = '</growth-cell>'
 		const terrains = new Set(['wetland', 'mountain', 'sand', 'jungle'])
 		const elementNames = new Set(['sun', 'moon', 'fire', 'air', 'plant','water','earth','animal'])
 		
