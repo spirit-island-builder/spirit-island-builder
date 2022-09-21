@@ -587,6 +587,40 @@ growth-cost::after {
   top: 44px;
 }
 
+growth-cost-custom {
+  font-family: 'Gobold Extra2', 'Noto Sans';
+  font-size: 20pt;
+  top: -35px;
+  position: relative;
+  margin-right: -10px;
+  margin-left: -10px;
+  padding-top: 1px;
+  float: left;
+  transform: translateX(55%);
+}
+
+growth-cost-custom > icon {
+    height: 45px;
+    width: 45px;
+}
+
+growth-cost-custom value {
+  text-shadow: -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px -1.5px 0 #fff;
+  position: relative;
+  top: 4px;
+  left: -2px;
+}
+
+growth-cost-custom::after {
+  content: 'Cost';
+  font-family: 'Lato SemiBold';
+  font-size: 14pt;
+  font-style: italic;
+  position: absolute;
+  left: 3px;
+  top: 44px;
+}
+
 presence-special-req {
   background-image: url('../../images/board/75px_presence.png');
   background-repeat: no-repeat;
