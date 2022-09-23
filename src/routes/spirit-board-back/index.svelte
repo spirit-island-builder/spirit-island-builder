@@ -102,7 +102,7 @@
     //Reads the Template HTML file into the Form
     if (loreFrame) {
       console.log('did lore frame thing')
-      const loreBoardHTML = loreFrame.contentDocument.querySelectorAll("board")[0];
+      const loreBoardHTML = htmlElement.querySelectorAll("board")[0];
     
       //Set Spirit Name
       const loreName = loreBoardHTML.querySelectorAll("spirit-name")[0];

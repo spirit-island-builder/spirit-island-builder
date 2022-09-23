@@ -102,7 +102,9 @@
     //Reads the Template HTML file into the Form
     if (cardsFrame) {
       console.log('loading cards')
-      const powerCardsHTML = cardsFrame.contentDocument.querySelectorAll("quick-card");
+      console.log('element passed:')
+      console.log(htmlElement)
+      const powerCardsHTML = htmlElement.querySelectorAll("quick-card");
       console.log('found '+powerCardsHTML.length+' cards')
       
       //Clear the form first
@@ -206,6 +208,8 @@
         dummyEl.head = dummyEl.getElementsByTagName("head")[0];
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         readHTML(dummyEl);
+        console.log(dummyEl)
+        console.log('new file loading')
       };
 
       // This reads the file and then triggers the onload function above once it finishes
