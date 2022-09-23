@@ -2,11 +2,6 @@
 
 <head>
 
-<!-- 	Custom Icons. Instructions 
-				1) place image in same folder as HTLM (this file) 
-				2) replace demo file name with your file name below 
-				3) use custom1, custom2, or custom3 in your HTLM to reference 
--->
 	<style>
 	icon.custom1{background-image: url('demo_custom_icon.png'); }
 	icon.custom2{background-image: url('filename.png'); }
@@ -29,15 +24,6 @@
     </special-rules-container>
 
     <right>
-		<!-- GROWTH  
-			Examples include: reclaim-all; reclaim-one; move-presence(1); gain-energy(2);
-			Gaining Elements: gain-element(water,fire); gain-element(water,2);
-			Adding Presence: add-presence(1); add-presence(1,jungle); add-presence(2,town,city,blight,or); add-presence(2,strife,city,and);
-			
-			Sub-Groups of Growth are possible (think Lure)
-			Example: <sub-growth title="pick one of:" bordered>   here 'bordered' creates the double line border
-					 </sub-growth>
-		-->
 		<growth title="Growth">
 		</growth>
 
@@ -46,11 +32,6 @@
 		  <card-play-track banner="example2.png" banner-v-scale="50%" values="1,fire,2+fire,3,move-presence(2),reclaim-one,5+reclaim-one,fire+reclaim-one"></card-play-track>
 		</presence-tracks>
 
-		<!-- INNATE POWERS  
-			To create powers which scale with elements ("For Each"), use the shortcut {fire,2} to include the numeral
-			Tokens can be included in level thresholds (as seen on Many Minds). Try '1-dahan','2-beast','3-wilds',etc.
-			speed: "fast" or "slow"
-		-->
     <innate-powers>
       <quick-innate-power
         name="explosion"
