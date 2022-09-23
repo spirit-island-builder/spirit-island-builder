@@ -1,6 +1,12 @@
 var quickCards = document.querySelectorAll('quick-card');
 
-window.onload = function startMain(){
+window.onload = (event) =>{
+	startMain();
+    console.log('Page Loaded');
+
+};
+
+function startMain(){
     const cards = document.querySelectorAll('card');
     
 	for (i = 0; i < cards.length; ++i) {
