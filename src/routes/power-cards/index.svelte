@@ -186,7 +186,7 @@
     console.log(document.getElementById("cards-mod-frame").contentWindow.document.getElementsByTagName("html")[0].innerHTML)
     element.setAttribute(
       "download",
-      adversary.nameLossEscalation.name.replaceAll(" ", "_") + "powercards.html"
+      powerCards.spiritName.replaceAll(" ", "_") + "powercards.html"
     );
     element.style.display = "none";
     document.body.appendChild(element);
