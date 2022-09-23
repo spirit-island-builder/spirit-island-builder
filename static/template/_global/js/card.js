@@ -7,25 +7,25 @@ window.onload = (event) =>{
 
 function startMain(){
 
+console.log('Start Main cards')
+
 var quickCards = document.querySelectorAll('quick-card');
 
 for(var quickCard of quickCards)
 {
-  console.log('randomshitnow')
   var data = getData(quickCard);
   var card = constructCard(data);
   insertAfter(card, quickCard);
   quickCard.remove();
 }
 
-setTimeout(() => {resize()}, 200);
-
     const cards = document.querySelectorAll('card');
-    console.log(cards)
-    console.log('start main going')
+    
 	for (i = 0; i < cards.length; ++i) {
 		cards[i].innerHTML = replaceIcon(cards[i].innerHTML);
 	}
+
+setTimeout(() => {resize()}, 200);
 
 }
 
@@ -76,7 +76,6 @@ function constructCard(data)
 
 function resize()
 {
-  console.log('resize now')
 	//Name
 	nameBlocks = document.querySelectorAll("name");
 	for(let i = 0; i < nameBlocks.length; i++){
@@ -91,11 +90,8 @@ function resize()
 		rulesBlock = rulesContainers[i].querySelectorAll("rules")[0];
 		thresholdBlock = rulesContainers[i].querySelectorAll("threshold")[0];
 		limitingBlock = thresholdBlock == undefined ? rulesContainers[i] : thresholdBlock;
-		console.log('limiting block is...')
-		console.log(limitingBlock)
 		let j = 0
 		while (checkOverflow(limitingBlock)){
-			console.log("Resizing... "+i)
 			var style = window.getComputedStyle(rulesBlock, null).getPropertyValue('font-size');
 			var line = window.getComputedStyle(rulesBlock, null).getPropertyValue('line-height');
 			var fontSize = parseFloat(style);
@@ -273,7 +269,6 @@ function insertAfter(newNode, referenceNode){
 
 function dynamicSizing(el, maxSize=el.offsetHeight)
 {
-	console.log('resizing text for ' + el.tagName)
 	let j = 0
 	while (checkOverflow(el,maxSize)){
 		var style = window.getComputedStyle(el, null).getPropertyValue('font-size');
