@@ -175,7 +175,7 @@
     console.log(document.getElementById("lore-mod-frame").contentWindow.document.getElementsByTagName("html")[0].innerHTML)
     element.setAttribute(
       "download",
-      adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_spiritlore.html"
+      spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_spiritlore.html"
     );
     element.style.display = "none";
     document.body.appendChild(element);
@@ -290,6 +290,20 @@
     <SetupPlaystyleComplexityPowers bind:spiritBoardBack {showOrHideSection} />
   </div>
 </div>
+<article class="message is-small mb-1">
+  <div class="message-body p-1">
+    See <a
+      href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md"
+      target="_blank">Instructions</a>
+    for details on how to use the form. For custom art,
+    <a href="https://www.wombo.art/" target="_blank">Wombo</a>
+    (unaffiliated) is a popular art generator.
+    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island Builder
+    is adapted from
+    <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
+    developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
+  </div>
+</article>
 <div id="lore-holder">
   <iframe
     bind:this={loreFrame}

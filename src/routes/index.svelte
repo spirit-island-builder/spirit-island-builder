@@ -154,12 +154,14 @@
   
   let powerCards = {
     prop: "value",
+    spiritName: "",
     previewBoard: {
       isVisible: false,
     },
     cards: [
       {
         id: 0,
+        name:"",
         speed: "",
         cost: "",
         cardImage:"",
@@ -252,7 +254,7 @@
   }
 </script>
 
-<h1 class="title is-1">Build Custom Spirit Island Components!</h1>
+<h1 class="title is-1">The Spirit Island Builder</h1>
 <nav class="navbar">
   <div class="navbar-brand">
     <button
@@ -275,7 +277,7 @@
       Spirit Board Lore Side
     </button>
     <button
-      style="display:none"
+      style=""
       class={`button navbar-item ${
         currentPage === "powerCards" ? "is-primary" : "is-link is-light"
       }`}
