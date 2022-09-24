@@ -17,7 +17,7 @@
   }
 
   function showOrHideSection(event) {
-    powerCards.cards[event.target.id].isVisible = !powerCards.cards[event.target.id].isVisible;
+    powerCards[event.target.id].isVisible = !powerCards[event.target.id].isVisible;
   }
 
   function showOrHideBoard() {
@@ -75,8 +75,15 @@
         newPowerCard.setAttribute("range", card.range);
         newPowerCard.setAttribute("target", card.target);
         newPowerCard.setAttribute("target-title", card.targetTitle);
-        newPowerCard.setAttribute("elements", card.powerElements);
         newPowerCard.setAttribute("artist-name", card.artistName);
+        
+        var elementalList = card.powerElements;
+        var elementListHTML = [];
+        for (let key in elementalList) {
+          if (elementalList[key]) elementListHTML.push(key);
+        }
+        newPowerCard.setAttribute("elements", elementListHTML.join());
+        
         bodyContainer.appendChild(newPowerCard)
         console.log(newPowerCard)
         var newPowerCardRules = cardsFrame.contentDocument.createElement("rules");
@@ -126,26 +133,44 @@
     var rulesHTML = powerCardHTML.querySelectorAll("rules")[0];
     var rulesPush = ""
     if(rulesHTML){
-      rulesPush = rulesHTML.innerHTML;
+      rulesPush = rulesHTML.innerHTML.trim();
     }
     var thresholdHTML = powerCardHTML.querySelectorAll("threshold")[0];
     var thresholdPush = "";
     var thresholdConditionPush = "";
     var thresholdTextPush = "";
     if(thresholdHTML){
-      thresholdPush = thresholdHTML.innerHTML;
+      thresholdPush = thresholdHTML.innerHTML.trim();
       thresholdConditionPush = thresholdHTML.getAttribute("condition");
       thresholdTextPush = thresholdHTML.getAttribute("text");
     }
     
+    //Parse elements
+    var elementList = powerCardHTML.getAttribute("elements").split(",");
+    var elementsForm = {
+          air: false,
+          sun: false,
+          moon:false,
+          water: false,
+          fire: false,
+          earth: false,
+          plant: false,
+          animal: false,
+          };
+    elementList.forEach((element, i) => {
+      elementsForm[element]=true;
+    });
+    console.log(elementsForm)
+    
+    //Add the card
     powerCards.cards.push({
       id: powerCards.cards.length,
       name: powerCardHTML.getAttribute("name"),
       speed: powerCardHTML.getAttribute("speed"),
       cost: powerCardHTML.getAttribute("cost"),
       cardImage: powerCardHTML.getAttribute("image"),
-      powerElements: powerCardHTML.getAttribute("elements"),
-      range: powerCardHTML.getAttribute("0"),
+      powerElements: elementsForm,
+      range: powerCardHTML.getAttribute("range"),
       target: powerCardHTML.getAttribute("target"),
       targetTitle: powerCardHTML.getAttribute("target-title"),
       artistName: powerCardHTML.getAttribute("artist-name"),
@@ -293,9 +318,7 @@
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
-  {#each powerCards.cards as card, i (card.id)}
     <PowerCard bind:powerCards {showOrHideSection} />
-  {/each}
   </div>
 </div>
 <article class="message is-small mb-1">

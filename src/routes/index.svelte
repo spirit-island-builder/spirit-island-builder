@@ -9,6 +9,7 @@
 
   function setCurrentPage(page) {
     currentPage = page;
+    console.log('>--|--< Switching to '+page+' >--|--<')
   }
 
   let spiritBoard = {
@@ -158,6 +159,9 @@
     previewBoard: {
       isVisible: false,
     },
+    form: {
+      isVisible: false,
+    },
     cards: [
       {
         id: 0,
@@ -165,7 +169,16 @@
         speed: "",
         cost: "",
         cardImage:"",
-        powerElements:"",
+        powerElements: {
+          air: false,
+          sun: false,
+          moon:false,
+          water: false,
+          fire: false,
+          earth: false,
+          plant: false,
+          animal: false,
+        },
         range:"",
         target:"",
         targetTitle:"",

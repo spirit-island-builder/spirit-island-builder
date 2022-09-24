@@ -93,19 +93,196 @@
     }
   }
   
+  function setSpeedTextbox(powerSpeed, card) {
+  console.log(card)
+  console.log(powerSpeed)
+    card.speed = powerSpeed;
+    powerCards = powerCards;
+  }
+  
+  function setTargetTextbox(targetTitle, card) {
+    card.targetTitle = targetTitle;
+    powerCards = powerCards;
+  }
+  
+  function removePowerCard(powerIndex) {
+    powerCards.cards.splice(powerIndex, 1);
+    powerCards.cards.forEach((power, i) => {
+      power.id = i;
+    });
+    powerCards = powerCards;
+  }
+  
+  function addEmptyPowerCard() {
+    
+    powerCards.cards.push({
+      id: powerCards.cards.length,
+      name:"",
+      speed: "fast",
+      cost: "",
+      cardImage:"",
+      powerElements:"",
+      range:"",
+      target:"",
+      targetTitle:"target land",
+      rules:"",
+      threshold:"",
+      thresholdCondition:"",
+      thresholdText:"",
+    });
+    
+    powerCards = powerCards;
+  }
+      
+  function activateElement(event,card) {
+    card.powerElements[event.target.id] = !card.powerElements[event.target.id];
+    if(!event.target.classList.contains('is-active')){
+      event.target.classList.add('is-active')
+    }else{
+      event.target.classList.remove('is-active')
+    }
+  }
 </script>
 
 <h6
   on:click={showOrHideSection}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="nameArtLore">
+  id="form">
   Power Card
   <span on:click={showOrHideSection}>
     {#if powerCards.previewBoard.isVisible}
-      <ion-icon id="nameArtLore" on:click={showOrHideSection} name="chevron-down-outline" />
+      <ion-icon id="form" on:click={showOrHideSection} name="chevron-down-outline" />
     {:else}
-      <ion-icon id="nameArtLore" on:click={showOrHideSection} name="chevron-up-outline" />
+      <ion-icon id="form" on:click={showOrHideSection} name="chevron-up-outline" />
     {/if}
   </span>
 </h6>
+{#if powerCards.form.isVisible}
+  {#each powerCards.cards as card, i (card.id)}
+    <div class="field mt-2">
+      <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
+        >{`Power Card ${i + 1}`}</label>
+      <div class="is-flex is-flex-direction-row">
+        <div class="control" style="width:100%">
+          <input
+            id={`powerName${i}`}
+            class="input"
+            type="text"
+            tabindex="1"
+            placeholder="Power Name"
+            bind:value={card.name} />
+        </div>
+        <button class="button is-primary is-light is-warning" on:click={removePowerCard(i)}
+          >Remove Power Card</button>
+      </div>
+    </div>
+    <div class="field has-addons mt-2">
+      <div class="img-elements" class:is-active="{card.powerElements.sun}" id="sun" on:click={(e) => activateElement(e,card)} style="background-image: url('/template/_global/images/board/element_simple_sun.png')"/>
+      <div class="img-elements" class:is-active="{card.powerElements.moon}"id="moon" on:click={(e) => activateElement(e,card)} style="background-image: url('/template/_global/images/board/element_simple_moon.png')"/>
+      <div class="img-elements" class:is-active="{card.powerElements.fire}" id="fire" on:click={(e) => activateElement(e,card)} style="background-image: url('/template/_global/images/board/element_simple_fire.png')"/>
+      <div class="img-elements" class:is-active="{card.powerElements.air}" id="air" on:click={(e) => activateElement(e,card)} style="background-image: url('/template/_global/images/board/element_simple_air.png')"/>
+      <div class="img-elements" class:is-active="{card.powerElements.water}" id="water" on:click={(e) => activateElement(e,card)} style="background-image: url('/template/_global/images/board/element_simple_water.png')"/>
+      <div class="img-elements" class:is-active="{card.powerElements.earth}" id="earth" on:click={(e) => activateElement(e,card)} style="background-image: url('/template/_global/images/board/element_simple_earth.png')"/>
+      <div class="img-elements" class:is-active="{card.powerElements.plant}" id="plant" on:click={(e) => activateElement(e,card)} style="background-image: url('/template/_global/images/board/element_simple_plant.png')"/>
+      <div class="img-elements" class:is-active="{card.powerElements.animal}" id="animal" on:click={(e) => activateElement(e,card)} style="background-image: url('/template/_global/images/board/element_simple_animal.png')"/>
+    </div>
+    <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
+      <div class="is-flex is-flex-direction-column-reverse">
+        <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+          {#if card.speed == ""}
+            <button
+              class="button is-danger is-light button-hold mb-0"
+              id="fast-button"
+              on:click={setSpeedTextbox("Fast", card)}>Fast</button>
+            <button
+              class="button is-info is-light button-hold mb-0"
+              id="slow-button"
+              on:click={setSpeedTextbox("Slow", card)}>Slow</button>
+          {:else if card.speed == "Fast" || card.speed == "fast"}
+            <button
+              class="button is-danger button-hold mb-0"
+              id="fast-button"
+              on:click={setSpeedTextbox("Fast", card)}>Fast</button>
+            <button
+              class="button is-info is-light button-hold mb-0"
+              id="slow-button"
+              on:click={setSpeedTextbox("Slow", card)}>Slow</button>
+          {:else}
+            <button
+              class="button is-danger is-light button-hold mb-0"
+              id="fast-button"
+              on:click={setSpeedTextbox("Fast", card)}>Fast</button>
+            <button
+              class="button is-info button-hold mb-0"
+              id="slow-button"
+              on:click={setSpeedTextbox("Slow", card)}>Slow</button>
+          {/if}
+        </div>
+        <label class="label is-unselectable" for="">Speed</label>
+      </div>
+      <div class="is-flex is-flex-direction-column-reverse">
+        <div class="control">
+          <input
+            id={`powerRange${i}`}
+            class="input"
+            type="text"
+            tabindex="1"
+            placeholder="Range"
+            bind:value={card.range} />
+        </div>
+        <label class="label is-unselectable" for="">Range</label>
+      </div>
+      <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap">
+        <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
+          <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+            {#if card.targetTitle == ""}
+              <button
+                class="button is-success is-light is-small mb-0"
+                on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
+              <button
+                class="button is-success is-light is-small mb-0"
+                on:click={setTargetTextbox("Target", card)}>Target</button>
+            {:else if card.targetTitle == "target" || card.targetTitle == "Target"}
+              <button
+                class="button is-success is-light is-small mb-0"
+                on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
+              <button
+                class="button is-success is-small mb-0"
+                on:click={setTargetTextbox("Target", card)}>Target</button>
+            {:else}
+              <button
+                class="button is-success is-small mb-0"
+                on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
+              <button
+                class="button is-success is-light is-small mb-0"
+                on:click={setTargetTextbox("Target", card)}>Target</button>
+            {/if}
+          </div>
+        </div>
+        <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+          <div class="control">
+            <input
+              id={`powerTarget${i}`}
+              class="input"
+              type="text"
+              tabindex="1"
+              placeholder="Target"
+              bind:value={card.target} />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="control pb-2">
+      <AutoComplete
+        id={`cardRules${i}`}
+        elementType="textarea"
+        placeholder="Rules"
+        {validAutoCompleteValues}
+        bind:value={card.rules} />
+    </div>
+  {/each}
+{/if}
+<div class="pt-1">
+  <button class="button is-primary is-light" on:click={addEmptyPowerCard}>Add Power Card</button>
+</div>
 
