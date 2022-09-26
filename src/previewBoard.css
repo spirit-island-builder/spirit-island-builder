@@ -83,3 +83,32 @@
     zoom: 1;
   }
 }
+
+
+#cards-board-wrap {
+  width: 100%;
+  height: 460px;
+  padding: 0;
+  overflow: hidden;
+}
+
+#cards-scaled-frame {
+  border: 0px;
+}
+#cards-scaled-frame {
+  zoom: 0.67;
+  -moz-transform: scale(0.67);
+  -moz-transform-origin: 0 0;
+  -o-transform: scale(0.67);
+  -o-transform-origin: 0 0;
+  -webkit-transform: scale(0.67);
+  -webkit-transform-origin: 0 0;
+  width: 149%;
+  height:682px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  #cards-scaled-frame {
+    zoom: 1;
+  }
+}
