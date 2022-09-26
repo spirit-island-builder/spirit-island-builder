@@ -75,7 +75,7 @@
         newPowerCard.setAttribute("range", card.range);
         newPowerCard.setAttribute("target", card.target);
         newPowerCard.setAttribute("target-title", card.targetTitle);
-        newPowerCard.setAttribute("artist-name", card.artistName);
+        newPowerCard.setAttribute("artist-name", card.cardArtist);
         
         var elementalList = card.powerElements;
         var elementListHTML = [];
@@ -137,9 +137,11 @@
     }
     var thresholdHTML = powerCardHTML.querySelectorAll("threshold")[0];
     var thresholdPush = "";
+    var hasThresholdPush = false;
     var thresholdConditionPush = "";
     var thresholdTextPush = "";
     if(thresholdHTML){
+      hasThresholdPush = true;
       thresholdPush = thresholdHTML.innerHTML.trim();
       thresholdConditionPush = thresholdHTML.getAttribute("condition");
       thresholdTextPush = thresholdHTML.getAttribute("text");
@@ -173,8 +175,9 @@
       range: powerCardHTML.getAttribute("range"),
       target: powerCardHTML.getAttribute("target"),
       targetTitle: powerCardHTML.getAttribute("target-title"),
-      artistName: powerCardHTML.getAttribute("artist-name"),
+      cardArtist: powerCardHTML.getAttribute("artist-name"),
       rules:rulesPush,
+      hasThreshold:hasThresholdPush,
       threshold:thresholdPush,
       thresholdCondition:thresholdConditionPush,
       thresholdText:thresholdTextPush,
@@ -213,7 +216,7 @@
     console.log(document.getElementById("cards-mod-frame").contentWindow.document.getElementsByTagName("html")[0].innerHTML)
     element.setAttribute(
       "download",
-      powerCards.spiritName.replaceAll(" ", "_") + "powercards.html"
+      powerCards.spiritName.replaceAll(" ", "_") + "_powercards.html"
     );
     element.style.display = "none";
     document.body.appendChild(element);
@@ -245,29 +248,43 @@
   function clearAllFields() {
     powerCards = {
       prop: "value",
+      spiritName: "",
       previewBoard: {
         isVisible: false,
       },
-      spiritName: "",
+      form: {
+        isVisible: false,
+      },
       cards: [
         {
-          isVisible: false,
           id: 0,
           name:"",
-          speed: "",
+          speed: "fast",
           cost: "",
-          cardImage:"",
-          powerElements:"",
-          range:"",
-          target:"",
-          targetTitle:"",
+          cardImage: "",
+          cardArtist: "",
+          powerElements: {
+            air: false,
+            sun: false,
+            moon:false,
+            water: false,
+            fire: false,
+            earth: false,
+            plant: false,
+            animal: false,
+          },
+          range: "",
+          target: "",
+          targetTitle:"target land",
           rules:"",
-          threshold:"",
-          thresholdCondition:"",
-          thresholdText:"",
+          hasThreshold: "",
+          threshold: "",
+          thresholdCondition: "",
+          thresholdText: "",
         },
        ],
     }
+    console.log(powerCards);
   }
   
   
