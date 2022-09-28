@@ -169,6 +169,7 @@
         speed: "",
         cost: "",
         cardImage: "",
+        cardArtist: "",
         powerElements: {
           air: false,
           sun: false,
