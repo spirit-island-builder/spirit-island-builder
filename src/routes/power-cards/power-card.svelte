@@ -177,9 +177,6 @@
   </span>
 </h6>
 {#if powerCards.form.isVisible}
-
-  
-
     <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap mb-0">
       <div class="field has-addons mr-3 ml-1">
         <label class="label is-unselectable mr-1" for="">Spirit Name: </label>
@@ -194,7 +191,6 @@
         </div>
       </div>
     </div>
-
   {#each powerCards.cards as card, i (card.id)}
     <div class="field mt-2">
       <label class="label mb-1 is-unselectable" for="spiritGrowthInput"

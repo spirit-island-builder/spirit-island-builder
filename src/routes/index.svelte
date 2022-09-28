@@ -117,6 +117,7 @@
 
   let spiritBoardBack = {
     prop: "value",
+    demoBoardWasLoaded: false,
     previewBoard: {
       isVisible: false,
     },
@@ -155,6 +156,7 @@
   
   let powerCards = {
     prop: "value",
+    demoBoardWasLoaded: false,
     spiritName: "",
     previewBoard: {
       isVisible: false,
@@ -165,6 +167,7 @@
     cards: [
       {
         id: 0,
+        isVisible: true,
         name:"",
         speed: "",
         cost: "",
@@ -190,11 +193,11 @@
         thresholdText: "",
       },
      ],
-
   }
 
   let aspect = {
     prop: "value",
+    demoBoardWasLoaded: false,
     previewBoard: {
       isVisible: false,
     },
@@ -202,6 +205,7 @@
   
   let adversary = {
     prop: "value",
+    demoBoardWasLoaded: false,
     previewBoard: {
       isVisible: false,
     },

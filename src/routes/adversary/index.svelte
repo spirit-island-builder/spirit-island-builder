@@ -13,9 +13,16 @@
 
   function onLoad() {
     if (adversaryFrame) {
+      if (adversary.demoBoardWasLoaded === false){
         setTimeout(() => {
           readHTML(adversaryFrame.contentDocument);
-        }, 200);
+          adversary.demoBoardWasLoaded = true;
+          }, 200);
+      }else{
+        setTimeout(() => {
+          reloadPreview();
+          }, 200);
+      }
     }
   }
 

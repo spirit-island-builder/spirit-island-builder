@@ -13,9 +13,16 @@
 
   function onLoad() {
     if (loreFrame) {
+      if (spiritBoardBack.demoBoardWasLoaded === false){
         setTimeout(() => {
           readHTML(loreFrame.contentDocument);
-        }, 200);
+          spiritBoardBack.demoBoardWasLoaded = true;
+          }, 200);
+      }else{
+        setTimeout(() => {
+          reloadPreview();
+          }, 200);
+      }
     }
   }
 

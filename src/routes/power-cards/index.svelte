@@ -10,9 +10,16 @@
 
   function onLoad() {
     if (cardsFrame) {
+      if (powerCards.demoBoardWasLoaded === false){
         setTimeout(() => {
           readHTML(cardsFrame.contentDocument);
-        }, 200);
+          powerCards.demoBoardWasLoaded = true;
+          }, 200);
+      }else{
+        setTimeout(() => {
+          reloadPreview();
+          }, 200);
+      }
     }
   }
 
@@ -258,8 +265,9 @@
       cards: [
         {
           id: 0,
+          isVisible: true,
           name:"",
-          speed: "fast",
+          speed: "",
           cost: "",
           cardImage: "",
           cardArtist: "",
@@ -275,7 +283,7 @@
           },
           range: "",
           target: "",
-          targetTitle:"target land",
+          targetTitle:"",
           rules:"",
           hasThreshold: "",
           threshold: "",
@@ -284,8 +292,8 @@
         },
        ],
     }
-    console.log(powerCards);
   }
+  
   
   
 </script>
