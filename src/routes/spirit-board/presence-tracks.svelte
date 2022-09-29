@@ -29,13 +29,6 @@
     });
     spiritBoard = spiritBoard;
   }
-
-  function useMiddleNodes() {
-    spiritBoard.presenceTrack.useMiddleNodes = true;
-  }
-  function disableMiddleNodes() {
-    spiritBoard.presenceTrack.useMiddleNodes = false;
-  }
 </script>
 
 <h6
@@ -54,7 +47,11 @@
 {#if spiritBoard.presenceTrack.isVisible}
   <article class="message is-small mb-1">
     <div class="message-body p-1">
-      <span><a href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#presence-tracks" target="_blank">Instructions</a></span>
+      <span
+        ><a
+          href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#presence-tracks"
+          target="_blank">Instructions</a
+        ></span>
     </div>
   </article>
   <div class="field">

@@ -10,15 +10,15 @@
 
   function onLoad() {
     if (cardsFrame) {
-      if (powerCards.demoBoardWasLoaded === false){
+      if (powerCards.demoBoardWasLoaded === false) {
         setTimeout(() => {
           readHTML(cardsFrame.contentDocument);
           powerCards.demoBoardWasLoaded = true;
-          }, 200);
-      }else{
+        }, 200);
+      } else {
         setTimeout(() => {
           reloadPreview();
-          }, 200);
+        }, 200);
       }
     }
   }
@@ -34,7 +34,7 @@
       document.getElementById("cards-board-wrap").style.display = "none";
     }
   }
-  
+
   function reloadPreview() {
     console.log("Updating Preview (f=reloadPreview)");
     setBoardValues(powerCards);
@@ -54,7 +54,9 @@
     scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
 
     let bodyClone;
-    bodyClone = document.getElementById("cards-mod-frame").contentWindow.document.body.cloneNode(true);
+    bodyClone = document
+      .getElementById("cards-mod-frame")
+      .contentWindow.document.body.cloneNode(true);
     document.getElementById("cards-scaled-frame").contentWindow.document.body = bodyClone;
     let headClone = modFrame.head.cloneNode(true);
     scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
@@ -62,7 +64,6 @@
 
   function setBoardValues(powerCards) {
     if (cardsFrame) {
-      
       //Clear any current power cards
       const bodyContainer = cardsFrame.contentDocument.querySelectorAll("body")[0];
       if (bodyContainer) {
@@ -71,7 +72,7 @@
       }
 
       //Loop through cards
-      powerCards.cards.forEach((card, i) => {
+      powerCards.cards.forEach((card) => {
         var newPowerCard = cardsFrame.contentDocument.createElement("quick-card");
         newPowerCard.setAttribute("name", card.name);
         newPowerCard.setAttribute("speed", card.speed.toLowerCase());
@@ -81,7 +82,7 @@
         newPowerCard.setAttribute("target", card.target);
         newPowerCard.setAttribute("target-title", card.targetTitle);
         newPowerCard.setAttribute("artist-name", card.cardArtist);
-        
+
         var elementalList = card.powerElements;
         var elementListHTML = [];
         for (let key in elementalList) {
@@ -90,24 +91,22 @@
         newPowerCard.setAttribute("elements", elementListHTML.join());
         
         bodyContainer.appendChild(newPowerCard)
-
         var newPowerCardRules = cardsFrame.contentDocument.createElement("rules");
         newPowerCardRules.innerHTML = card.rules;
         newPowerCard.appendChild(newPowerCardRules);
-        if(card.threshold){
+        if (card.threshold) {
           var newPowerCardThreshold = cardsFrame.contentDocument.createElement("threshold");
           newPowerCardThreshold.innerHTML = card.threshold;
           newPowerCardThreshold.setAttribute("condition", card.thresholdCondition);
-          if(card.thresholdText){
+          if (card.thresholdText) {
             newPowerCardThreshold.setAttribute("text", card.thresholdText);
           }
           newPowerCard.appendChild(newPowerCardThreshold);
         }
       });
-      
     }
   }
-  
+
   function readHTML(htmlElement) {
     console.log("Loading power cards into form (f=readHTML)");
     //Reads the Template HTML file into the Form
@@ -118,18 +117,18 @@
       //Clear the form first
       powerCards.cards.splice(0, powerCards.cards.length); //Clear the Form first
       
+
       //Iterate through the cards
-      powerCardsHTML.forEach((powerCardHTML, i) => {
-        addPowerCard(powerCards,powerCardHTML);
+      powerCardsHTML.forEach((powerCardHTML) => {
+        addPowerCard(powerCards, powerCardHTML);
       });
     }
   }
-  
-  function addPowerCard(powerCards, powerCardHTML) {
 
+  function addPowerCard(powerCards, powerCardHTML) {
     var rulesHTML = powerCardHTML.querySelectorAll("rules")[0];
-    var rulesPush = ""
-    if(rulesHTML){
+    var rulesPush = "";
+    if (rulesHTML) {
       rulesPush = rulesHTML.innerHTML.trim();
     }
     var thresholdHTML = powerCardHTML.querySelectorAll("threshold")[0];
@@ -137,29 +136,28 @@
     var hasThresholdPush = false;
     var thresholdConditionPush = "";
     var thresholdTextPush = "";
-    if(thresholdHTML){
+    if (thresholdHTML) {
       hasThresholdPush = true;
       thresholdPush = thresholdHTML.innerHTML.trim();
       thresholdConditionPush = thresholdHTML.getAttribute("condition");
       thresholdTextPush = thresholdHTML.getAttribute("text");
     }
-    
+
     //Parse elements
     var elementList = powerCardHTML.getAttribute("elements").split(",");
     var elementsForm = {
-          air: false,
-          sun: false,
-          moon:false,
-          water: false,
-          fire: false,
-          earth: false,
-          plant: false,
-          animal: false,
-          };
-    elementList.forEach((element, i) => {
-      elementsForm[element]=true;
+      air: false,
+      sun: false,
+      moon: false,
+      water: false,
+      fire: false,
+      earth: false,
+      plant: false,
+      animal: false,
+    };
+    elementList.forEach((element) => {
+      elementsForm[element] = true;
     });
-    
     //Add the card
     powerCards.cards.push({
       id: powerCards.cards.length,
@@ -172,16 +170,16 @@
       target: powerCardHTML.getAttribute("target"),
       targetTitle: powerCardHTML.getAttribute("target-title"),
       cardArtist: powerCardHTML.getAttribute("artist-name"),
-      rules:rulesPush,
-      hasThreshold:hasThresholdPush,
-      threshold:thresholdPush,
-      thresholdCondition:thresholdConditionPush,
-      thresholdText:thresholdTextPush,
+      rules: rulesPush,
+      hasThreshold: hasThresholdPush,
+      threshold: thresholdPush,
+      thresholdCondition: thresholdConditionPush,
+      thresholdText: thresholdTextPush,
     });
 
     return powerCards;
-  };
-  
+  }
+
   let cardsFrameLarge = false;
   function toggleSize() {
     var displayFrame = document.getElementById("cards-scaled-frame");
@@ -197,7 +195,7 @@
     }
     cardsFrameLarge = !cardsFrameLarge;
   }
-  
+
   function exportPowerCards() {
     var element = document.createElement("a");
     element.setAttribute(
@@ -209,7 +207,11 @@
             .contentWindow.document.getElementsByTagName("html")[0].innerHTML
         )
     );
-    console.log(document.getElementById("cards-mod-frame").contentWindow.document.getElementsByTagName("html")[0].innerHTML)
+    console.log(
+      document
+        .getElementById("cards-mod-frame")
+        .contentWindow.document.getElementsByTagName("html")[0].innerHTML
+    );
     element.setAttribute(
       "download",
       powerCards.spiritName.replaceAll(" ", "_") + "_powercards.html"
@@ -219,7 +221,7 @@
     element.click();
     document.body.removeChild(element);
   }
-  
+
   function handleTextFileInput(event) {
     var dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
@@ -232,15 +234,15 @@
         dummyEl.head = dummyEl.getElementsByTagName("head")[0];
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         readHTML(dummyEl);
-        console.log(dummyEl)
-        console.log('new file loading')
+        console.log(dummyEl);
+        console.log("new file loading");
       };
 
       // This reads the file and then triggers the onload function above once it finishes
       fileReader.readAsText(file);
     }
   }
-  
+
   function clearAllFields() {
     powerCards = {
       prop: "value",
@@ -255,7 +257,7 @@
         {
           id: 0,
           isVisible: true,
-          name:"",
+          name: "",
           speed: "",
           cost: "",
           cardImage: "",
@@ -263,7 +265,7 @@
           powerElements: {
             air: false,
             sun: false,
-            moon:false,
+            moon: false,
             water: false,
             fire: false,
             earth: false,
@@ -272,19 +274,16 @@
           },
           range: "",
           target: "",
-          targetTitle:"",
-          rules:"",
+          targetTitle: "",
+          rules: "",
           hasThreshold: "",
           threshold: "",
           thresholdCondition: "",
           thresholdText: "",
         },
-       ],
-    }
+      ],
+    };
   }
-  
-  
-  
 </script>
 
 <h5 class="title is-5">Power Cards</h5>
@@ -343,8 +342,8 @@
     for details on how to use the form. For custom art,
     <a href="https://www.wombo.art/" target="_blank">Wombo</a>
     (unaffiliated) is a popular art generator.
-    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island Builder
-    is adapted from
+    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island
+    Builder is adapted from
     <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
     developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
   </div>

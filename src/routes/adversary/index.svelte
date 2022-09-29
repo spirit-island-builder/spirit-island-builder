@@ -13,15 +13,15 @@
 
   function onLoad() {
     if (adversaryFrame) {
-      if (adversary.demoBoardWasLoaded === false){
+      if (adversary.demoBoardWasLoaded === false) {
         setTimeout(() => {
           readHTML(adversaryFrame.contentDocument);
           adversary.demoBoardWasLoaded = true;
-          }, 200);
-      }else{
+        }, 200);
+      } else {
         setTimeout(() => {
           reloadPreview();
-          }, 200);
+        }, 200);
       }
     }
   }
@@ -29,7 +29,7 @@
   function showOrHideSection(event) {
     adversary[event.target.id].isVisible = !adversary[event.target.id].isVisible;
   }
-  
+
   function showOrHideBoard() {
     if (document.getElementById("adversaryBoardWrap").style.display == "none") {
       document.getElementById("adversaryBoardWrap").style.display = "block";
@@ -57,7 +57,9 @@
     scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
 
     let bodyClone;
-    bodyClone = document.getElementById("adversary-mod-frame").contentWindow.document.body.cloneNode(true);
+    bodyClone = document
+      .getElementById("adversary-mod-frame")
+      .contentWindow.document.body.cloneNode(true);
     document.getElementById("adversary-scaled-frame").contentWindow.document.body = bodyClone;
     let headClone = modFrame.head.cloneNode(true);
     scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
@@ -73,18 +75,20 @@
       adversaryHeader.setAttribute("flag-image", adversary.nameLossEscalation.flagImg);
 
       //Set Loss Condition
-      const lossConditionHeader = adversaryFrame.contentDocument.querySelectorAll("loss-condition")[0];
+      const lossConditionHeader =
+        adversaryFrame.contentDocument.querySelectorAll("loss-condition")[0];
       lossConditionHeader.setAttribute("name", adversary.nameLossEscalation.lossCondition.name);
       lossConditionHeader.setAttribute("rules", adversary.nameLossEscalation.lossCondition.effect);
 
       //Set Escalation
-      const escalationHeader = adversaryFrame.contentDocument.querySelectorAll("escalation-effect")[0];
+      const escalationHeader =
+        adversaryFrame.contentDocument.querySelectorAll("escalation-effect")[0];
       escalationHeader.setAttribute("name", adversary.nameLossEscalation.escalation.name);
       escalationHeader.setAttribute("rules", adversary.nameLossEscalation.escalation.effect);
-      
+
       //Set Levels
       adversary.levelSummary.levels.forEach((level, i) => {
-        var HTMLlevel = adversaryFrame.contentDocument.querySelectorAll("level-"+(i+1))[0];
+        var HTMLlevel = adversaryFrame.contentDocument.querySelectorAll("level-" + (i + 1))[0];
         HTMLlevel.setAttribute("name", level.name);
         HTMLlevel.setAttribute("difficulty", level.difficulty);
         HTMLlevel.setAttribute("fear-cards", level.fearCards);
@@ -92,7 +96,7 @@
       });
     }
   }
-  
+
   function readHTML(htmlElement) {
     console.log("Loading adversary into form (f=readHTML)");
     //Reads the Template HTML file into the Form
@@ -102,7 +106,7 @@
       adversary.nameLossEscalation.name = adversaryHeader.getAttribute("name");
       adversary.nameLossEscalation.baseDif = adversaryHeader.getAttribute("base-difficulty");
       adversary.nameLossEscalation.flagImg = adversaryHeader.getAttribute("flag-image");
-      
+
       //Load Loss Condition
       const lossConditionHeader = htmlElement.querySelectorAll("loss-condition")[0];
       adversary.nameLossEscalation.lossCondition.name = lossConditionHeader.getAttribute("name");
@@ -112,10 +116,10 @@
       const escalationHeader = htmlElement.querySelectorAll("escalation-effect")[0];
       adversary.nameLossEscalation.escalation.name = escalationHeader.getAttribute("name");
       adversary.nameLossEscalation.escalation.effect = escalationHeader.getAttribute("rules");
-      
+
       //Load Levels
       for (let i = 0; i < 6; i++) {
-        var HTMLLevel = htmlElement.querySelectorAll("level-"+(i+1))[0];
+        var HTMLLevel = htmlElement.querySelectorAll("level-" + (i + 1))[0];
         adversary.levelSummary.levels[i].name = HTMLLevel.getAttribute("name");
         adversary.levelSummary.levels[i].difficulty = HTMLLevel.getAttribute("difficulty");
         adversary.levelSummary.levels[i].fearCards = HTMLLevel.getAttribute("fear-cards");
@@ -123,7 +127,7 @@
       }
     }
   }
-  
+
   let adversaryFrameLarge = false;
   function toggleSize() {
     var displayFrame = document.getElementById("adversary-scaled-frame");
@@ -137,7 +141,7 @@
     }
     adversaryFrameLarge = !adversaryFrameLarge;
   }
-  
+
   function exportAdversary() {
     var element = document.createElement("a");
     element.setAttribute(
@@ -149,7 +153,11 @@
             .contentWindow.document.getElementsByTagName("html")[0].innerHTML
         )
     );
-    console.log(document.getElementById("adversary-mod-frame").contentWindow.document.getElementsByTagName("html")[0].innerHTML)
+    console.log(
+      document
+        .getElementById("adversary-mod-frame")
+        .contentWindow.document.getElementsByTagName("html")[0].innerHTML
+    );
     element.setAttribute(
       "download",
       adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_adversary.html"
@@ -159,7 +167,7 @@
     element.click();
     document.body.removeChild(element);
   }
-  
+
   function handleTextFileInput(event) {
     var dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
@@ -178,77 +186,76 @@
       fileReader.readAsText(file);
     }
   }
-  
+
   function clearAllFields() {
-  adversary = {
-    prop: "value",
-    previewBoard: {
-      isVisible: false,
-    },
-    nameLossEscalation:{
-      isVisible: false,
-      name:"",
-      baseDif:"",
-      flagImg:"",
-      lossCondition: {
+    adversary = {
+      prop: "value",
+      previewBoard: {
+        isVisible: false,
+      },
+      nameLossEscalation: {
+        isVisible: false,
         name: "",
-        effect:"",
+        baseDif: "",
+        flagImg: "",
+        lossCondition: {
+          name: "",
+          effect: "",
+        },
+        escalation: {
+          name: "",
+          effect: "",
+        },
       },
-      escalation:{
-        name:"",
-        effect:"",
+      levelSummary: {
+        isVisible: false,
+        levels: [
+          {
+            id: 1,
+            name: "",
+            difficulty: "",
+            fearCards: "",
+            effect: "",
+          },
+          {
+            id: 2,
+            name: "",
+            difficulty: "",
+            fearCards: "",
+            effect: "",
+          },
+          {
+            id: 3,
+            name: "",
+            difficulty: "",
+            fearCards: "",
+            effect: "",
+          },
+          {
+            id: 4,
+            name: "",
+            difficulty: "",
+            fearCards: "",
+            effect: "",
+          },
+          {
+            id: 5,
+            name: "",
+            difficulty: "",
+            fearCards: "",
+            effect: "",
+          },
+          {
+            id: 6,
+            name: "",
+            difficulty: "",
+            fearCards: "",
+            effect: "",
+          },
+        ],
       },
-    },
-    levelSummary:{
-      isVisible: false,
-      levels: [
-        {
-          id:1,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
-        },
-        {
-          id:2,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
-        },
-        {
-          id:3,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
-        },
-        {
-          id:4,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
-        },
-        {
-          id:5,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
-        },
-        {
-          id:6,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
-        },
-      ],
-    },
+    };
   }
-  }
-  
 </script>
 
 <h5 class="title is-5">Adversary</h5>
@@ -310,8 +317,8 @@
     for details on how to use the form. For custom art,
     <a href="https://www.wombo.art/" target="_blank">Wombo</a>
     (unaffiliated) is a popular art generator.
-    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island Builder
-    is adapted from
+    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island
+    Builder is adapted from
     <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
     developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
   </div>
