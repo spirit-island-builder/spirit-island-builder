@@ -136,15 +136,15 @@
 
   function onLoad() {
     if (frame) {
-      if (spiritBoard.demoBoardWasLoaded === false){
+      if (spiritBoard.demoBoardWasLoaded === false) {
         setTimeout(() => {
           readHTML(frame.contentDocument);
           spiritBoard.demoBoardWasLoaded = true;
-          }, 200);
-      }else{
+        }, 200);
+      } else {
         setTimeout(() => {
           reloadPreview();
-          }, 200);
+        }, 200);
       }
     }
   }

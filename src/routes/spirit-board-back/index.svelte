@@ -13,15 +13,15 @@
 
   function onLoad() {
     if (loreFrame) {
-      if (spiritBoardBack.demoBoardWasLoaded === false){
+      if (spiritBoardBack.demoBoardWasLoaded === false) {
         setTimeout(() => {
           readHTML(loreFrame.contentDocument);
           spiritBoardBack.demoBoardWasLoaded = true;
-          }, 200);
-      }else{
+        }, 200);
+      } else {
         setTimeout(() => {
           reloadPreview();
-          }, 200);
+        }, 200);
       }
     }
   }
@@ -37,7 +37,7 @@
       document.getElementById("lore-board-wrap").style.display = "none";
     }
   }
-  
+
   function reloadPreview() {
     console.log("Updating Preview Board (f=setBoardValues)");
     setBoardValues(spiritBoardBack);
@@ -58,7 +58,9 @@
     scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
 
     let bodyClone;
-    bodyClone = document.getElementById("lore-mod-frame").contentWindow.document.body.cloneNode(true);
+    bodyClone = document
+      .getElementById("lore-mod-frame")
+      .contentWindow.document.body.cloneNode(true);
     document.getElementById("lore-scaled-frame").contentWindow.document.body = bodyClone;
     let headClone = modFrame.head.cloneNode(true);
     scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
@@ -66,9 +68,8 @@
 
   function setBoardValues(spiritBoardBack) {
     if (loreFrame) {
-      
       const loreBoardHTML = loreFrame.contentDocument.querySelectorAll("board")[0];
-      
+
       //Set Spirit Name
       const loreName = loreBoardHTML.querySelectorAll("spirit-name")[0];
       loreName.innerHTML = spiritBoardBack.nameImage.name;
@@ -93,24 +94,33 @@
       const complexityHeader = loreBoardHTML.querySelectorAll("complexity")[0];
       complexityHeader.setAttribute("value", spiritBoardBack.complexity.complexityValue);
       complexityHeader.setAttribute("descriptor", spiritBoardBack.complexity.complexityDescriptor);
-      
+
       //Set Summary of Powers
       const summaryPowersHeader = loreBoardHTML.querySelectorAll("summary-of-powers")[0];
-      var summaryPowersValues = spiritBoardBack.summary.offenseValue +","+ spiritBoardBack.summary.controlValue +","+ spiritBoardBack.summary.fearValue +","+spiritBoardBack.summary.defenseValue +","+spiritBoardBack.summary.utilityValue
+      var summaryPowersValues =
+        spiritBoardBack.summary.offenseValue +
+        "," +
+        spiritBoardBack.summary.controlValue +
+        "," +
+        spiritBoardBack.summary.fearValue +
+        "," +
+        spiritBoardBack.summary.defenseValue +
+        "," +
+        spiritBoardBack.summary.utilityValue;
       summaryPowersHeader.setAttribute("values", summaryPowersValues);
       summaryPowersHeader.setAttribute("uses", spiritBoardBack.summary.usesTokens);
-      
-      console.log(spiritBoardBack)
+
+      console.log(spiritBoardBack);
     }
   }
-  
+
   function readHTML(htmlElement) {
     console.log("Loading default spirit board lore board into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     if (loreFrame) {
-      console.log('did lore frame thing')
+      console.log("did lore frame thing");
       const loreBoardHTML = htmlElement.querySelectorAll("board")[0];
-    
+
       //Set Spirit Name
       const loreName = loreBoardHTML.querySelectorAll("spirit-name")[0];
 
@@ -133,27 +143,26 @@
       const lorePlayStyle = loreBoardHTML.querySelectorAll("play-style-description")[0];
       spiritBoardBack.playStyle.playStyleText = lorePlayStyle.innerHTML.trim();
 
-
       //Set Complexity
       const complexityHeader = loreBoardHTML.querySelectorAll("complexity")[0];
       spiritBoardBack.complexity.complexityValue = complexityHeader.getAttribute("value");
       spiritBoardBack.complexity.complexityDescriptor = complexityHeader.getAttribute("descriptor");
-      
+
       //Set Summary of Powers
       const summaryPowersHeader = loreBoardHTML.querySelectorAll("summary-of-powers")[0];
       var summaryPowersValues = summaryPowersHeader.getAttribute("values");
-      var summaryPowersSplit = summaryPowersValues.split(',');
+      var summaryPowersSplit = summaryPowersValues.split(",");
       spiritBoardBack.summary.offenseValue = summaryPowersSplit[0];
       spiritBoardBack.summary.controlValue = summaryPowersSplit[1];
       spiritBoardBack.summary.fearValue = summaryPowersSplit[2];
       spiritBoardBack.summary.defenseValue = summaryPowersSplit[3];
       spiritBoardBack.summary.utilityValue = summaryPowersSplit[4];
       spiritBoardBack.summary.usesTokens = summaryPowersHeader.getAttribute("uses");
-      
-      console.log(spiritBoardBack)
+
+      console.log(spiritBoardBack);
     }
   }
-  
+
   let loreFrameLarge = false;
   function toggleSize() {
     var displayFrame = document.getElementById("lore-scaled-frame");
@@ -167,7 +176,7 @@
     }
     loreFrameLarge = !loreFrameLarge;
   }
-  
+
   function exportSpiritBoardBack() {
     var element = document.createElement("a");
     element.setAttribute(
@@ -179,7 +188,11 @@
             .contentWindow.document.getElementsByTagName("html")[0].innerHTML
         )
     );
-    console.log(document.getElementById("lore-mod-frame").contentWindow.document.getElementsByTagName("html")[0].innerHTML)
+    console.log(
+      document
+        .getElementById("lore-mod-frame")
+        .contentWindow.document.getElementsByTagName("html")[0].innerHTML
+    );
     element.setAttribute(
       "download",
       spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_spiritlore.html"
@@ -189,7 +202,7 @@
     element.click();
     document.body.removeChild(element);
   }
-  
+
   function handleTextFileInput(event) {
     var dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
@@ -208,42 +221,40 @@
       fileReader.readAsText(file);
     }
   }
-  
+
   function clearAllFields() {
-  spiritBoardBack = {
-    prop: "value",
-    previewBoard: {
-      isVisible: false,
-    },
-    nameImage: {
-      name:"",
-      img:"",
-    },
-    lore: {
-      loreText: "",
-    },
-    setup: {
-      setupText: "",
-    },
-    playStyle: {
-      playStyleText: "",
-    },
-    complexity: {
-      complexityValue: "",
-      complexityDescriptor: "",
-    },
-    summary: {
-      offenseValue: "",
-      controlValue: "",
-      fearValue: "",
-      defenseValue: "",
-      utilityValue: "",
-      usesTokens: "",
-    },
-  };
+    spiritBoardBack = {
+      prop: "value",
+      previewBoard: {
+        isVisible: false,
+      },
+      nameImage: {
+        name: "",
+        img: "",
+      },
+      lore: {
+        loreText: "",
+      },
+      setup: {
+        setupText: "",
+      },
+      playStyle: {
+        playStyleText: "",
+      },
+      complexity: {
+        complexityValue: "",
+        complexityDescriptor: "",
+      },
+      summary: {
+        offenseValue: "",
+        controlValue: "",
+        fearValue: "",
+        defenseValue: "",
+        utilityValue: "",
+        usesTokens: "",
+      },
+    };
   }
-  
-  
 </script>
 
 <h5 class="title is-5">Spirit Board Lore Side</h5>
@@ -305,8 +316,8 @@
     for details on how to use the form. For custom art,
     <a href="https://www.wombo.art/" target="_blank">Wombo</a>
     (unaffiliated) is a popular art generator.
-    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island Builder
-    is adapted from
+    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island
+    Builder is adapted from
     <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
     developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
   </div>
