@@ -15,11 +15,13 @@
     if (loreFrame) {
       if (spiritBoardBack.demoBoardWasLoaded === false) {
         setTimeout(() => {
+          console.log('First time Lore Board is loaded... use default preview')
           readHTML(loreFrame.contentDocument);
           spiritBoardBack.demoBoardWasLoaded = true;
         }, 200);
       } else {
         setTimeout(() => {
+          console.log('Lore Board previously loaded... reload form content')
           reloadPreview();
         }, 200);
       }
@@ -39,9 +41,8 @@
   }
 
   function reloadPreview() {
-    console.log("Updating Preview Board (f=setBoardValues)");
+    console.log("Updating Preview Lore Side Board (f=setBoardValues)");
     setBoardValues(spiritBoardBack);
-    console.log("Reloading Preview (f=copyHTML)");
     copyHTML();
     document.getElementById("lore-scaled-frame").contentWindow.startMain();
   }
@@ -109,16 +110,13 @@
         spiritBoardBack.summary.utilityValue;
       summaryPowersHeader.setAttribute("values", summaryPowersValues);
       summaryPowersHeader.setAttribute("uses", spiritBoardBack.summary.usesTokens);
-
-      console.log(spiritBoardBack);
     }
   }
 
   function readHTML(htmlElement) {
-    console.log("Loading default spirit board lore board into form (f=readHTML)");
+    console.log("Loading spirit lore board into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     if (loreFrame) {
-      console.log("did lore frame thing");
       const loreBoardHTML = htmlElement.querySelectorAll("board")[0];
 
       //Set Spirit Name
@@ -158,8 +156,6 @@
       spiritBoardBack.summary.defenseValue = summaryPowersSplit[3];
       spiritBoardBack.summary.utilityValue = summaryPowersSplit[4];
       spiritBoardBack.summary.usesTokens = summaryPowersHeader.getAttribute("uses");
-
-      console.log(spiritBoardBack);
     }
   }
 
@@ -206,7 +202,7 @@
   function handleTextFileInput(event) {
     var dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
-    console.log(file);
+
     if (file) {
       const fileReader = new FileReader();
       fileReader.onload = (data) => {
@@ -225,12 +221,19 @@
   function clearAllFields() {
     spiritBoardBack = {
       prop: "value",
+      demoBoardWasLoaded: false,
       previewBoard: {
         isVisible: false,
       },
+      nameArtLore:{
+        isVisible: false,
+      },
+      setupPlaystyleComplexityPowers:{
+        isVisible: false,
+      },
       nameImage: {
-        name: "",
-        img: "",
+        name:"",
+        img:"",
       },
       lore: {
         loreText: "",
@@ -254,6 +257,8 @@
         usesTokens: "",
       },
     };
+    console.log('Reseting fields')
+    console.log(spiritBoardBack)
   }
 </script>
 
