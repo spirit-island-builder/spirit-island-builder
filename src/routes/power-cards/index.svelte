@@ -36,9 +36,8 @@
   }
   
   function reloadPreview() {
-    console.log("Updating Preview Board (f=setBoardValues)");
+    console.log("Updating Preview (f=reloadPreview)");
     setBoardValues(powerCards);
-    console.log("Reloading Preview (f=copyHTML)");
     copyHTML();
     document.getElementById("cards-scaled-frame").contentWindow.startMain();
   }
@@ -70,7 +69,6 @@
         //(easiest to start fresh each time)
         bodyContainer.textContent = "";
       }
-      console.log(cardsFrame.contentDocument)
 
       //Loop through cards
       powerCards.cards.forEach((card, i) => {
@@ -92,7 +90,7 @@
         newPowerCard.setAttribute("elements", elementListHTML.join());
         
         bodyContainer.appendChild(newPowerCard)
-        console.log(newPowerCard)
+
         var newPowerCardRules = cardsFrame.contentDocument.createElement("rules");
         newPowerCardRules.innerHTML = card.rules;
         newPowerCard.appendChild(newPowerCardRules);
@@ -107,31 +105,23 @@
         }
       });
       
-      console.log(powerCards)
     }
   }
   
   function readHTML(htmlElement) {
-    console.log("Loading default power cards into form (f=readHTML)");
+    console.log("Loading power cards into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     if (cardsFrame) {
-      console.log('loading cards')
-      console.log('element passed:')
-      console.log(htmlElement)
       const powerCardsHTML = htmlElement.querySelectorAll("quick-card");
-      console.log('found '+powerCardsHTML.length+' cards')
+      console.log('Loading '+powerCardsHTML.length+' cards...')
       
       //Clear the form first
       powerCards.cards.splice(0, powerCards.cards.length); //Clear the Form first
-      console.log('cleared power cards')
-      console.log(powerCards.cards)
       
       //Iterate through the cards
       powerCardsHTML.forEach((powerCardHTML, i) => {
         addPowerCard(powerCards,powerCardHTML);
       });
-      
-      console.log(powerCards)
     }
   }
   
@@ -169,7 +159,6 @@
     elementList.forEach((element, i) => {
       elementsForm[element]=true;
     });
-    console.log(elementsForm)
     
     //Add the card
     powerCards.cards.push({

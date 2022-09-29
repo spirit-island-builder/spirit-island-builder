@@ -1,6 +1,6 @@
 window.onload = (event) =>{
 	startMain();
-    console.log('Page Loaded');
+    console.log('Lore Page Loaded');
 
 };
 
@@ -19,7 +19,7 @@ function resize() {
 	secondContainer = document.querySelectorAll('second-section-container')[0]
 	setup = document.querySelectorAll('setup-description')[0]
 	playstyle = document.querySelectorAll('play-style-description')[0]
-	console.log('resizing text for setup and playstyle')
+
 	let j = 0
 	while (checkOverflow(secondContainer)){
 		var style = window.getComputedStyle(setup, null).getPropertyValue('font-size');
@@ -51,12 +51,10 @@ function adjustComplexityValue() {
 	}
 	
     var complexityValue = document.getElementsByTagName("complexity-value")[0].getAttribute("value");
-    console.log(complexityValue);
     //add 45px for each value
     var basePixels = 120;
     var addedPixels = (complexityValue*45);
     var totalPixels = basePixels+addedPixels+"px";
-    console.log(totalPixels);
     document.getElementsByTagName("complexity-value")[0].style.width = totalPixels;
 }
 
@@ -159,7 +157,6 @@ function createPowerProperties(){
 		usesCol.style.width = "140px"
 		usesCol.append('USES')
 		usesList = uses.split(',')
-		console.log(usesList)
 		iconHolder = document.createElement('uses-icon-holder');
 		for(let i = 0; i < usesList.length; i++){ 
 			usesIcon = document.createElement('icon');
@@ -174,7 +171,6 @@ function createPowerProperties(){
 
 function dynamicSizing(el, maxSize=el.offsetHeight)
 {
-	console.log('resizing text for ' + el.tagName)
 	let j = 0
 	while (checkOverflow(el)){
 		var style = window.getComputedStyle(el, null).getPropertyValue('font-size');

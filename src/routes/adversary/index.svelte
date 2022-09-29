@@ -39,9 +39,8 @@
   }
 
   function reloadPreview() {
-    console.log("Updating Preview Board (f=setBoardValues)");
+    console.log("Updating Preview Adversary (f=setBoardValues)");
     setBoardValues(adversary);
-    console.log("Reloading Preview (f=copyHTML)");
     copyHTML();
     document.getElementById("adversary-scaled-frame").contentWindow.startMain();
   }
@@ -68,8 +67,7 @@
     if (adversaryFrame) {
       //Set Adversary Name, Diffuclty and Flag Image
       const adversaryHeader = adversaryFrame.contentDocument.querySelectorAll("quick-adversary")[0];
-      console.log(adversaryFrame)
-      console.log(adversaryFrame.contentDocument)
+
       adversaryHeader.setAttribute("name", adversary.nameLossEscalation.name);
       adversaryHeader.setAttribute("base-difficulty", adversary.nameLossEscalation.baseDif);
       adversaryHeader.setAttribute("flag-image", adversary.nameLossEscalation.flagImg);
@@ -96,7 +94,7 @@
   }
   
   function readHTML(htmlElement) {
-    console.log("Loading default spirit board into form (f=readHTML)");
+    console.log("Loading adversary into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     if (adversaryFrame) {
       //Load Adversary Name, Base Difficulty and Flag Image

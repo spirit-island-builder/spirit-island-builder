@@ -1,12 +1,12 @@
 window.onload = (event) =>{
 	startMain();
-    console.log('Page Loaded');
+    console.log('Adversary Page Loaded');
 
 };
 
 function startMain(){
 	quickAdversary = document.querySelectorAll('quick-adversary')[0];
-	console.log(quickAdversary)
+
 	if (quickAdversary){
 		var adversary = document.createElement('adversary');
 		adversary.innerHTML = buildAdversary(quickAdversary)
@@ -29,6 +29,10 @@ flagImage = quickAdversary.getAttribute('flag-image')
 baseDifficulty = quickAdversary.getAttribute('base-difficulty')
 
 lossCondition = quickAdversary.querySelectorAll('loss-condition')[0]
+var lossConditionTitle = lossCondition.getAttribute('name');
+if(lossConditionTitle){
+  lossConditionTitle=lossConditionTitle+'<strong>:</strong> '
+}
 escalation = quickAdversary.querySelectorAll('escalation-effect')[0]
 
 levels = quickAdversary.querySelectorAll('level')
@@ -41,7 +45,7 @@ html = `
       <loss-condition>
         <section-title>Additional Loss Condition</section-title>
         <div>
-          <strong>${lossCondition.getAttribute('name')}:</strong> ${lossCondition.getAttribute('rules')}
+          <strong>${lossConditionTitle}</strong>${lossCondition.getAttribute('rules')}
         </div>
       </loss-condition>
       <escalation>
@@ -98,7 +102,7 @@ return levelHTML
 
 function dynamicSizing(el, maxSize=el.offsetHeight)
 {
-	console.log('resizing text for ' + el.tagName)
+
 	let j = 0
 	while (checkOverflow(el)){
 		var style = window.getComputedStyle(el, null).getPropertyValue('font-size');

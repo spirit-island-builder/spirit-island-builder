@@ -328,7 +328,6 @@
       //Load Spirit Name and Image
       const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
       if (spiritName) {
-        console.log(spiritName);
         spiritBoard.nameAndArt.name = spiritName.textContent.trim();
       }
       const board = htmlElement.querySelectorAll("board")[0];
