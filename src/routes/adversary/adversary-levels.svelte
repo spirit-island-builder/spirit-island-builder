@@ -1,11 +1,11 @@
 <script>
   // import * as Lib from "./lib";
   // Do we need to define Lib for each, or should we move it around?
-  
+
   export let adversary;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   export let showOrHideSection;
-  
+
   const validAutoCompleteValues = [
     { label: "air", value: "air" },
     { label: "animal", value: "animal" },
@@ -77,8 +77,7 @@
     { label: "wilds", value: "wilds" },
   ];
 
-
-/*   let adversary = {
+  /*   let adversary = {
     prop: "value",
     previewBoard: {
       isVisible: false,
@@ -104,7 +103,6 @@
       },
     ],
   } */
-  
 </script>
 
 <h6
@@ -124,14 +122,18 @@
   <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
   <article class="message is-small mb-1">
     <div class="message-body p-1">
-      <span><a href="https://github.com/neubee/spirit-island-builder/blob/feature/start-of-tabbed-interface/docs/instructions.md#adversary-levels" target="_blank">Instructions</a></span>
+      <span
+        ><a
+          href="https://github.com/neubee/spirit-island-builder/blob/feature/start-of-tabbed-interface/docs/instructions.md#adversary-levels"
+          target="_blank">Instructions</a
+        ></span>
     </div>
   </article>
-  
+
   {#each adversary.levelSummary.levels as level, i (level.id)}
     <div class="field">
       <label class="label is-flex is-justify-content-space-between" for={`levelNameInput${i}`}
-        >Level {i+1}
+        >Level {i + 1}
       </label>
       <div class="field is-flex is-small mb-0">
         <div class="control" style="width:70%">
