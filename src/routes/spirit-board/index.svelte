@@ -136,14 +136,16 @@
 
   function onLoad() {
     if (frame) {
-      if (spiritBoard.demoBoardWasLoaded === false)
-        // readHTML();
-        // setBoardValues(spiritBoard);
-        // reloadPreview();
+      if (spiritBoard.demoBoardWasLoaded === false) {
         setTimeout(() => {
           readHTML(frame.contentDocument);
           spiritBoard.demoBoardWasLoaded = true;
         }, 200);
+      } else {
+        setTimeout(() => {
+          reloadPreview();
+        }, 200);
+      }
     }
   }
 
@@ -326,7 +328,6 @@
       //Load Spirit Name and Image
       const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
       if (spiritName) {
-        console.log(spiritName);
         spiritBoard.nameAndArt.name = spiritName.textContent.trim();
       }
       const board = htmlElement.querySelectorAll("board")[0];

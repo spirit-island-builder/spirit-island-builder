@@ -9,7 +9,7 @@
 
   function setCurrentPage(page) {
     currentPage = page;
-    console.log('>--|--< Switching to '+page+' >--|--<')
+    console.log(">--|--< Switching to " + page + " >--|--<");
   }
 
   let spiritBoard = {
@@ -117,18 +117,19 @@
 
   let spiritBoardBack = {
     prop: "value",
+    demoBoardWasLoaded: false,
     previewBoard: {
       isVisible: false,
     },
-    nameArtLore:{
+    nameArtLore: {
       isVisible: false,
     },
-    setupPlaystyleComplexityPowers:{
+    setupPlaystyleComplexityPowers: {
       isVisible: false,
     },
     nameImage: {
-      name:"",
-      img:"",
+      name: "",
+      img: "",
     },
     lore: {
       loreText: "",
@@ -152,9 +153,10 @@
       usesTokens: "",
     },
   };
-  
+
   let powerCards = {
     prop: "value",
+    demoBoardWasLoaded: false,
     spiritName: "",
     previewBoard: {
       isVisible: false,
@@ -165,7 +167,8 @@
     cards: [
       {
         id: 0,
-        name:"",
+        isVisible: true,
+        name: "",
         speed: "",
         cost: "",
         cardImage: "",
@@ -173,7 +176,7 @@
         powerElements: {
           air: false,
           sun: false,
-          moon:false,
+          moon: false,
           water: false,
           fire: false,
           earth: false,
@@ -182,91 +185,92 @@
         },
         range: "",
         target: "",
-        targetTitle:"",
-        rules:"",
+        targetTitle: "",
+        rules: "",
         hasThreshold: "",
         threshold: "",
         thresholdCondition: "",
         thresholdText: "",
       },
-     ],
-
-  }
+    ],
+  };
 
   let aspect = {
     prop: "value",
+    demoBoardWasLoaded: false,
     previewBoard: {
       isVisible: false,
     },
-  }
-  
+  };
+
   let adversary = {
     prop: "value",
+    demoBoardWasLoaded: false,
     previewBoard: {
       isVisible: false,
     },
-    nameLossEscalation:{
+    nameLossEscalation: {
       isVisible: false,
-      name:"",
-      baseDif:"",
-      flagImg:"",
+      name: "",
+      baseDif: "",
+      flagImg: "",
       lossCondition: {
         name: "",
-        effect:"",
+        effect: "",
       },
-      escalation:{
-        name:"",
-        effect:"",
+      escalation: {
+        name: "",
+        effect: "",
       },
     },
-    levelSummary:{
+    levelSummary: {
       isVisible: false,
       levels: [
         {
-          id:1,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
+          id: 1,
+          name: "",
+          difficulty: "",
+          fearCards: "",
+          effect: "",
         },
         {
-          id:2,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
+          id: 2,
+          name: "",
+          difficulty: "",
+          fearCards: "",
+          effect: "",
         },
         {
-          id:3,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
+          id: 3,
+          name: "",
+          difficulty: "",
+          fearCards: "",
+          effect: "",
         },
         {
-          id:4,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
+          id: 4,
+          name: "",
+          difficulty: "",
+          fearCards: "",
+          effect: "",
         },
         {
-          id:5,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
+          id: 5,
+          name: "",
+          difficulty: "",
+          fearCards: "",
+          effect: "",
         },
         {
-          id:6,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
+          id: 6,
+          name: "",
+          difficulty: "",
+          fearCards: "",
+          effect: "",
         },
       ],
     },
-  }
+  };
 </script>
 
 <h1 class="title is-1">The Spirit Island Builder</h1>
@@ -303,9 +307,7 @@
     </button>
     <button
       style="display:none"
-      class={`button navbar-item ${
-        currentPage === "aspect" ? "is-primary" : "is-link is-light"
-      }`}
+      class={`button navbar-item ${currentPage === "aspect" ? "is-primary" : "is-link is-light"}`}
       on:click={() => {
         setCurrentPage("aspect");
       }}>
