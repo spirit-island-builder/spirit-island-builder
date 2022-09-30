@@ -84,7 +84,7 @@
   id="setupPlaystyleComplexityPowers">
   Setup, Play Style, Complexity and Summary of Powers
   <span on:click={showOrHideSection}>
-    {#if spiritBoardBack.previewBoard.isVisible}
+    {#if spiritBoardBack.setupPlaystyleComplexityPowers.isVisible}
       <ion-icon
         id="setupPlaystyleComplexityPowers"
         on:click={showOrHideSection}

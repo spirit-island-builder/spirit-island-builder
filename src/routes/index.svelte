@@ -167,7 +167,7 @@
     cards: [
       {
         id: 0,
-        isVisible: true,
+        isVisible: false,
         name: "",
         speed: "",
         cost: "",

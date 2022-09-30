@@ -9,14 +9,19 @@
   });
 
   function onLoad() {
-    if (cardsFrame) {
-      if (powerCards.demoBoardWasLoaded === false) {
+    var localFrame = cardsFrame;
+    var localObject = powerCards;
+
+    if (localFrame) {
+      if (localObject.demoBoardWasLoaded === false) {
         setTimeout(() => {
-          readHTML(cardsFrame.contentDocument);
-          powerCards.demoBoardWasLoaded = true;
+          console.log('First tab load. Using default preview.')
+          readHTML(localFrame.contentDocument);
+          localObject.demoBoardWasLoaded = true;
         }, 200);
       } else {
         setTimeout(() => {
+          console.log('Tab previously loaded. Reloaded from form.')
           reloadPreview();
         }, 200);
       }

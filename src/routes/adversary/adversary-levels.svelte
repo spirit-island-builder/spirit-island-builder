@@ -111,7 +111,7 @@
   id="levelSummary">
   Levels
   <span on:click={showOrHideSection}>
-    {#if adversary.previewBoard.isVisible}
+    {#if adversary.levelSummary.isVisible}
       <ion-icon id="levelSummary" on:click={showOrHideSection} name="chevron-down-outline" />
     {:else}
       <ion-icon id="levelSummary" on:click={showOrHideSection} name="chevron-up-outline" />

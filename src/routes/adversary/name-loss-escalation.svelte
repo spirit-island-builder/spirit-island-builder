@@ -98,7 +98,7 @@
   id="nameLossEscalation">
   Name, Loss Condition, and Escalation
   <span on:click={showOrHideSection}>
-    {#if adversary.previewBoard.isVisible}
+    {#if adversary.nameLossEscalation.isVisible}
       <ion-icon id="nameLossEscalation" on:click={showOrHideSection} name="chevron-down-outline" />
     {:else}
       <ion-icon id="nameLossEscalation" on:click={showOrHideSection} name="chevron-up-outline" />
