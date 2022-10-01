@@ -575,12 +575,13 @@
   <div class="file is-success mr-1">
     <label class="file-label">
       <input
-        class="file-input"
+        class="file-input is-success"
         id="userHTMLInput"
         type="file"
         name="userHTMLInput"
         accept=".html"
-        on:change={handleTextFileInput} />
+        on:change={handleTextFileInput}
+      />
       <span class="file-cta">
         <span class="file-label"> Load Spirit Board file </span>
       </span>
