@@ -1,0 +1,32 @@
+.button.is-warning {
+  background-color: #f4792b;
+  border-color: transparent;
+  color: #fff;
+  font-family: 'JosefinSans-Regular';
+}
+
+.button.is-danger {
+  background-color: #d62026;
+  border-color: transparent;
+  color: #fff;
+  font-family: 'JosefinSans-Regular';
+}
+
+.button.is-info {
+  background-color: #0072bd;
+  border-color: transparent;
+  color: #fff;
+  font-family: 'JosefinSans-Regular';
+}
+
+.button.is-success {
+  background-color: #0ba14a;
+  border-color: transparent;
+  color: #fff;
+  font-family: 'JosefinSans-Regular';
+}
+
+.file.is-success .file-cta {
+  background-color: #0ba14a;
+  font-family: 'JosefinSans-Regular';
+}
