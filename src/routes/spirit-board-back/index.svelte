@@ -5,6 +5,8 @@
   import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";
 
   let loreFrame;
+  let scaledFrameSrc="/template/MyCustomContent/MySpirit/board_lore.html";
+  if(spiritBoardBack.demoBoardWasLoaded){scaledFrameSrc="/template/MyCustomContent/MySpirit/board_lore_blank.html"}
 
   onMount(() => {
     loreFrame.addEventListener("load", onLoad());
@@ -281,7 +283,7 @@
 </h6>
 <div id="lore-board-wrap">
   <iframe
-    src="/template/MyCustomContent/MySpirit/board_lore.html"
+    src={scaledFrameSrc}
     height="600"
     width="100%"
     id="lore-scaled-frame"
