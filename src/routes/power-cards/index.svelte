@@ -4,19 +4,27 @@
   import PowerCard from "./power-card.svelte";
 
   let cardsFrame;
+  let scaledFrameSrc="/template/MyCustomContent/MySpirit/card_front.html";
+  if(powerCards.demoBoardWasLoaded){scaledFrameSrc="/template/MyCustomContent/MySpirit/card_front_blank.html"}
+
   onMount(() => {
     cardsFrame.addEventListener("load", onLoad());
   });
 
   function onLoad() {
-    if (cardsFrame) {
-      if (powerCards.demoBoardWasLoaded === false) {
+    var localFrame = cardsFrame;
+    var localObject = powerCards;
+
+    if (localFrame) {
+      if (localObject.demoBoardWasLoaded === false) {
         setTimeout(() => {
-          readHTML(cardsFrame.contentDocument);
-          powerCards.demoBoardWasLoaded = true;
+          console.log('First tab load. Using default preview.')
+          readHTML(localFrame.contentDocument);
+          localObject.demoBoardWasLoaded = true;
         }, 200);
       } else {
         setTimeout(() => {
+          console.log('Tab previously loaded. Reloaded from form.')
           reloadPreview();
         }, 200);
       }
@@ -302,7 +310,7 @@
 </h6>
 <div id="cards-board-wrap">
   <iframe
-    src="/template/MyCustomContent/MySpirit/card_front.html"
+    src={scaledFrameSrc}
     height="700"
     width="125%"
     id="cards-scaled-frame"

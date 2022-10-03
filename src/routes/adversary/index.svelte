@@ -3,23 +3,30 @@
   export let adversary;
   import NameLossAndEscalation from "./name-loss-escalation.svelte";
   import AdversaryLevels from "./adversary-levels.svelte";
-  // import NameAndArt from "./name-and-art.svelte";
-  // import SpecialRules from "./special-rules.svelte";
+
 
   let adversaryFrame;
+  let scaledFrameSrc="/template/MyCustomContent/MyAdversary/adversary.html";
+  if(adversary.demoBoardWasLoaded){scaledFrameSrc="/template/MyCustomContent/MyAdversary/adversary_blank.html"}
+
   onMount(() => {
     adversaryFrame.addEventListener("load", onLoad());
   });
 
   function onLoad() {
-    if (adversaryFrame) {
-      if (adversary.demoBoardWasLoaded === false) {
+    var localFrame = adversaryFrame;
+    var localObject = adversary;
+
+    if (localFrame) {
+      if (localObject.demoBoardWasLoaded === false) {
         setTimeout(() => {
-          readHTML(adversaryFrame.contentDocument);
-          adversary.demoBoardWasLoaded = true;
+          console.log('First tab load. Using default preview.')
+          readHTML(localFrame.contentDocument);
+          localObject.demoBoardWasLoaded = true;
         }, 200);
       } else {
         setTimeout(() => {
+          console.log('Tab previously loaded. Reloaded from form.')
           reloadPreview();
         }, 200);
       }
@@ -274,7 +281,7 @@
 </h6>
 <div id="adversaryBoardWrap">
   <iframe
-    src="/template/MyCustomContent/MyAdversary/adversary.html"
+    src={scaledFrameSrc}
     height="600"
     width="100%"
     id="adversary-scaled-frame"

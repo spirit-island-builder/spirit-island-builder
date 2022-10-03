@@ -26,7 +26,7 @@
   id="nameArtLore">
   Name, Art and Lore
   <span on:click={showOrHideSection}>
-    {#if spiritBoardBack.previewBoard.isVisible}
+    {#if spiritBoardBack.nameArtLore.isVisible}
       <ion-icon id="nameArtLore" on:click={showOrHideSection} name="chevron-down-outline" />
     {:else}
       <ion-icon id="nameArtLore" on:click={showOrHideSection} name="chevron-up-outline" />

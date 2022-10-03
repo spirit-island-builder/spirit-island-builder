@@ -160,37 +160,50 @@
       event.target.classList.remove("is-active");
     }
   }
-</script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="form">
-  Power Cards
-  <span on:click={showOrHideSection}>
-    {#if powerCards.previewBoard.isVisible}
-      <ion-icon id="form" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="form" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if powerCards.form.isVisible}
-  <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap mb-0">
-    <div class="field has-addons mr-3 ml-1">
-      <label class="label is-unselectable mr-1" for="">Spirit Name: </label>
-      <div class="control">
-        <input
-          id="spiritNameInput"
-          class="input is-small"
-          type="text"
-          style="min-width:20rem"
-          placeholder="optional - for output only"
-          bind:value={powerCards.spiritName} />
-      </div>
+  function showOrHideSectionSubsection(card) {
+    card.isVisible = !card.isVisible;
+    powerCards = powerCards;
+  }
+
+</script>
+<article class="message is-small mb-1">
+  <div class="message-body p-1">
+    <span
+      ><a
+        href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#power-cards"
+        target="_blank">Instructions</a
+      ></span>
+  </div>
+</article>
+<div class="is-flex is-flex-direction-column is-flex-wrap-nowrap mb-0">
+  <div class="field has-addons mr-3 ml-1">
+    <label class="label is-unselectable mr-1" for="">Spirit or Card Set Name: </label>
+    <div class="control">
+      <input
+        id="spiritNameInput"
+        class="input is-small"
+        type="text"
+        style="min-width:20rem"
+        placeholder="optional - for output only"
+        bind:value={powerCards.spiritName} />
     </div>
   </div>
-  {#each powerCards.cards as card, i (card.id)}
+</div>
+{#each powerCards.cards as card, i (card.id)}
+  <h6
+    on:click={showOrHideSectionSubsection(card)}
+    class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1">
+    {`Power Card ${i+1}: ${card.name}`}
+    <span on:click={showOrHideSectionSubsection(card)}>
+      {#if card.isVisible}
+        <ion-icon on:click={showOrHideSectionSubsection(card)} name="chevron-down-outline" />
+      {:else}
+        <ion-icon on:click={showOrHideSectionSubsection(card)} name="chevron-up-outline" />
+      {/if}
+    </span>
+  </h6>
+  {#if card.isVisible}
     <div class="field mt-2">
       <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
         >{`Power Card ${i + 1}`}</label>
@@ -363,12 +376,12 @@
       </div>
     </div>
     <div class="control">
-      <AutoComplete
-        id={`cardRules${i}`}
-        elementType="textarea"
-        placeholder="Rules"
-        {validAutoCompleteValues}
-        bind:value={card.rules} />
+        <AutoComplete
+          id={`cardRules${i}`}
+          elementType="textarea"
+          placeholder="Rules"
+          {validAutoCompleteValues}
+          bind:value={card.rules} />
     </div>
     <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-2">
       {#if card.hasThreshold}
@@ -432,8 +445,9 @@
       </div>
     </div>
     <hr />
-  {/each}
-  <div class="pt-1">
-    <button class="button is-primary is-light" on:click={addEmptyPowerCard}>Add Power Card</button>
-  </div>
-{/if}
+  {/if}
+{/each}
+<div class="pt-1">
+  <button class="button is-primary is-light" on:click={addEmptyPowerCard}>Add Power Card</button>
+</div>
+

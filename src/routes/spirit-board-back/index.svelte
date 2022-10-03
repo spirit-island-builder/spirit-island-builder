@@ -3,30 +3,35 @@
   export let spiritBoardBack;
   import NameArtLore from "./name-art-lore.svelte";
   import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";
-  // import NameAndArt from "./name-and-art.svelte";
-  // import SpecialRules from "./special-rules.svelte";
 
   let loreFrame;
+  let scaledFrameSrc="/template/MyCustomContent/MySpirit/board_lore.html";
+  if(spiritBoardBack.demoBoardWasLoaded){scaledFrameSrc="/template/MyCustomContent/MySpirit/board_lore_blank.html"}
+
   onMount(() => {
     loreFrame.addEventListener("load", onLoad());
   });
 
   function onLoad() {
-    if (loreFrame) {
-      if (spiritBoardBack.demoBoardWasLoaded === false) {
+    var localFrame = loreFrame;
+    var localObject = spiritBoardBack;
+
+    if (localFrame) {
+      if (localObject.demoBoardWasLoaded === false) {
         setTimeout(() => {
-          console.log('First time Lore Board is loaded... use default preview')
-          readHTML(loreFrame.contentDocument);
-          spiritBoardBack.demoBoardWasLoaded = true;
+          console.log('First tab load. Using default preview.')
+          readHTML(localFrame.contentDocument);
+          localObject.demoBoardWasLoaded = true;
         }, 200);
       } else {
         setTimeout(() => {
-          console.log('Lore Board previously loaded... reload form content')
+          console.log('Tab previously loaded. Reloaded from form.')
           reloadPreview();
-        }, 200);
+        }, 300);
       }
     }
   }
+
 
   function showOrHideSection(event) {
     spiritBoardBack[event.target.id].isVisible = !spiritBoardBack[event.target.id].isVisible;
@@ -278,7 +283,7 @@
 </h6>
 <div id="lore-board-wrap">
   <iframe
-    src="/template/MyCustomContent/MySpirit/board_lore.html"
+    src={scaledFrameSrc}
     height="600"
     width="100%"
     id="lore-scaled-frame"
