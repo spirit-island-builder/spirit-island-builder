@@ -228,12 +228,11 @@
               bind:value={innatePower.range} />
           </div>
           <div class="control">
-            <input
+            <AutoComplete
               id={`powerTarget${i}`}
-              class="input"
-              type="text"
-              tabindex="1"
+              elementType="input"
               placeholder="Target"
+              {validAutoCompleteValues}
               bind:value={innatePower.target} />
           </div>
         </div>

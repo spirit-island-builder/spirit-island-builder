@@ -336,12 +336,11 @@
       <div class="is-flex is-flex-direction-column-reverse is-flex-wrap-nowrap">
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
           <div class="control">
-            <input
+            <AutoComplete
               id={`powerTarget${i}`}
-              class="input"
-              type="text"
-              tabindex="1"
+              elementType="input"
               placeholder="Target"
+              {validAutoCompleteValues}
               bind:value={card.target} />
           </div>
         </div>
