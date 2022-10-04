@@ -134,7 +134,7 @@
     <div class="message-body p-1">
       <span
         ><a
-          href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#innate-powers"
+          href="https://neubee.github.io/spirit-island-builder/instructions#innate-powers"
           target="_blank">Instructions</a
         ></span>
     </div>
@@ -228,12 +228,11 @@
               bind:value={innatePower.range} />
           </div>
           <div class="control">
-            <input
+            <AutoComplete
               id={`powerTarget${i}`}
-              class="input"
-              type="text"
-              tabindex="1"
+              elementType="input"
               placeholder="Target"
+              {validAutoCompleteValues}
               bind:value={innatePower.target} />
           </div>
         </div>
