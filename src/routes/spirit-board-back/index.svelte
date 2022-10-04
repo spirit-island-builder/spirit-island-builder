@@ -8,6 +8,10 @@
   export let instructionsSource;
 
   let loreFrame;
+  let scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_lore.html";
+  if (spiritBoardBack.demoBoardWasLoaded) {
+    scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_lore_blank.html";
+  }
 
   onMount(() => {
     loreFrame.addEventListener("load", onLoad());
@@ -282,12 +286,7 @@
   </span>
 </h6>
 <div id="lore-board-wrap">
-  <iframe
-    src="/template/MyCustomContent/MySpirit/board_lore.html"
-    height="600"
-    width="100%"
-    id="lore-scaled-frame"
-    title="yay" />
+  <iframe src={scaledFrameSrc} height="600" width="100%" id="lore-scaled-frame" title="yay" />
 </div>
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">

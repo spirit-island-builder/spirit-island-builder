@@ -4,6 +4,11 @@
   import PowerCard from "./power-card.svelte";
 
   let cardsFrame;
+  let scaledFrameSrc = "/template/MyCustomContent/MySpirit/card_front.html";
+  if (powerCards.demoBoardWasLoaded) {
+    scaledFrameSrc = "/template/MyCustomContent/MySpirit/card_front_blank.html";
+  }
+
   onMount(() => {
     cardsFrame.addEventListener("load", onLoad());
   });
@@ -305,12 +310,7 @@
   </span>
 </h6>
 <div id="cards-board-wrap">
-  <iframe
-    src="/template/MyCustomContent/MySpirit/card_front.html"
-    height="700"
-    width="125%"
-    id="cards-scaled-frame"
-    title="yay" />
+  <iframe src={scaledFrameSrc} height="700" width="125%" id="cards-scaled-frame" title="yay" />
 </div>
 <div class="field has-addons mt-2 mb-2">
   <div class="file is-success mr-1">

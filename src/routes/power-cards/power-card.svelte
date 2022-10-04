@@ -167,9 +167,18 @@
   }
 </script>
 
+<article class="message is-small mb-1">
+  <div class="message-body p-1">
+    <span
+      ><a
+        href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#power-cards"
+        target="_blank">Instructions</a
+      ></span>
+  </div>
+</article>
 <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap mb-0">
   <div class="field has-addons mr-3 ml-1">
-    <label class="label is-unselectable mr-1" for="">Spirit Name: </label>
+    <label class="label is-unselectable mr-1" for="">Spirit or Card Set Name: </label>
     <div class="control">
       <input
         id="spiritNameInput"
@@ -181,24 +190,16 @@
     </div>
   </div>
 </div>
-
 {#each powerCards.cards as card, i (card.id)}
   <h6
     on:click={showOrHideSectionSubsection(card)}
-    class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-    id="form">
+    class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1">
     {`Power Card ${i + 1}: ${card.name}`}
     <span on:click={showOrHideSectionSubsection(card)}>
       {#if card.isVisible}
-        <ion-icon
-          id="form"
-          on:click={showOrHideSectionSubsection(card)}
-          name="chevron-down-outline" />
+        <ion-icon on:click={showOrHideSectionSubsection(card)} name="chevron-down-outline" />
       {:else}
-        <ion-icon
-          id="form"
-          on:click={showOrHideSectionSubsection(card)}
-          name="chevron-up-outline" />
+        <ion-icon on:click={showOrHideSectionSubsection(card)} name="chevron-up-outline" />
       {/if}
     </span>
   </h6>

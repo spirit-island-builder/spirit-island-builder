@@ -5,6 +5,11 @@
   import AdversaryLevels from "./adversary-levels.svelte";
 
   let adversaryFrame;
+  let scaledFrameSrc = "/template/MyCustomContent/MyAdversary/adversary.html";
+  if (adversary.demoBoardWasLoaded) {
+    scaledFrameSrc = "/template/MyCustomContent/MyAdversary/adversary_blank.html";
+  }
+
   onMount(() => {
     adversaryFrame.addEventListener("load", onLoad());
   });
@@ -276,12 +281,7 @@
   </span>
 </h6>
 <div id="adversaryBoardWrap">
-  <iframe
-    src="/template/MyCustomContent/MyAdversary/adversary.html"
-    height="600"
-    width="100%"
-    id="adversary-scaled-frame"
-    title="yay" />
+  <iframe src={scaledFrameSrc} height="600" width="100%" id="adversary-scaled-frame" title="yay" />
 </div>
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
