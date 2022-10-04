@@ -1,7 +1,10 @@
 <script>
   import { onMount } from "svelte";
-  export let powerCards;
   import PowerCard from "./power-card.svelte";
+
+  export let powerCards;
+  export let isShowingInstructions;
+  export let instructionsSource;
 
   let cardsFrame;
   let scaledFrameSrc = "/template/MyCustomContent/MySpirit/card_front.html";
@@ -293,6 +296,11 @@
       ],
     };
   }
+
+  function showInstructions() {
+    isShowingInstructions = true;
+    instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions#power-cards";
+  }
 </script>
 
 <h5 class="title is-5">Power Cards</h5>
@@ -332,6 +340,7 @@
   <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Power Cards</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Preview Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
@@ -340,9 +349,8 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
-    See <a
-      href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md"
-      target="_blank">Instructions</a>
+    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
+      >Instructions</a>
     for details on how to use the form. For custom art,
     <a href="https://www.wombo.art/" target="_blank">Wombo</a>
     (unaffiliated) is a popular art generator.

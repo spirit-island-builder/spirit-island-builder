@@ -1,7 +1,5 @@
 <script>
   export let aspect;
-  export let isShowingInstructions;
-  export let instructionsSource;
 
   let loreframe;
 

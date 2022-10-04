@@ -269,6 +269,12 @@
     console.log("Reseting fields");
     console.log(spiritBoardBack);
   }
+
+  function showInstructions() {
+    isShowingInstructions = true;
+    instructionsSource =
+      "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-lore-side";
+  }
 </script>
 
 <h5 class="title is-5">Spirit Board Lore Side</h5>
@@ -308,6 +314,7 @@
   <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Spirit Board Lore</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
@@ -319,9 +326,8 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
-    See <a
-      href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md"
-      target="_blank">Instructions</a>
+    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
+      >Instructions</a>
     for details on how to use the form. For custom art,
     <a href="https://www.wombo.art/" target="_blank">Wombo</a>
     (unaffiliated) is a popular art generator.

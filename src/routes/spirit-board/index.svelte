@@ -142,7 +142,6 @@
   function onLoad() {
     var localFrame = frame;
     var localObject = spiritBoard;
-    var localDisplayFrame = document.getElementById("scaled-frame");
     console.log(">>>>>>>>>>>>>>>onload happening!");
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
@@ -612,6 +611,8 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
+    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
+      >Instructions</a>
     For custom art,
     <a href="https://www.wombo.art/" target="_blank">Wombo</a>
     (unaffiliated) is a popular art generator.
