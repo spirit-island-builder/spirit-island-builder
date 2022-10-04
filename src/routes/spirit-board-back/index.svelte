@@ -1,12 +1,17 @@
 <script>
   import { onMount } from "svelte";
-  export let spiritBoardBack;
   import NameArtLore from "./name-art-lore.svelte";
   import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";
 
+  export let spiritBoardBack;
+  export let isShowingInstructions;
+  export let instructionsSource;
+
   let loreFrame;
-  let scaledFrameSrc="/template/MyCustomContent/MySpirit/board_lore.html";
-  if(spiritBoardBack.demoBoardWasLoaded){scaledFrameSrc="/template/MyCustomContent/MySpirit/board_lore_blank.html"}
+  let scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_lore.html";
+  if (spiritBoardBack.demoBoardWasLoaded) {
+    scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_lore_blank.html";
+  }
 
   onMount(() => {
     loreFrame.addEventListener("load", onLoad());
@@ -19,19 +24,18 @@
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
         setTimeout(() => {
-          console.log('First tab load. Using default preview.')
+          console.log("First tab load. Using default preview.");
           readHTML(localFrame.contentDocument);
           localObject.demoBoardWasLoaded = true;
         }, 200);
       } else {
         setTimeout(() => {
-          console.log('Tab previously loaded. Reloaded from form.')
+          console.log("Tab previously loaded. Reloaded from form.");
           reloadPreview();
         }, 300);
       }
     }
   }
-
 
   function showOrHideSection(event) {
     spiritBoardBack[event.target.id].isVisible = !spiritBoardBack[event.target.id].isVisible;
@@ -230,15 +234,15 @@
       previewBoard: {
         isVisible: false,
       },
-      nameArtLore:{
+      nameArtLore: {
         isVisible: false,
       },
-      setupPlaystyleComplexityPowers:{
+      setupPlaystyleComplexityPowers: {
         isVisible: false,
       },
       nameImage: {
-        name:"",
-        img:"",
+        name: "",
+        img: "",
       },
       lore: {
         loreText: "",
@@ -262,8 +266,14 @@
         usesTokens: "",
       },
     };
-    console.log('Reseting fields')
-    console.log(spiritBoardBack)
+    console.log("Reseting fields");
+    console.log(spiritBoardBack);
+  }
+
+  function showInstructions() {
+    isShowingInstructions = true;
+    instructionsSource =
+      "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-lore-side";
   }
 </script>
 
@@ -282,12 +292,7 @@
   </span>
 </h6>
 <div id="lore-board-wrap">
-  <iframe
-    src={scaledFrameSrc}
-    height="600"
-    width="100%"
-    id="lore-scaled-frame"
-    title="yay" />
+  <iframe src={scaledFrameSrc} height="600" width="100%" id="lore-scaled-frame" title="yay" />
 </div>
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
@@ -309,6 +314,7 @@
   <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Spirit Board Lore</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
@@ -320,9 +326,8 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
-    See <a
-      href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md"
-      target="_blank">Instructions</a>
+    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
+      >Instructions</a>
     for details on how to use the form. For custom art,
     <a href="https://www.wombo.art/" target="_blank">Wombo</a>
     (unaffiliated) is a popular art generator.

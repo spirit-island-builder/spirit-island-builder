@@ -1,11 +1,16 @@
 <script>
   import { onMount } from "svelte";
-  export let powerCards;
   import PowerCard from "./power-card.svelte";
 
+  export let powerCards;
+  export let isShowingInstructions;
+  export let instructionsSource;
+
   let cardsFrame;
-  let scaledFrameSrc="/template/MyCustomContent/MySpirit/card_front.html";
-  if(powerCards.demoBoardWasLoaded){scaledFrameSrc="/template/MyCustomContent/MySpirit/card_front_blank.html"}
+  let scaledFrameSrc = "/template/MyCustomContent/MySpirit/card_front.html";
+  if (powerCards.demoBoardWasLoaded) {
+    scaledFrameSrc = "/template/MyCustomContent/MySpirit/card_front_blank.html";
+  }
 
   onMount(() => {
     cardsFrame.addEventListener("load", onLoad());
@@ -18,13 +23,13 @@
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
         setTimeout(() => {
-          console.log('First tab load. Using default preview.')
+          console.log("First tab load. Using default preview.");
           readHTML(localFrame.contentDocument);
           localObject.demoBoardWasLoaded = true;
         }, 200);
       } else {
         setTimeout(() => {
-          console.log('Tab previously loaded. Reloaded from form.')
+          console.log("Tab previously loaded. Reloaded from form.");
           reloadPreview();
         }, 200);
       }
@@ -97,8 +102,8 @@
           if (elementalList[key]) elementListHTML.push(key);
         }
         newPowerCard.setAttribute("elements", elementListHTML.join());
-        
-        bodyContainer.appendChild(newPowerCard)
+
+        bodyContainer.appendChild(newPowerCard);
         var newPowerCardRules = cardsFrame.contentDocument.createElement("rules");
         newPowerCardRules.innerHTML = card.rules;
         newPowerCard.appendChild(newPowerCardRules);
@@ -120,11 +125,10 @@
     //Reads the Template HTML file into the Form
     if (cardsFrame) {
       const powerCardsHTML = htmlElement.querySelectorAll("quick-card");
-      console.log('Loading '+powerCardsHTML.length+' cards...')
-      
+      console.log("Loading " + powerCardsHTML.length + " cards...");
+
       //Clear the form first
       powerCards.cards.splice(0, powerCards.cards.length); //Clear the Form first
-      
 
       //Iterate through the cards
       powerCardsHTML.forEach((powerCardHTML) => {
@@ -292,6 +296,11 @@
       ],
     };
   }
+
+  function showInstructions() {
+    isShowingInstructions = true;
+    instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions#power-cards";
+  }
 </script>
 
 <h5 class="title is-5">Power Cards</h5>
@@ -309,12 +318,7 @@
   </span>
 </h6>
 <div id="cards-board-wrap">
-  <iframe
-    src={scaledFrameSrc}
-    height="700"
-    width="125%"
-    id="cards-scaled-frame"
-    title="yay" />
+  <iframe src={scaledFrameSrc} height="700" width="125%" id="cards-scaled-frame" title="yay" />
 </div>
 <div class="field has-addons mt-2 mb-2">
   <div class="file is-success mr-1">
@@ -336,6 +340,7 @@
   <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Power Cards</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Preview Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
@@ -344,9 +349,8 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
-    See <a
-      href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md"
-      target="_blank">Instructions</a>
+    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
+      >Instructions</a>
     for details on how to use the form. For custom art,
     <a href="https://www.wombo.art/" target="_blank">Wombo</a>
     (unaffiliated) is a popular art generator.
