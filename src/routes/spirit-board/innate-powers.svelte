@@ -134,7 +134,7 @@
     <div class="message-body p-1">
       <span
         ><a
-          href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#innate-powers"
+          href="https://neubee.github.io/spirit-island-builder/instructions#innate-powers"
           target="_blank">Instructions</a
         ></span>
     </div>
