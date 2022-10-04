@@ -252,7 +252,7 @@
       <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
         <div class="control">
           <input
-            id={`levelThreshold${j}`}
+            id={`power${i}levelThreshold${j}`}
             class="input is-small"
             type="text"
             tabindex="1"
@@ -261,7 +261,7 @@
         </div>
         <div class="control" style="width:100%">
           <AutoComplete
-            id={`levelEffect${j}`}
+            id={`power${i}levelEffect${j}`}
             elementType="input"
             placeholder="Effect"
             classNames="is-small"
