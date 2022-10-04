@@ -1,19 +1,9 @@
 <script>
-  import { onMount } from "svelte";
   export let aspect;
-  // import NameAndArt from "./name-and-art.svelte";
-  // import SpecialRules from "./special-rules.svelte";
+  export let isShowingInstructions;
+  export let instructionsSource;
 
   let loreframe;
-  onMount(() => {
-    loreframe.addEventListener("load", onLoad());
-  });
-
-  function onLoad() {
-    if (loreframe) {
-
-    }
-  }
 
   function showOrHideBoard() {
     if (document.getElementById("lore-board-wrap").style.display == "none") {
@@ -39,17 +29,10 @@
   </span>
 </h6>
 <div id="lore-board-wrap">
-  <iframe
-    src=""
-    height="600"
-    width="100%"
-    id="lore-scaled-frame"
-    title="yay" />
+  <iframe src="" height="600" width="100%" id="lore-scaled-frame" title="yay" />
 </div>
 <div class="columns mt-0">
-  <div class="column pt-0">
-
-</div>
+  <div class="column pt-0" />
 </div>
 <div>{`aspect ${aspect.prop}`}</div>
 <div id="lore-holder">

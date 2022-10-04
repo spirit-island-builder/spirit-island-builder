@@ -11,6 +11,8 @@
   // import { addGrowthSet, addGrowthGroup, addGrowthAction, removeGrowthAction, removeGrowthGroup, removeGrowthSet } from './growth.svelte'
 
   export let spiritBoard;
+  export let isShowingInstructions;
+  export let instructionsSource;
 
   function clearAllFields() {
     spiritBoard = {
@@ -523,6 +525,12 @@
     element.click();
     document.body.removeChild(element);
   }
+
+  function showInstructions() {
+    isShowingInstructions = true;
+    instructionsSource =
+      "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-play-side";
+  }
 </script>
 
 <h5 class="title is-5">Spirit Board Play Side</h5>
@@ -568,11 +576,10 @@
   <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Spirit Board</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
-    <!-- Any kind of property can be passed to a component. Functions and variables. As long as they are also exported from the nested component (i.e. NameAndArt) they will be available for use in the nested component -->
-
     <NameAndArt bind:spiritBoard {showOrHideSection} />
     <SpecialRules bind:spiritBoard {showOrHideSection} />
     <CustomIcons bind:spiritBoard {showOrHideSection} />
@@ -585,10 +592,7 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
-    See <a
-      href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md"
-      target="_blank">Instructions</a>
-    for details on how to use the form (particularly for Growth and Presence Tracks). For custom art,
+    For custom art,
     <a href="https://www.wombo.art/" target="_blank">Wombo</a>
     (unaffiliated) is a popular art generator.
     <br />This is an unofficial website. Interface created by Neubee & Resonant. Spirit Board

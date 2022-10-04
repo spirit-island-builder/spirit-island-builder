@@ -4,6 +4,7 @@
   import PowerCards from "./power-cards/index.svelte";
   import Aspect from "./aspect/index.svelte";
   import Adversary from "./adversary/index.svelte";
+  import Instructions from "$lib/instructions/index.svelte";
 
   let currentPage = "spiritBoardFront";
 
@@ -119,15 +120,15 @@
     previewBoard: {
       isVisible: false,
     },
-    nameArtLore:{
+    nameArtLore: {
       isVisible: false,
     },
-    setupPlaystyleComplexityPowers:{
+    setupPlaystyleComplexityPowers: {
       isVisible: false,
     },
     nameImage: {
-      name:"",
-      img:"",
+      name: "",
+      img: "",
     },
     lore: {
       loreText: "",
@@ -151,7 +152,7 @@
       usesTokens: "",
     },
   };
-  
+
   let powerCards = {
     prop: "value",
     previewBoard: {
@@ -162,94 +163,96 @@
         id: 0,
         speed: "",
         cost: "",
-        cardImage:"",
-        powerElements:"",
-        range:"",
-        target:"",
-        targetTitle:"",
-        rules:"",
-        threshold:"",
-        thresholdCondition:"",
-        thresholdText:"",
+        cardImage: "",
+        powerElements: "",
+        range: "",
+        target: "",
+        targetTitle: "",
+        rules: "",
+        threshold: "",
+        thresholdCondition: "",
+        thresholdText: "",
       },
-     ],
-
-  }
+    ],
+  };
 
   let aspect = {
     prop: "value",
     previewBoard: {
       isVisible: false,
     },
-  }
-  
+  };
+
   let adversary = {
     prop: "value",
     previewBoard: {
       isVisible: false,
     },
-    nameLossEscalation:{
+    nameLossEscalation: {
       isVisible: false,
-      name:"",
-      baseDif:"",
-      flagImg:"",
+      name: "",
+      baseDif: "",
+      flagImg: "",
       lossCondition: {
         name: "",
-        effect:"",
+        effect: "",
       },
-      escalation:{
-        name:"",
-        effect:"",
+      escalation: {
+        name: "",
+        effect: "",
       },
     },
-    levelSummary:{
+    levelSummary: {
       isVisible: false,
       levels: [
         {
-          id:1,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
+          id: 1,
+          name: "",
+          difficulty: "",
+          fearCards: "",
+          effect: "",
         },
         {
-          id:2,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
+          id: 2,
+          name: "",
+          difficulty: "",
+          fearCards: "",
+          effect: "",
         },
         {
-          id:3,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
+          id: 3,
+          name: "",
+          difficulty: "",
+          fearCards: "",
+          effect: "",
         },
         {
-          id:4,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
+          id: 4,
+          name: "",
+          difficulty: "",
+          fearCards: "",
+          effect: "",
         },
         {
-          id:5,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
+          id: 5,
+          name: "",
+          difficulty: "",
+          fearCards: "",
+          effect: "",
         },
         {
-          id:6,
-          name:"",
-          difficulty:"",
-          fearCards:"",
-          effect:"",
+          id: 6,
+          name: "",
+          difficulty: "",
+          fearCards: "",
+          effect: "",
         },
       ],
     },
-  }
+  };
+
+  let isShowingInstructions = false;
+  let instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions";
 </script>
 
 <h1 class="title is-1">Build Custom Spirit Island Components!</h1>
@@ -286,9 +289,7 @@
     </button>
     <button
       style="display:none"
-      class={`button navbar-item ${
-        currentPage === "aspect" ? "is-primary" : "is-link is-light"
-      }`}
+      class={`button navbar-item ${currentPage === "aspect" ? "is-primary" : "is-link is-light"}`}
       on:click={() => {
         setCurrentPage("aspect");
       }}>
@@ -305,16 +306,19 @@
     </button>
   </div>
 </nav>
+{#if isShowingInstructions === true}
+  <Instructions bind:isShowingInstructions bind:instructionsSource />
+{/if}
 <div class="container">
   {#if currentPage === "spiritBoardFront"}
-    <SpiritBoard bind:spiritBoard />
+    <SpiritBoard bind:spiritBoard bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "spiritBoardBack"}
-    <SpiritBoardBack bind:spiritBoardBack />
+    <SpiritBoardBack bind:spiritBoardBack bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "powerCards"}
-    <PowerCards bind:powerCards />
+    <PowerCards bind:powerCards bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "aspect"}
-    <Aspect bind:aspect />
+    <Aspect bind:aspect bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "adversary"}
-    <Adversary bind:adversary />
+    <Adversary bind:adversary bind:isShowingInstructions bind:instructionsSource />
   {/if}
 </div>

@@ -4,8 +4,8 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
 
 ## Index
 
+- [Preview Board and Builder Interface](#previewboard-and-interface)
 - [Spirit Board Play Side](#spirit-board-play-side):
-  - [Preview Board and Builder Interface](#preview-board-and-interface)
   - [Spirit Name & Art](#spirit-name-and-art)
   - [Special Rules](#special-rules)
   - [Custom Icons](#custom-icons)
@@ -169,8 +169,6 @@ The two presence tracks (energy & plays) are filled out here, with options for s
 - Add Node: Adds a node on the right side of the track.
 - Remove Node: Removes the right-most node of the track.
 
-[Home](#index)
-
 #### Supported Presence Track Options
 
 <details>
@@ -256,11 +254,8 @@ The two presence tracks (energy & plays) are filled out here, with options for s
   - Complexity Description appears inside the red complexity bar. Official complexity descriptors: Low, Moderate, High, Very High
   - Complexity Value is between 1 to 10
 - Summary of Powers:
-
   - Assign values 1 to 10 for Offense, Defense, Fear, Control and Utility
   - Uses indicates what game pieces the Spirit interacts with. Do not use icon shortcuts, just list the pieces with comma separation (ie. badlands,wilds)
-
-  [Home](#index)
 
 ## Adversary
 
@@ -278,7 +273,7 @@ The two presence tracks (energy & plays) are filled out here, with options for s
 
 [Home](#index)
 
-### <a name="adversary-levels"></a>Adversary Levels
+### <a name="adversary-level"></a>Adversary Levels
 
 For now, your adversary must have 6 levels. If you want to do less, you'll have to leave the later ones blank.
 
@@ -314,10 +309,7 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 ### Tips and Tricks
 
 - The template uses html so you can use some html to customize your board:
-
   - For example, you can create a line break by typing \<br\> (useful in notes, levels, and special rules).
-
-  [Home](#index)
 
 ### Fonts
 
@@ -326,7 +318,4 @@ You can download additional fonts that will make your board look closer to the r
 - DK Snemand Demo: Not included. You can download this font [here](https://www.dafont.com/dk-snemand.font).
   - Used for: Headings and Spirit Name.
 - Gobold Extra2: Not included. You can download this font [here](https://www.dafont.com/fr/gobold.font).
-
   - Used for: Energy Icons and Card Play text
-
-  [Home](#index)
