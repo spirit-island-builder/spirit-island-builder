@@ -1,11 +1,11 @@
 <script>
   // import * as Lib from "./lib";
   // Do we need to define Lib for each, or should we move it around?
-  
+
   export let spiritBoardBack;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   export let showOrHideSection;
-  
+
   const validAutoCompleteValues = [
     { label: "air", value: "air" },
     { label: "animal", value: "animal" },
@@ -76,7 +76,6 @@
     { label: "wetland-presence", value: "wetland-presence" },
     { label: "wilds", value: "wilds" },
   ];
-  
 </script>
 
 <h6
@@ -85,10 +84,16 @@
   id="setupPlaystyleComplexityPowers">
   Setup, Play Style, Complexity and Summary of Powers
   <span on:click={showOrHideSection}>
-    {#if spiritBoardBack.previewBoard.isVisible}
-      <ion-icon id="setupPlaystyleComplexityPowers" on:click={showOrHideSection} name="chevron-down-outline" />
+    {#if spiritBoardBack.setupPlaystyleComplexityPowers.isVisible}
+      <ion-icon
+        id="setupPlaystyleComplexityPowers"
+        on:click={showOrHideSection}
+        name="chevron-down-outline" />
     {:else}
-      <ion-icon id="setupPlaystyleComplexityPowers" on:click={showOrHideSection} name="chevron-up-outline" />
+      <ion-icon
+        id="setupPlaystyleComplexityPowers"
+        on:click={showOrHideSection}
+        name="chevron-up-outline" />
     {/if}
   </span>
 </h6>
@@ -96,168 +101,178 @@
   <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
   <article class="message is-small mb-1">
     <div class="message-body p-1">
-      <span><a href="" target="_blank">Instructions</a></span>
+      <span
+        ><a
+          href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#spirit-lore-setup"
+          target="_blank">Instructions</a
+        ></span>
     </div>
   </article>
-    <!-- Setup -->
-    <div class="field">
-      <label class="label is-flex is-justify-content-space-between" for="spiritLoreSetup"
-        >Setup
-      </label>
-        <div class="control">
-          <AutoComplete
-            id="spiritLoreSetup"
-            elementType="textarea"
-            classNames="is-small"
-            placeholder="Effect"
-            tabindex="1"
-            {validAutoCompleteValues}
-            bind:value={spiritBoardBack.setup.setupText} />
-        </div>
+  <!-- Setup -->
+  <div class="field">
+    <label class="label is-flex is-justify-content-space-between" for="spiritLoreSetup"
+      >Setup
+    </label>
+    <div class="control">
+      <AutoComplete
+        id="spiritLoreSetup"
+        elementType="textarea"
+        classNames="is-small"
+        placeholder="Effect"
+        tabindex="1"
+        {validAutoCompleteValues}
+        bind:value={spiritBoardBack.setup.setupText} />
     </div>
-    <!-- Play Style -->
-    <div class="field">
-      <label class="label is-flex is-justify-content-space-between" for="spiritLorePlaystyle"
-        >Play Style
-      </label>
-        <div class="control">
-          <AutoComplete
-            id="spiritLorePlaystyle"
-            elementType="textarea"
-            classNames="is-small"
-            placeholder="Effect"
-            tabindex="1"
-            {validAutoCompleteValues}
-            bind:value={spiritBoardBack.playStyle.playStyleText} />
-        </div>
+  </div>
+  <!-- Play Style -->
+  <div class="field">
+    <label class="label is-flex is-justify-content-space-between" for="spiritLorePlaystyle"
+      >Play Style
+    </label>
+    <div class="control">
+      <AutoComplete
+        id="spiritLorePlaystyle"
+        elementType="textarea"
+        classNames="is-small"
+        placeholder="Effect"
+        tabindex="1"
+        {validAutoCompleteValues}
+        bind:value={spiritBoardBack.playStyle.playStyleText} />
     </div>
-    <!-- Complexity -->
-    <div class="field">
-          <label class="label is-flex is-justify-content-space-between" for="spiritLoreComplexity"
-        >Complexity
-      </label>
-      <div class="field is-flex is-small mb-0">
-        <div class="control" style="width:70%">
+  </div>
+  <!-- Complexity -->
+  <div class="field">
+    <label class="label is-flex is-justify-content-space-between" for="spiritLoreComplexity"
+      >Complexity
+    </label>
+    <div class="field is-flex is-small mb-0">
+      <div class="control" style="width:70%">
+        <input
+          id="spiritLoreComplexity"
+          class="input"
+          type="text"
+          placeholder="Complexity Description"
+          tabindex="1"
+          bind:value={spiritBoardBack.complexity.complexityDescriptor} />
+      </div>
+      <div class="control" style="width:30%; min-width:2rem;">
+        <input
+          id="spiritLoreComplexity"
+          class="input"
+          type="text"
+          placeholder="Complexity Value (1-10)"
+          tabindex="1"
+          bind:value={spiritBoardBack.complexity.complexityValue} />
+      </div>
+    </div>
+  </div>
+  <!-- Summary of Powers -->
+  <div class="field">
+    <label class="label is-flex is-justify-content-space-between" for="spiritLoreSummary"
+      >Summary of Powers
+    </label>
+    <div class="field is-flex is-small mb-0">
+      <div class="field has-addons is-horizontal is-justify-content-right mb-0">
+        <div class="field-label is-small">
+          <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt"
+            >Offense</label>
+        </div>
+        <div class="control">
           <input
-            id="spiritLoreComplexity"
+            id="spiritLoreOffense"
             class="input"
             type="text"
-            placeholder="Complexity Description"
+            placeholder="Offense Value (1-10)"
             tabindex="1"
-            bind:value={spiritBoardBack.complexity.complexityDescriptor} />
+            bind:value={spiritBoardBack.summary.offenseValue} />
         </div>
-        <div class="control" style="width:30%; min-width:2rem;">
+      </div>
+    </div>
+    <div class="field is-flex is-small mb-0">
+      <div class="field has-addons is-horizontal is-justify-content-right mb-0">
+        <div class="field-label is-small">
+          <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt"
+            >Control</label>
+        </div>
+        <div class="control">
           <input
-            id="spiritLoreComplexity"
+            id="spiritLoreControl"
             class="input"
             type="text"
-            placeholder="Complexity Value (1-10)"
+            placeholder="Control Value (1-10)"
             tabindex="1"
-            bind:value={spiritBoardBack.complexity.complexityValue} />
+            bind:value={spiritBoardBack.summary.controlValue} />
         </div>
       </div>
     </div>
-    <!-- Summary of Powers -->
-    <div class="field">
-          <label class="label is-flex is-justify-content-space-between" for="spiritLoreSummary"
-        >Summary of Powers
-      </label>
-      <div class="field is-flex is-small mb-0">
-        <div class="field has-addons is-horizontal is-justify-content-right mb-0">
-          <div class="field-label is-small">
-            <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt">Offense</label>
-          </div>
-          <div class="control">
-            <input
-              id="spiritLoreOffense"
-              class="input"
-              type="text"
-              placeholder="Offense Value (1-10)"
-              tabindex="1"
-              bind:value={spiritBoardBack.summary.offenseValue} />
-          </div>
+    <div class="field is-flex is-small mb-0">
+      <div class="field has-addons is-horizontal is-justify-content-right mb-0">
+        <div class="field-label is-small">
+          <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt"
+            >Fear</label>
         </div>
-      </div>
-      <div class="field is-flex is-small mb-0">
-        <div class="field has-addons is-horizontal is-justify-content-right mb-0">
-          <div class="field-label is-small">
-            <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt">Control</label>
-          </div>
-          <div class="control">
-            <input
-              id="spiritLoreControl"
-              class="input"
-              type="text"
-              placeholder="Control Value (1-10)"
-              tabindex="1"
-              bind:value={spiritBoardBack.summary.controlValue} />
-          </div>
-        </div>
-      </div>
-      <div class="field is-flex is-small mb-0">
-        <div class="field has-addons is-horizontal is-justify-content-right mb-0">
-          <div class="field-label is-small">
-            <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt">Fear</label>
-          </div>
-          <div class="fear">
-            <input
-              id="spiritLoreControl"
-              class="input"
-              type="text"
-              placeholder="Fear Value (1-10)"
-              tabindex="1"
-              bind:value={spiritBoardBack.summary.fearValue} />
-          </div>
-        </div>
-      </div>
-      <div class="field is-flex is-small mb-0">
-        <div class="field has-addons is-horizontal is-justify-content-right mb-0">
-          <div class="field-label is-small">
-            <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt">Defense</label>
-          </div>
-          <div class="defense">
-            <input
-              id="spiritLoreControl"
-              class="input"
-              type="text"
-              placeholder="Defense Value (1-10)"
-              tabindex="1"
-              bind:value={spiritBoardBack.summary.defenseValue} />
-          </div>
-        </div>
-      </div>
-      <div class="field is-flex is-small">
-        <div class="field has-addons is-horizontal is-justify-content-right mb-0">
-          <div class="field-label is-small">
-            <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt">Utility</label>
-          </div>
-          <div class="control">
-            <input
-              id="spiritLoreUtility"
-              class="input"
-              type="text"
-              placeholder="Utility Value (1-10)"
-              tabindex="1"
-              bind:value={spiritBoardBack.summary.utilityValue} />
-          </div>
-        </div>
-      </div>
-      <div class="field is-flex is-small">
-        <div class="field has-addons is-horizontal is-justify-content-right mb-0">
-          <div class="field-label is-small">
-            <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt">Uses</label>
-          </div>
-          <div class="control">
-            <input
-              id="spiritLoreUses"
-              class="input"
-              style="width:100%; min-width:20rem;"
-              type="text"
-              placeholder="Uses tokens/icons ie. 'badlands,wilds'"
-              tabindex="1"
-              bind:value={spiritBoardBack.summary.usesTokens} />
-          </div>
+        <div class="fear">
+          <input
+            id="spiritLoreControl"
+            class="input"
+            type="text"
+            placeholder="Fear Value (1-10)"
+            tabindex="1"
+            bind:value={spiritBoardBack.summary.fearValue} />
         </div>
       </div>
     </div>
+    <div class="field is-flex is-small mb-0">
+      <div class="field has-addons is-horizontal is-justify-content-right mb-0">
+        <div class="field-label is-small">
+          <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt"
+            >Defense</label>
+        </div>
+        <div class="defense">
+          <input
+            id="spiritLoreControl"
+            class="input"
+            type="text"
+            placeholder="Defense Value (1-10)"
+            tabindex="1"
+            bind:value={spiritBoardBack.summary.defenseValue} />
+        </div>
+      </div>
+    </div>
+    <div class="field is-flex is-small">
+      <div class="field has-addons is-horizontal is-justify-content-right mb-0">
+        <div class="field-label is-small">
+          <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt"
+            >Utility</label>
+        </div>
+        <div class="control">
+          <input
+            id="spiritLoreUtility"
+            class="input"
+            type="text"
+            placeholder="Utility Value (1-10)"
+            tabindex="1"
+            bind:value={spiritBoardBack.summary.utilityValue} />
+        </div>
+      </div>
+    </div>
+    <div class="field is-flex is-small">
+      <div class="field has-addons is-horizontal is-justify-content-right mb-0">
+        <div class="field-label is-small">
+          <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt"
+            >Uses</label>
+        </div>
+        <div class="control">
+          <input
+            id="spiritLoreUses"
+            class="input"
+            style="width:100%; min-width:20rem;"
+            type="text"
+            placeholder="Uses tokens/icons ie. 'badlands,wilds'"
+            tabindex="1"
+            bind:value={spiritBoardBack.summary.usesTokens} />
+        </div>
+      </div>
+    </div>
+  </div>
 {/if}

@@ -8,15 +8,28 @@
   export let instructionsSource;
 
   let loreFrame;
+
   onMount(() => {
     loreFrame.addEventListener("load", onLoad());
   });
 
   function onLoad() {
-    if (loreFrame) {
-      setTimeout(() => {
-        readHTML(loreFrame.contentDocument);
-      }, 200);
+    var localFrame = loreFrame;
+    var localObject = spiritBoardBack;
+
+    if (localFrame) {
+      if (localObject.demoBoardWasLoaded === false) {
+        setTimeout(() => {
+          console.log("First tab load. Using default preview.");
+          readHTML(localFrame.contentDocument);
+          localObject.demoBoardWasLoaded = true;
+        }, 200);
+      } else {
+        setTimeout(() => {
+          console.log("Tab previously loaded. Reloaded from form.");
+          reloadPreview();
+        }, 300);
+      }
     }
   }
 
@@ -33,9 +46,8 @@
   }
 
   function reloadPreview() {
-    console.log("Updating Preview Board (f=setBoardValues)");
+    console.log("Updating Preview Lore Side Board (f=setBoardValues)");
     setBoardValues(spiritBoardBack);
-    console.log("Reloading Preview (f=copyHTML)");
     copyHTML();
     document.getElementById("lore-scaled-frame").contentWindow.startMain();
   }
@@ -103,17 +115,14 @@
         spiritBoardBack.summary.utilityValue;
       summaryPowersHeader.setAttribute("values", summaryPowersValues);
       summaryPowersHeader.setAttribute("uses", spiritBoardBack.summary.usesTokens);
-
-      console.log(spiritBoardBack);
     }
   }
 
-  function readHTML() {
-    console.log("Loading default spirit board lore board into form (f=readHTML)");
+  function readHTML(htmlElement) {
+    console.log("Loading spirit lore board into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     if (loreFrame) {
-      console.log("did lore frame thing");
-      const loreBoardHTML = loreFrame.contentDocument.querySelectorAll("board")[0];
+      const loreBoardHTML = htmlElement.querySelectorAll("board")[0];
 
       //Set Spirit Name
       const loreName = loreBoardHTML.querySelectorAll("spirit-name")[0];
@@ -152,8 +161,6 @@
       spiritBoardBack.summary.defenseValue = summaryPowersSplit[3];
       spiritBoardBack.summary.utilityValue = summaryPowersSplit[4];
       spiritBoardBack.summary.usesTokens = summaryPowersHeader.getAttribute("uses");
-
-      console.log(spiritBoardBack);
     }
   }
 
@@ -187,10 +194,10 @@
         .getElementById("lore-mod-frame")
         .contentWindow.document.getElementsByTagName("html")[0].innerHTML
     );
-    // element.setAttribute(
-    //   "download",
-    //   adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_spiritlore.html"
-    // );
+    element.setAttribute(
+      "download",
+      spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_spiritlore.html"
+    );
     element.style.display = "none";
     document.body.appendChild(element);
     element.click();
@@ -200,7 +207,7 @@
   function handleTextFileInput(event) {
     var dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
-    console.log(file);
+
     if (file) {
       const fileReader = new FileReader();
       fileReader.onload = (data) => {
@@ -219,7 +226,14 @@
   function clearAllFields() {
     spiritBoardBack = {
       prop: "value",
+      demoBoardWasLoaded: false,
       previewBoard: {
+        isVisible: false,
+      },
+      nameArtLore: {
+        isVisible: false,
+      },
+      setupPlaystyleComplexityPowers: {
         isVisible: false,
       },
       nameImage: {
@@ -248,6 +262,8 @@
         usesTokens: "",
       },
     };
+    console.log("Reseting fields");
+    console.log(spiritBoardBack);
   }
 </script>
 
@@ -302,6 +318,20 @@
     <SetupPlaystyleComplexityPowers bind:spiritBoardBack {showOrHideSection} />
   </div>
 </div>
+<article class="message is-small mb-1">
+  <div class="message-body p-1">
+    See <a
+      href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md"
+      target="_blank">Instructions</a>
+    for details on how to use the form. For custom art,
+    <a href="https://www.wombo.art/" target="_blank">Wombo</a>
+    (unaffiliated) is a popular art generator.
+    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island
+    Builder is adapted from
+    <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
+    developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
+  </div>
+</article>
 <div id="lore-holder">
   <iframe
     bind:this={loreFrame}

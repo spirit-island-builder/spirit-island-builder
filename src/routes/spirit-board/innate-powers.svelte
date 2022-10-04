@@ -240,12 +240,12 @@
       </div>
     </div>
     <div class="control field">
-      <input
+      <AutoComplete
         id={`powerNote${i}`}
-        class="input is-small"
-        type="text"
-        tabindex="1"
+        elementType="input"
         placeholder="Note (optional)"
+        classNames="is-small"
+        {validAutoCompleteValues}
         bind:value={innatePower.note} />
     </div>
     <button class="button is-primary is-light is-small" on:click={addLevel(i)}>Add Level</button>

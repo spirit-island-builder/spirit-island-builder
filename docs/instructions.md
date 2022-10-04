@@ -15,6 +15,7 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
 - [Spirit Board Lore Side](#spirit-board-lore-side):
   - [Name, Art, Lore](#spirit-lore-name)
   - [Setup, Play Style, Complexity, Summary of Powers](#spirit-lore-setup)
+- [Power Cards](#power-cards)
 - [Adversary](#adversary):
   - [Name, Loss Condition, Escalation](#adversary-name)
   - [Levels](#adversary-levels)
@@ -260,7 +261,42 @@ The two presence tracks (energy & plays) are filled out here, with options for s
   - Assign values 1 to 10 for Offense, Defense, Fear, Control and Utility
   - Uses indicates what game pieces the Spirit interacts with. Do not use icon shortcuts, just list the pieces with comma separation (ie. badlands,wilds)
 
-  [Home](#index)
+## Power Cards
+
+- Name: The name of the card (the name will scale to fit the name area on the card)
+  - Remove Power Card: This button removes the card - careful.
+- Cost: The energy cost of the card
+- Elements: The highlighted elements will appear on the card. Click on the element to enable it.
+- Speed: The speed of the card ('fast' or 'slow).
+- Range: The range of the card. Uses special syntax:
+  - For no range (ie. if it targets a Spirit), type "none".
+  - For range, use an icon (if desired) without brackets and an integer separated by a comma. Examples:
+    - 0
+    - 1
+    - sacred-site,2
+    - wetland-presence,1
+- Target: The target of the card.
+  - Target Land/Target: Click either Target Land or Target.
+  - Text Input: Use icons with brackets here. Examples:
+    - {blight}
+    - {no-blight}
+    - {no-sand}
+- Rules: The effects of your power. You can use the [{icon shortcuts}](#general-icons) here.
+  - {or} will create the 'or' split
+  - \<br\> will force a line break.
+- Threshold
+  - Add Power Threshold: This button adds a threshold effect to the power, typically elemental thresholds.
+  - Threshold: The threshold condition. It is a list of condition separated by comma. Here are some examples:
+      - "3-animal"
+      - "2-sun,2-water"
+      - "3-air,4-water,3-earth"
+  - Custom Text: Changes the threshold text from the default "IF YOU HAVE" to whatever you want.
+  - Threshold Effect: The rules for the threshold effect. You can use the [{icon shortcuts}](#general-icons) here.
+  - Clear Power Threshold: This button removes and deletes the threshold. Careful.
+- Artist
+  - Artist Name: The name of the artist. Please attribute your artists.
+  - Choose File: Choose the art file from your computer. Will be embedded in the HTML.
+- Add Power Card botton: Adds another power card.
 
 ## Adversary
 

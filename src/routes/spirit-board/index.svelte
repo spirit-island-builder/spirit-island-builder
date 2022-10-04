@@ -7,8 +7,6 @@
   import InnatePowers from "./innate-powers.svelte";
   import CustomIcons from "./custom-icons.svelte";
   import * as Lib from "./lib";
-  // import addGrowthAction from './growth.svelte'
-  // import { addGrowthSet, addGrowthGroup, addGrowthAction, removeGrowthAction, removeGrowthGroup, removeGrowthSet } from './growth.svelte'
 
   export let spiritBoard;
   export let isShowingInstructions;
@@ -132,20 +130,33 @@
   }
 
   let frame;
+  let scaledFrameSrc = "/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
+  if (spiritBoard.demoBoardWasLoaded) {
+    scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html";
+  }
+
   onMount(() => {
     frame.addEventListener("load", onLoad());
   });
 
   function onLoad() {
-    if (frame) {
-      if (spiritBoard.demoBoardWasLoaded === false)
-        // readHTML();
-        // setBoardValues(spiritBoard);
-        // reloadPreview();
+    var localFrame = frame;
+    var localObject = spiritBoard;
+    var localDisplayFrame = document.getElementById("scaled-frame");
+    console.log(">>>>>>>>>>>>>>>onload happening!");
+    if (localFrame) {
+      if (localObject.demoBoardWasLoaded === false) {
         setTimeout(() => {
-          readHTML(frame.contentDocument);
-          spiritBoard.demoBoardWasLoaded = true;
+          console.log("First tab load. Using default preview.");
+          readHTML(localFrame.contentDocument);
+          localObject.demoBoardWasLoaded = true;
         }, 200);
+      } else {
+        setTimeout(() => {
+          console.log("Tab previously loaded. Reloaded from form.");
+          reloadPreview();
+        }, 600);
+      }
     }
   }
 
@@ -328,7 +339,6 @@
       //Load Spirit Name and Image
       const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
       if (spiritName) {
-        console.log(spiritName);
         spiritBoard.nameAndArt.name = spiritName.textContent.trim();
       }
       const board = htmlElement.querySelectorAll("board")[0];
@@ -459,15 +469,30 @@
     bodyClone = document.getElementById("mod-frame").contentWindow.document.body.cloneNode(true);
     document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
     let headClone = modFrame.head.cloneNode(true);
+    addJavaToHead(headClone);
+    console.log("headClone: ", headClone);
     scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
+  }
+
+  function addJavaToHead(head) {
+    var scriptGeneralDummy = document.createElement("script");
+    scriptGeneralDummy.type = "text/javascript";
+    scriptGeneralDummy.src = "../../_global/js/general.js";
+    var scriptBoardFrontDummy = document.createElement("script");
+    scriptBoardFrontDummy.type = "text/javascript";
+    scriptBoardFrontDummy.src = "../../_global/js/board_front.js";
+    head.appendChild(scriptGeneralDummy);
+    head.appendChild(scriptBoardFrontDummy);
+    return head;
   }
 
   function reloadPreview() {
     console.log("Updating Preview Board (f=setBoardValues)");
     setBoardValues(spiritBoard);
-    console.log("Reloading Preview (f=copyHTML)");
     copyHTML();
+    console.log("startMain");
     document.getElementById("scaled-frame").contentWindow.startMain();
+    // document.getElementById('scaled-frame').contentWindow.location.reload();
   }
 
   let frameLarge = false;
@@ -548,19 +573,14 @@
   </span>
 </h6>
 <div id="board-wrap">
-  <iframe
-    src="/template/MyCustomContent/MySpirit/start_OFFICIAL_Lure of Deep Wilderness.html"
-    height="600"
-    width="100%"
-    id="scaled-frame"
-    title="yay" />
+  <iframe src={scaledFrameSrc} height="600" width="100%" id="scaled-frame" title="yay" />
 </div>
 
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
     <label class="file-label">
       <input
-        class="file-input"
+        class="file-input is-success"
         id="userHTMLInput"
         type="file"
         name="userHTMLInput"
@@ -604,7 +624,7 @@
 <div id="holder">
   <iframe
     bind:this={frame}
-    src="/template/MyCustomContent/MySpirit/OFFICIAL_Lure of Deep Wilderness.html"
+    src="/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html"
     height="600"
     width="100%"
     title="yay"

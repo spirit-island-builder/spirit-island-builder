@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ["eslint:recommended", "prettier"],
+  extends: ["eslint:recommended"],
   plugins: ["svelte3"],
   overrides: [{ files: ["*.svelte"], processor: "svelte3/svelte3" }],
   parserOptions: {
@@ -9,7 +9,15 @@ module.exports = {
   },
   env: {
     browser: true,
-    es2017: true,
+    es6: true,
     node: true,
+  },
+  settings: {
+    "svelte3/ignore-warnings": (object) => {
+      if (object.code === "a11y-positive-tabindex") {
+        return true;
+      }
+      return false;
+    },
   },
 };

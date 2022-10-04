@@ -24,19 +24,19 @@
   }
 
   function removeArtSpirit() {
-    spiritBoard.nameAndArt.artPath="";
+    spiritBoard.nameAndArt.artPath = "";
   }
-  
+
   function removeArtBanner() {
-    spiritBoard.nameAndArt.bannerPath="";
+    spiritBoard.nameAndArt.bannerPath = "";
   }
-  
+
   function removeArtEnergy() {
-    spiritBoard.nameAndArt.energyBannerPath="";
+    spiritBoard.nameAndArt.energyBannerPath = "";
   }
-  
+
   function removeArtPlays() {
-    spiritBoard.nameAndArt.playsBannerPath="";
+    spiritBoard.nameAndArt.playsBannerPath = "";
   }
 
   // exports allow for properties to be passed into this component. So the value of spiritBoard can be set by whatever component is the parent of this one. See https://svelte.dev/tutorial/declaring-props
@@ -130,7 +130,10 @@
         class="input" />
       <!-- Showing that the image is available -->
       {#if spiritBoard.nameAndArt.bannerPath}
-        <img id="spiritBannerInputImage" src={spiritBoard.nameAndArt.bannerPath} alt="spirit banner" />
+        <img
+          id="spiritBannerInputImage"
+          src={spiritBoard.nameAndArt.bannerPath}
+          alt="spirit banner" />
       {/if}
       <div class="field has-addons is-horizontal is-justify-content-left mb-0">
         <input
@@ -140,7 +143,7 @@
           placeholder="File Name"
           disabled
           bind:value={spiritBoard.nameAndArt.bannerPath} />
-          <button class="button is-warning is-light is-small row-button" on:click={removeArtBanner}
+        <button class="button is-warning is-light is-small row-button" on:click={removeArtBanner}
           >Remove</button>
       </div>
       <!-- No need for a button because spiritBoard.nameAndArt.artPath is bound to this input already, and the image won't be loaded until the board gets generated again -->
@@ -162,7 +165,10 @@
         class="input" />
       <!-- Showing that the image is available -->
       {#if spiritBoard.nameAndArt.energyBannerPath}
-        <img id="spiritArtInputImage" src={spiritBoard.nameAndArt.energyBannerPath} alt="energy banner art" />
+        <img
+          id="spiritArtInputImage"
+          src={spiritBoard.nameAndArt.energyBannerPath}
+          alt="energy banner art" />
       {/if}
       <div class="field has-addons is-horizontal is-justify-content-left mb-0">
         <input
@@ -172,7 +178,7 @@
           placeholder="File Name"
           disabled
           bind:value={spiritBoard.nameAndArt.energyBannerPath} />
-          <button class="button is-warning is-light is-small row-button" on:click={removeArtEnergy}
+        <button class="button is-warning is-light is-small row-button" on:click={removeArtEnergy}
           >Remove</button>
       </div>
       <!-- No need for a button because spiritBoard.nameAndArt.artPath is bound to this input already, and the image won't be loaded until the board gets generated again -->
@@ -192,7 +198,7 @@
         bind:value={spiritBoard.nameAndArt.energyBannerScale} />
     </div>
   </div>
-  
+
   <!-- Plays Track Banner -->
   <div class="field has-addons is-horizontal is-justify-content-left mb-0">
     <div class="field-label is-small">
@@ -209,7 +215,10 @@
         class="input" />
       <!-- Showing that the image is available -->
       {#if spiritBoard.nameAndArt.playsBannerPath}
-        <img id="spiritArtInputImage" src={spiritBoard.nameAndArt.playsBannerPath} alt="plays banner art" />
+        <img
+          id="spiritArtInputImage"
+          src={spiritBoard.nameAndArt.playsBannerPath}
+          alt="plays banner art" />
       {/if}
       <div class="field has-addons is-horizontal is-justify-content-left mb-0">
         <input
@@ -220,7 +229,7 @@
           disabled
           bind:value={spiritBoard.nameAndArt.playsBannerPath} />
         <button class="button is-warning is-light is-small row-button" on:click={removeArtPlays}
-        >Remove</button>
+          >Remove</button>
       </div>
       <!-- No need for a button because spiritBoard.nameAndArt.artPath is bound to this input already, and the image won't be loaded until the board gets generated again -->
     </div>

@@ -10,6 +10,7 @@
 
   function setCurrentPage(page) {
     currentPage = page;
+    console.log(">--|--< Switching to " + page + " >--|--<");
   }
 
   let spiritBoard = {
@@ -117,6 +118,7 @@
 
   let spiritBoardBack = {
     prop: "value",
+    demoBoardWasLoaded: false,
     previewBoard: {
       isVisible: false,
     },
@@ -155,20 +157,38 @@
 
   let powerCards = {
     prop: "value",
+    demoBoardWasLoaded: false,
+    spiritName: "",
     previewBoard: {
+      isVisible: false,
+    },
+    form: {
       isVisible: false,
     },
     cards: [
       {
         id: 0,
+        isVisible: false,
+        name: "",
         speed: "",
         cost: "",
         cardImage: "",
-        powerElements: "",
+        cardArtist: "",
+        powerElements: {
+          air: false,
+          sun: false,
+          moon: false,
+          water: false,
+          fire: false,
+          earth: false,
+          plant: false,
+          animal: false,
+        },
         range: "",
         target: "",
         targetTitle: "",
         rules: "",
+        hasThreshold: "",
         threshold: "",
         thresholdCondition: "",
         thresholdText: "",
@@ -178,6 +198,7 @@
 
   let aspect = {
     prop: "value",
+    demoBoardWasLoaded: false,
     previewBoard: {
       isVisible: false,
     },
@@ -185,6 +206,7 @@
 
   let adversary = {
     prop: "value",
+    demoBoardWasLoaded: false,
     previewBoard: {
       isVisible: false,
     },
@@ -255,7 +277,7 @@
   let instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions";
 </script>
 
-<h1 class="title is-1">Build Custom Spirit Island Components!</h1>
+<h1 class="title is-1">The Spirit Island Builder</h1>
 <nav class="navbar">
   <div class="navbar-brand">
     <button
@@ -278,7 +300,7 @@
       Spirit Board Lore Side
     </button>
     <button
-      style="display:none"
+      style=""
       class={`button navbar-item ${
         currentPage === "powerCards" ? "is-primary" : "is-link is-light"
       }`}

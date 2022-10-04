@@ -30,7 +30,7 @@
   },
   "type": "module",
   "lint-staged": {
-    "*.{js,css,md,svelte}": [
+    "*.{js,svelte}": [
       "eslint",
       "prettier --write --plugin-search-dir=."
     ]

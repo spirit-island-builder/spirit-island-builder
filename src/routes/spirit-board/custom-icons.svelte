@@ -46,34 +46,37 @@
 {#if spiritBoard.customIcons.isVisible}
   <article class="message is-small mb-1">
     <div class="message-body p-1">
-      Custom Icons allow you to load and then use icons that aren't pre-built into the template. <a href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#custom-icons" target="_blank">Instructions</a>
+      Custom Icons allow you to load and then use icons that aren't pre-built into the template. <a
+        href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#custom-icons"
+        target="_blank">Instructions</a>
     </div>
   </article>
   {#each spiritBoard.customIcons.icons as icon, i (icon.id)}
     <div class="field has-addons is-horizontal is-justify-content-left mb-0">
       <div class="field-label is-small">
-        <label class="label" for={`customIconInput${i}`}>Use: &lbrace;custom{i+1}&rbrace;</label>
+        <label class="label" for={`customIconInput${i}`}>Use: &lbrace;custom{i + 1}&rbrace;</label>
       </div>
       {#if icon.name}
-        <img 
-          id={`customIconDisplay${i}`} 
-          class="has-ratio" 
-          style="height:2rem; width:2rem; object-fit: contain;" 
-          src={icon.name} 
-          alt={`custom${i+1}`} />
+        <img
+          id={`customIconDisplay${i}`}
+          class="has-ratio"
+          style="height:2rem; width:2rem; object-fit: contain;"
+          src={icon.name}
+          alt={`custom${i + 1}`} />
       {/if}
       <div class="file is-warning is-small">
         <label class="file-label">
-          <input class="file-input" 
-          id={`customIconInput${i}`} 
-          type="file" 
-          name={`customIconInput${i}`} 
-          accept="image/png, image/jpeg" 
-          on:change={(e) => {handleImageFileInput(e,i);}}>
+          <input
+            class="file-input"
+            id={`customIconInput${i}`}
+            type="file"
+            name={`customIconInput${i}`}
+            accept="image/png, image/jpeg"
+            on:change={(e) => {
+              handleImageFileInput(e, i);
+            }} />
           <span class="file-cta">
-            <span class="file-label">
-              Load
-            </span>
+            <span class="file-label"> Load </span>
           </span>
         </label>
       </div>
