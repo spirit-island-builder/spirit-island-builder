@@ -4,7 +4,7 @@
   let isMinimized = false;
   export let isShowingInstructions;
   export let instructionsSource;
-  let iframeHeight = "300px";
+  let iframeHeight = "250px";
 
   function initDragElement() {
     var pos1 = 0,
@@ -131,17 +131,16 @@
   }
 
   .open {
-    /* min-height: 350px; */
-    min-width: 400px;
-    height: 350px;
-    width: 400px;
+    min-width: 500px;
+    height: 300px;
+    width: 500px;
     background-color: #e1e1e1;
     overflow-y: hidden;
     resize: both;
   }
 
   :root {
-    --windowWidth: 400px;
+    --windowWidth: 500px;
   }
   .closed {
     background-color: #e1e1e100;
@@ -155,7 +154,8 @@
   .movableDialog-header {
     padding: 10px;
     cursor: move;
-    background-color: #999;
+    background-color: #0072bd;
+    color: #fff;
     height: 45px;
   }
 
