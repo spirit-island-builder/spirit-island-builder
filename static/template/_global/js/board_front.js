@@ -8,7 +8,7 @@ window.onload = (event) =>{
 function startMain(){
     
 	console.log('CREATING SPIRIT BOARD')
-  parseGrowthTags();
+  	parseGrowthTags();
     
 	if(document.getElementById("presence-table")) {
         enhancePresenceTracksTable();
@@ -325,7 +325,7 @@ function parseGrowthTags(){
 					const matches = regExpOuterParentheses.exec(classPieces[j]);
 					const gainEnergyBy = matches[1];
 					let energyOptions = matches[1].split(",");
-          let energyManyIconOpen = "" 
+          			let energyManyIconOpen = "" 
 					let energyManyIconClose = ""
 					if (isNaN(energyOptions[0]) || energyOptions.length!=1) {
 							energyManyIconOpen = "<growth-cell-double>"
@@ -392,11 +392,15 @@ function parseGrowthTags(){
                     let presenceIcon = "";
                     let presenceTextLead = "";
                     let presenceTextEnd = "";
+					let presenceRangeOpen = "<range-growth>";
+					let presenceRangeClose = "</range-growth>";
 
 					if (presenceRange=='any' && presenceOptions.length==1) {
 
 						presenceReqOpen = "<custom-presence-no-range>";
 						presenceReqClose = "</custom-presence-no-range>";
+						presenceRangeOpen = "<range-growth-any>";
+						presenceRangeClose = "</range-growth-any>";
 						presenceText = " to any Land"
 					} else if (presenceOptions.length > 1) {
                         presenceReqOpen = "<custom-presence-req>";
@@ -405,6 +409,8 @@ function parseGrowthTags(){
                         
 						if (presenceRange=='any'){
 							presenceReqOpen += "<presence-req></presence-req>"
+							presenceRangeOpen = "<range-growth-any>";
+							presenceRangeClose = "</range-growth-any>";
 						}
 						
                         if(presenceOptions[1]=='text'){
@@ -548,7 +554,7 @@ function parseGrowthTags(){
                         }
                         presenceIcon += "</presence-req>";
 					}
-					growthIcons = presenceReqOpen + "<plus-presence>+{presence}</plus-presence>" + presenceIcon + "{range-" + presenceRange + "}" + presenceReqClose
+					growthIcons = presenceReqOpen + "<plus-presence>+{presence}</plus-presence>" + presenceIcon + presenceRangeOpen + presenceRange + presenceRangeClose + presenceReqClose
 					growthText = "Add a Presence" + presenceText
                     break;
                 }
