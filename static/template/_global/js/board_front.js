@@ -893,7 +893,7 @@ function parseGrowthTags(){
 					const matches = regExp.exec(classPieces[j]);
 					let tokenOptions = matches[1].split(",");
 					let range = tokenOptions[0];
-					let tokenRange = "{range-" + range + "}"
+					let tokenRange = "<range-growth>" + range + "</range-growth>"
 					let token = tokenOptions[1];
 					let tokenNum = tokenOptions[2];
 					let tokenReqOpen = "<custom-icon>";
