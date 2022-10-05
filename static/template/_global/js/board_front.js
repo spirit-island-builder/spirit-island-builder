@@ -162,8 +162,17 @@ function parseGrowthTags(){
     const cost = childElement.getAttribute("cost");
     if (cost) {
       costSplit=cost.split(",");
-      if (costSplit[1]){
-        if(debug){console.log("Cost with custom icon")};
+	  if (isNaN(costSplit[0])){
+		// Non-numerical cost (ie. forget a card)
+		if (costSplit[1]){
+			// Non-numerical cost with text
+			newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description>"+costSplit[1]+"</growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
+		}else{
+			// non-numerical cost by itself
+		}
+	  } else if (costSplit[1]){
+        // User wants to use a non-energy scaling cost
+		if(debug){console.log("Cost with custom icon")};
         newGrowthCellHTML += "<growth-cost-custom><icon class='"+costSplit[1]+"'><value>-" + costSplit[0] + "</value></icon></growth-cost-custom>";
       }else{
         // Its just a number, so do energy cost
@@ -305,7 +314,7 @@ function parseGrowthTags(){
 							let isolateRange = isolateOptions[0];
 							isolateReqOpen = "<custom-icon>";
 							isolateReqClose = "</custom-icon>";
-							isolateIcons += "{range-" + isolateRange + "}";
+							isolateIcons += "<range-growth>" + isolateRange + "</range-growth>";
 							isolateText = "Isolate a Land";
 						}
 						growthIcons = isolateReqOpen + isolateIcons + isolateReqClose
@@ -317,7 +326,7 @@ function parseGrowthTags(){
 					let damageOptions = matches[1].split(",");
 					let range = damageOptions[0];
 					let damage = damageOptions[1];
-					growthIcons = "<custom-icon><growth-damage><value>" + damage + "</value></growth-damage>"+ "{range-" + range + "}</custom-icon>"
+					growthIcons = "<custom-icon><growth-damage><value>" + damage + "</value></growth-damage>"+ "<range-growth>" + range + "</range-growth></custom-icon>"
 					growthText = "Deal "+damage+" Damage at Range " + range
 					break;
 				}

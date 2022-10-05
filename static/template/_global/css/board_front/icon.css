@@ -386,9 +386,6 @@ icon.gain-power-card {
 
 icon.forget-power-card {
   background-image: url('../../images/customIcons/forgetCardIcon.png');
-  display: block;
-  height: 90px;
-  width:90px;
 }
 
 icon.energy-per-play {

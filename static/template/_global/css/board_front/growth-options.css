@@ -392,12 +392,10 @@ growth-cell icon.isolate {
   margin-bottom: 7px;
 }
 
-growth-cell icon.gain-power-card {
+growth-cell icon.gain-power-card, growth-cell icon.forget-power-card {
   margin-bottom: 7px;
-}
-
-growth-cell icon.forget-power-card {
-  margin-bottom: 7px;
+  height: 90px;
+  width: 90px;
 }
 
 growth-cell icon.energy-per-play {
@@ -644,6 +642,32 @@ growth-cost-custom::after {
   position: absolute;
   left: 3px;
   top: 44px;
+}
+
+growth-cost-custom-nonscaling {
+  top: -42px;
+  position: relative;
+  margin-right: -165px;
+  float: left;
+  display: flex;
+  transform: translateX(0%);
+  text-align: left;
+}
+
+growth-cost-custom-nonscaling > icon {
+  height: 45px;
+  width: 45px;
+}
+
+growth-cost-custom-nonscaling-description {
+  font-family: 'Lato SemiBold';
+  font-size: 10.5pt;
+  font-style: italic;
+  width: 120px;
+  margin-top: -5px;
+  margin-left: 2px;
+  line-height: 12pt;
+  text-align: center;
 }
 
 presence-special-req {
