@@ -124,6 +124,11 @@ plus-presence {
 	display: block;
 }
 
+custom-presence plus-presence {
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
 custom-presence-or plus-presence {
 	display: inline-block;
 }
