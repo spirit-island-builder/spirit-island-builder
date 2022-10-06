@@ -204,11 +204,6 @@ icon.explorer {
 
 /* icon.strife {
   background-image: url('../../images/board/75px_strife.png');
-  width: 30px;
-  height: 30px;
-  margin-bottom: -8px;
-  margin-left: -5px;
-  margin-right: 0px;
 } */
 
 /* icon.wilds {
@@ -391,9 +386,6 @@ icon.gain-power-card {
 
 icon.forget-power-card {
   background-image: url('../../images/customIcons/forgetCardIcon.png');
-  display: block;
-  height: 90px;
-  width:90px;
 }
 
 icon.energy-per-play {

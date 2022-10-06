@@ -9,6 +9,11 @@
 }
 
 @font-face{
+  font-family: 'Antropos';
+  src: url(../fonts/antropos-font/AntroposFreefont-BW2G.ttf);
+}
+
+@font-face{
   font-family: 'SI-Crushed';
   src: url(../fonts/SI-Crushed/CrushedAlt04.ttf);
 }
@@ -66,6 +71,7 @@ icon.no::before {
 }
 
 icon.range{background-image: url('../images/50px-Rangeicon.png');}
+icon.range-growth{background-image: url('../images/board/range_arrow')}
 icon.spirit{background-image: url('../images/50px-Spiriticon.png'); }
 icon.player{background-image: url('../images/50px-Spiriticon.png'); }
 icon.player-spirit{background-image: url('../images/50px-Spiriticon.png'); }
@@ -75,7 +81,7 @@ icon.badlands{background-image: url('../images/board/48px_badlands.png'); }
 icon.beast{background-image: url('../images/board/beast.png'); }
 icon.beasts{background-image: url('../images/board/beast.png'); }
 icon.disease{background-image: url('../images/board/75px_disease.png'); }
-icon.strife{background-image: url('../images/25px-Strifeicon.png'); }
+icon.strife{background-image: url('../images/board/75px_strife.png'); }
 icon.wild{background-image: url('../images/board/wilds.png'); }
 icon.wilds{background-image: url('../images/board/wilds.png'); }
 

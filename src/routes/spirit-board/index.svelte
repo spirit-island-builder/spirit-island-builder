@@ -522,6 +522,7 @@
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
         readHTML(dummyEl);
+        setTimeout(() => {reloadPreview();}, 100);
       };
 
       // This reads the file and then triggers the onload function above once it finishes
@@ -530,6 +531,7 @@
   }
 
   function exportSpiritBoard() {
+    setBoardValues(spiritBoard);
     var element = document.createElement("a");
     element.setAttribute(
       "href",

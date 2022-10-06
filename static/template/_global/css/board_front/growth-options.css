@@ -124,6 +124,11 @@ plus-presence {
 	display: block;
 }
 
+custom-presence plus-presence {
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
 custom-presence-or plus-presence {
 	display: inline-block;
 }
@@ -232,9 +237,9 @@ custom-presence-no-range {
   font-weight: bold;
   display: block;
   width: auto;
-  height: 110px;
-  margin-bottom: -43px;
-  margin-top: 24px;
+  height: 40px;
+  margin-bottom: 0px;
+  margin-top: 52px;
 }
 
 custom-presence-no-range icon.range-any {
@@ -247,6 +252,26 @@ custom-presence icon.range-2,
 custom-presence icon.range-3,
 custom-presence icon.range-4 {
   margin-bottom: 10px;
+}
+
+range-growth {
+  background-image: url('../../images/board/range_arrow.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  font-size: 40px;
+  line-height: 28px;
+  font-family: 'Antropos';
+  height: 45px;
+  width: 106px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+range-growth-any {
+  background-image: none;
+  font-size: 0px;
 }
 
 custom-presence-req icon.range-0,
@@ -367,12 +392,10 @@ growth-cell icon.isolate {
   margin-bottom: 7px;
 }
 
-growth-cell icon.gain-power-card {
+growth-cell icon.gain-power-card, growth-cell icon.forget-power-card {
   margin-bottom: 7px;
-}
-
-growth-cell icon.forget-power-card {
-  margin-bottom: 7px;
+  height: 90px;
+  width: 90px;
 }
 
 growth-cell icon.energy-per-play {
@@ -619,6 +642,32 @@ growth-cost-custom::after {
   position: absolute;
   left: 3px;
   top: 44px;
+}
+
+growth-cost-custom-nonscaling {
+  top: -42px;
+  position: relative;
+  margin-right: -165px;
+  float: left;
+  display: flex;
+  transform: translateX(0%);
+  text-align: left;
+}
+
+growth-cost-custom-nonscaling > icon {
+  height: 45px;
+  width: 45px;
+}
+
+growth-cost-custom-nonscaling-description {
+  font-family: 'Lato SemiBold';
+  font-size: 10.5pt;
+  font-style: italic;
+  width: 120px;
+  margin-top: -5px;
+  margin-left: 2px;
+  line-height: 12pt;
+  text-align: center;
 }
 
 presence-special-req {
