@@ -154,6 +154,7 @@
   }
 
   function exportAdversary() {
+    setBoardValues(adversary)
     var element = document.createElement("a");
     element.setAttribute(
       "href",

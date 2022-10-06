@@ -209,6 +209,7 @@
   }
 
   function exportPowerCards() {
+    setBoardValues(powerCards)
     var element = document.createElement("a");
     element.setAttribute(
       "href",

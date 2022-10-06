@@ -183,6 +183,7 @@
   }
 
   function exportSpiritBoardBack() {
+    setBoardValues(spiritBoardBack)
     var element = document.createElement("a");
     element.setAttribute(
       "href",

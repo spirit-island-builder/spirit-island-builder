@@ -530,6 +530,7 @@
   }
 
   function exportSpiritBoard() {
+    setBoardValues(spiritBoard);
     var element = document.createElement("a");
     element.setAttribute(
       "href",
