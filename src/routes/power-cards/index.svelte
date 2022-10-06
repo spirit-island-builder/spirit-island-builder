@@ -247,8 +247,7 @@
         dummyEl.head = dummyEl.getElementsByTagName("head")[0];
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         readHTML(dummyEl);
-        console.log(dummyEl);
-        console.log("new file loading");
+        setTimeout(() => {reloadPreview();}, 100);
       };
 
       // This reads the file and then triggers the onload function above once it finishes
