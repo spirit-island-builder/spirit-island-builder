@@ -184,7 +184,7 @@
         var newRuleName = frame.contentDocument.createElement("special-rules-subtitle");
         newRuleName.textContent = rule.name;
         var newRuleEffect = frame.contentDocument.createElement("special-rule");
-        newRuleEffect.textContent = rule.effect;
+        newRuleEffect.innerHTML = rule.effect;
         specialRulesContainer.appendChild(newRuleName);
         specialRulesContainer.appendChild(newRuleEffect);
       });
@@ -353,7 +353,7 @@
         spiritBoard = Lib.addSpecialRule(
           spiritBoard,
           specialRulesName.textContent,
-          specialRulesEffects[j].textContent.trim()
+          specialRulesEffects[j].innerHTML.trim()
         );
       });
 
