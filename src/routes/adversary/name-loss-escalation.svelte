@@ -111,7 +111,7 @@
     <div class="message-body p-1">
       <span
         ><a
-          href="https://github.com/neubee/spirit-island-builder/blob/feature/start-of-tabbed-interface/docs/instructions.md#adversary-name"
+          href="https://neubee.github.io/spirit-island-builder/instructions#adversary-name"
           target="_blank">Instructions</a
         ></span>
     </div>

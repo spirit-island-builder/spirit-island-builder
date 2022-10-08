@@ -1,18 +1,7 @@
 <script>
-  // import { onMount } from "svelte";
   export let aspect;
-  // import NameAndArt from "./name-and-art.svelte";
-  // import SpecialRules from "./special-rules.svelte";
 
   let loreframe;
-  // onMount(() => {
-  //   loreframe.addEventListener("load", onLoad());
-  // });
-
-  // function onLoad() {
-  //   if (loreframe) {
-  //   }
-  // }
 
   function showOrHideBoard() {
     if (document.getElementById("lore-board-wrap").style.display == "none") {

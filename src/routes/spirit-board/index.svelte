@@ -9,6 +9,8 @@
   import * as Lib from "./lib";
 
   export let spiritBoard;
+  export let isShowingInstructions;
+  export let instructionsSource;
 
   function clearAllFields() {
     spiritBoard = {
@@ -128,8 +130,10 @@
   }
 
   let frame;
-  let scaledFrameSrc="/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
-  if(spiritBoard.demoBoardWasLoaded){scaledFrameSrc="/template/MyCustomContent/MySpirit/board_front_website.html"}
+  let scaledFrameSrc = "/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
+  if (spiritBoard.demoBoardWasLoaded) {
+    scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html";
+  }
 
   onMount(() => {
     frame.addEventListener("load", onLoad());
@@ -138,18 +142,17 @@
   function onLoad() {
     var localFrame = frame;
     var localObject = spiritBoard;
-    var localDisplayFrame = document.getElementById("scaled-frame");
-    console.log('>>>>>>>>>>>>>>>onload happening!')
+    console.log(">>>>>>>>>>>>>>>onload happening!");
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
         setTimeout(() => {
-          console.log('First tab load. Using default preview.')
+          console.log("First tab load. Using default preview.");
           readHTML(localFrame.contentDocument);
           localObject.demoBoardWasLoaded = true;
         }, 200);
       } else {
         setTimeout(() => {
-          console.log('Tab previously loaded. Reloaded from form.')
+          console.log("Tab previously loaded. Reloaded from form.");
           reloadPreview();
         }, 600);
       }
@@ -181,7 +184,7 @@
         var newRuleName = frame.contentDocument.createElement("special-rules-subtitle");
         newRuleName.textContent = rule.name;
         var newRuleEffect = frame.contentDocument.createElement("special-rule");
-        newRuleEffect.textContent = rule.effect;
+        newRuleEffect.innerHTML = rule.effect;
         specialRulesContainer.appendChild(newRuleName);
         specialRulesContainer.appendChild(newRuleEffect);
       });
@@ -350,7 +353,7 @@
         spiritBoard = Lib.addSpecialRule(
           spiritBoard,
           specialRulesName.textContent,
-          specialRulesEffects[j].textContent.trim()
+          specialRulesEffects[j].innerHTML.trim()
         );
       });
 
@@ -466,19 +469,19 @@
     document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
     let headClone = modFrame.head.cloneNode(true);
     addJavaToHead(headClone);
-    console.log('headClone: ', headClone);
+    console.log("headClone: ", headClone);
     scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
   }
 
-  function addJavaToHead(head){
+  function addJavaToHead(head) {
     var scriptGeneralDummy = document.createElement("script");
     scriptGeneralDummy.type = "text/javascript";
     scriptGeneralDummy.src = "../../_global/js/general.js";
     var scriptBoardFrontDummy = document.createElement("script");
     scriptBoardFrontDummy.type = "text/javascript";
-    scriptBoardFrontDummy.src = "../../_global/js/board_front.js";    
-    head.appendChild(scriptGeneralDummy)
-    head.appendChild(scriptBoardFrontDummy)
+    scriptBoardFrontDummy.src = "../../_global/js/board_front.js";
+    head.appendChild(scriptGeneralDummy);
+    head.appendChild(scriptBoardFrontDummy);
     return head;
   }
 
@@ -486,7 +489,7 @@
     console.log("Updating Preview Board (f=setBoardValues)");
     setBoardValues(spiritBoard);
     copyHTML();
-    console.log("startMain");    
+    console.log("startMain");
     document.getElementById("scaled-frame").contentWindow.startMain();
     // document.getElementById('scaled-frame').contentWindow.location.reload();
   }
@@ -519,6 +522,7 @@
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
         readHTML(dummyEl);
+        setTimeout(() => {reloadPreview();}, 100);
       };
 
       // This reads the file and then triggers the onload function above once it finishes
@@ -527,6 +531,7 @@
   }
 
   function exportSpiritBoard() {
+    setBoardValues(spiritBoard);
     var element = document.createElement("a");
     element.setAttribute(
       "href",
@@ -546,6 +551,12 @@
     element.click();
     document.body.removeChild(element);
   }
+
+  function showInstructions() {
+    isShowingInstructions = true;
+    instructionsSource =
+      "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-play-side";
+  }
 </script>
 
 <h5 class="title is-5">Spirit Board Play Side</h5>
@@ -563,12 +574,7 @@
   </span>
 </h6>
 <div id="board-wrap">
-  <iframe
-    src={scaledFrameSrc}
-    height="600"
-    width="100%"
-    id="scaled-frame"
-    title="yay" />
+  <iframe src={scaledFrameSrc} height="600" width="100%" id="scaled-frame" title="yay" />
 </div>
 
 <div class="field has-addons mb-2">
@@ -580,8 +586,7 @@
         type="file"
         name="userHTMLInput"
         accept=".html"
-        on:change={handleTextFileInput}
-      />
+        on:change={handleTextFileInput} />
       <span class="file-cta">
         <span class="file-label"> Load Spirit Board file </span>
       </span>
@@ -592,11 +597,10 @@
   <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Spirit Board</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
-    <!-- Any kind of property can be passed to a component. Functions and variables. As long as they are also exported from the nested component (i.e. NameAndArt) they will be available for use in the nested component -->
-
     <NameAndArt bind:spiritBoard {showOrHideSection} />
     <SpecialRules bind:spiritBoard {showOrHideSection} />
     <CustomIcons bind:spiritBoard {showOrHideSection} />
@@ -609,10 +613,9 @@
 </div>
 <article class="message is-small mb-1">
   <div class="message-body p-1">
-    See <a
-      href="https://github.com/neubee/spirit-island-builder/blob/dev/docs/instructions.md"
-      target="_blank">Instructions</a>
-    for details on how to use the form (particularly for Growth and Presence Tracks). For custom art,
+    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
+      >Instructions</a>
+    For custom art,
     <a href="https://www.wombo.art/" target="_blank">Wombo</a>
     (unaffiliated) is a popular art generator.
     <br />This is an unofficial website. Interface created by Neubee & Resonant. Spirit Board

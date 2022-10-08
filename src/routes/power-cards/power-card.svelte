@@ -165,8 +165,8 @@
     card.isVisible = !card.isVisible;
     powerCards = powerCards;
   }
-
 </script>
+
 <article class="message is-small mb-1">
   <div class="message-body p-1">
     <span
@@ -194,7 +194,7 @@
   <h6
     on:click={showOrHideSectionSubsection(card)}
     class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1">
-    {`Power Card ${i+1}: ${card.name}`}
+    {`Power Card ${i + 1}: ${card.name}`}
     <span on:click={showOrHideSectionSubsection(card)}>
       {#if card.isVisible}
         <ion-icon on:click={showOrHideSectionSubsection(card)} name="chevron-down-outline" />
@@ -336,12 +336,11 @@
       <div class="is-flex is-flex-direction-column-reverse is-flex-wrap-nowrap">
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
           <div class="control">
-            <input
+            <AutoComplete
               id={`powerTarget${i}`}
-              class="input"
-              type="text"
-              tabindex="1"
+              elementType="input"
               placeholder="Target"
+              {validAutoCompleteValues}
               bind:value={card.target} />
           </div>
         </div>
@@ -376,12 +375,12 @@
       </div>
     </div>
     <div class="control">
-        <AutoComplete
-          id={`cardRules${i}`}
-          elementType="textarea"
-          placeholder="Rules"
-          {validAutoCompleteValues}
-          bind:value={card.rules} />
+      <AutoComplete
+        id={`cardRules${i}`}
+        elementType="textarea"
+        placeholder="Rules"
+        {validAutoCompleteValues}
+        bind:value={card.rules} />
     </div>
     <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-2">
       {#if card.hasThreshold}
@@ -450,4 +449,3 @@
 <div class="pt-1">
   <button class="button is-primary is-light" on:click={addEmptyPowerCard}>Add Power Card</button>
 </div>
-

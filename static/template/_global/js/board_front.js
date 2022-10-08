@@ -8,7 +8,7 @@ window.onload = (event) =>{
 function startMain(){
     
 	console.log('CREATING SPIRIT BOARD')
-  parseGrowthTags();
+  	parseGrowthTags();
     
 	if(document.getElementById("presence-table")) {
         enhancePresenceTracksTable();
@@ -162,8 +162,17 @@ function parseGrowthTags(){
     const cost = childElement.getAttribute("cost");
     if (cost) {
       costSplit=cost.split(",");
-      if (costSplit[1]){
-        if(debug){console.log("Cost with custom icon")};
+	  if (isNaN(costSplit[0])){
+		// Non-numerical cost (ie. forget a card)
+		if (costSplit[1]){
+			// Non-numerical cost with text
+			newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description>"+costSplit[1]+"</growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
+		}else{
+			// non-numerical cost by itself
+		}
+	  } else if (costSplit[1]){
+        // User wants to use a non-energy scaling cost
+		if(debug){console.log("Cost with custom icon")};
         newGrowthCellHTML += "<growth-cost-custom><icon class='"+costSplit[1]+"'><value>-" + costSplit[0] + "</value></icon></growth-cost-custom>";
       }else{
         // Its just a number, so do energy cost
@@ -305,7 +314,7 @@ function parseGrowthTags(){
 							let isolateRange = isolateOptions[0];
 							isolateReqOpen = "<custom-icon>";
 							isolateReqClose = "</custom-icon>";
-							isolateIcons += "{range-" + isolateRange + "}";
+							isolateIcons += "<range-growth>" + isolateRange + "</range-growth>";
 							isolateText = "Isolate a Land";
 						}
 						growthIcons = isolateReqOpen + isolateIcons + isolateReqClose
@@ -317,7 +326,7 @@ function parseGrowthTags(){
 					let damageOptions = matches[1].split(",");
 					let range = damageOptions[0];
 					let damage = damageOptions[1];
-					growthIcons = "<custom-icon><growth-damage><value>" + damage + "</value></growth-damage>"+ "{range-" + range + "}</custom-icon>"
+					growthIcons = "<custom-icon><growth-damage><value>" + damage + "</value></growth-damage>"+ "<range-growth>" + range + "</range-growth></custom-icon>"
 					growthText = "Deal "+damage+" Damage at Range " + range
 					break;
 				}
@@ -325,7 +334,7 @@ function parseGrowthTags(){
 					const matches = regExpOuterParentheses.exec(classPieces[j]);
 					const gainEnergyBy = matches[1];
 					let energyOptions = matches[1].split(",");
-          let energyManyIconOpen = "" 
+          			let energyManyIconOpen = "" 
 					let energyManyIconClose = ""
 					if (isNaN(energyOptions[0]) || energyOptions.length!=1) {
 							energyManyIconOpen = "<growth-cell-double>"
@@ -392,11 +401,15 @@ function parseGrowthTags(){
                     let presenceIcon = "";
                     let presenceTextLead = "";
                     let presenceTextEnd = "";
+					let presenceRangeOpen = "<range-growth>";
+					let presenceRangeClose = "</range-growth>";
 
 					if (presenceRange=='any' && presenceOptions.length==1) {
 
 						presenceReqOpen = "<custom-presence-no-range>";
 						presenceReqClose = "</custom-presence-no-range>";
+						presenceRangeOpen = "<range-growth-any>";
+						presenceRangeClose = "</range-growth-any>";
 						presenceText = " to any Land"
 					} else if (presenceOptions.length > 1) {
                         presenceReqOpen = "<custom-presence-req>";
@@ -405,6 +418,8 @@ function parseGrowthTags(){
                         
 						if (presenceRange=='any'){
 							presenceReqOpen += "<presence-req></presence-req>"
+							presenceRangeOpen = "<range-growth-any>";
+							presenceRangeClose = "</range-growth-any>";
 						}
 						
                         if(presenceOptions[1]=='text'){
@@ -548,7 +563,7 @@ function parseGrowthTags(){
                         }
                         presenceIcon += "</presence-req>";
 					}
-					growthIcons = presenceReqOpen + "<plus-presence>+{presence}</plus-presence>" + presenceIcon + "{range-" + presenceRange + "}" + presenceReqClose
+					growthIcons = presenceReqOpen + "<plus-presence>+{presence}</plus-presence>" + presenceIcon + presenceRangeOpen + presenceRange + presenceRangeClose + presenceReqClose
 					growthText = "Add a Presence" + presenceText
                     break;
                 }
@@ -613,7 +628,7 @@ function parseGrowthTags(){
 							}
 						}else{
 						// Gather/Push at range
-							moveIcons += "<push-gather-range-req><icon class='" + growthItem + "'><icon class='" + moveTarget + "'></icon></icon>"+"{range-" + moveRange + "}</push-gather-range-req>"
+							moveIcons += "<push-gather-range-req><icon class='" + growthItem + "'><icon class='" + moveTarget + "'></icon></icon>"+"<range-growth>" + moveRange + "</range-growth></push-gather-range-req>"
 							moveText += Capitalise(growthItem)+" up to 1 " + Capitalise(moveTarget)+" " + preposition + " a Land"
 						}
 					}else{
@@ -887,7 +902,7 @@ function parseGrowthTags(){
 					const matches = regExp.exec(classPieces[j]);
 					let tokenOptions = matches[1].split(",");
 					let range = tokenOptions[0];
-					let tokenRange = "{range-" + range + "}"
+					let tokenRange = "<range-growth>" + range + "</range-growth>"
 					let token = tokenOptions[1];
 					let tokenNum = tokenOptions[2];
 					let tokenReqOpen = "<custom-icon>";

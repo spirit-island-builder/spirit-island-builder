@@ -4,6 +4,7 @@
   import PowerCards from "./power-cards/index.svelte";
   import Aspect from "./aspect/index.svelte";
   import Adversary from "./adversary/index.svelte";
+  import Instructions from "$lib/instructions/index.svelte";
 
   let currentPage = "spiritBoardFront";
 
@@ -271,6 +272,9 @@
       ],
     },
   };
+
+  let isShowingInstructions = false;
+  let instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions";
 </script>
 
 <h1 class="title is-1">The Spirit Island Builder</h1>
@@ -324,16 +328,19 @@
     </button>
   </div>
 </nav>
+{#if isShowingInstructions === true}
+  <Instructions bind:isShowingInstructions bind:instructionsSource />
+{/if}
 <div class="container">
   {#if currentPage === "spiritBoardFront"}
-    <SpiritBoard bind:spiritBoard />
+    <SpiritBoard bind:spiritBoard bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "spiritBoardBack"}
-    <SpiritBoardBack bind:spiritBoardBack />
+    <SpiritBoardBack bind:spiritBoardBack bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "powerCards"}
-    <PowerCards bind:powerCards />
+    <PowerCards bind:powerCards bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "aspect"}
-    <Aspect bind:aspect />
+    <Aspect bind:aspect bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "adversary"}
-    <Adversary bind:adversary />
+    <Adversary bind:adversary bind:isShowingInstructions bind:instructionsSource />
   {/if}
 </div>

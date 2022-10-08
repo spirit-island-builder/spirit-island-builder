@@ -104,7 +104,7 @@
     <div class="message-body p-1">
       <span
         ><a
-          href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#special-rules"
+          href="https://neubee.github.io/spirit-island-builder/instructions#special-rules"
           target="_blank">Instructions</a
         ></span>
     </div>
