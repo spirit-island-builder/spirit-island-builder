@@ -105,10 +105,10 @@ export const addPlaysTrackNode = (spiritBoard, nodeEffect = "") => {
 export const addInnatePower = (
   spiritBoard,
   powerName = "",
-  powerSpeed = "fast",
+  powerSpeed = "",
   powerRange = "",
   powerTarget = "",
-  powerTargetTitle = "target land",
+  powerTargetTitle = "",
   powerNote = ""
 ) => {
   var focusId = "powerName" + spiritBoard.innatePowers.powers.length;

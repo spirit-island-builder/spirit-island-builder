@@ -268,6 +268,7 @@
         ],
       },
     };
+    reloadPreview();
   }
 
   function showInstructions() {

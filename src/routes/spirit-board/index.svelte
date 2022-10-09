@@ -5,15 +5,17 @@
   import Growth from "./growth.svelte";
   import PresenceTracks from "./presence-tracks.svelte";
   import InnatePowers from "./innate-powers.svelte";
-  import CustomIcons from "./custom-icons.svelte";
-  import * as Lib from "./lib";
+  import CustomIcons from "../custom-icons.svelte";
+  import * as Lib from "../lib";
 
   export let spiritBoard;
+  export let customIcons;
   export let isShowingInstructions;
   export let instructionsSource;
 
   function clearAllFields() {
     spiritBoard = {
+      demoBoardWasLoaded: true,
       previewBoard: {
         isVisible: false,
       },
@@ -27,6 +29,7 @@
         energyBannerScale: "",
         playsBannerPath: "",
         playsBannerScale: "",
+        artistCredit: "",
       },
       specialRules: {
         isVisible: false,
@@ -87,10 +90,10 @@
           {
             id: 0,
             name: "",
-            speed: "",
+            speed: "fast",
             range: "",
             target: "",
-            targetTitle: "",
+            targetTitle: "target land",
             effect: "",
             note: "",
             noteShow: true,
@@ -114,6 +117,7 @@
         ],
       },
     };
+    reloadPreview();
   }
 
   function showOrHideSection(event) {
@@ -126,7 +130,7 @@
     spiritBoard.growth.isVisible = false;
     spiritBoard.presenceTrack.isVisible = false;
     spiritBoard.innatePowers.isVisible = false;
-    spiritBoard.customIcons.isVisible = false;
+    customIcons.isVisible = false;
   }
 
   let frame;
@@ -170,6 +174,15 @@
       board.setAttribute("spirit-image", spiritBoard.nameAndArt.artPath);
       board.setAttribute("spirit-image-scale", spiritBoard.nameAndArt.artScale);
       board.setAttribute("spirit-border", spiritBoard.nameAndArt.bannerPath);
+
+      const artistName = frame.contentDocument.querySelectorAll("artist-name")[0];
+      if (artistName) {
+        artistName.textContent = spiritBoard.nameAndArt.artistCredit;
+      }else{
+        var newArtistElement = frame.contentDocument.createElement("artist-name");
+        newArtistElement.textContent = spiritBoard.nameAndArt.artistCredit;
+        board.appendChild(newArtistElement);
+      }
 
       //Set Special Rules
       const specialRulesContainer =
@@ -303,7 +316,7 @@
         spiritHead.appendChild(spiritStyle);
       }
       var customIconText = "";
-      spiritBoard.customIcons.icons.forEach((icon) => {
+      customIcons.icons.forEach((icon) => {
         customIconText +=
           "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
       });
@@ -344,6 +357,11 @@
       spiritBoard.nameAndArt.artPath = board.getAttribute("spirit-image");
       spiritBoard.nameAndArt.artScale = board.getAttribute("spirit-image-scale");
       spiritBoard.nameAndArt.bannerPath = board.getAttribute("spirit-border");
+
+      const artistName = htmlElement.querySelectorAll("artist-name")[0];
+      if (artistName) {
+        spiritBoard.nameAndArt.artistCredit = artistName.textContent.trim();
+      }
 
       //Load Special Rules
       const specialRulesNames = htmlElement.querySelectorAll("special-rules-subtitle");
@@ -439,13 +457,13 @@
 
       //Load Custom Icons
       const spiritStyle = htmlElement.querySelectorAll("style")[0];
-      spiritBoard.customIcons.icons.splice(0, spiritBoard.customIcons.icons.length); //Clear the Form first
+      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
       if (spiritStyle) {
         const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
         let iconList = spiritStyle.textContent.match(regExp);
         if (iconList) {
           iconList.forEach((customIcon) => {
-            spiritBoard = Lib.addCustomIcon(spiritBoard, customIcon);
+            customIcons = Lib.addCustomIcon(customIcons, customIcon);
             console.log(customIcon);
           });
         }
@@ -603,7 +621,7 @@
   <div class="column pt-0">
     <NameAndArt bind:spiritBoard {showOrHideSection} />
     <SpecialRules bind:spiritBoard {showOrHideSection} />
-    <CustomIcons bind:spiritBoard {showOrHideSection} />
+    <CustomIcons bind:customIcons {showOrHideSection} />
   </div>
   <div class="column pt-0">
     <Growth bind:spiritBoard {showOrHideSection} />
