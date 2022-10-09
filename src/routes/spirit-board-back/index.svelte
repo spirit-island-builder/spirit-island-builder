@@ -2,8 +2,11 @@
   import { onMount } from "svelte";
   import NameArtLore from "./name-art-lore.svelte";
   import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";
+  import CustomIcons from "../custom-icons.svelte";
+  import * as Lib from "../lib";
 
   export let spiritBoardBack;
+  export let customIcons;
   export let isShowingInstructions;
   export let instructionsSource;
 
@@ -119,6 +122,20 @@
         spiritBoardBack.summary.utilityValue;
       summaryPowersHeader.setAttribute("values", summaryPowersValues);
       summaryPowersHeader.setAttribute("uses", spiritBoardBack.summary.usesTokens);
+
+      //Set Custom Icons
+      let spiritStyle = loreFrame.contentDocument.querySelectorAll("style")[0];
+      if (!spiritStyle) {
+        const spiritHead = loreFrame.contentDocument.querySelectorAll("head")[0];
+        spiritStyle = loreFrame.contentDocument.createElement("style");
+        spiritHead.appendChild(spiritStyle);
+      }
+      var customIconText = "";
+      customIcons.icons.forEach((icon) => {
+        customIconText +=
+          "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
+      });
+      spiritStyle.textContent = customIconText;
     }
   }
 
@@ -165,6 +182,20 @@
       spiritBoardBack.summary.defenseValue = summaryPowersSplit[3];
       spiritBoardBack.summary.utilityValue = summaryPowersSplit[4];
       spiritBoardBack.summary.usesTokens = summaryPowersHeader.getAttribute("uses");
+
+      //Custom Icons
+      const spiritStyle = htmlElement.querySelectorAll("style")[0];
+      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+      if (spiritStyle) {
+        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+        let iconList = spiritStyle.textContent.match(regExp);
+        if (iconList) {
+          iconList.forEach((customIcon) => {
+            customIcons = Lib.addCustomIcon(customIcons, customIcon);
+            console.log(customIcon);
+          });
+        }
+      }
     }
   }
 
@@ -321,6 +352,7 @@
 <div class="columns mt-0">
   <div class="column pt-0">
     <NameArtLore bind:spiritBoardBack {showOrHideSection} />
+    <CustomIcons bind:customIcons {showOrHideSection} />
   </div>
   <div class="column pt-0">
     <SetupPlaystyleComplexityPowers bind:spiritBoardBack {showOrHideSection} />
