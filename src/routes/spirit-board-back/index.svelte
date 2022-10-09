@@ -184,18 +184,20 @@
       spiritBoardBack.summary.usesTokens = summaryPowersHeader.getAttribute("uses");
 
       //Custom Icons
-      const spiritStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (spiritStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = spiritStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
+      if(spiritBoardBack.demoBoardWasLoaded){
+        const spiritStyle = htmlElement.querySelectorAll("style")[0];
+        customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+        if (spiritStyle) {
+          const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+          let iconList = spiritStyle.textContent.match(regExp);
+          if (iconList) {
+            iconList.forEach((customIcon) => {
+              customIcons = Lib.addCustomIcon(customIcons, customIcon);
+              console.log(customIcon);
+            });
+          }
         }
-      }
+      }else{console.log('SKIPPING ICON LOAD')}
     }
   }
 
