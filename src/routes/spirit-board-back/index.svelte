@@ -303,6 +303,7 @@
     };
     console.log("Reseting fields");
     console.log(spiritBoardBack);
+    reloadPreview();
   }
 
   function showInstructions() {

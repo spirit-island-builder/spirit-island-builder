@@ -330,6 +330,7 @@
         },
       ],
     };
+    reloadPreview();
   }
 
   function showInstructions() {
