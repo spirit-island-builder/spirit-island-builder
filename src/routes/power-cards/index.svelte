@@ -122,6 +122,7 @@
       });
 
       //Set Custom Icons
+      console.log('setting custom icons')      
       let cardsStyle = cardsFrame.contentDocument.querySelectorAll("style")[0];
       if (!cardsStyle) {
         const spiritHead = cardsFrame.contentDocument.querySelectorAll("head")[0];
@@ -134,6 +135,7 @@
           "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
       });
       cardsStyle.textContent = customIconText;
+      console.log('customIconText: ', customIconText);
     }
   }
 
@@ -153,18 +155,20 @@
       });
 
       //Custom Icons
+      if(powerCards.demoBoardWasLoaded){
       const cardsStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (cardsStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = cardsStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
+        customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+        if (cardsStyle) {
+          const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+          let iconList = cardsStyle.textContent.match(regExp);
+          if (iconList) {
+            iconList.forEach((customIcon) => {
+              customIcons = Lib.addCustomIcon(customIcons, customIcon);
+              console.log(customIcon);
+            });
+          }
         }
-      }
+      }else{console.log('SKIPPING ICON LOAD')}
     }
   }
 
