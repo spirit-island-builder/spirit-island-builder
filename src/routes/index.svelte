@@ -28,6 +28,7 @@
       energyBannerScale: "",
       playsBannerPath: "",
       playsBannerScale: "",
+      artistCredit: "",
     },
     specialRules: {
       isVisible: false,

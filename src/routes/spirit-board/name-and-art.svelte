@@ -248,4 +248,16 @@
         bind:value={spiritBoard.nameAndArt.playsBannerScale} />
     </div>
   </div>
+  <!-- Artist Credits -->
+  <div class="field">
+    <label class="label" for="spiritArtistCreditInput">Artist Credit(s)</label>
+    <div class="control">
+      <input
+        id="spiritArtistCreditInput"
+        class="input"
+        type="text"
+        placeholder="Artist credits appear in bottom left of Spirit Board"
+        bind:value={spiritBoard.nameAndArt.artistCredit} />
+    </div>
+  </div>
 {/if}
