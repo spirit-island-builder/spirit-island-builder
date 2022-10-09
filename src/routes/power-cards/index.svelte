@@ -1,8 +1,11 @@
 <script>
   import { onMount } from "svelte";
   import PowerCard from "./power-card.svelte";
+  import CustomIcons from "../custom-icons.svelte";
+  import * as Lib from "../lib";
 
   export let powerCards;
+  export let customIcons;
   export let isShowingInstructions;
   export let instructionsSource;
 
@@ -117,6 +120,20 @@
           newPowerCard.appendChild(newPowerCardThreshold);
         }
       });
+
+      //Set Custom Icons
+      let cardsStyle = cardsFrame.contentDocument.querySelectorAll("style")[0];
+      if (!cardsStyle) {
+        const spiritHead = cardsFrame.contentDocument.querySelectorAll("head")[0];
+        cardsStyle = cardsFrame.contentDocument.createElement("style");
+        spiritHead.appendChild(cardsStyle);
+      }
+      var customIconText = "";
+      customIcons.icons.forEach((icon) => {
+        customIconText +=
+          "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
+      });
+      cardsStyle.textContent = customIconText;
     }
   }
 
@@ -134,6 +151,20 @@
       powerCardsHTML.forEach((powerCardHTML) => {
         addPowerCard(powerCards, powerCardHTML);
       });
+
+      //Custom Icons
+      const cardsStyle = htmlElement.querySelectorAll("style")[0];
+      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+      if (cardsStyle) {
+        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+        let iconList = cardsStyle.textContent.match(regExp);
+        if (iconList) {
+          iconList.forEach((customIcon) => {
+            customIcons = Lib.addCustomIcon(customIcons, customIcon);
+            console.log(customIcon);
+          });
+        }
+      }
     }
   }
 
@@ -345,6 +376,7 @@
 <div class="columns mt-0">
   <div class="column pt-0">
     <PowerCard bind:powerCards {showOrHideSection} />
+    <CustomIcons bind:customIcons {showOrHideSection} />
   </div>
 </div>
 <article class="message is-small mb-1">

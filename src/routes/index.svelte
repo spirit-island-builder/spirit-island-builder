@@ -116,6 +116,17 @@
     },
   };
 
+  let customIcons = {
+    prop: "value",
+    isVisible: false,
+    icons: [
+      {
+        id: 0,
+        name: "",
+      },
+    ],
+  };
+
   let spiritBoardBack = {
     prop: "value",
     demoBoardWasLoaded: false,
@@ -333,11 +344,11 @@
 {/if}
 <div class="container">
   {#if currentPage === "spiritBoardFront"}
-    <SpiritBoard bind:spiritBoard bind:isShowingInstructions bind:instructionsSource />
+    <SpiritBoard bind:spiritBoard bind:isShowingInstructions bind:instructionsSource bind:customIcons />
   {:else if currentPage === "spiritBoardBack"}
-    <SpiritBoardBack bind:spiritBoardBack bind:isShowingInstructions bind:instructionsSource />
+    <SpiritBoardBack bind:spiritBoardBack bind:isShowingInstructions bind:instructionsSource bind:customIcons />
   {:else if currentPage === "powerCards"}
-    <PowerCards bind:powerCards bind:isShowingInstructions bind:instructionsSource />
+    <PowerCards bind:powerCards bind:isShowingInstructions bind:instructionsSource bind:customIcons />
   {:else if currentPage === "aspect"}
     <Aspect bind:aspect bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "adversary"}

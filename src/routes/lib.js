@@ -148,10 +148,10 @@ export const addLevel = (
   return spiritBoard;
 };
 
-export const addCustomIcon = (spiritBoard, iconName = "") => {
-  spiritBoard.customIcons.icons.push({
-    id: spiritBoard.customIcons.icons.length,
+export const addCustomIcon = (customIcons, iconName = "") => {
+  customIcons.icons.push({
+    id: customIcons.icons.length,
     name: iconName,
   });
-  return spiritBoard;
+  return customIcons;
 };

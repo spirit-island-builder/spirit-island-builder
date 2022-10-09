@@ -1,18 +1,24 @@
 <script>
-  import * as Lib from "./lib";
-  export let spiritBoard;
-  export let showOrHideSection;
+  export let customIcons;
 
   function addCustomIcon() {
-    spiritBoard = Lib.addCustomIcon(spiritBoard);
-  }
+    customIcons.icons.push({
+      id: customIcons.icons.length,
+      name: "",
+    });
+    customIcons = customIcons;
+  };
 
   function removeCustomIcon(iconIndex) {
-    spiritBoard.customIcons.icons.splice(iconIndex, 1);
-    spiritBoard.customIcons.icons.forEach((icon, i) => {
+    customIcons.icons.splice(iconIndex, 1);
+    customIcons.icons.forEach((icon, i) => {
       icon.id = i;
     });
-    spiritBoard = spiritBoard;
+    customIcons = customIcons;
+  };
+
+  function showOrHideSection() {
+    customIcons.isVisible = !customIcons.isVisible;
   }
 
   function handleImageFileInput(event, i) {
@@ -21,7 +27,7 @@
       const fileReader = new FileReader();
       fileReader.onload = (data) => {
         const imageURL = data.target.result;
-        spiritBoard.customIcons.icons[i].name = imageURL;
+        customIcons.icons[i].name = imageURL;
       };
 
       // This reads the file and then triggers the onload function above once it finishes
@@ -36,14 +42,14 @@
   id="customIcons">
   Custom Icons (optional)
   <span on:click={showOrHideSection}>
-    {#if spiritBoard.customIcons.isVisible}
+    {#if customIcons.isVisible}
       <ion-icon id="customIcons" on:click={showOrHideSection} name="chevron-down-outline" />
     {:else}
       <ion-icon id="customIcons" on:click={showOrHideSection} name="chevron-up-outline" />
     {/if}
   </span>
 </h6>
-{#if spiritBoard.customIcons.isVisible}
+{#if customIcons.isVisible}
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       Custom Icons allow you to load and then use icons that aren't pre-built into the template. <a
@@ -51,7 +57,7 @@
         target="_blank">Instructions</a>
     </div>
   </article>
-  {#each spiritBoard.customIcons.icons as icon, i (icon.id)}
+  {#each customIcons.icons as icon, i (icon.id)}
     <div class="field has-addons is-horizontal is-justify-content-left mb-0">
       <div class="field-label is-small">
         <label class="label" for={`customIconInput${i}`}>Use: &lbrace;custom{i + 1}&rbrace;</label>
@@ -84,7 +90,10 @@
         >Remove</button>
     </div>
   {/each}
-  <button
-    class="button is-primary is-light is-small row-button is-pulled-right mt-1"
-    on:click={addCustomIcon}>Add Custom Icon</button>
+  <div class="field is-flex is-justify-content-right">
+    <div class="control">
+      <button class="button is-primary is-light is-small" tabindex="1" on:click={addCustomIcon}
+        >Add Custom Icon</button>
+    </div>
+  </div>
 {/if}
