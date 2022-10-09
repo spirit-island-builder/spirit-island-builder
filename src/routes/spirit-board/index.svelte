@@ -14,6 +14,7 @@
 
   function clearAllFields() {
     spiritBoard = {
+      demoBoardWasLoaded: true,
       previewBoard: {
         isVisible: false,
       },
@@ -27,6 +28,7 @@
         energyBannerScale: "",
         playsBannerPath: "",
         playsBannerScale: "",
+        artistCredit: "",
       },
       specialRules: {
         isVisible: false,
@@ -87,10 +89,10 @@
           {
             id: 0,
             name: "",
-            speed: "",
+            speed: "fast",
             range: "",
             target: "",
-            targetTitle: "",
+            targetTitle: "target land",
             effect: "",
             note: "",
             noteShow: true,
@@ -170,6 +172,15 @@
       board.setAttribute("spirit-image", spiritBoard.nameAndArt.artPath);
       board.setAttribute("spirit-image-scale", spiritBoard.nameAndArt.artScale);
       board.setAttribute("spirit-border", spiritBoard.nameAndArt.bannerPath);
+
+      const artistName = frame.contentDocument.querySelectorAll("artist-name")[0];
+      if (artistName) {
+        artistName.textContent = spiritBoard.nameAndArt.artistCredit;
+      }else{
+        var newArtistElement = frame.contentDocument.createElement("artist-name");
+        newArtistElement.textContent = spiritBoard.nameAndArt.artistCredit;
+        board.appendChild(newArtistElement);
+      }
 
       //Set Special Rules
       const specialRulesContainer =
@@ -344,6 +355,11 @@
       spiritBoard.nameAndArt.artPath = board.getAttribute("spirit-image");
       spiritBoard.nameAndArt.artScale = board.getAttribute("spirit-image-scale");
       spiritBoard.nameAndArt.bannerPath = board.getAttribute("spirit-border");
+
+      const artistName = htmlElement.querySelectorAll("artist-name")[0];
+      if (artistName) {
+        spiritBoard.nameAndArt.artistCredit = artistName.textContent.trim();
+      }
 
       //Load Special Rules
       const specialRulesNames = htmlElement.querySelectorAll("special-rules-subtitle");
