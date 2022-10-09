@@ -117,6 +117,7 @@
         ],
       },
     };
+    reloadPreview();
   }
 
   function showOrHideSection(event) {

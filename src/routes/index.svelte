@@ -289,8 +289,8 @@
   let instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions";
 </script>
 
-<h1 class="title is-1">The Spirit Island Builder</h1>
-<nav class="navbar">
+<h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
+<nav class="navbar ml-5">
   <div class="navbar-brand">
     <button
       class={`button navbar-item ${
