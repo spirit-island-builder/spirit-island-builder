@@ -75,6 +75,10 @@
     { label: "wetland", value: "wetland" },
     { label: "wetland-presence", value: "wetland-presence" },
     { label: "wilds", value: "wilds" },
+    { label: "custom1", value: "custom1" },
+    { label: "custom2", value: "custom2" },
+    { label: "custom3", value: "custom3" },
+    { label: "custom4", value: "custom4" },
   ];
 </script>
 

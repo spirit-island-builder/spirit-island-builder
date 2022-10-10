@@ -1,7 +1,7 @@
 <script>
   export let spiritBoard;
   export let showOrHideSection;
-  import * as Lib from "./lib";
+  import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
 
   function setSpeedTextbox(powerSpeed, innatePower) {
