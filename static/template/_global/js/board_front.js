@@ -164,12 +164,13 @@ function parseGrowthTags(){
       costSplit=cost.split(",");
 	  if (isNaN(costSplit[0])){
 		// Non-numerical cost (ie. forget a card)
-		if (costSplit[1]){
-			// Non-numerical cost with text
-			newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description>"+costSplit[1]+"</growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
-		}else{
-			// non-numerical cost by itself
-		}
+      if (costSplit[1]){
+        // Non-numerical cost with text
+        newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description>"+costSplit[1]+"</growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
+      }else{
+        // non-numerical cost by itself
+        newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
+      }
 	  } else if (costSplit[1]){
         // User wants to use a non-energy scaling cost
 		if(debug){console.log("Cost with custom icon")};

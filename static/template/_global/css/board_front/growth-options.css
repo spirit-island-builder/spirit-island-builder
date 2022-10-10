@@ -28,6 +28,7 @@ growth sub-section-title {
   text-transform: uppercase;
   font-size: 18pt;
   font-weight: bold;
+  z-index:0;
 }
 
 growth .tint{
