@@ -1,5 +1,7 @@
 <script>
   import { onMount } from "svelte";
+  // import { toPng } from "html-to-image";
+  // import html2canvas from "html2canvas";
   import NameAndArt from "./name-and-art.svelte";
   import SpecialRules from "./special-rules.svelte";
   import Growth from "./growth.svelte";
@@ -155,6 +157,68 @@
           console.log("Tab previously loaded. Reloaded from form.");
           reloadPreview();
         }, 600);
+      }
+    }
+  }
+
+  async function makeAndSaveBoardImage() {
+    if (frame) {
+      // console.log('frame: ', frame.contentDocument.querySelectorAll("board")[0]);
+      // toPng(frame.contentDocument.querySelectorAll("board")[0]).then(function (dataUrl) {
+      //   console.log('dataUrl: ', dataUrl);
+      //   const saveLink = document.createElement("a"); // Or maybe get it from the current document
+      //   saveLink.href = dataUrl;
+      //   saveLink.download = "image.png";
+
+      //   document.body.appendChild(saveLink); // Or append it whereever you want
+      //   saveLink.click() //can add an id to be specific if multiple anchor tag, and use #id
+      // });
+      // console.log('frame.contentDocument.querySelectorAll("body")[0]: ', frame.contentDocument.querySelectorAll("body")[0]);
+      // html2canvas(frame.contentDocument.querySelectorAll("body")[0],
+      // {
+      //  allowTaint : true,
+      //   // profile: true,
+      //   width: 900,
+      //   height: 900,
+      //   useCORS: true,
+      //   foreignObjectRendering: true,
+      // }).then(function (canvas) {
+      //   document.body.appendChild(canvas);
+      //   console.log('canvas: ', canvas.toDataURL());
+      // });
+
+      // html2canvas(document.getElementById('tesst'),
+      // {
+      //  allowTaint : true,
+      //   profile: true,
+      //   useCORS: true
+      // }).then(function (canvas) {
+      //   document.body.appendChild(canvas);
+      // });
+
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      const video = document.createElement("video");
+
+      try {
+        const captureStream = await navigator.mediaDevices.getDisplayMedia();
+        video.srcObject = captureStream;
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const screenshot = canvas.toDataURL("image/png");
+        const saveLink = document.createElement("a");
+        saveLink.href = screenshot;
+        saveLink.download = "image.png";
+        console.log(frame);
+        document.body.appendChild(canvas);
+        // captureStream.getTracks().forEach((track) => track.stop());
+
+        document.body.appendChild(saveLink);
+        saveLink.click();
+        // window.location.href = frame;
+      } catch (err) {
+        console.error("Error: " + err);
       }
     }
   }
@@ -522,7 +586,9 @@
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
         readHTML(dummyEl);
-        setTimeout(() => {reloadPreview();}, 100);
+        setTimeout(() => {
+          reloadPreview();
+        }, 100);
       };
 
       // This reads the file and then triggers the onload function above once it finishes
@@ -592,11 +658,12 @@
       </span>
     </label>
   </div>
-  <button class="button is-success  mr-1" on:click={exportSpiritBoard}
+  <button id="tesst" class="button is-success  mr-1" on:click={exportSpiritBoard}
     >Download Spirit Board file</button>
   <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Spirit Board</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+  <button class="button is-danger mr-1" on:click={makeAndSaveBoardImage}>Save Image</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
 <div class="columns mt-0">
