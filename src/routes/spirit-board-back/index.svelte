@@ -265,7 +265,7 @@
   function clearAllFields() {
     spiritBoardBack = {
       prop: "value",
-      demoBoardWasLoaded: false,
+      demoBoardWasLoaded: true,
       previewBoard: {
         isVisible: false,
       },

@@ -5,11 +5,17 @@ window.onload = (event) =>{
 };
 
 function startMain(){
-    var html = document.querySelectorAll('board')[0].innerHTML;
-    document.querySelectorAll('board')[0].innerHTML = replaceIcon(html);
-    adjustComplexityValue();
-    createPowerProperties();
-	
+  var html = document.querySelectorAll('board')[0].innerHTML;
+  document.querySelectorAll('board')[0].innerHTML = replaceIcon(html);
+  adjustComplexityValue();
+  createPowerProperties();
+  var setup = document.querySelectorAll('setup-description')[0]
+  addHTMLLineBreaks(setup)
+	var playstyle = document.querySelectorAll('play-style-description')[0]
+  addHTMLLineBreaks(playstyle)
+  var lore = document.querySelectorAll('lore-description')[0]
+  addHTMLLineBreaks(lore)
+
 	setTimeout(() => {resize()}, 200);
 }
 
@@ -35,6 +41,22 @@ function resize() {
 	}
 	// dynamicSizing(document.querySelectorAll('setup-description')[0]);
 	// dynamicSizing(document.querySelectorAll('play-style-description')[0]);
+}
+
+function addHTMLLineBreaks(htmlElement){
+  ruleLines = htmlElement.innerHTML.split("\n")
+  rulesHTML = "";
+  for (let i = 0; i < ruleLines.length; i++) {
+    if(ruleLines[i] && ruleLines[i].trim().length){
+    rulesHTML += "<div>"+ruleLines[i]+"</div>"
+    }else if(i>0 && i<ruleLines.length-1){
+      rulesHTML += "<br>"
+      // allows user's line breaks to show up on the card
+    }
+  }
+  htmlElement.innerHTML = rulesHTML
+
+  return htmlElement
 }
 
 function adjustComplexityValue() {
