@@ -306,6 +306,7 @@ presence-req icon.jungle-wetland, presence-req icon.jungle-sand, presence-req ic
 presence-req icon.mountain-sand, presence-req icon.mountain-wetland, presence-req icon.mountain-jungle,
 presence-req icon.wetland-jungle, presence-req icon.sand-jungle, presence-req icon.wetland-sand, 
 presence-req icon.sand-mountain, presence-req icon.wetland-mountain, presence-req icon.jungle-mountain,
+presence-req icon.ocean,
 presence-req icon.town, presence-req icon.city, presence-req icon.blight, 
 presence-req icon.dahan, presence-req icon.invaders,
 presence-req icon.presence, presence-req icon.wilds, presence-req icon.beasts,
@@ -320,6 +321,13 @@ presence-req icon.custom1, presence-req icon.custom2, presence-req icon.custom3 
     margin-right: auto;
 	margin-top: 0px;
 	margin-bottom: -10px;
+}
+
+presence-req icon.ocean{
+	height: 46px;
+  width: 65px;
+  margin-top: -3px;
+  margin-left: 10px;
 }
 
 presence-req icon.town, presence-req icon.disease {

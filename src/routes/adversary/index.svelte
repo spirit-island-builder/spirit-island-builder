@@ -201,6 +201,7 @@
   }
 
   function clearAllFields() {
+
     if(window.confirm('Are you sure? This permanently clears all fields in Adversary.')){
       adversary = {
         prop: "value",
