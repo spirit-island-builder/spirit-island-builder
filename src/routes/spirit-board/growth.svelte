@@ -228,7 +228,7 @@
                       id={`set${i}group${j}cost`}
                       class="input  is-small"
                       type="text"
-                      placeholder="Cost (Energy)"
+                      placeholder='Try "2" or "3,dahan"'
                       bind:value={growthGroup.cost} />
                   </div>
                   <button
@@ -244,7 +244,7 @@
                       id={`set${i}group${j}tint`}
                       class="input  is-small"
                       type="text"
-                      placeholder="Tint Color"
+                      placeholder='Try "blue"'
                       bind:value={growthGroup.tint} />
                   </div>
                   <button
