@@ -263,47 +263,47 @@
   }
 
   function clearAllFields() {
-    spiritBoardBack = {
-      prop: "value",
-      demoBoardWasLoaded: false,
-      previewBoard: {
-        isVisible: false,
-      },
-      nameArtLore: {
-        isVisible: false,
-      },
-      setupPlaystyleComplexityPowers: {
-        isVisible: false,
-      },
-      nameImage: {
-        name: "",
-        img: "",
-      },
-      lore: {
-        loreText: "",
-      },
-      setup: {
-        setupText: "",
-      },
-      playStyle: {
-        playStyleText: "",
-      },
-      complexity: {
-        complexityValue: "",
-        complexityDescriptor: "",
-      },
-      summary: {
-        offenseValue: "",
-        controlValue: "",
-        fearValue: "",
-        defenseValue: "",
-        utilityValue: "",
-        usesTokens: "",
-      },
-    };
-    console.log("Reseting fields");
-    console.log(spiritBoardBack);
-    reloadPreview();
+    if(window.confirm('Are you sure? This permanently clears all fields in Spirit Board Lore Side.')){
+      spiritBoardBack = {
+        prop: "value",
+        demoBoardWasLoaded: true,
+        previewBoard: {
+          isVisible: false,
+        },
+        nameArtLore: {
+          isVisible: false,
+        },
+        setupPlaystyleComplexityPowers: {
+          isVisible: false,
+        },
+        nameImage: {
+          name: "",
+          img: "",
+        },
+        lore: {
+          loreText: "",
+        },
+        setup: {
+          setupText: "",
+        },
+        playStyle: {
+          playStyleText: "",
+        },
+        complexity: {
+          complexityValue: "",
+          complexityDescriptor: "",
+        },
+        summary: {
+          offenseValue: "",
+          controlValue: "",
+          fearValue: "",
+          defenseValue: "",
+          utilityValue: "",
+          usesTokens: "",
+        },
+      };
+      reloadPreview();
+    }
   }
 
   function showInstructions() {

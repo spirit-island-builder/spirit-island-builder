@@ -14,110 +14,113 @@
   export let instructionsSource;
 
   function clearAllFields() {
-    spiritBoard = {
-      demoBoardWasLoaded: true,
-      previewBoard: {
-        isVisible: false,
-      },
-      nameAndArt: {
-        isVisible: false,
-        name: "",
-        artPath: "",
-        artScale: "",
-        bannerPath: "",
-        energyBannerPath: "",
-        energyBannerScale: "",
-        playsBannerPath: "",
-        playsBannerScale: "",
-        artistCredit: "",
-      },
-      specialRules: {
-        isVisible: false,
-        rules: [
-          {
-            id: 0,
-            name: "",
-            effect: "",
-          },
-        ],
-      },
-      growth: {
-        isVisible: false,
-        useGrowthSets: false,
-        directions: "",
-        growthSets: [
-          {
-            id: 0,
-            choiceText: "",
-            growthGroups: [
-              {
-                id: 0,
-                cost: "",
-                tint: "",
-                hasCost: false,
-                hasTint: false,
-                growthActions: [
-                  {
-                    id: 0,
-                    effect: "",
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      presenceTrack: {
-        isVisible: false,
-        useMiddleNodes: false,
-        name: "",
-        energyNodes: [
-          {
-            id: 0,
-            effect: "",
-          },
-        ],
-        playsNodes: [
-          {
-            id: 0,
-            effect: "",
-          },
-        ],
-      },
-      innatePowers: {
-        isVisible: false,
-        powers: [
-          {
-            id: 0,
-            name: "",
-            speed: "fast",
-            range: "",
-            target: "",
-            targetTitle: "target land",
-            effect: "",
-            note: "",
-            noteShow: true,
-            levels: [
-              {
-                id: 0,
-                threshold: "",
-                effect: "",
-              },
-            ],
-          },
-        ],
-      },
-      customIcons: {
-        isVisible: false,
-        icons: [
-          {
-            id: 0,
-            name: "",
-          },
-        ],
-      },
-    };
-    reloadPreview();
+    if(window.confirm('Are you sure? This permanently clears all fields in Spirit Board Play Side.')){
+      spiritBoard = {
+        demoBoardWasLoaded: true,
+        previewBoard: {
+          isVisible: false,
+        },
+        nameAndArt: {
+          isVisible: false,
+          name: "",
+          artPath: "",
+          artScale: "",
+          bannerPath: "",
+          energyBannerPath: "",
+          energyBannerScale: "",
+          playsBannerPath: "",
+          playsBannerScale: "",
+          artistCredit: "",
+        },
+        specialRules: {
+          isVisible: false,
+          rules: [
+            {
+              id: 0,
+              name: "",
+              effect: "",
+            },
+          ],
+        },
+        growth: {
+          isVisible: false,
+          useGrowthSets: false,
+          directions: "",
+          growthSets: [
+            {
+              id: 0,
+              choiceText: "",
+              growthGroups: [
+                {
+                  id: 0,
+                  cost: "",
+                  tint: "",
+                  hasCost: false,
+                  hasTint: false,
+                  growthActions: [
+                    {
+                      id: 0,
+                      effect: "",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        presenceTrack: {
+          isVisible: false,
+          useMiddleNodes: false,
+          name: "",
+          energyNodes: [
+            {
+              id: 0,
+              effect: "",
+            },
+          ],
+          playsNodes: [
+            {
+              id: 0,
+              effect: "",
+            },
+          ],
+        },
+        innatePowers: {
+          isVisible: false,
+          powers: [
+            {
+              id: 0,
+              name: "",
+              speed: "fast",
+              range: "",
+              target: "",
+              targetTitle: "target land",
+              effect: "",
+              note: "",
+              noteShow: true,
+              levels: [
+                {
+                  id: 0,
+                  threshold: "",
+                  effect: "",
+                },
+              ],
+            },
+          ],
+        },
+        customIcons: {
+          isVisible: false,
+          icons: [
+            {
+              id: 0,
+              name: "",
+            },
+          ],
+        },
+      };
+      reloadPreview();
+    }
+
   }
 
   function showOrHideSection(event) {
