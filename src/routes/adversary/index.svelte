@@ -203,6 +203,7 @@
   function clearAllFields() {
     adversary = {
       prop: "value",
+      demoBoardWasLoaded: true,
       previewBoard: {
         isVisible: false,
       },
