@@ -90,6 +90,18 @@ presence-node icon.star {
   height: 80px;
 }
 
+presence-node icon.gain-power-card, presence-node icon.forget-power-card,
+presence-node icon.discard-cards, presence-node icon.discard-2-cards,
+presence-node icon.discard-card, presence-node icon.discard-1-card,
+presence-node icon.gain-card-play, presence-node icon.gain-card-play-blank {
+  height: 90px;
+  width: 90px;
+}
+
+presence-node icon.gain-card-pay-2 {
+	height: 130px;
+	width: 92px;
+}
 
 presence-node card-icon {
   background-image: url('../../images/board/CardPlayBlank.png');

@@ -117,6 +117,17 @@ growth-cell icon {
   height: 90px;
 }
 
+growth-cell icon.reclaim-all,growth-cell icon.reclaim-one,growth-cell icon.reclaim-none, 
+growth-cell icon.reclaim-custom, growth-cell icon.reclaim-half {
+  display: block;
+  height: 90px;
+  width:70px;
+}
+
+growth-cell icon.reclaim-half {
+  width:82px;
+}
+
 presence-node.growth {
   margin-top: -39px;
 }
@@ -401,7 +412,11 @@ growth-cell icon.isolate {
   margin-bottom: 7px;
 }
 
-growth-cell icon.gain-power-card, growth-cell icon.forget-power-card {
+growth-cell icon.gain-power-card, growth-cell icon.forget-power-card,
+growth-cell icon.discard-cards, growth-cell icon.discard-2-cards,
+growth-cell icon.discard-card, growth-cell icon.discard-1-card,
+growth-cell icon.gain-card-play, growth-cell icon.gain-card-play-blank,
+growth-cell icon.days-never-were {
   margin-bottom: 7px;
   height: 90px;
   width: 90px;
@@ -429,8 +444,21 @@ growth-cell icon.reclaim-none {
 }
 
 growth-cell icon.ignore-range {
-  margin-left: 20px;
-  margin-bottom: 7px;
+  margin-bottom: 10px;
+  margin-top: -10px;
+  height: 90px;
+  width: 100px;
+}
+
+growth-cell icon.gain-1-time, growth-cell icon.gain-2-time {
+    height: 100px;
+    width: 100px;
+    margin-top: -17px;
+}
+
+growth-cell icon.make-fast {
+  margin-bottom: 3px;
+  width:90px;
 }
 
 custom-icon {
@@ -546,10 +574,6 @@ growth-cell icon.push-arrow {
   height: 17px;
   margin-left: 45px;
   margin-top: -34px;
-}
-
-growth-cell icon.gain-card-play {
-  margin-bottom: 7px;
 }
 
 growth-cell icon.push>icon {

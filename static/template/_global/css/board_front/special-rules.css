@@ -39,6 +39,11 @@ special-rule {
   padding-bottom: 6px;
 }
 
+special-rule icon {
+  width:30px;
+  height:30px;
+}
+
 special-rule icon.fire, special-rule icon.earth, special-rule icon.plant,
 special-rule icon.animal, special-rule icon.air, special-rule icon.water,
 special-rule icon.any, special-rule icon.moon, special-rule icon.sun{
@@ -155,9 +160,10 @@ special-rule icon.sacred-site{
 }
 
 special-rule icon.city{
-    width:40px;
-    height:30px;
-	margin-top: 0px;
+  width:40px;
+  height:30px;
+  margin-top: 0px;
+  margin-bottom:-7px;
 }
 
 special-rule dahan {
