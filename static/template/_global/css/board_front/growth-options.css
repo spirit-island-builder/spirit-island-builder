@@ -1049,6 +1049,7 @@ gain-per-element icon{
   margin-bottom: 0px;
 }
 
+gain-per-element icon,
 gain-per-element icon.fire,
 gain-per-element icon.any,
 gain-per-element icon.water,
@@ -1181,6 +1182,7 @@ gain-per-fear ring-icon{
     justify-content: center;
 }
 
+gain-per-fear icon,
 gain-per-fear icon.fire,
 gain-per-fear icon.any,
 gain-per-fear icon.water,
