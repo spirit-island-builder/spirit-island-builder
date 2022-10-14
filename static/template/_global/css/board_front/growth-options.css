@@ -237,7 +237,7 @@ custom-presence-or icon.backslash {
     margin-top: -1px;
 }
 
-custom-presence-or icon, custom-presence-or icon.wilds, custom-presence-or icon.disease, custom-presence-or icon.strife, custom-presence-or icon.beasts{
+custom-presence-or icon {
     margin-bottom: -5px;
     width: 33px;
     height: 34px;
@@ -304,21 +304,14 @@ custom-presence-req icon.dahan {
 }
 
 presence-req icon.presence {
-    display: block;
+    display: inline-block;
     height: 45px;
     width: 45px;
     margin-top: 7px;
     margin-bottom: -5px;
-/*     margin-left: 43px !important; */
 }
 
-presence-req icon.town, presence-req icon.city, presence-req icon.blight, 
-presence-req icon.dahan, presence-req icon.invaders,
-presence-req icon.presence, presence-req icon.wilds, presence-req icon.beasts,
-presence-req icon.disease, presence-req icon.strife, presence-req icon.explorer, 
-presence-req icon.badlands, presence-req icon.fear, presence-req icon.range-plus-1,
-presence-req icon.escalation,
-presence-req icon.custom1, presence-req icon.custom2, presence-req icon.custom3 {
+presence-req icon {
 	height: 37px;
 	width: 37px;
   margin-left: auto;
