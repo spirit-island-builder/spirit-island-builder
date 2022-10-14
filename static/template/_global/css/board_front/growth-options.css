@@ -312,12 +312,6 @@ presence-req icon.presence {
 /*     margin-left: 43px !important; */
 }
 
-presence-req icon.sand, presence-req icon.wetland, presence-req icon.jungle, presence-req icon.mountain, 
-presence-req icon.jungle-wetland, presence-req icon.jungle-sand, presence-req icon.sand-wetland, 
-presence-req icon.mountain-sand, presence-req icon.mountain-wetland, presence-req icon.mountain-jungle,
-presence-req icon.wetland-jungle, presence-req icon.sand-jungle, presence-req icon.wetland-sand, 
-presence-req icon.sand-mountain, presence-req icon.wetland-mountain, presence-req icon.jungle-mountain,
-presence-req icon.ocean,
 presence-req icon.town, presence-req icon.city, presence-req icon.blight, 
 presence-req icon.dahan, presence-req icon.invaders,
 presence-req icon.presence, presence-req icon.wilds, presence-req icon.beasts,
@@ -325,20 +319,12 @@ presence-req icon.disease, presence-req icon.strife, presence-req icon.explorer,
 presence-req icon.badlands, presence-req icon.fear, presence-req icon.range-plus-1,
 presence-req icon.escalation,
 presence-req icon.custom1, presence-req icon.custom2, presence-req icon.custom3 {
-	display: inline-block;
 	height: 37px;
 	width: 37px;
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 	margin-top: 0px;
 	margin-bottom: -10px;
-}
-
-presence-req icon.ocean{
-	height: 46px;
-  width: 65px;
-  margin-top: -3px;
-  margin-left: 10px;
 }
 
 presence-req icon.town, presence-req icon.disease {
@@ -362,24 +348,25 @@ presence-req icon.invaders {
 	margin-top: 22px;
 }
 
-presence-req icon.sand, presence-req icon.wetland, presence-req icon.jungle, presence-req icon.mountain, 
-presence-req icon.jungle-wetland, presence-req icon.jungle-sand, presence-req icon.sand-wetland, 
-presence-req icon.mountain-sand, presence-req icon.mountain-wetland, presence-req icon.mountain-jungle,
-presence-req icon.wetland-jungle, presence-req icon.sand-jungle, presence-req icon.wetland-sand, 
-presence-req icon.sand-mountain, presence-req icon.wetland-mountain, presence-req icon.jungle-mountain {
-    width: 37px;
-    margin-top: -1px;
-    margin-bottom: -12px;
-    margin-right: -3px;
-    margin-left: -3px;
+presence-req icon.terrain-single, presence-req icon.terrain-double {
+  height: 37px;
+  width: 37px;
+  margin-top: -1px;
+  margin-bottom: -12px;
+  margin-right: -3px;
+  margin-left: -3px;
 }
 
-presence-req icon.jungle-wetland, presence-req icon.jungle-sand, presence-req icon.sand-wetland, 
-presence-req icon.mountain-sand, presence-req icon.mountain-wetland, presence-req icon.mountain-jungle,
-presence-req icon.wetland-jungle, presence-req icon.sand-jungle, presence-req icon.wetland-sand, 
-presence-req icon.sand-mountain, presence-req icon.wetland-mountain, presence-req icon.jungle-mountain {
+presence-req icon.terrain-double {
 	width: 80px;
 	transform: translateY(0px) translateX(6px);
+}
+
+presence-req icon.ocean{
+	height: 46px;
+  width: 65px;
+  margin-top: -3px;
+  margin-left: -3px;
 }
 
 presence-req {
@@ -576,20 +563,38 @@ growth-cell icon.push-arrow {
   margin-top: -34px;
 }
 
+growth-cell icon.push {
+  height: 62px;
+  width:100px;
+}
+
 growth-cell icon.push>icon {
   left: -15px;
   top: 17px;
-}
-
-growth-cell icon.push-from>icon {
-	left: -10px;
-    top: 30px;
 }
 
 growth-cell icon.push-from>.from {
     left: -20px;
     top: 11px;
     width: 35px;
+}
+
+growth-cell icon.push-from {
+  display: inline-block;
+  height: 62px;
+  width:100px;
+  margin-bottom: 7px;
+}
+
+growth-cell icon.push-from > icon {
+    position: relative;
+    text-align: unset;
+    left: -10px;
+    top: 30px;
+    width: 30px;
+    height: 25px;
+    margin: 0px;
+    padding: 0px;
 }
 
 growth-cell icon.gather>icon {
@@ -600,6 +605,25 @@ growth-cell icon.gather>icon {
 growth-cell icon.gather-into>icon {
   left: 79px;
   top: 23px;
+}
+
+growth-cell icon.gather-into {
+  display: inline-block;
+  height: 62px;
+  width:100px;
+  margin-right: 20px;
+  margin-bottom: 7px;
+}
+
+growth-cell icon.gather-into > icon {
+    position: relative;
+    text-align: unset;
+    left: 79px;
+    top: 23px;
+    width: 30px;
+    height: 25px;
+    margin: 0px;
+    padding: 0px;
 }
 
 growth-cell icon.gather-into>.into {
@@ -804,10 +828,7 @@ move {
   text-align: center;
 }
 
-icon.push {
-  height: 62px;
-  width:100px;
-}
+
 
 push {
   background-image: url('../../images/board/half_arrow_push.png');

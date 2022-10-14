@@ -68,18 +68,14 @@ special-rule icon.presence {
     margin-right: -2px;
 }
 
-special-rule icon.sand, special-rule icon.wetland, special-rule icon.jungle, special-rule icon.mountain, 
-special-rule icon.jungle-wetland, special-rule icon.jungle-sand, special-rule icon.sand-wetland {
+special-rule icon.terrain-single {
     width:38px;
     height:35px;
 	margin-bottom: -10px;
 }
 
-special-rule icon.jungle-wetland, special-rule icon.jungle-sand, special-rule icon.sand-wetland, 
-special-rule icon.mountain-sand, special-rule icon.mountain-wetland, special-rule icon.mountain-jungle,
-special-rule icon.wetland-jungle, special-rule icon.sand-jungle, special-rule icon.wetland-sand, 
-special-rule icon.sand-mountain, special-rule icon.wetland-mountain, special-rule icon.jungle-mountain,
-special-rule icon.ocean {
+special-rule icon.ocean,
+special-rule icon.terrain-double {
     width:62px;
     height:40px;
 	margin-bottom: -10px;

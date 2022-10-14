@@ -117,17 +117,26 @@ icon.markerminus { background-image: url('../images/board/NewIcons/Element Marke
 icon.markerquestion { background-image: url('../images/customIcons/marker-question.png'); }
 
 icon.sand { background-image: url('../images/board/sand.png'); }
+icon.sands { background-image: url('../images/board/sand.png'); }
 icon.mountain { background-image: url('../images/board/mountain.png'); }
 icon.jungle { background-image: url('../images/board/jungle.png'); }
 icon.wetland { background-image: url('../images/board/wetland.png'); }
+icon.wetlands { background-image: url('../images/board/wetland.png'); }
 icon.ocean { background-image: url('../images/board/ocean.png'); }
 
 icon.jungle-wetland, icon.wetland-jungle { background-image: url('../images/board/junglewetland.png'); }
+icon.jungle-wetlands, icon.wetlands-jungle { background-image: url('../images/board/junglewetland.png'); }
 icon.jungle-sand, icon.sand-jungle { background-image: url('../images/board/junglesand.png'); }
+icon.jungle-sands, icon.sands-jungle { background-image: url('../images/board/junglesand.png'); }
 icon.sand-wetland, icon.wetland-sand { background-image: url('../images/board/sandwetland.png'); }
+icon.sand-wetlands, icon.wetlands-sand { background-image: url('../images/board/sandwetland.png'); }
+icon.sands-wetland, icon.wetland-sands { background-image: url('../images/board/sandwetland.png'); }
+icon.sands-wetlands, icon.wetlands-sands { background-image: url('../images/board/sandwetland.png'); }
 icon.mountain-jungle, icon.jungle-mountain { background-image: url('../images/board/mountainjungle.png'); }
 icon.mountain-wetland, icon.wetland-mountain { background-image: url('../images/board/mountainwetland.png'); }
+icon.mountain-wetlands, icon.wetlands-mountain { background-image: url('../images/board/mountainwetland.png'); }
 icon.mountain-sand, icon.sand-mountain { background-image: url('../images/board/mountainsand.png'); }
+icon.mountain-sands, icon.sands-mountain { background-image: url('../images/board/mountainsand.png'); }
 
 icon.sands-presence { background-image: url('../images/board/sands-presence.png'); }
 icon.sand-presence { background-image: url('../images/board/sands-presence.png'); }
@@ -179,6 +188,12 @@ icon.ignore-range {background-image: url('../images/board/NewIcons/Range Ignore.
 icon.gain-1-time { background-image: url('../images/board/NewIcons/Time Gain 1.png')}
 icon.gain-2-time { background-image: url('../images/board/NewIcons/Time Gain 2.png')}
 icon.days-never-were { background-image: url('../images/board/NewIcons/Card Days That Never Were Gain 1.png');}
+
+icon.push-from {background-image: url('../images/board/NewIcons/Land Push.png');}
+icon.push {background-image: url('../images/board/NewIcons/Land Push.png');}
+icon.gather {background-image: url('../images/board/NewIcons/Land Gather.png');}
+icon.gather-into {background-image: url('../images/board/NewIcons/Land Gather Into.png');}
+icon.your-land {background-image: url('../images/board/NewIcons/Land.png');}
 
 range{
   width:50px;

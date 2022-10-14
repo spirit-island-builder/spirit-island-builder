@@ -28,10 +28,6 @@ icon.invaders {
   background-image: url('../../images/board/invaders.png');
 }
 
-icon.beasts{
-  background-image: url('../../images/board/beast.png');
-}
-
 icon.move-presence {
   background-image: url('../../images/board/75px_presence.png');
   display: block;
@@ -140,7 +136,6 @@ icon.energy-blank{
 }
 
 icon.your-land {
-  background-image: url('../../images/board/NewIcons/Land.png');
   background-repeat: no-repeat;
   background-size: contain;
   display: inline-block;
@@ -176,7 +171,6 @@ icon.misc-plus {
 }
 
 icon.gather {
-  background-image: url('../../images/board/NewIcons/Land Gather.png');
   display: inline-block;
   height: 62px;
   width:100px;
@@ -195,28 +189,7 @@ icon.gather > icon {
     padding: 0px;
 }
 
-icon.gather-into {
-  background-image: url('../../images/board/NewIcons/Land Gather Into.png');
-  display: inline-block;
-  height: 62px;
-  width:100px;
-  margin-right: 20px;
-  margin-bottom: 7px;
-}
-
-icon.gather-into > icon {
-    position: relative;
-    text-align: unset;
-    top: 17px;
-    left: 24px;
-    width: 30px;
-    height: 25px;
-    margin: 0px;
-    padding: 0px;
-}
-
 icon.push {
-  background-image: url('../../images/board/NewIcons/Land Push.png');
   display: inline-block;
   height: 68px;
   width: 110px;
@@ -263,25 +236,6 @@ div.push > icon.backslash {
 
 icon.push > icon.backslash {
     width: 10px;
-}
-
-icon.push-from {
-  background-image: url('../../images/board/NewIcons/Land Push.png');
-  display: inline-block;
-  height: 62px;
-  width:100px;
-  margin-bottom: 7px;
-}
-
-icon.push-from > icon {
-    position: relative;
-    text-align: unset;
-    top: 17px;
-    left: 24px;
-    width: 30px;
-    height: 25px;
-    margin: 0px;
-    padding: 0px;
 }
 
 
