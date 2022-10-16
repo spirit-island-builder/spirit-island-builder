@@ -205,6 +205,11 @@
     elementList.forEach((element) => {
       elementsForm[element] = true;
     });
+
+    //Check for Null targeting
+    var targetTitleCheck = powerCardHTML.getAttribute("target-title")
+    if(!targetTitleCheck){targetTitleCheck="target land"}
+
     //Add the card
     powerCards.cards.push({
       id: powerCards.cards.length,
@@ -215,7 +220,7 @@
       powerElements: elementsForm,
       range: powerCardHTML.getAttribute("range"),
       target: powerCardHTML.getAttribute("target"),
-      targetTitle: powerCardHTML.getAttribute("target-title"),
+      targetTitle: targetTitleCheck,
       cardArtist: powerCardHTML.getAttribute("artist-name"),
       rules: rulesPush,
       hasThreshold: hasThresholdPush,
@@ -291,46 +296,48 @@
   }
 
   function clearAllFields() {
-    powerCards = {
-      prop: "value",
-      spiritName: "",
-      previewBoard: {
-        isVisible: false,
-      },
-      form: {
-        isVisible: false,
-      },
-      cards: [
-        {
-          id: 0,
-          isVisible: true,
-          name: "",
-          speed: "",
-          cost: "",
-          cardImage: "",
-          cardArtist: "",
-          powerElements: {
-            air: false,
-            sun: false,
-            moon: false,
-            water: false,
-            fire: false,
-            earth: false,
-            plant: false,
-            animal: false,
-          },
-          range: "",
-          target: "",
-          targetTitle: "",
-          rules: "",
-          hasThreshold: "",
-          threshold: "",
-          thresholdCondition: "",
-          thresholdText: "",
+    if(window.confirm('Are you sure? This permanently clears all fields in Power Cards.')){
+      powerCards = {
+        prop: "value",
+        spiritName: "",
+        previewBoard: {
+          isVisible: false,
         },
-      ],
-    };
-    reloadPreview();
+        form: {
+          isVisible: false,
+        },
+        cards: [
+          {
+            id: 0,
+            isVisible: true,
+            name: "",
+            speed: "",
+            cost: "",
+            cardImage: "",
+            cardArtist: "",
+            powerElements: {
+              air: false,
+              sun: false,
+              moon: false,
+              water: false,
+              fire: false,
+              earth: false,
+              plant: false,
+              animal: false,
+            },
+            range: "",
+            target: "",
+            targetTitle: "",
+            rules: "",
+            hasThreshold: "",
+            threshold: "",
+            thresholdCondition: "",
+            thresholdText: "",
+          },
+        ],
+      };
+      reloadPreview();
+    }
   }
 
   function showInstructions() {

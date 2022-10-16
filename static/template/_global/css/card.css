@@ -218,12 +218,16 @@ info{
   background-size: 100%;
 }
 
-info-title-speed, info-speed{ width:107px; }
-info-title-range, info-range{ width:118px; }
+info-title-speed, info-speed{ width:109px; }
+info-title-range, info-range{ 
+  width:120px; 
+  padding-right:1px;
+}
 info-title-target, info-target{ flex-grow:1; }
 
 info-range{
   font-size:26px;
+  font-family: 'Antropos';
   line-height:24px;
   display:flex;
   align-items: center;
@@ -236,6 +240,11 @@ info-target{
   justify-content: center;
   text-align:center;
   font-size:20px;
+}
+
+info-target icon{
+  margin-top:0px;
+  margin-bottom:0px;
 }
 
 rules-container{

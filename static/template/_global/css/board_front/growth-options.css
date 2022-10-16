@@ -117,6 +117,17 @@ growth-cell icon {
   height: 90px;
 }
 
+growth-cell icon.reclaim-all,growth-cell icon.reclaim-one,growth-cell icon.reclaim-none, 
+growth-cell icon.reclaim-custom, growth-cell icon.reclaim-half {
+  display: block;
+  height: 90px;
+  width:70px;
+}
+
+growth-cell icon.reclaim-half {
+  width:82px;
+}
+
 presence-node.growth {
   margin-top: -39px;
 }
@@ -226,7 +237,7 @@ custom-presence-or icon.backslash {
     margin-top: -1px;
 }
 
-custom-presence-or icon, custom-presence-or icon.wilds, custom-presence-or icon.disease, custom-presence-or icon.strife, custom-presence-or icon.beasts{
+custom-presence-or icon {
     margin-bottom: -5px;
     width: 33px;
     height: 34px;
@@ -293,31 +304,18 @@ custom-presence-req icon.dahan {
 }
 
 presence-req icon.presence {
-    display: block;
+    display: inline-block;
     height: 45px;
     width: 45px;
     margin-top: 7px;
     margin-bottom: -5px;
-/*     margin-left: 43px !important; */
 }
 
-presence-req icon.sand, presence-req icon.wetland, presence-req icon.jungle, presence-req icon.mountain, 
-presence-req icon.jungle-wetland, presence-req icon.jungle-sand, presence-req icon.sand-wetland, 
-presence-req icon.mountain-sand, presence-req icon.mountain-wetland, presence-req icon.mountain-jungle,
-presence-req icon.wetland-jungle, presence-req icon.sand-jungle, presence-req icon.wetland-sand, 
-presence-req icon.sand-mountain, presence-req icon.wetland-mountain, presence-req icon.jungle-mountain,
-presence-req icon.town, presence-req icon.city, presence-req icon.blight, 
-presence-req icon.dahan, presence-req icon.invaders,
-presence-req icon.presence, presence-req icon.wilds, presence-req icon.beasts,
-presence-req icon.disease, presence-req icon.strife, presence-req icon.explorer, 
-presence-req icon.badlands, presence-req icon.fear, presence-req icon.range-plus-1,
-presence-req icon.escalation,
-presence-req icon.custom1, presence-req icon.custom2, presence-req icon.custom3 {
-	display: inline-block;
+presence-req icon {
 	height: 37px;
 	width: 37px;
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 	margin-top: 0px;
 	margin-bottom: -10px;
 }
@@ -343,24 +341,25 @@ presence-req icon.invaders {
 	margin-top: 22px;
 }
 
-presence-req icon.sand, presence-req icon.wetland, presence-req icon.jungle, presence-req icon.mountain, 
-presence-req icon.jungle-wetland, presence-req icon.jungle-sand, presence-req icon.sand-wetland, 
-presence-req icon.mountain-sand, presence-req icon.mountain-wetland, presence-req icon.mountain-jungle,
-presence-req icon.wetland-jungle, presence-req icon.sand-jungle, presence-req icon.wetland-sand, 
-presence-req icon.sand-mountain, presence-req icon.wetland-mountain, presence-req icon.jungle-mountain {
-    width: 37px;
-    margin-top: -1px;
-    margin-bottom: -12px;
-    margin-right: -3px;
-    margin-left: -3px;
+presence-req icon.terrain-single, presence-req icon.terrain-double {
+  height: 37px;
+  width: 37px;
+  margin-top: -1px;
+  margin-bottom: -12px;
+  margin-right: -3px;
+  margin-left: -3px;
 }
 
-presence-req icon.jungle-wetland, presence-req icon.jungle-sand, presence-req icon.sand-wetland, 
-presence-req icon.mountain-sand, presence-req icon.mountain-wetland, presence-req icon.mountain-jungle,
-presence-req icon.wetland-jungle, presence-req icon.sand-jungle, presence-req icon.wetland-sand, 
-presence-req icon.sand-mountain, presence-req icon.wetland-mountain, presence-req icon.jungle-mountain {
+presence-req icon.terrain-double {
 	width: 80px;
 	transform: translateY(0px) translateX(6px);
+}
+
+presence-req icon.ocean{
+	height: 46px;
+  width: 65px;
+  margin-top: -3px;
+  margin-left: -3px;
 }
 
 presence-req {
@@ -393,7 +392,11 @@ growth-cell icon.isolate {
   margin-bottom: 7px;
 }
 
-growth-cell icon.gain-power-card, growth-cell icon.forget-power-card {
+growth-cell icon.gain-power-card, growth-cell icon.forget-power-card,
+growth-cell icon.discard-cards, growth-cell icon.discard-2-cards,
+growth-cell icon.discard-card, growth-cell icon.discard-1-card,
+growth-cell icon.gain-card-play, growth-cell icon.gain-card-play-blank,
+growth-cell icon.days-never-were {
   margin-bottom: 7px;
   height: 90px;
   width: 90px;
@@ -421,8 +424,21 @@ growth-cell icon.reclaim-none {
 }
 
 growth-cell icon.ignore-range {
-  margin-left: 20px;
-  margin-bottom: 7px;
+  margin-bottom: 10px;
+  margin-top: -10px;
+  height: 90px;
+  width: 100px;
+}
+
+growth-cell icon.gain-1-time, growth-cell icon.gain-2-time {
+    height: 100px;
+    width: 100px;
+    margin-top: -17px;
+}
+
+growth-cell icon.make-fast {
+  margin-bottom: 3px;
+  width:90px;
 }
 
 custom-icon {
@@ -540,8 +556,9 @@ growth-cell icon.push-arrow {
   margin-top: -34px;
 }
 
-growth-cell icon.gain-card-play {
-  margin-bottom: 7px;
+growth-cell icon.push {
+  height: 62px;
+  width:100px;
 }
 
 growth-cell icon.push>icon {
@@ -549,15 +566,28 @@ growth-cell icon.push>icon {
   top: 17px;
 }
 
-growth-cell icon.push-from>icon {
-	left: -10px;
-    top: 30px;
-}
-
 growth-cell icon.push-from>.from {
     left: -20px;
     top: 11px;
     width: 35px;
+}
+
+growth-cell icon.push-from {
+  display: inline-block;
+  height: 62px;
+  width:100px;
+  margin-bottom: 7px;
+}
+
+growth-cell icon.push-from > icon {
+    position: relative;
+    text-align: unset;
+    left: -10px;
+    top: 30px;
+    width: 30px;
+    height: 25px;
+    margin: 0px;
+    padding: 0px;
 }
 
 growth-cell icon.gather>icon {
@@ -568,6 +598,25 @@ growth-cell icon.gather>icon {
 growth-cell icon.gather-into>icon {
   left: 79px;
   top: 23px;
+}
+
+growth-cell icon.gather-into {
+  display: inline-block;
+  height: 62px;
+  width:100px;
+  margin-right: 20px;
+  margin-bottom: 7px;
+}
+
+growth-cell icon.gather-into > icon {
+    position: relative;
+    text-align: unset;
+    left: 79px;
+    top: 23px;
+    width: 30px;
+    height: 25px;
+    margin: 0px;
+    padding: 0px;
 }
 
 growth-cell icon.gather-into>.into {
@@ -772,10 +821,7 @@ move {
   text-align: center;
 }
 
-icon.push {
-  height: 62px;
-  width:100px;
-}
+
 
 push {
   background-image: url('../../images/board/half_arrow_push.png');
@@ -1003,6 +1049,7 @@ gain-per-element icon{
   margin-bottom: 0px;
 }
 
+gain-per-element icon,
 gain-per-element icon.fire,
 gain-per-element icon.any,
 gain-per-element icon.water,
@@ -1135,6 +1182,7 @@ gain-per-fear ring-icon{
     justify-content: center;
 }
 
+gain-per-fear icon,
 gain-per-fear icon.fire,
 gain-per-fear icon.any,
 gain-per-fear icon.water,

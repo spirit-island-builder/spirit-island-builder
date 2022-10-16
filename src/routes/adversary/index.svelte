@@ -201,74 +201,78 @@
   }
 
   function clearAllFields() {
-    adversary = {
-      prop: "value",
-      previewBoard: {
-        isVisible: false,
-      },
-      nameLossEscalation: {
-        isVisible: false,
-        name: "",
-        baseDif: "",
-        flagImg: "",
-        lossCondition: {
-          name: "",
-          effect: "",
+
+    if(window.confirm('Are you sure? This permanently clears all fields in Adversary.')){
+      adversary = {
+        prop: "value",
+        demoBoardWasLoaded: true,
+        previewBoard: {
+          isVisible: false,
         },
-        escalation: {
+        nameLossEscalation: {
+          isVisible: false,
           name: "",
-          effect: "",
+          baseDif: "",
+          flagImg: "",
+          lossCondition: {
+            name: "",
+            effect: "",
+          },
+          escalation: {
+            name: "",
+            effect: "",
+          },
         },
-      },
-      levelSummary: {
-        isVisible: false,
-        levels: [
-          {
-            id: 1,
-            name: "",
-            difficulty: "",
-            fearCards: "",
-            effect: "",
-          },
-          {
-            id: 2,
-            name: "",
-            difficulty: "",
-            fearCards: "",
-            effect: "",
-          },
-          {
-            id: 3,
-            name: "",
-            difficulty: "",
-            fearCards: "",
-            effect: "",
-          },
-          {
-            id: 4,
-            name: "",
-            difficulty: "",
-            fearCards: "",
-            effect: "",
-          },
-          {
-            id: 5,
-            name: "",
-            difficulty: "",
-            fearCards: "",
-            effect: "",
-          },
-          {
-            id: 6,
-            name: "",
-            difficulty: "",
-            fearCards: "",
-            effect: "",
-          },
-        ],
-      },
-    };
-    reloadPreview();
+        levelSummary: {
+          isVisible: false,
+          levels: [
+            {
+              id: 1,
+              name: "",
+              difficulty: "",
+              fearCards: "",
+              effect: "",
+            },
+            {
+              id: 2,
+              name: "",
+              difficulty: "",
+              fearCards: "",
+              effect: "",
+            },
+            {
+              id: 3,
+              name: "",
+              difficulty: "",
+              fearCards: "",
+              effect: "",
+            },
+            {
+              id: 4,
+              name: "",
+              difficulty: "",
+              fearCards: "",
+              effect: "",
+            },
+            {
+              id: 5,
+              name: "",
+              difficulty: "",
+              fearCards: "",
+              effect: "",
+            },
+            {
+              id: 6,
+              name: "",
+              difficulty: "",
+              fearCards: "",
+              effect: "",
+            },
+          ],
+        },
+      };
+      reloadPreview();
+    }
   }
 
   function showInstructions() {
