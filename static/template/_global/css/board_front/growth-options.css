@@ -295,12 +295,10 @@ custom-presence-req icon.range-4 {
 }
 
 custom-presence-req icon.dahan {
-    display: block;
-    height: 45px;
-    width: 45px;
-    margin-top: 7px;
-    margin-bottom: -5px;
-    margin-left: 43px;
+    height: 37px;
+    width: 37px;
+    margin-top: 0px;
+    margin-bottom: -9px;
 }
 
 presence-req icon.presence {
