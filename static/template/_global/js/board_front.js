@@ -265,37 +265,46 @@ function parseGrowthTags(){
 				// Only growth items with options are handled here.
 				case 'reclaim': {
 					const matches = regExp.exec(classPieces[j])
-					let reclaimIcon = growthItem+"-all";
-					let reclaimText = IconName(growthItem+"-all");
+					let reclaimIcon = "{reclaim-all}";
+					let reclaimText = IconName('reclaim'+"-all");
 					if (matches){
 						let reclaimOptions = matches[1].split(",");
 						let reclaimType = reclaimOptions[0];
-						let reclaimCustomText = reclaimOptions[1];
+						let reclaimModifiersOrText = reclaimOptions[1];
 						switch(reclaimType)
 						{
 							case 'all':
+								if(reclaimModifiersOrText){
+									reclaimIcon = "<icon class='reclaim-"+reclaimType+"'>"+"<icon class='reclaim-element "+reclaimModifiersOrText+"'></icon></icon>"
+									reclaimText = 'Reclaim All Cards with '+Capitalise(reclaimModifiersOrText)
+								}
 								break;
 							case 'one':
-								reclaimIcon = growthItem+"-"+reclaimType
-								reclaimText = IconName(growthItem+"-"+reclaimType)
+								if(reclaimModifiersOrText){
+									reclaimIcon = "<icon class='reclaim-"+reclaimType+"'>"+"<icon class='reclaim-element "+reclaimModifiersOrText+"'></icon></icon>"
+									reclaimText = 'Reclaim One Card with '+Capitalise(reclaimModifiersOrText)
+								}else{
+									reclaimIcon = "{reclaim-"+reclaimType+"}"
+									reclaimText = IconName('reclaim-'+reclaimType)
+								}
 								break;
 							case 'none':
-								reclaimIcon = growthItem+"-"+reclaimType
-								reclaimText = IconName(growthItem+"-"+reclaimType)
+								reclaimIcon = "{reclaim-"+reclaimType+"}"
+								reclaimText = IconName('reclaim-'+reclaimType)
 								break;
 							case 'half':
-								reclaimIcon = growthItem+"-"+reclaimType
-								reclaimText = IconName(growthItem+"-"+reclaimType)
+								reclaimIcon = "{reclaim-"+reclaimType+"}"
+								reclaimText = IconName('reclaim-'+reclaimType)
 								break;
 							case 'custom':
-								reclaimIcon = growthItem+"-"+reclaimType
-								reclaimText = "Reclaim " + reclaimCustomText
+								reclaimIcon = "{reclaim-"+reclaimType+"}"
+								reclaimText = "Reclaim " + reclaimModifiersOrText
 								break;
 							default:
 								reclaimText = "TEXT NOT RECOGNIZED - use 'all','one',or 'custom'";
 						}
 					}
-					growthIcons = "{"+reclaimIcon+"}"
+					growthIcons = reclaimIcon
 					growthText = reclaimText
 					break;
 				}

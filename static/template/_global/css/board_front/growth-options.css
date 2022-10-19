@@ -128,6 +128,13 @@ growth-cell icon.reclaim-half {
   width:82px;
 }
 
+growth-cell icon.reclaim-element {
+    position: relative;
+    left: 28px;
+    top: -28px;
+    width: 36px;
+}
+
 presence-node.growth {
   margin-top: -39px;
 }
