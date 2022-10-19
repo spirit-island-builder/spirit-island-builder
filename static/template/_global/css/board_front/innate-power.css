@@ -285,8 +285,11 @@ div.description {
 }
 
 .description icon.explorer {
-    height: 30px;
-	margin-bottom: -6px;
+  height: 30px;
+  margin-bottom: -6px;
+  width: 20px;
+  margin-left: -5px;
+  margin-right: -5px;
 }
 
 .description icon.badlands,
@@ -383,9 +386,10 @@ note icon.sacred-site{
 }
 
 note icon.destroyed-presence{
-    background-image: url(../../images/board/NewIcons/50px_Presence_Destroy.png);
-	width:30px;
-	margin-bottom: -1px;
+  width:30px;
+  margin-bottom: -1px;
+  margin-left: -2px;
+  margin-right: -2px;
 }
 
 level {
@@ -419,6 +423,21 @@ info-range icon {
   height: 32px;
 }
 
+innate-info-range icon.sand, innate-info-range icon.sands { background-image: url('../../images/board/sands-presence.png'); }
+innate-info-range icon.wetland, innate-info-range icon.wetlands { background-image: url('../../images/board/wetland-presence.png'); }
+innate-info-range icon.mountain { background-image: url('../../images/board/mountain-presence.png'); }
+innate-info-range icon.jungle { background-image: url('../../images/board/jungle-presence.png'); }
+
+innate-info-target icon.terrain-single {
+  width: 45px;
+  height: 45px;
+}
+
+innate-info-target icon.terrain-double {
+  width: 78px;
+  height: 45px;
+}
+
 info-target icon {
   width: 70px;
   height: 32px;
@@ -448,8 +467,10 @@ innate-info icon.sacred-site {
   margin-right: 10px;
 }
 
-innate-info icon.sands-presence, innate-info icon.wetland-presence, 
-innate-info icon.jungle-presence, innate-info icon.mountain-presence {
+innate-info-range icon.sands-presence, innate-info-range icon.sands, innate-info-range icon.sand,
+innate-info-range icon.wetland-presence, innate-info-range icon.wetland, innate-info-range icon.wetlands,
+innate-info-range icon.jungle-presence, innate-info-range icon.jungle,
+innate-info-range icon.mountain-presence, innate-info-range icon.mountain {
   width: 50px;
   height: 50px;
   margin-top: 4px;

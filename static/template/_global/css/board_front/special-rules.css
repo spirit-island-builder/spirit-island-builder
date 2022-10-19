@@ -39,6 +39,11 @@ special-rule {
   padding-bottom: 6px;
 }
 
+special-rule icon {
+  width:30px;
+  height:30px;
+}
+
 special-rule icon.fire, special-rule icon.earth, special-rule icon.plant,
 special-rule icon.animal, special-rule icon.air, special-rule icon.water,
 special-rule icon.any, special-rule icon.moon, special-rule icon.sun{
@@ -63,18 +68,14 @@ special-rule icon.presence {
     margin-right: -2px;
 }
 
-special-rule icon.sand, special-rule icon.wetland, special-rule icon.jungle, special-rule icon.mountain, 
-special-rule icon.jungle-wetland, special-rule icon.jungle-sand, special-rule icon.sand-wetland {
+special-rule icon.terrain-single {
     width:38px;
     height:35px;
 	margin-bottom: -10px;
 }
 
-special-rule icon.jungle-wetland, special-rule icon.jungle-sand, special-rule icon.sand-wetland, 
-special-rule icon.mountain-sand, special-rule icon.mountain-wetland, special-rule icon.mountain-jungle,
-special-rule icon.wetland-jungle, special-rule icon.sand-jungle, special-rule icon.wetland-sand, 
-special-rule icon.sand-mountain, special-rule icon.wetland-mountain, special-rule icon.jungle-mountain,
-special-rule icon.ocean {
+special-rule icon.ocean,
+special-rule icon.terrain-double {
     width:62px;
     height:40px;
 	margin-bottom: -10px;
@@ -155,9 +156,10 @@ special-rule icon.sacred-site{
 }
 
 special-rule icon.city{
-    width:40px;
-    height:30px;
-	margin-top: 0px;
+  width:40px;
+  height:30px;
+  margin-top: 0px;
+  margin-bottom:-7px;
 }
 
 special-rule dahan {

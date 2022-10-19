@@ -1,7 +1,7 @@
 <script>
   export let spiritBoard;
   export let showOrHideSection;
-  import * as Lib from "./lib";
+  import * as Lib from "../lib";
 
   function addEnergyTrackNode() {
     spiritBoard = Lib.addEnergyTrackNode(spiritBoard);

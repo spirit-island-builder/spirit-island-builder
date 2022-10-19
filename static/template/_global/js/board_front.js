@@ -164,12 +164,13 @@ function parseGrowthTags(){
       costSplit=cost.split(",");
 	  if (isNaN(costSplit[0])){
 		// Non-numerical cost (ie. forget a card)
-		if (costSplit[1]){
-			// Non-numerical cost with text
-			newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description>"+costSplit[1]+"</growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
-		}else{
-			// non-numerical cost by itself
-		}
+      if (costSplit[1]){
+        // Non-numerical cost with text
+        newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description>"+costSplit[1]+"</growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
+      }else{
+        // non-numerical cost by itself
+        newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
+      }
 	  } else if (costSplit[1]){
         // User wants to use a non-energy scaling cost
 		if(debug){console.log("Cost with custom icon")};
@@ -192,7 +193,7 @@ function parseGrowthTags(){
         ? `<growth-cell header="${headerIndex}">` + tint_text
         : "<growth-cell>" + tint_text
     const closeTag = '</growth-cell>'
-		const terrains = new Set(['wetland', 'mountain', 'sand', 'jungle'])
+		const terrains = new Set(['wetland', 'mountain', 'sand', 'sands', 'jungle'])
 		const elementNames = new Set(['sun', 'moon', 'fire', 'air', 'plant','water','earth','animal'])
 		
 		console.log("--Growth Group:--")
@@ -390,31 +391,30 @@ function parseGrowthTags(){
 					break;
 				}
 				case 'add-presence': {
-                    const matches = regExpOuterParentheses.exec(classPieces[j]);
+          const matches = regExpOuterParentheses.exec(classPieces[j]);
 
-                    let presenceOptions = matches[1].split(",");
-                    let presenceRange = presenceOptions[0];
-                    let presenceReqOpen = "<custom-presence>";
-                    let presenceReqClose = "</custom-presence>";
-                    let presenceReq = "none";
-                    let presenceText = "";
-                    let presenceIcon = "";
-                    let presenceTextLead = "";
-                    let presenceTextEnd = "";
+          let presenceOptions = matches[1].split(",");
+          let presenceRange = presenceOptions[0];
+          let presenceReqOpen = "<custom-presence>";
+          let presenceReqClose = "</custom-presence>";
+          let presenceReq = "none";
+          let presenceText = "";
+          let presenceIcon = "";
+          let presenceTextLead = "";
+          let presenceTextEnd = "";
 					let presenceRangeOpen = "<range-growth>";
 					let presenceRangeClose = "</range-growth>";
 
 					if (presenceRange=='any' && presenceOptions.length==1) {
-
 						presenceReqOpen = "<custom-presence-no-range>";
 						presenceReqClose = "</custom-presence-no-range>";
 						presenceRangeOpen = "<range-growth-any>";
 						presenceRangeClose = "</range-growth-any>";
 						presenceText = " to any Land"
 					} else if (presenceOptions.length > 1) {
-                        presenceReqOpen = "<custom-presence-req>";
-                        presenceReqClose = "</custom-presence-req>";
-                        presenceIcon += "<presence-req>";
+            presenceReqOpen = "<custom-presence-req>";
+            presenceReqClose = "</custom-presence-req>";
+            presenceIcon += "<presence-req>";
                         
 						if (presenceRange=='any'){
 							presenceReqOpen += "<presence-req></presence-req>"
@@ -422,9 +422,9 @@ function parseGrowthTags(){
 							presenceRangeClose = "</range-growth-any>";
 						}
 						
-                        if(presenceOptions[1]=='text'){
-                            // User wants a custom text presence addition
-                            presenceText += " "+presenceOptions[2];
+            if(presenceOptions[1]=='text'){
+              // User wants a custom text presence addition
+              presenceText += " "+presenceOptions[2];
 							if(presenceOptions[3]){
 								presenceIcon += "<display-custom>"
 								for(i = 3; i < presenceOptions.length; i++){
@@ -434,93 +434,101 @@ function parseGrowthTags(){
 							}else{
 								presenceIcon += "<span style='font-family: DK Snemand; font-size: 24pt; font-style: normal;'>!!!</span>";
 							}
-                        } else if (presenceOptions[1]=='token'){
-                            // User wants to add a token in growth
-                            switch (presenceOptions[3]){
-                                    case 'and':
-                                        //add presence and token
-                                        presenceIcon += "<span class='plus-text'>+ </span>";
-                                        presenceIcon += "{"+presenceOptions[2]+"}";
-                                        presenceText += " and a " + Capitalise(presenceOptions[2]);
-                                        break;
-                                    case 'or':
-                                        //add presence or token
-										presenceReqOpen = "<custom-presence-req><custom-presence-or>";
-										presenceReqClose = "</custom-presence-req>";
-                                        presenceIcon = "{backslash}{"+presenceOptions[2]+"}</custom-presence-or>";
-                                        presenceText += " or a " + Capitalise(presenceOptions[2]);
-                                    case 'instead':
-                                        //no option to add presence, just token
-                            }
-                        } else {
-                            // User wants an OR or an AND requirement
-                            let operator = "";
-                            if (presenceOptions.length > 4) {
-                                operator = "/";
-                            }else{
-                                operator = " "+presenceOptions.at(-1)+" ";
-                            }
-                            
-                            presenceText += " to ";
+            } else if (presenceOptions[1]=='token'){
+              // User wants to add a token in growth
+              switch (presenceOptions[3]){
+                case 'and':
+                    //add presence and token
+                    presenceIcon += "<span class='plus-text'>+ </span>";
+                    presenceIcon += "{"+presenceOptions[2]+"}";
+                    presenceText += " and a " + Capitalise(presenceOptions[2]);
+                    break;
+                case 'or':
+                  //add presence or token
+                  presenceReqOpen = "<custom-presence-req><custom-presence-or>";
+                  presenceReqClose = "</custom-presence-req>";
+                  presenceIcon = "{backslash}{"+presenceOptions[2]+"}</custom-presence-or>";
+                  presenceText += " or a " + Capitalise(presenceOptions[2]);
+                case 'instead':
+                    //no option to add presence, just token
+              }
+            } else {
+              // User wants an OR or an AND requirement
+              let operator = "";
+              if (presenceOptions.length > 4) {
+                  operator = "/";
+              }else{
+                  operator = " "+presenceOptions.at(-1)+" ";
+              }
+              
+              presenceText += " to ";
 							presenceText += presenceRange === 'any' ? 'any ' : '';
 							
-                            let flag = 0; // This flag is used to figure out if 'land with' has been said already. It comes up with add-presence(3,jungle,beasts,or)
+              let flag = 0; // This flag is used to figure out if 'land with' has been said already. It comes up with add-presence(3,jungle,beasts,or)
 							let and_flag = 0;
-                            for (var i = 1; i < presenceOptions.length; i++) {
-                                
-                                // Check to see if we've reached an 'or', which shouldn't be parsed
-                                presenceReq = presenceOptions[i];
-                                if (presenceReq === 'or' || presenceReq === 'and') {
-                                    break;
-                                }
-                                
-                                // Icons
-                                switch (presenceReq){
-                                    case 'inland':
-                                    case 'coastal':
-                                    case 'invaders':
-                                        presenceIcon += presenceOptions.length < 3
-                                            ? "<span class='non-icon'>"+presenceReq.toUpperCase()+"</span>" // This do-nothing Icon just creates 50px of height to make everything line up. Other ideas?
-                                            : "<span class='non-icon small'>"+presenceReq.toUpperCase()+"</span>"
-                                        break;
-                                    case 'no-own-presence':
-										presenceIcon += "{no-presence}";
-										break;
-                                    default:
-                                        presenceIcon += "{"+presenceReq+"}";
-                                }
+              for (var i = 1; i < presenceOptions.length; i++) {
+                
+                presenceReq = presenceOptions[i];
+                
+                // Check to see if we've reached an 'or' or 'and', which shouldn't be parsed
+                if (presenceReq.toLowerCase() === 'or' || presenceReq.toLowerCase() === 'and') {
+                    break;
+                }
+                
+                // Check for common typos
+                console.log(presenceReq +" b4")
+                presenceReq = presenceReq.includes('sands') ? presenceReq : presenceReq.replace('sand','sands');
+                presenceReq = presenceReq.replace('wetlands','wetland');
+                console.log(presenceReq)
+                
+                // Icons
+                switch (presenceReq){
+                  case 'inland':
+                  case 'coastal':
+                  case 'invaders':
+                    presenceIcon += presenceOptions.length < 3
+                      ? "<span class='non-icon'>"+presenceReq.toUpperCase()+"</span>" // This do-nothing Icon just creates 50px of height to make everything line up. Other ideas?
+                      : "<span class='non-icon small'>"+presenceReq.toUpperCase()+"</span>"
+                    break;
+                  case 'no-own-presence':
+                    presenceIcon += "{no-presence}";
+                    break;
+                  default:
+                    presenceIcon += "{"+presenceReq+"}";
+                }
 
-                                if (i < presenceOptions.length - 2) {
-                                    presenceIcon += operator;
-                                }
+                if (i < presenceOptions.length - 2) {
+                    presenceIcon += operator;
+                }
                                 
-                                // Text
-                                multiLandCheck = presenceReq.split("-");
-                                if (terrains.has(multiLandCheck[1])){
-                                    multiLandText = Capitalise(multiLandCheck[0]) + " or " + Capitalise(multiLandCheck[1]);
-                                    presenceReq = 'multiland';
-                                }
-                                
-                                presenceTextLead = "";
-                                presenceTextEnd = "";
-                                
-                                switch (presenceReq){
-                                    case 'sand':
-                                    case 'mountain':
-                                    case 'wetland':
-                                    case 'jungle':
-                                    case 'ocean':
-                                        presenceText += i != 1 ? operator : "";
-                                        presenceText += Capitalise(presenceReq);
-										and_flag = 1;
-                                        break;
-                                    case 'inland':
-                                    case 'coastal':
-                                        presenceText += i != 1 ? operator : "";
-                                        presenceText += Capitalise(presenceReq) + " land";
-                                        break;
-                                    case 'multiland':
-                                        presenceText += multiLandText;
+                // Text
+                multiLandCheck = presenceReq.split("-");
+                if (terrains.has(multiLandCheck[1])){
+                  multiLandText = Capitalise(multiLandCheck[0]) + " or " + Capitalise(multiLandCheck[1]);
+                  presenceReq = 'multiland';
+                }
+                
+                presenceTextLead = "";
+                presenceTextEnd = "";
+                
+                switch (presenceReq){
+                    case 'sand':
+                    case 'sands':
+                    case 'mountain':
+                    case 'wetland':
+                    case 'jungle':
+                    case 'ocean':
+                      presenceText += i != 1 ? operator : "";
+                      presenceText += Capitalise(presenceReq);
+                      and_flag = 1;
+                      break;
+                    case 'inland':
+                    case 'coastal':
+                        presenceText += i != 1 ? operator : "";
+                        presenceText += Capitalise(presenceReq) + " land";
+                        break;
+                    case 'multiland':
+                        presenceText += multiLandText;
 										and_flag = 1;
                                         break;
                                     case 'no-blight':
@@ -604,20 +612,27 @@ function parseGrowthTags(){
 									break;
 								case 'wetland':
 								case 'sand':
+                case 'sands':
 								case 'mountain':
 								case 'jungle':
 								case 'jungle-wetland':
 								case 'jungle-sand':
+                case 'jungle-sands':
 								case 'jungle-mountain':
 								case 'sand-wetland':
+                case 'sands-wetland':
 								case 'mountain-wetland':
 								case 'mountain-sand':
+                case 'mountain-sands':
 								case 'mountain-jungle':
 								case 'sand-jungle':
+                case 'sands-jungle':
 								case 'sand-mountain':
+                case 'sands-mountain':
 								case 'wetland-jugnle':
 								case 'wetland-mountain':
 								case 'wetland-sand':
+                case 'wetland-sands':
 								case 'ocean':
 									moveIcons += "<push-gather><icon class='" + moveCondition + " terrain-"+growthItem+"'>{"+growthItem+"-arrow}<icon class='" + moveTarget + " "+preposition+"'></icon></icon></push-gather>"
 									moveText += " " + Capitalise(moveCondition) + plural
@@ -1485,7 +1500,7 @@ function IconName(str, iconNum = 1){
 
 function Capitalise(str){
 	hyphenCheck = str.split("-");
-	const terrains = new Set(['wetland', 'mountain', 'sand', 'jungle'])
+	const terrains = new Set(['wetland', 'mountain', 'sand', 'sands', 'jungle'])
 	let return_str = hyphenCheck[0].charAt(0).toUpperCase() + hyphenCheck[0].slice(1);
 	for (var i = 1; i < hyphenCheck.length; i++) {
 		if (terrains.has(hyphenCheck[i])){

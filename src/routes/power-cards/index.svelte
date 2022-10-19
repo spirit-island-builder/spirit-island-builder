@@ -1,8 +1,11 @@
 <script>
   import { onMount } from "svelte";
   import PowerCard from "./power-card.svelte";
+  import CustomIcons from "../custom-icons.svelte";
+  import * as Lib from "../lib";
 
   export let powerCards;
+  export let customIcons;
   export let isShowingInstructions;
   export let instructionsSource;
 
@@ -117,6 +120,22 @@
           newPowerCard.appendChild(newPowerCardThreshold);
         }
       });
+
+      //Set Custom Icons
+      console.log('setting custom icons')      
+      let cardsStyle = cardsFrame.contentDocument.querySelectorAll("style")[0];
+      if (!cardsStyle) {
+        const spiritHead = cardsFrame.contentDocument.querySelectorAll("head")[0];
+        cardsStyle = cardsFrame.contentDocument.createElement("style");
+        spiritHead.appendChild(cardsStyle);
+      }
+      var customIconText = "";
+      customIcons.icons.forEach((icon) => {
+        customIconText +=
+          "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
+      });
+      cardsStyle.textContent = customIconText;
+      console.log('customIconText: ', customIconText);
     }
   }
 
@@ -134,6 +153,22 @@
       powerCardsHTML.forEach((powerCardHTML) => {
         addPowerCard(powerCards, powerCardHTML);
       });
+
+      //Custom Icons
+      if(powerCards.demoBoardWasLoaded){
+      const cardsStyle = htmlElement.querySelectorAll("style")[0];
+        customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+        if (cardsStyle) {
+          const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+          let iconList = cardsStyle.textContent.match(regExp);
+          if (iconList) {
+            iconList.forEach((customIcon) => {
+              customIcons = Lib.addCustomIcon(customIcons, customIcon);
+              console.log(customIcon);
+            });
+          }
+        }
+      }else{console.log('SKIPPING ICON LOAD')}
     }
   }
 
@@ -170,6 +205,11 @@
     elementList.forEach((element) => {
       elementsForm[element] = true;
     });
+
+    //Check for Null targeting
+    var targetTitleCheck = powerCardHTML.getAttribute("target-title")
+    if(!targetTitleCheck){targetTitleCheck="target land"}
+
     //Add the card
     powerCards.cards.push({
       id: powerCards.cards.length,
@@ -180,7 +220,7 @@
       powerElements: elementsForm,
       range: powerCardHTML.getAttribute("range"),
       target: powerCardHTML.getAttribute("target"),
-      targetTitle: powerCardHTML.getAttribute("target-title"),
+      targetTitle: targetTitleCheck,
       cardArtist: powerCardHTML.getAttribute("artist-name"),
       rules: rulesPush,
       hasThreshold: hasThresholdPush,
@@ -256,45 +296,48 @@
   }
 
   function clearAllFields() {
-    powerCards = {
-      prop: "value",
-      spiritName: "",
-      previewBoard: {
-        isVisible: false,
-      },
-      form: {
-        isVisible: false,
-      },
-      cards: [
-        {
-          id: 0,
-          isVisible: true,
-          name: "",
-          speed: "",
-          cost: "",
-          cardImage: "",
-          cardArtist: "",
-          powerElements: {
-            air: false,
-            sun: false,
-            moon: false,
-            water: false,
-            fire: false,
-            earth: false,
-            plant: false,
-            animal: false,
-          },
-          range: "",
-          target: "",
-          targetTitle: "",
-          rules: "",
-          hasThreshold: "",
-          threshold: "",
-          thresholdCondition: "",
-          thresholdText: "",
+    if(window.confirm('Are you sure? This permanently clears all fields in Power Cards.')){
+      powerCards = {
+        prop: "value",
+        spiritName: "",
+        previewBoard: {
+          isVisible: false,
         },
-      ],
-    };
+        form: {
+          isVisible: false,
+        },
+        cards: [
+          {
+            id: 0,
+            isVisible: true,
+            name: "",
+            speed: "",
+            cost: "",
+            cardImage: "",
+            cardArtist: "",
+            powerElements: {
+              air: false,
+              sun: false,
+              moon: false,
+              water: false,
+              fire: false,
+              earth: false,
+              plant: false,
+              animal: false,
+            },
+            range: "",
+            target: "",
+            targetTitle: "",
+            rules: "",
+            hasThreshold: "",
+            threshold: "",
+            thresholdCondition: "",
+            thresholdText: "",
+          },
+        ],
+      };
+      reloadPreview();
+    }
   }
 
   function showInstructions() {
@@ -345,6 +388,7 @@
 <div class="columns mt-0">
   <div class="column pt-0">
     <PowerCard bind:powerCards {showOrHideSection} />
+    <CustomIcons bind:customIcons {showOrHideSection} />
   </div>
 </div>
 <article class="message is-small mb-1">

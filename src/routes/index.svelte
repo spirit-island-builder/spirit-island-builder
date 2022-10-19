@@ -28,6 +28,7 @@
       energyBannerScale: "",
       playsBannerPath: "",
       playsBannerScale: "",
+      artistCredit: "",
     },
     specialRules: {
       isVisible: false,
@@ -114,6 +115,17 @@
         },
       ],
     },
+  };
+
+  let customIcons = {
+    prop: "value",
+    isVisible: false,
+    icons: [
+      {
+        id: 0,
+        name: "",
+      },
+    ],
   };
 
   let spiritBoardBack = {
@@ -277,8 +289,8 @@
   let instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions";
 </script>
 
-<h1 class="title is-1">The Spirit Island Builder</h1>
-<nav class="navbar">
+<h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
+<nav class="navbar ml-5">
   <div class="navbar-brand">
     <button
       class={`button navbar-item ${
@@ -333,11 +345,11 @@
 {/if}
 <div class="container">
   {#if currentPage === "spiritBoardFront"}
-    <SpiritBoard bind:spiritBoard bind:isShowingInstructions bind:instructionsSource />
+    <SpiritBoard bind:spiritBoard bind:isShowingInstructions bind:instructionsSource bind:customIcons />
   {:else if currentPage === "spiritBoardBack"}
-    <SpiritBoardBack bind:spiritBoardBack bind:isShowingInstructions bind:instructionsSource />
+    <SpiritBoardBack bind:spiritBoardBack bind:isShowingInstructions bind:instructionsSource bind:customIcons />
   {:else if currentPage === "powerCards"}
-    <PowerCards bind:powerCards bind:isShowingInstructions bind:instructionsSource />
+    <PowerCards bind:powerCards bind:isShowingInstructions bind:instructionsSource bind:customIcons />
   {:else if currentPage === "aspect"}
     <Aspect bind:aspect bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "adversary"}
