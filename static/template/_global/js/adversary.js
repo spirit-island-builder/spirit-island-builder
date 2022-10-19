@@ -106,9 +106,14 @@ function dynamicSizing(el, maxSize=el.offsetHeight)
 	let j = 0
 	while (checkOverflow(el)){
 		var style = window.getComputedStyle(el, null).getPropertyValue('font-size');
+    var line = window.getComputedStyle(el, null).getPropertyValue('line-height');
 		var fontSize = parseFloat(style); 
-		el.style.fontSize = (fontSize - 1) + 'px';
-
+    var lineHeight = parseFloat(line);
+		el.style.lineHeight = (lineHeight - 1) + 'px';
+    if(lineHeight<15){
+      // there's more room in line height first
+      el.style.fontSize = (fontSize - 1) + 'px';
+    }
 		// safety valve
 		j += 1
 		if (j>8){ 
