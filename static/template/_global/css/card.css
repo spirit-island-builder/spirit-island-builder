@@ -234,6 +234,11 @@ info-range{
   justify-content: center;
 }
 
+info-range icon.sand, info-range icon.sands { background-image: url('../images/board/sands-presence.png'); }
+info-range icon.wetland, info-range icon.wetlands { background-image: url('../images/board/wetland-presence.png'); }
+info-range icon.mountain { background-image: url('../images/board/mountain-presence.png'); }
+info-range icon.jungle { background-image: url('../images/board/jungle-presence.png'); }
+
 info-target{
   display:flex;
   align-items: center;

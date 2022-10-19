@@ -302,7 +302,7 @@
         power.levels.forEach((level) => {
           var newLevel = frame.contentDocument.createElement("level");
           newLevel.setAttribute("threshold", level.threshold);
-          newLevel.textContent = level.effect;
+          newLevel.innerHTML = level.effect;
           if (level.isLong) {
             newLevel.setAttribute("long", "");
           }
