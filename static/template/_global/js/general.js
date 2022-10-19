@@ -28,4 +28,3 @@ function replaceIcon(html)
 
   return result;
 }
-

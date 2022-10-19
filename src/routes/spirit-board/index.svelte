@@ -1,7 +1,5 @@
 <script>
   import { onMount } from "svelte";
-  // import { toPng } from "html-to-image";
-  // import html2canvas from "html2canvas";
   import NameAndArt from "./name-and-art.svelte";
   import SpecialRules from "./special-rules.svelte";
   import Growth from "./growth.svelte";
@@ -163,60 +161,47 @@
 
   async function makeAndSaveBoardImage() {
     if (frame) {
-      // console.log('frame: ', frame.contentDocument.querySelectorAll("board")[0]);
-      // toPng(frame.contentDocument.querySelectorAll("board")[0]).then(function (dataUrl) {
-      //   console.log('dataUrl: ', dataUrl);
-      //   const saveLink = document.createElement("a"); // Or maybe get it from the current document
-      //   saveLink.href = dataUrl;
-      //   saveLink.download = "image.png";
-
-      //   document.body.appendChild(saveLink); // Or append it whereever you want
-      //   saveLink.click() //can add an id to be specific if multiple anchor tag, and use #id
-      // });
-      // console.log('frame.contentDocument.querySelectorAll("body")[0]: ', frame.contentDocument.querySelectorAll("body")[0]);
-      // html2canvas(frame.contentDocument.querySelectorAll("body")[0],
-      // {
-      //  allowTaint : true,
-      //   // profile: true,
-      //   width: 900,
-      //   height: 900,
-      //   useCORS: true,
-      //   foreignObjectRendering: true,
-      // }).then(function (canvas) {
-      //   document.body.appendChild(canvas);
-      //   console.log('canvas: ', canvas.toDataURL());
-      // });
-
-      // html2canvas(document.getElementById('tesst'),
-      // {
-      //  allowTaint : true,
-      //   profile: true,
-      //   useCORS: true
-      // }).then(function (canvas) {
-      //   document.body.appendChild(canvas);
-      // });
-
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
-      const video = document.createElement("video");
+      const videoElem = document.createElement("video");
+
+      canvas.width = 500;
+      canvas.height = 600;
 
       try {
-        const captureStream = await navigator.mediaDevices.getDisplayMedia();
-        video.srcObject = captureStream;
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const screenshot = canvas.toDataURL("image/png");
-        const saveLink = document.createElement("a");
-        saveLink.href = screenshot;
-        saveLink.download = "image.png";
-        console.log(frame);
-        document.body.appendChild(canvas);
-        // captureStream.getTracks().forEach((track) => track.stop());
+        const divAroundIframe = document.getElementById("board-wrap");
+        console.log(divAroundIframe.getBoundingClientRect());
+        const captureStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        console.log("captureStream: ", captureStream);
+        videoElem.srcObject = captureStream;
+        canvas.width = divAroundIframe.clientWidth;
+        console.log("divAroundIframe.clientWidth: ", divAroundIframe.clientWidth);
+        canvas.height = divAroundIframe.clientHeight;
+        await window.setTimeout(() => {
+          console.log("videoElem: ", videoElem);
+          context.fillRect(0, 0, divAroundIframe.clientWidth, divAroundIframe.clientHeight);
+          context.drawImage(
+            videoElem,
+            divAroundIframe.getBoundingClientRect().left,
+            divAroundIframe.getBoundingClientRect().top,
+            divAroundIframe.clientWidth,
+            divAroundIframe.clientHeight,
+            divAroundIframe.getBoundingClientRect().left,
+            divAroundIframe.getBoundingClientRect().top,
+            divAroundIframe.offsetWidth,
+            divAroundIframe.offsetHeight
+          );
+          console.log("videoElem.videoHeight: ", videoElem.videoHeight);
+          const screenshot = canvas.toDataURL("image/png");
+          const saveLink = document.createElement("a");
+          saveLink.href = screenshot;
+          saveLink.download = "image.png";
+          document.body.appendChild(canvas);
+          captureStream.getTracks().forEach((track) => track.stop());
 
-        document.body.appendChild(saveLink);
-        saveLink.click();
-        // window.location.href = frame;
+          document.body.appendChild(saveLink);
+          saveLink.click();
+        }, 1000);
       } catch (err) {
         console.error("Error: " + err);
       }
