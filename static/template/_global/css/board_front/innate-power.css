@@ -151,7 +151,7 @@ info-target, innate-info-target {
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 18pt;
+  font-size: 21pt;
 }
 
 innate-power.fast innate-info-speed {
@@ -461,10 +461,8 @@ innate-info icon.wilds {
 
 innate-info icon.sacred-site {
   width: 50px;
-  height: 50px;
   margin-bottom: -10px;
   margin-left: 0px;
-  margin-right: 10px;
 }
 
 innate-info-range icon.sands-presence, innate-info-range icon.sands, innate-info-range icon.sand,
