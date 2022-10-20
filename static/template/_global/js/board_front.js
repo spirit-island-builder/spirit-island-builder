@@ -263,143 +263,143 @@ function parseGrowthTags(){
             switch (growthItem) {
 				// Simple growth items are handled in the 'Default' case. See function IconName.
 				// Only growth items with options are handled here.
-				case 'reclaim': {
-					const matches = regExp.exec(classPieces[j])
-					let reclaimIcon = "{reclaim-all}";
-					let reclaimText = IconName('reclaim'+"-all");
-					if (matches){
-						let reclaimOptions = matches[1].split(",");
-						let reclaimType = reclaimOptions[0];
-						let reclaimModifiersOrText = reclaimOptions[1];
-						switch(reclaimType)
-						{
-							case 'all':
-								if(reclaimModifiersOrText){
-									reclaimIcon = "<icon class='reclaim-"+reclaimType+"'>"+"<icon class='reclaim-element "+reclaimModifiersOrText+"'></icon></icon>"
-									reclaimText = 'Reclaim All Cards with '+Capitalise(reclaimModifiersOrText)
-								}
-								break;
-							case 'one':
-								if(reclaimModifiersOrText){
-									reclaimIcon = "<icon class='reclaim-"+reclaimType+"'>"+"<icon class='reclaim-element "+reclaimModifiersOrText+"'></icon></icon>"
-									reclaimText = 'Reclaim One Card with '+Capitalise(reclaimModifiersOrText)
-								}else{
-									reclaimIcon = "{reclaim-"+reclaimType+"}"
-									reclaimText = IconName('reclaim-'+reclaimType)
-								}
-								break;
-							case 'none':
-								reclaimIcon = "{reclaim-"+reclaimType+"}"
-								reclaimText = IconName('reclaim-'+reclaimType)
-								break;
-							case 'half':
-								reclaimIcon = "{reclaim-"+reclaimType+"}"
-								reclaimText = IconName('reclaim-'+reclaimType)
-								break;
-							case 'custom':
-								reclaimIcon = "{reclaim-"+reclaimType+"}"
-								reclaimText = "Reclaim " + reclaimModifiersOrText
-								break;
-							default:
-								reclaimText = "TEXT NOT RECOGNIZED - use 'all','one',or 'custom'";
-						}
-					}
-					growthIcons = reclaimIcon
-					growthText = reclaimText
-					break;
-				}
-				case 'gain-card-pay-2': {
-						growthIcons = "<custom-icon>{" + growthItem + "}</custom-icon>"
-						growthText = "You may Pay 2 Energy to Gain a Power Card"
+        case 'reclaim': {
+          const matches = regExp.exec(classPieces[j])
+          let reclaimIcon = "{reclaim-all}";
+          let reclaimText = IconName('reclaim'+"-all");
+          if (matches){
+            let reclaimOptions = matches[1].split(",");
+            let reclaimType = reclaimOptions[0];
+            let reclaimModifiersOrText = reclaimOptions[1];
+            switch(reclaimType)
+            {
+              case 'all':
+                if(reclaimModifiersOrText){
+                  reclaimIcon = "<icon class='reclaim-"+reclaimType+"'>"+"<icon class='reclaim-element "+reclaimModifiersOrText+"'></icon></icon>"
+                  reclaimText = 'Reclaim All Cards with '+Capitalise(reclaimModifiersOrText)
+                }
+                break;
+              case 'one':
+                if(reclaimModifiersOrText){
+                  reclaimIcon = "<icon class='reclaim-"+reclaimType+"'>"+"<icon class='reclaim-element "+reclaimModifiersOrText+"'></icon></icon>"
+                  reclaimText = 'Reclaim One Card with '+Capitalise(reclaimModifiersOrText)
+                }else{
+                  reclaimIcon = "{reclaim-"+reclaimType+"}"
+                  reclaimText = IconName('reclaim-'+reclaimType)
+                }
+                break;
+              case 'none':
+                reclaimIcon = "{reclaim-"+reclaimType+"}"
+                reclaimText = IconName('reclaim-'+reclaimType)
+                break;
+              case 'half':
+                reclaimIcon = "{reclaim-"+reclaimType+"}"
+                reclaimText = IconName('reclaim-'+reclaimType)
+                break;
+              case 'custom':
+                reclaimIcon = "{reclaim-"+reclaimType+"}"
+                reclaimText = "Reclaim " + reclaimModifiersOrText
+                break;
+              default:
+                reclaimText = "TEXT NOT RECOGNIZED - use 'all','one',or 'custom'";
+            }
+          }
+          growthIcons = reclaimIcon
+          growthText = reclaimText
+          break;
+        }
+        case 'gain-card-pay-2': {
+            growthIcons = "<custom-icon>{" + growthItem + "}</custom-icon>"
+            growthText = "You may Pay 2 Energy to Gain a Power Card"
                         break;
-				}
-				case 'isolate': {
+        }
+        case 'isolate': {
                         const matches = regExp.exec(classPieces[j])
-						let isolateIcons = "{isolate}"
-						let isolateText = "Isolate 1 of Your Lands"
-						let isolateReqOpen = "";
-						let isolateReqClose = "";
-						if (matches){
-							let isolateOptions = matches[1].split(",");
-							let isolateRange = isolateOptions[0];
-							isolateReqOpen = "<custom-icon>";
-							isolateReqClose = "</custom-icon>";
-							isolateIcons += "<range-growth>" + isolateRange + "</range-growth>";
-							isolateText = "Isolate a Land";
-						}
-						growthIcons = isolateReqOpen + isolateIcons + isolateReqClose
-						growthText = isolateText
+            let isolateIcons = "{isolate}"
+            let isolateText = "Isolate 1 of Your Lands"
+            let isolateReqOpen = "";
+            let isolateReqClose = "";
+            if (matches){
+              let isolateOptions = matches[1].split(",");
+              let isolateRange = isolateOptions[0];
+              isolateReqOpen = "<custom-icon>";
+              isolateReqClose = "</custom-icon>";
+              isolateIcons += "<range-growth>" + isolateRange + "</range-growth>";
+              isolateText = "Isolate a Land";
+            }
+            growthIcons = isolateReqOpen + isolateIcons + isolateReqClose
+            growthText = isolateText
                         break;
-				}
-                case 'damage': {
-					const matches = regExp.exec(classPieces[j]);
-					let damageOptions = matches[1].split(",");
-					let range = damageOptions[0];
-					let damage = damageOptions[1];
-					growthIcons = "<custom-icon><growth-damage><value>" + damage + "</value></growth-damage>"+ "<range-growth>" + range + "</range-growth></custom-icon>"
-					growthText = "Deal "+damage+" Damage at Range " + range
-					break;
-				}
-				case 'gain-energy': {
-					const matches = regExpOuterParentheses.exec(classPieces[j]);
-					const gainEnergyBy = matches[1];
-					let energyOptions = matches[1].split(",");
-          			let energyManyIconOpen = "" 
-					let energyManyIconClose = ""
-					if (isNaN(energyOptions[0]) || energyOptions.length!=1) {
-							energyManyIconOpen = "<growth-cell-double>"
-							energyManyIconClose = "</growth-cell-double>"
-					}
-					let energyGrowthIcons = ""
-					let energyGrowthText = ""
-					let x_is_num = !isNaN(energyOptions[0]);
-					let x_is_zero = (energyOptions[0]==0);
-					let x_is_text = energyOptions[0]=='text';
-					let x_is_flat = x_is_num && !x_is_zero;
-					let y_is_text = energyOptions[1]!==undefined ? energyOptions[1]=='text' : false;
-					let has_custom_text = (x_is_text || y_is_text);
-					let custom_text = ""
-					if(has_custom_text){custom_text += y_is_text ? energyOptions[2]:energyOptions[1]}
-					
-					shift = 0;
-					shift += (x_is_num) ? 1 : 0;
-					shift += (has_custom_text) ? 2 : 0;
-					let flatEnergy = energyOptions[0];
-					let scaling_entity = energyOptions[shift];
-					let scaling_value = energyOptions[shift+1]!==undefined ? energyOptions[shift+1] : 1;
-					if (!isNaN(scaling_entity)){
-						scaling_value=scaling_entity;
-						scaling_entity = undefined;
-					}
-					var customScalingIcon = (scaling_entity !== undefined) ? ("<icon class='" + scaling_entity + "'></icon>") : "<div class='custom-scaling'>!!!</div>"
-					
-					// Flat Energy
-					if(x_is_flat){
-						energyGrowthIcons = "<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
-						if(scaling_entity){
-							energyGrowthText = "Gain "+flatEnergy+" Energy"
-						}else{
-							energyGrowthText = "Gain Energy"
-						}
-					}
-					
-					// Scaling Energy
-					if(scaling_entity || has_custom_text){
-						energyGrowthIcons += "<gain-per><value>"+scaling_value+"</value></gain-per>"
-						energyGrowthIcons += "<gain-per-element><ring-icon>"+customScalingIcon+"</ring-icon></gain-per-element>";
-						if(x_is_flat){
-							energyGrowthText += " and +"+scaling_value+" more per "
-						}else{
-							energyGrowthText += "Gain "+scaling_value+" Energy per "
-						}
-						energyGrowthText += has_custom_text ? custom_text : Capitalise(scaling_entity);
-						energyGrowthText += elementNames.has(scaling_entity) ? ' Showing' : '';
-					}
-					growthIcons = energyManyIconOpen + energyGrowthIcons + energyManyIconClose
-					growthText = energyGrowthText
-					break;
-				}
-				case 'add-presence': {
+        }
+        case 'damage': {
+          const matches = regExp.exec(classPieces[j]);
+          let damageOptions = matches[1].split(",");
+          let range = damageOptions[0];
+          let damage = damageOptions[1];
+          growthIcons = "<custom-icon><growth-damage><value>" + damage + "</value></growth-damage>"+ "<range-growth>" + range + "</range-growth></custom-icon>"
+          growthText = "Deal "+damage+" Damage at Range " + range
+          break;
+        }
+        case 'gain-energy': {
+          const matches = regExpOuterParentheses.exec(classPieces[j]);
+          const gainEnergyBy = matches[1];
+          let energyOptions = matches[1].split(",");
+                let energyManyIconOpen = "" 
+          let energyManyIconClose = ""
+          if (isNaN(energyOptions[0]) || energyOptions.length!=1) {
+              energyManyIconOpen = "<growth-cell-double>"
+              energyManyIconClose = "</growth-cell-double>"
+          }
+          let energyGrowthIcons = ""
+          let energyGrowthText = ""
+          let x_is_num = !isNaN(energyOptions[0]);
+          let x_is_zero = (energyOptions[0]==0);
+          let x_is_text = energyOptions[0]=='text';
+          let x_is_flat = x_is_num && !x_is_zero;
+          let y_is_text = energyOptions[1]!==undefined ? energyOptions[1]=='text' : false;
+          let has_custom_text = (x_is_text || y_is_text);
+          let custom_text = ""
+          if(has_custom_text){custom_text += y_is_text ? energyOptions[2]:energyOptions[1]}
+          
+          shift = 0;
+          shift += (x_is_num) ? 1 : 0;
+          shift += (has_custom_text) ? 2 : 0;
+          let flatEnergy = energyOptions[0];
+          let scaling_entity = energyOptions[shift];
+          let scaling_value = energyOptions[shift+1]!==undefined ? energyOptions[shift+1] : 1;
+          if (!isNaN(scaling_entity)){
+            scaling_value=scaling_entity;
+            scaling_entity = undefined;
+          }
+          var customScalingIcon = (scaling_entity !== undefined) ? ("<icon class='" + scaling_entity + "'></icon>") : "<div class='custom-scaling'>!!!</div>"
+          
+          // Flat Energy
+          if(x_is_flat){
+            energyGrowthIcons = "<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
+            if(scaling_entity){
+              energyGrowthText = "Gain "+flatEnergy+" Energy"
+            }else{
+              energyGrowthText = "Gain Energy"
+            }
+          }
+          
+          // Scaling Energy
+          if(scaling_entity || has_custom_text){
+            energyGrowthIcons += "<gain-per><value>"+scaling_value+"</value></gain-per>"
+            energyGrowthIcons += "<gain-per-element><ring-icon>"+customScalingIcon+"</ring-icon></gain-per-element>";
+            if(x_is_flat){
+              energyGrowthText += " and +"+scaling_value+" more per "
+            }else{
+              energyGrowthText += "Gain "+scaling_value+" Energy per "
+            }
+            energyGrowthText += has_custom_text ? custom_text : Capitalise(scaling_entity);
+            energyGrowthText += elementNames.has(scaling_entity) ? ' Showing' : '';
+          }
+          growthIcons = energyManyIconOpen + energyGrowthIcons + energyManyIconClose
+          growthText = energyGrowthText
+          break;
+        }
+        case 'add-presence': {
           const matches = regExpOuterParentheses.exec(classPieces[j]);
 
           let presenceOptions = matches[1].split(",");
@@ -411,47 +411,47 @@ function parseGrowthTags(){
           let presenceIcon = "";
           let presenceTextLead = "";
           let presenceTextEnd = "";
-					let presenceRangeOpen = "<range-growth>";
-					let presenceRangeClose = "</range-growth>";
+          let presenceRangeOpen = "<range-growth>";
+          let presenceRangeClose = "</range-growth>";
 
-					if (presenceRange=='any' && presenceOptions.length==1) {
-						presenceReqOpen = "<custom-presence-no-range>";
-						presenceReqClose = "</custom-presence-no-range>";
-						presenceRangeOpen = "<range-growth-any>";
-						presenceRangeClose = "</range-growth-any>";
-						presenceText = " to any Land"
-					} else if (presenceOptions.length > 1) {
+          if (presenceRange=='any' && presenceOptions.length==1) {
+            presenceReqOpen = "<custom-presence-no-range>";
+            presenceReqClose = "</custom-presence-no-range>";
+            presenceRangeOpen = "<range-growth-any>";
+            presenceRangeClose = "</range-growth-any>";
+            presenceText = " to any Land"
+          } else if (presenceOptions.length > 1) {
             presenceReqOpen = "<custom-presence-req>";
             presenceReqClose = "</custom-presence-req>";
             presenceIcon += "<presence-req>";
                         
-						if (presenceRange=='any'){
-							presenceReqOpen += "<presence-req></presence-req>"
-							presenceRangeOpen = "<range-growth-any>";
-							presenceRangeClose = "</range-growth-any>";
-						}
-						
+            if (presenceRange=='any'){
+              presenceReqOpen += "<presence-req></presence-req>"
+              presenceRangeOpen = "<range-growth-any>";
+              presenceRangeClose = "</range-growth-any>";
+            }
+            
             if(presenceOptions[1]=='text'){
-              // User wants a custom text presence addition
-              presenceText += " "+presenceOptions[2];
-							if(presenceOptions[3]){
-								presenceIcon += "<display-custom>"
-								for(i = 3; i < presenceOptions.length; i++){
-									presenceIcon += "<icon class='"+presenceOptions[i]+"'></icon>"
-								}
-								presenceIcon += "</display-custom>"
-							}else{
-								presenceIcon += "<span style='font-family: DK Snemand; font-size: 24pt; font-style: normal;'>!!!</span>";
-							}
+            // User wants a custom text presence addition
+            presenceText += " "+presenceOptions[2];
+              if(presenceOptions[3]){
+                presenceIcon += "<display-custom>"
+                for(i = 3; i < presenceOptions.length; i++){
+                  presenceIcon += "<icon class='"+presenceOptions[i]+"'></icon>"
+                }
+                presenceIcon += "</display-custom>"
+              }else{
+                presenceIcon += "<span style='font-family: DK Snemand; font-size: 24pt; font-style: normal;'>!!!</span>";
+              }
             } else if (presenceOptions[1]=='token'){
-              // User wants to add a token in growth
+            // User wants to add a token in growth
               switch (presenceOptions[3]){
                 case 'and':
-                    //add presence and token
-                    presenceIcon += "<span class='plus-text'>+ </span>";
-                    presenceIcon += "{"+presenceOptions[2]+"}";
-                    presenceText += " and a " + Capitalise(presenceOptions[2]);
-                    break;
+                  //add presence and token
+                  presenceIcon += "<span class='plus-text'>+ </span>";
+                  presenceIcon += "{"+presenceOptions[2]+"}";
+                  presenceText += " and a " + Capitalise(presenceOptions[2]);
+                  break;
                 case 'or':
                   //add presence or token
                   presenceReqOpen = "<custom-presence-req><custom-presence-or>";
@@ -459,22 +459,22 @@ function parseGrowthTags(){
                   presenceIcon = "{backslash}{"+presenceOptions[2]+"}</custom-presence-or>";
                   presenceText += " or a " + Capitalise(presenceOptions[2]);
                 case 'instead':
-                    //no option to add presence, just token
+                  //no option to add presence, just token
               }
             } else {
               // User wants an OR or an AND requirement
               let operator = "";
               if (presenceOptions.length > 4) {
-                  operator = "/";
+                operator = "/";
               }else{
-                  operator = " "+presenceOptions.at(-1)+" ";
+                operator = " "+presenceOptions.at(-1)+" ";
               }
               
-              presenceText += " to ";
-							presenceText += presenceRange === 'any' ? 'any ' : '';
-							
+                      presenceText += " to ";
+              presenceText += presenceRange === 'any' ? 'any ' : '';
+              
               let flag = 0; // This flag is used to figure out if 'land with' has been said already. It comes up with add-presence(3,jungle,beasts,or)
-							let and_flag = 0;
+              let and_flag = 0;
               for (var i = 1; i < presenceOptions.length; i++) {
                 
                 presenceReq = presenceOptions[i];
@@ -536,27 +536,27 @@ function parseGrowthTags(){
                         break;
                     case 'multiland':
                         presenceText += multiLandText;
-										and_flag = 1;
+                    and_flag = 1;
                                         break;
                                     case 'no-blight':
-										if(i == 1){
-											presenceText += " Land without "
-										}else{
-											presenceText += operator == ' and ' ? " and no " : " or no ";
-										}
+                    if(i == 1){
+                      presenceText += " Land without "
+                    }else{
+                      presenceText += operator == ' and ' ? " and no " : " or no ";
+                    }
                                         presenceText += "Blight";
                                         break;
                                     case 'beast':
                                         presenceTextEnd = "s"
                                     case 'no-own-presence':
-										if(i == 1){
-											presenceText += " Land without "
-										}else{
-											presenceText += operator == ' and ' ? " and no " : " or no ";
-										}
+                    if(i == 1){
+                      presenceText += " Land without "
+                    }else{
+                      presenceText += operator == ' and ' ? " and no " : " or no ";
+                    }
                                         presenceText += "Your Presence";
                                         break;
-									case 'presence':
+                  case 'presence':
                                         presenceTextLead += presenceTextEnd==="" ? "Your " : "";
                                         //Intentionally do not break.
                                     default:
@@ -565,11 +565,11 @@ function parseGrowthTags(){
                                         }else if(flag == 0 && operator != ' and '){
                                             presenceText += " Land with ";
                                         }else{
-											if(operator === ' and ' && flag !== 1){
-												presenceText += (and_flag===1) ? ' with ' : ' Land with ';
-											}else{
-												presenceText += operator;
-											}
+                      if(operator === ' and ' && flag !== 1){
+                        presenceText += (and_flag===1) ? ' with ' : ' Land with ';
+                      }else{
+                        presenceText += operator;
+                      }
                                         }
                                         flag = 1;
                                         presenceText += presenceTextLead + Capitalise(presenceReq) + presenceTextEnd;
@@ -577,104 +577,104 @@ function parseGrowthTags(){
                             }                            
                         }
                         presenceIcon += "</presence-req>";
-					}
-					growthIcons = presenceReqOpen + "<plus-presence>+{presence}</plus-presence>" + presenceIcon + presenceRangeOpen + presenceRange + presenceRangeClose + presenceReqClose
-					growthText = "Add a Presence" + presenceText
+          }
+          growthIcons = presenceReqOpen + "<plus-presence>+{presence}</plus-presence>" + presenceIcon + presenceRangeOpen + presenceRange + presenceRangeClose + presenceReqClose
+          growthText = "Add a Presence" + presenceText
                     break;
                 }
-                case 'push':
-                case 'gather': {
-					const matches = regExp.exec(classPieces[j]);
-					
-					let preposition = growthItem=='push'
-						? 'from'
-						: 'into'
-					
-					let moveText = ""
-					let moveIcons = ""
-					let moveTarget = matches[1];
-					let moveOptions = matches[1].split(",");
-					let moveRange = moveOptions[1];
-					let moveNum = moveOptions[2];
-					let plural = "";
-					if(!moveNum){
-						moveNum = 1;
-					}else if(isNaN(moveNum)){
-						moveNum = moveNum.toUpperCase();
-					}else{
-						plural = moveNum > 1 ? "s" : "";
-					}
-					if(moveRange){
-						moveTarget = moveOptions[0];
-						if(isNaN(moveRange)){
-							let moveCondition = moveRange;
-							// Gather/Push into/from a sacred site, land with token, or terrain
-							
-							// Text
-							moveText += Capitalise(growthItem)+" 1 " + Capitalise(moveTarget) +" "+ preposition + " " + moveNum;
-							switch (moveCondition){
-								case 'sacred-site':
-									moveText += " of your Sacred Sites"
-									moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'><icon class='" + moveTarget + "'></icon><icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
-									break;
-								case 'wetland':
-								case 'sand':
+        case 'push':
+        case 'gather': {
+          const matches = regExp.exec(classPieces[j]);
+          
+          let preposition = growthItem=='push'
+            ? 'from'
+            : 'into'
+          
+          let moveText = ""
+          let moveIcons = ""
+          let moveTarget = matches[1];
+          let moveOptions = matches[1].split(",");
+          let moveRange = moveOptions[1];
+          let moveNum = moveOptions[2];
+          let plural = "";
+          if(!moveNum){
+            moveNum = 1;
+          }else if(isNaN(moveNum)){
+            moveNum = moveNum.toUpperCase();
+          }else{
+            plural = moveNum > 1 ? "s" : "";
+          }
+          if(moveRange){
+            moveTarget = moveOptions[0];
+            if(isNaN(moveRange)){
+              let moveCondition = moveRange;
+              // Gather/Push into/from a sacred site, land with token, or terrain
+              
+              // Text
+              moveText += Capitalise(growthItem)+" 1 " + Capitalise(moveTarget) +" "+ preposition + " " + moveNum;
+              switch (moveCondition){
+                case 'sacred-site':
+                  moveText += " of your Sacred Sites"
+                  moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'><icon class='" + moveTarget + "'></icon><icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
+                  break;
+                case 'wetland':
+                case 'sand':
                 case 'sands':
-								case 'mountain':
-								case 'jungle':
-								case 'jungle-wetland':
-								case 'jungle-sand':
+                case 'mountain':
+                case 'jungle':
+                case 'jungle-wetland':
+                case 'jungle-sand':
                 case 'jungle-sands':
-								case 'jungle-mountain':
-								case 'sand-wetland':
+                case 'jungle-mountain':
+                case 'sand-wetland':
                 case 'sands-wetland':
-								case 'mountain-wetland':
-								case 'mountain-sand':
+                case 'mountain-wetland':
+                case 'mountain-sand':
                 case 'mountain-sands':
-								case 'mountain-jungle':
-								case 'sand-jungle':
+                case 'mountain-jungle':
+                case 'sand-jungle':
                 case 'sands-jungle':
-								case 'sand-mountain':
+                case 'sand-mountain':
                 case 'sands-mountain':
-								case 'wetland-jugnle':
-								case 'wetland-mountain':
-								case 'wetland-sand':
+                case 'wetland-jugnle':
+                case 'wetland-mountain':
+                case 'wetland-sand':
                 case 'wetland-sands':
-								case 'ocean':
-									moveIcons += "<push-gather><icon class='" + moveCondition + " terrain-"+growthItem+"'>{"+growthItem+"-arrow}<icon class='" + moveTarget + " "+preposition+"'></icon></icon></push-gather>"
-									moveText += " " + Capitalise(moveCondition) + plural
-									break;
-								default:
-									moveText += " of your Lands with " + Capitalise(moveCondition)
-									moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'><icon class='" + moveTarget + "'></icon><icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
-							}
-						}else{
-						// Gather/Push at range
-							moveIcons += "<push-gather-range-req><icon class='" + growthItem + "'><icon class='" + moveTarget + "'></icon></icon>"+"<range-growth>" + moveRange + "</range-growth></push-gather-range-req>"
-							moveText += Capitalise(growthItem)+" up to 1 " + Capitalise(moveTarget)+" " + preposition + " a Land"
-						}
-					}else{
-						moveIcons += "<push-gather><icon class='" + growthItem + "'><icon class='" + moveTarget + "'></icon></icon></push-gather>"
-						moveText += Capitalise(growthItem)+" 1 " + Capitalise(moveTarget)+" " + preposition + ` 1 of your Lands`;
-					}
-					growthIcons = moveIcons
-					growthText = moveText
-					break;
-				}
-                case 'presence-no-range': {
-					//This is potentially redundant.
-					growthIcons = "<custom-presence-no-range>+{presence}</custom-presence-no-range>"
-					growthText = "Add a Presence to any Land"
-					break;
-				}
-                case 'move-presence': {        
-					const matches = regExp.exec(classPieces[j]);
-					const moveRange = matches[1];
-					growthIcons = "<custom-icon2>{presence}{move-range-" + moveRange + "}</custom-icon2>"
-					growthText = "Move a Presence"
-					break;
-				}
-                case 'gain-element': {
+                case 'ocean':
+                  moveIcons += "<push-gather><icon class='" + moveCondition + " terrain-"+growthItem+"'>{"+growthItem+"-arrow}<icon class='" + moveTarget + " "+preposition+"'></icon></icon></push-gather>"
+                  moveText += " " + Capitalise(moveCondition) + plural
+                  break;
+                default:
+                  moveText += " of your Lands with " + Capitalise(moveCondition)
+                  moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'><icon class='" + moveTarget + "'></icon><icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
+              }
+            }else{
+            // Gather/Push at range
+              moveIcons += "<push-gather-range-req><icon class='" + growthItem + "'><icon class='" + moveTarget + "'></icon></icon>"+"<range-growth>" + moveRange + "</range-growth></push-gather-range-req>"
+              moveText += Capitalise(growthItem)+" up to 1 " + Capitalise(moveTarget)+" " + preposition + " a Land"
+            }
+          }else{
+            moveIcons += "<push-gather><icon class='" + growthItem + "'><icon class='" + moveTarget + "'></icon></icon></push-gather>"
+            moveText += Capitalise(growthItem)+" 1 " + Capitalise(moveTarget)+" " + preposition + ` 1 of your Lands`;
+          }
+          growthIcons = moveIcons
+          growthText = moveText
+          break;
+        }
+        case 'presence-no-range': {
+          //This is potentially redundant.
+          growthIcons = "<custom-presence-no-range>+{presence}</custom-presence-no-range>"
+          growthText = "Add a Presence to any Land"
+          break;
+        }
+        case 'move-presence': {        
+          const matches = regExp.exec(classPieces[j]);
+          const moveRange = matches[1];
+          growthIcons = "<custom-icon2>{presence}{move-range-" + moveRange + "}</custom-icon2>"
+          growthText = "Move a Presence"
+          break;
+        }
+        case 'gain-element': {
 					const matches = regExp.exec(classPieces[j]);
 
 					const gainedElement = matches[1];
@@ -762,213 +762,234 @@ function parseGrowthTags(){
 					}
 					break;
 				}
-                case 'custom': {
-					const matches = regExpOuterParentheses.exec(classPieces[j]);
-					let customOptions = matches[1].split(",");
-					customIcon = customOptions[1];
-					customText = customOptions[0];
-					listIcons = ""
-					if (customIcon){
-						if(customIcon == 'text'){
-							customIcon = "<span class='non-icon'>"+customOptions[2]+"</span>"
-						}else{
-							for(i = 1; i < customOptions.length; i++){
-								listIcons +="<icon class='"+customOptions[i]+" custom-growth-icon'></icon>";
-							}
-							customIcon = listIcons;
-						}
-					}else{
-						customIcon = "<div class='custom-scaling'>!!!</div>";
-					}
-					growthIcons = "<custom-growth-icon>" + customIcon + "</custom-growth-icon>"
-					growthText = customText
-					break;
-				}
-				case 'fear': {
-					const matches = regExp.exec(classPieces[j]);
-					const gainFearBy = matches[1];
-					let fearOptions = matches[1].split(",");
+        case 'custom': {
+          const matches = regExpOuterParentheses.exec(classPieces[j]);
+          let customOptions = matches[1].split(",");
+          customIcon = customOptions[1];
+          customText = customOptions[0];
+          listIcons = ""
+          if (customIcon){
+            if(customIcon == 'text'){
+              customIcon = "<span class='non-icon'>"+customOptions[2]+"</span>"
+            }else{
+              for(i = 1; i < customOptions.length; i++){
+                listIcons +="<icon class='"+customOptions[i]+" custom-growth-icon'></icon>";
+              }
+              customIcon = listIcons;
+            }
+          }else{
+            customIcon = "<div class='custom-scaling'>!!!</div>";
+          }
+          growthIcons = "<custom-growth-icon>" + customIcon + "</custom-growth-icon>"
+          growthText = customText
+          break;
+        }
+        case 'fear': {
+          const matches = regExp.exec(classPieces[j]);
+          const gainFearBy = matches[1];
+          let fearOptions = matches[1].split(",");
                     let fearManyIconOpen = "" 
-					let fearManyIconClose = ""
-					if (isNaN(fearOptions[0]) || fearOptions.length!=1) {
-							fearManyIconOpen = "<growth-cell-double>"
-							fearManyIconClose = "</growth-cell-double>"
-					}
-					let fearGrowthIcons = ""
-					let fearGrowthText = ""
-					let x_is_num = !isNaN(fearOptions[0]);
-					let x_is_zero = (fearOptions[0]==0);
-					let x_is_text = fearOptions[0]=='text';
-					let x_is_flat = x_is_num && !x_is_zero;
-					let y_is_text = fearOptions[1]!==undefined ? fearOptions[1]=='text' : false;
-					let has_custom_text = (x_is_text || y_is_text);
-					let custom_text = ""
-					if(has_custom_text){custom_text += y_is_text ? fearOptions[2]:fearOptions[1]}
-					
-					shift = 0;
-					shift += (x_is_num) ? 1 : 0;
-					shift += (has_custom_text) ? 2 : 0;
-					let flatFear = fearOptions[0];
-					let scaling_entity = fearOptions[shift];
-					let scaling_value = fearOptions[shift+1]!==undefined ? fearOptions[shift+1] : 1;
-					if (!isNaN(scaling_entity)){
-						scaling_value=scaling_entity;
-						scaling_entity = undefined;
-					}
-					var customScalingIcon = (scaling_entity !== undefined) ? ("<icon class='" + scaling_entity + "'></icon>") : "<div class='custom-scaling'>!!!</div>"
-					
-					// Flat Fear
-					if(x_is_flat){
-						fearGrowthIcons = "<growth-fear><value>" + flatFear + "</value></growth-fear>"
-						if(scaling_entity){
-							fearGrowthText = "Generate "+flatFear+" Fear"
-						}else{
-							fearGrowthText = "Generate Fear"
-						}
-					}
-					
-					// Scaling Fear
-					if(scaling_entity || has_custom_text){
-						fearGrowthIcons += "<fear-per><value>"+scaling_value+"</value></fear-per>"
-						fearGrowthIcons += "<gain-per-fear><ring-icon>"+customScalingIcon+"</ring-icon></gain-per-fear>";
-						if(x_is_flat){
-							fearGrowthText += " and +"+scaling_value+" more per "
-						}else{
-							fearGrowthText += "Generate "+scaling_value+" Fear per "
-						}
-						fearGrowthText += has_custom_text ? custom_text : Capitalise(scaling_entity);
-						fearGrowthText += elementNames.has(scaling_entity) ? ' Showing' : '';
-					}
-					growthIcons = fearManyIconOpen + fearGrowthIcons + fearManyIconClose
-					growthText = fearGrowthText
-					break;
-				}
-				case 'gain-range': {
-					const matches = regExp.exec(classPieces[j]);
-					let rangeOptions = matches[1].split(",");
-					let range = rangeOptions[0];
-					let type = rangeOptions[1];
-					let gainRangeText = ""
-					if (type) {
-						switch (type) {
-							case 'powers':
-							case 'power':
-								gainRangeText = "Your Powers gain +"+range+" Range this turn"
-								break;
-							case 'power cards':
-								gainRangeText = "Your Power Cards gain +"+range+" Range this turn"
-								break;
-							case 'everything':
-								gainRangeText = "+"+range+" Range on everything this turn"
-								break;
-							case 'innate':
-							case 'innate power':
-							case 'innate powers':
-								gainRangeText = "Your Innate Powers gain +"+range+" Range this turn"
-								break;
-							default:
-								gainRangeText = "Your Powers gain +"+range+" Range this turn"
-						}
-					} else {
-						gainRangeText = "Your Powers gain +"+range+" Range this turn"
-					}
-					growthIcons = "{gain-range-" + range +"}"
-					growthText = gainRangeText
-					break;
-				}
-				case 'gain-card-play': {
-					const matches = regExp.exec(classPieces[j]);
-					growthIcons = "{"+growthItem+"}"
-					growthText = IconName(growthItem)
-					
-					if(matches){
-						let cardplayOptions = matches[1].split(",");
-						num_card_plays = cardplayOptions[0];
-						plural = num_card_plays > 1 ? "s" : "";
-						growthIcons = "<card-play-num><value>" + num_card_plays + "</value></card-play-num>"
-						growthText = " +"+num_card_plays+" Card Play"+plural+" this turn"
-					}
-					break;
-				}
-				case 'element-marker': {
-					const matches = regExp.exec(classPieces[j]);
-					
-					if(matches){
-						let markerOptions = matches[1].split(",");
-						num_markers = markerOptions[0];
-						marker_type = num_markers > 0 ? 'markerplus' : 'markerminus';
-						marker_verb = num_markers > 0 ? 'Prepare' : 'Discard';
-						num_markers = Math.abs(num_markers)
-						plural = num_markers > 1 ? "s" : "";
-						numLocs = num_markers
-						let rad_size = 20 + 5*(numLocs-2); // this expands slightly as more icons are used
-						var markerIcons = ""
-						for (var i = 0; i < numLocs; i++) {
-							pos_angle = i * 2*Math.PI / numLocs - (Math.PI)*(1-(1/6));
-							x_loc = rad_size * Math.cos(pos_angle) - 30;
-							y_loc = rad_size * Math.sin(pos_angle) - 20;
-							let marker_loc = "style='transform: translateY("+y_loc+"px) translateX("+x_loc+"px)'";
-							markerIcons += "<icon-multi-element><icon class='"+marker_type+"'"+marker_loc+"></icon></icon-multi-element>"
-						}
-						markerIcons += "<icon style='width:0px;height:99px'></icon>"; // This is a filler icon to make sure the spacing is right. Any idea for a better solution?
-						
-						growthIcons = "<gain>" + markerIcons + "</gain>";
-						growthText = marker_verb+" "+num_markers+" Element Marker"+plural;
-					}else{
-						growthIcons = "<gain>{markerplus}</gain>"
-						growthText = "Prepare 1 Element Marker"
-					}
-					break;
-				}
-				case 'add-token': {
-					const matches = regExp.exec(classPieces[j]);
-					let tokenOptions = matches[1].split(",");
-					let range = tokenOptions[0];
-					let tokenRange = "<range-growth>" + range + "</range-growth>"
-					let token = tokenOptions[1];
-					let tokenNum = tokenOptions[2];
-					let tokenReqOpen = "<custom-icon>";
-					let tokenReqClose = "</custom-icon>";
-					let tokenText = ""
-					let tokenIcons = ""
-					if(!tokenNum){
-						tokenIcons = "+<icon class='"+token+" token'></icon>"
-						tokenText = "Add a " + Capitalise(token);
-					}else if(!isNaN(tokenNum)){
-						// multiple of the same token
-						tokenIcons += "+"
-						if (tokenNum>3){
-							tokenIcons += tokenNum+"<icon class='"+token+" token'></icon>";
-						}else{
-							for (var i = 0; i < tokenNum; i++) {
-								tokenIcons += "<icon class='"+token+" token'></icon>"
-							}
-						}
-						tokenText = "Add "+tokenNum+" " + Capitalise(token);
-					}else{
-						// two or more different tokens
-						operator = tokenOptions.at(-1);
-						tokenIcons += "+<icon class='"+token+" token'></icon>";
-						tokenText += "Add a " + Capitalise(token);
-						if (operator=='and' || operator=='or'){
-							for (var i = 2; i < tokenOptions.length-1; i++) {
-								tokenIcons += operator=='or' ? "/" : "";
-								tokenIcons += "<icon class='"+tokenOptions[i]+" token'></icon>"
-								tokenText += i==tokenOptions.length-2 ? " "+operator+" " : ", ";
-								tokenText += Capitalise(tokenOptions[i]);
-							}
-						}else{
-							tokenText = "MUST use AND or OR"
-						}
-					}
-					growthIcons = tokenReqOpen +'<wrap>'+ tokenIcons+'</wrap>' + tokenRange + tokenReqClose;
-					growthText = tokenText
-					break;
-				}
-				default: {
-					growthIcons = "{"+growthItem+"}"
-					growthText = IconName(growthItem)
-				}
+          let fearManyIconClose = ""
+          if (isNaN(fearOptions[0]) || fearOptions.length!=1) {
+              fearManyIconOpen = "<growth-cell-double>"
+              fearManyIconClose = "</growth-cell-double>"
+          }
+          let fearGrowthIcons = ""
+          let fearGrowthText = ""
+          let x_is_num = !isNaN(fearOptions[0]);
+          let x_is_zero = (fearOptions[0]==0);
+          let x_is_text = fearOptions[0]=='text';
+          let x_is_flat = x_is_num && !x_is_zero;
+          let y_is_text = fearOptions[1]!==undefined ? fearOptions[1]=='text' : false;
+          let has_custom_text = (x_is_text || y_is_text);
+          let custom_text = ""
+          if(has_custom_text){custom_text += y_is_text ? fearOptions[2]:fearOptions[1]}
+          
+          shift = 0;
+          shift += (x_is_num) ? 1 : 0;
+          shift += (has_custom_text) ? 2 : 0;
+          let flatFear = fearOptions[0];
+          let scaling_entity = fearOptions[shift];
+          let scaling_value = fearOptions[shift+1]!==undefined ? fearOptions[shift+1] : 1;
+          if (!isNaN(scaling_entity)){
+            scaling_value=scaling_entity;
+            scaling_entity = undefined;
+          }
+          var customScalingIcon = (scaling_entity !== undefined) ? ("<icon class='" + scaling_entity + "'></icon>") : "<div class='custom-scaling'>!!!</div>"
+          
+          // Flat Fear
+          if(x_is_flat){
+            fearGrowthIcons = "<growth-fear><value>" + flatFear + "</value></growth-fear>"
+            if(scaling_entity){
+              fearGrowthText = "Generate "+flatFear+" Fear"
+            }else{
+              fearGrowthText = "Generate Fear"
+            }
+          }
+          
+          // Scaling Fear
+          if(scaling_entity || has_custom_text){
+            fearGrowthIcons += "<fear-per><value>"+scaling_value+"</value></fear-per>"
+            fearGrowthIcons += "<gain-per-fear><ring-icon>"+customScalingIcon+"</ring-icon></gain-per-fear>";
+            if(x_is_flat){
+              fearGrowthText += " and +"+scaling_value+" more per "
+            }else{
+              fearGrowthText += "Generate "+scaling_value+" Fear per "
+            }
+            fearGrowthText += has_custom_text ? custom_text : Capitalise(scaling_entity);
+            fearGrowthText += elementNames.has(scaling_entity) ? ' Showing' : '';
+          }
+          growthIcons = fearManyIconOpen + fearGrowthIcons + fearManyIconClose
+          growthText = fearGrowthText
+          break;
+        }
+        case 'gain-range': {
+          const matches = regExp.exec(classPieces[j]);
+          let rangeOptions = matches[1].split(",");
+          let range = rangeOptions[0];
+          let type = rangeOptions[1];
+          let gainRangeText = ""
+          if (type) {
+            switch (type) {
+              case 'powers':
+              case 'power':
+                gainRangeText = "Your Powers gain +"+range+" Range this turn"
+                break;
+              case 'power cards':
+                gainRangeText = "Your Power Cards gain +"+range+" Range this turn"
+                break;
+              case 'everything':
+                gainRangeText = "+"+range+" Range on everything this turn"
+                break;
+              case 'innate':
+              case 'innate power':
+              case 'innate powers':
+                gainRangeText = "Your Innate Powers gain +"+range+" Range this turn"
+                break;
+              default:
+                gainRangeText = "Your Powers gain +"+range+" Range this turn"
+            }
+          } else {
+            gainRangeText = "Your Powers gain +"+range+" Range this turn"
+          }
+          growthIcons = "{gain-range-" + range +"}"
+          growthText = gainRangeText
+          break;
+        }
+        case 'gain-card-play': {
+          const matches = regExp.exec(classPieces[j]);
+          growthIcons = "{"+growthItem+"}"
+          growthText = IconName(growthItem)
+          
+          if(matches){
+            let cardplayOptions = matches[1].split(",");
+            num_card_plays = cardplayOptions[0];
+            plural = num_card_plays > 1 ? "s" : "";
+            growthIcons = "<card-play-num><value>" + num_card_plays + "</value></card-play-num>"
+            growthText = " +"+num_card_plays+" Card Play"+plural+" this turn"
+          }
+          break;
+        }
+        case 'element-marker': {
+          const matches = regExp.exec(classPieces[j]);
+          
+          if(matches){
+            let markerOptions = matches[1].split(",");
+            num_markers = markerOptions[0];
+            marker_type = num_markers > 0 ? 'markerplus' : 'markerminus';
+            marker_verb = num_markers > 0 ? 'Prepare' : 'Discard';
+            num_markers = Math.abs(num_markers)
+            plural = num_markers > 1 ? "s" : "";
+            numLocs = num_markers
+            let rad_size = 20 + 5*(numLocs-2); // this expands slightly as more icons are used
+            var markerIcons = ""
+            for (var i = 0; i < numLocs; i++) {
+              pos_angle = i * 2*Math.PI / numLocs - (Math.PI)*(1-(1/6));
+              x_loc = rad_size * Math.cos(pos_angle) - 30;
+              y_loc = rad_size * Math.sin(pos_angle) - 20;
+              let marker_loc = "style='transform: translateY("+y_loc+"px) translateX("+x_loc+"px)'";
+              markerIcons += "<icon-multi-element><icon class='"+marker_type+"'"+marker_loc+"></icon></icon-multi-element>"
+            }
+            markerIcons += "<icon style='width:0px;height:99px'></icon>"; // This is a filler icon to make sure the spacing is right. Any idea for a better solution?
+            
+            growthIcons = "<gain>" + markerIcons + "</gain>";
+            growthText = marker_verb+" "+num_markers+" Element Marker"+plural;
+          }else{
+            growthIcons = "<gain>{markerplus}</gain>"
+            growthText = "Prepare 1 Element Marker"
+          }
+          break;
+        }
+        case 'discard': {
+          const matches = regExp.exec(classPieces[j]);
+          if(matches){
+            let discardOptions = matches[1].split(",");
+            num_discard = discardOptions[0];
+            if(!isNaN(num_discard)){
+              //handle number discards
+            }else{
+              //handle element discards
+              var discardElement=num_discard;
+              discardIcon = "<icon class='discard-card'><icon class='discard-element "+discardElement+"'></icon></icon>"
+              discardText = 'Discard a Power Card with '+Capitalise(discardElement)
+            }
+          }else{
+            discardIcon = "{discard-card}"
+            discardText = "Discard a Card"
+          }
+          growthIcons = discardIcon;
+          growthText = discardText;
+          break;
+        }
+        case 'add-token': {
+          const matches = regExp.exec(classPieces[j]);
+          let tokenOptions = matches[1].split(",");
+          let range = tokenOptions[0];
+          let tokenRange = "<range-growth>" + range + "</range-growth>"
+          let token = tokenOptions[1];
+          let tokenNum = tokenOptions[2];
+          let tokenReqOpen = "<custom-icon>";
+          let tokenReqClose = "</custom-icon>";
+          let tokenText = ""
+          let tokenIcons = ""
+          if(!tokenNum){
+            tokenIcons = "+<icon class='"+token+" token'></icon>"
+            tokenText = "Add a " + Capitalise(token);
+          }else if(!isNaN(tokenNum)){
+            // multiple of the same token
+            tokenIcons += "+"
+            if (tokenNum>3){
+              tokenIcons += tokenNum+"<icon class='"+token+" token'></icon>";
+            }else{
+              for (var i = 0; i < tokenNum; i++) {
+                tokenIcons += "<icon class='"+token+" token'></icon>"
+              }
+            }
+            tokenText = "Add "+tokenNum+" " + Capitalise(token);
+          }else{
+            // two or more different tokens
+            operator = tokenOptions.at(-1);
+            tokenIcons += "+<icon class='"+token+" token'></icon>";
+            tokenText += "Add a " + Capitalise(token);
+            if (operator=='and' || operator=='or'){
+              for (var i = 2; i < tokenOptions.length-1; i++) {
+                tokenIcons += operator=='or' ? "/" : "";
+                tokenIcons += "<icon class='"+tokenOptions[i]+" token'></icon>"
+                tokenText += i==tokenOptions.length-2 ? " "+operator+" " : ", ";
+                tokenText += Capitalise(tokenOptions[i]);
+              }
+            }else{
+              tokenText = "MUST use AND or OR"
+            }
+          }
+          growthIcons = tokenReqOpen +'<wrap>'+ tokenIcons+'</wrap>' + tokenRange + tokenReqClose;
+          growthText = tokenText
+          break;
+        }
+        default: {
+          growthIcons = "{"+growthItem+"}"
+          growthText = IconName(growthItem)
+        }
 
             }
 			

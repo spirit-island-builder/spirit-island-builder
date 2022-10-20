@@ -135,6 +135,13 @@ growth-cell icon.reclaim-element {
     width: 36px;
 }
 
+growth-cell icon.discard-element {
+    position: relative;
+    left: 28px;
+    top: -28px;
+    width: 36px;
+}
+
 presence-node.growth {
   margin-top: -39px;
 }
