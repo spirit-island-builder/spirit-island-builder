@@ -1904,13 +1904,24 @@ function dynamicCellWidth() {
 	growth = board.getElementsByTagName("growth")[0];
 	presenceTracks = board.getElementsByTagName("presence-tracks")[0];
 	right = board.getElementsByTagName("right")[0];
-	innatePowers = board.getElementsByTagName("innate-powers")[0];
-	innatePowers.style.height = (right.clientHeight - presenceTracks.clientHeight - growth.clientHeight) + "px";
+	innatePowers = board.getElementsByTagName("innate-power");
+	console.log('innate poowers')
+  console.log(innatePowers)
 	
 	// Shrink Innate Power notes if needed for space
 	var innatePowerBox = board.getElementsByTagName("innate-powers")[0];
+  innatePowerBox.style.height = (right.clientHeight - presenceTracks.clientHeight - growth.clientHeight) + "px";
 	let k = 0;
 	if(checkOverflowHeight(innatePowerBox)){
+    // First, check if its just one IP, and if so, squish the note
+    if(innatePowers.length==1 ){
+      note = innatePowers[0].getElementsByTagName("note")[0];
+      if(note){
+        note.classList.add('single-squish');
+      }
+      console.log(note)
+    }
+    
 		console.log('IP overflowing, shrinking notes (if applicable)...')
 		descriptionContainers = innatePowerBox.getElementsByTagName("description-container");
 		tallest = 0;
