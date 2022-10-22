@@ -128,6 +128,20 @@ growth-cell icon.reclaim-half {
   width:82px;
 }
 
+growth-cell icon.reclaim-element {
+    position: relative;
+    left: 28px;
+    top: -28px;
+    width: 36px;
+}
+
+growth-cell icon.discard-element {
+    position: relative;
+    left: 28px;
+    top: -28px;
+    width: 36px;
+}
+
 presence-node.growth {
   margin-top: -39px;
 }
@@ -295,12 +309,10 @@ custom-presence-req icon.range-4 {
 }
 
 custom-presence-req icon.dahan {
-    display: block;
-    height: 45px;
-    width: 45px;
-    margin-top: 7px;
-    margin-bottom: -5px;
-    margin-left: 43px;
+    height: 37px;
+    width: 37px;
+    margin-top: 0px;
+    margin-bottom: -9px;
 }
 
 presence-req icon.presence {

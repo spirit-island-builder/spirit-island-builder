@@ -263,134 +263,143 @@ function parseGrowthTags(){
             switch (growthItem) {
 				// Simple growth items are handled in the 'Default' case. See function IconName.
 				// Only growth items with options are handled here.
-				case 'reclaim': {
-					const matches = regExp.exec(classPieces[j])
-					let reclaimIcon = growthItem+"-all";
-					let reclaimText = IconName(growthItem+"-all");
-					if (matches){
-						let reclaimOptions = matches[1].split(",");
-						let reclaimType = reclaimOptions[0];
-						let reclaimCustomText = reclaimOptions[1];
-						switch(reclaimType)
-						{
-							case 'all':
-								break;
-							case 'one':
-								reclaimIcon = growthItem+"-"+reclaimType
-								reclaimText = IconName(growthItem+"-"+reclaimType)
-								break;
-							case 'none':
-								reclaimIcon = growthItem+"-"+reclaimType
-								reclaimText = IconName(growthItem+"-"+reclaimType)
-								break;
-							case 'half':
-								reclaimIcon = growthItem+"-"+reclaimType
-								reclaimText = IconName(growthItem+"-"+reclaimType)
-								break;
-							case 'custom':
-								reclaimIcon = growthItem+"-"+reclaimType
-								reclaimText = "Reclaim " + reclaimCustomText
-								break;
-							default:
-								reclaimText = "TEXT NOT RECOGNIZED - use 'all','one',or 'custom'";
-						}
-					}
-					growthIcons = "{"+reclaimIcon+"}"
-					growthText = reclaimText
-					break;
-				}
-				case 'gain-card-pay-2': {
-						growthIcons = "<custom-icon>{" + growthItem + "}</custom-icon>"
-						growthText = "You may Pay 2 Energy to Gain a Power Card"
+        case 'reclaim': {
+          const matches = regExp.exec(classPieces[j])
+          let reclaimIcon = "{reclaim-all}";
+          let reclaimText = IconName('reclaim'+"-all");
+          if (matches){
+            let reclaimOptions = matches[1].split(",");
+            let reclaimType = reclaimOptions[0];
+            let reclaimModifiersOrText = reclaimOptions[1];
+            switch(reclaimType)
+            {
+              case 'all':
+                if(reclaimModifiersOrText){
+                  reclaimIcon = "<icon class='reclaim-"+reclaimType+"'>"+"<icon class='reclaim-element "+reclaimModifiersOrText+"'></icon></icon>"
+                  reclaimText = 'Reclaim All Cards with '+Capitalise(reclaimModifiersOrText)
+                }
+                break;
+              case 'one':
+                if(reclaimModifiersOrText){
+                  reclaimIcon = "<icon class='reclaim-"+reclaimType+"'>"+"<icon class='reclaim-element "+reclaimModifiersOrText+"'></icon></icon>"
+                  reclaimText = 'Reclaim One Card with '+Capitalise(reclaimModifiersOrText)
+                }else{
+                  reclaimIcon = "{reclaim-"+reclaimType+"}"
+                  reclaimText = IconName('reclaim-'+reclaimType)
+                }
+                break;
+              case 'none':
+                reclaimIcon = "{reclaim-"+reclaimType+"}"
+                reclaimText = IconName('reclaim-'+reclaimType)
+                break;
+              case 'half':
+                reclaimIcon = "{reclaim-"+reclaimType+"}"
+                reclaimText = IconName('reclaim-'+reclaimType)
+                break;
+              case 'custom':
+                reclaimIcon = "{reclaim-"+reclaimType+"}"
+                reclaimText = "Reclaim " + reclaimModifiersOrText
+                break;
+              default:
+                reclaimText = "TEXT NOT RECOGNIZED - use 'all','one',or 'custom'";
+            }
+          }
+          growthIcons = reclaimIcon
+          growthText = reclaimText
+          break;
+        }
+        case 'gain-card-pay-2': {
+            growthIcons = "<custom-icon>{" + growthItem + "}</custom-icon>"
+            growthText = "You may Pay 2 Energy to Gain a Power Card"
                         break;
-				}
-				case 'isolate': {
+        }
+        case 'isolate': {
                         const matches = regExp.exec(classPieces[j])
-						let isolateIcons = "{isolate}"
-						let isolateText = "Isolate 1 of Your Lands"
-						let isolateReqOpen = "";
-						let isolateReqClose = "";
-						if (matches){
-							let isolateOptions = matches[1].split(",");
-							let isolateRange = isolateOptions[0];
-							isolateReqOpen = "<custom-icon>";
-							isolateReqClose = "</custom-icon>";
-							isolateIcons += "<range-growth>" + isolateRange + "</range-growth>";
-							isolateText = "Isolate a Land";
-						}
-						growthIcons = isolateReqOpen + isolateIcons + isolateReqClose
-						growthText = isolateText
+            let isolateIcons = "{isolate}"
+            let isolateText = "Isolate 1 of Your Lands"
+            let isolateReqOpen = "";
+            let isolateReqClose = "";
+            if (matches){
+              let isolateOptions = matches[1].split(",");
+              let isolateRange = isolateOptions[0];
+              isolateReqOpen = "<custom-icon>";
+              isolateReqClose = "</custom-icon>";
+              isolateIcons += "<range-growth>" + isolateRange + "</range-growth>";
+              isolateText = "Isolate a Land";
+            }
+            growthIcons = isolateReqOpen + isolateIcons + isolateReqClose
+            growthText = isolateText
                         break;
-				}
-                case 'damage': {
-					const matches = regExp.exec(classPieces[j]);
-					let damageOptions = matches[1].split(",");
-					let range = damageOptions[0];
-					let damage = damageOptions[1];
-					growthIcons = "<custom-icon><growth-damage><value>" + damage + "</value></growth-damage>"+ "<range-growth>" + range + "</range-growth></custom-icon>"
-					growthText = "Deal "+damage+" Damage at Range " + range
-					break;
-				}
-				case 'gain-energy': {
-					const matches = regExpOuterParentheses.exec(classPieces[j]);
-					const gainEnergyBy = matches[1];
-					let energyOptions = matches[1].split(",");
-          			let energyManyIconOpen = "" 
-					let energyManyIconClose = ""
-					if (isNaN(energyOptions[0]) || energyOptions.length!=1) {
-							energyManyIconOpen = "<growth-cell-double>"
-							energyManyIconClose = "</growth-cell-double>"
-					}
-					let energyGrowthIcons = ""
-					let energyGrowthText = ""
-					let x_is_num = !isNaN(energyOptions[0]);
-					let x_is_zero = (energyOptions[0]==0);
-					let x_is_text = energyOptions[0]=='text';
-					let x_is_flat = x_is_num && !x_is_zero;
-					let y_is_text = energyOptions[1]!==undefined ? energyOptions[1]=='text' : false;
-					let has_custom_text = (x_is_text || y_is_text);
-					let custom_text = ""
-					if(has_custom_text){custom_text += y_is_text ? energyOptions[2]:energyOptions[1]}
-					
-					shift = 0;
-					shift += (x_is_num) ? 1 : 0;
-					shift += (has_custom_text) ? 2 : 0;
-					let flatEnergy = energyOptions[0];
-					let scaling_entity = energyOptions[shift];
-					let scaling_value = energyOptions[shift+1]!==undefined ? energyOptions[shift+1] : 1;
-					if (!isNaN(scaling_entity)){
-						scaling_value=scaling_entity;
-						scaling_entity = undefined;
-					}
-					var customScalingIcon = (scaling_entity !== undefined) ? ("<icon class='" + scaling_entity + "'></icon>") : "<div class='custom-scaling'>!!!</div>"
-					
-					// Flat Energy
-					if(x_is_flat){
-						energyGrowthIcons = "<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
-						if(scaling_entity){
-							energyGrowthText = "Gain "+flatEnergy+" Energy"
-						}else{
-							energyGrowthText = "Gain Energy"
-						}
-					}
-					
-					// Scaling Energy
-					if(scaling_entity || has_custom_text){
-						energyGrowthIcons += "<gain-per><value>"+scaling_value+"</value></gain-per>"
-						energyGrowthIcons += "<gain-per-element><ring-icon>"+customScalingIcon+"</ring-icon></gain-per-element>";
-						if(x_is_flat){
-							energyGrowthText += " and +"+scaling_value+" more per "
-						}else{
-							energyGrowthText += "Gain "+scaling_value+" Energy per "
-						}
-						energyGrowthText += has_custom_text ? custom_text : Capitalise(scaling_entity);
-						energyGrowthText += elementNames.has(scaling_entity) ? ' Showing' : '';
-					}
-					growthIcons = energyManyIconOpen + energyGrowthIcons + energyManyIconClose
-					growthText = energyGrowthText
-					break;
-				}
-				case 'add-presence': {
+        }
+        case 'damage': {
+          const matches = regExp.exec(classPieces[j]);
+          let damageOptions = matches[1].split(",");
+          let range = damageOptions[0];
+          let damage = damageOptions[1];
+          growthIcons = "<custom-icon><growth-damage><value>" + damage + "</value></growth-damage>"+ "<range-growth>" + range + "</range-growth></custom-icon>"
+          growthText = "Deal "+damage+" Damage at Range " + range
+          break;
+        }
+        case 'gain-energy': {
+          const matches = regExpOuterParentheses.exec(classPieces[j]);
+          const gainEnergyBy = matches[1];
+          let energyOptions = matches[1].split(",");
+                let energyManyIconOpen = "" 
+          let energyManyIconClose = ""
+          if (isNaN(energyOptions[0]) || energyOptions.length!=1) {
+              energyManyIconOpen = "<growth-cell-double>"
+              energyManyIconClose = "</growth-cell-double>"
+          }
+          let energyGrowthIcons = ""
+          let energyGrowthText = ""
+          let x_is_num = !isNaN(energyOptions[0]);
+          let x_is_zero = (energyOptions[0]==0);
+          let x_is_text = energyOptions[0]=='text';
+          let x_is_flat = x_is_num && !x_is_zero;
+          let y_is_text = energyOptions[1]!==undefined ? energyOptions[1]=='text' : false;
+          let has_custom_text = (x_is_text || y_is_text);
+          let custom_text = ""
+          if(has_custom_text){custom_text += y_is_text ? energyOptions[2]:energyOptions[1]}
+          
+          shift = 0;
+          shift += (x_is_num) ? 1 : 0;
+          shift += (has_custom_text) ? 2 : 0;
+          let flatEnergy = energyOptions[0];
+          let scaling_entity = energyOptions[shift];
+          let scaling_value = energyOptions[shift+1]!==undefined ? energyOptions[shift+1] : 1;
+          if (!isNaN(scaling_entity)){
+            scaling_value=scaling_entity;
+            scaling_entity = undefined;
+          }
+          var customScalingIcon = (scaling_entity !== undefined) ? ("<icon class='" + scaling_entity + "'></icon>") : "<div class='custom-scaling'>!!!</div>"
+          
+          // Flat Energy
+          if(x_is_flat){
+            energyGrowthIcons = "<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
+            if(scaling_entity){
+              energyGrowthText = "Gain "+flatEnergy+" Energy"
+            }else{
+              energyGrowthText = "Gain Energy"
+            }
+          }
+          
+          // Scaling Energy
+          if(scaling_entity || has_custom_text){
+            energyGrowthIcons += "<gain-per><value>"+scaling_value+"</value></gain-per>"
+            energyGrowthIcons += "<gain-per-element><ring-icon>"+customScalingIcon+"</ring-icon></gain-per-element>";
+            if(x_is_flat){
+              energyGrowthText += " and +"+scaling_value+" more per "
+            }else{
+              energyGrowthText += "Gain "+scaling_value+" Energy per "
+            }
+            energyGrowthText += has_custom_text ? custom_text : Capitalise(scaling_entity);
+            energyGrowthText += elementNames.has(scaling_entity) ? ' Showing' : '';
+          }
+          growthIcons = energyManyIconOpen + energyGrowthIcons + energyManyIconClose
+          growthText = energyGrowthText
+          break;
+        }
+        case 'add-presence': {
           const matches = regExpOuterParentheses.exec(classPieces[j]);
 
           let presenceOptions = matches[1].split(",");
@@ -402,47 +411,47 @@ function parseGrowthTags(){
           let presenceIcon = "";
           let presenceTextLead = "";
           let presenceTextEnd = "";
-					let presenceRangeOpen = "<range-growth>";
-					let presenceRangeClose = "</range-growth>";
+          let presenceRangeOpen = "<range-growth>";
+          let presenceRangeClose = "</range-growth>";
 
-					if (presenceRange=='any' && presenceOptions.length==1) {
-						presenceReqOpen = "<custom-presence-no-range>";
-						presenceReqClose = "</custom-presence-no-range>";
-						presenceRangeOpen = "<range-growth-any>";
-						presenceRangeClose = "</range-growth-any>";
-						presenceText = " to any Land"
-					} else if (presenceOptions.length > 1) {
+          if (presenceRange=='any' && presenceOptions.length==1) {
+            presenceReqOpen = "<custom-presence-no-range>";
+            presenceReqClose = "</custom-presence-no-range>";
+            presenceRangeOpen = "<range-growth-any>";
+            presenceRangeClose = "</range-growth-any>";
+            presenceText = " to any Land"
+          } else if (presenceOptions.length > 1) {
             presenceReqOpen = "<custom-presence-req>";
             presenceReqClose = "</custom-presence-req>";
             presenceIcon += "<presence-req>";
                         
-						if (presenceRange=='any'){
-							presenceReqOpen += "<presence-req></presence-req>"
-							presenceRangeOpen = "<range-growth-any>";
-							presenceRangeClose = "</range-growth-any>";
-						}
-						
+            if (presenceRange=='any'){
+              presenceReqOpen += "<presence-req></presence-req>"
+              presenceRangeOpen = "<range-growth-any>";
+              presenceRangeClose = "</range-growth-any>";
+            }
+            
             if(presenceOptions[1]=='text'){
-              // User wants a custom text presence addition
-              presenceText += " "+presenceOptions[2];
-							if(presenceOptions[3]){
-								presenceIcon += "<display-custom>"
-								for(i = 3; i < presenceOptions.length; i++){
-									presenceIcon += "<icon class='"+presenceOptions[i]+"'></icon>"
-								}
-								presenceIcon += "</display-custom>"
-							}else{
-								presenceIcon += "<span style='font-family: DK Snemand; font-size: 24pt; font-style: normal;'>!!!</span>";
-							}
+            // User wants a custom text presence addition
+            presenceText += " "+presenceOptions[2];
+              if(presenceOptions[3]){
+                presenceIcon += "<display-custom>"
+                for(i = 3; i < presenceOptions.length; i++){
+                  presenceIcon += "<icon class='"+presenceOptions[i]+"'></icon>"
+                }
+                presenceIcon += "</display-custom>"
+              }else{
+                presenceIcon += "<span style='font-family: DK Snemand; font-size: 24pt; font-style: normal;'>!!!</span>";
+              }
             } else if (presenceOptions[1]=='token'){
-              // User wants to add a token in growth
+            // User wants to add a token in growth
               switch (presenceOptions[3]){
                 case 'and':
-                    //add presence and token
-                    presenceIcon += "<span class='plus-text'>+ </span>";
-                    presenceIcon += "{"+presenceOptions[2]+"}";
-                    presenceText += " and a " + Capitalise(presenceOptions[2]);
-                    break;
+                  //add presence and token
+                  presenceIcon += "<span class='plus-text'>+ </span>";
+                  presenceIcon += "{"+presenceOptions[2]+"}";
+                  presenceText += " and a " + Capitalise(presenceOptions[2]);
+                  break;
                 case 'or':
                   //add presence or token
                   presenceReqOpen = "<custom-presence-req><custom-presence-or>";
@@ -450,22 +459,22 @@ function parseGrowthTags(){
                   presenceIcon = "{backslash}{"+presenceOptions[2]+"}</custom-presence-or>";
                   presenceText += " or a " + Capitalise(presenceOptions[2]);
                 case 'instead':
-                    //no option to add presence, just token
+                  //no option to add presence, just token
               }
             } else {
               // User wants an OR or an AND requirement
               let operator = "";
               if (presenceOptions.length > 4) {
-                  operator = "/";
+                operator = "/";
               }else{
-                  operator = " "+presenceOptions.at(-1)+" ";
+                operator = " "+presenceOptions.at(-1)+" ";
               }
               
-              presenceText += " to ";
-							presenceText += presenceRange === 'any' ? 'any ' : '';
-							
+                      presenceText += " to ";
+              presenceText += presenceRange === 'any' ? 'any ' : '';
+              
               let flag = 0; // This flag is used to figure out if 'land with' has been said already. It comes up with add-presence(3,jungle,beasts,or)
-							let and_flag = 0;
+              let and_flag = 0;
               for (var i = 1; i < presenceOptions.length; i++) {
                 
                 presenceReq = presenceOptions[i];
@@ -476,10 +485,8 @@ function parseGrowthTags(){
                 }
                 
                 // Check for common typos
-                console.log(presenceReq +" b4")
                 presenceReq = presenceReq.includes('sands') ? presenceReq : presenceReq.replace('sand','sands');
                 presenceReq = presenceReq.replace('wetlands','wetland');
-                console.log(presenceReq)
                 
                 // Icons
                 switch (presenceReq){
@@ -529,27 +536,27 @@ function parseGrowthTags(){
                         break;
                     case 'multiland':
                         presenceText += multiLandText;
-										and_flag = 1;
+                    and_flag = 1;
                                         break;
                                     case 'no-blight':
-										if(i == 1){
-											presenceText += " Land without "
-										}else{
-											presenceText += operator == ' and ' ? " and no " : " or no ";
-										}
+                    if(i == 1){
+                      presenceText += " Land without "
+                    }else{
+                      presenceText += operator == ' and ' ? " and no " : " or no ";
+                    }
                                         presenceText += "Blight";
                                         break;
                                     case 'beast':
                                         presenceTextEnd = "s"
                                     case 'no-own-presence':
-										if(i == 1){
-											presenceText += " Land without "
-										}else{
-											presenceText += operator == ' and ' ? " and no " : " or no ";
-										}
+                    if(i == 1){
+                      presenceText += " Land without "
+                    }else{
+                      presenceText += operator == ' and ' ? " and no " : " or no ";
+                    }
                                         presenceText += "Your Presence";
                                         break;
-									case 'presence':
+                  case 'presence':
                                         presenceTextLead += presenceTextEnd==="" ? "Your " : "";
                                         //Intentionally do not break.
                                     default:
@@ -558,11 +565,11 @@ function parseGrowthTags(){
                                         }else if(flag == 0 && operator != ' and '){
                                             presenceText += " Land with ";
                                         }else{
-											if(operator === ' and ' && flag !== 1){
-												presenceText += (and_flag===1) ? ' with ' : ' Land with ';
-											}else{
-												presenceText += operator;
-											}
+                      if(operator === ' and ' && flag !== 1){
+                        presenceText += (and_flag===1) ? ' with ' : ' Land with ';
+                      }else{
+                        presenceText += operator;
+                      }
                                         }
                                         flag = 1;
                                         presenceText += presenceTextLead + Capitalise(presenceReq) + presenceTextEnd;
@@ -570,104 +577,104 @@ function parseGrowthTags(){
                             }                            
                         }
                         presenceIcon += "</presence-req>";
-					}
-					growthIcons = presenceReqOpen + "<plus-presence>+{presence}</plus-presence>" + presenceIcon + presenceRangeOpen + presenceRange + presenceRangeClose + presenceReqClose
-					growthText = "Add a Presence" + presenceText
+          }
+          growthIcons = presenceReqOpen + "<plus-presence>+{presence}</plus-presence>" + presenceIcon + presenceRangeOpen + presenceRange + presenceRangeClose + presenceReqClose
+          growthText = "Add a Presence" + presenceText
                     break;
                 }
-                case 'push':
-                case 'gather': {
-					const matches = regExp.exec(classPieces[j]);
-					
-					let preposition = growthItem=='push'
-						? 'from'
-						: 'into'
-					
-					let moveText = ""
-					let moveIcons = ""
-					let moveTarget = matches[1];
-					let moveOptions = matches[1].split(",");
-					let moveRange = moveOptions[1];
-					let moveNum = moveOptions[2];
-					let plural = "";
-					if(!moveNum){
-						moveNum = 1;
-					}else if(isNaN(moveNum)){
-						moveNum = moveNum.toUpperCase();
-					}else{
-						plural = moveNum > 1 ? "s" : "";
-					}
-					if(moveRange){
-						moveTarget = moveOptions[0];
-						if(isNaN(moveRange)){
-							let moveCondition = moveRange;
-							// Gather/Push into/from a sacred site, land with token, or terrain
-							
-							// Text
-							moveText += Capitalise(growthItem)+" 1 " + Capitalise(moveTarget) +" "+ preposition + " " + moveNum;
-							switch (moveCondition){
-								case 'sacred-site':
-									moveText += " of your Sacred Sites"
-									moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'><icon class='" + moveTarget + "'></icon><icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
-									break;
-								case 'wetland':
-								case 'sand':
+        case 'push':
+        case 'gather': {
+          const matches = regExp.exec(classPieces[j]);
+          
+          let preposition = growthItem=='push'
+            ? 'from'
+            : 'into'
+          
+          let moveText = ""
+          let moveIcons = ""
+          let moveTarget = matches[1];
+          let moveOptions = matches[1].split(",");
+          let moveRange = moveOptions[1];
+          let moveNum = moveOptions[2];
+          let plural = "";
+          if(!moveNum){
+            moveNum = 1;
+          }else if(isNaN(moveNum)){
+            moveNum = moveNum.toUpperCase();
+          }else{
+            plural = moveNum > 1 ? "s" : "";
+          }
+          if(moveRange){
+            moveTarget = moveOptions[0];
+            if(isNaN(moveRange)){
+              let moveCondition = moveRange;
+              // Gather/Push into/from a sacred site, land with token, or terrain
+              
+              // Text
+              moveText += Capitalise(growthItem)+" 1 " + Capitalise(moveTarget) +" "+ preposition + " " + moveNum;
+              switch (moveCondition){
+                case 'sacred-site':
+                  moveText += " of your Sacred Sites"
+                  moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'><icon class='" + moveTarget + "'></icon><icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
+                  break;
+                case 'wetland':
+                case 'sand':
                 case 'sands':
-								case 'mountain':
-								case 'jungle':
-								case 'jungle-wetland':
-								case 'jungle-sand':
+                case 'mountain':
+                case 'jungle':
+                case 'jungle-wetland':
+                case 'jungle-sand':
                 case 'jungle-sands':
-								case 'jungle-mountain':
-								case 'sand-wetland':
+                case 'jungle-mountain':
+                case 'sand-wetland':
                 case 'sands-wetland':
-								case 'mountain-wetland':
-								case 'mountain-sand':
+                case 'mountain-wetland':
+                case 'mountain-sand':
                 case 'mountain-sands':
-								case 'mountain-jungle':
-								case 'sand-jungle':
+                case 'mountain-jungle':
+                case 'sand-jungle':
                 case 'sands-jungle':
-								case 'sand-mountain':
+                case 'sand-mountain':
                 case 'sands-mountain':
-								case 'wetland-jugnle':
-								case 'wetland-mountain':
-								case 'wetland-sand':
+                case 'wetland-jugnle':
+                case 'wetland-mountain':
+                case 'wetland-sand':
                 case 'wetland-sands':
-								case 'ocean':
-									moveIcons += "<push-gather><icon class='" + moveCondition + " terrain-"+growthItem+"'>{"+growthItem+"-arrow}<icon class='" + moveTarget + " "+preposition+"'></icon></icon></push-gather>"
-									moveText += " " + Capitalise(moveCondition) + plural
-									break;
-								default:
-									moveText += " of your Lands with " + Capitalise(moveCondition)
-									moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'><icon class='" + moveTarget + "'></icon><icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
-							}
-						}else{
-						// Gather/Push at range
-							moveIcons += "<push-gather-range-req><icon class='" + growthItem + "'><icon class='" + moveTarget + "'></icon></icon>"+"<range-growth>" + moveRange + "</range-growth></push-gather-range-req>"
-							moveText += Capitalise(growthItem)+" up to 1 " + Capitalise(moveTarget)+" " + preposition + " a Land"
-						}
-					}else{
-						moveIcons += "<push-gather><icon class='" + growthItem + "'><icon class='" + moveTarget + "'></icon></icon></push-gather>"
-						moveText += Capitalise(growthItem)+" 1 " + Capitalise(moveTarget)+" " + preposition + ` 1 of your Lands`;
-					}
-					growthIcons = moveIcons
-					growthText = moveText
-					break;
-				}
-                case 'presence-no-range': {
-					//This is potentially redundant.
-					growthIcons = "<custom-presence-no-range>+{presence}</custom-presence-no-range>"
-					growthText = "Add a Presence to any Land"
-					break;
-				}
-                case 'move-presence': {        
-					const matches = regExp.exec(classPieces[j]);
-					const moveRange = matches[1];
-					growthIcons = "<custom-icon2>{presence}{move-range-" + moveRange + "}</custom-icon2>"
-					growthText = "Move a Presence"
-					break;
-				}
-                case 'gain-element': {
+                case 'ocean':
+                  moveIcons += "<push-gather><icon class='" + moveCondition + " terrain-"+growthItem+"'>{"+growthItem+"-arrow}<icon class='" + moveTarget + " "+preposition+"'></icon></icon></push-gather>"
+                  moveText += " " + Capitalise(moveCondition) + plural
+                  break;
+                default:
+                  moveText += " of your Lands with " + Capitalise(moveCondition)
+                  moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'><icon class='" + moveTarget + "'></icon><icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
+              }
+            }else{
+            // Gather/Push at range
+              moveIcons += "<push-gather-range-req><icon class='" + growthItem + "'><icon class='" + moveTarget + "'></icon></icon>"+"<range-growth>" + moveRange + "</range-growth></push-gather-range-req>"
+              moveText += Capitalise(growthItem)+" up to 1 " + Capitalise(moveTarget)+" " + preposition + " a Land"
+            }
+          }else{
+            moveIcons += "<push-gather><icon class='" + growthItem + "'><icon class='" + moveTarget + "'></icon></icon></push-gather>"
+            moveText += Capitalise(growthItem)+" 1 " + Capitalise(moveTarget)+" " + preposition + ` 1 of your Lands`;
+          }
+          growthIcons = moveIcons
+          growthText = moveText
+          break;
+        }
+        case 'presence-no-range': {
+          //This is potentially redundant.
+          growthIcons = "<custom-presence-no-range>+{presence}</custom-presence-no-range>"
+          growthText = "Add a Presence to any Land"
+          break;
+        }
+        case 'move-presence': {        
+          const matches = regExp.exec(classPieces[j]);
+          const moveRange = matches[1];
+          growthIcons = "<custom-icon2>{presence}{move-range-" + moveRange + "}</custom-icon2>"
+          growthText = "Move a Presence"
+          break;
+        }
+        case 'gain-element': {
 					const matches = regExp.exec(classPieces[j]);
 
 					const gainedElement = matches[1];
@@ -755,213 +762,234 @@ function parseGrowthTags(){
 					}
 					break;
 				}
-                case 'custom': {
-					const matches = regExpOuterParentheses.exec(classPieces[j]);
-					let customOptions = matches[1].split(",");
-					customIcon = customOptions[1];
-					customText = customOptions[0];
-					listIcons = ""
-					if (customIcon){
-						if(customIcon == 'text'){
-							customIcon = "<span class='non-icon'>"+customOptions[2]+"</span>"
-						}else{
-							for(i = 1; i < customOptions.length; i++){
-								listIcons +="<icon class='"+customOptions[i]+" custom-growth-icon'></icon>";
-							}
-							customIcon = listIcons;
-						}
-					}else{
-						customIcon = "<div class='custom-scaling'>!!!</div>";
-					}
-					growthIcons = "<custom-growth-icon>" + customIcon + "</custom-growth-icon>"
-					growthText = customText
-					break;
-				}
-				case 'fear': {
-					const matches = regExp.exec(classPieces[j]);
-					const gainFearBy = matches[1];
-					let fearOptions = matches[1].split(",");
+        case 'custom': {
+          const matches = regExpOuterParentheses.exec(classPieces[j]);
+          let customOptions = matches[1].split(",");
+          customIcon = customOptions[1];
+          customText = customOptions[0];
+          listIcons = ""
+          if (customIcon){
+            if(customIcon == 'text'){
+              customIcon = "<span class='non-icon'>"+customOptions[2]+"</span>"
+            }else{
+              for(i = 1; i < customOptions.length; i++){
+                listIcons +="<icon class='"+customOptions[i]+" custom-growth-icon'></icon>";
+              }
+              customIcon = listIcons;
+            }
+          }else{
+            customIcon = "<div class='custom-scaling'>!!!</div>";
+          }
+          growthIcons = "<custom-growth-icon>" + customIcon + "</custom-growth-icon>"
+          growthText = customText
+          break;
+        }
+        case 'fear': {
+          const matches = regExp.exec(classPieces[j]);
+          const gainFearBy = matches[1];
+          let fearOptions = matches[1].split(",");
                     let fearManyIconOpen = "" 
-					let fearManyIconClose = ""
-					if (isNaN(fearOptions[0]) || fearOptions.length!=1) {
-							fearManyIconOpen = "<growth-cell-double>"
-							fearManyIconClose = "</growth-cell-double>"
-					}
-					let fearGrowthIcons = ""
-					let fearGrowthText = ""
-					let x_is_num = !isNaN(fearOptions[0]);
-					let x_is_zero = (fearOptions[0]==0);
-					let x_is_text = fearOptions[0]=='text';
-					let x_is_flat = x_is_num && !x_is_zero;
-					let y_is_text = fearOptions[1]!==undefined ? fearOptions[1]=='text' : false;
-					let has_custom_text = (x_is_text || y_is_text);
-					let custom_text = ""
-					if(has_custom_text){custom_text += y_is_text ? fearOptions[2]:fearOptions[1]}
-					
-					shift = 0;
-					shift += (x_is_num) ? 1 : 0;
-					shift += (has_custom_text) ? 2 : 0;
-					let flatFear = fearOptions[0];
-					let scaling_entity = fearOptions[shift];
-					let scaling_value = fearOptions[shift+1]!==undefined ? fearOptions[shift+1] : 1;
-					if (!isNaN(scaling_entity)){
-						scaling_value=scaling_entity;
-						scaling_entity = undefined;
-					}
-					var customScalingIcon = (scaling_entity !== undefined) ? ("<icon class='" + scaling_entity + "'></icon>") : "<div class='custom-scaling'>!!!</div>"
-					
-					// Flat Fear
-					if(x_is_flat){
-						fearGrowthIcons = "<growth-fear><value>" + flatFear + "</value></growth-fear>"
-						if(scaling_entity){
-							fearGrowthText = "Generate "+flatFear+" Fear"
-						}else{
-							fearGrowthText = "Generate Fear"
-						}
-					}
-					
-					// Scaling Fear
-					if(scaling_entity || has_custom_text){
-						fearGrowthIcons += "<fear-per><value>"+scaling_value+"</value></fear-per>"
-						fearGrowthIcons += "<gain-per-fear><ring-icon>"+customScalingIcon+"</ring-icon></gain-per-fear>";
-						if(x_is_flat){
-							fearGrowthText += " and +"+scaling_value+" more per "
-						}else{
-							fearGrowthText += "Generate "+scaling_value+" Fear per "
-						}
-						fearGrowthText += has_custom_text ? custom_text : Capitalise(scaling_entity);
-						fearGrowthText += elementNames.has(scaling_entity) ? ' Showing' : '';
-					}
-					growthIcons = fearManyIconOpen + fearGrowthIcons + fearManyIconClose
-					growthText = fearGrowthText
-					break;
-				}
-				case 'gain-range': {
-					const matches = regExp.exec(classPieces[j]);
-					let rangeOptions = matches[1].split(",");
-					let range = rangeOptions[0];
-					let type = rangeOptions[1];
-					let gainRangeText = ""
-					if (type) {
-						switch (type) {
-							case 'powers':
-							case 'power':
-								gainRangeText = "Your Powers gain +"+range+" Range this turn"
-								break;
-							case 'power cards':
-								gainRangeText = "Your Power Cards gain +"+range+" Range this turn"
-								break;
-							case 'everything':
-								gainRangeText = "+"+range+" Range on everything this turn"
-								break;
-							case 'innate':
-							case 'innate power':
-							case 'innate powers':
-								gainRangeText = "Your Innate Powers gain +"+range+" Range this turn"
-								break;
-							default:
-								gainRangeText = "Your Powers gain +"+range+" Range this turn"
-						}
-					} else {
-						gainRangeText = "Your Powers gain +"+range+" Range this turn"
-					}
-					growthIcons = "{gain-range-" + range +"}"
-					growthText = gainRangeText
-					break;
-				}
-				case 'gain-card-play': {
-					const matches = regExp.exec(classPieces[j]);
-					growthIcons = "{"+growthItem+"}"
-					growthText = IconName(growthItem)
-					
-					if(matches){
-						let cardplayOptions = matches[1].split(",");
-						num_card_plays = cardplayOptions[0];
-						plural = num_card_plays > 1 ? "s" : "";
-						growthIcons = "<card-play-num><value>" + num_card_plays + "</value></card-play-num>"
-						growthText = " +"+num_card_plays+" Card Play"+plural+" this turn"
-					}
-					break;
-				}
-				case 'element-marker': {
-					const matches = regExp.exec(classPieces[j]);
-					
-					if(matches){
-						let markerOptions = matches[1].split(",");
-						num_markers = markerOptions[0];
-						marker_type = num_markers > 0 ? 'markerplus' : 'markerminus';
-						marker_verb = num_markers > 0 ? 'Prepare' : 'Discard';
-						num_markers = Math.abs(num_markers)
-						plural = num_markers > 1 ? "s" : "";
-						numLocs = num_markers
-						let rad_size = 20 + 5*(numLocs-2); // this expands slightly as more icons are used
-						var markerIcons = ""
-						for (var i = 0; i < numLocs; i++) {
-							pos_angle = i * 2*Math.PI / numLocs - (Math.PI)*(1-(1/6));
-							x_loc = rad_size * Math.cos(pos_angle) - 30;
-							y_loc = rad_size * Math.sin(pos_angle) - 20;
-							let marker_loc = "style='transform: translateY("+y_loc+"px) translateX("+x_loc+"px)'";
-							markerIcons += "<icon-multi-element><icon class='"+marker_type+"'"+marker_loc+"></icon></icon-multi-element>"
-						}
-						markerIcons += "<icon style='width:0px;height:99px'></icon>"; // This is a filler icon to make sure the spacing is right. Any idea for a better solution?
-						
-						growthIcons = "<gain>" + markerIcons + "</gain>";
-						growthText = marker_verb+" "+num_markers+" Element Marker"+plural;
-					}else{
-						growthIcons = "<gain>{markerplus}</gain>"
-						growthText = "Prepare 1 Element Marker"
-					}
-					break;
-				}
-				case 'add-token': {
-					const matches = regExp.exec(classPieces[j]);
-					let tokenOptions = matches[1].split(",");
-					let range = tokenOptions[0];
-					let tokenRange = "<range-growth>" + range + "</range-growth>"
-					let token = tokenOptions[1];
-					let tokenNum = tokenOptions[2];
-					let tokenReqOpen = "<custom-icon>";
-					let tokenReqClose = "</custom-icon>";
-					let tokenText = ""
-					let tokenIcons = ""
-					if(!tokenNum){
-						tokenIcons = "+<icon class='"+token+" token'></icon>"
-						tokenText = "Add a " + Capitalise(token);
-					}else if(!isNaN(tokenNum)){
-						// multiple of the same token
-						tokenIcons += "+"
-						if (tokenNum>3){
-							tokenIcons += tokenNum+"<icon class='"+token+" token'></icon>";
-						}else{
-							for (var i = 0; i < tokenNum; i++) {
-								tokenIcons += "<icon class='"+token+" token'></icon>"
-							}
-						}
-						tokenText = "Add "+tokenNum+" " + Capitalise(token);
-					}else{
-						// two or more different tokens
-						operator = tokenOptions.at(-1);
-						tokenIcons += "+<icon class='"+token+" token'></icon>";
-						tokenText += "Add a " + Capitalise(token);
-						if (operator=='and' || operator=='or'){
-							for (var i = 2; i < tokenOptions.length-1; i++) {
-								tokenIcons += operator=='or' ? "/" : "";
-								tokenIcons += "<icon class='"+tokenOptions[i]+" token'></icon>"
-								tokenText += i==tokenOptions.length-2 ? " "+operator+" " : ", ";
-								tokenText += Capitalise(tokenOptions[i]);
-							}
-						}else{
-							tokenText = "MUST use AND or OR"
-						}
-					}
-					growthIcons = tokenReqOpen +'<wrap>'+ tokenIcons+'</wrap>' + tokenRange + tokenReqClose;
-					growthText = tokenText
-					break;
-				}
-				default: {
-					growthIcons = "{"+growthItem+"}"
-					growthText = IconName(growthItem)
-				}
+          let fearManyIconClose = ""
+          if (isNaN(fearOptions[0]) || fearOptions.length!=1) {
+              fearManyIconOpen = "<growth-cell-double>"
+              fearManyIconClose = "</growth-cell-double>"
+          }
+          let fearGrowthIcons = ""
+          let fearGrowthText = ""
+          let x_is_num = !isNaN(fearOptions[0]);
+          let x_is_zero = (fearOptions[0]==0);
+          let x_is_text = fearOptions[0]=='text';
+          let x_is_flat = x_is_num && !x_is_zero;
+          let y_is_text = fearOptions[1]!==undefined ? fearOptions[1]=='text' : false;
+          let has_custom_text = (x_is_text || y_is_text);
+          let custom_text = ""
+          if(has_custom_text){custom_text += y_is_text ? fearOptions[2]:fearOptions[1]}
+          
+          shift = 0;
+          shift += (x_is_num) ? 1 : 0;
+          shift += (has_custom_text) ? 2 : 0;
+          let flatFear = fearOptions[0];
+          let scaling_entity = fearOptions[shift];
+          let scaling_value = fearOptions[shift+1]!==undefined ? fearOptions[shift+1] : 1;
+          if (!isNaN(scaling_entity)){
+            scaling_value=scaling_entity;
+            scaling_entity = undefined;
+          }
+          var customScalingIcon = (scaling_entity !== undefined) ? ("<icon class='" + scaling_entity + "'></icon>") : "<div class='custom-scaling'>!!!</div>"
+          
+          // Flat Fear
+          if(x_is_flat){
+            fearGrowthIcons = "<growth-fear><value>" + flatFear + "</value></growth-fear>"
+            if(scaling_entity){
+              fearGrowthText = "Generate "+flatFear+" Fear"
+            }else{
+              fearGrowthText = "Generate Fear"
+            }
+          }
+          
+          // Scaling Fear
+          if(scaling_entity || has_custom_text){
+            fearGrowthIcons += "<fear-per><value>"+scaling_value+"</value></fear-per>"
+            fearGrowthIcons += "<gain-per-fear><ring-icon>"+customScalingIcon+"</ring-icon></gain-per-fear>";
+            if(x_is_flat){
+              fearGrowthText += " and +"+scaling_value+" more per "
+            }else{
+              fearGrowthText += "Generate "+scaling_value+" Fear per "
+            }
+            fearGrowthText += has_custom_text ? custom_text : Capitalise(scaling_entity);
+            fearGrowthText += elementNames.has(scaling_entity) ? ' Showing' : '';
+          }
+          growthIcons = fearManyIconOpen + fearGrowthIcons + fearManyIconClose
+          growthText = fearGrowthText
+          break;
+        }
+        case 'gain-range': {
+          const matches = regExp.exec(classPieces[j]);
+          let rangeOptions = matches[1].split(",");
+          let range = rangeOptions[0];
+          let type = rangeOptions[1];
+          let gainRangeText = ""
+          if (type) {
+            switch (type) {
+              case 'powers':
+              case 'power':
+                gainRangeText = "Your Powers gain +"+range+" Range this turn"
+                break;
+              case 'power cards':
+                gainRangeText = "Your Power Cards gain +"+range+" Range this turn"
+                break;
+              case 'everything':
+                gainRangeText = "+"+range+" Range on everything this turn"
+                break;
+              case 'innate':
+              case 'innate power':
+              case 'innate powers':
+                gainRangeText = "Your Innate Powers gain +"+range+" Range this turn"
+                break;
+              default:
+                gainRangeText = "Your Powers gain +"+range+" Range this turn"
+            }
+          } else {
+            gainRangeText = "Your Powers gain +"+range+" Range this turn"
+          }
+          growthIcons = "{gain-range-" + range +"}"
+          growthText = gainRangeText
+          break;
+        }
+        case 'gain-card-play': {
+          const matches = regExp.exec(classPieces[j]);
+          growthIcons = "{"+growthItem+"}"
+          growthText = IconName(growthItem)
+          
+          if(matches){
+            let cardplayOptions = matches[1].split(",");
+            num_card_plays = cardplayOptions[0];
+            plural = num_card_plays > 1 ? "s" : "";
+            growthIcons = "<card-play-num><value>" + num_card_plays + "</value></card-play-num>"
+            growthText = " +"+num_card_plays+" Card Play"+plural+" this turn"
+          }
+          break;
+        }
+        case 'element-marker': {
+          const matches = regExp.exec(classPieces[j]);
+          
+          if(matches){
+            let markerOptions = matches[1].split(",");
+            num_markers = markerOptions[0];
+            marker_type = num_markers > 0 ? 'markerplus' : 'markerminus';
+            marker_verb = num_markers > 0 ? 'Prepare' : 'Discard';
+            num_markers = Math.abs(num_markers)
+            plural = num_markers > 1 ? "s" : "";
+            numLocs = num_markers
+            let rad_size = 20 + 5*(numLocs-2); // this expands slightly as more icons are used
+            var markerIcons = ""
+            for (var i = 0; i < numLocs; i++) {
+              pos_angle = i * 2*Math.PI / numLocs - (Math.PI)*(1-(1/6));
+              x_loc = rad_size * Math.cos(pos_angle) - 30;
+              y_loc = rad_size * Math.sin(pos_angle) - 20;
+              let marker_loc = "style='transform: translateY("+y_loc+"px) translateX("+x_loc+"px)'";
+              markerIcons += "<icon-multi-element><icon class='"+marker_type+"'"+marker_loc+"></icon></icon-multi-element>"
+            }
+            markerIcons += "<icon style='width:0px;height:99px'></icon>"; // This is a filler icon to make sure the spacing is right. Any idea for a better solution?
+            
+            growthIcons = "<gain>" + markerIcons + "</gain>";
+            growthText = marker_verb+" "+num_markers+" Element Marker"+plural;
+          }else{
+            growthIcons = "<gain>{markerplus}</gain>"
+            growthText = "Prepare 1 Element Marker"
+          }
+          break;
+        }
+        case 'discard': {
+          const matches = regExp.exec(classPieces[j]);
+          if(matches){
+            let discardOptions = matches[1].split(",");
+            num_discard = discardOptions[0];
+            if(!isNaN(num_discard)){
+              //handle number discards
+            }else{
+              //handle element discards
+              var discardElement=num_discard;
+              discardIcon = "<icon class='discard-card'><icon class='discard-element "+discardElement+"'></icon></icon>"
+              discardText = 'Discard a Power Card with '+Capitalise(discardElement)
+            }
+          }else{
+            discardIcon = "{discard-card}"
+            discardText = "Discard a Card"
+          }
+          growthIcons = discardIcon;
+          growthText = discardText;
+          break;
+        }
+        case 'add-token': {
+          const matches = regExp.exec(classPieces[j]);
+          let tokenOptions = matches[1].split(",");
+          let range = tokenOptions[0];
+          let tokenRange = "<range-growth>" + range + "</range-growth>"
+          let token = tokenOptions[1];
+          let tokenNum = tokenOptions[2];
+          let tokenReqOpen = "<custom-icon>";
+          let tokenReqClose = "</custom-icon>";
+          let tokenText = ""
+          let tokenIcons = ""
+          if(!tokenNum){
+            tokenIcons = "+<icon class='"+token+" token'></icon>"
+            tokenText = "Add a " + Capitalise(token);
+          }else if(!isNaN(tokenNum)){
+            // multiple of the same token
+            tokenIcons += "+"
+            if (tokenNum>3){
+              tokenIcons += tokenNum+"<icon class='"+token+" token'></icon>";
+            }else{
+              for (var i = 0; i < tokenNum; i++) {
+                tokenIcons += "<icon class='"+token+" token'></icon>"
+              }
+            }
+            tokenText = "Add "+tokenNum+" " + Capitalise(token);
+          }else{
+            // two or more different tokens
+            operator = tokenOptions.at(-1);
+            tokenIcons += "+<icon class='"+token+" token'></icon>";
+            tokenText += "Add a " + Capitalise(token);
+            if (operator=='and' || operator=='or'){
+              for (var i = 2; i < tokenOptions.length-1; i++) {
+                tokenIcons += operator=='or' ? "/" : "";
+                tokenIcons += "<icon class='"+tokenOptions[i]+" token'></icon>"
+                tokenText += i==tokenOptions.length-2 ? " "+operator+" " : ", ";
+                tokenText += Capitalise(tokenOptions[i]);
+              }
+            }else{
+              tokenText = "MUST use AND or OR"
+            }
+          }
+          growthIcons = tokenReqOpen +'<wrap>'+ tokenIcons+'</wrap>' + tokenRange + tokenReqClose;
+          growthText = tokenText
+          break;
+        }
+        default: {
+          growthIcons = "{"+growthItem+"}"
+          growthText = IconName(growthItem)
+        }
 
             }
 			
@@ -1011,47 +1039,57 @@ function parseGrowthTags(){
 
 function parseEnergyTrackTags(){
     
-	const board = document.querySelectorAll('board')[0];
-    var energyValues = board.getElementsByTagName("energy-track")[0].getAttribute("values");
-    var energyOptions = energyValues.split(",");
+  const board = document.querySelectorAll('board')[0];
+  var energyValues = board.getElementsByTagName("energy-track")[0].getAttribute("values");
+  var energyOptions = energyValues.split(",");
 
-    var energyBanner = board.getElementsByTagName("energy-track")[0].getAttribute("banner");
-    var energyBannerScale = board.getElementsByTagName("energy-track")[0].getAttribute("banner-v-scale");
-	if(!energyBannerScale){
-        energyBannerScale = "100"
+  var energyBanner = board.getElementsByTagName("energy-track")[0].getAttribute("banner");
+  var energyBannerScale = board.getElementsByTagName("energy-track")[0].getAttribute("banner-v-scale");
+  if(!energyBannerScale){
+      energyBannerScale = "100"
+  }
+  if(energyBannerScale.at(-1)!='%'){
+    console.log('banner reported in px')
+    energyBannerScale=energyBannerScale+'px';
+  }
+  var energyHTML = "";
+  
+  //Determine the length of the energy track
+  //If for some reason the width of a presence track spot changes, this needs to be updated. Ideas for automating?
+  let energyLength = energyOptions.length * 130 + 15;
+  if(energyBanner){
+      energyHTML = "<tr class='energy-track' style='background-image:  url("+energyBanner+"); background-size: "+energyLength+"px "+energyBannerScale+"; background-repeat: no-repeat; background-position: left 0px top 20px;'>"
+  } else {
+      energyHTML = "<tr class='energy-track'>";
+  }
+  
+  // This can be scaled to move the first presence icon. 
+  energyHTML += "<td style='width:10px'></td>"
+  var firstIsMiddle = false;
+  var isFirst = false;
+  for(i = 0; i < energyOptions.length; i++){
+    // option allows for placing presence track icons in the "middle row"
+    let nodeText = energyOptions[i];
+    let isMiddle = '';
+    var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
+    if(i==0 || firstIsMiddle){
+      isFirst=true;
+      firstIsMiddle=false;
     }
-	if(energyBannerScale.at(-1)!='%'){
-		console.log('banner reported in px')
-		energyBannerScale=energyBannerScale+'px';
-	}
-    var energyHTML = "";
+    if (nodeText.startsWith("middle")){
+      nodeText = regExpOuterParentheses.exec(nodeText)[1];
+      isMiddle = ' rowspan="2" class="middle"';
+      if(i==0){
+        firstIsMiddle = true;
+      }
+    }
     
-    //Determine the length of the energy track
-    //If for some reason the width of a presence track spot changes, this needs to be updated. Ideas for automating?
-    let energyLength = energyOptions.length * 130 + 15;
-    if(energyBanner){
-        energyHTML = "<tr style='background-image:  url("+energyBanner+"); background-size: "+energyLength+"px "+energyBannerScale+"; background-repeat: no-repeat; background-position: left 0px top 20px;'>"
-    } else {
-        energyHTML = "<tr>";
-    }
-    
-    // This can be scaled to move the first presence icon. 
-    energyHTML += "<td style='width:10px'></td>"
-
-    for(i = 0; i < energyOptions.length; i++){
-		// option allows for placing presence track icons in the "middle row"
-		let nodeText = energyOptions[i];
-		let isMiddle = '';
-		var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
-		if (nodeText.startsWith("middle")){
-			nodeText = regExpOuterParentheses.exec(nodeText)[1];
-			isMiddle = ' rowspan="2" class="middle"';
-		}
-        energyHTML += "<td"+isMiddle+">"+getPresenceNodeHtml(nodeText, i == 0, "energy", true)+"</td>";
-    }
-    energyHTML += "</tr>"
-    board.getElementsByTagName("energy-track")[0].removeAttribute("values");
-    return energyHTML;
+    energyHTML += "<td"+isMiddle+">"+getPresenceNodeHtml(nodeText, isFirst, "energy", true)+"</td>";
+    isFirst=false;
+  }
+  energyHTML += "</tr>"
+  board.getElementsByTagName("energy-track")[0].removeAttribute("values");
+  return energyHTML;
     
 }
 
@@ -1076,9 +1114,9 @@ function parseCardPlayTrackTags(){
     //If for some reason the width of a presence track spot changes, this needs to be updated. Ideas for automating?
     let cardPlayLength = cardPlayOptions.length * 130 + 15;
     if(cardPlayBanner){
-        cardPlayHTML = "<tr style='background-image:  url("+cardPlayBanner+"); background-size: "+cardPlayLength+"px "+cardPlayBannerScale+"; background-repeat: no-repeat; background-position: left 0px top 20px;'>"
+        cardPlayHTML = "<tr class='plays-track' style='background-image:  url("+cardPlayBanner+"); background-size: "+cardPlayLength+"px "+cardPlayBannerScale+"; background-repeat: no-repeat; background-position: left 0px top 20px;'>"
     } else {
-        cardPlayHTML = "<tr>";
+        cardPlayHTML = "<tr class='plays-track'>";
     }
     
     // This can be scaled to move the first presence icon.
@@ -1093,408 +1131,404 @@ function parseCardPlayTrackTags(){
 }
 
 function enhancePresenceTracksTable() {
-	console.log("BUILDING PRESENCE TRACK PANEL")
-	const board = document.querySelectorAll('board')[0];
-    var elmt = board.getElementsByTagName("presence-tracks")[0];
-    var title = document.createElement("section-title");
-    title.innerHTML = "Presence";    
-    elmt.insertBefore(title, elmt.firstChild); 
-    console.log('creating dynamic presence tracks...')
-    var table = document.getElementById("presence-table");
-	table.innerHTML = table.innerHTML.replaceAll('middle=""','rowspan="2" class="middle"')
+  console.log("BUILDING PRESENCE TRACK PANEL")
+  const board = document.querySelectorAll('board')[0];
+  var elmt = board.getElementsByTagName("presence-tracks")[0];
+  var title = document.createElement("section-title");
+  title.innerHTML = "Presence";    
+  elmt.insertBefore(title, elmt.firstChild); 
+  console.log('creating dynamic presence tracks...')
+  var table = document.getElementById("presence-table");
+  table.innerHTML = table.innerHTML.replaceAll('middle=""','rowspan="2" class="middle"')
 
-    for (var i = 0, row; row = table.rows[i]; i++) {
-       for (var j = 0, cell; cell = row.cells[j]; j++) {
-        cell.innerHTML = getPresenceNodeHtml(cell.firstChild.nodeValue, j == 0, 'dynamic', i == 0);
-       }  
-    }
+  for (var i = 0, row; row = table.rows[i]; i++) {
+     for (var j = 0, cell; cell = row.cells[j]; j++) {
+      cell.innerHTML = getPresenceNodeHtml(cell.firstChild.nodeValue, j == 0, 'dynamic', i == 0);
+     }  
+  }
 
-	// Add spacing row to the front of the table
-	var firstRow = table.getElementsByTagName("tr")[0];
-	var firstCell = firstRow.getElementsByTagName("td")[0];
-	var spacerRow = document.createElement("td");
-	spacerRow.style.width = "10px";
-	spacerRow.rowSpan = "2";
-	firstRow.insertBefore(spacerRow,firstCell);
+  // Add spacing row to the front of the table
+  var firstRow = table.getElementsByTagName("tr")[0];
+  var firstCell = firstRow.getElementsByTagName("td")[0];
+  var spacerRow = document.createElement("td");
+  spacerRow.style.width = "10px";
+  spacerRow.rowSpan = "2";
+  firstRow.insertBefore(spacerRow,firstCell);
 }
 
 function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
-    var result = '';
-    //Find values between parenthesis
-    var regExp = /\(([^)]+)\)/;    
+  var result = '';
+  //Find values between parenthesis
+  var regExp = /\(([^)]+)\)/;    
+  var pnDebug = false;
+  var nodeClass = '';
+  
+  // Every node will have a presence-node element with
+  // a ring-icon element inside, so we can add these now.
+  presenceNode = document.createElement("presence-node");    
+  ring = document.createElement("ring-icon");
+  presenceNode.appendChild(ring);
+  // Will be populated with the sub text that will be added at the end
+  var subText = '';
+  // Will be populated with the raw HTML that will go inside the ring-icon element.
+  var inner = "";
+  if(pnDebug){console.log('Node Text:'+nodeText+', is first?:'+first)}
+  //Allows adding an icon top-left of the node using ^ (as with Stone)
+  let addDeepLayers = false;
+  if(nodeText.split("^")[1]){
+    iconDeepLayers = nodeText.split("^")[1]
+    addDeepLayers = true;
+    nodeText = nodeText.split("^")[0]
+  }
 
-    var nodeClass = '';
-	
-    // Every node will have a presence-node element with
-    // a ring-icon element inside, so we can add these now.
-    presenceNode = document.createElement("presence-node");    
-    ring = document.createElement("ring-icon");
-    presenceNode.appendChild(ring);
-    // Will be populated with the sub text that will be added at the end
-    var subText = '';
-    // Will be populated with the raw HTML that will go inside the ring-icon element.
-    var inner = "";
+  if(trackType == 'dynamic'){
+    if(nodeText.startsWith("energy")) {
+      nodeText = nodeText.substr(6);
+      nodeClass = 'energy';
+      subText = 'Energy/Turn';
+    }else if(nodeText.startsWith("+energy")){
+      nodeText = nodeText.replace('+energy','+');
+      nodeClass = 'energy';
+      subText = 'Energy/Turn';
+    }else if(nodeText.startsWith("card")) {
+      nodeText = nodeText.substr(4);
+      nodeClass = 'card';
+      subText = 'Card Plays';
+    }
+  }else if(trackType == 'energy'){
+    nodeClass = 'energy';
+    subText = 'Energy/Turn';
+  }else if(trackType == 'card'){
+    nodeClass = 'card';
+    subText = 'Card Plays';
+  }else if(trackType == 'special'){
+    nodeClass = 'special-ring';
+    subText = '';
+    addEnergyRing = false;
+  }
 
-	//Allows adding an icon top-left of the node using ^ (as with Stone)
-	let addDeepLayers = false;
-	if(nodeText.split("^")[1]){
-		iconDeepLayers = nodeText.split("^")[1]
-		addDeepLayers = true;
-		nodeText = nodeText.split("^")[0]
-	}
-	
-    if(trackType == 'dynamic'){
-        if(nodeText.startsWith("energy")) {
-            nodeText = nodeText.substr(6);
-            nodeClass = 'energy';
-            subText = 'Energy/Turn';
-        }
-		else if(nodeText.startsWith("+energy")){
-			nodeText = nodeText.replace('+energy','+');
-            nodeClass = 'energy';
-            subText = 'Energy/Turn';
-		}
-        else if(nodeText.startsWith("card")) {
-            nodeText = nodeText.substr(4);
-            nodeClass = 'card';
-            subText = 'Card Plays';
-        }
-    }
-    else if(trackType == 'energy'){
-        nodeClass = 'energy';
-        subText = 'Energy/Turn';
-    }
-    else if(trackType == 'card'){
-        nodeClass = 'card';
-        subText = 'Card Plays';
-    }
-	else if(trackType == 'special'){
-        nodeClass = 'special-ring';
-        subText = '';
-		addEnergyRing = false;
-    }
-	
-	
-	
-    addIconShadow = false;
-    if(!isNaN(nodeText)){
-        //The value is only a number
-        addEnergyRing = false;
-        if(first === true && trackType != 'special'){
-            presenceNode.classList.add("first");
-        } else {
-            subText = nodeText;
-			if(isNaN(nodeText[0])){
-				subText += " Energy";
-				nodeClass = 'energy';
-			}
-        }
-        inner = "<" + nodeClass + "-icon><value>" + nodeText + "</value></" + nodeClass + "-icon>";
+  addIconShadow = false;
+  if(!isNaN(nodeText)){
+    //The value is only a number
+    addEnergyRing = false;
+    if(first === true && trackType != 'special'){
+      presenceNode.classList.add("first");
     } else {
-        //It is either a single element or a mix of elements/numbers
-        var splitOptions = nodeText.split("+");
-		
-		//This code allows user to include +energy in addition to just energy
-		plus_check = splitOptions.indexOf("");
-		if(plus_check!=-1){
-			splitOptions.splice(plus_check,1)
-			splitOptions[plus_check]="+"+splitOptions[plus_check]
-			nodeClass = 'energy';
-		}
-		
-        if(splitOptions.length == 1){
-            //It's just a single item
-            var option = splitOptions[0].split("(")[0];
-            switch(option){
-				case 'push':
-                    var matches = regExp.exec(splitOptions[0]);
-                    var moveTarget = matches[1];
-					let moveIcons = "<div class='push'>"
-					let moveText = "";
-					for (var i = 0; i < moveTarget.split(";").length; i++) { 
-						moveIcons += "{"+moveTarget.split(";")[i]+"}"
-						moveText += Capitalise(moveTarget.split(";")[i]);
-						if (i < moveTarget.split(";").length-1){
-							moveIcons += "{backslash}";
-							moveText += "/";
-							
-						}
-					}
-					moveIcons +="</div>"
-					let preposition = option =='push' ? 'from' : 'into';
-						
-                    inner = "<icon class='push'>"+moveIcons+"</icon>";
-                    subText = Capitalise(option)+" 1 "+ moveText + " "+preposition+" 1 of your Lands";
-                    break;    
-                case 'gather':
-                    var matches = regExp.exec(splitOptions[0]);
-                    var moveTarget = matches[1];
-                    inner = "<icon class='gather'><icon class='"+moveTarget+"'></icon></icon>";
-                    subText = "Gather 1 "+Capitalise(moveTarget) + " into 1 of your Lands";
-                    break;
-				case 'token':
-					var matches = regExp.exec(splitOptions[0]);
-                    var tokenAdd = matches[1];
-				    inner = "<icon class='your-land'>{misc-plus}<icon class='"+tokenAdd+"'></icon></icon>";
-                    subText = "Add 1 "+Capitalise(tokenAdd) + " to 1 of your Lands";
-                    break;
-				case 'custom':
-					console.log(splitOptions[0])
-                    var matches = regExp.exec(splitOptions[0]);
-                    var custom_node = matches[1].split(";");
-					var custom_text = custom_node[0];
-					addEnergyRing = false;
-					addIconShadow = true;
-					if(custom_node[1]){
-						if(custom_node[1].split('{')[1]){
-							// User is using icon shorthand
-							inner = "<custom-presence-track-icon>"+custom_node[1]+"</custom-presence-track-icon>"
-						}else{
-							// User is not using icon shorthand (only 1 icon allowed)
-							inner = "<icon class='"+custom_node[1]+" custom-presence-track-icon'></icon>";
-						}
-					}else{
-						inner = "<" + nodeClass + "-icon><value>!!!</value></" + nodeClass + "-icon>";
-						addEnergyRing = false;
-					}
-					subText = custom_text
-					break;
-				case 'move-presence':
-                    var matches = regExp.exec(splitOptions[0]);
-                    var moveRange = matches[1];
-                    inner = "<icon class='move-presence-"+moveRange+"'></icon>";
-                    subText = "Move a Presence "+moveRange;
-					addEnergyRing = false;
-					addIconShadow = true;
-                    break;
-				case 'gain-range':
-                    var matches = regExp.exec(splitOptions[0]);
-                    var gainRange = matches[1];
-					var custom_node = matches[1].split(";");
-                    inner = "<icon class='gain-range-"+custom_node[0]+"'></icon>";
-                    subText = IconName(splitOptions[0]);
-					
-					addEnergyRing = false;
-					addIconShadow = true;
-                    break;
-				case 'gain-card-play':
-					var matches = regExp.exec(splitOptions[0]);
-					cardplay_text = splitOptions[0]
-					if(matches){
-						var cardplay_text = matches[1].split(";");
-						inner = "<icon class='"+option+" deep-layers'><icon class='"+cardplay_text+"'></icon></icon>";
-					}else{
-						inner = "<icon class='"+cardplay_text+"'></icon>";
-					}
-					subText = "+1 Card Play/Turn"
-					break;
-                default:
-                    var iconText = splitOptions[0];
-                    inner = "<icon class='"+iconText+"'></icon>";
-                    subText = IconName(iconText);
-                    break;                
-            }            
-        } else {
-            var subText = ""
-            
-			// Find unique names and report multiples
-			const nameCounts = {};
-			splitOptions.forEach(function (x) { nameCounts[x] = (nameCounts[x] || 0) + 1; });
-			let namesList = Object.keys(nameCounts);
-			let countList = Object.values(nameCounts);
-			for (var i = 0; i < namesList.length; i++) {
-				subText += IconName(namesList[i],countList[i]);
-				
-				if(i < namesList.length-1){
-					subText += ", "
-				}
-			}
-        
-            numLocs = splitOptions.length;
-            let rad_size = 22 + 1*numLocs; // this expands slightly as more icons are used
-            var trackIcons = ""
-            for (var i = 0; i < numLocs; i++) {
-                pos_angle = i * 2*Math.PI / numLocs - (Math.PI)*(1-(1/6));
-                x_loc = rad_size * Math.cos(pos_angle) - 31;
-                y_loc = rad_size * Math.sin(pos_angle) - 25;
-                let track_icon_loc = "style='transform: translateY("+y_loc+"px) translateX("+x_loc+"px)'";
-
-                // deal with cards and energy
-                if(!isNaN(splitOptions[i])){
-                    trackIcons += "<icon-multi-element><" + nodeClass + "-icon class='small'"+track_icon_loc+"><value>" + splitOptions[i] + "</value></" + nodeClass + "-icon></icon-multi-element>";
-                    if(nodeClass == 'energy') { 
-                        addEnergyRing = false;
-                    }
-                } else if(splitOptions[i].startsWith("reclaim")){
-                    trackIcons += "<icon-multi-element><icon class='"+splitOptions[i]+" small-reclaim'"+track_icon_loc+"></icon></icon-multi-element>"
-                } else if(splitOptions[i].startsWith("gain-card-play")){
-                    trackIcons += "<icon-multi-element><icon class='"+splitOptions[i]+" small'"+track_icon_loc+"></icon></icon-multi-element>"
-                } else if(splitOptions[i].startsWith("move-presence")){
-					var matches = regExp.exec(splitOptions[i]);
-                    var moveRange = matches[1];
-                    trackIcons += "<icon-multi-element><icon-shadow class = 'small'"+track_icon_loc+"><icon class='move-presence-"+moveRange+" small'></icon></icon-shadow></icon-multi-element>"
-					addEnergyRing = false;
-					addIconShadow = false;
-				} else if(splitOptions[i].startsWith("gain-range")){
-					var matches = regExp.exec(splitOptions[i]);
-                    var gainRange = matches[1];
-					gainRange = gainRange.split(";")[0];
-                    trackIcons += "<icon-multi-element><icon-shadow class = 'small'"+track_icon_loc+"><icon class='gain-range-"+gainRange+" small'></icon></icon-shadow></icon-multi-element>"
-					addEnergyRing = false;
-					addIconShadow = false;
-				} else if(splitOptions[i].startsWith("custom")){
-					var matches = regExp.exec(splitOptions[i]);
-                    var custom = matches[1].split(";")[1];
-					trackIcons += "<icon-multi-element><icon class='"+custom+" small'"+track_icon_loc+"></icon></icon-multi-element>"
-				} else {
-                    trackIcons += "<icon-multi-element><icon class='"+splitOptions[i]+"'"+track_icon_loc+"></icon></icon-multi-element>"
-                }
-            }
-            var inner = trackIcons;
-        }
+      subText = nodeText;
+      if(isNaN(nodeText[0])){
+        subText += " Energy";
+        nodeClass = 'energy';
+      }
     }
+    inner = "<" + nodeClass + "-icon><value>" + nodeText + "</value></" + nodeClass + "-icon>";
+  } else {
+    //It is either a single element or a mix of elements/numbers/other options
+    
+    if(first === true && trackType != 'special'){
+      presenceNode.classList.add("first");
+    }
+    
+    var splitOptions = nodeText.split("+");
+  
+    //This code allows user to include +energy in addition to just energy
+    plus_check = splitOptions.indexOf("");
+    if(plus_check!=-1){
+      splitOptions.splice(plus_check,1)
+      splitOptions[plus_check]="+"+splitOptions[plus_check]
+      nodeClass = 'energy';
+    }
+		
+    if(splitOptions.length == 1){
+      //It's just a single item
+      var option = splitOptions[0].split("(")[0];
+      switch(option){
+        case 'push':
+          var matches = regExp.exec(splitOptions[0]);
+          var moveTarget = matches[1];
+          let moveIcons = "<div class='push'>"
+          let moveText = "";
+          for (var i = 0; i < moveTarget.split(";").length; i++) {
+            moveIcons += "{"+moveTarget.split(";")[i]+"}"
+            moveText += Capitalise(moveTarget.split(";")[i]);
+            if (i < moveTarget.split(";").length-1){
+              moveIcons += "{backslash}";
+              moveText += "/";
+              
+            }
+          }
+          moveIcons +="</div>"
+          let preposition = option =='push' ? 'from' : 'into';
+          inner = "<icon class='push'>"+moveIcons+"</icon>";
+          subText = Capitalise(option)+" 1 "+ moveText + " "+preposition+" 1 of your Lands";
+          break;    
+        case 'gather':
+          var matches = regExp.exec(splitOptions[0]);
+          var moveTarget = matches[1];
+          inner = "<icon class='gather'><icon class='"+moveTarget+"'></icon></icon>";
+          subText = "Gather 1 "+Capitalise(moveTarget) + " into 1 of your Lands";
+          break;
+        case 'token':
+          var matches = regExp.exec(splitOptions[0]);
+          var tokenAdd = matches[1];
+          inner = "<icon class='your-land'>{misc-plus}<icon class='"+tokenAdd+"'></icon></icon>";
+          subText = "Add 1 "+Capitalise(tokenAdd) + " to 1 of your Lands";
+          break;
+        case 'custom':
+          console.log('Single Node Custom:'+splitOptions[0])
+          var matches = regExp.exec(splitOptions[0]);
+          var custom_node = matches[1].split(";");
+          var custom_text = custom_node[0];
+          addEnergyRing = false;
+          addIconShadow = true;
+          if(custom_node[1]){
+            if(custom_node[1].split('{')[1]){
+              // User is using icon shorthand
+              inner = "<custom-presence-track-icon>"+custom_node[1]+"</custom-presence-track-icon>"
+            }else{
+              // User is not using icon shorthand (only 1 icon allowed)
+              inner = "<icon class='"+custom_node[1]+" custom-presence-track-icon'></icon>";
+            }
+          }else{
+            inner = "<" + nodeClass + "-icon><value>!!!</value></" + nodeClass + "-icon>";
+            addEnergyRing = false;
+          }
+          subText = custom_text
+          break;
+        case 'move-presence':
+          var matches = regExp.exec(splitOptions[0]);
+          var moveRange = matches[1];
+          inner = "<icon class='move-presence-"+moveRange+"'></icon>";
+          subText = "Move a Presence "+moveRange;
+          addEnergyRing = false;
+          addIconShadow = true;
+          break;
+        case 'gain-range':
+          var matches = regExp.exec(splitOptions[0]);
+          var gainRange = matches[1];
+          var custom_node = matches[1].split(";");
+          inner = "<icon class='gain-range-"+custom_node[0]+"'></icon>";
+          subText = IconName(splitOptions[0]);
+          addEnergyRing = false;
+          addIconShadow = true;
+          break;
+        case 'gain-card-play':
+          var matches = regExp.exec(splitOptions[0]);
+          cardplay_text = splitOptions[0]
+          if(matches){
+            var cardplay_text = matches[1].split(";");
+            inner = "<icon class='"+option+" deep-layers'><icon class='"+cardplay_text+"'></icon></icon>";
+          }else{
+            inner = "<icon class='"+cardplay_text+"'></icon>";
+          }
+          subText = "+1 Card Play/Turn"
+          break;
+        default:
+          var iconText = splitOptions[0];
+          inner = "<icon class='"+iconText+"'></icon>";
+          subText = IconName(iconText);
+          break;                
+      }            
+    } else {
+      var subText = ""
+
+      // Find unique names and report multiples
+      const nameCounts = {};
+      splitOptions.forEach(function (x) { nameCounts[x] = (nameCounts[x] || 0) + 1; });
+      let namesList = Object.keys(nameCounts);
+      let countList = Object.values(nameCounts);
+      for (var i = 0; i < namesList.length; i++) {
+        subText += IconName(namesList[i],countList[i]);
+        if(i < namesList.length-1){
+          subText += ", "
+        }
+      }
         
-    if(addEnergyRing){ inner = "<energy-icon>"+inner+"</energy-icon>"; }
-	if(addIconShadow){ inner = "<icon-shadow>"+inner+"</icon-shadow>"; }
-    ring.innerHTML = inner;
-    presenceNode.innerHTML += "<subtext>" + subText + "</subtext>";
-    if(addDeepLayers){ 
-		valueText = ""
-		if(iconDeepLayers.startsWith("energy")){
-			var matches = regExp.exec(iconDeepLayers);
-			var valueNum = matches[1];
-			valueText = "<value>" + valueNum + "</value>"
-			iconDeepLayers = 'energy-blank';
-		}
-		presenceNode.innerHTML = "<icon class='"+iconDeepLayers+" "+nodeClass+"-deep-layers'>"+valueText+"</icon>" + presenceNode.innerHTML; 
-	}
-    return presenceNode.outerHTML;
+      numLocs = splitOptions.length;
+      let rad_size = 22 + 1*numLocs; // this expands slightly as more icons are used
+      var trackIcons = ""
+      for (var i = 0; i < numLocs; i++) {
+        pos_angle = i * 2*Math.PI / numLocs - (Math.PI)*(1-(1/6));
+        x_loc = rad_size * Math.cos(pos_angle) - 31;
+        y_loc = rad_size * Math.sin(pos_angle) - 25;
+        let track_icon_loc = "style='transform: translateY("+y_loc+"px) translateX("+x_loc+"px)'";
+        if(pnDebug){console.log('Multinode: '+splitOptions[i])}
+        // deal with cards and energy
+        if(!isNaN(splitOptions[i])){
+            trackIcons += "<icon-multi-element><" + nodeClass + "-icon class='small'"+track_icon_loc+"><value>" + splitOptions[i] + "</value></" + nodeClass + "-icon></icon-multi-element>";
+            if(nodeClass == 'energy') { 
+                addEnergyRing = false;
+            }
+        } else if(splitOptions[i].startsWith("reclaim")){
+          trackIcons += "<icon-multi-element><icon class='"+splitOptions[i]+" small-reclaim'"+track_icon_loc+"></icon></icon-multi-element>"
+        } else if(splitOptions[i].startsWith("gain-card-play")){
+          trackIcons += "<icon-multi-element><icon class='"+splitOptions[i]+" small'"+track_icon_loc+"></icon></icon-multi-element>"
+        } else if(splitOptions[i].startsWith("move-presence")){
+          var matches = regExp.exec(splitOptions[i]);
+          var moveRange = matches[1];
+          trackIcons += "<icon-multi-element><icon-shadow class = 'small'"+track_icon_loc+"><icon class='move-presence-"+moveRange+" small'></icon></icon-shadow></icon-multi-element>"
+          addEnergyRing = false;
+          addIconShadow = false;
+        } else if(splitOptions[i].startsWith("gain-range")){
+          var matches = regExp.exec(splitOptions[i]);
+          var gainRange = matches[1];
+          gainRange = gainRange.split(";")[0];
+          trackIcons += "<icon-multi-element><icon-shadow class = 'small'"+track_icon_loc+"><icon class='gain-range-"+gainRange+" small'></icon></icon-shadow></icon-multi-element>"
+          addEnergyRing = false;
+          addIconShadow = false;
+        } else if(splitOptions[i].startsWith("custom")){
+          var matches = regExp.exec(splitOptions[i]);
+          var custom = matches[1].split(";")[1];
+          if(pnDebug){console.log('Multinode custom: '+custom)}
+          trackIcons += "<icon-multi-element><icon class='"+custom+" small'"+track_icon_loc+"></icon></icon-multi-element>"
+        } else {
+          trackIcons += "<icon-multi-element><icon class='"+splitOptions[i]+"'"+track_icon_loc+"></icon></icon-multi-element>"
+        }
+      }
+      var inner = trackIcons;
+    }
+  }
+
+  if(addEnergyRing){ inner = "<energy-icon>"+inner+"</energy-icon>"; }
+  if(addIconShadow){ inner = "<icon-shadow>"+inner+"</icon-shadow>"; }
+  ring.innerHTML = inner;
+  presenceNode.innerHTML += "<subtext>" + subText + "</subtext>";
+  if(addDeepLayers){
+    valueText = ""
+    if(iconDeepLayers.startsWith("energy")){
+      var matches = regExp.exec(iconDeepLayers);
+      var valueNum = matches[1];
+      valueText = "<value>" + valueNum + "</value>"
+      iconDeepLayers = 'energy-blank';
+    }
+    presenceNode.innerHTML = "<icon class='"+iconDeepLayers+" "+nodeClass+"-deep-layers'>"+valueText+"</icon>" + presenceNode.innerHTML; 
+  }
+  return presenceNode.outerHTML;
 }
 
 function IconName(str, iconNum = 1){
-	var regExp = /\(([^)]+)\)/;
-	const matches = regExp.exec(str);
-	num = ""
-	txt = ""
-	if(matches){
-		options = matches[1].split(";");
-		num = options[0];
-		txt = options[1];
-	}
-	str = str.split("(")[0];
-	if(!isNaN(str) && isNaN(str[0])){
-		num = str[1];
-		str = "increase-energy";
-	}
-	let plural = iconNum > 1 ? 's' : '';
-	switch(str){
+  var regExp = /\(([^)]+)\)/;
+  const matches = regExp.exec(str);
+  num = ""
+  txt = ""
+  if(matches){
+    options = matches[1].split(";");
+    num = options[0];
+    txt = options[1];
+  }
+  str = str.split("(")[0];
+  if(!isNaN(str) && isNaN(str[0])){
+    num = str[1];
+    str = "increase-energy";
+  }
+  let plural = iconNum > 1 ? 's' : '';
+  switch(str){
 
-		case 'gain-power-card':
-			subText = "Gain Power Card"
-			break;
-		case 'gain-card-play':
-			subText = "Gain a Card Play"
-			break;
-		case 'reclaim-all':
-			subText = "Reclaim Cards"
-			break;
-		case 'reclaim-one':
-			subText = "Reclaim One";
-			break;
-		case 'reclaim':
-			subText = "Reclaim Cards";
-			break;
-		case 'reclaim-half':
-			subText = "Reclaim Half <em>(round up)</em>";
-			break;
-		case 'forget-power-card':
-			subText = "Forget Power Card";
-			break;    
-		case 'discard-cards':
-			subText = "Discard 2 Power Cards"
-			break;
-		case 'discard-2-cards':
-			subText = "Discard 2 Power Cards"
-			break;
-		case 'discard-card':
-			subText = "Discard 1 Power Card"
-			break;
-		case 'discard-1-card':
-			subText = "Discard 1 Power Card"
-			break;
-		case 'gain-1-time':
-			subText = "Gain 1 Time"
-			break;
-		case 'gain-2-time':
-			subText = "Gain 2 Time"
-			break;
-		case 'days-never-were':
-			subText = "Gain Power Card from Days That Never Were"
-			break;
-		case 'destroy-presence':
-			subText = "Destroy 1 of your Presence"
-			break;
-		case 'make-fast':  
-			subText = "One of your Powers may be Fast"
-			break;
-		case 'forget-power-card':
-			subText = "Forget Power";
-			break;    
-		case 'gain-card-pay-2':
-			subText = "Pay 2 Energy to Gain a Power Card";
-			break;
-		case 'ignore-range':
-			subText = "You may ignore Range this turn"
-			break;
-		case 'star':
-			subText = "Element"
-			break;
-		case 'markerplus':
-			subText = "Prepare "+iconNum+" Element Marker"+plural;
-			break;
-		case 'markerminus':
-			subText = "Discard "+iconNum+" Element Marker"+plural;
-			break;
-		case 'isolate':
-			subText = "Isolate "+iconNum+" of your Lands";
-			break;
-		case 'reclaim-none':
-			subText = "Reclaim None"
-			break;
-		case 'increase-energy':
-			subText = "+"+num+" Energy"
-			break;
-		case 'move-presence':
-			subText = "Move Presence " + num[0];
-			break;
-		case 'star':
-			subText = "Element";
-			break;
-		case 'damage-1':
-			subText = "Deal 1 Damage in one of your Lands";
-			break;
-		case 'damage-2':
-			subText = "Deal 2 Damage in one of your Lands";
-			break;
-		case 'custom':
-			subText = num;
-			break;
-		case 'gain-range':
-			subText = "+" + num[0]+ " Range";
-			if (typeof(txt)!="undefined") {
-				subText += " on " + txt;
-				}
-			break;
-		case 'inland':
-		case 'coastal':
-		case 'invaders':
-			subText = str.toUpperCase();
-			break;
-		default:
-			subText = iconNum > 1 ? iconNum + " " + Capitalise(str) : Capitalise(str);
-	}
-	
-	return subText
+    case 'gain-power-card':
+      subText = "Gain Power Card"
+      break;
+    case 'gain-card-play':
+      subText = "Gain a Card Play"
+      break;
+    case 'reclaim-all':
+      subText = "Reclaim Cards"
+      break;
+    case 'reclaim-one':
+      subText = "Reclaim One";
+      break;
+    case 'reclaim':
+      subText = "Reclaim Cards";
+      break;
+    case 'reclaim-half':
+      subText = "Reclaim Half <em>(round up)</em>";
+      break;
+    case 'forget-power-card':
+      subText = "Forget Power Card";
+      break;    
+    case 'discard-cards':
+      subText = "Discard 2 Power Cards"
+      break;
+    case 'discard-2-cards':
+      subText = "Discard 2 Power Cards"
+      break;
+    case 'discard-card':
+      subText = "Discard 1 Power Card"
+      break;
+    case 'discard-1-card':
+      subText = "Discard 1 Power Card"
+      break;
+    case 'gain-1-time':
+      subText = "Gain 1 Time"
+      break;
+    case 'gain-2-time':
+      subText = "Gain 2 Time"
+      break;
+    case 'days-never-were':
+      subText = "Gain Power Card from Days That Never Were"
+      break;
+    case 'destroy-presence':
+      subText = "Destroy 1 of your Presence"
+      break;
+    case 'make-fast':  
+      subText = "One of your Powers may be Fast"
+      break;
+    case 'forget-power-card':
+      subText = "Forget Power";
+      break;    
+    case 'gain-card-pay-2':
+      subText = "Pay 2 Energy to Gain a Power Card";
+      break;
+    case 'ignore-range':
+      subText = "You may ignore Range this turn"
+      break;
+    case 'star':
+      subText = "Element"
+      break;
+    case 'markerplus':
+      subText = "Prepare "+iconNum+" Element Marker"+plural;
+      break;
+    case 'markerminus':
+      subText = "Discard "+iconNum+" Element Marker"+plural;
+      break;
+    case 'isolate':
+      subText = "Isolate "+iconNum+" of your Lands";
+      break;
+    case 'reclaim-none':
+      subText = "Reclaim None"
+      break;
+    case 'increase-energy':
+      subText = "+"+num+" Energy"
+      break;
+    case 'move-presence':
+      subText = "Move Presence " + num[0];
+      break;
+    case 'star':
+      subText = "Element";
+      break;
+    case 'damage-1':
+      subText = "Deal 1 Damage in one of your Lands";
+      break;
+    case 'damage-2':
+      subText = "Deal 2 Damage in one of your Lands";
+      break;
+    case 'custom':
+      subText = num;
+      break;
+    case 'gain-range':
+      subText = "+" + num[0]+ " Range";
+      if (typeof(txt)!="undefined") {
+        subText += " on " + txt;
+        }
+      break;
+    case 'inland':
+    case 'coastal':
+    case 'invaders':
+      subText = str.toUpperCase();
+      break;
+    default:
+      subText = iconNum > 1 ? iconNum + " " + Capitalise(str) : Capitalise(str);
+  }
+
+  return subText
 
 }
 
@@ -1633,48 +1667,48 @@ function dynamicCellWidth() {
 	}
 	
 	growthTable = board.getElementsByTagName("growth-table")[0];
-    const headerWith = {}
-    const headerAdditionalWidth = {}
-    let maxIndex = undefined
-    for (const c of growthTable.children) {
-        const header = parseInt(c.getAttribute('header'))
-        if (!isNaN( header )) {
-            maxIndex = header
-            const addwith = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
-                + parseFloat(window.getComputedStyle(c).getPropertyValue('margin-left').replace(/px/, ""))
-                + parseFloat(window.getComputedStyle(c).getPropertyValue('width').replace(/px/, ""))
+  const headerWith = {}
+  const headerAdditionalWidth = {}
+  let maxIndex = undefined
+  for (const c of growthTable.children) {
+      const header = parseInt(c.getAttribute('header'))
+      if (!isNaN( header )) {
+          maxIndex = header
+          const addwith = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
+              + parseFloat(window.getComputedStyle(c).getPropertyValue('margin-left').replace(/px/, ""))
+              + parseFloat(window.getComputedStyle(c).getPropertyValue('width').replace(/px/, ""))
 
-            if (headerWith[header]) {
-                headerWith[header] += addwith
-            } else {
-                headerWith[header] = addwith
-            }
-        } else if (maxIndex != undefined) {
-            const addwith = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
-                + parseFloat(window.getComputedStyle(c).getPropertyValue('margin-left').replace(/px/, ""))
-                + parseFloat(window.getComputedStyle(c).getPropertyValue('width').replace(/px/, ""))
-            if (headerAdditionalWidth[maxIndex]) {
-                headerAdditionalWidth[maxIndex] += addwith
-            } else {
-                headerAdditionalWidth[maxIndex] = addwith
-            }
+          if (headerWith[header]) {
+              headerWith[header] += addwith
+          } else {
+              headerWith[header] = addwith
+          }
+      } else if (maxIndex != undefined) {
+          const addwith = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
+              + parseFloat(window.getComputedStyle(c).getPropertyValue('margin-left').replace(/px/, ""))
+              + parseFloat(window.getComputedStyle(c).getPropertyValue('width').replace(/px/, ""))
+          if (headerAdditionalWidth[maxIndex]) {
+              headerAdditionalWidth[maxIndex] += addwith
+          } else {
+              headerAdditionalWidth[maxIndex] = addwith
+          }
 
-        }
-    }
+      }
+  }
 
-    const subGrowthTitle = board.getElementsByTagName('sub-section-title')
-    let position = 0
-    for (let i = 0; i < subGrowthTitle.length; i++) {
-        subGrowthTitle[i].style.left = `${position}px`
-        subGrowthTitle[i].style.width = `${headerWith[i]}px`
-        position += headerWith[i] + headerAdditionalWidth[i]
-    }
-	
-	// Final resize (catches really big things that were missed)
-	let growthItems = board.getElementsByTagName("growth-cell");
-	for(i = 0; i < growthItems.length; i++){
-		if(checkOverflowWidth(growthItems[i])){
-			var children = growthItems[i].children;
+  const subGrowthTitle = board.getElementsByTagName('sub-section-title')
+  let position = 0
+  for (let i = 0; i < subGrowthTitle.length; i++) {
+      subGrowthTitle[i].style.left = `${position}px`
+      subGrowthTitle[i].style.width = `${headerWith[i]}px`
+      position += headerWith[i] + headerAdditionalWidth[i]
+  }
+
+  // Final resize (catches really big things that were missed)
+  let growthItems = board.getElementsByTagName("growth-cell");
+  for(i = 0; i < growthItems.length; i++){
+    if(checkOverflowWidth(growthItems[i])){
+      var children = growthItems[i].children;
       if(debug){
         console.log('scroll width is larger for')
         console.log(growthItems[i])
@@ -1726,92 +1760,120 @@ function dynamicCellWidth() {
 	}
 	
 	// Innate Power Thresholds
-    thresholds = board.getElementsByTagName("threshold");
-    thresholdsCount = thresholds.length;
-    ICONWIDTH = 60;
+  thresholds = board.getElementsByTagName("threshold");
+  thresholdsCount = thresholds.length;
+  ICONWIDTH = 60;
 	let dynamicThresholdWidth = []
 	let outerThresholdWidth = []
-    for (i = 0; i < thresholdsCount; i++){
-        icon = thresholds[i].getElementsByTagName("icon");
-        iconCount = icon.length;
-        dynamicThresholdWidth = (iconCount * ICONWIDTH) + (iconCount * 12);
-		// Check if the threshold width is overflowing. If so, just let it size itself...
-		var thresholdHeight = thresholds[i].offsetHeight
-		if (thresholdHeight > 60){
-			thresholds[i].style.width = "auto";
-		}
-		outerThresholdWidth[i] = thresholds[i].clientWidth + parseFloat(window.getComputedStyle(thresholds[i]).getPropertyValue('margin-right').replace(/px/, ""));
+  for (i = 0; i < thresholdsCount; i++){
+    icon = thresholds[i].getElementsByTagName("icon");
+    iconCount = icon.length;
+    dynamicThresholdWidth = (iconCount * ICONWIDTH) + (iconCount * 12);
+    // Check if the threshold width is overflowing. If so, just let it size itself...
+    var thresholdHeight = thresholds[i].offsetHeight
+    if (thresholdHeight > 60){
+      thresholds[i].style.width = "auto";
     }
+    outerThresholdWidth[i] = thresholds[i].clientWidth + parseFloat(window.getComputedStyle(thresholds[i]).getPropertyValue('margin-right').replace(/px/, ""));
+  }
 	
 	// Innate Power Descriptions
-    var description = board.getElementsByClassName("description");
-    for(i = 0; i < description.length; i++){
-        // Scale the text width to the threshold size...
-		description[i].style.paddingLeft = outerThresholdWidth[i]+"px";
-		var textHeight = description[i].clientHeight;
+  var description = board.getElementsByClassName("description");
+  for(i = 0; i < description.length; i++){
+      // Scale the text width to the threshold size...
+  description[i].style.paddingLeft = outerThresholdWidth[i]+"px";
+  var textHeight = description[i].clientHeight;
 
-        if (textHeight < 40){
-            description[i].id = "single-line";
-			// Align-middle the text if its a single line
-		}else if (textHeight > 75){
-			description[i].style.paddingLeft = "0px";
-			// Spill over below the threshold if its greater than three lines
-        }
-    }
+      if (textHeight < 40){
+          description[i].id = "single-line";
+    // Align-middle the text if its a single line
+  }else if (textHeight > 75){
+    description[i].style.paddingLeft = "0px";
+    // Spill over below the threshold if its greater than three lines
+      }
+  }
 
-	console.log("RESIZING: Presence Tracks")
-    // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
-    var presenceTrack = board.getElementsByTagName("presence-tracks")[0];
-	var subtext = presenceTrack.getElementsByTagName("subtext");
-	var presence_nodes = presenceTrack.getElementsByTagName("presence-node");
-	let adjustment_flag = 0
-	let default_row_height = 48*(3/4)
-	if(tightFlag){default_row_height = 0};
-	let row_max_height = default_row_height;
-	let first_row_max = 0;
-	let height_adjust = 0;
-	let firstCardPlayIndex = 0;
-    for(i = 0; i < subtext.length; i++){
-        if(presence_nodes[i].className == 'first' && i!=0){
-			height_adjust += row_max_height;
-			first_row_max = row_max_height;
-			firstCardPlayIndex = i;
-			row_max_height=default_row_height;
-			
-		}
-		
-        var textHeight = subtext[i].offsetHeight;
-        //This solution is really jank, but it works for now
-        if (textHeight > 55){
-			if(!adjustment_flag){
-				subtext[i].className = "adjust-subtext";
-				textHeight = subtext[i].offsetHeight;
-				adjustment_flag = 1
-				console.log('adjusting node: '+subtext[i].innerHTML)
-			}else{
-				console.log('rejected text adjstment for: '+subtext[i].innerHTML+' :Reason: neighbor already adjusted: ')
-				adjustment_flag = 0
-			}
-        }else{
-			adjustment_flag = 0
-		}
-		row_max_height = textHeight > row_max_height ? textHeight : row_max_height;
+  console.log("RESIZING: Presence Tracks")
+  // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
+  var presenceTrack = board.getElementsByTagName("presence-tracks")[0];
+  var energyTrack = board.getElementsByClassName("energy-track")[0];
+  var playsTrack = board.getElementsByClassName("plays-track")[0];
+  var currentTrack
+  debug = false;
+  let adjustment_flag = 0
+  let default_row_height = 48*(3/4)
+  if(tightFlag){
+    default_row_height = 0;
+    console.log('tightening presence tracks');
     }
-	height_adjust += row_max_height;
-	subtext[0].style.height = first_row_max+2+"px"
-	subtext[firstCardPlayIndex].style.height = row_max_height+2+"px"
-	var presence_table = document.getElementById("presence-table");
-	presence_table.style.height = (presence_table.offsetHeight + height_adjust)+"px";
+  let row_max_height = default_row_height;
+  let first_row_max = 0;
+  let height_adjust = 0;
+  for(j=0;j<2;j++){
+    if(j==0){
+      currentTrack = energyTrack
+      if(debug){console.log('energy track')}
+    }else{
+      currentTrack = playsTrack
+      if(debug){console.log('plays track')}
+    }
+    var subtext = currentTrack.getElementsByTagName("subtext");
+    var presence_nodes = currentTrack.getElementsByTagName("presence-node");
+    var track_tds = currentTrack.getElementsByTagName("td");
+    if(debug){console.log(presence_nodes[0].classList)}
+    if(debug){console.log(track_tds)}
     
-	// Place middle presence nodes
-	var firstRow = presenceTrack.getElementsByClassName("first")[0];
-	var firstRowHeight = firstRow.offsetHeight;
-	var middleNodes = presenceTrack.getElementsByClassName("middle");
-	for(i = 0; i < middleNodes.length; i++){
-		let presenceNode = middleNodes[i].getElementsByTagName("presence-node")
-		presenceNode[0].style.top = (firstRowHeight/2)+"px";
-	}
-	
+    for(i = 0; i < subtext.length; i++){
+      // Only read/apply to non-middle nodes
+      var textHeight = subtext[i].offsetHeight;
+      if(track_tds[1].classList.contains('middle')){
+        textHeight = 0;
+        adjustment_flag = 0;
+      //This solution is really jank, but it works for now
+      }else if (textHeight > 55){
+        if(!adjustment_flag){
+          subtext[i].className = "adjust-subtext";
+          textHeight = subtext[i].offsetHeight;
+          adjustment_flag = 1
+          console.log('adjusting node: '+subtext[i].innerHTML)
+        }else{
+          console.log('rejected text adjstment for: '+subtext[i].innerHTML+' :Reason: neighbor already adjusted: ')
+          adjustment_flag = 0
+        }
+      }else{
+        adjustment_flag = 0
+      }
+      row_max_height = textHeight > row_max_height ? textHeight : row_max_height;
+    }
+    
+    // Prepare for second row
+    height_adjust += row_max_height;
+    if(j==0){first_row_max = row_max_height};
+    row_max_height=default_row_height;
+    
+    // Find first non-middle and set subtext height
+    if(presence_nodes[0].classList.contains('first')&&track_tds[1].classList.contains('middle')){
+      subtext[1].style.height = first_row_max+2+"px"
+      if(debug){console.log('found middle & first node')}
+    }else{
+      subtext[0].style.height = first_row_max+2+"px"
+    }
+  }
+  var presence_table = document.getElementById("presence-table");
+  presence_table.style.height = (presence_table.offsetHeight + height_adjust)+"px";
+    
+  // Place middle presence nodes
+  var firstRow = energyTrack
+  var firstRowHeight = firstRow.offsetHeight;
+  if(debug){console.log('first row height: '+firstRowHeight)}
+  var middleNodes = presenceTrack.getElementsByClassName("middle");
+  for(i = 0; i < middleNodes.length; i++){
+    let presenceNode = middleNodes[i].getElementsByTagName("presence-node")
+    presenceNode[0].style.top = (firstRowHeight/2)+"px";
+  }
+
+  
+  
 	console.log('RESIZING: INNATE NOTES (IF NEEDED)')
 	// Size Innate Power box
 	growth = board.getElementsByTagName("growth")[0];
