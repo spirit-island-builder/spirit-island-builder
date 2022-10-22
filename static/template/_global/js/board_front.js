@@ -114,7 +114,7 @@ function parseGrowthTags(){
 
     //Find values between parenthesis
     var regExp = /\(([^)]+)\)/;
-    var newGrowthCellHTML = "";
+    var newGrowthCellHTML = "<growth-group header='0'>";
     let currentHeaderIndex = 0
 
     for (let i = 0; i < growthHTML[0].children.length; i++) {
@@ -128,27 +128,31 @@ function parseGrowthTags(){
 
         //childElement is the thing that should be replaced when all is said and done
         if (childElement.nodeName.toLowerCase() == 'sub-growth') {
-            if (childElement.getAttribute('bordered') !== undefined && previousElement && (previousElement.nodeName.toLowerCase() != 'sub-growth' || previousElement.getAttribute('bordered') == !undefined)) {
-                newGrowthCellHTML += "<growth-border double></growth-border>";
-            }
+          // Using Growth Sets
+          if (childElement.getAttribute('bordered') !== undefined && previousElement && (previousElement.nodeName.toLowerCase() != 'sub-growth' || previousElement.getAttribute('bordered') == !undefined)) {
+              // If the current element is bordered, has a previous element, and (the previous element isn't a subgrowth or a border)
+              console.log('adding double border to: '+newGrowthCellHTML)
+              newGrowthCellHTML += "<growth-border double></growth-border>";
+          }
 
-            for (let j = 0; j < childElement.children.length; j++) {
-                const nextSubElement = j < childElement.children.length - 1
-                    ? childElement.children[j + 1]
-                    : undefined
-                
-                writeGrowthNode(childElement.children[j], nextSubElement, childElement.title ? currentHeaderIndex : undefined);
-            }
-            if (childElement.title) {
-                currentHeaderIndex++
-            }
-            
-            if (childElement.getAttribute('bordered') !== undefined && nextElement) {
-                newGrowthCellHTML += "<growth-border double></growth-border>";
-            }
-
+          for (let j = 0; j < childElement.children.length; j++) {
+              const nextSubElement = j < childElement.children.length - 1
+                  ? childElement.children[j + 1]
+                  : undefined
+              
+              writeGrowthNode(childElement.children[j], nextSubElement, childElement.title ? currentHeaderIndex : undefined);
+          }
+          if (childElement.title) {
+              currentHeaderIndex++
+          }
+          
+          if (childElement.getAttribute('bordered') !== undefined && nextElement) {
+            console.log('adding double border to: '+newGrowthCellHTML)
+              newGrowthCellHTML += `<growth-border double></growth-border><growth-group header='${currentHeaderIndex}'>`;
+            console.log(newGrowthCellHTML)
+          }
         } else {
-            
+          // Not Growth Sets
             writeGrowthNode(childElement, nextElement);
         }
 
@@ -159,6 +163,13 @@ function parseGrowthTags(){
     board.getElementsByTagName("growth")[0].innerHTML = fullHTML;
 
   function writeGrowthNode(childElement, nextElement, headerIndex) {
+
+    const tint = childElement.getAttribute("tint");
+    let tint_text = ""
+    if (tint) {
+      tint_text += "<div class='tint' style='background-color:"+tint+";'></div>"
+    }
+
     const cost = childElement.getAttribute("cost");
     if (cost) {
       costSplit=cost.split(",");
@@ -181,16 +192,11 @@ function parseGrowthTags(){
       }
     }
     
-    const tint = childElement.getAttribute("tint");
-    let tint_text = ""
-    if (tint) {
-      tint_text += "<div class='tint' style='background-color:"+tint+";'></div>"
-    }
     
     const growthClass = childElement.getAttribute("values");
     const classPieces = growthClass.split(';');
     const openTag = headerIndex !== undefined
-        ? `<growth-cell header="${headerIndex}">` + tint_text
+        ? `<growth-cell>` + tint_text
         : "<growth-cell>" + tint_text
     const closeTag = '</growth-cell>'
 		const terrains = new Set(['wetland', 'mountain', 'sand', 'sands', 'jungle'])
@@ -1029,10 +1035,13 @@ function parseGrowthTags(){
         }
 
         if (nextElement && nextElement.nodeName.toLowerCase() == 'growth-group') {
+            console.log('next element is ')
+            console.log(nextElement)
             newGrowthCellHTML += headerIndex !== undefined
-                ? `<growth-border header="${headerIndex}"></growth-border>`
-                : "<growth-border></growth-border>";
+                ? `</growth-group><growth-border header="${headerIndex}"></growth-border><growth-group header="${headerIndex}">`
+                : "</growth-group><growth-border></growth-border><growth-group>";
         }
+        if (!nextElement){newGrowthCellHTML += "</growth-group>"}
 
     }
 }
@@ -1557,25 +1566,25 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML){
 
 function dynamicCellWidth() {
 	console.log("RESIZING: Growth")
-  var debug = false;
+  var debug = true;
 	const board = document.querySelectorAll('board')[0];
 	
 	// Growth Sizing
-    growthCells =  board.getElementsByTagName("growth-cell");
-    growthCellCount = growthCells.length;
-    growthBorders = Array.from(board.getElementsByTagName("growth-border"));
-    growthBorderCount = growthBorders.length;
+  growthCells =  board.getElementsByTagName("growth-cell");
+  growthCellCount = growthCells.length;
+  growthBorders = Array.from(board.getElementsByTagName("growth-border"));
+  growthBorderCount = growthBorders.length;
 
-    let borderPixels = 0;
-    for (const borderWidth of growthBorders.map(x => x.getAttribute('double') === undefined ? 7 : 11)) {
-        borderPixels += borderWidth
-    }
-    let growthTable = board.getElementsByTagName("growth-table")[0];
-	let totalWidth = 0;
-    for (i = 0; i < growthCells.length; i++){
-		totalWidth += growthCells[i].offsetWidth;
-    }
-
+  let borderPixels = 0;
+  for (const borderWidth of growthBorders.map(x => x.getAttribute('double') === undefined ? 7+8 : 11+5)) {
+    borderPixels += borderWidth
+  }
+  let growthTable = board.getElementsByTagName("growth-table")[0];
+  let totalWidth = 0;
+  for (i = 0; i < growthCells.length; i++){
+    totalWidth += growthCells[i].offsetWidth;
+  }
+  if(debug){console.log('total width ='+totalWidth +' Border pixels = '+borderPixels)}
 	// Add additional Growth Row if necessary
 	let growthTexts = board.getElementsByTagName("growth-text");
 	let tallGrowthText = false
@@ -1671,29 +1680,30 @@ function dynamicCellWidth() {
   const headerAdditionalWidth = {}
   let maxIndex = undefined
   for (const c of growthTable.children) {
-      const header = parseInt(c.getAttribute('header'))
-      if (!isNaN( header )) {
-          maxIndex = header
-          const addwith = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
-              + parseFloat(window.getComputedStyle(c).getPropertyValue('margin-left').replace(/px/, ""))
-              + parseFloat(window.getComputedStyle(c).getPropertyValue('width').replace(/px/, ""))
+    console.log(growthTable.children)
+    console.log(c)
+    const header = parseInt(c.getAttribute('header'))
+    if (!isNaN( header )) {
+      maxIndex = header
+      const addwith = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
+          + parseFloat(window.getComputedStyle(c).getPropertyValue('margin-left').replace(/px/, ""))
+          + parseFloat(window.getComputedStyle(c).getPropertyValue('width').replace(/px/, ""))
 
-          if (headerWith[header]) {
-              headerWith[header] += addwith
-          } else {
-              headerWith[header] = addwith
-          }
-      } else if (maxIndex != undefined) {
-          const addwith = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
-              + parseFloat(window.getComputedStyle(c).getPropertyValue('margin-left').replace(/px/, ""))
-              + parseFloat(window.getComputedStyle(c).getPropertyValue('width').replace(/px/, ""))
-          if (headerAdditionalWidth[maxIndex]) {
-              headerAdditionalWidth[maxIndex] += addwith
-          } else {
-              headerAdditionalWidth[maxIndex] = addwith
-          }
-
+      if (headerWith[header]) {
+          headerWith[header] += addwith
+      } else {
+          headerWith[header] = addwith
       }
+    } else if (maxIndex != undefined) {
+      const addwith = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
+          + parseFloat(window.getComputedStyle(c).getPropertyValue('margin-left').replace(/px/, ""))
+          + parseFloat(window.getComputedStyle(c).getPropertyValue('width').replace(/px/, ""))
+      if (headerAdditionalWidth[maxIndex]) {
+          headerAdditionalWidth[maxIndex] += addwith
+      } else {
+          headerAdditionalWidth[maxIndex] = addwith
+      }
+    }
   }
 
   const subGrowthTitle = board.getElementsByTagName('sub-section-title')
@@ -1740,6 +1750,21 @@ function dynamicCellWidth() {
 		}
     }
 	
+  // Handle Tint (corners)
+  let growthGroupsTint = board.getElementsByTagName("growth-group");
+  if(growthGroupsTint){
+    console.log(growthGroupsTint)
+    for(let group of growthGroupsTint){
+      let growthTints = group.getElementsByClassName("tint");
+      console.log(growthTints)
+      if(growthTints.length==1){
+        console.log('found solo tint')
+        growthTints[0].classList.add("solo-tint");
+      }else if(growthTints.length){
+        growthTints[0].classList.add("start-tint");
+        growthTints[growthTints.length-1].classList.add("end-tint");      }
+    }
+  }  
 	// Innate Power Sizing
 	console.log("RESIZING: Innate Powers")
 	// Innate Power Notes (scale font size)
@@ -1879,13 +1904,24 @@ function dynamicCellWidth() {
 	growth = board.getElementsByTagName("growth")[0];
 	presenceTracks = board.getElementsByTagName("presence-tracks")[0];
 	right = board.getElementsByTagName("right")[0];
-	innatePowers = board.getElementsByTagName("innate-powers")[0];
-	innatePowers.style.height = (right.clientHeight - presenceTracks.clientHeight - growth.clientHeight) + "px";
+	innatePowers = board.getElementsByTagName("innate-power");
+	console.log('innate poowers')
+  console.log(innatePowers)
 	
 	// Shrink Innate Power notes if needed for space
 	var innatePowerBox = board.getElementsByTagName("innate-powers")[0];
+  innatePowerBox.style.height = (right.clientHeight - presenceTracks.clientHeight - growth.clientHeight) + "px";
 	let k = 0;
 	if(checkOverflowHeight(innatePowerBox)){
+    // First, check if its just one IP, and if so, squish the note
+    if(innatePowers.length==1 ){
+      note = innatePowers[0].getElementsByTagName("note")[0];
+      if(note){
+        note.classList.add('single-squish');
+      }
+      console.log(note)
+    }
+    
 		console.log('IP overflowing, shrinking notes (if applicable)...')
 		descriptionContainers = innatePowerBox.getElementsByTagName("description-container");
 		tallest = 0;
