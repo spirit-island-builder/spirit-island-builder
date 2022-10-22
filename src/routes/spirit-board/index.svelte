@@ -14,7 +14,9 @@
   export let instructionsSource;
 
   function clearAllFields() {
-    if(window.confirm('Are you sure? This permanently clears all fields in Spirit Board Play Side.')){
+    if (
+      window.confirm("Are you sure? This permanently clears all fields in Spirit Board Play Side.")
+    ) {
       spiritBoard = {
         demoBoardWasLoaded: true,
         previewBoard: {
@@ -120,7 +122,6 @@
       };
       reloadPreview();
     }
-
   }
 
   function showOrHideSection(event) {
@@ -166,52 +167,11 @@
     }
   }
 
-  async function makeAndSaveBoardImage() {
-    if (frame) {
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-      const videoElem = document.createElement("video");
-
-      canvas.width = 500;
-      canvas.height = 600;
-
-      try {
-        const divAroundIframe = document.getElementById("board-wrap");
-        console.log(divAroundIframe.getBoundingClientRect());
-        const captureStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-        console.log("captureStream: ", captureStream);
-        videoElem.srcObject = captureStream;
-        canvas.width = divAroundIframe.clientWidth;
-        console.log("divAroundIframe.clientWidth: ", divAroundIframe.clientWidth);
-        canvas.height = divAroundIframe.clientHeight;
-        await window.setTimeout(() => {
-          console.log("videoElem: ", videoElem);
-          context.fillRect(0, 0, divAroundIframe.clientWidth, divAroundIframe.clientHeight);
-          context.drawImage(
-            videoElem,
-            divAroundIframe.getBoundingClientRect().left,
-            divAroundIframe.getBoundingClientRect().top,
-            divAroundIframe.clientWidth,
-            divAroundIframe.clientHeight,
-            divAroundIframe.getBoundingClientRect().left,
-            divAroundIframe.getBoundingClientRect().top,
-            divAroundIframe.offsetWidth,
-            divAroundIframe.offsetHeight
-          );
-          console.log("videoElem.videoHeight: ", videoElem.videoHeight);
-          const screenshot = canvas.toDataURL("image/png");
-          const saveLink = document.createElement("a");
-          saveLink.href = screenshot;
-          saveLink.download = "image.png";
-          document.body.appendChild(canvas);
-          captureStream.getTracks().forEach((track) => track.stop());
-
-          document.body.appendChild(saveLink);
-          saveLink.click();
-        }, 1000);
-      } catch (err) {
-        console.error("Error: " + err);
-      }
+  async function handleScreenShot() {
+    var scaledFrame = document.getElementById("scaled-frame");
+    if (scaledFrame) {
+      const divAroundIframe = document.getElementById("board-wrap");
+      await Lib.takeScreenShot(scaledFrame, divAroundIframe, frameLarge);
     }
   }
 
@@ -230,7 +190,7 @@
       const artistName = frame.contentDocument.querySelectorAll("artist-name")[0];
       if (artistName) {
         artistName.textContent = spiritBoard.nameAndArt.artistCredit;
-      }else{
+      } else {
         var newArtistElement = frame.contentDocument.createElement("artist-name");
         newArtistElement.textContent = spiritBoard.nameAndArt.artistCredit;
         board.appendChild(newArtistElement);
@@ -669,7 +629,7 @@
   <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Spirit Board</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  <button class="button is-danger mr-1" on:click={makeAndSaveBoardImage}>Save Image</button>
+  <button class="button is-danger mr-1" on:click={handleScreenShot}>Save Image</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
 <div class="columns mt-0">

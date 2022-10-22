@@ -155,3 +155,66 @@ export const addCustomIcon = (customIcons, iconName = "") => {
   });
   return customIcons;
 };
+
+export const takeScreenShot = async (frame, divAroundIframe, frameLarge) => {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  const videoElem = document.createElement("video");
+  window.scrollTo(0, 0);
+
+  try {
+    const captureStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+    videoElem.autoplay = true;
+    videoElem.srcObject = captureStream;
+    // No idea why this setTimeout is needed (it shouldn't be) but without it the canvas is always blank. It seems like the videoElem.srcObject = captureStream line doesn't take effect right away.
+    await window.setTimeout(() => {
+      console.log("frame.getBoundingClientRect(): ", frame.getBoundingClientRect());
+      console.log(
+        "divAroundIframe.getBoundingClientRect(): ",
+        divAroundIframe.getBoundingClientRect()
+      );
+      console.log("divAroundIframe.offsetWidth: ", divAroundIframe.offsetWidth);
+      console.log("divAroundIframe.offsetHeight: ", divAroundIframe.offsetHeight);
+      console.log("divAroundIframe.clientWidth: ", divAroundIframe.clientWidth);
+      console.log("divAroundIframe.clientHeight: ", divAroundIframe.clientHeight);
+      const board = frame.contentWindow.document.querySelectorAll("board")[0];
+      console.log("board.getBoundingClientRect(): ", board.getBoundingClientRect());
+      let boardWidth = board.getBoundingClientRect().width;
+      let boardHeight = board.getBoundingClientRect().height;
+      if (frameLarge) {
+        boardWidth = boardWidth * (1 - 0.745);
+        boardHeight = boardHeight * (1 - 0.745);
+      } else {
+        boardWidth = boardWidth * 0.55;
+        boardHeight = boardHeight * 0.55;
+        // boardWidth = boardWidth * (1 - 0.55)
+        // boardHeight = boardHeight * (1 - 0.55)
+      }
+      canvas.width = boardWidth;
+      canvas.height = boardHeight;
+      context.drawImage(
+        videoElem,
+        divAroundIframe.getBoundingClientRect().left,
+        divAroundIframe.getBoundingClientRect().top,
+        boardWidth,
+        boardHeight,
+        0,
+        0,
+        boardWidth,
+        boardHeight
+      );
+      const screenshot = canvas.toDataURL("image/png");
+      const saveLink = document.createElement("a");
+      saveLink.href = screenshot;
+      saveLink.download = "boardFront.png";
+      document.body.appendChild(canvas);
+      captureStream.getTracks().forEach((track) => track.stop());
+
+      document.body.appendChild(saveLink);
+      saveLink.click();
+      videoElem.srcObject = undefined;
+    }, 1000);
+  } catch (err) {
+    console.error("Error: " + err);
+  }
+};
