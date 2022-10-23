@@ -55,8 +55,10 @@
                   id: 0,
                   cost: "",
                   tint: "",
+                  title: "",
                   hasCost: false,
                   hasTint: false,
+                  hasTitle: false,
                   growthActions: [
                     {
                       id: 0,
@@ -239,6 +241,10 @@
           if (growthGroup.hasTint) {
             growthGroupOutput.setAttribute("tint", growthGroup.tint);
           }
+          //Title
+          if (growthGroup.hasTitle) {
+            growthGroupOutput.setAttribute("special-title", growthGroup.title);
+          }
           //Values
           var values = "";
           growthGroup.growthActions.forEach((growthAction) => {
@@ -404,7 +410,8 @@
             spiritBoard,
             i,
             group.getAttribute("cost"),
-            group.getAttribute("tint")
+            group.getAttribute("tint"),
+            group.getAttribute("special-title")
           );
           let values = group.getAttribute("values").split(";");
           values.forEach((growthValue) => {

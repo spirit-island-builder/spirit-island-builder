@@ -31,6 +31,22 @@ growth sub-section-title {
   z-index:0;
 }
 
+growth special-section-title {
+    position: absolute;
+    font-family: 'Name Headings';
+    text-transform: uppercase;
+    font-size: 18pt;
+    font-weight: bold;
+    z-index: 0;
+    transform: translateX(-50%);
+    left: 50%;
+    top: -60px;
+}
+
+growth-table.has-special-title {
+  padding-top: 26px;
+}
+
 growth .tint{
     width: 100%;
     opacity: 0.2;
@@ -90,6 +106,7 @@ sub-section-title+growth-table{
 
 growth-group {
   display:inline-flex;
+  position: relative;
 }
 
 growth-border {
@@ -1257,6 +1274,6 @@ growth-row-line {
     margin-left: 21px;
     margin-right: 8px;
     margin-bottom: 21px;
-    margin-top: -13px;
+    margin-top: -20px;
 }
 
