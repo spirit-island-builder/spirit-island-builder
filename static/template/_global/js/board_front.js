@@ -953,6 +953,31 @@ function parseGrowthTags(){
           growthText = discardText;
           break;
         }
+        case 'incarna': {
+          const matches = regExp.exec(classPieces[j]);
+          let incarnaOptions = matches[1].split(",");
+          let incarnaAction = incarnaOptions[0];
+          let incarnaRange = incarnaOptions[1] !== undefined ? incarnaOptions[1] : 0;
+          let customIncarnaIcon = incarnaOptions[2] !== undefined ? '{'+incarnaOptions[2]+'}' : '{incarna-ember}';
+          switch(incarnaAction) {
+            case 'move':
+              incarnaIcon = '<custom-icon2>'+customIncarnaIcon+'{move-range-' + incarnaRange + '}</custom-icon2>';
+              incarnaText = 'Move Incarna';
+              break;
+            case 'add':
+              incarnaIcon = "<custom-icon2>"+ customIncarnaIcon+"<range-growth>" + incarnaRange + "</range-growth></custom-icon2>";
+              incarnaText = 'Add Incarna';
+              break;
+            case 'empower':
+              incarnaIcon = '{empower-incarna}';
+              incarnaText = 'Empower Incarna';
+              break;
+            default:
+          }
+          growthIcons = incarnaIcon;
+          growthText = incarnaText;
+          break;
+        }
         case 'add-token': {
           const matches = regExp.exec(classPieces[j]);
           let tokenOptions = matches[1].split(",");

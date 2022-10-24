@@ -195,6 +195,9 @@ icon.gather {background-image: url('../images/board/NewIcons/Land Gather.png');}
 icon.gather-into {background-image: url('../images/board/NewIcons/Land Gather Into.png');}
 icon.your-land {background-image: url('../images/board/NewIcons/Land.png');}
 
+icon.empower-incarna {background-image: url('../images/board/NewIcons/empower-incarna.png');}
+icon.incarna-ember {background-image: url('../images/board/NewIcons/incarna-ember.png');}
+
 range{
   width:50px;
   height:32px;
