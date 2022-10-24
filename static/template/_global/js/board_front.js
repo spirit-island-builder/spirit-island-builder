@@ -1546,6 +1546,7 @@ function IconName(str, iconNum = 1){
 }
 
 function Capitalise(str){
+  str=str.trim()
   hyphenCheck = str.split("-");
   const terrains = new Set(['wetland', 'mountain', 'sand', 'sands', 'jungle'])
   let return_str = hyphenCheck[0].charAt(0).toUpperCase() + hyphenCheck[0].slice(1);

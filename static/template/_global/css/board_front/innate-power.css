@@ -460,8 +460,8 @@ info-target spirit {
 }
 
 innate-info icon {
-  height: 30px;
-  width: 30px;
+  height: 38px;
+  width: 38px;
   margin-bottom: 0px;
   margin-top: 0px;
 }
@@ -488,8 +488,8 @@ innate-info-range icon.mountain-presence, innate-info-range icon.mountain {
 }
 
 innate-info icon.blight, innate-info icon.no-blight {
-  height: 30px;
-  width: 30px;
+  height: 35px;
+  width: 35px;
   margin-bottom: 0px;
   margin-top: 0px;
 }
