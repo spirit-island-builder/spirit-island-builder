@@ -145,6 +145,7 @@
     nameImage: {
       name: "",
       img: "",
+      scale: "",
     },
     lore: {
       loreText: "",

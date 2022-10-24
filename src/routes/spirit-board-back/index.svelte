@@ -90,6 +90,9 @@
       //Set Spirit Image
       const loreImage = loreBoardHTML.querySelectorAll("img")[0];
       loreImage.setAttribute("src", spiritBoardBack.nameImage.img);
+      if(spiritBoardBack.nameImage.scale){
+        loreImage.setAttribute("scale", spiritBoardBack.nameImage.scale);
+      }
 
       //Set Lore Description
       const loreDescription = loreBoardHTML.querySelectorAll("lore-description")[0];
@@ -152,8 +155,14 @@
 
       //Set Spirit Image
       const loreImage = loreBoardHTML.querySelectorAll("img")[0];
-      spiritBoardBack.nameImage.img = loreImage.getAttribute("src");
-
+      if(loreImage){
+        spiritBoardBack.nameImage.img = loreImage.getAttribute("src");
+        var imgScale = loreImage.getAttribute('scale')
+        console.log(imgScale)
+        if(imgScale){
+          spiritBoardBack.nameImage.scale = imgScale;
+        }
+      }
       //Set Lore Description
       const loreDescription = loreBoardHTML.querySelectorAll("lore-description")[0];
 
@@ -266,7 +275,7 @@
     if(window.confirm('Are you sure? This permanently clears all fields in Spirit Board Lore Side.')){
       spiritBoardBack = {
         prop: "value",
-        demoBoardWasLoaded: true,
+        demoBoardWasLoaded: false,
         previewBoard: {
           isVisible: false,
         },
@@ -279,6 +288,7 @@
         nameImage: {
           name: "",
           img: "",
+          scale: "",
         },
         lore: {
           loreText: "",
