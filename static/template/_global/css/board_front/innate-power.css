@@ -32,7 +32,7 @@ innate-power:only-child level {
 }
 
 innate-power:only-child note {
-  width: 1000px !important;
+  width: 1000px;
 }
 
 innate-power-title {
@@ -65,7 +65,7 @@ info-title {
   letter-spacing: 1.25pt;
   text-align: center;
   white-space: normal;
-  background-color: #7f5623;
+  background-color: #986839;
   box-sizing: content-box;
       border-top: 3px solid black;
     border-left: 3px solid black;
@@ -185,9 +185,20 @@ note {
   width: 487px;
   font-family: 'JosefinSans-Regular';
   font-size: 17pt;
+  letter-spacing: -0.5px;
   margin-bottom:8px;
   margin-top: -4px;
   line-height: 1;
+}
+
+note.single-squish {
+    display: block;
+    margin-bottom: 8px;
+    margin-top: -80px;
+    position: absolute;
+    text-align: left;
+    width: 556px !important;
+    margin-left: 472px;
 }
 
 note icon{

@@ -53,8 +53,10 @@
               id: 0,
               cost: "",
               tint: "",
+              title: "",
               hasCost: false,
               hasTint: false,
+              hasTitle: false,
               growthActions: [
                 {
                   id: 0,
@@ -143,6 +145,7 @@
     nameImage: {
       name: "",
       img: "",
+      scale: "",
     },
     lore: {
       loreText: "",

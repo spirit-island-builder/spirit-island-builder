@@ -57,36 +57,36 @@ function dynamicSpecialRuleHeight(board){
 
 function addImages(board) {
   console.log('ADDING IMAGES')
-    const spiritImage = board.getAttribute('spirit-image');
-	const artistCredit = board.getElementsByTagName('artist-name');
-    const spiritBorder = board.getAttribute('spirit-border');
-    
-    const imageSize = board.getAttribute('spirit-image-scale');
+  const spiritImage = board.getAttribute('spirit-image');
+  const artistCredit = board.getElementsByTagName('artist-name');
+  const spiritBorder = board.getAttribute('spirit-border');
+  
+  const imageSize = board.getAttribute('spirit-image-scale');
 
-    
-    const specialRules = board.querySelectorAll('special-rules-container')[0]
-    let height = specialRules.getAttribute('height')
-        if(!height){
-        const computedStyle = window.getComputedStyle(specialRules)
-        height = computedStyle.getPropertyValue('height')
-    }
-    
-    if(spiritBorder){
-        const specialRules = board.querySelectorAll('special-rules-container')[0]
-		const spiritBorderSize = board.getAttribute('spirit-border-scale');
-		if(spiritBorderSize){
-			borderHeight = spiritBorderSize;
-			specialRules.innerHTML = `<div class="spirit-border" style="background-image: url(${spiritBorder}); background-size: 705px ${borderHeight};" ></div>` + specialRules.innerHTML
-		}else{
-			specialRules.innerHTML = `<div class="spirit-border" style="background-image: url(${spiritBorder});" ></div>` + specialRules.innerHTML
-		}
-    }
-    if(spiritImage){
-        //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
-        board.innerHTML = `<div class="spirit-image" style="background-image: url(${spiritImage}); background-size: auto ${imageSize}; height:calc(100% - ${height}); width:1700px;" ></div>` + board.innerHTML
-		artistCredit[0].style.display = "block";
-		artistCredit[0].innerHTML = "Artist Credit: "+ artistCredit[0].innerHTML
-    }
+  
+  const specialRules = board.querySelectorAll('special-rules-container')[0]
+  let height = specialRules.getAttribute('height')
+      if(!height){
+      const computedStyle = window.getComputedStyle(specialRules)
+      height = computedStyle.getPropertyValue('height')
+  }
+  
+  if(spiritBorder){
+      const specialRules = board.querySelectorAll('special-rules-container')[0]
+  const spiritBorderSize = board.getAttribute('spirit-border-scale');
+  if(spiritBorderSize){
+    borderHeight = spiritBorderSize;
+    specialRules.innerHTML = `<div class="spirit-border" style="background-image: url(${spiritBorder}); background-size: 705px ${borderHeight};" ></div>` + specialRules.innerHTML
+  }else{
+    specialRules.innerHTML = `<div class="spirit-border" style="background-image: url(${spiritBorder});" ></div>` + specialRules.innerHTML
+  }
+  }
+  if(spiritImage){
+    //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
+    board.innerHTML = `<div class="spirit-image" style="background-image: url(${spiritImage}); background-size: auto ${imageSize}; height:calc(100% - ${height}); width:1700px;" ></div>` + board.innerHTML
+    artistCredit[0].style.display = "block";
+    artistCredit[0].innerHTML = "Artist Credit: "+ artistCredit[0].innerHTML
+  }
 	
 	//Add Meeple
 	const spiritName = board.getElementsByTagName('spirit-name');
@@ -106,7 +106,8 @@ function parseGrowthTags(){
     const subList = Array.from(growthHTML[0].getElementsByTagName('sub-growth'))
     let subTitle = subList
         .map(e => `<sub-section-title><sub-section-line></sub-section-line><span>${e.title}</span><sub-section-line></sub-section-line></sub-section-title>`).join('')
-
+    console.log('subList')
+    console.log(subList.length)
 
 
     var newGrowthTableTagOpen = "<growth-table>";
@@ -114,7 +115,11 @@ function parseGrowthTags(){
 
     //Find values between parenthesis
     var regExp = /\(([^)]+)\)/;
+/*     var newGrowthCellHTML = subList.length > 0
+        ? "<growth-group header='0'>"
+        : "<growth-group>" */
     var newGrowthCellHTML = "";
+    
     let currentHeaderIndex = 0
 
     for (let i = 0; i < growthHTML[0].children.length; i++) {
@@ -128,27 +133,28 @@ function parseGrowthTags(){
 
         //childElement is the thing that should be replaced when all is said and done
         if (childElement.nodeName.toLowerCase() == 'sub-growth') {
-            if (childElement.getAttribute('bordered') !== undefined && previousElement && (previousElement.nodeName.toLowerCase() != 'sub-growth' || previousElement.getAttribute('bordered') == !undefined)) {
-                newGrowthCellHTML += "<growth-border double></growth-border>";
-            }
+          // Using Growth Sets
+          if (childElement.getAttribute('bordered') !== undefined && previousElement && (previousElement.nodeName.toLowerCase() != 'sub-growth' || previousElement.getAttribute('bordered') == !undefined)) {
+              // I'm not sure when this is used, tbh.
+              newGrowthCellHTML += "<growth-border double></growth-border>";
+          }
 
-            for (let j = 0; j < childElement.children.length; j++) {
-                const nextSubElement = j < childElement.children.length - 1
-                    ? childElement.children[j + 1]
-                    : undefined
-                
-                writeGrowthNode(childElement.children[j], nextSubElement, childElement.title ? currentHeaderIndex : undefined);
-            }
-            if (childElement.title) {
-                currentHeaderIndex++
-            }
+          for (let j = 0; j < childElement.children.length; j++) {
+            const nextSubElement = j < childElement.children.length - 1
+              ? childElement.children[j + 1]
+              : undefined
             
-            if (childElement.getAttribute('bordered') !== undefined && nextElement) {
-                newGrowthCellHTML += "<growth-border double></growth-border>";
-            }
-
+            writeGrowthNode(childElement.children[j], nextSubElement, childElement.title ? currentHeaderIndex : undefined);
+          }
+          if (childElement.title) {
+              currentHeaderIndex++
+          }
+          
+          if (childElement.getAttribute('bordered') !== undefined && nextElement) {
+            newGrowthCellHTML += `<growth-border double></growth-border>`;
+          }
         } else {
-            
+          // Not Growth Sets
             writeGrowthNode(childElement, nextElement);
         }
 
@@ -158,22 +164,40 @@ function parseGrowthTags(){
     board.getElementsByTagName("growth")[0].removeAttribute("title");
     board.getElementsByTagName("growth")[0].innerHTML = fullHTML;
 
-  function writeGrowthNode(childElement, nextElement, headerIndex) {
+  function writeGrowthNode(childElement, nextElement, headerIndex=NaN) {
+
+    const tint = childElement.getAttribute("tint");
+    let tint_text = ""
+    if (tint) {
+      tint_text += "<div class='tint' style='background-color:"+tint+";'></div>"
+    }
+    console.log('child element')
+    console.log(childElement);
+    var headerText = !isNaN(headerIndex) ? ` header='${headerIndex}'` : "";
+    var specialTitleText = childElement.getAttribute('special-title') ? ` special-title='${childElement.getAttribute('special-title')}'` : "";
+    console.log(specialTitleText)
+    newGrowthCellHTML += `<growth-group`+headerText+specialTitleText+`>`
+    console.log(newGrowthCellHTML);
+
+    var titleHolder = "";
+    if(childElement.getAttribute('special-title')){titleHolder=childElement.getAttribute('special-title')}
+    console.log(childElement.getAttribute('special-title'))
+    
     const cost = childElement.getAttribute("cost");
     if (cost) {
       costSplit=cost.split(",");
-	  if (isNaN(costSplit[0])){
-		// Non-numerical cost (ie. forget a card)
-      if (costSplit[1]){
-        // Non-numerical cost with text
-        newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description>"+costSplit[1]+"</growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
-      }else{
-        // non-numerical cost by itself
-        newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
-      }
-	  } else if (costSplit[1]){
+      if (isNaN(costSplit[0])){
+        // Non-numerical cost (ie. forget a card)
+        if (costSplit[1]){
+          // Non-numerical cost with text
+          newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description>"+costSplit[1]+"</growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
+        }else{
+          // non-numerical cost by itself
+          newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
+        }
+      } else if (costSplit[1]){
         // User wants to use a non-energy scaling cost
-		if(debug){console.log("Cost with custom icon")};
+        if(debug){console.log("Cost with custom icon")};
         newGrowthCellHTML += "<growth-cost-custom><icon class='"+costSplit[1]+"'><value>-" + costSplit[0] + "</value></icon></growth-cost-custom>";
       }else{
         // Its just a number, so do energy cost
@@ -181,21 +205,14 @@ function parseGrowthTags(){
       }
     }
     
-    const tint = childElement.getAttribute("tint");
-    let tint_text = ""
-    if (tint) {
-      tint_text += "<div class='tint' style='background-color:"+tint+";'></div>"
-    }
     
     const growthClass = childElement.getAttribute("values");
     const classPieces = growthClass.split(';');
-    const openTag = headerIndex !== undefined
-        ? `<growth-cell header="${headerIndex}">` + tint_text
-        : "<growth-cell>" + tint_text
+    const openTag = "<growth-cell>" + tint_text
     const closeTag = '</growth-cell>'
 		const terrains = new Set(['wetland', 'mountain', 'sand', 'sands', 'jungle'])
 		const elementNames = new Set(['sun', 'moon', 'fire', 'air', 'plant','water','earth','animal'])
-		
+
 		console.log("--Growth Group:--")
 		console.log(classPieces)
 		
@@ -223,16 +240,14 @@ function parseGrowthTags(){
 				orGrowthOptions = matches.split(regExpCommaNoParentheses)
 				// orGrowthOptions = matches.split(",")
 				classPieces[j]=orGrowthOptions[1]
-				classPieces.splice(j,0,orGrowthOptions[0])
-				console.log(classPieces)
-				console.log(j)
+				classPieces.splice(j,0,orGrowthOptions[0]);
 				growthItem = classPieces[j].split("(")[0].split("^")[0];
 			}
 			
 			// Check for Presence Node in Growth
 			if(growthItem=='presence-node'){
 				let matches = regExpOuterParentheses.exec(classPieces[j])[1]
-				console.log(matches)
+				if(debug){console.log("Putting Presence Node in Growth")};
 				isPresenceNode = true;
 				classPieces[j]=matches
 				growthItem = classPieces[j].split("(")[0].split("^")[0];
@@ -470,7 +485,7 @@ function parseGrowthTags(){
                 operator = " "+presenceOptions.at(-1)+" ";
               }
               
-                      presenceText += " to ";
+              presenceText += " to ";
               presenceText += presenceRange === 'any' ? 'any ' : '';
               
               let flag = 0; // This flag is used to figure out if 'land with' has been said already. It comes up with add-presence(3,jungle,beasts,or)
@@ -519,69 +534,69 @@ function parseGrowthTags(){
                 presenceTextEnd = "";
                 
                 switch (presenceReq){
-                    case 'sand':
-                    case 'sands':
-                    case 'mountain':
-                    case 'wetland':
-                    case 'jungle':
-                    case 'ocean':
-                      presenceText += i != 1 ? operator : "";
-                      presenceText += Capitalise(presenceReq);
-                      and_flag = 1;
-                      break;
-                    case 'inland':
-                    case 'coastal':
-                        presenceText += i != 1 ? operator : "";
-                        presenceText += Capitalise(presenceReq) + " land";
-                        break;
-                    case 'multiland':
-                        presenceText += multiLandText;
+                  case 'sand':
+                  case 'sands':
+                  case 'mountain':
+                  case 'wetland':
+                  case 'jungle':
+                  case 'ocean':
+                    presenceText += i != 1 ? operator : "";
+                    presenceText += Capitalise(presenceReq);
                     and_flag = 1;
-                                        break;
-                                    case 'no-blight':
+                    break;
+                  case 'inland':
+                  case 'coastal':
+                    presenceText += i != 1 ? operator : "";
+                    presenceText += Capitalise(presenceReq) + " land";
+                    break;
+                  case 'multiland':
+                    presenceText += multiLandText;
+                    and_flag = 1;
+                    break;
+                  case 'no-blight':
                     if(i == 1){
                       presenceText += " Land without "
                     }else{
                       presenceText += operator == ' and ' ? " and no " : " or no ";
                     }
-                                        presenceText += "Blight";
-                                        break;
-                                    case 'beast':
-                                        presenceTextEnd = "s"
-                                    case 'no-own-presence':
+                    presenceText += "Blight";
+                    break;
+                  case 'beast':
+                      presenceTextEnd = "s"
+                  case 'no-own-presence':
                     if(i == 1){
                       presenceText += " Land without "
                     }else{
                       presenceText += operator == ' and ' ? " and no " : " or no ";
                     }
-                                        presenceText += "Your Presence";
-                                        break;
+                    presenceText += "Your Presence";
+                    break;
                   case 'presence':
-                                        presenceTextLead += presenceTextEnd==="" ? "Your " : "";
-                                        //Intentionally do not break.
-                                    default:
-                                        if (flag == 0 && i != 1 && operator != ' and ') {
-                                            presenceText += operator+"Land with ";
-                                        }else if(flag == 0 && operator != ' and '){
-                                            presenceText += " Land with ";
-                                        }else{
+                    presenceTextLead += presenceTextEnd==="" ? "Your " : "";
+                    //Intentionally do not break.
+                  default:
+                    if (flag == 0 && i != 1 && operator != ' and ') {
+                        presenceText += operator+"Land with ";
+                    }else if(flag == 0 && operator != ' and '){
+                        presenceText += " Land with ";
+                    }else{
                       if(operator === ' and ' && flag !== 1){
                         presenceText += (and_flag===1) ? ' with ' : ' Land with ';
                       }else{
                         presenceText += operator;
                       }
-                                        }
-                                        flag = 1;
-                                        presenceText += presenceTextLead + Capitalise(presenceReq) + presenceTextEnd;
-                                }
-                            }                            
-                        }
-                        presenceIcon += "</presence-req>";
+                    }
+                    flag = 1;
+                    presenceText += presenceTextLead + Capitalise(presenceReq) + presenceTextEnd;
+                }
+              }                            
+            }
+            presenceIcon += "</presence-req>";
           }
           growthIcons = presenceReqOpen + "<plus-presence>+{presence}</plus-presence>" + presenceIcon + presenceRangeOpen + presenceRange + presenceRangeClose + presenceReqClose
           growthText = "Add a Presence" + presenceText
-                    break;
-                }
+          break;
+        }
         case 'push':
         case 'gather': {
           const matches = regExp.exec(classPieces[j]);
@@ -675,93 +690,90 @@ function parseGrowthTags(){
           break;
         }
         case 'gain-element': {
-					const matches = regExp.exec(classPieces[j]);
+          const matches = regExp.exec(classPieces[j]);
+          const gainedElement = matches[1];
+          const elementOptions = matches[1].split(",");
+          //Check if they want 2 elements (multiple of the same element, and OR between multiple elements are implemented. AND is not)
+          if (elementOptions.length > 1) {
+            
+            //Check if they want multiples of the same element or a choice of elements by looking for a numeral
+            if (isNaN(elementOptions[1]) && elementOptions.at(-1) !== 'and') {
+              //No numeral - user wants different elements. For example gain-element(water,fire)
+              if (elementOptions.at(-1) === 'or' || elementOptions.at(-1) === 'and'){}
+          
+              //Icons
+              elementIcons = "<gain class='or'>"
+              for (var i = 0; i < elementOptions.length; i++) {
+                elementIcons += "<icon class='orelement " + elementOptions[i] + "'></icon>";
+                if (i < elementOptions.length - 1) {
+                  elementIcons += "{backslash}";
+                }
+              }
+              elementIcons += "</gain>"
+              //Text
+              elementText = "Gain ";
+              for (var i = 0; i < elementOptions.length; i++) {
+                elementText += IconName(elementOptions[i]);
+                if (i < elementOptions.length-2) {
+                  elementText += ", ";
+                } else if (i == elementOptions.length-2) {
+                  elementText += " or ";
+                }
+              }
+              growthIcons = elementIcons
+              growthText = elementText
+                
+            } else { 
+              // Gain multiple of the same element or gain multiple different elements (all of them, not or)
 
-					const gainedElement = matches[1];
-
-					const elementOptions = matches[1].split(",");
-
-					//Check if they want 2 elements (multiple of the same element, and OR between multiple elements are implemented. AND is not)
-					if (elementOptions.length > 1) {
-						
-						//Check if they want multiples of the same element or a choice of elements by looking for a numeral
-						if (isNaN(elementOptions[1]) && elementOptions.at(-1) !== 'and') {
-							//No numeral - user wants different elements. For example gain-element(water,fire)
-							if (elementOptions.at(-1) === 'or' || elementOptions.at(-1) === 'and'){}
-					
-							//Icons
-							elementIcons = "<gain class='or'>"
-							for (var i = 0; i < elementOptions.length; i++) {
-								elementIcons += "<icon class='orelement " + elementOptions[i] + "'></icon>";
-								if (i < elementOptions.length - 1) {
-									elementIcons += "{backslash}";
-								}
-							}
-							elementIcons += "</gain>"
-							//Text
-							elementText = "Gain ";
-							for (var i = 0; i < elementOptions.length; i++) {
-								elementText += IconName(elementOptions[i]);
-								if (i < elementOptions.length-2) {
-									elementText += ", ";
-								} else if (i == elementOptions.length-2) {
-									elementText += " or ";
-								}
-							}
-							growthIcons = elementIcons
-							growthText = elementText
-								
-						} else { 
-							// Gain multiple of the same element or gain multiple different elements (all of them, not or)
-
-							let numLocs                                
-							// Text
-							let elementText = "";
-							if (elementOptions.at(-1) == 'and'){
-								// gain multiple different elements
-								numLocs = elementOptions.length - 1;
-								for (var i = 0; i < numLocs; i++) {
-									elementText += IconName(elementOptions[i]);
-									if (i < numLocs-2) {
-										elementText += ", ";
-									} else if (i == numLocs-2) {
-										elementText += " and ";
-									}
-								}
-							} else {
-								// gain multiple of the same element
-								numLocs = elementOptions[1];
-								elementText = elementOptions[1] +" "+ IconName(elementOptions[0]);
-							}
-							
-							// Icons
-							let rad_size = 20 + 5*(numLocs-2); // this expands slightly as more icons are used
-							var elementIcons = ""
-							for (var i = 0; i < numLocs; i++) {
-								pos_angle = i * 2*Math.PI / numLocs - (Math.PI)*(1-(1/6));
-								x_loc = 1.3*rad_size * Math.cos(pos_angle) - 30;
-								y_loc = rad_size * Math.sin(pos_angle) - 20;
-								theta = -Math.PI/12
-								x_loc_prime = Math.cos(theta)*x_loc + Math.sin(theta)*y_loc
-								y_loc_prime = -Math.sin(theta)*x_loc + Math.cos(theta)*y_loc
-								let element_loc = "style='transform: translateY("+y_loc_prime+"px) translateX("+x_loc_prime+"px)'";
-								let cur_element = elementOptions.at(-1) === 'and'
-									? elementOptions[i]
-									: elementOptions[0]
-								elementIcons += "<icon-multi-element><icon class='"+cur_element+"'"+element_loc+"></icon></icon-multi-element>"
-							}
-							elementIcons += "<icon style='width:0px;height:99px'></icon>"; // This is a filler icon to make sure the spacing is right. Any idea for a better solution?
-							
-							growthIcons = "<gain>" + elementIcons + "</gain>"
-							growthText = "Gain "+elementText
-						}
-								
-					} else {
-						growthIcons = "<gain>{" + gainedElement + "}</gain>"
-						growthText = "Gain " + IconName(gainedElement)
-					}
-					break;
-				}
+              let numLocs                                
+              // Text
+              let elementText = "";
+              if (elementOptions.at(-1) == 'and'){
+                // gain multiple different elements
+                numLocs = elementOptions.length - 1;
+                for (var i = 0; i < numLocs; i++) {
+                  elementText += IconName(elementOptions[i]);
+                  if (i < numLocs-2) {
+                    elementText += ", ";
+                  } else if (i == numLocs-2) {
+                    elementText += " and ";
+                  }
+                }
+              } else {
+                // gain multiple of the same element
+                numLocs = elementOptions[1];
+                elementText = elementOptions[1] +" "+ IconName(elementOptions[0]);
+              }
+              
+              // Icons
+              let rad_size = 20 + 5*(numLocs-2); // this expands slightly as more icons are used
+              var elementIcons = ""
+              for (var i = 0; i < numLocs; i++) {
+                pos_angle = i * 2*Math.PI / numLocs - (Math.PI)*(1-(1/6));
+                x_loc = 1.3*rad_size * Math.cos(pos_angle) - 30;
+                y_loc = rad_size * Math.sin(pos_angle) - 20;
+                theta = -Math.PI/12
+                x_loc_prime = Math.cos(theta)*x_loc + Math.sin(theta)*y_loc
+                y_loc_prime = -Math.sin(theta)*x_loc + Math.cos(theta)*y_loc
+                let element_loc = "style='transform: translateY("+y_loc_prime+"px) translateX("+x_loc_prime+"px)'";
+                let cur_element = elementOptions.at(-1) === 'and'
+                  ? elementOptions[i]
+                  : elementOptions[0]
+                elementIcons += "<icon-multi-element><icon class='"+cur_element+"'"+element_loc+"></icon></icon-multi-element>"
+              }
+              elementIcons += "<icon style='width:0px;height:99px'></icon>"; // This is a filler icon to make sure the spacing is right. Any idea for a better solution?
+              
+              growthIcons = "<gain>" + elementIcons + "</gain>"
+              growthText = "Gain "+elementText
+            }
+                
+          } else {
+            growthIcons = "<gain>{" + gainedElement + "}</gain>"
+            growthText = "Gain " + IconName(gainedElement)
+          }
+          break;
+        }
         case 'custom': {
           const matches = regExpOuterParentheses.exec(classPieces[j]);
           let customOptions = matches[1].split(",");
@@ -788,11 +800,11 @@ function parseGrowthTags(){
           const matches = regExp.exec(classPieces[j]);
           const gainFearBy = matches[1];
           let fearOptions = matches[1].split(",");
-                    let fearManyIconOpen = "" 
+          let fearManyIconOpen = "" 
           let fearManyIconClose = ""
           if (isNaN(fearOptions[0]) || fearOptions.length!=1) {
-              fearManyIconOpen = "<growth-cell-double>"
-              fearManyIconClose = "</growth-cell-double>"
+            fearManyIconOpen = "<growth-cell-double>"
+            fearManyIconClose = "</growth-cell-double>"
           }
           let fearGrowthIcons = ""
           let fearGrowthText = ""
@@ -992,47 +1004,47 @@ function parseGrowthTags(){
         }
 
             }
-			
-			if (repeatText){
-				growthIcons = '<repeat-wrapper>' + repeatOpen + growthIcons+'</repeat-wrapper>';
-			}
-			if(isPresenceNode){
-				growthIcons = '<presence-node class="growth"><ring-icon>' + growthIcons+'</ring-icon></presence-node>';
-				isPresenceNode = false;
-			}
-			
-			//Handle Ors
-			if(isOr){
-				// break out the ICON and TEXT
-				// Save it for next time
-				// Append it
-				orTextHold += growthText + " or "
-				orIconsHold += growthIcons +"or"
-				orGrowthOpenHold = growthOpen
-				orGrowthTextOpenHold = orGrowthTextOpenHold=="" ? growthTextOpen : orGrowthTextOpenHold
-				console.log(orGrowthTextOpenHold)
-				isOr = false;
-				console.log(orTextHold)
-			} else if(orTextHold){
-				growthText = orTextHold + growthText
-				growthIcons = '<growth-cell-double>'+orIconsHold+ growthIcons+'</growth-cell-double>'
-				newGrowthCellHTML += orGrowthOpenHold + growthIcons + orGrowthTextOpenHold + growthText + growthTextClose;
-				orTextHold = ""
-				orIconsHold = ""
-				orGrowthOpenHold = ""
-				orGrowthTextOpenHold = ""
-			} else {
-				// Normal growth
-				newGrowthCellHTML += growthOpen + growthIcons + growthTextOpen + growthText + growthTextClose;
-			}
-			
+      
+      if (repeatText){
+        growthIcons = '<repeat-wrapper>' + repeatOpen + growthIcons+'</repeat-wrapper>';
+      }
+      if(isPresenceNode){
+        growthIcons = '<presence-node class="growth"><ring-icon>' + growthIcons+'</ring-icon></presence-node>';
+        isPresenceNode = false;
+      }
+      
+      //Handle Ors
+      if(isOr){
+        // break out the ICON and TEXT
+        // Save it for next time
+        // Append it
+        orTextHold += growthText + " or "
+        orIconsHold += growthIcons +"or"
+        orGrowthOpenHold = growthOpen
+        orGrowthTextOpenHold = orGrowthTextOpenHold=="" ? growthTextOpen : orGrowthTextOpenHold
+        isOr = false;
+        console.log('Part 1: '+orTextHold)
+      } else if(orTextHold){
+        console.log('Part 2: '+growthText)
+        growthText = orTextHold + growthText
+        growthIcons = '<growth-cell-double>'+orIconsHold+ growthIcons+'</growth-cell-double>'
+        newGrowthCellHTML += orGrowthOpenHold + growthIcons + orGrowthTextOpenHold + growthText + growthTextClose;
+        orTextHold = ""
+        orIconsHold = ""
+        orGrowthOpenHold = ""
+        orGrowthTextOpenHold = ""
+      } else {
+        // Normal growth
+        newGrowthCellHTML += growthOpen + growthIcons + growthTextOpen + growthText + growthTextClose;
+      }
+      
         }
 
         if (nextElement && nextElement.nodeName.toLowerCase() == 'growth-group') {
-            newGrowthCellHTML += headerIndex !== undefined
-                ? `<growth-border header="${headerIndex}"></growth-border>`
-                : "<growth-border></growth-border>";
+            var headerText = !isNaN(headerIndex) ? ` header=${headerIndex}` : "";
+            newGrowthCellHTML += "</growth-group><growth-border"+headerText+"></growth-border>"
         }
+        if (!nextElement){newGrowthCellHTML += "</growth-group>"}
 
     }
 }
@@ -1132,6 +1144,7 @@ function parseCardPlayTrackTags(){
 
 function enhancePresenceTracksTable() {
   console.log("BUILDING PRESENCE TRACK PANEL")
+  console.log("This method of creating middle node is no longer supported. Your results may very. Use middle() instead.")
   const board = document.querySelectorAll('board')[0];
   var elmt = board.getElementsByTagName("presence-tracks")[0];
   var title = document.createElement("section-title");
@@ -1274,7 +1287,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
           subText = "Add 1 "+Capitalise(tokenAdd) + " to 1 of your Lands";
           break;
         case 'custom':
-          console.log('Single Node Custom:'+splitOptions[0])
+          if(pnDebug){console.log('Custom Node w/ Single Icon:'+splitOptions[0])};
           var matches = regExp.exec(splitOptions[0]);
           var custom_node = matches[1].split(";");
           var custom_text = custom_node[0];
@@ -1533,176 +1546,213 @@ function IconName(str, iconNum = 1){
 }
 
 function Capitalise(str){
-	hyphenCheck = str.split("-");
-	const terrains = new Set(['wetland', 'mountain', 'sand', 'sands', 'jungle'])
-	let return_str = hyphenCheck[0].charAt(0).toUpperCase() + hyphenCheck[0].slice(1);
-	for (var i = 1; i < hyphenCheck.length; i++) {
-		if (terrains.has(hyphenCheck[i])){
-			return_str += ' or ';
-		}else{
-			return_str += ' ';
-		}		
-		return_str += hyphenCheck[i].charAt(0).toUpperCase() + hyphenCheck[i].slice(1);
-	}		
+  hyphenCheck = str.split("-");
+  const terrains = new Set(['wetland', 'mountain', 'sand', 'sands', 'jungle'])
+  let return_str = hyphenCheck[0].charAt(0).toUpperCase() + hyphenCheck[0].slice(1);
+  for (var i = 1; i < hyphenCheck.length; i++) {
+    if (terrains.has(hyphenCheck[i])){
+      return_str += ' or ';
+    }else{
+      return_str += ' ';
+    }		
+    return_str += hyphenCheck[i].charAt(0).toUpperCase() + hyphenCheck[i].slice(1);
+  }		
 
-    return return_str;
+  return return_str;
 }
 
 function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML){
 	console.log("BUILDING PRESENCE TRACK PANEL")
 	const board = document.querySelectorAll('board')[0];
-    board.getElementsByTagName("presence-tracks")[0].innerHTML = "<section-title>Presence</section-title>" +
-        "<table id='presence-table'>"+energyHTML + cardPlayHTML+"</table>";
+  board.getElementsByTagName("presence-tracks")[0].innerHTML = "<section-title>Presence</section-title>" +
+      "<table id='presence-table'>"+energyHTML + cardPlayHTML+"</table>";
 }
 
 function dynamicCellWidth() {
 	console.log("RESIZING: Growth")
-  var debug = false;
+  var debug = true;
 	const board = document.querySelectorAll('board')[0];
 	
 	// Growth Sizing
-    growthCells =  board.getElementsByTagName("growth-cell");
-    growthCellCount = growthCells.length;
-    growthBorders = Array.from(board.getElementsByTagName("growth-border"));
-    growthBorderCount = growthBorders.length;
+  growthCells =  board.getElementsByTagName("growth-cell");
+  growthCellCount = growthCells.length;
+  growthBorders = Array.from(board.getElementsByTagName("growth-border"));
+  growthBorderCount = growthBorders.length;
 
-    let borderPixels = 0;
-    for (const borderWidth of growthBorders.map(x => x.getAttribute('double') === undefined ? 7 : 11)) {
-        borderPixels += borderWidth
+  let borderPixels = 0;
+  for (const borderWidth of growthBorders.map(x => x.getAttribute('double') === undefined ? 7+8 : 11+5)) {
+    borderPixels += borderWidth
+  }
+  let growthTable = board.getElementsByTagName("growth-table")[0];
+  let totalWidth = 0;
+  for (i = 0; i < growthCells.length; i++){
+    totalWidth += growthCells[i].offsetWidth;
+  }
+  if(debug){console.log('total width ='+totalWidth +' Border pixels = '+borderPixels)}
+  
+  // Add additional Growth Row if necessary
+  let growthTexts = board.getElementsByTagName("growth-text");
+  let tallGrowthText = false
+  for(i = 0; i < growthTexts.length; i++){
+    tallGrowthText = growthTexts[i].offsetHeight > 95 ? true : tallGrowthText;
     }
-    let growthTable = board.getElementsByTagName("growth-table")[0];
-	let totalWidth = 0;
-    for (i = 0; i < growthCells.length; i++){
-		totalWidth += growthCells[i].offsetWidth;
+  if(totalWidth > 1200 || tallGrowthText){
+    growthTableText = growthTable.innerHTML;
+    growthGroups = growthTableText.split("<growth-border></growth-border>")
+    lastGrowth = growthGroups.at(-1)
+    let newInnerHTML = ''
+    newInnerHTML+=growthGroups[0]
+    for (i = 1; i < growthGroups.length-1; i++){
+      newInnerHTML+="<growth-border></growth-border>"
+      newInnerHTML+=growthGroups[i]
     }
-
-	// Add additional Growth Row if necessary
-	let growthTexts = board.getElementsByTagName("growth-text");
-	let tallGrowthText = false
-	for(i = 0; i < growthTexts.length; i++){
-		tallGrowthText = growthTexts[i].offsetHeight > 95 ? true : tallGrowthText;
+    growthTable.innerHTML=newInnerHTML
+    var newGrowthTable = document.createElement("growth-table");
+    var growthLine = document.createElement("growth-row-line");
+    newGrowthTable.innerHTML=lastGrowth;
+    document.getElementsByTagName("growth")[0].append(growthLine)
+    console.log("Adding second row of growth:")
+    console.log(newGrowthTable)
+    document.getElementsByTagName("growth")[0].append(newGrowthTable)
+  }
+  
+  //Iterate through growth table(s) to resize
+  const largeCellScale = 1.5;
+  const extraLargeCellScale = 1.8;
+  const growthTables = board.getElementsByTagName("growth-table");
+  
+  let tightFlag = false; // flag for tightening presence tracks later
+  for (i = 0; i < growthTables.length; i++){
+    growthTable = growthTables[i];
+    if(growthTables.length>1){
+      growthTable.style.marginTop = '10px';
+      tightFlag = true;
+      console.log('will tighten presence tracks')
     }
-	if(totalWidth > 1200 || tallGrowthText){
-		growthTableText = growthTable.innerHTML;
-		growthGroups = growthTableText.split("<growth-border></growth-border>")
-		lastGrowth = growthGroups.at(-1)
-		let newInnerHTML = ''
-		newInnerHTML+=growthGroups[0]
-		for (i = 1; i < growthGroups.length-1; i++){
-			newInnerHTML+="<growth-border></growth-border>"
-			newInnerHTML+=growthGroups[i]
-		}
-		growthTable.innerHTML=newInnerHTML
-		var newGrowthTable = document.createElement("growth-table");
-		var growthLine = document.createElement("growth-row-line");
-		newGrowthTable.innerHTML=lastGrowth;
-		document.getElementsByTagName("growth")[0].append(growthLine)
-		console.log("HERE IS THE GROWTH TABLE")
-		console.log(newGrowthTable)
-		document.getElementsByTagName("growth")[0].append(newGrowthTable)
-	}
-	
-	//Iterate through growth table(s) to resize
-	const largeCellScale = 1.5;
-	const extraLargeCellScale = 1.8;
-	const growthTables = board.getElementsByTagName("growth-table");
-	
-	let tightFlag = false; // flag for tightening presence tracks later
-	for (i = 0; i < growthTables.length; i++){
-		growthTable = growthTables[i];
-		if(growthTables.length>1){
-			growthTable.style.marginTop = '10px';
-			tightFlag = true;
-			console.log('will tighten presence tracks')
-		}
-		const growthCells = board.getElementsByTagName("growth-table")[i].getElementsByTagName("growth-cell");
-		const growthTableStyle = window.getComputedStyle(growthTable);
-		const growthTableWidth = growthTableStyle.getPropertyValue('width');
-		const remainingCellWidth = (parseInt(growthTableWidth.replace(/px/, "")) - borderPixels) + "px";
-		let widthArray = [];
-		totalWidth = 0;
-		for (j = 0; j < growthCells.length; j++){
-			totalWidth += growthCells[j].offsetWidth;
-			widthArray[j] = growthCells[j].offsetWidth;
-		}
-		averageWidth = totalWidth/growthCells.length;
-		if (totalWidth > 1000 || i==0){
-			let smallCellFinder = widthArray.map(x => x <= averageWidth*1.35)
-			let largeCellFinder = widthArray.map(x => x > averageWidth*1.35)
-			let extraLargeCellFinder = widthArray.map(x => x > averageWidth*2)
-			largeCellFinder = largeCellFinder.map((x,index) => x&&!extraLargeCellFinder[index])
-			const largeCell = largeCellFinder.filter(Boolean).length
-			const smallCell = smallCellFinder.filter(Boolean).length
-			const extraLargeCell = extraLargeCellFinder.filter(Boolean).length
-			weightedSmallCellWidth = (parseFloat(remainingCellWidth.replace(/px/, "")) / (smallCell + largeCellScale*largeCell+extraLargeCellScale*extraLargeCell))
-			weightedLargeCellWidth = weightedSmallCellWidth*largeCellScale;
-			weightedExtraLargeCellWidth = weightedSmallCellWidth*extraLargeCellScale;
-			for (j = 0; j < growthCells.length; j++){
-				if(extraLargeCellFinder[j]){
-					growthCells[j].style.width = weightedExtraLargeCellWidth+"px"
-				}else if(largeCellFinder[j]){
-					growthCells[j].style.width = weightedLargeCellWidth+"px"
-				}else{
-					growthCells[j].style.width = weightedSmallCellWidth+"px"
-				}
-				
-			}
-		} else if(i>0) {
-			growthTable.style.maxWidth = (growthCells.length *averageWidth)+"px"
-			growthTable.style.justifyContent = 'flex-start'
-			for (j = 0; j < growthCells.length; j++){
-				growthCells[j].style.maxWidth = (averageWidth)+"px"
-				growthCells[j].style.minWidth = "100px"
-			}
-		}
-		
-		totalWidth = 0;
-		for (j = 0; j < growthCells.length; j++){
-			totalWidth += growthCells[j].offsetWidth;
-		}
-		if(i>0){
-			growthLines = board.getElementsByTagName("growth-row-line");
-			growthLines[i-1].style.width = totalWidth+"px";
-		}
-	}
-	
-	growthTable = board.getElementsByTagName("growth-table")[0];
-  const headerWith = {}
+    const growthCells = board.getElementsByTagName("growth-table")[i].getElementsByTagName("growth-cell");
+    const growthTableStyle = window.getComputedStyle(growthTable);
+    const growthTableWidth = growthTableStyle.getPropertyValue('width');
+    const remainingCellWidth = (parseInt(growthTableWidth.replace(/px/, "")) - borderPixels) + "px";
+    let widthArray = [];
+    totalWidth = 0;
+    for (j = 0; j < growthCells.length; j++){
+      totalWidth += growthCells[j].offsetWidth;
+      widthArray[j] = growthCells[j].offsetWidth;
+    }
+    averageWidth = totalWidth/growthCells.length;
+    if (totalWidth > 1000 || i==0){
+      let smallCellFinder = widthArray.map(x => x <= averageWidth*1.35)
+      let largeCellFinder = widthArray.map(x => x > averageWidth*1.35)
+      let extraLargeCellFinder = widthArray.map(x => x > averageWidth*2)
+      largeCellFinder = largeCellFinder.map((x,index) => x&&!extraLargeCellFinder[index])
+      const largeCell = largeCellFinder.filter(Boolean).length
+      const smallCell = smallCellFinder.filter(Boolean).length
+      const extraLargeCell = extraLargeCellFinder.filter(Boolean).length
+      weightedSmallCellWidth = (parseFloat(remainingCellWidth.replace(/px/, "")) / (smallCell + largeCellScale*largeCell+extraLargeCellScale*extraLargeCell))
+      weightedLargeCellWidth = weightedSmallCellWidth*largeCellScale;
+      weightedExtraLargeCellWidth = weightedSmallCellWidth*extraLargeCellScale;
+      for (j = 0; j < growthCells.length; j++){
+        if(extraLargeCellFinder[j]){
+          growthCells[j].style.width = weightedExtraLargeCellWidth+"px"
+        }else if(largeCellFinder[j]){
+          growthCells[j].style.width = weightedLargeCellWidth+"px"
+        }else{
+          growthCells[j].style.width = weightedSmallCellWidth+"px"
+        }
+        
+      }
+    } else if(i>0) {
+      growthTable.style.maxWidth = (growthCells.length *averageWidth)+"px"
+      growthTable.style.justifyContent = 'flex-start'
+      for (j = 0; j < growthCells.length; j++){
+        growthCells[j].style.maxWidth = (averageWidth)+"px"
+        growthCells[j].style.minWidth = "100px"
+      }
+    }
+    
+    totalWidth = 0;
+    for (j = 0; j < growthCells.length; j++){
+      totalWidth += growthCells[j].offsetWidth;
+    }
+    if(i>0){
+      growthLines = board.getElementsByTagName("growth-row-line");
+      growthLines[i-1].style.width = totalWidth+"px";
+    }
+  }
+  
+  // Create Headers (if using Subsets)
+  growthTable = board.getElementsByTagName("growth-table")[0];
+  const headerWidth = {}
   const headerAdditionalWidth = {}
   let maxIndex = undefined
+  console.log('Checking growth for headers')
+  console.log(growthTable.children)
   for (const c of growthTable.children) {
-      const header = parseInt(c.getAttribute('header'))
-      if (!isNaN( header )) {
-          maxIndex = header
-          const addwith = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
-              + parseFloat(window.getComputedStyle(c).getPropertyValue('margin-left').replace(/px/, ""))
-              + parseFloat(window.getComputedStyle(c).getPropertyValue('width').replace(/px/, ""))
+    console.log(c)
+    const header = parseInt(c.getAttribute('header'))
+    console.log(header)
+    if (!isNaN( header )) {
+      maxIndex = header
+      const addWidth = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
+          + parseFloat(window.getComputedStyle(c).getPropertyValue('margin-left').replace(/px/, ""))
+          + parseFloat(window.getComputedStyle(c).getPropertyValue('width').replace(/px/, ""))
 
-          if (headerWith[header]) {
-              headerWith[header] += addwith
-          } else {
-              headerWith[header] = addwith
-          }
-      } else if (maxIndex != undefined) {
-          const addwith = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
-              + parseFloat(window.getComputedStyle(c).getPropertyValue('margin-left').replace(/px/, ""))
-              + parseFloat(window.getComputedStyle(c).getPropertyValue('width').replace(/px/, ""))
-          if (headerAdditionalWidth[maxIndex]) {
-              headerAdditionalWidth[maxIndex] += addwith
-          } else {
-              headerAdditionalWidth[maxIndex] = addwith
-          }
-
+      if (headerWidth[header]) {
+          headerWidth[header] += addWidth
+      } else {
+          headerWidth[header] = addWidth
       }
+    } else if (maxIndex != undefined) {
+      console.log('maxIndex is defined')
+      const addWidth = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
+          + parseFloat(window.getComputedStyle(c).getPropertyValue('margin-left').replace(/px/, ""))
+          + parseFloat(window.getComputedStyle(c).getPropertyValue('width').replace(/px/, ""))
+      if (headerAdditionalWidth[maxIndex]) {
+          headerAdditionalWidth[maxIndex] += addWidth
+      } else {
+          headerAdditionalWidth[maxIndex] = addWidth
+      }
+    } else {
+      if(debug){console.log('No header')}
+    }
   }
+  if(debug){console.log(headerWidth[0])}
 
   const subGrowthTitle = board.getElementsByTagName('sub-section-title')
+  if(board.getElementsByTagName("growth-table").length>1 && subGrowthTitle.length){console.log('Warning: growth sets does not work correctly when a second growth row is used')}
   let position = 0
   for (let i = 0; i < subGrowthTitle.length; i++) {
       subGrowthTitle[i].style.left = `${position}px`
-      subGrowthTitle[i].style.width = `${headerWith[i]}px`
-      position += headerWith[i] + headerAdditionalWidth[i]
+      subGrowthTitle[i].style.width = `${headerWidth[i]}px`
+      position += headerWidth[i] + headerAdditionalWidth[i]
   }
+
+  // Create special titles
+  var growthTableTitles = board.getElementsByTagName("growth-table");
+  var specialTitleFlag = false;
+  for(const table of growthTableTitles){
+    var growthGroupsTitles = table.getElementsByTagName("growth-group");
+    for(const group of growthGroupsTitles){
+      var specialTitle = group.getAttribute('special-title');
+      if(specialTitle){
+        specialTitleFlag = true;
+        var growthActionsTitles = group.getElementsByTagName("growth-cell")
+        var growthGroupWidth = 0;
+        for(const action of growthActionsTitles){
+          console.log(action.style.width)
+          growthGroupWidth += parseFloat(action.style.width.replace(/px/, ""));
+        }
+        growthGroupWidth = Math.ceil(growthGroupWidth)
+        group.style.width = growthGroupWidth+"px";
+        specialSectionTitle = document.createElement("special-section-title");
+        specialSectionTitle.innerHTML=specialTitle;
+        group.appendChild(specialSectionTitle);
+        //find the parent, add a class that creates space.
+        table.classList.add("has-special-title")
+      }
+    }
+  }
+
 
   // Final resize (catches really big things that were missed)
   let growthItems = board.getElementsByTagName("growth-cell");
@@ -1726,20 +1776,29 @@ function dynamicCellWidth() {
 	maxGrowthTextHeight = newGrowthTable!==undefined ? 50 : 100;
 	for(i = 0; i < growthTexts.length; i++){
 		if(growthTexts[i].offsetHeight<50){
-			if(debug){
-        console.log('balancing lines: ')
-        console.log(growthTexts[i])
-			}
 			balanceText(growthTexts[i]);
+			if(debug){console.log('Balancing growth text "'+growthTexts[i].textContent+'" to '+growthTexts[i].style.width+' width.')};
 		}else if(growthTexts[i].offsetHeight>maxGrowthTextHeight){
-			if(debug){
-        console.log('reducing lines: ')
-        console.log(growthTexts[i])
-			}
 			reduceLines(growthTexts[i]);
+      if(debug){console.log('Reducing growth text lines for '+growthTexts[i].textContent)};
 		}
-    }
+  }
 	
+  // Handle Tint (corners)
+  let growthGroupsTint = board.getElementsByTagName("growth-group");
+  if(growthGroupsTint){
+    for(let group of growthGroupsTint){
+      let growthTints = group.getElementsByClassName("tint");
+      if(growthTints.length==1){
+        console.log('found solo tint')
+        growthTints[0].classList.add("solo-tint");
+      }else if(growthTints.length){
+        growthTints[0].classList.add("start-tint");
+        growthTints[growthTints.length-1].classList.add("end-tint");
+      }
+    }
+  }  
+  
 	// Innate Power Sizing
 	console.log("RESIZING: Innate Powers")
 	// Innate Power Notes (scale font size)
@@ -1879,14 +1938,26 @@ function dynamicCellWidth() {
 	growth = board.getElementsByTagName("growth")[0];
 	presenceTracks = board.getElementsByTagName("presence-tracks")[0];
 	right = board.getElementsByTagName("right")[0];
-	innatePowers = board.getElementsByTagName("innate-powers")[0];
-	innatePowers.style.height = (right.clientHeight - presenceTracks.clientHeight - growth.clientHeight) + "px";
+	innatePowers = board.getElementsByTagName("innate-power");
 	
 	// Shrink Innate Power notes if needed for space
 	var innatePowerBox = board.getElementsByTagName("innate-powers")[0];
+  var moveFlag = false;
+  innatePowerBox.style.height = (right.clientHeight - presenceTracks.clientHeight - growth.clientHeight) + "px";
 	let k = 0;
 	if(checkOverflowHeight(innatePowerBox)){
-		console.log('IP overflowing, shrinking notes (if applicable)...')
+    console.log('Innate Powers overflowing, shrinking notes (if applicable)...')
+    
+    // First, check if its just one IP, and if so, move it to the side (see Ember-Eyed)
+    if(innatePowers.length==1 ){
+      note = innatePowers[0].getElementsByTagName("note")[0];
+      if(note){
+        note.classList.add('single-squish');
+        console.log('Single power note detected. Moving note to side.')
+        moveFlag = true;
+      }
+    }
+    
 		descriptionContainers = innatePowerBox.getElementsByTagName("description-container");
 		tallest = 0;
 		tallest_index = 0;
@@ -1900,7 +1971,7 @@ function dynamicCellWidth() {
 		
 		//check for note in tallest innate power
 		noteBox = descriptionContainers[tallest_index].getElementsByTagName("note")[0];
-		if(noteBox){
+		if(noteBox && !moveFlag){
 			console.log('notebox detected, attempting to shrink')
 			while(checkOverflowHeight(innatePowerBox)){
 				var style = window.getComputedStyle(noteBox, null).getPropertyValue('font-size');
@@ -1917,7 +1988,7 @@ function dynamicCellWidth() {
 				}
 			}
 		}else{
-			console.log('notebox not detected in tallest element')
+			console.log('Unable to shrink notes - note not detected in tallest power')
 		}
 		
 	}
@@ -1966,17 +2037,14 @@ function reduceLines(el){
 }
 
 function checkOverflowWidth(el){
-    let curOverflow = el.style.overflow
-    if (!curOverflow || curOverflow === "visible") {
-        el.style.overflow = "auto"
-    }
-    let isOverflowing = (el.clientWidth+30) < el.scrollWidth ? el.scrollWidth : false;
-    el.style.overflow = curOverflow
-/* 	console.log('el.clientHeight='+el.clientHeight)
-	console.log('el.scrollHeight='+el.scrollHeight)
-	console.log('isOverflowing?='+isOverflowing) */
+  let curOverflow = el.style.overflow
+  if (!curOverflow || curOverflow === "visible") {
+      el.style.overflow = "auto"
+  }
+  let isOverflowing = (el.clientWidth+30) < el.scrollWidth ? el.scrollWidth : false;
+  el.style.overflow = curOverflow
 	
-    return isOverflowing
+  return isOverflowing
 }
 
 function checkOverflowHeight(el){
@@ -1996,38 +2064,38 @@ function parseInnatePowers(){
 	const board = document.querySelectorAll('board')[0];
 	
 	var fullHTML = "";
-    var innateHTML = board.getElementsByTagName("quick-innate-power");
-    
-    for(i = 0; i < innateHTML.length; i++){
-        fullHTML += parseInnatePower(innateHTML[i]);
-    }
-    board.getElementsByTagName("innate-powers")[0].innerHTML = '<section-title>Innate Powers</section-title><innate-power-container>'+fullHTML+'</innate-power-container>';
+  var innateHTML = board.getElementsByTagName("quick-innate-power");
+  
+  for(i = 0; i < innateHTML.length; i++){
+      fullHTML += parseInnatePower(innateHTML[i]);
+  }
+  board.getElementsByTagName("innate-powers")[0].innerHTML = '<section-title>Innate Powers</section-title><innate-power-container>'+fullHTML+'</innate-power-container>';
 	
-	//Enable custom spacing
+	//Enable custom line breaks
 	var levelList = board.getElementsByClassName('description')
 	
-	  for (let j = 0; j < levelList.length; j++) {
-		  ruleLines = levelList[j].innerHTML.split("\n")
-		  rulesHTML = "";
-		  for (let i = 0; i < ruleLines.length; i++) {
-			  rulesText = ruleLines[i];
-			  rulesText=rulesText.replaceAll('\t','')
-			  if(rulesText && rulesText.trim().length){
-				rulesHTML += "<div>"+ruleLines[i]+"</div>"
-			  }else if(i>0 && i<ruleLines.length-1){
-				  rulesHTML += "<br>"
-				  // allows user's line breaks to show up on the card
-			  }
-		  }
-		  levelList[j].innerHTML = rulesHTML
-	  }
+  for (let j = 0; j < levelList.length; j++) {
+    ruleLines = levelList[j].innerHTML.split("\n")
+    rulesHTML = "";
+    for (let i = 0; i < ruleLines.length; i++) {
+      rulesText = ruleLines[i];
+      rulesText=rulesText.replaceAll('\t','')
+      if(rulesText && rulesText.trim().length){
+      rulesHTML += "<div>"+ruleLines[i]+"</div>"
+      }else if(i>0 && i<ruleLines.length-1){
+        rulesHTML += "<br>"
+        // allows user's line breaks to show up on the card
+      }
+    }
+    levelList[j].innerHTML = rulesHTML
+  }
 }
 
 function parseInnatePower(innatePowerHTML){
     var debug = false;
     var currentPowerHTML = "<innate-power class='"+innatePowerHTML.getAttribute("speed")+"'>";
     
-    //Innater Power title
+    //Innate Power title
     currentPowerHTML += "<innate-power-title>"+innatePowerHTML.getAttribute("name")+"</innate-power-title><info-container><info-title>";
     
     //Innate Power Speed and Range Header
@@ -2081,7 +2149,7 @@ function parseInnatePower(innatePowerHTML){
     var currentLevels = innatePowerHTML.getElementsByTagName("level");
     var regExp = /\(([^)]+)\)/;
     for (j = 0; j < currentLevels.length; j++){
-        var currentThreshold = currentLevels[j].getAttribute("threshold");
+    var currentThreshold = currentLevels[j].getAttribute("threshold");
 		var isText = currentLevels[j].getAttribute("text");
 		if(isText!=null){
 			// User wants a special text-only line
@@ -2123,7 +2191,6 @@ function parseInnatePower(innatePowerHTML){
 				}else if(currentElement.toUpperCase().startsWith('TEXT')){
 					if(currentElement.split('(')[1]){
 						customText = regExp.exec(currentElement)[1];
-						console.log(customText)
 						currentThresholdPieces[k]=currentNumeral+" "+customText;
 					}else{
 						currentThresholdPieces[k]=currentNumeral+" "+"X";
@@ -2131,7 +2198,6 @@ function parseInnatePower(innatePowerHTML){
 				}else if(currentElement.toUpperCase().startsWith('COST')){
 					if(currentElement.split('(')[1]){
 						customCost = regExp.exec(currentElement)[1];
-						console.log(customCost)
 						currentThresholdPieces[k]="<cost-threshold>Cost<icon class='"+customCost+" cost-custom'><value>-" + currentNumeral + "</value></icon></cost-threshold>";
 					}else{
 						currentThresholdPieces[k]="<cost-threshold>Cost<cost-energy><value>-" + currentNumeral + "</value></cost-energy></cost-threshold>";
@@ -2152,45 +2218,45 @@ function parseInnatePower(innatePowerHTML){
 }
 
 function parseSpecialRules(){
-	console.log('BUILDING SPECIAL RULES')
-	const board = document.querySelectorAll('board')[0];
-	
-	var specialRules = board.getElementsByTagName("special-rules-container")[0];
-	
-	// Enable snake-like presence track in special rules
-    var specialTrack = board.getElementsByTagName("special-rules-track")[0];
-	if(specialTrack){
-		var specialValues = specialTrack.getAttribute("values");
-		var specialOptions = specialValues.split(",");
-		var specialHTML = "";
-		
-		for(i = 0; i < specialOptions.length; i++){
-			let nodeText = specialOptions[i];
-			specialHTML += "<td>"+getPresenceNodeHtml(nodeText, i == 0, "special", true)+"</td>";
-		}
-		specialHTML += "</tr>"
-		board.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
-		specialTrack.innerHTML = specialHTML;
-		var subtextList = specialTrack.getElementsByTagName("subtext");
-		for (var i = subtextList.length - 1; i >= 0; --i) {
-		  subtextList[i].remove();
-		}
-	}
-	
-	// Enable user's own line breaks to show up in code
-	  var specialRuleList = specialRules.getElementsByTagName('special-rule')
-	  for (let j = 0; j < specialRuleList.length; j++) {
-		  ruleLines = specialRuleList[j].innerHTML.split("\n")
-		  rulesHTML = "";
-		  for (let i = 0; i < ruleLines.length; i++) {
-			  if(ruleLines[i] && ruleLines[i].trim().length){
-				rulesHTML += "<div>"+ruleLines[i]+"</div>"
-			  }else if(i>0 && i<ruleLines.length-1){
-				  rulesHTML += "<br>"
-				  // allows user's line breaks to show up on the card
-			  }
-		  }
-		  specialRuleList[j].innerHTML = rulesHTML
-	  }
-	// <special-rules-track values="2,3,4"></special-rules-track>
+  console.log('BUILDING SPECIAL RULES')
+  const board = document.querySelectorAll('board')[0];
+
+  var specialRules = board.getElementsByTagName("special-rules-container")[0];
+
+  // Enable snake-like presence track in special rules
+  var specialTrack = board.getElementsByTagName("special-rules-track")[0];
+  if(specialTrack){
+    var specialValues = specialTrack.getAttribute("values");
+    var specialOptions = specialValues.split(",");
+    var specialHTML = "";
+    
+    for(i = 0; i < specialOptions.length; i++){
+      let nodeText = specialOptions[i];
+      specialHTML += "<td>"+getPresenceNodeHtml(nodeText, i == 0, "special", true)+"</td>";
+    }
+    specialHTML += "</tr>"
+    board.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
+    specialTrack.innerHTML = specialHTML;
+    var subtextList = specialTrack.getElementsByTagName("subtext");
+    for (var i = subtextList.length - 1; i >= 0; --i) {
+      subtextList[i].remove();
+    }
+  }
+
+  // Enable user's own line breaks to show up in code
+    var specialRuleList = specialRules.getElementsByTagName('special-rule')
+    for (let j = 0; j < specialRuleList.length; j++) {
+      ruleLines = specialRuleList[j].innerHTML.split("\n")
+      rulesHTML = "";
+      for (let i = 0; i < ruleLines.length; i++) {
+        if(ruleLines[i] && ruleLines[i].trim().length){
+        rulesHTML += "<div>"+ruleLines[i]+"</div>"
+        }else if(i>0 && i<ruleLines.length-1){
+          rulesHTML += "<br>"
+          // allows user's line breaks to show up on the card
+        }
+      }
+      specialRuleList[j].innerHTML = rulesHTML
+    }
+  // <special-rules-track values="2,3,4"></special-rules-track>
 }

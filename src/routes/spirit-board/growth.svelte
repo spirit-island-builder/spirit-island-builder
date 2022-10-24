@@ -117,6 +117,14 @@
     );
   }
 
+  function setTitle(setIndex, groupIndex) {
+    spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle =
+      !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle;
+    console.log(
+      "hasTitle=" + spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle
+    );
+  }
+
   //Drag and Drop stuff
   /* 	function allowDrop(ev) {
 	  ev.preventDefault();
@@ -219,6 +227,11 @@
                     class="button is-warning is-light is-small row-button"
                     on:click={setTint(i, j)}>Color Tint</button>
                 {/if}
+                {#if !growthGroup.hasTitle}
+                  <button
+                    class="button is-warning is-light is-small row-button"
+                    on:click={setTitle(i, j)}>Add Title</button>
+                {/if}
               </div>
               {#if growthGroup.hasCost}
                 <div class="growth-action-container">
@@ -250,6 +263,22 @@
                   <button
                     class="button is-warning is-light is-small row-button"
                     on:click={setTint(i, j)}>Remove</button>
+                </div>
+              {/if}
+              {#if growthGroup.hasTitle}
+                <div class="growth-action-container">
+                  <div class="field-label is-small is-unselectable">Title</div>
+                  <div class="control">
+                    <input
+                      id={`set${i}group${j}title`}
+                      class="input  is-small"
+                      type="text"
+                      placeholder='Try "Max 1/Game"'
+                      bind:value={growthGroup.title} />
+                  </div>
+                  <button
+                    class="button is-warning is-light is-small row-button"
+                    on:click={setTitle(i, j)}>Remove</button>
                 </div>
               {/if}
               {#each growthGroup.growthActions as growthAction, k (growthAction.id)}

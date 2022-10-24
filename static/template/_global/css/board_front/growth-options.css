@@ -31,14 +31,42 @@ growth sub-section-title {
   z-index:0;
 }
 
+growth special-section-title {
+    position: absolute;
+    font-family: 'Name Headings';
+    text-transform: uppercase;
+    font-size: 18pt;
+    font-weight: bold;
+    z-index: 0;
+    transform: translateX(-50%);
+    left: 50%;
+    top: -60px;
+}
+
+growth-table.has-special-title {
+  padding-top: 26px;
+}
+
 growth .tint{
-    width: 83%;
-    height: 111%;
+    width: 100%;
     opacity: 0.2;
     position: absolute;
-    top: -12%;
-    left: 10%;
 	z-index: -1;
+  height: 120%;
+    top: -20%;
+    left:3px;
+}
+
+growth .start-tint{
+    border-radius: 8px 0px 0px 8px;
+}
+
+growth .end-tint{
+    border-radius: 0px 8px 8px 0px;
+}
+
+growth .solo-tint{
+    border-radius: 8px;
 }
 
 growth sub-section-title>span {
@@ -62,12 +90,12 @@ growth sub-section-line {
 
 growth-table {
   display: inline-flex;
-  width: 1100px;
+  width: 1090px;
   text-align: center;
   margin-top: 30px;
   margin-bottom: 10px;
   margin-left: 0px;
-  justify-content: space-around;
+  justify-content: flex-start;
   padding-right: 10px;
   box-sizing: border-box;
 }
@@ -76,22 +104,30 @@ sub-section-title+growth-table{
   margin-top: 55px;
 }
 
+growth-group {
+  display:inline-flex;
+  position: relative;
+}
+
 growth-border {
   background-image: url('../../images/board/Growthborder.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  width: 7px;
+  width: 15px;
   height: 125px;
-  margin-top: -30px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-top: -8px;
+  margin-right: 0px;
+  margin-left: 4px;
+  display: inline;
+  margin-bottom: -10px;
+  min-width: 15px;
 }
 
 growth-border[double] {
   background-repeat: repeat-x;
   background-position: left;
-  width: 10px;
+  min-width: 10px;
 }
 
 growth-cell {
@@ -1238,6 +1274,6 @@ growth-row-line {
     margin-left: 21px;
     margin-right: 8px;
     margin-bottom: 21px;
-    margin-top: -13px;
+    margin-top: -20px;
 }
 

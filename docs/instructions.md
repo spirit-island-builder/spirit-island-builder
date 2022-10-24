@@ -82,6 +82,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
     - Non-Energy Scaling Costs: Optional. Try '1,dahan' or '1,custom1' or other icon names
     - Custom Costs: Optional. Try "forget-power-card,Cost: Forget a Power Card from Discard"
   - Add Tint: Optional. Allows a color shift on growth options (as seen on Spread of Rampant Green).
+  - Add Title: Optional. Allows for a title over a single growth option (see Ember-Eyed). NOTE use 'Growth Sets' for a Lure-type subtitle.
   - Add Growth Group: Adds an additional Growth Group.
   - **X**: Deletes the current Growth Group & all of its Growth Actions
 - **Growth Actions** are the individual growth actions, such as gaining energy or adding a presence. How to write these actions are detailed below.

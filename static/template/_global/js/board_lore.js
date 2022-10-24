@@ -41,6 +41,17 @@ function resize() {
 	}
 	// dynamicSizing(document.querySelectorAll('setup-description')[0]);
 	// dynamicSizing(document.querySelectorAll('play-style-description')[0]);
+  
+  loreImage = document.querySelectorAll('img')[0];
+  var imgWidth = window.getComputedStyle(loreImage, null).getPropertyValue('width');
+  imageScale = loreImage.getAttribute('scale');
+  if(imageScale){
+    if(isNaN(imageScale)){
+      loreImage.style.width = imageScale;
+    }else{
+      loreImage.style.width = imageScale+"%";
+    }
+  }
 }
 
 function addHTMLLineBreaks(htmlElement){
