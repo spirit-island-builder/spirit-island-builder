@@ -104,25 +104,46 @@
   function setCost(setIndex, groupIndex) {
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost;
-    console.log(
-      "hasCost=" + spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost
-    );
+
+    var focusId =    "set" +    setIndex +    "group" +    groupIndex +    "cost";
+    //Set the focus to the Growth Group Cost if it is visible.
+    if (spiritBoard.growth.isVisible) {
+      if(spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost){
+        setTimeout(() => {
+          document.getElementById(focusId).focus();
+        }, 100);
+      }
+    }
   }
 
   function setTint(setIndex, groupIndex) {
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint;
-    console.log(
-      "hasTint=" + spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint
-    );
+
+    var focusId =    "set" +    setIndex +    "group" +    groupIndex +    "tint";
+    //Set the focus to the Growth Group Cost if it is visible.
+    if (spiritBoard.growth.isVisible) {
+      if(spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint){
+        setTimeout(() => {
+          document.getElementById(focusId).focus();
+        }, 100);
+      }
+    }
   }
 
   function setTitle(setIndex, groupIndex) {
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle;
-    console.log(
-      "hasTitle=" + spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle
-    );
+
+    var focusId =    "set" +    setIndex +    "group" +    groupIndex +    "title";
+    //Set the focus to the Growth Group Cost if it is visible.
+    if (spiritBoard.growth.isVisible) {
+      if(spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle){
+        setTimeout(() => {
+          document.getElementById(focusId).focus();
+        }, 100);
+      }
+    }
   }
 
   //Drag and Drop stuff
