@@ -290,66 +290,28 @@
 </script>
 
 <h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
-<nav class="navbar ml-5">
-  <div class="navbar-brand">
-    <button
-      class={`button navbar-item ${
-        currentPage === "spiritBoardFront" ? "is-primary" : "is-link is-light"
-      }`}
-      on:click={() => {
-        setCurrentPage("spiritBoardFront");
-      }}>
-      Spirit Board Play Side
-    </button>
-    <button
-      style=""
-      class={`button navbar-item ${
-        currentPage === "spiritBoardBack" ? "is-primary" : "is-link is-light"
-      }`}
-      on:click={() => {
-        setCurrentPage("spiritBoardBack");
-      }}>
-      Spirit Board Lore Side
-    </button>
-    <button
-      style=""
-      class={`button navbar-item ${
-        currentPage === "powerCards" ? "is-primary" : "is-link is-light"
-      }`}
-      on:click={() => {
-        setCurrentPage("powerCards");
-      }}>
-      Power Cards
-    </button>
-    <button
-      style="display:none"
-      class={`button navbar-item ${currentPage === "aspect" ? "is-primary" : "is-link is-light"}`}
-      on:click={() => {
-        setCurrentPage("aspect");
-      }}>
-      Aspect
-    </button>
-    <button
-      class={`button navbar-item ${
-        currentPage === "adversary" ? "is-primary" : "is-link is-light"
-      }`}
-      on:click={() => {
-        setCurrentPage("adversary");
-      }}>
-      Adversary
-    </button>
-  </div>
-</nav>
 {#if isShowingInstructions === true}
   <Instructions bind:isShowingInstructions bind:instructionsSource />
 {/if}
 <div class="container">
   {#if currentPage === "spiritBoardFront"}
-    <SpiritBoard bind:spiritBoard bind:isShowingInstructions bind:instructionsSource bind:customIcons />
+    <SpiritBoard
+      bind:spiritBoard
+      bind:isShowingInstructions
+      bind:instructionsSource
+      bind:customIcons />
   {:else if currentPage === "spiritBoardBack"}
-    <SpiritBoardBack bind:spiritBoardBack bind:isShowingInstructions bind:instructionsSource bind:customIcons />
+    <SpiritBoardBack
+      bind:spiritBoardBack
+      bind:isShowingInstructions
+      bind:instructionsSource
+      bind:customIcons />
   {:else if currentPage === "powerCards"}
-    <PowerCards bind:powerCards bind:isShowingInstructions bind:instructionsSource bind:customIcons />
+    <PowerCards
+      bind:powerCards
+      bind:isShowingInstructions
+      bind:instructionsSource
+      bind:customIcons />
   {:else if currentPage === "aspect"}
     <Aspect bind:aspect bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "adversary"}
