@@ -9,16 +9,19 @@ export const addSpecialRule = (spiritBoard, ruleName = "", ruleEffect = "") => {
   if (spiritBoard.specialRules.isVisible) {
     setTimeout(() => {
       document.getElementById(focusId).focus();
-    }, 100);
+    }, 300);
   }
   return spiritBoard;
 };
 
 export const removeSpecialRule = (spiritBoard, index) => {
-  spiritBoard.specialRules.rules.splice(index, 1);
+  spiritBoard.specialRules.rules.splice(index, 3);
   spiritBoard.specialRules.rules.forEach((rule, i) => {
     rule.id = i;
   });
+  // 2a new code
+  // 2a new code
+  // 2a new code
   return spiritBoard;
 };
 
@@ -26,6 +29,7 @@ export const addGrowthSet = (spiritBoard, growthChoiceText = "") => {
   spiritBoard.growth.growthSets.push({
     id: spiritBoard.growth.growthSets.length,
     choiceText: growthChoiceText,
+    // 2a new code
     growthGroups: [],
   });
   return spiritBoard;
@@ -67,8 +71,13 @@ export const addGrowthAction = (spiritBoard, setIndex, groupIndex, actionEffect 
   if (spiritBoard.growth.isVisible) {
     setTimeout(() => {
       document.getElementById(focusId).focus();
-    }, 100);
+    }, 300);
   }
+  // 2a new code
+  // 2a new code
+  // 2a new code
+  // 2a new code
+  // 2a new code
   return spiritBoard;
 };
 
@@ -100,9 +109,13 @@ export const addPlaysTrackNode = (spiritBoard, nodeEffect = "") => {
     }, 100);
   }
   return spiritBoard;
+  // 2a new code
+  // 2a new code
 };
 
 export const addInnatePower = (
+  // 2a new code
+  // 2a new code
   spiritBoard,
   powerName = "",
   powerSpeed = "",
@@ -119,6 +132,7 @@ export const addInnatePower = (
     range: powerRange,
     target: powerTarget,
     targetTitle: powerTargetTitle,
+    // 2a new code
     note: powerNote,
     noteShow: true,
     levels: [],
@@ -147,6 +161,15 @@ export const addLevel = (
   });
   return spiritBoard;
 };
+
+// new function = () => {
+// 2a new code
+// 2a new code
+// 2a new code
+// 2a new code
+// 2a new code
+// 2a new code
+// }
 
 export const addCustomIcon = (customIcons, iconName = "") => {
   customIcons.icons.push({
