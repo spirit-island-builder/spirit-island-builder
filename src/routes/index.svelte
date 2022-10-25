@@ -294,7 +294,7 @@
   <div class="navbar-brand">
     <button
       class={`button navbar-item ${
-        currentPage === "spiritBoardFront" ? "is-primary" : "is-link is-light"
+        currentPage === "spiritBoardFront" ? "is-primary" : "is-link is-dark"
       }`}
       on:click={() => {
         setCurrentPage("spiritBoardFront");
@@ -304,7 +304,7 @@
     <button
       style=""
       class={`button navbar-item ${
-        currentPage === "spiritBoardBack" ? "is-primary" : "is-link is-light"
+        currentPage === "spiritBoardBack" ? "is-primary" : "is-link is-dark"
       }`}
       on:click={() => {
         setCurrentPage("spiritBoardBack");
@@ -314,7 +314,7 @@
     <button
       style=""
       class={`button navbar-item ${
-        currentPage === "powerCards" ? "is-primary" : "is-link is-light"
+        currentPage === "powerCards" ? "is-primary" : "is-link is-dark"
       }`}
       on:click={() => {
         setCurrentPage("powerCards");
@@ -323,16 +323,14 @@
     </button>
     <button
       style="display:none"
-      class={`button navbar-item ${currentPage === "aspect" ? "is-primary" : "is-link is-light"}`}
+      class={`button navbar-item ${currentPage === "aspect" ? "is-primary" : "is-link is-dark"}`}
       on:click={() => {
         setCurrentPage("aspect");
       }}>
       Aspect
     </button>
     <button
-      class={`button navbar-item ${
-        currentPage === "adversary" ? "is-primary" : "is-link is-light"
-      }`}
+      class={`button navbar-item ${currentPage === "adversary" ? "is-primary" : "is-link is-dark"}`}
       on:click={() => {
         setCurrentPage("adversary");
       }}>
@@ -345,11 +343,23 @@
 {/if}
 <div class="container">
   {#if currentPage === "spiritBoardFront"}
-    <SpiritBoard bind:spiritBoard bind:isShowingInstructions bind:instructionsSource bind:customIcons />
+    <SpiritBoard
+      bind:spiritBoard
+      bind:isShowingInstructions
+      bind:instructionsSource
+      bind:customIcons />
   {:else if currentPage === "spiritBoardBack"}
-    <SpiritBoardBack bind:spiritBoardBack bind:isShowingInstructions bind:instructionsSource bind:customIcons />
+    <SpiritBoardBack
+      bind:spiritBoardBack
+      bind:isShowingInstructions
+      bind:instructionsSource
+      bind:customIcons />
   {:else if currentPage === "powerCards"}
-    <PowerCards bind:powerCards bind:isShowingInstructions bind:instructionsSource bind:customIcons />
+    <PowerCards
+      bind:powerCards
+      bind:isShowingInstructions
+      bind:instructionsSource
+      bind:customIcons />
   {:else if currentPage === "aspect"}
     <Aspect bind:aspect bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "adversary"}
