@@ -953,6 +953,31 @@ function parseGrowthTags(){
           growthText = discardText;
           break;
         }
+        case 'incarna': {
+          const matches = regExp.exec(classPieces[j]);
+          let incarnaOptions = matches[1].split(",");
+          let incarnaAction = incarnaOptions[0];
+          let incarnaRange = incarnaOptions[1] !== undefined ? incarnaOptions[1] : 0;
+          let customIncarnaIcon = incarnaOptions[2] !== undefined ? incarnaOptions[2] : 'incarna-ember';
+          switch(incarnaAction) {
+            case 'move':
+              incarnaIcon = '<custom-icon2><icon class="incarna '+customIncarnaIcon+'"></icon>{move-range-' + incarnaRange + '}</custom-icon2>';
+              incarnaText = 'Move Incarna';
+              break;
+            case 'add':
+              incarnaIcon = '<custom-icon2><icon class="incarna '+customIncarnaIcon+'"></icon><range-growth>' + incarnaRange + "</range-growth></custom-icon2>";
+              incarnaText = 'Add Incarna';
+              break;
+            case 'empower':
+              incarnaIcon = '{empower-incarna}';
+              incarnaText = 'Empower Incarna';
+              break;
+            default:
+          }
+          growthIcons = incarnaIcon;
+          growthText = incarnaText;
+          break;
+        }
         case 'add-token': {
           const matches = regExp.exec(classPieces[j]);
           let tokenOptions = matches[1].split(",");
@@ -1280,6 +1305,19 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
           inner = "<icon class='gather'><icon class='"+moveTarget+"'></icon></icon>";
           subText = "Gather 1 "+Capitalise(moveTarget) + " into 1 of your Lands";
           break;
+        case 'incarna':
+          var matches = regExp.exec(splitOptions[0]);
+          var incarnaAction = matches[1];
+          switch (incarnaAction){
+            case 'empower':
+              subText = "Empower Incarna";
+              inner = "{empower-incarna}";
+            break;
+            default:
+              subText = "Empower Incarna";
+              inner = "{empower-incarna}";
+          }
+          break;
         case 'token':
           var matches = regExp.exec(splitOptions[0]);
           var tokenAdd = matches[1];
@@ -1546,6 +1584,7 @@ function IconName(str, iconNum = 1){
 }
 
 function Capitalise(str){
+  str=str.trim()
   hyphenCheck = str.split("-");
   const terrains = new Set(['wetland', 'mountain', 'sand', 'sands', 'jungle'])
   let return_str = hyphenCheck[0].charAt(0).toUpperCase() + hyphenCheck[0].slice(1);

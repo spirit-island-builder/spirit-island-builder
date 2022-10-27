@@ -160,6 +160,19 @@ growth-cell icon.reclaim-custom, growth-cell icon.reclaim-half {
   width:70px;
 }
 
+growth-cell icon.empower-incarna {
+  width:95px;
+  height: 110px;
+  margin-top: -26px;
+}
+
+growth-cell icon.incarna {
+  width: 80px;
+  height: 45px;
+  margin-bottom: 0px;
+  margin-top: -24px;
+}
+
 growth-cell icon.reclaim-half {
   width:82px;
 }
