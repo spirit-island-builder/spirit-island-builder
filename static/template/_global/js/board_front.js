@@ -958,14 +958,14 @@ function parseGrowthTags(){
           let incarnaOptions = matches[1].split(",");
           let incarnaAction = incarnaOptions[0];
           let incarnaRange = incarnaOptions[1] !== undefined ? incarnaOptions[1] : 0;
-          let customIncarnaIcon = incarnaOptions[2] !== undefined ? '{'+incarnaOptions[2]+'}' : '{incarna-ember}';
+          let customIncarnaIcon = incarnaOptions[2] !== undefined ? incarnaOptions[2] : 'incarna-ember';
           switch(incarnaAction) {
             case 'move':
-              incarnaIcon = '<custom-icon2>'+customIncarnaIcon+'{move-range-' + incarnaRange + '}</custom-icon2>';
+              incarnaIcon = '<custom-icon2><icon class="incarna '+customIncarnaIcon+'"></icon>{move-range-' + incarnaRange + '}</custom-icon2>';
               incarnaText = 'Move Incarna';
               break;
             case 'add':
-              incarnaIcon = "<custom-icon2>"+ customIncarnaIcon+"<range-growth>" + incarnaRange + "</range-growth></custom-icon2>";
+              incarnaIcon = '<custom-icon2><icon class="incarna '+customIncarnaIcon+'"></icon><range-growth>' + incarnaRange + "</range-growth></custom-icon2>";
               incarnaText = 'Add Incarna';
               break;
             case 'empower':
@@ -1304,6 +1304,19 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
           var moveTarget = matches[1];
           inner = "<icon class='gather'><icon class='"+moveTarget+"'></icon></icon>";
           subText = "Gather 1 "+Capitalise(moveTarget) + " into 1 of your Lands";
+          break;
+        case 'incarna':
+          var matches = regExp.exec(splitOptions[0]);
+          var incarnaAction = matches[1];
+          switch (incarnaAction){
+            case 'empower':
+              subText = "Empower Incarna";
+              inner = "{empower-incarna}";
+            break;
+            default:
+              subText = "Empower Incarna";
+              inner = "{empower-incarna}";
+          }
           break;
         case 'token':
           var matches = regExp.exec(splitOptions[0]);

@@ -129,10 +129,8 @@ special-rule icon.fast, special-rule icon.slow {
     margin-bottom: -7px;
 }
 
-special-rule icon.slow {
-	height:32px;
-	width: 40px;
-}
+special-rule icon.fast {background-image: url('../../images/board/fast_power.png');}
+special-rule icon.slow {background-image: url('../../images/board/slow_power.png');}
 
 special-rule icon.disease{
     margin-left: 2px;
