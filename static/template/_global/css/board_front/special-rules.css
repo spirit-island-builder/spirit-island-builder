@@ -140,6 +140,15 @@ special-rule icon.wilds{
     width: 36px;
 }
 
+special-rule icon.incarna-ember{
+  width: 60px;
+  height: 48px;
+  margin-left: -5px;
+  margin-right: -5px;
+  margin-bottom: -15px;
+  margin-top: -20px;
+}
+
 special-rule icon.dahan {
     margin-left: 1px;
     margin-right: -2px;
