@@ -141,10 +141,10 @@ special-rule icon.wilds{
 }
 
 special-rule icon.incarna-ember{
-  width: 60px;
+  width: 54px;
   height: 48px;
-  margin-left: -5px;
-  margin-right: -5px;
+  margin-left: -1px;
+  margin-right: -1px;
   margin-bottom: -15px;
   margin-top: -20px;
 }
