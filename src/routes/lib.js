@@ -1,4 +1,5 @@
 export const addSpecialRule = (spiritBoard, ruleName = "", ruleEffect = "") => {
+  console.log('here we are')
   var focusId = "ruleNameInput" + spiritBoard.specialRules.rules.length;
   spiritBoard.specialRules.rules.push({
     id: spiritBoard.specialRules.rules.length,

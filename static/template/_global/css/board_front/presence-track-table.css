@@ -90,6 +90,12 @@ presence-node icon.star {
   height: 80px;
 }
 
+presence-node icon.empower-incarna {
+  width: 93px;
+  height: 99px;
+  margin-bottom: 3px;
+}
+
 presence-node icon.gain-power-card, presence-node icon.forget-power-card,
 presence-node icon.discard-cards, presence-node icon.discard-2-cards,
 presence-node icon.discard-card, presence-node icon.discard-1-card,
