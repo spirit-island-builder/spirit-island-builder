@@ -43,6 +43,7 @@ aspect{
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
+  position:relative;
 }
 
 aspect.round-border{
@@ -61,8 +62,29 @@ aspect aspect-name{
   white-space: normal;
 }
 
+aspect aspect-name.has-complexity, aspect aspect-subtext.has-complexity{
+  width:540px;
+}
+
+aspect complexity{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: 122px;
+  height: 76px;
+  top: 32px;
+  position: absolute;
+  left: 553px;
+  display: flex;
+  filter: drop-shadow(2px 2px 5px);
+}
+
+complexity.up{background-image: url(../images/board/NewIcons/Complexity_Up.png);}
+complexity.equal{background-image: url(../images/board/NewIcons/Complexity_Equal.png);}
+complexity.down{background-image: url(../images/board/NewIcons/Complexity_Down.png);}
+
 aspect aspect-subtext{
-  padding-top:8px;
+  padding-top:11px;
   font-size:20px;
   font-family:JosefinSans-Regular;
   color:white;

@@ -214,6 +214,52 @@
     previewBoard: {
       isVisible: false,
     },
+    nameReplacements: {
+      isVisible: false,
+      aspectName: "",
+      aspectRelacement: "",
+      rulesReplaced: "",
+      complexity: "",
+      spiritName: "",
+      spiritImage: "",
+      hasBack: true,
+    },
+    aspectEffects: {
+      isVisible: false,
+      specialRules: {
+        isVisible: false,
+        rules: [
+          {
+            id: 0,
+            name: "",
+            effect: "",
+          },
+        ],
+      },
+      innatePowers: {
+        isVisible: false,
+        powers: [
+          {
+            id: 0,
+            name: "",
+            speed: "",
+            range: "",
+            target: "",
+            targetTitle: "",
+            effect: "",
+            note: "",
+            noteShow: true,
+            levels: [
+              {
+                id: 0,
+                threshold: "",
+                effect: "",
+              },
+            ],
+          },
+        ],
+      },
+    },
   };
 
   let adversary = {
@@ -322,12 +368,12 @@
       Power Cards
     </button>
     <button
-      style="display:none"
+      style=""
       class={`button navbar-item ${currentPage === "aspect" ? "is-primary" : "is-link is-light"}`}
       on:click={() => {
         setCurrentPage("aspect");
       }}>
-      Aspect
+      Aspect / Special Cards
     </button>
     <button
       class={`button navbar-item ${
