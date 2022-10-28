@@ -1257,6 +1257,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
         subText += " Energy";
         nodeClass = 'energy';
       }
+
     }
     inner = "<" + nodeClass + "-icon><value>" + nodeText + "</value></" + nodeClass + "-icon>";
   } else {
@@ -1266,6 +1267,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
       presenceNode.classList.add("first");
     }
     
+
     var splitOptions = nodeText.split("+");
   
     //This code allows user to include +energy in addition to just energy
@@ -1305,6 +1307,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
           inner = "<icon class='gather'><icon class='"+moveTarget+"'></icon></icon>";
           subText = "Gather 1 "+Capitalise(moveTarget) + " into 1 of your Lands";
           break;
+
         case 'incarna':
           var matches = regExp.exec(splitOptions[0]);
           var incarnaAction = matches[1];
