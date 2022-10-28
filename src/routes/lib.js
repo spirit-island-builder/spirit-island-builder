@@ -32,21 +32,27 @@ export const addGrowthSet = (spiritBoard, growthChoiceText = "") => {
   return spiritBoard;
 };
 
-export const addGrowthGroup = (spiritBoard, setIndex, groupCost = "", groupTint = "") => {
+export const addGrowthGroup = (spiritBoard, setIndex, groupCost = "", groupTint = "", groupTitle = "") => {
   let groupHasCost = false;
   let groupHasTint = false;
+  let groupHasTitle = false;
   if (groupCost) {
     groupHasCost = true;
   }
   if (groupTint) {
     groupHasTint = true;
   }
+  if (groupTitle) {
+    groupHasTitle = true;
+  }
   spiritBoard.growth.growthSets[setIndex].growthGroups.push({
     id: spiritBoard.growth.growthSets[setIndex].growthGroups.length,
     cost: groupCost,
     tint: groupTint,
+    title: groupTitle,
     hasCost: groupHasCost,
     hasTint: groupHasTint,
+    hasTitle: groupHasTitle,
     growthActions: [],
   });
   return spiritBoard;

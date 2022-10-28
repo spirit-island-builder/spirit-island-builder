@@ -50,6 +50,7 @@ function parseComplexity(aspect){
     aspect.appendChild(newComplexityElement);
     complexityHolder.remove();
   }
+
 }
 
 function parseInnatePower(innatePowerHTML){

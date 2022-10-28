@@ -32,7 +32,7 @@ innate-power:only-child level {
 }
 
 innate-power:only-child note {
-  width: 1000px !important;
+  width: 1000px;
 }
 
 innate-power-title {
@@ -65,7 +65,7 @@ info-title {
   letter-spacing: 1.25pt;
   text-align: center;
   white-space: normal;
-  background-color: #7f5623;
+  background-color: #986839;
   box-sizing: content-box;
       border-top: 3px solid black;
     border-left: 3px solid black;
@@ -151,7 +151,7 @@ info-target, innate-info-target {
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 18pt;
+  font-size: 21pt;
 }
 
 innate-power.fast innate-info-speed {
@@ -185,9 +185,20 @@ note {
   width: 487px;
   font-family: 'JosefinSans-Regular';
   font-size: 17pt;
+  letter-spacing: -0.5px;
   margin-bottom:8px;
   margin-top: -4px;
   line-height: 1;
+}
+
+note.single-squish {
+    display: block;
+    margin-bottom: 8px;
+    margin-top: -80px;
+    position: absolute;
+    text-align: left;
+    width: 556px !important;
+    margin-left: 472px;
 }
 
 note icon{
@@ -449,8 +460,8 @@ info-target spirit {
 }
 
 innate-info icon {
-  height: 30px;
-  width: 30px;
+  height: 38px;
+  width: 38px;
   margin-bottom: 0px;
   margin-top: 0px;
 }
@@ -461,10 +472,8 @@ innate-info icon.wilds {
 
 innate-info icon.sacred-site {
   width: 50px;
-  height: 50px;
   margin-bottom: -10px;
   margin-left: 0px;
-  margin-right: 10px;
 }
 
 innate-info-range icon.sands-presence, innate-info-range icon.sands, innate-info-range icon.sand,
@@ -479,8 +488,8 @@ innate-info-range icon.mountain-presence, innate-info-range icon.mountain {
 }
 
 innate-info icon.blight, innate-info icon.no-blight {
-  height: 30px;
-  width: 30px;
+  height: 35px;
+  width: 35px;
   margin-bottom: 0px;
   margin-top: 0px;
 }

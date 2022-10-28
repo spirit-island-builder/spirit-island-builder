@@ -10,6 +10,7 @@
     { label: "damage-1", value: "damage-1" },
     { label: "damage-2", value: "damage-2" },
     { label: "destroy-presence", value: "destroy-presence(" },
+    { label: "discard", value: "discard(" },
     { label: "discard-card", value: "discard-card" },
     { label: "discard-cards", value: "discard-cards" },
     { label: "element-marker", value: "element-marker(" },
@@ -23,6 +24,7 @@
     { label: "gain-range", value: "gain-range(" },
     { label: "gather", value: "gather(" },
     { label: "ignore-range", value: "ignore-range" },
+    { label: "incarna", value: "incarna(" },
     { label: "isolate", value: "isolate(" },
     { label: "make-fast", value: "make-fast(" },
     { label: "move-presence", value: "move-presence(" },
@@ -104,17 +106,46 @@
   function setCost(setIndex, groupIndex) {
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost;
-    console.log(
-      "hasCost=" + spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost
-    );
+
+    var focusId =    "set" +    setIndex +    "group" +    groupIndex +    "cost";
+    //Set the focus to the Growth Group Cost if it is visible.
+    if (spiritBoard.growth.isVisible) {
+      if(spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost){
+        setTimeout(() => {
+          document.getElementById(focusId).focus();
+        }, 100);
+      }
+    }
   }
 
   function setTint(setIndex, groupIndex) {
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint;
-    console.log(
-      "hasTint=" + spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint
-    );
+
+    var focusId =    "set" +    setIndex +    "group" +    groupIndex +    "tint";
+    //Set the focus to the Growth Group Cost if it is visible.
+    if (spiritBoard.growth.isVisible) {
+      if(spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint){
+        setTimeout(() => {
+          document.getElementById(focusId).focus();
+        }, 100);
+      }
+    }
+  }
+
+  function setTitle(setIndex, groupIndex) {
+    spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle =
+      !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle;
+
+    var focusId =    "set" +    setIndex +    "group" +    groupIndex +    "title";
+    //Set the focus to the Growth Group Cost if it is visible.
+    if (spiritBoard.growth.isVisible) {
+      if(spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle){
+        setTimeout(() => {
+          document.getElementById(focusId).focus();
+        }, 100);
+      }
+    }
   }
 
   //Drag and Drop stuff
@@ -219,6 +250,11 @@
                     class="button is-warning is-light is-small row-button"
                     on:click={setTint(i, j)}>Color Tint</button>
                 {/if}
+                {#if !growthGroup.hasTitle}
+                  <button
+                    class="button is-warning is-light is-small row-button"
+                    on:click={setTitle(i, j)}>Add Title</button>
+                {/if}
               </div>
               {#if growthGroup.hasCost}
                 <div class="growth-action-container">
@@ -250,6 +286,22 @@
                   <button
                     class="button is-warning is-light is-small row-button"
                     on:click={setTint(i, j)}>Remove</button>
+                </div>
+              {/if}
+              {#if growthGroup.hasTitle}
+                <div class="growth-action-container">
+                  <div class="field-label is-small is-unselectable">Title</div>
+                  <div class="control">
+                    <input
+                      id={`set${i}group${j}title`}
+                      class="input  is-small"
+                      type="text"
+                      placeholder='Try "Max 1/Game"'
+                      bind:value={growthGroup.title} />
+                  </div>
+                  <button
+                    class="button is-warning is-light is-small row-button"
+                    on:click={setTitle(i, j)}>Remove</button>
                 </div>
               {/if}
               {#each growthGroup.growthActions as growthAction, k (growthAction.id)}
