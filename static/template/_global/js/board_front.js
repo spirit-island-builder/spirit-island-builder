@@ -684,9 +684,24 @@ function parseGrowthTags(){
         }
         case 'move-presence': {        
           const matches = regExp.exec(classPieces[j]);
-          const moveRange = matches[1];
-          growthIcons = "<custom-icon2>{presence}{move-range-" + moveRange + "}</custom-icon2>"
-          growthText = "Move a Presence"
+          const moveOptions = matches[1].split(',');
+          const moveRange = moveOptions[0];
+          let moveText = ""
+          let moveIcons = ""
+          if(!moveOptions[1]){
+            moveIcons = "<custom-icon>{presence}{move-range-" + moveRange + "}</custom-icon>"
+            moveText = "Move a Presence"
+          }else if(!isNaN(moveOptions[1])){
+            moveIcons = "<custom-icon><token-wrap>"
+            for (var i = 0; i < moveOptions[1]; i++) {
+              moveIcons+="{presence}";
+            }
+            moveIcons+="</token-wrap>{move-range-" + moveRange + "}</custom-icon>"
+            moveText = "Move up to "+moveOptions[1]+" Presence together"
+          }
+          
+          growthIcons = moveIcons
+          growthText = moveText
           break;
         }
         case 'gain-element': {
@@ -1002,7 +1017,7 @@ function parseGrowthTags(){
                 tokenIcons += "<icon class='"+token+" token'></icon>"
               }
             }
-            tokenText = "Add "+tokenNum+" " + Capitalise(token);
+            tokenText = "Add "+ IconName(token,tokenNum)+" together";
           }else{
             // two or more different tokens
             operator = tokenOptions.at(-1);
@@ -1015,6 +1030,7 @@ function parseGrowthTags(){
                 tokenText += i==tokenOptions.length-2 ? " "+operator+" " : ", ";
                 tokenText += Capitalise(tokenOptions[i]);
               }
+              if(operator=='and'){tokenText += ' together';}
             }else{
               tokenText = "MUST use AND or OR"
             }
@@ -1518,6 +1534,12 @@ function IconName(str, iconNum = 1){
       break;
     case 'destroy-presence':
       subText = "Destroy 1 of your Presence"
+      break;
+    case 'destroyed-presence':
+      subText = "Destroyed Presence"
+      if(iconNum>1){
+        subText = "up to "+iconNum+" Destroyed Presence"
+      }
       break;
     case 'make-fast':  
       subText = "One of your Powers may be Fast"

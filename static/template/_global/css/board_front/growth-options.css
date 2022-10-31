@@ -503,15 +503,16 @@ growth-cell icon.make-fast {
 }
 
 custom-icon {
-    font-size: 20pt;
-    font-weight: bold;
-    display: flex;
-    margin-top: -31px;
-    width: auto;
-    height: 122px;
-    margin-bottom: 0px;
-    flex-direction: column;
-    align-items: center;
+  font-size: 20pt;
+  font-weight: bold;
+  display: flex;
+  margin-top: -31px;
+  width: auto;
+  height: 122px;
+  margin-bottom: 0px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 custom-icon .token {
