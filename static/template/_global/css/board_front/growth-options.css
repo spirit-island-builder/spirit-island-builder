@@ -469,12 +469,12 @@ growth-cell icon.energy-per-play {
     width: 100px;
     height: 110px;
 }
-
+/* 
 growth-cell icon.destroyed-presence, growth-cell icon.destroy-presence {
   margin-bottom: 7px;
   height:90px;
   width:100px;
-}
+} */
 
 growth-cell icon.reclaim-one {
   margin-bottom: 7px;
@@ -519,6 +519,13 @@ custom-icon .token {
     height: 35px;
     margin-bottom: -3px;
     margin-left: 0px;
+}
+
+custom-icon .destroyed-presence {
+    width: 40px;
+    height: 30px;
+    margin-bottom: -3px;
+    margin-left: 1px;
 }
 
 token-wrap{
