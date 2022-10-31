@@ -321,7 +321,7 @@
     if(window.confirm('Are you sure? This permanently clears all fields in Aspect.')){
       aspect = {
         prop: "value",
-        demoBoardWasLoaded: false,
+        demoBoardWasLoaded: true,
         previewBoard: {
           isVisible: false,
         },
