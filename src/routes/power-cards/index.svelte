@@ -300,6 +300,7 @@
       powerCards = {
         prop: "value",
         spiritName: "",
+        demoBoardWasLoaded: true,
         previewBoard: {
           isVisible: false,
         },
