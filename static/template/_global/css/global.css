@@ -25,9 +25,9 @@
 
 @font-face{
   font-family: "Name Headings";
-  src: url(../fonts/DKSnemand/DK-Snemand.otf),
-	   url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf),
-	   local('DK Snemand');
+  src: local('DK Snemand'),
+	  url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf),
+    url(../fonts/DKSnemand/DK-Snemand.otf);
 }
 
 @font-face{

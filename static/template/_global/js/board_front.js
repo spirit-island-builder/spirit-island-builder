@@ -1208,6 +1208,15 @@ function enhancePresenceTracksTable() {
   spacerRow.style.width = "10px";
   spacerRow.rowSpan = "2";
   firstRow.insertBefore(spacerRow,firstCell);
+  
+/*   // Detect presence note
+  presenceNote = table.getAttribute("note");
+  if(presenceNote){
+    var note = document.createElement("presence-note");
+    note.innerHTML = presenceNote;
+    title.after(note)
+    title.classList.add('has-note')
+  } */
 }
 
 function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
@@ -1625,8 +1634,18 @@ function Capitalise(str){
 function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML){
 	console.log("BUILDING PRESENCE TRACK PANEL")
 	const board = document.querySelectorAll('board')[0];
-  board.getElementsByTagName("presence-tracks")[0].innerHTML = "<section-title>Presence</section-title>" +
-      "<table id='presence-table'>"+energyHTML + cardPlayHTML+"</table>";
+  var presenceTable = board.getElementsByTagName("presence-tracks")[0]
+  presenceTable.innerHTML = "<presence-title><section-title>Presence</section-title></presence-title>" + "<table id='presence-table'>"+energyHTML + cardPlayHTML+"</table>";
+  presenceNote = presenceTable.getAttribute("note");
+  presenceTable.removeAttribute("note");
+  if(presenceNote){
+    var note = document.createElement("presence-note");
+    var title = presenceTable.querySelectorAll('section-title')[0];
+    title.classList.add('has-note')
+    note.innerHTML = presenceNote;
+    title.after(note)
+  }
+  
 }
 
 function dynamicCellWidth() {
