@@ -25,9 +25,9 @@
 
 @font-face{
   font-family: "Name Headings";
-  src: url(../fonts/DKSnemand/DK-Snemand.otf),
-	   url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf),
-	   local('DK Snemand');
+  src: local('DK Snemand'),
+	  url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf),
+    url(../fonts/DKSnemand/DK-Snemand.otf);
 }
 
 @font-face{
@@ -197,6 +197,7 @@ icon.your-land {background-image: url('../images/board/NewIcons/Land.png');}
 
 icon.empower-incarna {background-image: url('../images/board/NewIcons/empower-incarna.png');}
 icon.incarna-ember {background-image: url('../images/board/NewIcons/incarna-ember.png');}
+icon.incarna-breath {background-image: url('../images/board/NewIcons/incarna-breath.png');}
 
 range{
   width:50px;

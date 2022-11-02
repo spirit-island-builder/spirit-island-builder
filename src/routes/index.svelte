@@ -71,7 +71,7 @@
     presenceTrack: {
       isVisible: false,
       useMiddleNodes: false,
-      name: "",
+      note: "",
       energyNodes: [
         {
           id: 0,

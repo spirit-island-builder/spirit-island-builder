@@ -684,9 +684,24 @@ function parseGrowthTags(){
         }
         case 'move-presence': {        
           const matches = regExp.exec(classPieces[j]);
-          const moveRange = matches[1];
-          growthIcons = "<custom-icon2>{presence}{move-range-" + moveRange + "}</custom-icon2>"
-          growthText = "Move a Presence"
+          const moveOptions = matches[1].split(',');
+          const moveRange = moveOptions[0];
+          let moveText = ""
+          let moveIcons = ""
+          if(!moveOptions[1]){
+            moveIcons = "<custom-icon>{presence}{move-range-" + moveRange + "}</custom-icon>"
+            moveText = "Move a Presence"
+          }else if(!isNaN(moveOptions[1])){
+            moveIcons = "<custom-icon><token-wrap>"
+            for (var i = 0; i < moveOptions[1]; i++) {
+              moveIcons+="{presence}";
+            }
+            moveIcons+="</token-wrap>{move-range-" + moveRange + "}</custom-icon>"
+            moveText = "Move up to "+moveOptions[1]+" Presence together"
+          }
+          
+          growthIcons = moveIcons
+          growthText = moveText
           break;
         }
         case 'gain-element': {
@@ -1002,7 +1017,7 @@ function parseGrowthTags(){
                 tokenIcons += "<icon class='"+token+" token'></icon>"
               }
             }
-            tokenText = "Add "+tokenNum+" " + Capitalise(token);
+            tokenText = "Add "+ IconName(token,tokenNum)+" together";
           }else{
             // two or more different tokens
             operator = tokenOptions.at(-1);
@@ -1015,11 +1030,12 @@ function parseGrowthTags(){
                 tokenText += i==tokenOptions.length-2 ? " "+operator+" " : ", ";
                 tokenText += Capitalise(tokenOptions[i]);
               }
+              if(operator=='and'){tokenText += ' together';}
             }else{
               tokenText = "MUST use AND or OR"
             }
           }
-          growthIcons = tokenReqOpen +'<wrap>'+ tokenIcons+'</wrap>' + tokenRange + tokenReqClose;
+          growthIcons = tokenReqOpen +'<token-wrap>'+ tokenIcons+'</token-wrap>' + tokenRange + tokenReqClose;
           growthText = tokenText
           break;
         }
@@ -1192,6 +1208,15 @@ function enhancePresenceTracksTable() {
   spacerRow.style.width = "10px";
   spacerRow.rowSpan = "2";
   firstRow.insertBefore(spacerRow,firstCell);
+  
+/*   // Detect presence note
+  presenceNote = table.getAttribute("note");
+  if(presenceNote){
+    var note = document.createElement("presence-note");
+    note.innerHTML = presenceNote;
+    title.after(note)
+    title.classList.add('has-note')
+  } */
 }
 
 function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
@@ -1257,7 +1282,6 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
         subText += " Energy";
         nodeClass = 'energy';
       }
-
     }
     inner = "<" + nodeClass + "-icon><value>" + nodeText + "</value></" + nodeClass + "-icon>";
   } else {
@@ -1267,7 +1291,6 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
       presenceNode.classList.add("first");
     }
     
-
     var splitOptions = nodeText.split("+");
   
     //This code allows user to include +energy in addition to just energy
@@ -1307,7 +1330,6 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
           inner = "<icon class='gather'><icon class='"+moveTarget+"'></icon></icon>";
           subText = "Gather 1 "+Capitalise(moveTarget) + " into 1 of your Lands";
           break;
-
         case 'incarna':
           var matches = regExp.exec(splitOptions[0]);
           var incarnaAction = matches[1];
@@ -1522,6 +1544,12 @@ function IconName(str, iconNum = 1){
     case 'destroy-presence':
       subText = "Destroy 1 of your Presence"
       break;
+    case 'destroyed-presence':
+      subText = "Destroyed Presence"
+      if(iconNum>1){
+        subText = "up to "+iconNum+" Destroyed Presence"
+      }
+      break;
     case 'make-fast':  
       subText = "One of your Powers may be Fast"
       break;
@@ -1606,8 +1634,18 @@ function Capitalise(str){
 function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML){
 	console.log("BUILDING PRESENCE TRACK PANEL")
 	const board = document.querySelectorAll('board')[0];
-  board.getElementsByTagName("presence-tracks")[0].innerHTML = "<section-title>Presence</section-title>" +
-      "<table id='presence-table'>"+energyHTML + cardPlayHTML+"</table>";
+  var presenceTable = board.getElementsByTagName("presence-tracks")[0]
+  presenceTable.innerHTML = "<presence-title><section-title>Presence</section-title></presence-title>" + "<table id='presence-table'>"+energyHTML + cardPlayHTML+"</table>";
+  presenceNote = presenceTable.getAttribute("note");
+  presenceTable.removeAttribute("note");
+  if(presenceNote){
+    var note = document.createElement("presence-note");
+    var title = presenceTable.querySelectorAll('section-title')[0];
+    title.classList.add('has-note')
+    note.innerHTML = presenceNote;
+    title.after(note)
+  }
+  
 }
 
 function dynamicCellWidth() {

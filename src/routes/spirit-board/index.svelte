@@ -73,7 +73,7 @@
         presenceTrack: {
           isVisible: false,
           useMiddleNodes: false,
-          name: "",
+          note: "",
           energyNodes: [
             {
               id: 0,
@@ -267,6 +267,11 @@
         //(easiest to start fresh each time)
         presenceTrackContainer.textContent = "";
       }
+      if(spiritBoard.presenceTrack.note){
+        presenceTrackContainer.setAttribute('note',spiritBoard.presenceTrack.note)
+      }else{
+        if(presenceTrackContainer.getAttribute('note')){presenceTrackContainer.removeAttribute('note')}
+      }
       checkTracksForCommas(); //swap commas for semicolons
       var energyTrack = frame.contentDocument.createElement("energy-track");
       energyTrack.setAttribute("banner", spiritBoard.nameAndArt.energyBannerPath);
@@ -422,8 +427,14 @@
 
       //Load Presence Tracks
 
+      var presenceTracks = htmlElement.querySelectorAll("presence-tracks")[0];
+      var presenceNote = presenceTracks.getAttribute('note');
+      if(presenceNote){
+        spiritBoard.presenceTrack.note=presenceNote;
+      }else{
+        spiritBoard.presenceTrack.note="";
+      }
       var energyTrack = htmlElement.querySelectorAll("energy-track")[0];
-
       spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
       spiritBoard.nameAndArt.energyBannerScale = energyTrack.getAttribute("banner-v-scale");
       var energyValues = energyTrack.getAttribute("values").split(",");
