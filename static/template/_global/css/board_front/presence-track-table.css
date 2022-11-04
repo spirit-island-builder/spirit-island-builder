@@ -1,7 +1,17 @@
 presence-tracks section-title {
-  margin-left: 2px;
-  margin-bottom: 12px;
+/*   margin-left: 2px;
+  margin-bottom: 12px; */
   padding-top: 0px;
+}
+
+presence-tracks section-title.has-note {
+}
+
+presence-tracks presence-note {
+  font-family: 'JosefinSans-Regular';
+  font-size: 14pt;
+  margin-left: 8px;
+  letter-spacing: -0.75px;
 }
 
 presence-tracks {
@@ -17,6 +27,14 @@ presence-tracks {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: top left;
+}
+
+presence-tracks presence-title{
+  margin-left: 2px;
+  margin-bottom: 12px;
+  padding-top: 0px;
+  display: flex;
+  align-items: flex-end;
 }
 
 presence-tracks table {	
