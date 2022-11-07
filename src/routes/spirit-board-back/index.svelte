@@ -243,7 +243,7 @@
     );
     element.setAttribute(
       "download",
-      spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_spiritlore.html"
+      spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritLore.html"
     );
     element.style.display = "none";
     document.body.appendChild(element);
