@@ -604,13 +604,13 @@ function parseGrowthTags(){
           let moveOptions = matches[1].split(",");
           let moveRange = moveOptions[1];
           let moveNum = moveOptions[2];
-          let plural = "";
+          let plural = 0;
           if(!moveNum){
             moveNum = 1;
           }else if(isNaN(moveNum)){
             moveNum = moveNum.toUpperCase();
           }else{
-            plural = moveNum > 1 ? "s" : "";
+            plural = moveNum > 1 ? 1 : 0;
           }
           if(moveRange){
             moveTarget = moveOptions[0];
@@ -619,10 +619,15 @@ function parseGrowthTags(){
               // Gather/Push into/from a sacred site, land with token, or terrain
               
               // Text
-              moveText += Capitalise(growthItem)+" 1 " + Capitalise(moveTarget) +" "+ preposition + " " + moveNum;
+              if(isNaN(moveNum)){
+                moveText += Capitalise(growthItem)+" 1 " + Capitalise(moveTarget) +" "+ preposition + " " + moveNum;
+              }else{
+                moveText += Capitalise(growthItem)+" "+moveNum+" " + Capitalise(moveTarget) +" "+ preposition;
+              }
               switch (moveCondition){
                 case 'sacred-site':
-                  moveText += " of your Sacred Sites"
+                  if(isNaN(moveNum)){moveText += " of"};
+                  moveText += " your Sacred Sites"
                   moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'><icon class='" + moveTarget + "'></icon><icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
                   break;
                 case 'wetland':
@@ -650,9 +655,10 @@ function parseGrowthTags(){
                 case 'wetland-sands':
                 case 'ocean':
                   moveIcons += "<push-gather><icon class='" + moveCondition + " terrain-"+growthItem+"'>{"+growthItem+"-arrow}<icon class='" + moveTarget + " "+preposition+"'></icon></icon></push-gather>"
-                  moveText += " " + Capitalise(moveCondition) + plural
+                  moveText += " " + Capitalise(moveCondition,plural)
                   break;
                 default:
+                  if(moveNum==1){moveText += " 1"}
                   moveText += " of your Lands with " + Capitalise(moveCondition)
                   moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'><icon class='" + moveTarget + "'></icon><icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
               }
@@ -1634,11 +1640,12 @@ function IconName(str, iconNum = 1){
 
 }
 
-function Capitalise(str){
+function Capitalise(str, plural=0){
   str=str.trim()
   hyphenCheck = str.split("-");
   const terrains = new Set(['wetland', 'mountain', 'sand', 'sands', 'jungle'])
   let return_str = hyphenCheck[0].charAt(0).toUpperCase() + hyphenCheck[0].slice(1);
+  if(plural){return_str += makePlural(hyphenCheck[0])}
   for (var i = 1; i < hyphenCheck.length; i++) {
     if (terrains.has(hyphenCheck[i])){
       return_str += ' or ';
@@ -1646,9 +1653,17 @@ function Capitalise(str){
       return_str += ' ';
     }		
     return_str += hyphenCheck[i].charAt(0).toUpperCase() + hyphenCheck[i].slice(1);
+    if(plural){return_str += makePlural(hyphenCheck[i])}
   }		
 
   return return_str;
+}
+
+function makePlural(str){
+  if(str.charAt(-1).toUpperCase() != "S"){
+      return "s";
+  }
+  return "";
 }
 
 function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML){
