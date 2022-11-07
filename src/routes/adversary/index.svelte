@@ -172,7 +172,7 @@
     );
     element.setAttribute(
       "download",
-      adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_adversary.html"
+      adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.html"
     );
     element.style.display = "none";
     document.body.appendChild(element);

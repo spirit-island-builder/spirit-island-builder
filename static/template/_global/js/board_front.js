@@ -106,8 +106,6 @@ function parseGrowthTags(){
     const subList = Array.from(growthHTML[0].getElementsByTagName('sub-growth'))
     let subTitle = subList
         .map(e => `<sub-section-title><sub-section-line></sub-section-line><span>${e.title}</span><sub-section-line></sub-section-line></sub-section-title>`).join('')
-    console.log('subList')
-    console.log(subList.length)
 
 
     var newGrowthTableTagOpen = "<growth-table>";
@@ -171,17 +169,12 @@ function parseGrowthTags(){
     if (tint) {
       tint_text += "<div class='tint' style='background-color:"+tint+";'></div>"
     }
-    console.log('child element')
-    console.log(childElement);
+
     var headerText = !isNaN(headerIndex) ? ` header='${headerIndex}'` : "";
     var specialTitleText = childElement.getAttribute('special-title') ? ` special-title='${childElement.getAttribute('special-title')}'` : "";
-    console.log(specialTitleText)
-    newGrowthCellHTML += `<growth-group`+headerText+specialTitleText+`>`
-    console.log(newGrowthCellHTML);
-
+    newGrowthCellHTML += `<growth-group`+headerText+specialTitleText+`>`;
     var titleHolder = "";
     if(childElement.getAttribute('special-title')){titleHolder=childElement.getAttribute('special-title')}
-    console.log(childElement.getAttribute('special-title'))
     
     const cost = childElement.getAttribute("cost");
     if (cost) {
@@ -329,22 +322,22 @@ function parseGrowthTags(){
                         break;
         }
         case 'isolate': {
-                        const matches = regExp.exec(classPieces[j])
-            let isolateIcons = "{isolate}"
-            let isolateText = "Isolate 1 of Your Lands"
-            let isolateReqOpen = "";
-            let isolateReqClose = "";
-            if (matches){
-              let isolateOptions = matches[1].split(",");
-              let isolateRange = isolateOptions[0];
-              isolateReqOpen = "<custom-icon>";
-              isolateReqClose = "</custom-icon>";
-              isolateIcons += "<range-growth>" + isolateRange + "</range-growth>";
-              isolateText = "Isolate a Land";
-            }
-            growthIcons = isolateReqOpen + isolateIcons + isolateReqClose
-            growthText = isolateText
-                        break;
+          const matches = regExp.exec(classPieces[j])
+          let isolateIcons = "{isolate}"
+          let isolateText = "Isolate 1 of Your Lands"
+          let isolateReqOpen = "";
+          let isolateReqClose = "";
+          if (matches){
+            let isolateOptions = matches[1].split(",");
+            let isolateRange = isolateOptions[0];
+            isolateReqOpen = "<custom-icon>";
+            isolateReqClose = "</custom-icon>";
+            isolateIcons += "<range-growth>" + isolateRange + "</range-growth>";
+            isolateText = "Isolate a Land";
+          }
+          growthIcons = isolateReqOpen + isolateIcons + isolateReqClose
+          growthText = isolateText
+          break;
         }
         case 'damage': {
           const matches = regExp.exec(classPieces[j]);
@@ -1039,6 +1032,33 @@ function parseGrowthTags(){
           growthText = tokenText
           break;
         }
+        case 'replace': {
+          let replaceText = ""
+          let replaceIcons = ""
+          const matches = regExp.exec(classPieces[j]);
+          let replaceOptions = matches[1].split(",");
+          let range = replaceOptions[0];
+          let x_is_num = !isNaN(replaceOptions[0]);
+
+          var shift = 0
+          if(x_is_num){shift += 1}  
+          if(x_is_num){
+            // Ranged replace
+            replaceIcons = '<custom-icon><replace-wrap><icon class="replace-this no '+replaceOptions[shift]+'"></icon>+<icon class="replace-with '+replaceOptions[shift+1]+'"></icon></replace-wrap><range-growth>' + range + '</range-growth></custom-icon>';
+            console.log(replaceIcons)
+            replaceText = 'You may Replace '+IconName(replaceOptions[shift])+' with '+IconName(replaceOptions[shift+1]);
+            console.log(replaceText)
+          }else{
+            // Local replace
+            replaceIcons = '<custom-icon><replace-wrap><icon class="replace-this-no-range no '+replaceOptions[shift]+'"></icon>+<icon class="replace-with '+replaceOptions[shift+1]+'"></icon></replace-wrap></custom-icon>';
+            replaceText = 'You may Replace 1 '+IconName(replaceOptions[shift])+' in your Lands with '+IconName(replaceOptions[shift+1]);
+          }
+          
+          
+          growthIcons = replaceIcons;
+          growthText = replaceText;
+          break;
+        }
         default: {
           growthIcons = "{"+growthItem+"}"
           growthText = IconName(growthItem)
@@ -1696,6 +1716,23 @@ function dynamicCellWidth() {
     document.getElementsByTagName("growth")[0].append(newGrowthTable)
   }
   
+  // TEST iterate through growth cells
+  var totalIconWidths = 0
+  var cellWidthV2 = []
+  for (const cell of growthCells) {
+    var cellRect = findBoundingRect(cell)
+    console.log('-- TEST --')
+    console.log(cellRect)
+    console.log(cell)
+    console.log(cellRect.width)
+    console.log('^--RESULT--^')
+    totalIconWidths+=cellRect.width
+    cellWidthV2.push(cellRect.width)
+  }
+  console.log('total icon width = '+totalIconWidths)
+  console.log('old way = '+totalWidth)
+  console.log(cellWidthV2)
+  
   //Iterate through growth table(s) to resize
   const largeCellScale = 1.5;
   const extraLargeCellScale = 1.8;
@@ -2136,6 +2173,36 @@ function checkOverflowHeight(el){
     el.style.overflow = curOverflow
 
     return isOverflowing
+}
+
+function findBoundingRect(el){
+
+  var growthCellRect;
+  console.log(el.tagName+", "+el.classList.value)
+  if(el.children.length==0){
+    growthCellRect = el.getBoundingClientRect();
+    console.log('i aint got no kids')
+    return growthCellRect
+  }else{
+    growthCellRect = el.children[0].getBoundingClientRect();
+  }
+  // console.log(el.tagName+", "+el.classList.value+' left = '+growthCellRect.left)
+  // console.log(el.tagName+", "+el.classList.value+' right = '+growthCellRect.right)
+  for (const child of el.children) {
+    if(child.tagName != "GROWTH-TEXT"){
+      var newCellRect = findBoundingRect(child);
+      if(newCellRect.left < growthCellRect.left){
+        growthCellRect.left=newCellRect.left
+      }
+      if(newCellRect.right > growthCellRect.right){
+        growthCellRect.right=newCellRect.right
+      }
+    }
+  }
+  // console.log('returning for '+el.tagName+", "+el.classList.value+':')
+  // console.log(' left = '+growthCellRect.left)
+  // console.log(' right = '+growthCellRect.right)
+  return growthCellRect
 }
 
 function parseInnatePowers(){
