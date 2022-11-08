@@ -317,10 +317,47 @@ function parseGrowthTags(){
           break;
         }
         case 'gain-card-pay-2': {
-            growthIcons = "<custom-icon>{" + growthItem + "}</custom-icon>"
-            growthText = "You may Pay 2 Energy to Gain a Power Card"
-                        break;
+          growthIcons = "<custom-icon>{" + growthItem + "}</custom-icon>"
+          growthText = "You may Pay 2 Energy to Gain a Power Card"
+          break;
         }
+        case 'gain-power-card': {
+          const matches = regExp.exec(classPieces[j])
+          let gainPowerCardIcon = "{"+growthItem+"}";
+          let gainPowerCardText = IconName(growthItem);
+          if (matches){
+            let gainPowerCardOptions = matches[1].split(",");
+            let gainPowerCardType = gainPowerCardOptions[0];
+            let gainPCModifiersOrText = gainPowerCardOptions[1];
+            gainPowerCardIcon = "<icon class='gain-power-card'>"
+            switch(gainPowerCardType)
+            {
+              case 'minor':
+                gainPowerCardIcon += "<icon class='minor gain-card-modifier'></icon>"
+                gainPowerCardText = "Gain Minor Power Card"
+                // if(gainPCModifiersOrText){
+                  // gainPowerCardIcon = "<icon class='reclaim-"+gainPowerCardType+"'>"+"<icon class='reclaim-element "+gainPCModifiersOrText+"'></icon></icon>"
+                  // gainPowerCardText = 'Reclaim All Cards with '+Capitalise(gainPCModifiersOrText)
+                // }
+                break;
+              case 'major':
+                gainPowerCardIcon += "<icon class='major gain-card-modifier'></icon>"
+                gainPowerCardText = "Gain Major Power Card"
+                // if(gainPCModifiersOrText){
+                  // gainPowerCardIcon = "<icon class='reclaim-"+gainPowerCardType+"'>"+"<icon class='reclaim-element "+gainPCModifiersOrText+"'></icon></icon>"
+                  // gainPowerCardText = 'Reclaim One Card with '+Capitalise(gainPCModifiersOrText)
+                // }
+                break;
+              default:
+                gainPowerCardIcon += "<icon class='"+gainPowerCardType.toLowerCase()+" gain-card-modifier'></icon>"
+                gainPowerCardText = "Gain "+Capitalise(gainPowerCardType)+" Power Card"
+            }
+            gainPowerCardIcon += "</icon>"
+          }
+          growthIcons = gainPowerCardIcon
+          growthText = gainPowerCardText
+          break;
+        } 
         case 'isolate': {
           const matches = regExp.exec(classPieces[j])
           let isolateIcons = "{isolate}"
