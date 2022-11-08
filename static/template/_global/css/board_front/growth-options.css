@@ -529,6 +529,27 @@ custom-icon .destroyed-presence {
     margin-left: 1px;
 }
 
+icon.gain-card-modifier {
+    width: 50px;
+    position: relative;
+    left: -29px;
+    top: -34px;
+}
+
+icon.gain-card-modifier.sun {background-image: url(../../images/board/element_simple_sun.png);}
+icon.gain-card-modifier.earth {background-image: url(../../images/board/element_simple_earth.png);}
+icon.gain-card-modifier.plant {background-image: url(../../images/board/element_simple_plant.png);}
+icon.gain-card-modifier.fire {background-image: url(../../images/board/element_simple_fire.png);}
+icon.gain-card-modifier.air {background-image: url(../../images/board/element_simple_air.png);}
+icon.gain-card-modifier.moon {background-image: url(../../images/board/element_simple_moon.png);}
+icon.gain-card-modifier.animal {background-image: url(../../images/board/element_simple_animal.png);}
+icon.gain-card-modifier.water {background-image: url(../../images/board/element_simple_water.png);}
+icon.gain-card-modifier.any {background-image: url(../../images/board/element_simple_any.png);}
+
+icon.gain-card-modifier.minor {
+  width:42px;
+}
+
 token-wrap{
   display: inline-flex;
   flex-wrap: wrap;
