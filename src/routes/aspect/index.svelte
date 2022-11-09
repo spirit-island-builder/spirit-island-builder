@@ -289,7 +289,7 @@
     );
     element.setAttribute(
       "download",
-      aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_aspect.html"
+      aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.html"
     );
     element.style.display = "none";
     document.body.appendChild(element);

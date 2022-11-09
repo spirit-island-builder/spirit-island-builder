@@ -583,7 +583,7 @@
     );
     element.setAttribute(
       "download",
-      spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_spiritBoard.html"
+      spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html"
     );
     element.style.display = "none";
     document.body.appendChild(element);
