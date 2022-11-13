@@ -33,3 +33,10 @@ function replaceIcon(html)
 
   return result;
 }
+
+async function screenshot() {
+  html2canvas(document.querySelector("board")).then(canvas => {
+    console.log(window.location.href)
+    window.parent.postMessage(canvas.toDataURL(), window.location.href)
+  });
+}

@@ -147,6 +147,18 @@
 
   onMount(() => {
     frame.addEventListener("load", onLoad());
+    window.addEventListener("message", (event) => {
+      console.log(event.origin);
+      console.log(event.data);
+      if (
+        event.origin === "http://localhost:5173" ||
+        event.origin === "https://spirit-island-builder.pages.dev/"
+      ) {
+        const image = document.createElement("img");
+        image.src = event.data;
+        document.body.appendChild(image);
+      }
+    });
   });
 
   function onLoad() {
@@ -276,10 +288,12 @@
         //(easiest to start fresh each time)
         presenceTrackContainer.textContent = "";
       }
-      if(spiritBoard.presenceTrack.note){
-        presenceTrackContainer.setAttribute('note',spiritBoard.presenceTrack.note)
-      }else{
-        if(presenceTrackContainer.getAttribute('note')){presenceTrackContainer.removeAttribute('note')}
+      if (spiritBoard.presenceTrack.note) {
+        presenceTrackContainer.setAttribute("note", spiritBoard.presenceTrack.note);
+      } else {
+        if (presenceTrackContainer.getAttribute("note")) {
+          presenceTrackContainer.removeAttribute("note");
+        }
       }
       checkTracksForCommas(); //swap commas for semicolons
       var energyTrack = frame.contentDocument.createElement("energy-track");
@@ -437,11 +451,11 @@
       //Load Presence Tracks
 
       var presenceTracks = htmlElement.querySelectorAll("presence-tracks")[0];
-      var presenceNote = presenceTracks.getAttribute('note');
-      if(presenceNote){
-        spiritBoard.presenceTrack.note=presenceNote;
-      }else{
-        spiritBoard.presenceTrack.note="";
+      var presenceNote = presenceTracks.getAttribute("note");
+      if (presenceNote) {
+        spiritBoard.presenceTrack.note = presenceNote;
+      } else {
+        spiritBoard.presenceTrack.note = "";
       }
       var energyTrack = htmlElement.querySelectorAll("energy-track")[0];
       spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
