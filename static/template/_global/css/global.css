@@ -26,8 +26,8 @@
 @font-face{
   font-family: "Name Headings";
   src: url(../fonts/DKSnemand/DK-Snemand.otf),
-	   url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf),
-	   local('DK Snemand');
+	   local('DK Snemand Regular'),
+     url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf);
 }
 
 @font-face{
@@ -68,6 +68,7 @@ icon.no::before {
   width: 100%;
   height: 100%;
   margin: auto;
+  opacity: 0.8;
 }
 
 icon.range{background-image: url('../images/50px-Rangeicon.png');}
@@ -194,6 +195,21 @@ icon.push {background-image: url('../images/board/NewIcons/Land Push.png');}
 icon.gather {background-image: url('../images/board/NewIcons/Land Gather.png');}
 icon.gather-into {background-image: url('../images/board/NewIcons/Land Gather Into.png');}
 icon.your-land {background-image: url('../images/board/NewIcons/Land.png');}
+
+icon.empower-incarna {background-image: url('../images/board/NewIcons/empower-incarna.png');}
+icon.incarna-ember {background-image: url('../images/board/NewIcons/incarna-ember.png');}
+icon.incarna-breath {background-image: url('../images/board/NewIcons/incarna-breath.png');}
+
+icon.double-gain {
+  background-image: url('../images/board/EnergyBlank.png');
+}
+icon.double-gain::after{
+  content:"";
+  background-image: url('../images/board/EnergyBlank.png');
+  width:10px;
+  height:10px;
+}
+  
 
 range{
   width:50px;

@@ -1,0 +1,204 @@
+<script>
+  // import * as Lib from "./lib";
+  // Do we need to define Lib for each, or should we move it around?
+
+  export let aspect;
+  export let showOrHideSection;
+
+  function handleImageFileInput(event) {
+    const file = event.target.files.item(0);
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = (data) => {
+        const imageURL = data.target.result;
+        aspect.nameReplacements.spiritImage = imageURL;
+      };
+
+      // This reads the file and then triggers the onload function above once it finishes
+      fileReader.readAsDataURL(file);
+    }
+  }
+
+  function setComplexity(val, aspectHolder) {
+    aspectHolder.complexity = val;
+    aspect = aspect;
+    console.log(aspect)
+    console.log(aspect.nameReplacements.complexity)
+  }
+
+  function setBack() {
+    aspect.nameReplacements.hasBack =
+      !aspect.nameReplacements.hasBack;
+    aspect=aspect;
+  }
+
+</script>
+
+<h6
+  on:click={showOrHideSection}
+  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
+  id="nameReplacements">
+  Name & Rules Replacements
+  <span on:click={showOrHideSection}>
+    {#if aspect.nameReplacements.isVisible}
+      <ion-icon id="nameReplacements" on:click={showOrHideSection} name="chevron-down-outline" />
+    {:else}
+      <ion-icon id="nameReplacements" on:click={showOrHideSection} name="chevron-up-outline" />
+    {/if}
+  </span>
+</h6>
+{#if aspect.nameReplacements.isVisible}
+  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
+  <article class="message is-small mb-1">
+    <div class="message-body p-1">
+      <span
+        ><a
+          href="https://neubee.github.io/spirit-island-builder/instructions#spirit-board-lore-side"
+          target="_blank">Instructions</a
+        ></span>
+    </div>
+  </article>
+  <div class="field">
+    <label class="label is-flex is-justify-content-space-between" for="aspectInput"
+      >Aspect Name
+    </label>
+    <div class="field is-flex is-small mb-0">
+      <div class="control" style="width:100%">
+        <input
+          id="aspectInput"
+          class="input"
+          type="text"
+          placeholder="Name"
+          tabindex="1"
+          bind:value={aspect.nameReplacements.aspectName} />
+      </div>
+    </div>
+    <label class="label is-flex is-justify-content-space-between" for="replacesInput"
+      >Replaces Text (ie. text before the colon)
+    </label>
+    <div class="field is-flex is-small mb-0">
+      <div class="control" style="width:100%">
+        <input
+          id="replacesInput"
+          class="input"
+          type="text"
+          placeholder="ie. Replaces Special Rule"
+          tabindex="1"
+          bind:value={aspect.nameReplacements.aspectRelacement} />
+      </div>
+    </div>
+    <label class="label is-flex is-justify-content-space-between" for="rulesReplacedInput"
+      >Rules Replaced (ie. italicized text after the colon)
+    </label>
+    <div class="field is-flex is-small mb-0">
+      <div class="control" style="width:100%">
+        <input
+          id="rulesReplacedInput"
+          class="input"
+          type="text"
+          placeholder="ie. The Name of a Spirit's Special Rule"
+          tabindex="1"
+          bind:value={aspect.nameReplacements.rulesReplaced} />
+      </div>
+    </div>
+    <div class="field has-addons">
+      <label class="label is-unselectable mr-1 mt-1" for="">Complexity: </label>
+      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+        <input
+          id="complexityInput"
+          class="input"
+          type="text"
+          placeholder="Complexity"
+          style="text-transform: capitalize;"
+          disabled
+          bind:value={aspect.nameReplacements.complexity} />
+        <button
+            class="button is-danger is-light button-hold mb-0"
+            on:click={setComplexity("up",aspect.nameReplacements)}>Up</button>
+          <button
+            class="button is-warning is-light button-hold mb-0"
+            on:click={setComplexity("equal",aspect.nameReplacements)}>Equal</button>
+          <button
+            class="button is-success is-light button-hold mb-0"
+            on:click={setComplexity("down",aspect.nameReplacements)}>Down</button>
+          <button
+            class="button is-light button-hold mb-0"
+            on:click={setComplexity("",aspect.nameReplacements)}>None</button>
+      </div>
+    </div>
+    {#if aspect.nameReplacements.hasBack}
+    <label class="label is-flex is-justify-content-space-between" for="rulesReplacedInput"
+      >Spirit Name
+    </label>
+    <div class="field is-flex is-small mb-0">
+      <div class="control" style="width:100%">
+        <input
+          id="aspectSpiritName"
+          class="input"
+          type="text"
+          placeholder="The Name of a Spirit"
+          tabindex="1"
+          bind:value={aspect.nameReplacements.spiritName} />
+      </div>
+    </div>
+    <button
+      class="button is-warning is-light is-small row-button"
+      on:click={setBack}>Remove Card Back</button>
+    <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-4">
+      <div class="field has-addons mr-2 ml-1">
+        <label class="label is-unselectable mr-1" for="">Art: </label>
+        <div class="control">
+          <input
+            accept="image/png, image/jpeg"
+            on:change={handleImageFileInput}
+            id={`backArt`}
+            name="cardArt"
+            type="file"
+            class="input is-small" />
+        </div>
+      </div>
+    </div>
+    {:else}
+      <button
+        class="button is-warning is-light is-small row-button"
+        on:click={setBack}>Add Card Back</button>
+    {/if}
+    <!-- aspectName: "",
+      aspectRelacement: "",
+      rulesReplaced: "",
+      complexity -->
+    <!-- Spirit ART -->
+    <!-- <div class="field has-addons is-horizontal is-justify-content-left mb-0">
+      <div class="field-label is-small">
+        <label class="label" for="adversaryFlagArt">Spirit Art</label>
+      </div>
+      <div class="control">
+        <input
+          accept="image/png, image/jpeg"
+          on:change={handleImageFileInput}
+          id="spiritLoreArt"
+          name="spiritLoreArt"
+          type="file"
+          class="input" />
+        {#if aspect.nameImage.img}
+          <img id="spiritLoreArtImage" src={aspect.nameImage.img} alt="spirit lore art" />
+        {/if}
+      </div>
+    </div> -->
+  </div>
+  <!-- Lore -->
+  <!-- <div class="field">
+    <label class="label is-flex is-justify-content-space-between" for="spiritLoreInput"
+      >Lore
+    </label>
+    <div class="control">
+      <textarea
+        id="spiritLoreInput"
+        class="textarea"
+        type="text"
+        placeholder="Name"
+        tabindex="1"
+        bind:value={aspect.lore.loreText} />
+    </div>
+  </div> -->
+{/if}

@@ -267,7 +267,7 @@
     );
     element.setAttribute(
       "download",
-      powerCards.spiritName.replaceAll(" ", "_") + "_powercards.html"
+      powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html"
     );
     element.style.display = "none";
     document.body.appendChild(element);
@@ -300,6 +300,7 @@
       powerCards = {
         prop: "value",
         spiritName: "",
+        demoBoardWasLoaded: true,
         previewBoard: {
           isVisible: false,
         },

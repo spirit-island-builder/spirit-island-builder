@@ -1,7 +1,17 @@
 presence-tracks section-title {
-  margin-left: 2px;
-  margin-bottom: 12px;
+/*   margin-left: 2px;
+  margin-bottom: 12px; */
   padding-top: 0px;
+}
+
+presence-tracks section-title.has-note {
+}
+
+presence-tracks presence-note {
+  font-family: 'JosefinSans-Regular';
+  font-size: 14pt;
+  margin-left: 8px;
+  letter-spacing: -0.75px;
 }
 
 presence-tracks {
@@ -17,6 +27,14 @@ presence-tracks {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: top left;
+}
+
+presence-tracks presence-title{
+  margin-left: 2px;
+  margin-bottom: 12px;
+  padding-top: 0px;
+  display: flex;
+  align-items: flex-end;
 }
 
 presence-tracks table {	
@@ -88,6 +106,12 @@ presence-node icon.reclaim-one {
 presence-node icon.star {
   width: 80px;
   height: 80px;
+}
+
+presence-node icon.empower-incarna {
+  width: 93px;
+  height: 99px;
+  margin-bottom: 3px;
 }
 
 presence-node icon.gain-power-card, presence-node icon.forget-power-card,
@@ -233,6 +257,7 @@ presence-node icon.custom1, presence-node icon.custom2, presence-node icon.custo
     margin-top: -3px;
 }
 
+
 icon-multi-element icon.custom1, icon-multi-element icon.custom2, icon-multi-element icon.custom3 {
     height: 65px;
     width: 65px;
@@ -334,3 +359,13 @@ icon.card-deep-layers.moon {background-image: url(../../images/board/element_sim
 icon.card-deep-layers.animal {background-image: url(../../images/board/element_simple_animal.png);}
 icon.card-deep-layers.water {background-image: url(../../images/board/element_simple_water.png);}
 icon.card-deep-layers.any {background-image: url(../../images/board/element_simple_any.png);}
+
+icon.energy-deep-layers.sun {background-image: url(../../images/board/element_simple_sun.png);}
+icon.energy-deep-layers.earth {background-image: url(../../images/board/element_simple_earth.png);}
+icon.energy-deep-layers.plant {background-image: url(../../images/board/element_simple_plant.png);}
+icon.energy-deep-layers.fire {background-image: url(../../images/board/element_simple_fire.png);}
+icon.energy-deep-layers.air {background-image: url(../../images/board/element_simple_air.png);}
+icon.energy-deep-layers.moon {background-image: url(../../images/board/element_simple_moon.png);}
+icon.energy-deep-layers.animal {background-image: url(../../images/board/element_simple_animal.png);}
+icon.energy-deep-layers.water {background-image: url(../../images/board/element_simple_water.png);}
+icon.energy-deep-layers.any {background-image: url(../../images/board/element_simple_any.png);}

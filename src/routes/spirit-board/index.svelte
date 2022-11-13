@@ -57,8 +57,10 @@
                   id: 0,
                   cost: "",
                   tint: "",
+                  title: "",
                   hasCost: false,
                   hasTint: false,
+                  hasTitle: false,
                   growthActions: [
                     {
                       id: 0,
@@ -73,7 +75,7 @@
         presenceTrack: {
           isVisible: false,
           useMiddleNodes: false,
-          name: "",
+          note: "",
           energyNodes: [
             {
               id: 0,
@@ -248,6 +250,10 @@
           if (growthGroup.hasTint) {
             growthGroupOutput.setAttribute("tint", growthGroup.tint);
           }
+          //Title
+          if (growthGroup.hasTitle) {
+            growthGroupOutput.setAttribute("special-title", growthGroup.title);
+          }
           //Values
           var values = "";
           growthGroup.growthActions.forEach((growthAction) => {
@@ -269,6 +275,11 @@
       if (presenceTrackContainer) {
         //(easiest to start fresh each time)
         presenceTrackContainer.textContent = "";
+      }
+      if(spiritBoard.presenceTrack.note){
+        presenceTrackContainer.setAttribute('note',spiritBoard.presenceTrack.note)
+      }else{
+        if(presenceTrackContainer.getAttribute('note')){presenceTrackContainer.removeAttribute('note')}
       }
       checkTracksForCommas(); //swap commas for semicolons
       var energyTrack = frame.contentDocument.createElement("energy-track");
@@ -311,7 +322,7 @@
         power.levels.forEach((level) => {
           var newLevel = frame.contentDocument.createElement("level");
           newLevel.setAttribute("threshold", level.threshold);
-          newLevel.textContent = level.effect;
+          newLevel.innerHTML = level.effect;
           if (level.isLong) {
             newLevel.setAttribute("long", "");
           }
@@ -413,7 +424,8 @@
             spiritBoard,
             i,
             group.getAttribute("cost"),
-            group.getAttribute("tint")
+            group.getAttribute("tint"),
+            group.getAttribute("special-title")
           );
           let values = group.getAttribute("values").split(";");
           values.forEach((growthValue) => {
@@ -424,8 +436,14 @@
 
       //Load Presence Tracks
 
+      var presenceTracks = htmlElement.querySelectorAll("presence-tracks")[0];
+      var presenceNote = presenceTracks.getAttribute('note');
+      if(presenceNote){
+        spiritBoard.presenceTrack.note=presenceNote;
+      }else{
+        spiritBoard.presenceTrack.note="";
+      }
       var energyTrack = htmlElement.querySelectorAll("energy-track")[0];
-
       spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
       spiritBoard.nameAndArt.energyBannerScale = energyTrack.getAttribute("banner-v-scale");
       var energyValues = energyTrack.getAttribute("values").split(",");
@@ -576,7 +594,7 @@
     );
     element.setAttribute(
       "download",
-      spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_spiritBoard.html"
+      spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html"
     );
     element.style.display = "none";
     document.body.appendChild(element);
