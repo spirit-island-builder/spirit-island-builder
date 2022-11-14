@@ -83,15 +83,28 @@
   function setBoardValues(aspect) {
     if (aspectFrame) {
       //Clear any current power cards
+      const bodyContainer = aspectFrame.contentDocument.querySelectorAll("body")[0];
+      if (bodyContainer) {
+        //(easiest to start fresh each time)
+        bodyContainer.textContent = "";
+      }
 
-      const aspectHTML = aspectFrame.contentDocument.querySelectorAll("aspect")[0];
+      var aspectHTML = aspectFrame.contentDocument.createElement("aspect");
+      bodyContainer.appendChild(aspectHTML);
       
       //Set Aspect Name
-      const aspectName = aspectHTML.querySelectorAll("aspect-name")[0];
+      var aspectName = aspectFrame.contentDocument.createElement("aspect-name");
+      aspectHTML.appendChild(aspectName);
       aspectName.innerHTML = aspect.nameReplacements.aspectName;
 
+      //Profile or Landscape
+      if(aspect.profile){
+        aspectHTML.setAttribute('profile','')
+      }
+
       //Set Replacement
-      const aspectReplacementHTML = aspectHTML.querySelectorAll("aspect-subtext")[0];
+      var aspectReplacementHTML = aspectFrame.contentDocument.createElement("aspect-subtext");
+      aspectHTML.appendChild(aspectReplacementHTML);
       var replacementFullText = aspect.nameReplacements.aspectRelacement;
       if(aspect.nameReplacements.rulesReplaced){replacementFullText+=": <i>"+aspect.nameReplacements.rulesReplaced+"</i>"};
       if(aspectReplacementHTML){
@@ -101,7 +114,8 @@
       //Set Complexity
       if(aspect.nameReplacements.complexity){
         console.log('setting complexity')
-        var complexityHTML = aspectHTML.querySelectorAll("complexity")[0];
+        var complexityHTML = aspectFrame.contentDocument.createElement("complexity");
+        aspectHTML.appendChild(complexityHTML);
         console.log(complexityHTML)
         if(complexityHTML){
           console.log('complexity found reseting value')
@@ -119,27 +133,19 @@
       }
 
       //Set Aspect Back
-      var aspectBackHTML = aspectFrame.contentDocument.querySelectorAll("aspect-back")[0];
       console.log(aspectFrame.contentDocument)
-      console.log(aspectBackHTML)
-      
+      console.log(aspectBackHTML)     
       if(aspect.nameReplacements.hasBack){
-        if(!aspectBackHTML){
-          aspectBackHTML = document.createElement("aspect-back");
-          aspectHTML.after(aspectBackHTML)
-        }
+        var aspectBackHTML = aspectFrame.contentDocument.createElement("aspect-back");
+        aspectHTML.after(aspectBackHTML); 
         aspectBackHTML.setAttribute("spirit-name",aspect.nameReplacements.spiritName);
         aspectBackHTML.setAttribute("src",aspect.nameReplacements.spiritImage);
-      }else{
-        if(aspectBackHTML){aspectBackHTML.remove()}
       }
 
       //Set Special Rules
-      const aspectRulesContainer = aspectFrame.contentDocument.querySelectorAll("aspect-container")[0];
-      
-      if (aspectRulesContainer) {
-        aspectRulesContainer.textContent = ""; // (easiest to start fresh each time)
-      }
+      const aspectRulesContainer = aspectFrame.contentDocument.createElement("aspect-container");
+      aspectHTML.appendChild(aspectRulesContainer);
+
       aspect.aspectEffects.specialRules.rules.forEach((rule) => {
         var newRuleName = aspectFrame.contentDocument.createElement("special-rules-subtitle");
         newRuleName.textContent = rule.name;
@@ -179,6 +185,11 @@
     //Reads the Template HTML file into the Form
     if (aspectFrame) {
       const aspectHTML = htmlElement.querySelectorAll("aspect")[0];
+
+      //Profile or Landscape
+      if(aspectHTML.hasAttribute('profile')){
+        aspect.profile = true;
+      }
       
       //Read Aspect Name
       const aspectName = aspectHTML.querySelectorAll("aspect-name")[0];
@@ -322,6 +333,7 @@
       aspect = {
         prop: "value",
         demoBoardWasLoaded: true,
+        profile: false,
         previewBoard: {
           isVisible: false,
         },

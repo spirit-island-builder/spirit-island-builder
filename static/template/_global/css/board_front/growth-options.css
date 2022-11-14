@@ -153,6 +153,14 @@ growth-cell icon {
   height: 90px;
 }
 
+growth-cell icon.presence{
+  margin-left: 5px;
+  width: 35px;
+  height: 35px;
+  margin-bottom: -8px;
+  margin-right: -2px;
+}
+
 growth-cell icon.reclaim-all,growth-cell icon.reclaim-one,growth-cell icon.reclaim-none, 
 growth-cell icon.reclaim-custom, growth-cell icon.reclaim-half {
   display: block;
@@ -171,6 +179,80 @@ growth-cell icon.incarna {
   height: 45px;
   margin-bottom: 0px;
   margin-top: -24px;
+}
+
+growth-cell icon.incarna.add-move {
+  margin-bottom: 10px;
+}
+
+growth-cell add-move-upper{
+  margin-bottom: 35px;
+}
+
+growth-cell add-move-lower{
+  display: inline-flex;
+  height: 33px;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+growth-cell add-token-upper{
+  margin-bottom: 25px;
+}
+
+growth-cell add-token-lower{
+  display: inline-flex;
+  height: 33px;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+
+growth-cell icon.add-token{
+  margin-left: 5px;
+  width: 35px;
+  height: 35px;
+  margin-bottom: -8px;
+  margin-right: -2px;
+}
+
+
+add-move-upper icon.backslash {
+    width: 8px;
+    height: 25px;
+    margin-bottom: -3px;
+    margin-left: 2px;
+    margin-right: 5px;
+    margin-top: -1px;
+}
+
+add-move-upper icon.move-arrow {
+    width: 81px;
+    height: 25px;
+    margin-bottom: -3px;
+    margin-left: 2px;
+    margin-right: 5px;
+    margin-top: -1px;
+}
+
+growth-cell icon.with-your {
+  width: 35px;
+  height: 35px;
+  z-index: -1;
+  margin-bottom: 0px;
+  margin-left: -20px;
+}
+
+growth-cell icon.replace-with-incarna {
+  position: relative;
+  left: 40px;
+  bottom: -32px;
+}
+
+growth-cell icon.with-incarna {
+  margin-right: 35px;
+  margin-bottom: 24px;
 }
 
 growth-cell icon.reclaim-half {
@@ -1141,13 +1223,13 @@ gain.or {
 	flex-direction:row;
 }
 
-growth-cell icon.presence{
+/* growth-cell icon.presence{
   margin-left: 5px;
   width: 35px;
   height: 35px;
   margin-bottom: -8px;
   margin-right: -2px;
-}
+} */
 
 growth-cell div.custom-scaling{
     font-family: 'Name Headings';

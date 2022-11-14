@@ -343,10 +343,9 @@ function parseGrowthTags(){
               case 'major':
                 gainPowerCardIcon += "<icon class='major gain-card-modifier'></icon>"
                 gainPowerCardText = "Gain Major Power Card"
-                // if(gainPCModifiersOrText){
-                  // gainPowerCardIcon = "<icon class='reclaim-"+gainPowerCardType+"'>"+"<icon class='reclaim-element "+gainPCModifiersOrText+"'></icon></icon>"
-                  // gainPowerCardText = 'Reclaim One Card with '+Capitalise(gainPCModifiersOrText)
-                // }
+                if(gainPCModifiersOrText){
+                  gainPowerCardText += gainPCModifiersOrText
+                }
                 break;
               default:
                 gainPowerCardIcon += "<icon class='"+gainPowerCardType.toLowerCase()+" gain-card-modifier'></icon>"
@@ -1008,20 +1007,28 @@ function parseGrowthTags(){
           const matches = regExp.exec(classPieces[j]);
           let incarnaOptions = matches[1].split(",");
           let incarnaAction = incarnaOptions[0];
-          let incarnaRange = incarnaOptions[1] !== undefined ? incarnaOptions[1] : 0;
+          let incarnaRangeOrToken = incarnaOptions[1] !== undefined ? incarnaOptions[1] : 0;
           let customIncarnaIcon = incarnaOptions[2] !== undefined ? incarnaOptions[2] : 'incarna-ember';
           switch(incarnaAction) {
             case 'move':
-              incarnaIcon = '<custom-icon2><icon class="incarna '+customIncarnaIcon+'"></icon>{move-range-' + incarnaRange + '}</custom-icon2>';
+              incarnaIcon = '<custom-icon2><icon class="incarna '+customIncarnaIcon+'"></icon>{move-range-' + incarnaRangeOrToken + '}</custom-icon2>';
               incarnaText = 'Move Incarna';
-              break;
-            case 'add':
-              incarnaIcon = '<custom-icon2><icon class="incarna '+customIncarnaIcon+'"></icon><range-growth>' + incarnaRange + "</range-growth></custom-icon2>";
-              incarnaText = 'Add Incarna';
               break;
             case 'empower':
               incarnaIcon = '{empower-incarna}';
               incarnaText = 'Empower Incarna';
+              break;
+            case 'add-move':
+              incarnaIcon = '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move '+customIncarnaIcon+'"></icon><icon class="'+incarnaRangeOrToken+' with-your"></icon></add-move-lower></custom-icon>'
+              incarnaText = 'Add/Move Incarna to Land with '+IconName(incarnaRangeOrToken);
+              break;
+            case 'replace':
+              incarnaIcon = '<custom-icon><icon class="incarna with-incarna '+customIncarnaIcon+'"><icon class="replace-with-incarna no '+incarnaRangeOrToken+'"></custom-icon>'
+              incarnaText = 'You may Replace '+IconName(incarnaRangeOrToken)+' with your Incarna';
+              break;
+            case 'add-token':
+              incarnaIcon = '<custom-icon><add-token-upper>+<icon class="add-token '+incarnaRangeOrToken+'"></add-token-upper><add-token-lower><icon class="incarna '+customIncarnaIcon+'"><add-token-lower></custom-icon>'
+              incarnaText = 'Add a '+IconName(incarnaRangeOrToken)+' at your Incarna';
               break;
             default:
           }
@@ -1562,6 +1569,9 @@ function IconName(str, iconNum = 1){
   let plural = iconNum > 1 ? 's' : '';
   switch(str){
 
+    case 'presence':
+      subText = "Your Presence"
+      break;
     case 'gain-power-card':
       subText = "Gain Power Card"
       break;

@@ -365,6 +365,32 @@ div.description {
     margin-right: 0px;
 }
 
+.description icon.range-small-icon {
+    width: 30px;
+    height: 17px;
+    margin-bottom: 0px;
+}
+
+description-container range{
+  width: 45px;
+  margin-bottom: -20px;
+  margin-top: -10px;
+  height: 30px;
+  background-position-y: 24px;
+  font-family: 'Antropos';
+  font-size: 24px;
+}
+
+level range{
+  width: 45px;
+  margin-bottom: -20px;
+  margin-top: -7px;
+  height: 30px;
+  background-position-y: 19px;
+  font-family: 'Antropos';
+  font-size: 20px;
+  vertical-align: top;
+}
 
 .element-for-each {
 	font-family: 'Gobold Extra2', 'Noto Sans';
