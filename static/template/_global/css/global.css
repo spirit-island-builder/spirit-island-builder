@@ -162,6 +162,7 @@ icon.gain-range-1 { background-image: url('../images/board/NewIcons/Range Gain 1
 icon.gain-range-2 { background-image: url('../images/board/NewIcons/Range Gain 2.png'); }
 icon.gain-range-3 { background-image: url('../images/board/NewIcons/Range Gain 3.png'); }
 icon.gain-range-X, icon.gain-range-x { background-image: url('../images/board/NewIcons/Range Gain X.png'); }
+icon.move-arrow { background-image: url('../images/board/move_arrow.png'); }
 
 icon.isolate {background-image: url('../images/board/NewIcons/Isolate.png');}
 icon.minor {background-image: url('../images/board/NewIcons/Misc Minor.png');}

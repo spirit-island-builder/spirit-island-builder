@@ -9,9 +9,13 @@ function startMain(){
     console.log('aspect startMain')
     var aspects = document.querySelectorAll('aspect');
     for(var i = 0; i < aspects.length; i++){
-        parseSubNodes(aspects[i]);
-        parseComplexity(aspects[i]);
-        aspects[i].innerHTML = replaceIcon(aspects[i].innerHTML);
+      if(aspects[i].hasAttribute('profile')){
+        aspects[i].classList.add('profile');
+        aspects[i].removeAttribute('profile');
+      }
+      parseSubNodes(aspects[i]);
+      parseComplexity(aspects[i]);
+      aspects[i].innerHTML = replaceIcon(aspects[i].innerHTML);
     }
     var backs = document.querySelectorAll('aspect-back');
     for(var i = 0; i < backs.length; i++){
@@ -50,7 +54,6 @@ function parseComplexity(aspect){
     aspect.appendChild(newComplexityElement);
     complexityHolder.remove();
   }
-
 }
 
 function parseInnatePower(innatePowerHTML){

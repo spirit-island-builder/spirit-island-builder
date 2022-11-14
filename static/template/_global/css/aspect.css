@@ -46,6 +46,13 @@ aspect{
   position:relative;
 }
 
+aspect.profile{
+  width:488px;
+  height:682px;
+  padding: 16px 15px 20px 15px;
+  background-image: url('../images/aspect-profile.png');
+}
+
 aspect.round-border{
   border-radius:22px;
 }
@@ -55,7 +62,7 @@ aspect aspect-name{
   font-family:'DK Snemand';
   text-transform: uppercase;
   color:white;
-  
+  padding-bottom: 8px;
   align-items:center;
   justify-content: center;
   text-align:center;
@@ -63,7 +70,13 @@ aspect aspect-name{
 }
 
 aspect aspect-name.has-complexity, aspect aspect-subtext.has-complexity{
-  width:540px;
+  padding-right: 25%;
+  padding-left: 3.5%;
+}
+
+aspect.profile aspect-name.has-complexity, aspect.profile aspect-subtext.has-complexity{
+  padding-right: 25%;
+  padding-left: 3%;
 }
 
 aspect complexity{
@@ -74,9 +87,14 @@ aspect complexity{
   height: 76px;
   top: 32px;
   position: absolute;
-  left: 553px;
+  right: 8px;
   display: flex;
   filter: drop-shadow(2px 2px 5px);
+}
+
+aspect.profile complexity{
+  top: 26px;
+  right: -1px;
 }
 
 complexity.up{background-image: url(../images/board/NewIcons/Complexity_Up.png);}
@@ -84,19 +102,36 @@ complexity.equal{background-image: url(../images/board/NewIcons/Complexity_Equal
 complexity.down{background-image: url(../images/board/NewIcons/Complexity_Down.png);}
 
 aspect aspect-subtext{
-  padding-top:11px;
+  padding-top:7px;
+  padding-left: 21px;
+  padding-right: 21px;
   font-size:20px;
   font-family:JosefinSans-Regular;
   color:white;
+  
+    width: 106.3%;
+  margin-left: -20px;
+  margin-right: -3px;
   
   align-items:center;
   justify-content: center;
   text-align:center;
   white-space: normal;
+  
+  background-image: url(../images/aspect-subtitle.png);
+  background-size: 100% 100%;
+  background-position: top left;
+  background-repeat: no-repeat;
+}
+
+aspect.profile aspect-subtext{
+  width:106.7%;
+  margin-left: -15px;
+  padding-top: 3px;
 }
 
 aspect-container {
-  padding: 10px 10px 10px 10px;
+  padding: 0px 10px 10px 10px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -128,7 +163,7 @@ aspect-container innate-power:only-child note {
 }
 
 aspect-container level .description {
-  padding-top: 13px;
+  /* padding-top: 13px; */
 }
 
 aspect-back{
@@ -186,4 +221,9 @@ position: absolute;
     background-position: center;
     margin-top: 5px;
     margin-bottom: 10px;
+}
+
+aspect innate-power info-container{
+  scale: 0.9;
+  transform-origin: left;
 }
