@@ -214,6 +214,7 @@
   let aspect = {
     prop: "value",
     demoBoardWasLoaded: false,
+    profile: false,
     previewBoard: {
       isVisible: false,
     },

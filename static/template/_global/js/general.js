@@ -19,15 +19,38 @@ function replaceIcon(html)
     }
     
     let iconHtml = elementCountText;
+    let HTMLClass = 'icon';
+    
+    // Check for 'no'
+    let is_no = '';
     if(iconName.startsWith('no-')){
-      iconHtml += `<icon class="no ${iconName.substring(3)}"></icon>`;
-    }else if(terrainSingle.has(iconName)) {
-      iconHtml += `<icon class="${iconName} terrain-single"></icon>`;
-    }else if(terrainDouble.has(iconName)) {
-      iconHtml += `<icon class="${iconName} terrain-double"></icon>`;
-    }else{
-      iconHtml += `<icon class="${iconName}"></icon>`;
+      is_no = 'no ';
+      iconName = iconName.substring(3);
     }
+    
+    // Check for terrain types
+    let is_terrain = '';
+    if(terrainSingle.has(iconName)) {
+      is_terrain = ' terrain-single'
+    }else if(terrainDouble.has(iconName)) {
+      is_terrain = ' terrain-double'
+    }
+    
+    let range_num = '';
+    // Check for Range
+    if(iconName.startsWith('range-')){
+      HTMLClass = 'range';
+      // iconName = 'range';
+      range_num = iconName.substring(6);
+      console.log('is range and range is '+range_num)
+      if(isNaN(range_num)){
+        range_num = '<icon class="range-small-icon '+range_num+'"></icon>'
+      }
+    }
+    
+    
+    iconHtml += `<`+HTMLClass+` class="`+is_no+`${iconName}`+is_terrain+`">`+range_num+`</`+HTMLClass+`>`;
+    
     result = result.replace(new RegExp(match, "ig"), iconHtml);
   }
 

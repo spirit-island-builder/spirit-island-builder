@@ -32,6 +32,11 @@
     aspect=aspect;
   }
 
+  function toggleProfile() {
+    aspect.profile = !aspect.profile;
+    aspect=aspect;
+  }
+
 </script>
 
 <h6
@@ -59,18 +64,20 @@
     </div>
   </article>
   <div class="field">
-    <label class="label is-flex is-justify-content-space-between" for="aspectInput"
-      >Aspect Name
-    </label>
-    <div class="field is-flex is-small mb-0">
-      <div class="control" style="width:100%">
-        <input
-          id="aspectInput"
-          class="input"
-          type="text"
-          placeholder="Name"
-          tabindex="1"
-          bind:value={aspect.nameReplacements.aspectName} />
+    <div class="field">
+      <label class="label is-flex is-justify-content-space-between" for="aspectInput"
+        >Aspect Name
+      </label>
+      <div class="field is-flex is-small mb-0">
+        <div class="control" style="width:100%">
+          <input
+            id="aspectInput"
+            class="input"
+            type="text"
+            placeholder="Name"
+            tabindex="1"
+            bind:value={aspect.nameReplacements.aspectName} />
+        </div>
       </div>
     </div>
     <label class="label is-flex is-justify-content-space-between" for="replacesInput"
@@ -144,7 +151,7 @@
     <button
       class="button is-warning is-light is-small row-button"
       on:click={setBack}>Remove Card Back</button>
-    <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-4">
+    <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-0">
       <div class="field has-addons mr-2 ml-1">
         <label class="label is-unselectable mr-1" for="">Art: </label>
         <div class="control">
@@ -163,42 +170,31 @@
         class="button is-warning is-light is-small row-button"
         on:click={setBack}>Add Card Back</button>
     {/if}
-    <!-- aspectName: "",
-      aspectRelacement: "",
-      rulesReplaced: "",
-      complexity -->
-    <!-- Spirit ART -->
-    <!-- <div class="field has-addons is-horizontal is-justify-content-left mb-0">
-      <div class="field-label is-small">
-        <label class="label" for="adversaryFlagArt">Spirit Art</label>
-      </div>
-      <div class="control">
-        <input
-          accept="image/png, image/jpeg"
-          on:change={handleImageFileInput}
-          id="spiritLoreArt"
-          name="spiritLoreArt"
-          type="file"
-          class="input" />
-        {#if aspect.nameImage.img}
-          <img id="spiritLoreArtImage" src={aspect.nameImage.img} alt="spirit lore art" />
-        {/if}
-      </div>
-    </div> -->
   </div>
-  <!-- Lore -->
-  <!-- <div class="field">
-    <label class="label is-flex is-justify-content-space-between" for="spiritLoreInput"
-      >Lore
+  <div class="field is-flex is-flex-direction-row has-addons">
+    <label class="label is-flex is-justify-content-space-between" for="aspectInput"
+        >Format: 
     </label>
-    <div class="control">
-      <textarea
-        id="spiritLoreInput"
-        class="textarea"
-        type="text"
-        placeholder="Name"
-        tabindex="1"
-        bind:value={aspect.lore.loreText} />
+    <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 ml-2">
+      {#if aspect.profile}
+        <button
+          class="button is-success is-small button-hold mb-0"
+          id="fast-button"
+          >Profile</button>
+        <button
+          class="button is-success is-light is-small button-hold mb-0"
+          id="slow-button"
+          on:click={toggleProfile}>Landscape</button>
+      {:else}
+        <button
+          class="button is-success is-light is-small button-hold mb-0"
+          id="fast-button"
+          on:click={toggleProfile}>Profile</button>
+        <button
+          class="button is-success is-small button-hold mb-0"
+          id="slow-button"
+          >Landscape</button>
+      {/if}
     </div>
-  </div> -->
+  </div>
 {/if}
