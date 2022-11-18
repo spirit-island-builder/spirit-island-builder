@@ -1194,20 +1194,22 @@ function parseEnergyTrackTags(){
     // option allows for placing presence track icons in the "middle row"
     let nodeText = energyOptions[i];
     let isMiddle = '';
+    var addRing=true;
     var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
-    if(i==0 || firstIsMiddle){
+    if(i==0 || (firstIsMiddle && !nodeText.startsWith("middle"))){
       isFirst=true;
-      firstIsMiddle=false;
     }
+    firstIsMiddle=false;
     if (nodeText.startsWith("middle")){
       nodeText = regExpOuterParentheses.exec(nodeText)[1];
       isMiddle = ' rowspan="2" class="middle"';
       if(i==0){
         firstIsMiddle = true;
       }
+      addRing=false
     }
-    
-    energyHTML += "<td"+isMiddle+">"+getPresenceNodeHtml(nodeText, isFirst, "energy", true)+"</td>";
+
+    energyHTML += "<td"+isMiddle+">"+getPresenceNodeHtml(nodeText, isFirst, "energy", addRing)+"</td>";
     isFirst=false;
   }
   energyHTML += "</tr>"
@@ -1400,6 +1402,22 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
           inner = "<icon class='gather'><icon class='"+moveTarget+"'></icon></icon>";
           subText = "Gather 1 "+Capitalise(moveTarget) + " into 1 of your Lands";
           break;
+        case 'energy':
+          var matches = regExp.exec(splitOptions[0]);
+          var num = matches[1];
+          inner = inner = "<energy-icon><value>" + num + "</value></energy-icon>";;
+          subText = num;
+          addEnergyRing = true;
+          addIconShadow = false;
+          break;
+        case 'plays':
+          var matches = regExp.exec(splitOptions[0]);
+          var num = matches[1];
+          inner = inner = "<card-icon><value>" + num + "</value></card-icon>";;
+          subText = num;
+          addEnergyRing = false;
+          addIconShadow = false;
+          break;
         case 'incarna':
           var matches = regExp.exec(splitOptions[0]);
           var incarnaAction = matches[1];
@@ -1445,8 +1463,28 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
           var moveRange = matches[1];
           inner = "<icon class='move-presence-"+moveRange+"'></icon>";
           subText = "Move a Presence "+moveRange;
-          addEnergyRing = false;
           addIconShadow = true;
+          if(addEnergyRing){addIconShadow = false};
+          break;
+        case 'elements':
+          var matches = regExp.exec(splitOptions[0]);
+          var elementList = matches[1].split(";");
+          let elementIcons = "";
+          let elementText = "";
+          if(elementList.length==2){
+            elementIcons += "<icon class='"+elementList[0]+" presence-or-first'></icon>";
+            elementIcons += "{backslash}";
+            elementIcons += "<icon class='"+elementList[1]+" presence-or-second'></icon>";
+            elementText += Capitalise(elementList[0]);
+            elementText += " OR ";
+            elementText += Capitalise(elementList[1]);
+            inner = "<element-or-wrap>"+elementIcons+"</element-or-wrap>";
+            subText = elementText + " (choose each turn)";
+          }else{
+            var iconText = matches[1];
+            inner = "<icon class='"+iconText+"'></icon>";
+            subText = IconName(iconText);
+          }
           break;
         case 'gain-range':
           var matches = regExp.exec(splitOptions[0]);
@@ -1506,6 +1544,16 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
             }
         } else if(splitOptions[i].startsWith("reclaim")){
           trackIcons += "<icon-multi-element><icon class='"+splitOptions[i]+" small-reclaim'"+track_icon_loc+"></icon></icon-multi-element>"
+        } else if(splitOptions[i].startsWith("energy")){
+          var matches = regExp.exec(splitOptions[i]);
+          var num = matches[1];
+          trackIcons += "<icon-multi-element><energy-icon class='small'"+track_icon_loc+"><value>" + num + "</value></energy-icon></icon-multi-element>"
+          addEnergyRing = false;
+        } else if(splitOptions[i].startsWith("plays")){
+          var matches = regExp.exec(splitOptions[i]);
+          var num = matches[1];
+          addEnergyRing = false;
+          trackIcons += "<icon-multi-element><card-icon class='small'"+track_icon_loc+"><value>" + num + "</value></card-icon></icon-multi-element>"
         } else if(splitOptions[i].startsWith("gain-card-play")){
           trackIcons += "<icon-multi-element><icon class='"+splitOptions[i]+" small'"+track_icon_loc+"></icon></icon-multi-element>"
         } else if(splitOptions[i].startsWith("move-presence")){
@@ -1526,6 +1574,20 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
           var custom = matches[1].split(";")[1];
           if(pnDebug){console.log('Multinode custom: '+custom)}
           trackIcons += "<icon-multi-element><icon class='"+custom+" small'"+track_icon_loc+"></icon></icon-multi-element>"
+         } else if(splitOptions[i].startsWith("elements")){
+          var matches = regExp.exec(splitOptions[i]);
+          var elementList = matches[1].split(";");
+          let elementIcons = "";
+          let elementText = "";
+          if(elementList.length==2){
+            elementIcons += "<icon-multi-element><element-or-wrap class='small'"+track_icon_loc+"><icon class='"+elementList[0]+" presence-or-first small'></icon>";
+            elementIcons += "<icon class='backslash small'></icon>";
+            elementIcons += "<icon class='"+elementList[1]+" presence-or-second small'></icon></element-or-wrap></icon-multi-element>";
+            elementText += Capitalise(elementList[0]);
+            elementText += " OR ";
+            elementText += Capitalise(elementList[1]);
+          }
+          trackIcons += elementIcons
         } else {
           trackIcons += "<icon-multi-element><icon class='"+splitOptions[i]+"'"+track_icon_loc+"></icon></icon-multi-element>"
         }
@@ -1571,6 +1633,15 @@ function IconName(str, iconNum = 1){
 
     case 'presence':
       subText = "Your Presence"
+      break;
+    case 'energy':
+      subText = iconNum+" Energy"
+      break;
+    case 'plays':
+      subText = iconNum+" Card Play"+plural;
+      break;
+    case 'elements':
+      subText = Capitalise(num)+' OR '+Capitalise(txt)
       break;
     case 'gain-power-card':
       subText = "Gain Power Card"
@@ -1727,7 +1798,18 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML){
     note.innerHTML = presenceNote;
     title.after(note)
   }
+  //should add some kind of first check here
   
+  //detect & correct first circles when using middle
+  energyTrack = presenceTable.getElementsByClassName('energy-track')[0];
+  energyNodes = energyTrack.getElementsByTagName('td');
+  playsTrack = presenceTable.getElementsByClassName('plays-track')[0];
+  playsNodes = playsTrack.getElementsByTagName('td');
+  if(energyNodes[1].classList.contains('middle')){
+    if(energyNodes[2].classList.contains('middle')){
+      playsNodes[1].getElementsByTagName('presence-node')[0].classList.remove('first');
+    }
+  }
 }
 
 function dynamicCellWidth() {
@@ -1783,17 +1865,17 @@ function dynamicCellWidth() {
   var cellWidthV2 = []
   for (const cell of growthCells) {
     var cellRect = findBoundingRect(cell)
-    console.log('-- TEST --')
-    console.log(cellRect)
-    console.log(cell)
-    console.log(cellRect.width)
-    console.log('^--RESULT--^')
+    // console.log('-- TEST --')
+    // console.log(cellRect)
+    // console.log(cell)
+    // console.log(cellRect.width)
+    // console.log('^--RESULT--^')
     totalIconWidths+=cellRect.width
     cellWidthV2.push(cellRect.width)
   }
-  console.log('total icon width = '+totalIconWidths)
-  console.log('old way = '+totalWidth)
-  console.log(cellWidthV2)
+  // console.log('total icon width = '+totalIconWidths)
+  // console.log('old way = '+totalWidth)
+  // console.log(cellWidthV2)
   
   //Iterate through growth table(s) to resize
   const largeCellScale = 1.5;
@@ -2240,10 +2322,9 @@ function checkOverflowHeight(el){
 function findBoundingRect(el){
 
   var growthCellRect;
-  console.log(el.tagName+", "+el.classList.value)
+  // console.log(el.tagName+", "+el.classList.value)
   if(el.children.length==0){
     growthCellRect = el.getBoundingClientRect();
-    console.log('i aint got no kids')
     return growthCellRect
   }else{
     growthCellRect = el.children[0].getBoundingClientRect();
