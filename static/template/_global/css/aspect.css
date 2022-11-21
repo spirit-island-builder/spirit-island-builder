@@ -97,6 +97,10 @@ aspect.profile complexity{
   right: -1px;
 }
 
+aspect-subtext icon{
+  filter: invert(1);
+}
+
 complexity.up{background-image: url(../images/board/NewIcons/Complexity_Up.png);}
 complexity.equal{background-image: url(../images/board/NewIcons/Complexity_Equal.png);}
 complexity.down{background-image: url(../images/board/NewIcons/Complexity_Down.png);}
