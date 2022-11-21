@@ -149,8 +149,8 @@ icon.damage-1 { background-image: url('../images/board/NewIcons/Damage 1.png'); 
 icon.damage-2 { background-image: url('../images/board/NewIcons/Damage 2.png'); }
 
 icon.terror-1{background-image: url('../images/board/NewIcons/TerrorLevel1.png'); width:50px; padding: 5px; margin-bottom: -8px; }
-icon.terror-2{background-image: url('../images/board/NewIcons/TerrorLevel1.png'); width:50px; padding: 5px; margin-bottom: -8px; }
-icon.terror-3{background-image: url('../images/board/NewIcons/TerrorLevel1.png'); width:50px; padding: 5px; margin-bottom: -8px; }
+icon.terror-2{background-image: url('../images/board/NewIcons/TerrorLevel2.png'); width:50px; padding: 5px; margin-bottom: -8px; }
+icon.terror-3{background-image: url('../images/board/NewIcons/TerrorLevel3.png'); width:50px; padding: 5px; margin-bottom: -8px; }
 
 icon.range-0 { background-image: url('../images/board/presence_range_0.png'); }
 icon.range-1 { background-image: url('../images/board/presence_range_1.png'); }
@@ -230,4 +230,9 @@ no-range{
   background-image:url('../images/no-range.png');
   background-repeat: no-repeat;
   background-size:88px 4px;
+}
+
+#single-line {
+    padding-top: 12px;
+    padding-bottom: 4px;
 }
