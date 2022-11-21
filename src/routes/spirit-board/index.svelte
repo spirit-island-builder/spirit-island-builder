@@ -170,12 +170,15 @@
 
   function setBoardValues(spiritBoard) {
     if (frame) {
+      console.log('setting board values from form')
+      console.log(frame.contentDocument)
       //Set Spirit Name and Image
       const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
       if (spiritName) {
         spiritName.textContent = spiritBoard.nameAndArt.name;
       }
       const board = frame.contentDocument.querySelectorAll("board")[0];
+      console.log(board)
       board.setAttribute("spirit-image", spiritBoard.nameAndArt.artPath);
       board.setAttribute("spirit-image-scale", spiritBoard.nameAndArt.artScale);
       board.setAttribute("spirit-border", spiritBoard.nameAndArt.bannerPath);
@@ -620,7 +623,9 @@
     console.log('loading new example')
     console.log('reading:')
     console.log(modFrame.contentDocument)
-    frame = frame;
+    console.log('from:')
+    console.log(modFrame.src)
+    // frame = frame;
     setTimeout(() => {
           readHTML(modFrame.contentDocument);
         }, 300);
@@ -727,8 +732,8 @@
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Shroud of Silent Mist.html" on:click={loadNewExample} >Shroud</button>
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Stone's Unyielding Defiance.html" on:click={loadNewExample} >Stone</button>   
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Vengeance as a Burning Plague.html" on:click={loadNewExample} >Vengeance</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High" on:click={loadNewExample} >Volcano</button>    
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_APOCRYPHA_Spreading Rot Renews the Earth" on:click={loadNewExample} >Spreading Rot</button>  
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html" on:click={loadNewExample} >Volcano</button>    
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_APOCRYPHA_Spreading Rot Renews the Earth.html" on:click={loadNewExample} >Spreading Rot</button>  
     </div>
   </div>
   <button class="modal-close is-large" aria-label="close" data-toggle="modal" data-target="modal-js-example" on:click={openExamplesModal}></button>
