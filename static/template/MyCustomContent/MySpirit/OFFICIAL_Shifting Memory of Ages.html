@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<head>
+    <link href="../../_global/css/global.css" rel="stylesheet" />
+    <link href="../../_global/css/board_front.css" rel="stylesheet" />
+
+
+<!-- 	Custom Icons. Instructions 
+				1) place image in same folder as HTLM (this file) 
+				2) replace demo file name with your file name below 
+				3) use custom1, custom2, or custom3 in your HTLM to reference 
+-->
+	<style>
+	icon.custom1{background-image: url('demo_custom_icon.png'); }
+	icon.custom2{background-image: url('filename.png'); }
+	icon.custom3{background-image: url('filename.png'); }
+	</style>
+
+</head>
+
+<body>
+
+  <board spirit-image="example1.png" spirit-image-scale="190%"  spirit-border="example2.png">
+    
+    <spirit-name>
+      Shifting Memory of Ages
+    </spirit-name>
+	<artist-name>
+	
+	</artist-name>
+	
+
+    <special-rules-container>
+      <section-title>SPECIAL RULES</section-title>
+      <special-rules-subtitle>LONG AGES OF KNOWLEDGE AND FORGETFULNESS</special-rules-subtitle>
+      <special-rule>
+        When you would Forget a Power Card from your hand, you may instead discard it. (Max. once per Action.)
+      </special-rule>
+      <special-rules-subtitle>INSIGHTS INTO THE WORLD'S NATURE</special-rules-subtitle>
+      <special-rule>
+        Some of your Actions let you <strong>Prepare</strong> Element Markers, which are kept here until used. Choose the Elements freely. <em>(I.e., you are not limited to Elements you have at the time.)</em>
+		
+Each Element Marker spent grants 1 of that Element for a single Action. <em>(E.g., one Power use.)</em>
+      </special-rule>
+    </special-rules-container>
+
+    <right>
+		<!-- GROWTH  
+			Examples include: reclaim-all; reclaim-one; move-presence(1); gain-energy(2);
+			Gaining Elements: gain-element(water,fire); gain-element(water,2);
+			Adding Presence: add-presence(1); add-presence(1,jungle); add-presence(2,town,city,blight,or); add-presence(2,strife,city,and);
+			
+			Sub-Groups of Growth are possible (think Lure)
+			Example: <sub-growth title="pick one of:" bordered>   here 'bordered' creates the double line border
+					 </sub-growth>
+		-->
+		<growth title="Growth">
+			<growth-group values="reclaim-all;add-presence(0)"></growth-group>
+			<growth-group values="gain-power-card;add-presence(2)"></growth-group>
+			<growth-group values="add-presence(1);gain-energy(2)"></growth-group>
+			<growth-group values="gain-energy(9)"></growth-group>
+		</growth>
+
+		<presence-tracks>
+		  <energy-track banner="example2.png" banner-v-scale="50%" values="0,1,2,3+markerplus,4,reclaim-one,5,6+markerplus"></energy-track>
+		  <card-play-track banner="example2.png" banner-v-scale="50%" values="1,2,2,markerminus+markerminus+gain-card-play,3"></card-play-track>
+		</presence-tracks>
+
+		<!-- INNATE POWERS  
+			To create powers which scale with elements ("For Each"), use the shortcut {fire,2} to include the numeral
+			Tokens can be included in level thresholds (as seen on Many Minds). Try '1-dahan','2-beast','3-wilds',etc.
+			speed: "fast" or "slow"
+		-->
+    <innate-powers>
+      <quick-innate-power
+        name="LEARN THE INVADERS' TACTICS"
+        speed="fast"
+        range="1"
+        target="invaders"
+        target-title="TARGET LAND"
+		>
+        <level threshold="2-earth">
+          Defend 2.
+        </level>
+        <level threshold="1-air,2-earth">
+          Instead, Defend 3.
+        </level>
+        <level threshold="2-moon,3-air,4-earth">
+          Instead, Defend 2 per card in the Invader discard pile.
+        </level>
+      </quick-innate-power>
+      <quick-innate-power
+      name="OBSERVE THE EVER-CHANGING WORLD"
+      speed="fast"
+      range="1"
+      target="any"
+      target-title="TARGET LAND"
+	  >
+      <level threshold="1-moon">
+          Prepare 1 Element Marker.
+        </level>
+        <level threshold="2-moon,1-air">
+          Instead, after each of the next three Actions that change which pieces are in target land, Prepare 1 Element Marker.
+<em>(You can stack the markers you intend to take here or on the target land so you don't need to ponder on what to take mid-turn. Any Action can trigger Preparing a marker, not just your own.)</em>
+        </level>
+      </quick-innate-power>
+    </innate-powers>
+  </right>
+  </board>
+</body>
+
+</html>

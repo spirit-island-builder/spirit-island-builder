@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<head>
+    <link href="../../_global/css/global.css" rel="stylesheet" />
+    <link href="../../_global/css/board_front.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <board spirit-image="example1.png" spirit-image-scale="190%"  spirit-border="example2.png">
+    
+    <spirit-name>
+      Vengeance as a Burning Plague
+    </spirit-name>
+	<artist-name>
+	
+	</artist-name>
+	
+    <special-rules-container>
+      <section-title>SPECIAL RULES</section-title>
+      <special-rules-subtitle>THE TERROR OF A SLOWLY UNFOLDING PLAGUE</special-rules-subtitle>
+      <special-rule>
+        When {disease} would prevent a Build on a board with your {presence}, you may let the Build happen (removing no {disease}). If you do, 1 {fear}.
+      </special-rule>
+      <special-rules-subtitle>LINGERING PESTILENCE</special-rules-subtitle>
+      <special-rule>
+        When your {presence} is destroyed by anything except a Spirit Action, add 1 {disease} where each destroyed {presence} was.
+      </special-rule>
+      <special-rules-subtitle>WREAK VENGEANCE FOR THE LAND'S CORRUPTION</special-rules-subtitle>
+      <special-rule>
+        Your actions treat {blight} on the island as also being {badlands}.
+      </special-rule>
+    </special-rules-container>
+
+    <right>
+		<!-- GROWTH  
+			Examples include: reclaim-all; reclaim-one; move-presence(1); gain-energy(2);
+			Gaining Elements: gain-element(water,fire); gain-element(water,2);
+			Adding Presence: add-presence(1); add-presence(1,jungle); add-presence(2,town,city,blight,or); add-presence(2,strife,city,and);
+			
+			Sub-Groups of Growth are possible (think Lure)
+			Example: <sub-growth title="pick one of:" bordered>   here 'bordered' creates the double line border
+					 </sub-growth>
+		-->
+		<growth title="Growth">
+			<growth-group values="reclaim-all;gain-power-card;gain-energy(1)"></growth-group>
+			<growth-group values="add-presence(2,town,city,blight,or);add-presence(2,town,city,blight,or)"></growth-group>
+			<growth-group values="gain-power-card;add-presence(1,token,disease,or);gain-energy(1)"></growth-group>
+		</growth>
+
+		<presence-tracks>
+		  <energy-track banner="example2.png" banner-v-scale="50%" values="1,2,animal,3,4"></energy-track>
+		  <card-play-track banner="example2.png" banner-v-scale="50%" values="1,2,fire,2,3,3,4"></card-play-track>
+		</presence-tracks>
+
+		<!-- INNATE POWERS  
+			To create powers which scale with elements ("For Each"), use the shortcut {fire,2} to include the numeral
+			Tokens can be included in level thresholds (as seen on Many Minds). Try '1-dahan','2-beast','3-wilds',etc.
+			speed: "fast" or "slow"
+		-->
+    <innate-powers>
+      <quick-innate-power
+        name="EPIDEMICS RUN RAMPANT"
+        speed="fast"
+        range="1"
+        target="{disease}"
+        target-title="TARGET LAND"
+		note="This Power's Damage is dealt (separately) to both Invaders and {dahan}."
+		>
+        <level threshold="1-fire,3-animal">
+          1 Damage per {disease}.
+        </level>
+        <level threshold="1-water,2-fire,4-animal">
+          +1 Damage per {disease}.
+        </level>
+        <level threshold="3-water,3-fire,5-animal">
+          +1 Damage per {disease}. 1 {fear} per {disease} (max. 5). Remove 1 {disease}.
+        </level>
+      </quick-innate-power>
+      <quick-innate-power
+      name="SAVAGE REVENGE"
+      speed="slow"
+      range="0"
+      target="{town}/{city}"
+      target-title="TARGET LAND">
+      <level threshold="3-air">
+          This Power has {gain-range-1}.
+        </level>
+		<level threshold="3-fire,1-animal">
+          1 Damage.
+        </level>
+		<level threshold="4-fire,2-animal">
+          +2 Damage.
+        </level>
+		<level threshold="5-fire,2-air,2-animal">
+          +3 Damage.
+        </level>
+      </quick-innate-power>
+    </innate-powers>
+  </right>
+  </board>
+</body>
+
+</html>
