@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<head>
+    <link href="../../_global/css/global.css" rel="stylesheet" />
+    <link href="../../_global/css/board_front.css" rel="stylesheet" />
+
+
+<!-- 	Custom Icons. Instructions 
+				1) place image in same folder as HTLM (this file) 
+				2) replace demo file name with your file name below 
+				3) use custom1, custom2, or custom3 in your HTLM to reference 
+-->
+	<style>
+	icon.custom1{background-image: url('demo_custom_icon.png'); }
+	icon.custom2{background-image: url('filename.png'); }
+	icon.custom3{background-image: url('filename.png'); }
+	</style>
+
+</head>
+
+<body>
+
+  <board spirit-image="example1.png" spirit-image-scale="190%"  spirit-border="example2.png">
+    
+    <spirit-name>
+      Many Minds Move as One
+    </spirit-name>
+	<artist-name>
+	
+	</artist-name>
+	
+
+    <special-rules-container>
+      <section-title>SPECIAL RULES</section-title>
+      <special-rules-subtitle>FLY FAST AS THOUGHT</special-rules-subtitle>
+      <special-rule>
+        When you Gather or Push {beasts}, they may come from or go to lands up to 2 distant <em>(rather than adjacent only)</em>.
+      </special-rule>
+      <special-rules-subtitle>A JOINING OF SWARMS AND FLOCKS</special-rules-subtitle>
+      <special-rule>
+        Your {sacred-site} may also count as {beasts}. <em>(Note: You never have more than 1 {sacred-site} in a land, no matter how many {presence} you have there.)
+
+        (If something changes a {beasts} that is your {sacred-site}, it affects 2 of your {presence} there - e.g., Push 1 {beasts} will Push 2 of your {presence} together.)</em>
+      </special-rule>
+    </special-rules-container>
+
+    <right>
+		<!-- GROWTH  
+			Examples include: reclaim-all; reclaim-one; move-presence(1); gain-energy(2);
+			Gaining Elements: gain-element(water,fire); gain-element(water,2);
+			Adding Presence: add-presence(1); add-presence(1,jungle); add-presence(2,town,city,blight,or); add-presence(2,strife,city,and);
+			
+			Sub-Groups of Growth are possible (think Lure)
+			Example: <sub-growth title="pick one of:" bordered>   here 'bordered' creates the double line border
+					 </sub-growth>
+		-->
+		<growth title="Growth">
+			<growth-group values="reclaim-all;gain-power-card"></growth-group>
+			<growth-group values="add-presence(1);add-presence(0)"></growth-group>
+			<growth-group values="add-presence(3,token,beasts,and);gain-energy(1);gather(beasts,2)"></growth-group>
+		</growth>
+
+		<presence-tracks>
+		  <energy-track banner="example2.png" banner-v-scale="50%" values="0,1,air,2,animal,3,4"></energy-track>
+		  <card-play-track banner="example2.png" banner-v-scale="50%" values="1,2,gain-card-pay-2,3,3,4,5"></card-play-track>
+		</presence-tracks>
+
+		<!-- INNATE POWERS  
+			To create powers which scale with elements ("For Each"), use the shortcut {fire,2} to include the numeral
+			Tokens can be included in level thresholds (as seen on Many Minds). Try '1-dahan','2-beast','3-wilds',etc.
+			speed: "fast" or "slow"
+		-->
+    <innate-powers>
+      <quick-innate-power
+        name="THE TEEMING HOST ARRIVES"
+        speed="fast"
+        range="2"
+        target="any"
+        target-title="TARGET LAND"
+		>
+        <level threshold="2-air,1-animal">
+          Gather up to 1 {beasts}.
+        </level>
+        <level threshold="3-air,1-water,2-animal">
+          Instead, Gather up to 1 {beasts} per {air} you have.
+        </level>
+        <level threshold="1-fire,4-air,2-animal">
+          Push up to 3 {beasts}.
+        </level>
+      </quick-innate-power>
+      <quick-innate-power
+      name="BESET AND CONFOUND THE INVADERS"
+      speed="fast"
+      range="2"
+      target="invaders"
+      target-title="TARGET LAND"
+	  note="{beasts}(below) checks the number of {beasts} in target land.">
+      <level threshold="1-air,2-animal,2-beasts">
+          2 {fear} and Defend 2.
+        </level>
+        <level threshold="2-air,3-animal,3-beasts">
+          Instead, 3 {fear} and Defend 4.
+        </level>
+        <level threshold="3-air,4-animal,4-beasts">
+          Instead, 4 {fear} and Defend 7.
+        </level>
+        <level threshold="4-air,1-earth,5-animal,5-beasts">
+          Instead, 6 {fear} and Defend 10.
+        </level>
+      </quick-innate-power>
+    </innate-powers>
+  </right>
+  </board>
+</body>
+
+</html>
