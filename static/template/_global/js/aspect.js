@@ -21,6 +21,8 @@ function startMain(){
     for(var i = 0; i < backs.length; i++){
         parseAspectBack(backs[i]);
     }
+    
+    resizeInnatePowers()
 }
 
 function parseSubNodes(aspect){
@@ -180,4 +182,59 @@ function parseInnatePower(innatePowerHTML){
     
     currentPowerHTML+="</description-container></innate-power>";
     return currentPowerHTML;
+}
+
+function resizeInnatePowers(){
+	// Innate Power Sizing
+	console.log("RESIZING: Innate Powers")
+	// Innate Power Notes (scale font size)
+	noteBlocks = document.getElementsByTagName("note");
+	for(let i = 0; i < noteBlocks.length; i++){
+		let noteHeight = noteBlocks[i].offsetHeight;
+		let j = 0
+		while (noteHeight>92){
+			var style = window.getComputedStyle(noteBlocks[i], null).getPropertyValue('font-size');
+			var fontSize = parseFloat(style); 
+			noteBlocks[i].style.fontSize = (fontSize - 1) + 'px';
+			noteHeight = noteBlocks[i].offsetHeight
+			
+			// safety valve
+			j += 1
+			if (j>5){ break;}
+		}
+	}
+	
+	// Innate Power Thresholds
+  thresholds = document.getElementsByTagName("threshold");
+  thresholdsCount = thresholds.length;
+  ICONWIDTH = 60;
+	let dynamicThresholdWidth = []
+	let outerThresholdWidth = []
+  for (i = 0; i < thresholdsCount; i++){
+    icon = thresholds[i].getElementsByTagName("icon");
+    iconCount = icon.length;
+    dynamicThresholdWidth = (iconCount * ICONWIDTH) + (iconCount * 12);
+    // Check if the threshold width is overflowing. If so, just let it size itself...
+    var thresholdHeight = thresholds[i].offsetHeight
+    if (thresholdHeight > 60){
+      thresholds[i].style.width = "auto";
+    }
+    outerThresholdWidth[i] = thresholds[i].clientWidth + parseFloat(window.getComputedStyle(thresholds[i]).getPropertyValue('margin-right').replace(/px/, ""));
+  }
+	
+	// Innate Power Descriptions
+  var description = document.getElementsByClassName("description");
+  for(i = 0; i < description.length; i++){
+      // Scale the text width to the threshold size...
+  description[i].style.paddingLeft = outerThresholdWidth[i]+"px";
+  var textHeight = description[i].clientHeight;
+
+      if (textHeight < 40){
+          description[i].id = "single-line";
+    // Align-middle the text if its a single line
+  }else if (textHeight > 75){
+    description[i].style.paddingLeft = "0px";
+    // Spill over below the threshold if its greater than three lines
+      }
+  }
 }

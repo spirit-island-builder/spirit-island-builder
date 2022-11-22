@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<head>
+    <link href="../../_global/css/global.css" rel="stylesheet" />
+    <link href="../../_global/css/board_front.css" rel="stylesheet" />
+
+
+<!-- 	Custom Icons. Instructions 
+				1) place image in same folder as HTLM (this file) 
+				2) replace demo file name with your file name below 
+				3) use custom1, custom2, or custom3 in your HTLM to reference 
+-->
+	<style>
+	icon.custom1{background-image: url('demo_custom_icon.png'); }
+	icon.custom2{background-image: url('filename.png'); }
+	icon.custom3{background-image: url('filename.png'); }
+	</style>
+
+</head>
+
+<body>
+
+  <board spirit-image="example1.png" spirit-image-scale="190%"  spirit-border="example2.png">
+    
+    <spirit-name>
+      Snek Slumbering Beneath the Island
+    </spirit-name>
+	<artist-name>
+	
+	</artist-name>
+	
+
+    <special-rules-container>
+      <section-title>SPECIAL RULES</section-title>
+      <special-rules-subtitle>DEEP SLUMBER</special-rules-subtitle>
+      <special-rule>
+        You start off limited to 5 {presence} on the island. Raise this with your "Absorb Essence" Power Card. Each use covers the lowest revealed number; your {presence} limit is the lowest uncovered number.
+		<special-rules-track values="5,7,8,10,11,12,13"></special-rules-track>
+      </special-rule>
+    </special-rules-container>
+
+    <right>
+		<!-- GROWTH  
+			Examples include: reclaim-all; reclaim-one; move-presence(1); gain-energy(2);
+			Gaining Elements: gain-element(water,fire); gain-element(water,2);
+			Adding Presence: add-presence(1); add-presence(1,jungle); add-presence(2,town,city,blight,or); add-presence(2,strife,city,and);
+			
+			Sub-Groups of Growth are possible (think Lure)
+			Example: <sub-growth title="pick one of:" bordered>   here 'bordered' creates the double line border
+					 </sub-growth>
+		-->
+		<growth title="Growth (Pick <u>Two</u>)">
+			<growth-group values="reclaim-all;move-presence(1)"></growth-group>
+			<growth-group values="gain-power-card;gain-energy(1)"></growth-group>
+			<growth-group values="gain-energy(4)"></growth-group>
+			<growth-group values="add-presence(3,no-blight)"></growth-group>
+		</growth>
+
+		<presence-tracks>
+		  <energy-track banner="example2.png" banner-v-scale="50%" values="1,fire,any,reclaim-one,middle(earth),6,any,12"></energy-track>
+		  <card-play-track banner="example2.png" banner-v-scale="50%" values="1,moon,2,water,4,5+reclaim-one"></card-play-track>
+		</presence-tracks>
+
+		<!-- INNATE POWERS  
+			To create powers which scale with elements ("For Each"), use the shortcut {fire,2} to include the numeral
+			Tokens can be included in level thresholds (as seen on Many Minds). Try '1-dahan','2-beast','3-wilds',etc.
+			speed: "fast" or "slow"
+		-->
+    <innate-powers>
+      <quick-innate-power
+        name="SERPENT WAKES IN POWER"
+        speed="slow"
+        range="none"
+        target="yourself"
+        target-title="TARGET"
+		>
+        <level threshold="2-fire,1-water,1-plant">
+          Gain 1 Energy. Other spirits with any Absorbed Presence also gain 1 Energy.
+        </level>
+        <level threshold="2-water,3-earth,2-plant">
+          Add 1 {presence} to {range-1}. Other spirits with 2 or more Absorbed Presence may do likewise.
+        </level>
+        <level threshold="3-fire,3-water,3-earth,3-plant">
+          Gain a Major Power without Forgetting. Other Spirits with 3 or more Absorbed Presence may do likewise.
+        </level>
+      </quick-innate-power>
+      <quick-innate-power
+      name="SERPENT ROUSES IN ANGER"
+      speed="slow"
+      range="0"
+      target="any"
+      target-title="TARGET LAND"
+	  >
+        <level threshold="1-fire,1-earth">
+          For each {fire} {earth} you have, 1 Damage to 1 {town} / {city}.
+        </level>
+        <level threshold="2-moon,2-earth">
+          For each {moon,2} {earth,2} you have, 2 {fear} and you may Push 1 {town} from target land.
+        </level>
+        <level threshold="5-moon,6-fire,6-earth,cost-7">
+          In every land in the game: X Damage, where X is the number of {presence} you have in and adjacent to that land.
+        </level>
+      </quick-innate-power>
+    </innate-powers>
+  </right>
+  </board>
+</body>
+
+</html>

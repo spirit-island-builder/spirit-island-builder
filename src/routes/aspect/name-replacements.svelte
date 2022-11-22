@@ -180,7 +180,7 @@
         <button
           class="button is-success is-small button-hold mb-0"
           id="fast-button"
-          >Profile</button>
+          >Portrait</button>
         <button
           class="button is-success is-light is-small button-hold mb-0"
           id="slow-button"

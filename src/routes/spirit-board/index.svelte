@@ -170,12 +170,15 @@
 
   function setBoardValues(spiritBoard) {
     if (frame) {
+      console.log('setting board values from form')
+      console.log(frame.contentDocument)
       //Set Spirit Name and Image
       const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
       if (spiritName) {
         spiritName.textContent = spiritBoard.nameAndArt.name;
       }
       const board = frame.contentDocument.querySelectorAll("board")[0];
+      console.log(board)
       board.setAttribute("spirit-image", spiritBoard.nameAndArt.artPath);
       board.setAttribute("spirit-image-scale", spiritBoard.nameAndArt.artScale);
       board.setAttribute("spirit-border", spiritBoard.nameAndArt.bannerPath);
@@ -360,6 +363,7 @@
 
   function readHTML(htmlElement) {
     console.log("Loading default spirit board into form (f=readHTML)");
+    console.log(htmlElement)
     //Reads the Template HTML file into the Form
     if (frame) {
       //Load Spirit Name and Image
@@ -596,6 +600,41 @@
     instructionsSource =
       "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-play-side";
   }
+
+
+  function openExamplesModal(event) {
+    console.log(event.target.dataset.target)
+    var examplesModal = document.getElementById(event.target.dataset.target)
+    if(examplesModal.classList.contains('is-active')){
+      examplesModal.classList.remove('is-active');
+    }else{
+      examplesModal.classList.add('is-active');
+    }
+
+  }
+
+  function closeExamplesModal(examplesModal){
+    examplesModal.classList.remove('is-active');
+  }
+
+  function loadNewExample(event){
+    var modFrame = document.getElementById("mod-frame")
+    modFrame.src = event.target.id;
+    console.log('loading new example')
+    console.log('reading:')
+    console.log(modFrame.contentDocument)
+    console.log('from:')
+    console.log(modFrame.src)
+    // frame = frame;
+    setTimeout(() => {
+          readHTML(modFrame.contentDocument);
+        }, 300);
+    setTimeout(() => {
+        reloadPreview()
+        closeExamplesModal(document.getElementById('modal-js-example'))
+      }, 300);
+  }
+
 </script>
 
 <h5 class="title is-5">Spirit Board Play Side</h5>
@@ -618,6 +657,9 @@
 
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
+    <button class="button is-info js-modal-trigger mr-1" data-toggle="modal" data-target="modal-js-example" on:click={openExamplesModal}>
+      Load Examples
+    </button>
     <label class="file-label">
       <input
         class="file-input is-success"
@@ -633,7 +675,7 @@
   </div>
   <button class="button is-success  mr-1" on:click={exportSpiritBoard}
     >Download Spirit Board file</button>
-  <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Spirit Board</button>
+  <button class="button is-success  mr-1" on:click={reloadPreview}>Generate Spirit Board</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
@@ -672,4 +714,27 @@
     title="yay"
     style="display:none;"
     id="mod-frame" />
+</div>
+<div id="modal-js-example" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+      <p>Load Official Spirits (will delete existing content):</p>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Downpour Drenches the World.html" on:click={loadNewExample} >Downpour</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Finder of Paths Unseen.html" on:click={loadNewExample} >Finder</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Fractured Days Split the Sky.html" on:click={loadNewExample} >Fractured Days</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Grinning Trickster Stirs Up Trouble.html" on:click={loadNewExample} >Trickster</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Lure of Deep Wilderness.html" on:click={loadNewExample} >Lure</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Many Minds Move as One.html" on:click={loadNewExample} >Many Minds</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Ocean's Hungry Grasp.html" on:click={loadNewExample} >Ocean</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Serpent Slumbering Beneath the Island.html" on:click={loadNewExample} >Snek</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Shifting Memory of Ages.html" on:click={loadNewExample} >Shifting Memory</button>   
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Shroud of Silent Mist.html" on:click={loadNewExample} >Shroud</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Stone's Unyielding Defiance.html" on:click={loadNewExample} >Stone</button>   
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Vengeance as a Burning Plague.html" on:click={loadNewExample} >Vengeance</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html" on:click={loadNewExample} >Volcano</button>    
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_APOCRYPHA_Spreading Rot Renews the Earth.html" on:click={loadNewExample} >Spreading Rot</button>  
+    </div>
+  </div>
+  <button class="modal-close is-large" aria-label="close" data-toggle="modal" data-target="modal-js-example" on:click={openExamplesModal}></button>
 </div>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<head>
+    <link href="../../_global/css/global.css" rel="stylesheet" />
+    <link href="../../_global/css/board_front.css" rel="stylesheet" />
+    <script type="text/javascript" src="../../_global/js/general.js"></script>
+    <script type="text/javascript" src="../../_global/js/board_front.js"></script>
+	
+<!-- 	Custom Icons. Instructions 
+				1) place image in same folder as HTLM (this file) 
+				2) replace demo file name with your file name below 
+				3) use custom1, custom2, or custom3 in your HTLM to reference 
+-->
+	<style>
+	icon.custom1{background-image: url('demo_custom_icon.png'); }
+	icon.custom2{background-image: url('filename.png'); }
+	icon.custom3{background-image: url('filename.png'); }
+	</style>
+
+</head>
+
+<body>
+
+  <board spirit-image="example1.png" spirit-image-scale="190%"  spirit-border="example2.png">
+    
+    <spirit-name>
+      LURE OF THE DEEP WILDERNESS
+    </spirit-name>
+	<artist-name>
+	
+	</artist-name>
+
+
+    <special-rules-container>
+      <section-title>SPECIAL RULES</section-title>
+      <special-rules-subtitle>HOME OF THE ISLAND'S HEART</special-rules-subtitle>
+      <special-rule>
+        Your {presence} may only be added/moved to lands that are Inland.
+      </special-rule>
+      <special-rules-subtitle>ENTHRALL THE FOREIGN EXPLORERS</special-rules-subtitle>
+      <special-rule>
+        For each of your {presence} in a land, ignore up to 2 {explorer} during the Ravage Step and any Ravage Actions.
+      </special-rule>
+    </special-rules-container>
+
+    <right>
+		<!-- GROWTH  
+			Examples include: reclaim-all; reclaim-one; move-presence(1); gain-energy(2);
+			Gaining Elements: gain-element(water,fire); gain-element(water,2);
+			Adding Presence: add-presence(1); add-presence(1,jungle); add-presence(2,town,city,blight,or); add-presence(2,strife,city,and);
+			
+			Sub-Groups of Growth are possible (think Lure)
+			Example: <sub-growth title="pick one of:" bordered>   here 'bordered' creates the double line border
+					 </sub-growth>
+		-->
+		<growth title="Growth">
+		  <sub-growth title="pick one of:" bordered>
+			<growth-group values="reclaim-all;gain-energy(1)"></growth-group>
+			<growth-group values="add-presence(4,inland)"></growth-group>
+		  </sub-growth>
+		  <sub-growth title="and one of:">
+			<growth-group values="gain-element(moon,air,plant);gain-energy(2)"></growth-group>
+			<growth-group values="gain-power-card"></growth-group>
+		  </sub-growth>
+		</growth>
+
+		<presence-tracks>
+		  <energy-track banner="example2.png" banner-v-scale="50%" values="1,2,moon,3+plant,4+air,5+reclaim-one"></energy-track>
+		  <card-play-track banner="example2.png" banner-v-scale="50%" values="1,2,animal,3,4,5+reclaim-one"></card-play-track>
+		</presence-tracks>
+
+		<!-- INNATE POWERS  
+			To create powers which scale with elements ("For Each"), use the shortcut {fire,2} to include the numeral
+			Tokens can be included in level thresholds (as seen on Many Minds). Try '1-dahan','2-beast','3-wilds',etc.
+			speed: "fast" or "slow"
+		-->
+    <innate-powers>
+      <quick-innate-power
+        name="FORSAKE SOCIETY TO CHASE AFTER DREAMS"
+        speed="slow"
+        range="1"
+        target="invaders"
+        target-title="TARGET LAND"
+        note="After this Power replaces pieces with {explorer}: Gather any number of those {explorer} into your lands. If target land has any {town}/{city} remaining, 1 {fear}.">
+        <level threshold="2-moon">
+          Replace 1 {explorer} with 1 {explorer}.
+        </level>
+        <level threshold="2-moon,1-air">
+          Instead, replace 1 {town} with 2 {explorer}.
+        </level>
+        <level threshold="3-moon,2-air,1-animal">
+          Instead, replace 1 {city} with 3 {explorer}.
+        </level>
+        <level threshold="4-air">
+          Repeat this Power.
+        </level>
+      </quick-innate-power>
+      <quick-innate-power
+      name="NEVER HEARD FROM AGAIN"
+      speed="slow"
+      range="0"
+      target="inland"
+      target-title="TARGET LAND"
+	  note="If this Power destroys any {explorer}, 1 {fear}.<br> If this Power destroys 5 or more {explorer}, +1 {fear}.">
+      <level threshold="1-fire,3-plant">
+          Add 1 {badlands}.
+        </level>
+        <level threshold="2-plant">
+          Destroy up to 2 {explorer} per {badlands}/{beasts}/{disease}/{wilds}.
+        </level>
+        <level threshold="4-plant,1-animal">
+          2 Damage.
+        </level>
+        <level threshold="6-plant">
+          Repeat this Power.
+        </level>
+      </quick-innate-power>
+    </innate-powers>
+  </right>
+  </board>
+</body>
+
+</html>
