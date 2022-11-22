@@ -91,9 +91,6 @@ Growth is broken into Growth Sets, Groups, and Actions.
 
 #### Supported Growth Actions
 
-<details>
-  <summary>Click to Expand for Supported Growth Actions</summary>
-
 | Category                             | Action                                               | Usage                                                | Details                                                                                                                                                             | Examples                                                                                               |
 | ------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | Reclaim                              | Reclaim All, Reclaim One, Reclaim Half               | relcaim(x) OR reclaim-all, reclaim-one, reclaim-half | x can be all, one, half, or custom                                                                                                                                  |                                                                                                        |
@@ -171,8 +168,6 @@ Growth is broken into Growth Sets, Groups, and Actions.
 | **OR** Growth Options                | Allows pair of two growth options                    | or(x,y)                                              | x and y are growth options (like the ones above)                                                                                                                    | Fractured Days's growth: or(gain-1-time^2,gain-card-play(2))                                           |
 | Presence Track Node                  | Puts the growth option inside a presence track ring  | presence-node(x)                                     | x is a growth option (like the ones above)                                                                                                                          | presence-node(reclaim-one)                                                                             |
 
-</details>
-
 [Home](#index)
 
 ### Presence Tracks
@@ -187,9 +182,6 @@ The two presence tracks (energy & plays) are filled out here, with options for s
 [Home](#index)
 
 #### Supported Presence Track Options
-
-<details>
-  <summary>Expand for Supported Presence Track Options</summary>
 
 | Presence Track Effect               | Usage                                      | Details                                                                                                                          | Examples                                                                                                                                                     |
 | ----------------------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -219,7 +211,6 @@ The two presence tracks (energy & plays) are filled out here, with options for s
 |                                     | custom(_your_text_;{x}/{y})                | Cannot be used in combinations. Can have icons (x and y, for example) and text                                                   | Custom energy track: 1,2,custom(Destroy 1 Town or City;{town}/{city}),3,water,4                                                                              |
 | Middle Nodes                        | middle(wrap other node options)            | Wrap your presence node options in middle() to have them appear in the middle of the tracks. Only do this to energy track nodes. | Serpent energy track: 1,fire,any,reclaim-one,**middle(earth)**,6,any,12                                                                                      |
 
-</details>
 
 [Home](#index)
 
