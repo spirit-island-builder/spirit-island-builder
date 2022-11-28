@@ -157,7 +157,7 @@ complexity {
 }
 
 complexity::before,complexity::after {
-    background-image: url(../images/board/growth_underline.png);
+    background-image: url('../images/board/growth_underline.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
