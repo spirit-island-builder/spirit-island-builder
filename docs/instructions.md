@@ -28,9 +28,13 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
 
 Click 'Preview Board' to show or hide the preview of your spirit board. Note that the board won't reload when you do this. Click 'Generate Spirit Board' to load changes into the preview.
 
+- Load Examples: Click this button to load the official spirits into the Builder, as an example.
 - Load Spirit Board file: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage.
+- Download Spirit Board file: Click this button to immediately download save file for your Spirit
 - Generate Spirit Board: Click this button to load a new preview board and see your changes.
 - Toggle Board Size: Click this to change the size of the preview. NOTE: There is no way to export the image of your board, so use a screen capture tool such as the snipping tool on Windows.
+- Clear All Fields: Click this to delete everything in the Builder form. It will ask for confirmation.
+- Instructions: Pulls up an instructions overlay.
 
 [Home](#index)
 

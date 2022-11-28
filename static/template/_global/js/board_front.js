@@ -1813,52 +1813,60 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML){
 }
 
 function dynamicCellWidth() {
-	console.log("RESIZING: Growth")
+
   var debug = true;
 	const board = document.querySelectorAll('board')[0];
-	
+
+
+	console.log("RESIZING: Growth")	
 	// Growth Sizing
   growthCells =  board.getElementsByTagName("growth-cell");
   growthCellCount = growthCells.length;
   growthBorders = Array.from(board.getElementsByTagName("growth-border"));
   growthBorderCount = growthBorders.length;
-
-  let borderPixels = 0;
-  for (const borderWidth of growthBorders.map(x => x.getAttribute('double') === undefined ? 7+8 : 11+5)) {
-    borderPixels += borderWidth
-  }
   let growthTable = board.getElementsByTagName("growth-table")[0];
-  let totalWidth = 0;
-  for (i = 0; i < growthCells.length; i++){
-    totalWidth += growthCells[i].offsetWidth;
-  }
-  if(debug){console.log('total width ='+totalWidth +' Border pixels = '+borderPixels)}
+  
+
+  
   
   // Add additional Growth Row if necessary
+  let totalWidth = getGrowthTableWidth(growthTable);
   let growthTexts = board.getElementsByTagName("growth-text");
-  let tallGrowthText = false
-  for(i = 0; i < growthTexts.length; i++){
-    tallGrowthText = growthTexts[i].offsetHeight > 95 ? true : tallGrowthText;
-    }
-  if(totalWidth > 1200 || tallGrowthText){
-    growthTableText = growthTable.innerHTML;
-    growthGroups = growthTableText.split("<growth-border></growth-border>")
-    lastGrowth = growthGroups.at(-1)
-    let newInnerHTML = ''
-    newInnerHTML+=growthGroups[0]
-    for (i = 1; i < growthGroups.length-1; i++){
-      newInnerHTML+="<growth-border></growth-border>"
-      newInnerHTML+=growthGroups[i]
-    }
-    growthTable.innerHTML=newInnerHTML
+  let tallGrowthText = hasTallGrowthText(growthTexts)
+  if(debug){console.log('Tall growth text found? (4 or more lines) '+tallGrowthText)}
+  
+  function hasTallGrowthText(texts){
+    hasTall = false;
+    for(i = 0; i < texts.length; i++){
+      hasTall = texts[i].offsetHeight > 90 ? true : hasTall;
+      // true if any growth-text is more than 3 lines
+    } 
+    return hasTall;
+  }
+  
+  if(totalWidth > 1090 || tallGrowthText){
+    growthGroups = growthTable.getElementsByTagName("growth-group");
+    growthBorders = growthTable.getElementsByTagName("growth-border");
     var newGrowthTable = document.createElement("growth-table");
-    var growthLine = document.createElement("growth-row-line");
-    newGrowthTable.innerHTML=lastGrowth;
+    var growthLine = document.createElement("growth-row-line");    
+    var c = 0;
+    while(totalWidth > 1090 || tallGrowthText){
+      if(c==0){
+        newGrowthTable.appendChild(growthGroups[growthGroups.length-1])
+      }else{
+        var growthBorder = document.createElement("growth-border");
+        newGrowthTable.insertBefore(growthBorder, newGrowthTable.firstChild);
+        newGrowthTable.insertBefore(growthGroups[growthGroups.length-1], newGrowthTable.firstChild);
+      }
+      growthBorders[growthBorders.length-1].remove();
+      totalWidth = getGrowthTableWidth(growthTable);
+      tallGrowthText = hasTallGrowthText(growthTable.getElementsByTagName("growth-text"))
+      c++;
+    }
     document.getElementsByTagName("growth")[0].append(growthLine)
-    console.log("Adding second row of growth:")
-    console.log(newGrowthTable)
     document.getElementsByTagName("growth")[0].append(newGrowthTable)
   }
+  
   
   // TEST iterate through growth cells
   var totalIconWidths = 0
@@ -1873,7 +1881,7 @@ function dynamicCellWidth() {
     totalIconWidths+=cellRect.width
     cellWidthV2.push(cellRect.width)
   }
-  // console.log('total icon width = '+totalIconWidths)
+  console.log('total icon width = '+totalIconWidths)
   // console.log('old way = '+totalWidth)
   // console.log(cellWidthV2)
   
@@ -1893,14 +1901,23 @@ function dynamicCellWidth() {
     const growthCells = board.getElementsByTagName("growth-table")[i].getElementsByTagName("growth-cell");
     const growthTableStyle = window.getComputedStyle(growthTable);
     const growthTableWidth = growthTableStyle.getPropertyValue('width');
-    const remainingCellWidth = (parseInt(growthTableWidth.replace(/px/, "")) - borderPixels) + "px";
     let widthArray = [];
+    
+    var localBorders = growthTable.getElementsByTagName("growth-border")
+    let localBorderPixels = 0;
+    for (j = 0; j < localBorders.length; j++) {
+      localBorderPixels += localBorders[j].offsetWidth;
+    }
+    growthPanelWidth = 1090-10-localBorderPixels;
+    console.log('width for growth actions = '+growthPanelWidth)
     totalWidth = 0;
     for (j = 0; j < growthCells.length; j++){
       totalWidth += growthCells[j].offsetWidth;
       widthArray[j] = growthCells[j].offsetWidth;
     }
+
     averageWidth = totalWidth/growthCells.length;
+    console.log('aveage width = '+averageWidth)
     if (totalWidth > 1000 || i==0){
       let smallCellFinder = widthArray.map(x => x <= averageWidth*1.35)
       let largeCellFinder = widthArray.map(x => x > averageWidth*1.35)
@@ -1909,7 +1926,7 @@ function dynamicCellWidth() {
       const largeCell = largeCellFinder.filter(Boolean).length
       const smallCell = smallCellFinder.filter(Boolean).length
       const extraLargeCell = extraLargeCellFinder.filter(Boolean).length
-      weightedSmallCellWidth = (parseFloat(remainingCellWidth.replace(/px/, "")) / (smallCell + largeCellScale*largeCell+extraLargeCellScale*extraLargeCell))
+      weightedSmallCellWidth = ( growthPanelWidth / (smallCell + largeCellScale*largeCell+extraLargeCellScale*extraLargeCell))
       weightedLargeCellWidth = weightedSmallCellWidth*largeCellScale;
       weightedExtraLargeCellWidth = weightedSmallCellWidth*extraLargeCellScale;
       for (j = 0; j < growthCells.length; j++){
@@ -1946,12 +1963,10 @@ function dynamicCellWidth() {
   const headerWidth = {}
   const headerAdditionalWidth = {}
   let maxIndex = undefined
-  console.log('Checking growth for headers')
-  console.log(growthTable.children)
+  if(debug){console.log('Checking growth for headers')}
   for (const c of growthTable.children) {
-    console.log(c)
+    if(debug){console.log(c)}
     const header = parseInt(c.getAttribute('header'))
-    console.log(header)
     if (!isNaN( header )) {
       maxIndex = header
       const addWidth = parseFloat(window.getComputedStyle(c).getPropertyValue('margin-right').replace(/px/, ""))
@@ -1977,7 +1992,6 @@ function dynamicCellWidth() {
       if(debug){console.log('No header')}
     }
   }
-  if(debug){console.log(headerWidth[0])}
 
   const subGrowthTitle = board.getElementsByTagName('sub-section-title')
   if(board.getElementsByTagName("growth-table").length>1 && subGrowthTitle.length){console.log('Warning: growth sets does not work correctly when a second growth row is used')}
@@ -2125,7 +2139,8 @@ function dynamicCellWidth() {
   if(tightFlag){
     default_row_height = 0;
     console.log('tightening presence tracks');
-    }
+    board.getElementsByTagName("presence-title")[0].style.marginBottom = '0px';
+  }
   let row_max_height = default_row_height;
   let first_row_max = 0;
   let height_adjust = 0;
@@ -2253,6 +2268,26 @@ function dynamicCellWidth() {
 		}
 		
 	}
+}
+
+function getGrowthTableWidth(growthTable){
+
+  var growthCells =  growthTable.getElementsByTagName("growth-cell");
+  var growthGroups = growthTable.getElementsByTagName("growth-group");
+  var growthBorders = Array.from(growthTable.getElementsByTagName("growth-border"));
+  
+  let borderPixels = 0;
+  for (i = 0; i < growthBorders.length; i++) {
+    borderPixels += growthBorders[i].offsetWidth;
+  }
+
+  let totalGroupWidth = 0;
+  for (i = 0; i < growthGroups.length; i++){
+    totalGroupWidth += growthGroups[i].offsetWidth;
+  }
+  
+  var totalWidth = totalGroupWidth+borderPixels
+  return totalWidth
 }
 
 function balanceText(el){
