@@ -32,6 +32,7 @@
     { label: "presence-node", value: "presence-node(" },
     { label: "push", value: "push(" },
     { label: "reclaim", value: "reclaim(" },
+    { label: "replace", value: "replace(" },
   ];
 
   function useGrowthSets() {
