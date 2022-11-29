@@ -2117,7 +2117,9 @@ function dynamicCellWidth() {
       // Scale the text width to the threshold size...
   description[i].style.paddingLeft = outerThresholdWidth[i]+"px";
   var textHeight = description[i].clientHeight;
-
+    console.log(description[i])
+    console.log('text height = ' +textHeight)
+    console.log('text width = ' +description[i].offsetWidth)
       if (textHeight < 40){
           description[i].id = "single-line";
     // Align-middle the text if its a single line

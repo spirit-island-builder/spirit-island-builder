@@ -22,14 +22,16 @@ function startMain(){
         parseAspectBack(backs[i]);
     }
     
-    resizeInnatePowers()
+    setTimeout(function() { 
+      resizeInnatePowersAspect()
+    }, 200);
 }
 
 function parseSubNodes(aspect){
     var container = aspect.querySelector('aspect-container');
     for(var i = 0; i < container.childNodes.length; i++){
         if (container.childNodes[i].nodeType === 1 && container.childNodes[i].nodeName === "QUICK-INNATE-POWER") {
-            container.childNodes[i].outerHTML = parseInnatePower(container.childNodes[i]);
+            container.childNodes[i].outerHTML = parseInnatePowerAspect(container.childNodes[i]);
         }
     }
 }
@@ -58,7 +60,7 @@ function parseComplexity(aspect){
   }
 }
 
-function parseInnatePower(innatePowerHTML){
+function parseInnatePowerAspect(innatePowerHTML){
     var debug = false;
     var currentPowerHTML = "<innate-power class='"+innatePowerHTML.getAttribute("speed")+"'>";
     
@@ -184,9 +186,9 @@ function parseInnatePower(innatePowerHTML){
     return currentPowerHTML;
 }
 
-function resizeInnatePowers(){
+function resizeInnatePowersAspect(){
 	// Innate Power Sizing
-	console.log("RESIZING: Innate Powers")
+	console.log("RESIZING: Innate Powers for Aspects")
 	// Innate Power Notes (scale font size)
 	noteBlocks = document.getElementsByTagName("note");
 	for(let i = 0; i < noteBlocks.length; i++){
@@ -226,9 +228,11 @@ function resizeInnatePowers(){
   var description = document.getElementsByClassName("description");
   for(i = 0; i < description.length; i++){
       // Scale the text width to the threshold size...
-  description[i].style.paddingLeft = outerThresholdWidth[i]+"px";
-  var textHeight = description[i].clientHeight;
-
+  /* description[i].style.paddingLeft = outerThresholdWidth[i]+"px"; */
+  var textHeight = description[i].offsetHeight;
+  console.log(description[i])
+  console.log('text height = ' +textHeight)
+  console.log('text width = ' +description[i].offsetWidth)
       if (textHeight < 40){
           description[i].id = "single-line";
     // Align-middle the text if its a single line
