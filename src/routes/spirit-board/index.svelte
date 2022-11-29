@@ -632,6 +632,7 @@
     setTimeout(() => {
         reloadPreview()
         closeExamplesModal(document.getElementById('modal-js-example'))
+        hideAll()
       }, 300);
   }
 

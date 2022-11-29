@@ -53,37 +53,19 @@
       <quick-innate-power
         name="Massive Flooding"
         speed="slow"
-        range="sacred-site,1"
+        range="sacred-site,0"
         target="ANY"
         target-title="TARGET LAND"
 		>
         <level threshold="1-sun,2-water">
-          Push 1 {explorer} / {town} / {dahan}.
+          In a land within {range-1}, Push 1 {explorer} / {town} / {dahan}.
         </level>
         <level threshold="2-sun,3-water">
-          Instead, 2 Damage. Push up to 3 {explorer} / {town} .
+          Instead, in a land within {range-water}. Push up to 3 {explorer} / {town} .
         </level>
         <level threshold="3-sun,4-water,1-earth,1-animal">
-          Instead, 2 Damage to each Invader. {dahan}.
+          Instead, in any land, 2 Damage to each Invader. 
         </level>
-      </quick-innate-power>
-	        <quick-innate-power
-        name="Massive Flooding"
-        speed="slow"
-        range="sacred-site,1"
-        target="ANY"
-        target-title="TARGET LAND"
-		>
-        <level threshold="1-sun,2-water">
-          Push 1 {explorer} / {town} / {dahan}.
-        </level>
-        <level threshold="2-sun,3-water">
-          Instead, 2 Damage. Push up to 3 {explorer} / {town} .
-        </level>
-        <level threshold="3-sun,2-moon,1-fire,1-air,4-water,1-earth,1-plant,1-animal">
-          Instead, 2 Damage to each Invader. {dahan}.
-        </level>
-      </quick-innate-power>
     </innate-powers>
   </right>
   </board>
