@@ -139,14 +139,12 @@
   }
 
   let frame;
-  let scaledFrameSrc = "/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
-  if (spiritBoard.demoBoardWasLoaded) {
-    scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html";
-  }
-
+  let scaledFrameSrc = "";
+  
   onMount(() => {
     frame.addEventListener("load", onLoad());
   });
+
 
   function onLoad() {
     var localFrame = frame;
@@ -154,16 +152,18 @@
     console.log(">>>>>>>>>>>>>>>onload happening!");
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
+        console.log("First tab load. Using default preview.");
+        scaledFrameSrc = "/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
         setTimeout(() => {
-          console.log("First tab load. Using default preview.");
           readHTML(localFrame.contentDocument);
           localObject.demoBoardWasLoaded = true;
         }, 200);
       } else {
+        console.log("Tab previously loaded. Reloaded from form.");
+        scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html"; 
         setTimeout(() => {
-          console.log("Tab previously loaded. Reloaded from form.");
           reloadPreview();
-        }, 600);
+        }, 200);
       }
     }
   }
@@ -362,7 +362,7 @@
   }
 
   function readHTML(htmlElement) {
-    console.log("Loading default spirit board into form (f=readHTML)");
+    console.log("Loading Spirit Board from HTML into form (f=readHTML)");
     console.log(htmlElement)
     //Reads the Template HTML file into the Form
     if (frame) {
@@ -511,6 +511,7 @@
     bodyClone = document.getElementById("mod-frame").contentWindow.document.body.cloneNode(true);
     document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
     let headClone = modFrame.head.cloneNode(true);
+    console.log("headClone: ", headClone);
     addJavaToHead(headClone);
     console.log("headClone: ", headClone);
     scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
@@ -639,7 +640,7 @@
 </script>
 
 <h5 class="title is-5">Spirit Board Play Side</h5>
-<h6
+<!-- <h6
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
   id="previewBoard">
@@ -651,9 +652,9 @@
       <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline" />
     {/if}
   </span>
-</h6>
+</h6> -->
 <div id="board-wrap">
-  <iframe src={scaledFrameSrc} height="600" width="100%" id="scaled-frame" title="yay" />
+  <iframe src={scaledFrameSrc} height="600" width="100%" id="scaled-frame" />
 </div>
 
 <div class="field has-addons mb-2">
