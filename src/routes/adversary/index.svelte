@@ -146,6 +146,7 @@
     if (!adversaryFrameLarge) {
       displayFrame.style.webkitTransform = "scale(1.55)";
       displayWrap.style.height = "845px";
+      window.scrollBy(0,295)
     } else {
       displayFrame.style.webkitTransform = "scale(1)";
       displayWrap.style.height = "550px";

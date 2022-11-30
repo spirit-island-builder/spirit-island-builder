@@ -545,6 +545,7 @@
     if (!frameLarge) {
       displayFrame.style.webkitTransform = "scale(0.745)";
       displayWrap.style.height = "915px";
+      window.scrollBy(0,245)
     } else {
       displayFrame.style.webkitTransform = "scale(0.55)";
       displayWrap.style.height = "670px";

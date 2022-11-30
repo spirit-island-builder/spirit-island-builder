@@ -12,6 +12,12 @@
   color: #fff;
 }
 
+.button.is-warning:focus,
+.button.is-warning.is-focused {
+  border-color: transparent;
+  color: #fff;
+}
+
 .button.is-danger {
   background-color: #d62026;
   border-color: transparent;
