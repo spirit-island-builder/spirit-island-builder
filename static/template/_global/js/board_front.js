@@ -33,7 +33,7 @@ function startMain(){
 }
 
 function dynamicSpecialRuleHeight(board){
-  var debug = true;
+  var debug = false;
   console.log('RESIZING: Special Rule')
     const specialRules = board.querySelectorAll('special-rules-container')[0]
     let height = specialRules.getAttribute('height')
@@ -183,15 +183,15 @@ function parseGrowthTags(){
         // Non-numerical cost (ie. forget a card)
         if (costSplit[1]){
           // Non-numerical cost with text
-          newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description>"+costSplit[1]+"</growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
+          newGrowthCellHTML += "<growth-cost class='custom nonscaling'><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description>"+costSplit[1]+"</growth-cost-custom-nonscaling-description></growth-cost>";
         }else{
           // non-numerical cost by itself
-          newGrowthCellHTML += "<growth-cost-custom-nonscaling><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling>";
+          newGrowthCellHTML += "<growth-cost class='custom nonscaling'><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling-description></growth-cost>";
         }
       } else if (costSplit[1]){
         // User wants to use a non-energy scaling cost
         if(debug){console.log("Cost with custom icon")};
-        newGrowthCellHTML += "<growth-cost-custom><icon class='"+costSplit[1]+"'><value>-" + costSplit[0] + "</value></icon></growth-cost-custom>";
+        newGrowthCellHTML += "<growth-cost class='custom'><icon class='"+costSplit[1]+"'><value>-" + costSplit[0] + "</value></icon></growth-cost>";
       }else{
         // Its just a number, so do energy cost
         newGrowthCellHTML += `<growth-cost>-${costSplit[0]}</growth-cost>`;
@@ -1814,7 +1814,7 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML){
 
 function dynamicCellWidth() {
 
-  var debug = true;
+  var debug = false;
 	const board = document.querySelectorAll('board')[0];
 
 
@@ -1881,7 +1881,7 @@ function dynamicCellWidth() {
     totalIconWidths+=cellRect.width
     cellWidthV2.push(cellRect.width)
   }
-  console.log('total icon width = '+totalIconWidths)
+  /* console.log('total icon width = '+totalIconWidths) */
   // console.log('old way = '+totalWidth)
   // console.log(cellWidthV2)
   
@@ -1898,27 +1898,35 @@ function dynamicCellWidth() {
       tightFlag = true;
       console.log('will tighten presence tracks')
     }
-    const growthCells = board.getElementsByTagName("growth-table")[i].getElementsByTagName("growth-cell");
+
+    const growthCells = growthTable.getElementsByTagName("growth-cell");
     const growthTableStyle = window.getComputedStyle(growthTable);
     const growthTableWidth = growthTableStyle.getPropertyValue('width');
     let widthArray = [];
+    
+    var growthCosts = growthTable.getElementsByTagName("growth-cost")
+    let growthCostsPixels = 0
+    for (j = 0; j < growthCosts.length; j++) {
+      growthCostsPixels += 10; //Currently, all costs are width 10 (including negative margins).
+    }
     
     var localBorders = growthTable.getElementsByTagName("growth-border")
     let localBorderPixels = 0;
     for (j = 0; j < localBorders.length; j++) {
       localBorderPixels += localBorders[j].offsetWidth;
     }
-    growthPanelWidth = 1090-10-localBorderPixels;
-    console.log('width for growth actions = '+growthPanelWidth)
-    totalWidth = 0;
+    
+    growthPanelWidth = 1090-10-localBorderPixels-growthCostsPixels;
+    if(debug){console.log('width for growth actions = '+growthPanelWidth)}
+    totalCellWidth = 0;
     for (j = 0; j < growthCells.length; j++){
-      totalWidth += growthCells[j].offsetWidth;
+      totalCellWidth += growthCells[j].offsetWidth;
       widthArray[j] = growthCells[j].offsetWidth;
     }
 
-    averageWidth = totalWidth/growthCells.length;
-    console.log('aveage width = '+averageWidth)
-    if (totalWidth > 1000 || i==0){
+    averageWidth = totalCellWidth/growthCells.length;
+    if(debug){console.log('aveage width = '+averageWidth)}
+    if (totalCellWidth > 1000 || i==0){
       let smallCellFinder = widthArray.map(x => x <= averageWidth*1.35)
       let largeCellFinder = widthArray.map(x => x > averageWidth*1.35)
       let extraLargeCellFinder = widthArray.map(x => x > averageWidth*2)
