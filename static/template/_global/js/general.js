@@ -42,7 +42,7 @@ function replaceIcon(html)
       HTMLClass = 'range';
       // iconName = 'range';
       range_num = iconName.substring(6);
-      console.log('is range and range is '+range_num)
+
       if(isNaN(range_num)){
         range_num = '<icon class="range-small-icon '+range_num+'"></icon>'
       }

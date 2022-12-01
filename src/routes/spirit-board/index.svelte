@@ -139,14 +139,12 @@
   }
 
   let frame;
-  let scaledFrameSrc = "/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
-  if (spiritBoard.demoBoardWasLoaded) {
-    scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html";
-  }
-
+  let scaledFrameSrc = "";
+  
   onMount(() => {
     frame.addEventListener("load", onLoad());
   });
+
 
   function onLoad() {
     var localFrame = frame;
@@ -154,16 +152,18 @@
     console.log(">>>>>>>>>>>>>>>onload happening!");
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
+        console.log("First tab load. Using default preview.");
+        scaledFrameSrc = "/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
         setTimeout(() => {
-          console.log("First tab load. Using default preview.");
           readHTML(localFrame.contentDocument);
           localObject.demoBoardWasLoaded = true;
         }, 200);
       } else {
+        console.log("Tab previously loaded. Reloaded from form.");
+        scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html"; 
         setTimeout(() => {
-          console.log("Tab previously loaded. Reloaded from form.");
           reloadPreview();
-        }, 600);
+        }, 200);
       }
     }
   }
@@ -362,7 +362,7 @@
   }
 
   function readHTML(htmlElement) {
-    console.log("Loading default spirit board into form (f=readHTML)");
+    console.log("Loading Spirit Board from HTML into form (f=readHTML)");
     console.log(htmlElement)
     //Reads the Template HTML file into the Form
     if (frame) {
@@ -511,6 +511,7 @@
     bodyClone = document.getElementById("mod-frame").contentWindow.document.body.cloneNode(true);
     document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
     let headClone = modFrame.head.cloneNode(true);
+    console.log("headClone: ", headClone);
     addJavaToHead(headClone);
     console.log("headClone: ", headClone);
     scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
@@ -544,6 +545,7 @@
     if (!frameLarge) {
       displayFrame.style.webkitTransform = "scale(0.745)";
       displayWrap.style.height = "915px";
+      window.scrollBy(0,245)
     } else {
       displayFrame.style.webkitTransform = "scale(0.55)";
       displayWrap.style.height = "670px";
@@ -632,13 +634,14 @@
     setTimeout(() => {
         reloadPreview()
         closeExamplesModal(document.getElementById('modal-js-example'))
+        hideAll()
       }, 300);
   }
 
 </script>
 
 <h5 class="title is-5">Spirit Board Play Side</h5>
-<h6
+<!-- <h6
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
   id="previewBoard">
@@ -650,9 +653,9 @@
       <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline" />
     {/if}
   </span>
-</h6>
+</h6> -->
 <div id="board-wrap">
-  <iframe src={scaledFrameSrc} height="600" width="100%" id="scaled-frame" title="yay" />
+  <iframe src={scaledFrameSrc} height="600" width="100%" id="scaled-frame" />
 </div>
 
 <div class="field has-addons mb-2">
@@ -719,21 +722,41 @@
   <div class="modal-background"></div>
   <div class="modal-content">
     <div class="box">
-      <p>Load Official Spirits (will delete existing content):</p>
+      <h1><b>Load Examples & Official Spirits</b></h1>
+      <p><em>warning: will replace existing content</em></p>
+      <p>Core and Branch & Claw Spirits:</p>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Ocean's Hungry Grasp.html" on:click={loadNewExample} >Ocean</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Serpent Slumbering Beneath the Island.html" on:click={loadNewExample} >Snek</button>
+      <p>Jagged Earth Spirits:</p>
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Downpour Drenches the World.html" on:click={loadNewExample} >Downpour</button>
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Finder of Paths Unseen.html" on:click={loadNewExample} >Finder</button>
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Fractured Days Split the Sky.html" on:click={loadNewExample} >Fractured Days</button>
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Grinning Trickster Stirs Up Trouble.html" on:click={loadNewExample} >Trickster</button>
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Lure of Deep Wilderness.html" on:click={loadNewExample} >Lure</button>
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Many Minds Move as One.html" on:click={loadNewExample} >Many Minds</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Ocean's Hungry Grasp.html" on:click={loadNewExample} >Ocean</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Serpent Slumbering Beneath the Island.html" on:click={loadNewExample} >Snek</button>
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Shifting Memory of Ages.html" on:click={loadNewExample} >Shifting Memory</button>   
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Shroud of Silent Mist.html" on:click={loadNewExample} >Shroud</button>
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Stone's Unyielding Defiance.html" on:click={loadNewExample} >Stone</button>   
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Vengeance as a Burning Plague.html" on:click={loadNewExample} >Vengeance</button>
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html" on:click={loadNewExample} >Volcano</button>    
       <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_APOCRYPHA_Spreading Rot Renews the Earth.html" on:click={loadNewExample} >Spreading Rot</button>  
+      <p>Nature Incarnate:</p>
+      <button class="button" id="/template/MyCustomContent/MySpirit/Ember-Eyed_Behemoth_spiritBoard.html" on:click={loadNewExample} >Ember-Eyed Behemoth</button>
+      <p>Examples:</p>
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_add_presence.html" on:click={loadNewExample} >Add Presence</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_add_presence_more.html" on:click={loadNewExample} >Add Presence (more)</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_custom_growth_presence_tracks.html" on:click={loadNewExample} >Custom Options</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_elements.html" on:click={loadNewExample} >Elements</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_energy.html" on:click={loadNewExample} >Energy</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_energy_more.html" on:click={loadNewExample} >Energy (more)</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_fear.html" on:click={loadNewExample} >Fear</button>   
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_gain_range.html" on:click={loadNewExample} >Gain Range</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_gather.html" on:click={loadNewExample} >Gather</button>   
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_middle_presence_tracks.html" on:click={loadNewExample} >Middle Presence Tracks</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_other.html" on:click={loadNewExample} >Other</button>   
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_push.html" on:click={loadNewExample} >Push</button>
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_reclaim.html" on:click={loadNewExample} >Reclaim</button>   
+      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_tokens.html" on:click={loadNewExample} >Tokens</button>
     </div>
   </div>
   <button class="modal-close is-large" aria-label="close" data-toggle="modal" data-target="modal-js-example" on:click={openExamplesModal}></button>

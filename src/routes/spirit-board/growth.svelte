@@ -32,6 +32,7 @@
     { label: "presence-node", value: "presence-node(" },
     { label: "push", value: "push(" },
     { label: "reclaim", value: "reclaim(" },
+    { label: "replace", value: "replace(" },
   ];
 
   function useGrowthSets() {
@@ -172,7 +173,7 @@
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
   id="growth">
   Growth
-  <span id="growth" on:click={showOrHideSection}>
+  <span on:click={showOrHideSection}>
     {#if spiritBoard.growth.isVisible}
       <ion-icon id="growth" on:click={showOrHideSection} name="chevron-down-outline" />
     {:else}

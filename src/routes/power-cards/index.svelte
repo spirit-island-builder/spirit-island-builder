@@ -240,6 +240,7 @@
       displayFrame.style.webkitTransform = "scale(1)";
       displayWrap.style.height = "700px";
       displayFrame.style.width = "100%";
+      window.scrollBy(0,240)
     } else {
       displayFrame.style.webkitTransform = "scale(0.67)";
       displayWrap.style.height = "460px";
