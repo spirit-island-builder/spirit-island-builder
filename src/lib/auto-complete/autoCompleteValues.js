@@ -1,12 +1,4 @@
-<script>
-  import * as Lib from "../lib";
-  import AutoComplete from "$lib/auto-complete/index.svelte";
-  import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
-
-  export let spiritBoard;
-  export let showOrHideSection;
-
-  const validAutoCompleteValues = [
+const iconValues = [
     { label: "air", value: "air" },
     { label: "animal", value: "animal" },
     { label: "any", value: "any" },
@@ -83,72 +75,45 @@
     { label: "wetland", value: "wetland" },
     { label: "wetland-presence", value: "wetland-presence" },
     { label: "wilds", value: "wilds" },
-  ];
+];
 
-  function addSpecialRule() {
-    spiritBoard = Lib.addSpecialRule(spiritBoard);
-  }
+export const iconValuesSorted = iconValues.sort((a, b) => {
+    return a.label.localeCompare(b.label);
+});
 
-  function removeSpecialRule(index) {
-    spiritBoard = Lib.removeSpecialRule(spiritBoard, index);
-  }
-</script>
+const growthValues = [
+    { label: "add-presence", value: "add-presence(" },
+    { label: "add-token", value: "add-token(" },
+    { label: "custom", value: "custom(" },
+    { label: "damage", value: "damage(" },
+    { label: "damage-1", value: "damage-1" },
+    { label: "damage-2", value: "damage-2" },
+    { label: "destroy-presence", value: "destroy-presence(" },
+    { label: "discard", value: "discard(" },
+    { label: "discard-card", value: "discard-card" },
+    { label: "discard-cards", value: "discard-cards" },
+    { label: "element-marker", value: "element-marker(" },
+    { label: "energy-per-play", value: "energy-per-play" },
+    { label: "fear", value: "fear(" },
+    { label: "forget-power-card", value: "forget-power-card" },
+    { label: "gain-card-play", value: "gain-card-play(" },
+    { label: "gain-element", value: "gain-element(" },
+    { label: "gain-energy", value: "gain-energy(" },
+    { label: "gain-power-card", value: "gain-power-card" },
+    { label: "gain-range", value: "gain-range(" },
+    { label: "gather", value: "gather(" },
+    { label: "ignore-range", value: "ignore-range" },
+    { label: "incarna", value: "incarna(" },
+    { label: "isolate", value: "isolate(" },
+    { label: "make-fast", value: "make-fast(" },
+    { label: "move-presence", value: "move-presence(" },
+    { label: "or", value: "or(" },
+    { label: "presence-node", value: "presence-node(" },
+    { label: "push", value: "push(" },
+    { label: "reclaim", value: "reclaim(" },
+    { label: "replace", value: "replace(" },
+];
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="specialRules">
-  Special Rules
-  <span on:click={showOrHideSection}>
-    {#if spiritBoard.specialRules.isVisible}
-      <ion-icon id="specialRules" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="specialRules" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if spiritBoard.specialRules.isVisible}
-  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#special-rules"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
-  {#each spiritBoard.specialRules.rules as rule, i (rule.id)}
-    <div class="field">
-      <label class="label is-flex is-justify-content-space-between" for={`ruleNameInput${i}`}
-        >Special Rule {i + 1}
-      </label>
-      <div class="growth-action-container">
-        <div class="control" style="width:100%">
-          <input
-            id={`ruleNameInput${i}`}
-            class="input"
-            type="text"
-            placeholder="Name"
-            tabindex="1"
-            bind:value={spiritBoard.specialRules.rules[i].name} />
-        </div>
-        <button class="button is-warning is-light" on:click={removeSpecialRule(i)}>Remove</button>
-      </div>
-      <AutoComplete
-        id={`ruleEffectInput${i}`}
-        elementType="textarea"
-        placeholder="Effect"
-        validAutoCompleteValues ={iconValuesSorted}
-        bind:value={rule.effect} />
-    </div>
-    {#if i === spiritBoard.specialRules.rules.length - 1}
-      <div class="field">
-        <div class="control">
-          <button class="button is-primary is-light" tabindex="1" on:click={addSpecialRule}
-            >Add Another Rule</button>
-        </div>
-      </div>
-    {/if}
-  {/each}
-{/if}
+export const growthValuesSorted = growthValues.sort((a, b) => {
+    return a.label.localeCompare(b.label);
+});

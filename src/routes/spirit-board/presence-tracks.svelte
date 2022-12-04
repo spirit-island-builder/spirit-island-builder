@@ -3,7 +3,8 @@
   export let showOrHideSection;
   import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
-
+  import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  
   function addEnergyTrackNode() {
     spiritBoard = Lib.addEnergyTrackNode(spiritBoard);
   }
@@ -181,7 +182,7 @@
         elementType="input"
         placeholder="Presence Track Note (optional, like Finder)"
         classNames="is-small"
-        {validAutoCompleteValues}
+        validAutoCompleteValues = {iconValuesSorted}
         bind:value={spiritBoard.presenceTrack.note} />
     </div>
   </div>
