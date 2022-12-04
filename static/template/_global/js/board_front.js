@@ -7,22 +7,22 @@ window.onload = (event) =>{
 
 function startMain(){
     
-	console.log('CREATING SPIRIT BOARD')
-  	parseGrowthTags();
+  console.log('CREATING SPIRIT BOARD')
+  parseGrowthTags();
     
-	if(document.getElementById("presence-table")) {
-        enhancePresenceTracksTable();
-    } else {        
-        setNewEnergyCardPlayTracks(parseEnergyTrackTags(), parseCardPlayTrackTags());
-    }
+  if(document.getElementById("presence-table")) {
+    enhancePresenceTracksTable();
+  } else {        
+    setNewEnergyCardPlayTracks(parseEnergyTrackTags(), parseCardPlayTrackTags());
+  }
 
-    parseInnatePowers();
-	
-	parseSpecialRules();
+  parseInnatePowers();
 
-    const board = document.querySelectorAll('board')[0];
-    var html = board.innerHTML;
-    board.innerHTML = replaceIcon(html);
+  parseSpecialRules();
+
+  const board = document.querySelectorAll('board')[0];
+  var html = board.innerHTML;
+  board.innerHTML = replaceIcon(html);
 	
 	setTimeout(function() { 
     dynamicCellWidth()
@@ -97,8 +97,8 @@ function addImages(board) {
 function parseGrowthTags(){
     console.log("BUILDING GROWTH PANEL")
     var debug = false;
-	var fullHTML = "";
-	const board = document.querySelectorAll('board')[0];
+    var fullHTML = "";
+    const board = document.querySelectorAll('board')[0];
     var growthHTML = board.getElementsByTagName("growth");
     
     var growthTitle = "<section-title>"+growthHTML[0].title+"</section-title>";
@@ -183,10 +183,10 @@ function parseGrowthTags(){
         // Non-numerical cost (ie. forget a card)
         if (costSplit[1]){
           // Non-numerical cost with text
-          newGrowthCellHTML += "<growth-cost class='custom nonscaling'><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description>"+costSplit[1]+"</growth-cost-custom-nonscaling-description></growth-cost>";
+          newGrowthCellHTML += "<growth-cost class='custom nonscaling'>{"+costSplit[0]+"}<growth-cost-custom-nonscaling-description>"+costSplit[1]+"</growth-cost-custom-nonscaling-description></growth-cost>";
         }else{
           // non-numerical cost by itself
-          newGrowthCellHTML += "<growth-cost class='custom nonscaling'><icon class='"+costSplit[0]+"'></icon><growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling-description></growth-cost>";
+          newGrowthCellHTML += "<growth-cost class='custom nonscaling'>{"+costSplit[0]+"}<growth-cost-custom-nonscaling-description></growth-cost-custom-nonscaling-description></growth-cost>";
         }
       } else if (costSplit[1]){
         // User wants to use a non-energy scaling cost
@@ -415,7 +415,7 @@ function parseGrowthTags(){
             scaling_value=scaling_entity;
             scaling_entity = undefined;
           }
-          var customScalingIcon = (scaling_entity !== undefined) ? ("<icon class='" + scaling_entity + "'></icon>") : "<div class='custom-scaling'>!!!</div>"
+          var customScalingIcon = (scaling_entity !== undefined) ? ("{"+scaling_entity+"}") : "<div class='custom-scaling'>!!!</div>"
           
           // Flat Energy
           if(x_is_flat){
@@ -481,7 +481,7 @@ function parseGrowthTags(){
               if(presenceOptions[3]){
                 presenceIcon += "<display-custom>"
                 for(i = 3; i < presenceOptions.length; i++){
-                  presenceIcon += "<icon class='"+presenceOptions[i]+"'></icon>"
+                  presenceIcon += "{"+presenceOptions[i]+"}"
                 }
                 presenceIcon += "</display-custom>"
               }else{
@@ -664,7 +664,7 @@ function parseGrowthTags(){
                 case 'sacred-site':
                   if(isNaN(moveNum)){moveText += " of"};
                   moveText += " your Sacred Sites"
-                  moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'><icon class='" + moveTarget + "'></icon><icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
+                  moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'>{" + moveTarget + "}<icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
                   break;
                 case 'wetland':
                 case 'sand':
@@ -696,15 +696,15 @@ function parseGrowthTags(){
                 default:
                   if(moveNum==1){moveText += " 1"}
                   moveText += " of your Lands with " + Capitalise(moveCondition)
-                  moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'><icon class='" + moveTarget + "'></icon><icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
+              moveIcons += "<push-gather><icon class='" + growthItem + "-" + preposition + "'>{" + moveTarget + "}<icon class='" + preposition + " " + moveCondition + "'></icon></icon></push-gather>"
               }
             }else{
             // Gather/Push at range
-              moveIcons += "<push-gather-range-req><icon class='" + growthItem + "'><icon class='" + moveTarget + "'></icon></icon>"+"<range-growth>" + moveRange + "</range-growth></push-gather-range-req>"
+              moveIcons += "<push-gather-range-req><icon class='" + growthItem + "'>{" + moveTarget + "}</icon>"+"<range-growth>" + moveRange + "</range-growth></push-gather-range-req>"
               moveText += Capitalise(growthItem)+" up to 1 " + Capitalise(moveTarget)+" " + preposition + " a Land"
             }
           }else{
-            moveIcons += "<push-gather><icon class='" + growthItem + "'><icon class='" + moveTarget + "'></icon></icon></push-gather>"
+          moveIcons += "<push-gather><icon class='" + growthItem + "'>{" + moveTarget + "}</icon></push-gather>"
             moveText += Capitalise(growthItem)+" 1 " + Capitalise(moveTarget)+" " + preposition + ` 1 of your Lands`;
           }
           growthIcons = moveIcons
@@ -877,7 +877,7 @@ function parseGrowthTags(){
             scaling_value=scaling_entity;
             scaling_entity = undefined;
           }
-          var customScalingIcon = (scaling_entity !== undefined) ? ("<icon class='" + scaling_entity + "'></icon>") : "<div class='custom-scaling'>!!!</div>"
+          var customScalingIcon = (scaling_entity !== undefined) ? ("{"+scaling_entity+"}") : "<div class='custom-scaling'>!!!</div>"
           
           // Flat Fear
           if(x_is_flat){
@@ -1461,7 +1461,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
         case 'move-presence':
           var matches = regExp.exec(splitOptions[0]);
           var moveRange = matches[1];
-          inner = "<icon class='move-presence-"+moveRange+"'></icon>";
+          inner = "{move-presence-"+moveRange+"}";
           subText = "Move a Presence "+moveRange;
           addIconShadow = true;
           if(addEnergyRing){addIconShadow = false};
@@ -1482,7 +1482,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
             subText = elementText + " (choose each turn)";
           }else{
             var iconText = matches[1];
-            inner = "<icon class='"+iconText+"'></icon>";
+            inner = "{"+iconText+"}";
             subText = IconName(iconText);
           }
           break;
@@ -1490,7 +1490,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
           var matches = regExp.exec(splitOptions[0]);
           var gainRange = matches[1];
           var custom_node = matches[1].split(";");
-          inner = "<icon class='gain-range-"+custom_node[0]+"'></icon>";
+          inner = "{gain-range-"+custom_node[0]+"}";
           subText = IconName(splitOptions[0]);
           addEnergyRing = false;
           addIconShadow = true;
@@ -1508,7 +1508,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
           break;
         default:
           var iconText = splitOptions[0];
-          inner = "<icon class='"+iconText+"'></icon>";
+          inner = "{"+iconText+"}";
           subText = IconName(iconText);
           break;                
       }            
@@ -1542,39 +1542,39 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
             if(nodeClass == 'energy') { 
                 addEnergyRing = false;
             }
-        } else if(splitOptions[i].startsWith("reclaim")){
+        }else if(splitOptions[i].startsWith("reclaim")){
           trackIcons += "<icon-multi-element><icon class='"+splitOptions[i]+" small-reclaim'"+track_icon_loc+"></icon></icon-multi-element>"
-        } else if(splitOptions[i].startsWith("energy")){
+        }else if(splitOptions[i].startsWith("energy")){
           var matches = regExp.exec(splitOptions[i]);
           var num = matches[1];
           trackIcons += "<icon-multi-element><energy-icon class='small'"+track_icon_loc+"><value>" + num + "</value></energy-icon></icon-multi-element>"
           addEnergyRing = false;
-        } else if(splitOptions[i].startsWith("plays")){
+        }else if(splitOptions[i].startsWith("plays")){
           var matches = regExp.exec(splitOptions[i]);
           var num = matches[1];
           addEnergyRing = false;
           trackIcons += "<icon-multi-element><card-icon class='small'"+track_icon_loc+"><value>" + num + "</value></card-icon></icon-multi-element>"
-        } else if(splitOptions[i].startsWith("gain-card-play")){
+        }else if(splitOptions[i].startsWith("gain-card-play")){
           trackIcons += "<icon-multi-element><icon class='"+splitOptions[i]+" small'"+track_icon_loc+"></icon></icon-multi-element>"
-        } else if(splitOptions[i].startsWith("move-presence")){
+        }else if(splitOptions[i].startsWith("move-presence")){
           var matches = regExp.exec(splitOptions[i]);
           var moveRange = matches[1];
           trackIcons += "<icon-multi-element><icon-shadow class = 'small'"+track_icon_loc+"><icon class='move-presence-"+moveRange+" small'></icon></icon-shadow></icon-multi-element>"
           addEnergyRing = false;
           addIconShadow = false;
-        } else if(splitOptions[i].startsWith("gain-range")){
+        }else if(splitOptions[i].startsWith("gain-range")){
           var matches = regExp.exec(splitOptions[i]);
           var gainRange = matches[1];
           gainRange = gainRange.split(";")[0];
           trackIcons += "<icon-multi-element><icon-shadow class = 'small'"+track_icon_loc+"><icon class='gain-range-"+gainRange+" small'></icon></icon-shadow></icon-multi-element>"
           addEnergyRing = false;
           addIconShadow = false;
-        } else if(splitOptions[i].startsWith("custom")){
+        }else if(splitOptions[i].startsWith("custom")){
           var matches = regExp.exec(splitOptions[i]);
           var custom = matches[1].split(";")[1];
           if(pnDebug){console.log('Multinode custom: '+custom)}
           trackIcons += "<icon-multi-element><icon class='"+custom+" small'"+track_icon_loc+"></icon></icon-multi-element>"
-         } else if(splitOptions[i].startsWith("elements")){
+        }else if(splitOptions[i].startsWith("elements")){
           var matches = regExp.exec(splitOptions[i]);
           var elementList = matches[1].split(";");
           let elementIcons = "";
@@ -1588,7 +1588,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
             elementText += Capitalise(elementList[1]);
           }
           trackIcons += elementIcons
-        } else {
+        }else {
           trackIcons += "<icon-multi-element><icon class='"+splitOptions[i]+"'"+track_icon_loc+"></icon></icon-multi-element>"
         }
       }
@@ -2445,7 +2445,7 @@ function parseInnatePower(innatePowerHTML){
 
     function getRangeModel(rangeString)
     {
-      if(rangeString === "none"){
+      if(rangeString === "none" || rangeString === ""){
         return "<no-range></no-range>";
       }else {
         var result = '';

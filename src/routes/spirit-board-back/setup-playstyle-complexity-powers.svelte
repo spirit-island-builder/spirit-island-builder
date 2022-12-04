@@ -4,6 +4,7 @@
 
   export let spiritBoardBack;
   import AutoComplete from "$lib/auto-complete/index.svelte";
+  import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   export let showOrHideSection;
 
   const validAutoCompleteValues = [
@@ -128,7 +129,7 @@
         classNames="is-small"
         placeholder="Effect"
         tabindex="1"
-        {validAutoCompleteValues}
+        validAutoCompleteValues = {iconValuesSorted}
         bind:value={spiritBoardBack.setup.setupText} />
     </div>
   </div>
@@ -144,7 +145,7 @@
         classNames="is-small"
         placeholder="Effect"
         tabindex="1"
-        {validAutoCompleteValues}
+        validAutoCompleteValues = {iconValuesSorted}
         bind:value={spiritBoardBack.playStyle.playStyleText} />
     </div>
   </div>
