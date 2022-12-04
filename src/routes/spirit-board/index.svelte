@@ -351,6 +351,7 @@
     spiritBoard.presenceTrack.energyNodes.forEach((energyNode) => {
       energyNode.effect = energyNode.effect.replace(",", ";");
     });
+    spiritBoard=spiritBoard
   }
 
   function showOrHideBoard() {
@@ -640,7 +641,7 @@
 
 </script>
 
-<h5 class="title is-5">Spirit Board Play Side</h5>
+<h5 class="title is-5 mb-0">Spirit Board Play Side</h5>
 <!-- <h6
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"

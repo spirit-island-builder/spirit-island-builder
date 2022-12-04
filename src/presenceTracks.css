@@ -19,3 +19,28 @@
   border-radius: 1rem;
   height: 1.5rem;
 }
+
+button.button.presence-track-add-node{
+  width: 0px;
+  height: 0px;
+  border-width: 12px;
+  border-style: solid;
+  border-color: transparent transparent rgb(235, 255, 252);
+  border-image: initial;
+  margin-top: -13px;
+  border-radius: 0rem;
+  margin-right: -12px;
+  z-index: 1;
+  padding: 0px;
+  background-color: white !important;
+}
+
+button.button.presence-track-remove-node{
+  border-radius: 0rem;
+  top: -30px;
+  right: -11px;
+  z-index: 3;
+  position: relative;
+  width: 9px;
+  height: 9px;
+}

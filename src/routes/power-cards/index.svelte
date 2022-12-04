@@ -348,8 +348,8 @@
   }
 </script>
 
-<h5 class="title is-5">Power Cards</h5>
-<h6
+<h5 class="title is-5 mb-0">Power Cards</h5>
+<!-- <h6
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
   id="previewBoard">
@@ -361,7 +361,7 @@
       <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline" />
     {/if}
   </span>
-</h6>
+</h6> -->
 <div id="cards-board-wrap">
   <iframe src={scaledFrameSrc} height="700" width="125%" id="cards-scaled-frame" title="yay" />
 </div>
