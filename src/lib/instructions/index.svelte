@@ -53,16 +53,6 @@
       document.onmouseup = null;
       document.onmousemove = null;
     }
-
-    // function getHeader(element) {
-    //   var headerItems = element.getElementsByClassName("movableDialog-header");
-
-    //   if (headerItems.length === 1) {
-    //     return headerItems[0];
-    //   }
-
-    //   return null;
-    // }
   }
 
   function minimizeWindow() {
@@ -109,18 +99,17 @@
           on:click={minimizeWindow}
           name="chevron-up-outline" />
       {/if}
-      <!-- <span id="windowtoggle" class="headerButtons" on:click={minimizeWindow}>b</span> -->
       <span id="window-close" class="headerButtons" on:click={closeWindow}>X</span>
     </div>
   </div>
-  {#if isMinimized === false}
+  <div class={`${isMinimized ? "iframeClosed" : "iframeOpen"}`}>
     <iframe
       src={instructionsSource}
       width="100%"
       height={iframeHeight}
       title="instructions"
       id="instructionsFrame" />
-  {/if}
+  </div>
 </div>
 
 <style>
@@ -149,6 +138,14 @@
     width: var(--windowWidth);
     height: 45px;
     border: none;
+  }
+
+  .iframeOpen {
+    display: inherit;
+  }
+
+  .iframeClosed {
+    display: none;
   }
 
   .movableDialog-header {

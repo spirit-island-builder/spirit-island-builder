@@ -394,8 +394,8 @@
   }
 </script>
 
-<h5 class="title is-5">Aspect</h5>
-<h6
+<h5 class="title is-5 mb-0">Aspect</h5>
+<!-- <h6
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
   id="previewBoard">
@@ -407,7 +407,7 @@
       <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline" />
     {/if}
   </span>
-</h6>
+</h6> -->
 <div id="aspect-board-wrap">
   <iframe src={scaledFrameSrc} height="600" width="100%" id="aspect-scaled-frame" title="yay" />
 </div>
