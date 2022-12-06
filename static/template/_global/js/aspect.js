@@ -15,6 +15,7 @@ function startMain(){
       }
       parseSubNodes(aspects[i]);
       parseComplexity(aspects[i]);
+      parseSpecialRules()
       aspects[i].innerHTML = replaceIcon(aspects[i].innerHTML);
     }
     var backs = document.querySelectorAll('aspect-back');
@@ -187,6 +188,7 @@ function parseInnatePowerAspect(innatePowerHTML){
 }
 
 function resizeInnatePowersAspect(){
+  // copied 12/6/22
 	// Innate Power Sizing
 	console.log("RESIZING: Innate Powers for Aspects")
 	// Innate Power Notes (scale font size)
@@ -241,4 +243,47 @@ function resizeInnatePowersAspect(){
     // Spill over below the threshold if its greater than three lines
       }
   }
+}
+
+function parseSpecialRules(){
+  // copied 12/6/22
+  console.log('BUILDING SPECIAL RULES')
+  const aspectContainer = document.querySelectorAll('aspect-container')[0];
+
+  // Enable snake-like presence track in special rules
+  var specialTrack = aspectContainer.getElementsByTagName("special-rules-track")[0];
+  if(specialTrack){
+    var specialValues = specialTrack.getAttribute("values");
+    var specialOptions = specialValues.split(",");
+    var specialHTML = "";
+    
+    for(i = 0; i < specialOptions.length; i++){
+      let nodeText = specialOptions[i];
+      specialHTML += "<td>"+getPresenceNodeHtml(nodeText, i == 0, "special", true)+"</td>";
+    }
+    specialHTML += "</tr>"
+    aspectContainer.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
+    specialTrack.innerHTML = specialHTML;
+    var subtextList = specialTrack.getElementsByTagName("subtext");
+    for (var i = subtextList.length - 1; i >= 0; --i) {
+      subtextList[i].remove();
+    }
+  }
+
+  // Enable user's own line breaks to show up in code
+    var specialRuleList = aspectContainer.getElementsByTagName('special-rule')
+    for (let j = 0; j < specialRuleList.length; j++) {
+      ruleLines = specialRuleList[j].innerHTML.split("\n")
+      rulesHTML = "";
+      for (let i = 0; i < ruleLines.length; i++) {
+        if(ruleLines[i] && ruleLines[i].trim().length){
+        rulesHTML += "<div>"+ruleLines[i]+"</div>"
+        }else if(i>0 && i<ruleLines.length-1){
+          rulesHTML += "<br>"
+          // allows user's line breaks to show up on the card
+        }
+      }
+      specialRuleList[j].innerHTML = rulesHTML
+    }
+  // <special-rules-track values="2,3,4"></special-rules-track>
 }

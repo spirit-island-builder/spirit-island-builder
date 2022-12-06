@@ -1,7 +1,8 @@
+@import 'board_front/global.css';
 @import 'board_front/special-rules.css';
 @import 'board_front/innate-power.css';
 @import 'board_front/icon.css';
-@import 'board_front/exception.css';
+
 
 @font-face{
   font-family: JosefinSans-Regular;
@@ -59,7 +60,7 @@ aspect.round-border{
 
 aspect aspect-name{
   font-size:30px;
-  font-family:'DK Snemand';
+  font-family:'Name Headings';
   text-transform: uppercase;
   color:white;
   padding-bottom: 8px;
@@ -197,7 +198,7 @@ aspect-back img {
   top: 28px;
   width: 280px;
   font-size:30px;
-  font-family:'DK Snemand';
+  font-family:'Name Headings';
   color:white;
   text-align:center;
 }
@@ -208,7 +209,7 @@ position: absolute;
     top: 70px;
     width: 290px;
     font-size: 20px;
-    font-family: 'DK Snemand';
+    font-family: 'Name Headings';
     text-transform: uppercase;
     color: black;
     text-align: center;
