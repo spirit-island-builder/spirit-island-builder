@@ -126,8 +126,7 @@ innate-info-range, innate-info-target {
   height: 46px; 
 }
 
-range {
-  background-image: url('../../images/50px-Rangeicon.png');
+innate-power range {
   width: 70px;
   height: 40px;
   margin-top: 5px;
@@ -135,6 +134,10 @@ range {
   background-repeat: no-repeat;
   background-size: contain;
   background-position-y: 27px;
+}
+
+innate-power range.gain-range {
+  padding-right:5px;
 }
 
 no-range {

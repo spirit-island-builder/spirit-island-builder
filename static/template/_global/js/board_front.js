@@ -46,7 +46,7 @@ function dynamicSpecialRuleHeight(board){
 
     const spiritName = board.querySelectorAll('spirit-name')[0]
     if(specialRules){
-      if(debug) console.log(`calc(100% - ${height})`)
+      if(debug) {console.log(`calc(100% - ${height})`)}
         specialRules.style.top = `calc(100% - ${height})`
         specialRules.style.height = height
     }
@@ -445,7 +445,7 @@ function parseGrowthTags(){
         }
         case 'add-presence': {
           const matches = regExpOuterParentheses.exec(classPieces[j]);
-
+          if(!matches){console.log('ERROR in GROWTH: add-presence() cannot be empty')}
           let presenceOptions = matches[1].split(",");
           let presenceRange = presenceOptions[0];
           let presenceReqOpen = "<custom-presence>";
@@ -591,7 +591,8 @@ function parseGrowthTags(){
                     presenceText += "Blight";
                     break;
                   case 'beast':
-                      presenceTextEnd = "s"
+                    presenceTextEnd = "s"
+                    break;
                   case 'no-own-presence':
                     if(i == 1){
                       presenceText += " Land without "
