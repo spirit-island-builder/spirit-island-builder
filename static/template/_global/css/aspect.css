@@ -230,10 +230,20 @@ position: absolute;
     margin-bottom: 10px;
 }
 
+
 aspect innate-power {
   scale: 0.9;
   transform-origin: left top;
 }
+
+aspect innate-power-title {
+  font-size: 15pt;
+}
+
+/* aspect innate-power info-container, aspect innate-power description-container{
+  scale: 0.9;
+  transform-origin: left top;
+} */
 
 aspect special-rule{
   font-size: 15.5pt;

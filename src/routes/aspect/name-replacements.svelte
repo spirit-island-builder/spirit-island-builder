@@ -134,6 +134,9 @@
       </div>
     </div>
     {#if aspect.nameReplacements.hasBack}
+    <button
+    class="button is-warning is-light is-small row-button"
+    on:click={setBack}>Remove Card Back</button>
     <label class="label is-flex is-justify-content-space-between" for="rulesReplacedInput"
       >Spirit Name
     </label>
@@ -148,9 +151,6 @@
           bind:value={aspect.nameReplacements.spiritName} />
       </div>
     </div>
-    <button
-      class="button is-warning is-light is-small row-button"
-      on:click={setBack}>Remove Card Back</button>
     <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-0">
       <div class="field has-addons mr-2 ml-1">
         <label class="label is-unselectable mr-1" for="">Art: </label>
@@ -189,7 +189,7 @@
         <button
           class="button is-success is-light is-small button-hold mb-0"
           id="fast-button"
-          on:click={toggleProfile}>Profile</button>
+          on:click={toggleProfile}>Portrait</button>
         <button
           class="button is-success is-small button-hold mb-0"
           id="slow-button"

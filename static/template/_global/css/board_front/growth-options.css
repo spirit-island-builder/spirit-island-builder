@@ -126,9 +126,7 @@ growth-border {
 }
 
 growth-border[double] {
-  background-repeat: repeat-x;
-  background-position: left;
-  min-width: 10px;
+  background-image: url('../../images/board/Growthborder_double.png');
 }
 
 growth-cell {
