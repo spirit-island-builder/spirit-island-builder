@@ -395,14 +395,44 @@
 {/if}
 <div class="container">
   {#if currentPage === "spiritBoardFront"}
-    <SpiritBoard bind:spiritBoard bind:isShowingInstructions bind:instructionsSource bind:customIcons />
+    <SpiritBoard
+      bind:spiritBoard
+      bind:isShowingInstructions
+      bind:instructionsSource
+      bind:customIcons />
   {:else if currentPage === "spiritBoardBack"}
-    <SpiritBoardBack bind:spiritBoardBack bind:isShowingInstructions bind:instructionsSource bind:customIcons />
+    <SpiritBoardBack
+      bind:spiritBoardBack
+      bind:isShowingInstructions
+      bind:instructionsSource
+      bind:customIcons />
   {:else if currentPage === "powerCards"}
-    <PowerCards bind:powerCards bind:isShowingInstructions bind:instructionsSource bind:customIcons />
+    <PowerCards
+      bind:powerCards
+      bind:isShowingInstructions
+      bind:instructionsSource
+      bind:customIcons />
   {:else if currentPage === "aspect"}
     <Aspect bind:aspect bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "adversary"}
     <Adversary bind:adversary bind:isShowingInstructions bind:instructionsSource />
   {/if}
 </div>
+<article class="message is-small mb-1">
+  <div class="message-body p-1">
+    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
+      >Instructions</a>
+    for details on how to use the form. For custom art,
+    <a href="https://www.wombo.art/" target="_blank">Wombo</a>
+    (unaffiliated) is a popular art generator.
+    <span class="is-pulled-right"
+      >Code for this project is hosted <a
+        href="https://github.com/neubee/spirit-island-builder"
+        target="_blank">here</a
+      >.</span>
+    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island
+    Builder is adapted from
+    <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
+    developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
+  </div>
+</article>
