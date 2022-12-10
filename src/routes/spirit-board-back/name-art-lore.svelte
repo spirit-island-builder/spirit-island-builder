@@ -1,7 +1,4 @@
 <script>
-  // import * as Lib from "./lib";
-  // Do we need to define Lib for each, or should we move it around?
-
   export let spiritBoardBack;
   export let showOrHideSection;
 

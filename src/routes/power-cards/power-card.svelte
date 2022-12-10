@@ -1,12 +1,7 @@
 <script>
-  // import * as Lib from "./lib";
-  // Do we need to define Lib for each, or should we move it around?
-
   export let powerCards;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
-  export let showOrHideSection;
-
 
   function handleImageFileInput(event, card) {
     const file = event.target.files.item(0);
@@ -98,15 +93,6 @@
   }
 </script>
 
-<article class="message is-small mb-1">
-  <div class="message-body p-1">
-    <span
-      ><a
-        href="https://github.com/neubee/spirit-island-builder/blob/main/docs/instructions.md#power-cards"
-        target="_blank">Instructions</a
-      ></span>
-  </div>
-</article>
 <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap mb-0">
   <div class="field has-addons mr-3 ml-1">
     <label class="label is-unselectable mr-1" for="">Spirit or Card Set Name: </label>
@@ -271,7 +257,7 @@
               id={`powerTarget${i}`}
               elementType="input"
               placeholder="Target"
-              validAutoCompleteValues = {iconValuesSorted}
+              validAutoCompleteValues={iconValuesSorted}
               bind:value={card.target} />
           </div>
         </div>
@@ -310,7 +296,7 @@
         id={`cardRules${i}`}
         elementType="textarea"
         placeholder="Rules"
-        validAutoCompleteValues = {iconValuesSorted}
+        validAutoCompleteValues={iconValuesSorted}
         bind:value={card.rules} />
     </div>
     <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-2">
@@ -339,7 +325,7 @@
           id={`cardRules${i}`}
           elementType="textarea"
           placeholder="Threshold Effect"
-          validAutoCompleteValues = {iconValuesSorted}
+          validAutoCompleteValues={iconValuesSorted}
           bind:value={card.threshold} />
         <button class="button is-warning is-light mb-0" on:click={clearThreshold(card)}
           >Clear Power Threshold</button>
