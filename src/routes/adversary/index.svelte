@@ -41,14 +41,6 @@
     adversary[event.target.id].isVisible = !adversary[event.target.id].isVisible;
   }
 
-  function showOrHideBoard() {
-    if (document.getElementById("adversaryBoardWrap").style.display == "none") {
-      document.getElementById("adversaryBoardWrap").style.display = "block";
-    } else {
-      document.getElementById("adversaryBoardWrap").style.display = "none";
-    }
-  }
-
   function reloadPreview() {
     console.log("Updating Preview Adversary (f=setBoardValues)");
     setBoardValues(adversary);
@@ -146,7 +138,7 @@
     if (!adversaryFrameLarge) {
       displayFrame.style.webkitTransform = "scale(1.55)";
       displayWrap.style.height = "845px";
-      window.scrollBy(0,295)
+      window.scrollBy(0, 295);
     } else {
       displayFrame.style.webkitTransform = "scale(1)";
       displayWrap.style.height = "550px";
@@ -155,7 +147,7 @@
   }
 
   function exportAdversary() {
-    setBoardValues(adversary)
+    setBoardValues(adversary);
     var element = document.createElement("a");
     element.setAttribute(
       "href",
@@ -193,7 +185,9 @@
         dummyEl.head = dummyEl.getElementsByTagName("head")[0];
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         readHTML(dummyEl);
-        setTimeout(() => {reloadPreview();}, 100);
+        setTimeout(() => {
+          reloadPreview();
+        }, 100);
       };
 
       // This reads the file and then triggers the onload function above once it finishes
@@ -202,8 +196,7 @@
   }
 
   function clearAllFields() {
-
-    if(window.confirm('Are you sure? This permanently clears all fields in Adversary.')){
+    if (window.confirm("Are you sure? This permanently clears all fields in Adversary.")) {
       adversary = {
         prop: "value",
         demoBoardWasLoaded: true,
@@ -329,19 +322,7 @@
     <AdversaryLevels bind:adversary {showOrHideSection} />
   </div>
 </div>
-<article class="message is-small mb-1">
-  <div class="message-body p-1">
-    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
-      >Instructions</a>
-    for details on how to use the form. For custom art,
-    <a href="https://www.wombo.art/" target="_blank">Wombo</a>
-    (unaffiliated) is a popular art generator.
-    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island
-    Builder is adapted from
-    <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
-    developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
-  </div>
-</article>
+
 <div id="adversary-holder">
   <iframe
     bind:this={adversaryFrame}

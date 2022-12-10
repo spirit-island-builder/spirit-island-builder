@@ -1,12 +1,9 @@
 <script>
-  // import * as Lib from "./lib";
-  // Do we need to define Lib for each, or should we move it around?
-
   export let adversary;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   export let showOrHideSection;
-  
+
   function handleImageFileInput(event) {
     const file = event.target.files.item(0);
     if (file) {
@@ -115,7 +112,7 @@
         placeholder="Effect"
         classNames="is-small"
         tabindex="1"
-        validAutoCompleteValues = {iconValuesSorted}
+        validAutoCompleteValues={iconValuesSorted}
         bind:value={adversary.nameLossEscalation.lossCondition.effect} />
     </div>
   </div>
@@ -142,7 +139,7 @@
         classNames="is-small"
         placeholder="Effect"
         tabindex="1"
-        validAutoCompleteValues = {iconValuesSorted}
+        validAutoCompleteValues={iconValuesSorted}
         bind:value={adversary.nameLossEscalation.escalation.effect} />
     </div>
   </div>

@@ -1,14 +1,15 @@
-## Developing
+# Spirit Island Builder
+This is the code home for https://spiritislandbuilder.com/, a web app for building custom components for the boardgame [**Spirit Island**](https://boardgamegeek.com/boardgame/162886/spirit-island). It currently supports creating Spirit Boards, Power Cards, Adversaries, and Aspects. This is an unofficial project, all materials belong to Greater Than Games, LLC.
 
-Install the latest version of Node 16. I recommend using a node manager such as nvm (windows: https://github.com/coreybutler/nvm-windows, mac/linux: https://github.com/nvm-sh/nvm)
+## Develop
+
+Install the latest version of Node 16 or 17. Other Node major versions might work but have not been tested.
 
 Install dependencies by running:
 
 ```bash
 npm install
 ```
-
-In the root of the project.
 
 Start a development server:
 
@@ -19,7 +20,7 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Building
+## Build
 
 To create a production version of your app:
 
@@ -28,3 +29,10 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
+
+## Contribute
+Contributions are welcome but please do not expect that any contribution that is made will be merged into the project.
+
+If you would like to contribute please use a fork and pull workflow.
+* Fork the repo first and make your changes in your fork
+* Once your changes are ready to review submit a pull request
