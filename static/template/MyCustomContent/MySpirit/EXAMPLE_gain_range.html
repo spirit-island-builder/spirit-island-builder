@@ -33,7 +33,7 @@
       <section-title>SPECIAL RULES</section-title>
       <special-rules-subtitle>Rivers Domain</special-rules-subtitle>
       <special-rule>
-        Your {presence} in Wetlands counts as {sacred-site}.
+        {range-0} and {range-1} and {range-2} and {range-3} and {range-water} and {range-sacred-site} and {gain-range-1} and {gain-range-x}.
       </special-rule>
     </special-rules-container>
 
@@ -51,7 +51,7 @@
 
     <innate-powers>
       <quick-innate-power
-        name="Massive Flooding"
+        name="Ranges increased in Innate Powers"
         speed="slow"
         range="sacred-site,0"
         target="ANY"
@@ -65,6 +65,9 @@
         </level>
         <level threshold="3-sun,4-water,1-earth,1-animal">
           Instead, in any land, 2 Damage to each Invader. 
+        </level>
+        <level threshold="3-plant">
+          This Power has {gain-range-1}. 
         </level>
     </innate-powers>
   </right>

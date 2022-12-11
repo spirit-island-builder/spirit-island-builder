@@ -348,7 +348,18 @@ custom-presence-track-icon {
     color: #431E0AFF;
 }
 
+presence-node range {
+  height: 43px;
+  width: 80px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  line-height: 28px;
+  background-position-y: 29px;
+}
 
+presence-node range.small {
+  width: 64px;
+}
 
 icon.card-deep-layers.sun {background-image: url(../../images/board/element_simple_sun.png);}
 icon.card-deep-layers.earth {background-image: url(../../images/board/element_simple_earth.png);}
