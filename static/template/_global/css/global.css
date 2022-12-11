@@ -221,6 +221,8 @@ range{
   background-repeat: no-repeat;
   background-position-y:23px;
   background-size: contain;
+  font-family: 'Antropos';
+  font-size: 40px;
 }
 
 no-range{
