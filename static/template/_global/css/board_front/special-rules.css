@@ -263,3 +263,24 @@ special-rules-track icon.any {
   width: 65px;
   height: 65px;
 }
+
+special-rule range {
+    width: 45px;
+    margin-bottom: -20px;
+    margin-top: -7px;
+    height: 30px;
+    background-position-y: 22px;
+    font-family: 'Antropos';
+    font-size: 20px;
+    vertical-align: top;
+}
+
+special-rule range.gain-range {
+    padding-right: 5px;
+}
+
+special-rule icon.range-small-icon {
+    width: 30px;
+    height: 17px;
+    margin-bottom: 0px;
+}

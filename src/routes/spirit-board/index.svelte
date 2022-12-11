@@ -14,7 +14,9 @@
   export let instructionsSource;
 
   function clearAllFields() {
-    if(window.confirm('Are you sure? This permanently clears all fields in Spirit Board Play Side.')){
+    if (
+      window.confirm("Are you sure? This permanently clears all fields in Spirit Board Play Side.")
+    ) {
       spiritBoard = {
         demoBoardWasLoaded: true,
         previewBoard: {
@@ -122,7 +124,6 @@
       };
       reloadPreview();
     }
-
   }
 
   function showOrHideSection(event) {
@@ -140,11 +141,10 @@
 
   let frame;
   let scaledFrameSrc = "";
-  
+
   onMount(() => {
     frame.addEventListener("load", onLoad());
   });
-
 
   function onLoad() {
     var localFrame = frame;
@@ -160,7 +160,7 @@
         }, 200);
       } else {
         console.log("Tab previously loaded. Reloaded from form.");
-        scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html"; 
+        scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html";
         setTimeout(() => {
           reloadPreview();
         }, 200);
@@ -170,15 +170,15 @@
 
   function setBoardValues(spiritBoard) {
     if (frame) {
-      console.log('setting board values from form')
-      console.log(frame.contentDocument)
+      console.log("setting board values from form");
+      console.log(frame.contentDocument);
       //Set Spirit Name and Image
       const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
       if (spiritName) {
         spiritName.textContent = spiritBoard.nameAndArt.name;
       }
       const board = frame.contentDocument.querySelectorAll("board")[0];
-      console.log(board)
+      console.log(board);
       board.setAttribute("spirit-image", spiritBoard.nameAndArt.artPath);
       board.setAttribute("spirit-image-scale", spiritBoard.nameAndArt.artScale);
       board.setAttribute("spirit-border", spiritBoard.nameAndArt.bannerPath);
@@ -186,7 +186,7 @@
       const artistName = frame.contentDocument.querySelectorAll("artist-name")[0];
       if (artistName) {
         artistName.textContent = spiritBoard.nameAndArt.artistCredit;
-      }else{
+      } else {
         var newArtistElement = frame.contentDocument.createElement("artist-name");
         newArtistElement.textContent = spiritBoard.nameAndArt.artistCredit;
         board.appendChild(newArtistElement);
@@ -270,10 +270,12 @@
         //(easiest to start fresh each time)
         presenceTrackContainer.textContent = "";
       }
-      if(spiritBoard.presenceTrack.note){
-        presenceTrackContainer.setAttribute('note',spiritBoard.presenceTrack.note)
-      }else{
-        if(presenceTrackContainer.getAttribute('note')){presenceTrackContainer.removeAttribute('note')}
+      if (spiritBoard.presenceTrack.note) {
+        presenceTrackContainer.setAttribute("note", spiritBoard.presenceTrack.note);
+      } else {
+        if (presenceTrackContainer.getAttribute("note")) {
+          presenceTrackContainer.removeAttribute("note");
+        }
       }
       checkTracksForCommas(); //swap commas for semicolons
       var energyTrack = frame.contentDocument.createElement("energy-track");
@@ -351,20 +353,12 @@
     spiritBoard.presenceTrack.energyNodes.forEach((energyNode) => {
       energyNode.effect = energyNode.effect.replace(",", ";");
     });
-    spiritBoard=spiritBoard
-  }
-
-  function showOrHideBoard() {
-    if (document.getElementById("board-wrap").style.display == "none") {
-      document.getElementById("board-wrap").style.display = "block";
-    } else {
-      document.getElementById("board-wrap").style.display = "none";
-    }
+    spiritBoard = spiritBoard;
   }
 
   function readHTML(htmlElement) {
     console.log("Loading Spirit Board from HTML into form (f=readHTML)");
-    console.log(htmlElement)
+    console.log(htmlElement);
     //Reads the Template HTML file into the Form
     if (frame) {
       //Load Spirit Name and Image
@@ -433,11 +427,11 @@
       //Load Presence Tracks
 
       var presenceTracks = htmlElement.querySelectorAll("presence-tracks")[0];
-      var presenceNote = presenceTracks.getAttribute('note');
-      if(presenceNote){
-        spiritBoard.presenceTrack.note=presenceNote;
-      }else{
-        spiritBoard.presenceTrack.note="";
+      var presenceNote = presenceTracks.getAttribute("note");
+      if (presenceNote) {
+        spiritBoard.presenceTrack.note = presenceNote;
+      } else {
+        spiritBoard.presenceTrack.note = "";
       }
       var energyTrack = htmlElement.querySelectorAll("energy-track")[0];
       spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
@@ -546,7 +540,7 @@
     if (!frameLarge) {
       displayFrame.style.webkitTransform = "scale(0.745)";
       displayWrap.style.height = "915px";
-      window.scrollBy(0,245)
+      window.scrollBy(0, 245);
     } else {
       displayFrame.style.webkitTransform = "scale(0.55)";
       displayWrap.style.height = "670px";
@@ -568,7 +562,9 @@
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
         readHTML(dummyEl);
-        setTimeout(() => {reloadPreview();}, 100);
+        setTimeout(() => {
+          reloadPreview();
+        }, 100);
       };
 
       // This reads the file and then triggers the onload function above once it finishes
@@ -604,41 +600,38 @@
       "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-play-side";
   }
 
-
   function openExamplesModal(event) {
-    console.log(event.target.dataset.target)
-    var examplesModal = document.getElementById(event.target.dataset.target)
-    if(examplesModal.classList.contains('is-active')){
-      examplesModal.classList.remove('is-active');
-    }else{
-      examplesModal.classList.add('is-active');
+    console.log(event.target.dataset.target);
+    var examplesModal = document.getElementById(event.target.dataset.target);
+    if (examplesModal.classList.contains("is-active")) {
+      examplesModal.classList.remove("is-active");
+    } else {
+      examplesModal.classList.add("is-active");
     }
-
   }
 
-  function closeExamplesModal(examplesModal){
-    examplesModal.classList.remove('is-active');
+  function closeExamplesModal(examplesModal) {
+    examplesModal.classList.remove("is-active");
   }
 
-  function loadNewExample(event){
-    var modFrame = document.getElementById("mod-frame")
+  function loadNewExample(event) {
+    var modFrame = document.getElementById("mod-frame");
     modFrame.src = event.target.id;
-    console.log('loading new example')
-    console.log('reading:')
-    console.log(modFrame.contentDocument)
-    console.log('from:')
-    console.log(modFrame.src)
+    console.log("loading new example");
+    console.log("reading:");
+    console.log(modFrame.contentDocument);
+    console.log("from:");
+    console.log(modFrame.src);
     // frame = frame;
     setTimeout(() => {
-          readHTML(modFrame.contentDocument);
-        }, 300);
+      readHTML(modFrame.contentDocument);
+    }, 300);
     setTimeout(() => {
-        reloadPreview()
-        closeExamplesModal(document.getElementById('modal-js-example'))
-        hideAll()
-      }, 300);
+      reloadPreview();
+      closeExamplesModal(document.getElementById("modal-js-example"));
+      hideAll();
+    }, 300);
   }
-
 </script>
 
 <h5 class="title is-5 mb-0">Spirit Board Play Side</h5>
@@ -656,12 +649,16 @@
   </span>
 </h6> -->
 <div id="board-wrap">
-  <iframe src={scaledFrameSrc} height="600" width="100%" id="scaled-frame" />
+  <iframe src={scaledFrameSrc} height="600" width="100%" id="scaled-frame" title="Scaled Frame" />
 </div>
 
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
-    <button class="button is-info js-modal-trigger mr-1" data-toggle="modal" data-target="modal-js-example" on:click={openExamplesModal}>
+    <button
+      class="button is-info js-modal-trigger mr-1"
+      data-toggle="modal"
+      data-target="modal-js-example"
+      on:click={openExamplesModal}>
       Load Examples
     </button>
     <label class="file-label">
@@ -696,19 +693,6 @@
     <InnatePowers bind:spiritBoard {showOrHideSection} />
   </div>
 </div>
-<article class="message is-small mb-1">
-  <div class="message-body p-1">
-    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
-      >Instructions</a>
-    For custom art,
-    <a href="https://www.wombo.art/" target="_blank">Wombo</a>
-    (unaffiliated) is a popular art generator.
-    <br />This is an unofficial website. Interface created by Neubee & Resonant. Spirit Board
-    builder adapted from
-    <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
-    developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
-  </div>
-</article>
 <div id="holder">
   <iframe
     bind:this={frame}
@@ -720,45 +704,137 @@
     id="mod-frame" />
 </div>
 <div id="modal-js-example" class="modal">
-  <div class="modal-background"></div>
+  <div class="modal-background" />
   <div class="modal-content">
     <div class="box">
       <h1><b>Load Examples & Official Spirits</b></h1>
       <p><em>warning: will replace existing content</em></p>
       <p>Core and Branch & Claw Spirits:</p>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Ocean's Hungry Grasp.html" on:click={loadNewExample} >Ocean</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Serpent Slumbering Beneath the Island.html" on:click={loadNewExample} >Snek</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Ocean's Hungry Grasp.html"
+        on:click={loadNewExample}>Ocean</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Serpent Slumbering Beneath the Island.html"
+        on:click={loadNewExample}>Snek</button>
       <p>Jagged Earth Spirits:</p>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Downpour Drenches the World.html" on:click={loadNewExample} >Downpour</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Finder of Paths Unseen.html" on:click={loadNewExample} >Finder</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Fractured Days Split the Sky.html" on:click={loadNewExample} >Fractured Days</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Grinning Trickster Stirs Up Trouble.html" on:click={loadNewExample} >Trickster</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Lure of Deep Wilderness.html" on:click={loadNewExample} >Lure</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Many Minds Move as One.html" on:click={loadNewExample} >Many Minds</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Shifting Memory of Ages.html" on:click={loadNewExample} >Shifting Memory</button>   
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Shroud of Silent Mist.html" on:click={loadNewExample} >Shroud</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Stone's Unyielding Defiance.html" on:click={loadNewExample} >Stone</button>   
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Vengeance as a Burning Plague.html" on:click={loadNewExample} >Vengeance</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html" on:click={loadNewExample} >Volcano</button>    
-      <button class="button" id="/template/MyCustomContent/MySpirit/OFFICIAL_APOCRYPHA_Spreading Rot Renews the Earth.html" on:click={loadNewExample} >Spreading Rot</button>  
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Downpour Drenches the World.html"
+        on:click={loadNewExample}>Downpour</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Finder of Paths Unseen.html"
+        on:click={loadNewExample}>Finder</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Fractured Days Split the Sky.html"
+        on:click={loadNewExample}>Fractured Days</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Grinning Trickster Stirs Up Trouble.html"
+        on:click={loadNewExample}>Trickster</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Lure of Deep Wilderness.html"
+        on:click={loadNewExample}>Lure</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Many Minds Move as One.html"
+        on:click={loadNewExample}>Many Minds</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Shifting Memory of Ages.html"
+        on:click={loadNewExample}>Shifting Memory</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Shroud of Silent Mist.html"
+        on:click={loadNewExample}>Shroud</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Stone's Unyielding Defiance.html"
+        on:click={loadNewExample}>Stone</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Vengeance as a Burning Plague.html"
+        on:click={loadNewExample}>Vengeance</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html"
+        on:click={loadNewExample}>Volcano</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/OFFICIAL_APOCRYPHA_Spreading Rot Renews the Earth.html"
+        on:click={loadNewExample}>Spreading Rot</button>
       <p>Nature Incarnate:</p>
-      <button class="button" id="/template/MyCustomContent/MySpirit/Ember-Eyed_Behemoth_spiritBoard.html" on:click={loadNewExample} >Ember-Eyed Behemoth</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/Ember-Eyed_Behemoth_spiritBoard.html"
+        on:click={loadNewExample}>Ember-Eyed Behemoth</button>
       <p>Examples:</p>
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_add_presence.html" on:click={loadNewExample} >Add Presence</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_add_presence_more.html" on:click={loadNewExample} >Add Presence (more)</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_custom_growth_presence_tracks.html" on:click={loadNewExample} >Custom Options</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_elements.html" on:click={loadNewExample} >Elements</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_energy.html" on:click={loadNewExample} >Energy</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_energy_more.html" on:click={loadNewExample} >Energy (more)</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_fear.html" on:click={loadNewExample} >Fear</button>   
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_gain_range.html" on:click={loadNewExample} >Gain Range</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_gather.html" on:click={loadNewExample} >Gather</button>   
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_middle_presence_tracks.html" on:click={loadNewExample} >Middle Presence Tracks</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_other.html" on:click={loadNewExample} >Other</button>   
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_push.html" on:click={loadNewExample} >Push</button>
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_reclaim.html" on:click={loadNewExample} >Reclaim</button>   
-      <button class="button" id="/template/MyCustomContent/MySpirit/EXAMPLE_tokens.html" on:click={loadNewExample} >Tokens</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_add_presence.html"
+        on:click={loadNewExample}>Add Presence</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_add_presence_more.html"
+        on:click={loadNewExample}>Add Presence (more)</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_custom_growth_presence_tracks.html"
+        on:click={loadNewExample}>Custom Options</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_elements.html"
+        on:click={loadNewExample}>Elements</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_energy.html"
+        on:click={loadNewExample}>Energy</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_energy_more.html"
+        on:click={loadNewExample}>Energy (more)</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_fear.html"
+        on:click={loadNewExample}>Fear</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_gain_range.html"
+        on:click={loadNewExample}>Gain Range</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_gather.html"
+        on:click={loadNewExample}>Gather</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_middle_presence_tracks.html"
+        on:click={loadNewExample}>Middle Presence Tracks</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_other.html"
+        on:click={loadNewExample}>Other</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_push.html"
+        on:click={loadNewExample}>Push</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_reclaim.html"
+        on:click={loadNewExample}>Reclaim</button>
+      <button
+        class="button"
+        id="/template/MyCustomContent/MySpirit/EXAMPLE_tokens.html"
+        on:click={loadNewExample}>Tokens</button>
     </div>
   </div>
-  <button class="modal-close is-large" aria-label="close" data-toggle="modal" data-target="modal-js-example" on:click={openExamplesModal}></button>
+  <button
+    class="modal-close is-large"
+    aria-label="close"
+    data-toggle="modal"
+    data-target="modal-js-example"
+    on:click={openExamplesModal} />
 </div>
