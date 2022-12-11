@@ -425,6 +425,21 @@ range-growth {
   display: inline-block;
 }
 
+growth-cell range {
+  background-image: url('../../images/board/range_arrow.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  font-size: 40px;
+  line-height: 28px;
+  font-family: 'Antropos';
+  height: 45px;
+  width: 106px;
+  margin-top: 42px;
+  margin-bottom: 4px;
+  display: inline-block;
+}
+
 range-growth-any {
   background-image: none;
   font-size: 0px;

@@ -1567,7 +1567,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
           var matches = regExp.exec(splitOptions[i]);
           var gainRange = matches[1];
           gainRange = gainRange.split(";")[0];
-          trackIcons += "<icon-multi-element><icon-shadow class = 'small'"+track_icon_loc+"><icon class='gain-range-"+gainRange+" small'></icon></icon-shadow></icon-multi-element>"
+          trackIcons += "<icon-multi-element><icon-shadow class = 'small'"+track_icon_loc+"><range class='small'>+"+gainRange+"</range></icon-shadow></icon-multi-element>"
           addEnergyRing = false;
           addIconShadow = false;
         }else if(splitOptions[i].startsWith("custom")){
