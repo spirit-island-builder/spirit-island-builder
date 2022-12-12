@@ -535,7 +535,21 @@
 
   function takeScreenshot() {
     document.getElementById("scaled-frame").contentWindow.takeScreenshot().then((imageURL) => {
-      open(imageURL, "_blank")
+      const image = new Image(); 
+      image.src = imageURL; 
+      var element = document.createElement("a");
+      element.setAttribute(
+        "href", imageURL
+        );
+      element.setAttribute(
+          "download",
+          spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.png"
+        );
+        element.style.display = "none";
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      
     })
   }
 
@@ -683,7 +697,7 @@
   <button class="button is-success  mr-1" on:click={exportSpiritBoard}
     >Download Spirit Board file</button>
   <button class="button is-success  mr-1" on:click={reloadPreview}>Generate Spirit Board</button>
-  <button class="button is-success  mr-1" on:click={takeScreenshot}>Take Screenshot</button>
+  <button class="button is-success  mr-1" on:click={takeScreenshot}>Download Image</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>

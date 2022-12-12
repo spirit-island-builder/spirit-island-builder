@@ -3,17 +3,17 @@ special-rules-container {
   background-repeat: repeat-y;
   background-position: top;
   position: absolute;
-  left: 18px;
+  left: 16px;
   min-height: 250px; 
   padding-bottom: 19px;
   padding-top: 48px;
-  width: 665px;
+  width: 667px;
   display: flex;
   flex-direction: column;
   font-family: 'JosefinSans-Regular';
   padding-left:15px;
-  padding-right:6px;
-  z-index: -1;
+  padding-right:8px;
+  z-index: 1;
 }
 
 special-rules-subtitle {
@@ -262,4 +262,25 @@ special-rules-track icon.air, special-rules-track icon.moon, special-rules-track
 special-rules-track icon.any {
   width: 65px;
   height: 65px;
+}
+
+special-rule range {
+    width: 45px;
+    margin-bottom: -20px;
+    margin-top: -7px;
+    height: 30px;
+    background-position-y: 22px;
+    font-family: 'Antropos';
+    font-size: 20px;
+    vertical-align: top;
+}
+
+special-rule range.gain-range {
+    padding-right: 5px;
+}
+
+special-rule icon.range-small-icon {
+    width: 30px;
+    height: 17px;
+    margin-bottom: 0px;
 }

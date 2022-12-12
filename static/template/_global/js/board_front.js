@@ -46,12 +46,12 @@ function dynamicSpecialRuleHeight(board){
 
     const spiritName = board.querySelectorAll('spirit-name')[0]
     if(specialRules){
-      if(debug) console.log(`calc(100% - ${height})`)
-        specialRules.style.top = `calc(100% - ${height})`
+      if(debug) {console.log(`calc(100% - (${height} + 15px))`)}
+        specialRules.style.top = `calc(100% - (${height} + 15px))`
         specialRules.style.height = height
     }
     if(spiritName){
-        spiritName.style.top = `calc(100% - ${height})`
+        spiritName.style.top = `calc(100% - (${height} + 15px))`
     }
 }
 
@@ -445,7 +445,7 @@ function parseGrowthTags(){
         }
         case 'add-presence': {
           const matches = regExpOuterParentheses.exec(classPieces[j]);
-
+          if(!matches){console.log('ERROR in GROWTH: add-presence() cannot be empty')}
           let presenceOptions = matches[1].split(",");
           let presenceRange = presenceOptions[0];
           let presenceReqOpen = "<custom-presence>";
@@ -591,7 +591,8 @@ function parseGrowthTags(){
                     presenceText += "Blight";
                     break;
                   case 'beast':
-                      presenceTextEnd = "s"
+                    presenceTextEnd = "s"
+                    break;
                   case 'no-own-presence':
                     if(i == 1){
                       presenceText += " Land without "
@@ -1566,7 +1567,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
           var matches = regExp.exec(splitOptions[i]);
           var gainRange = matches[1];
           gainRange = gainRange.split(";")[0];
-          trackIcons += "<icon-multi-element><icon-shadow class = 'small'"+track_icon_loc+"><icon class='gain-range-"+gainRange+" small'></icon></icon-shadow></icon-multi-element>"
+          trackIcons += "<icon-multi-element><icon-shadow class = 'small'"+track_icon_loc+"><range class='small'>+"+gainRange+"</range></icon-shadow></icon-multi-element>"
           addEnergyRing = false;
           addIconShadow = false;
         }else if(splitOptions[i].startsWith("custom")){
