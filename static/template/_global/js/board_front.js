@@ -48,6 +48,7 @@ function dynamicSpecialRuleHeight(board){
     if(specialRules){
       if(debug) {console.log(`calc(100% - (${height} + 15px))`)}
         specialRules.style.top = `calc(100% - (${height} + 15px))`
+
         specialRules.style.height = height
     }
     if(spiritName){
