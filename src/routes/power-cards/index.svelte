@@ -344,6 +344,18 @@
     isShowingInstructions = true;
     instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions#power-cards";
   }
+
+  function screenshotSetUp() {
+    const frameId = "cards-scaled-frame";
+    const fileNames = [];
+    const elementNamesInIframe = [];
+    powerCards.cards.forEach((card, index) => {
+      elementNamesInIframe.push(`card${index}`);
+      fileNames.push(card.name.replaceAll(" ", "_") + "_PowerCard.png");
+    });
+    const useElementId = true;
+    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe, useElementId);
+  }
 </script>
 
 <h5 class="title is-5 mb-0">Power Cards</h5>
@@ -381,6 +393,7 @@
   <button class="button is-success  mr-1" on:click={exportPowerCards}
     >Download Power Cards file</button>
   <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Power Cards</button>
+  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Preview Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>

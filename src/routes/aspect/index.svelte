@@ -3,17 +3,15 @@
   import NameReplacements from "./name-replacements.svelte";
   import AspectEffects from "./aspect-effects.svelte";
   import * as Lib from "../lib";
-    import { fix_and_outro_and_destroy_block } from "svelte/internal";
 
   export let aspect;
-  export let customIcons;
   export let isShowingInstructions;
   export let instructionsSource;
 
   let aspectFrame;
   let scaledFrameSrc = "/template/MyCustomContent/MyAspect/aspect.html";
   if (aspect.demoBoardWasLoaded) {
-    console.log('loading blank board')
+    console.log("loading blank board");
     scaledFrameSrc = "/template/MyCustomContent/MyAspect/aspect_blank.html";
   }
 
@@ -43,14 +41,6 @@
 
   function showOrHideSection(event) {
     aspect[event.target.id].isVisible = !aspect[event.target.id].isVisible;
-  }
-
-  function showOrHideBoard() {
-    if (document.getElementById("aspect-board-wrap").style.display == "none") {
-      document.getElementById("aspect-board-wrap").style.display = "block";
-    } else {
-      document.getElementById("aspect-board-wrap").style.display = "none";
-    }
   }
 
   function reloadPreview() {
@@ -91,55 +81,59 @@
 
       var aspectHTML = aspectFrame.contentDocument.createElement("aspect");
       bodyContainer.appendChild(aspectHTML);
-      
+
       //Set Aspect Name
       var aspectName = aspectFrame.contentDocument.createElement("aspect-name");
       aspectHTML.appendChild(aspectName);
       aspectName.innerHTML = aspect.nameReplacements.aspectName;
 
       //Profile or Landscape
-      if(aspect.profile){
-        aspectHTML.setAttribute('profile','')
+      if (aspect.profile) {
+        aspectHTML.setAttribute("profile", "");
       }
 
       //Set Replacement
       var aspectReplacementHTML = aspectFrame.contentDocument.createElement("aspect-subtext");
       aspectHTML.appendChild(aspectReplacementHTML);
       var replacementFullText = aspect.nameReplacements.aspectRelacement;
-      if(aspect.nameReplacements.rulesReplaced){replacementFullText+=": <i>"+aspect.nameReplacements.rulesReplaced+"</i>"};
-      if(aspectReplacementHTML){
+      if (aspect.nameReplacements.rulesReplaced) {
+        replacementFullText += ": <i>" + aspect.nameReplacements.rulesReplaced + "</i>";
+      }
+      if (aspectReplacementHTML) {
         aspectReplacementHTML.innerHTML = replacementFullText;
       }
 
       //Set Complexity
-      if(aspect.nameReplacements.complexity){
-        console.log('setting complexity')
-        var complexityHTML = aspectFrame.contentDocument.createElement("complexity");
+      if (aspect.nameReplacements.complexity) {
+        console.log("setting complexity");
+        const complexityHTML = aspectFrame.contentDocument.createElement("complexity");
         aspectHTML.appendChild(complexityHTML);
-        console.log(complexityHTML)
-        if(complexityHTML){
-          console.log('complexity found reseting value')
+        console.log(complexityHTML);
+        if (complexityHTML) {
+          console.log("complexity found reseting value");
           complexityHTML.setAttribute("value", aspect.nameReplacements.complexity);
-          console.log(aspect.nameReplacements.complexity)
-        }else{
-          var newComplexityHTML = document.createElement("complexity")
-          newComplexityHTML.setAttribute("value", aspect.nameReplacements.complexity)
-          aspectHTML.appendChild(newComplexityHTML)
+          console.log(aspect.nameReplacements.complexity);
+        } else {
+          const newComplexityHTML = document.createElement("complexity");
+          newComplexityHTML.setAttribute("value", aspect.nameReplacements.complexity);
+          aspectHTML.appendChild(newComplexityHTML);
         }
-      }else{
+      } else {
         // get rid of complexity element
-        var complexityHTML = aspectHTML.querySelectorAll("complexity")[0];
-        if(complexityHTML){complexityHTML.remove()}
+        const complexityHTML = aspectHTML.querySelectorAll("complexity")[0];
+        if (complexityHTML) {
+          complexityHTML.remove();
+        }
       }
 
       //Set Aspect Back
-      console.log(aspectFrame.contentDocument)
-      console.log(aspectBackHTML)     
-      if(aspect.nameReplacements.hasBack){
+      console.log(aspectFrame.contentDocument);
+      console.log(aspectBackHTML);
+      if (aspect.nameReplacements.hasBack) {
         var aspectBackHTML = aspectFrame.contentDocument.createElement("aspect-back");
-        aspectHTML.after(aspectBackHTML); 
-        aspectBackHTML.setAttribute("spirit-name",aspect.nameReplacements.spiritName);
-        aspectBackHTML.setAttribute("src",aspect.nameReplacements.spiritImage);
+        aspectHTML.after(aspectBackHTML);
+        aspectBackHTML.setAttribute("spirit-name", aspect.nameReplacements.spiritName);
+        aspectBackHTML.setAttribute("src", aspect.nameReplacements.spiritImage);
       }
 
       //Set Special Rules
@@ -187,56 +181,62 @@
       const aspectHTML = htmlElement.querySelectorAll("aspect")[0];
 
       //Profile or Landscape
-      if(aspectHTML.hasAttribute('profile')){
+      if (aspectHTML.hasAttribute("profile")) {
         aspect.profile = true;
       }
-      
+
       //Read Aspect Name
       const aspectName = aspectHTML.querySelectorAll("aspect-name")[0];
       aspect.nameReplacements.aspectName = aspectName.innerHTML.trim();
 
       //Read Replacement
       const aspectReplacementHTML = aspectHTML.querySelectorAll("aspect-subtext")[0];
-      if(aspectReplacementHTML){
-        aspect.nameReplacements.aspectRelacement = aspectReplacementHTML.textContent.split(':')[0];
+      if (aspectReplacementHTML) {
+        aspect.nameReplacements.aspectRelacement = aspectReplacementHTML.textContent.split(":")[0];
         aspect.nameReplacements.rulesReplaced = aspectHTML.querySelectorAll("i")[0].textContent;
       }
 
       //Read Complexity
       const complexityHTML = aspectHTML.querySelectorAll("complexity")[0];
-      if(complexityHTML){
+      if (complexityHTML) {
         aspect.nameReplacements.complexity = complexityHTML.getAttribute("value");
       }
 
       //Read Aspect Back
       const aspectBackHTML = htmlElement.querySelectorAll("aspect-back")[0];
-      console.log(aspectBackHTML)
-      console.log('^^^^')
-      if(aspectBackHTML){
+      console.log(aspectBackHTML);
+      console.log("^^^^");
+      if (aspectBackHTML) {
         aspect.nameReplacements.spiritName = aspectBackHTML.getAttribute("spirit-name");
         aspect.nameReplacements.spiritImage = aspectBackHTML.getAttribute("src");
         aspect.nameReplacements.hasBack = true;
-      }else{
+      } else {
         aspect.nameReplacements.hasBack = false;
       }
-      
+
       //Read Special Rules
       const specialRulesNames = aspectHTML.querySelectorAll("special-rules-subtitle");
       const specialRulesEffects = aspectHTML.querySelectorAll("special-rule");
-      aspect.aspectEffects.specialRules.rules.splice(0, aspect.aspectEffects.specialRules.rules.length); //Clear the Form first
+      aspect.aspectEffects.specialRules.rules.splice(
+        0,
+        aspect.aspectEffects.specialRules.rules.length
+      ); //Clear the Form first
       specialRulesNames.forEach((specialRulesName, j) => {
         aspect.aspectEffects = Lib.addSpecialRule(
           aspect.aspectEffects,
           specialRulesName.textContent,
           specialRulesEffects[j].innerHTML.trim()
         );
-        aspect=aspect;
+        aspect = aspect;
       });
 
       //Read Innate Powers
       var innatePowers = htmlElement.querySelectorAll("quick-innate-power");
-      aspect.aspectEffects.innatePowers.powers.splice(0, aspect.aspectEffects.innatePowers.powers.length); //Clear the Form first
-      if(innatePowers){
+      aspect.aspectEffects.innatePowers.powers.splice(
+        0,
+        aspect.aspectEffects.innatePowers.powers.length
+      ); //Clear the Form first
+      if (innatePowers) {
         innatePowers.forEach((innatePower, k) => {
           aspect.aspectEffects = Lib.addInnatePower(
             aspect.aspectEffects,
@@ -260,8 +260,8 @@
         });
       }
 
-      console.log('aspect loaded')
-      console.log(aspect)
+      console.log("aspect loaded");
+      console.log(aspect);
     }
   }
 
@@ -282,7 +282,7 @@
   }
 
   function exportAspect() {
-    setBoardValues(aspect)
+    setBoardValues(aspect);
     var element = document.createElement("a");
     element.setAttribute(
       "href",
@@ -320,7 +320,9 @@
         dummyEl.head = dummyEl.getElementsByTagName("head")[0];
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         readHTML(dummyEl);
-        setTimeout(() => {reloadPreview();}, 100);
+        setTimeout(() => {
+          reloadPreview();
+        }, 100);
       };
 
       // This reads the file and then triggers the onload function above once it finishes
@@ -329,7 +331,7 @@
   }
 
   function clearAllFields() {
-    if(window.confirm('Are you sure? This permanently clears all fields in Aspect.')){
+    if (window.confirm("Are you sure? This permanently clears all fields in Aspect.")) {
       aspect = {
         prop: "value",
         demoBoardWasLoaded: true,
@@ -392,6 +394,16 @@
     isShowingInstructions = true;
     instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions#power-cards";
   }
+
+  function screenshotSetUp() {
+    const frameId = "aspect-scaled-frame";
+    const fileNames = [
+      aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.png",
+      aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_AspectBack.png",
+    ];
+    const elementNamesInIframe = ["aspect", "aspect-back"];
+    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe);
+  }
 </script>
 
 <h5 class="title is-5 mb-0">Aspect</h5>
@@ -426,9 +438,9 @@
       </span>
     </label>
   </div>
-  <button class="button is-success  mr-1" on:click={exportAspect}
-    >Download Aspect file</button>
+  <button class="button is-success  mr-1" on:click={exportAspect}>Download Aspect file</button>
   <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Aspect</button>
+  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
