@@ -76,12 +76,12 @@ Growth is broken into Growth Sets, Groups, and Actions.
 
 - Growth Directions: When NOT using sets, the Growth Directions tell the player how many growth groups to pick (usually, Pick One or Pick Two). When using Sets, these instructions are instead added to the set.
 - **Growth Sets** are used for Growth on spirits such as Lure and Spread of Rampant Green, where the player has two sets to choose from.
-  - Use Growth Sets: Adds Growth Sets to the interface. All current Growth Groups are automatically added to the first Set.
-  - Growth Set Choice: The instructions for the Growth Set, such as 'Pick one of' or 'Always'.
-  - Add Growth Set: Adds additional Growth Sets.
-  - **X**: Deletes the current Growth Set and all of its Growth Groups and Actions
-  - Remove All Growth Sets: Switches back to not using Growth Sets. All Growth Groups & Actions are preserved.
-- **Growth Groups** are clusters of Growth Actions. During play, the player typically chooses on Growth Group and then does the Growth Actions in that Group.
+  - "Use Growth Sets" button: Adds Growth Sets to the interface. All current Growth Groups are automatically added to the first Set.
+  - Growth Set Choice: This field contains instructions for the Growth Set, such as 'Pick one of' or 'Always'.
+  - "Add Growth Set" button: Adds additional Growth Sets.
+  - **X** button: Deletes the current Growth Set and all of its Growth Groups and Actions
+  - "Stop Using Growth Sets" button: Switches back to not using Growth Sets. All Growth Groups & Actions are preserved.
+- **Growth Groups** are clusters of Growth Actions. During Growth, the player typically chooses a Growth Group and then does the Growth Actions in that Group.
   - Add Cost: Optional. Allows for an energy cost associated with this group (as seen on Keeper).
     - Non-Energy Scaling Costs: Optional. Try '1,dahan' or '1,custom1' or other icon names
     - Custom Costs: Optional. Try "forget-power-card,Cost: Forget a Power Card from Discard"

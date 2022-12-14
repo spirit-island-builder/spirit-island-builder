@@ -537,6 +537,7 @@
   function toggleSize() {
     var displayFrame = document.getElementById("scaled-frame");
     var displayWrap = document.getElementById("board-wrap");
+    findSnapPoints()
     if (!frameLarge) {
       displayFrame.style.webkitTransform = "scale(0.745)";
       displayWrap.style.height = "915px";
@@ -631,6 +632,198 @@
       closeExamplesModal(document.getElementById("modal-js-example"));
       hideAll();
     }, 300);
+  }
+
+
+  async function findSnapPoints() {
+    const response = await fetch('/template/MyCustomContent/MySpirit/Spirit_Blank_JSON.json');
+    let myJSON = await response.json();
+    console.log(myJSON)
+    console.log(myJSON.ObjectStates[0])
+    
+    const board = document.getElementById("scaled-frame").contentDocument.querySelectorAll("board")[0];
+    const boardRect = board.getBoundingClientRect()
+
+    //Snap Points
+    var presenceNodes = Array.from(board.getElementsByTagName("presence-node"))
+    console.log(presenceNodes)
+    presenceNodes.forEach((node) => {
+        var rect = node.getElementsByTagName('ring-icon')[0].getBoundingClientRect()
+        if(node.classList.contains('first')){
+          console.log('skip')
+        }else{
+          var nodeX = -(boardRect.width/boardRect.height)*(rect.x+(rect.width/2)-boardRect.x-boardRect.width/2)/(boardRect.width/2)
+          var nodeY = (rect.y+(rect.height/2)-boardRect.y-boardRect.height/2)/(boardRect.height/2)
+          console.log('my midpoint x,z= '+parseFloat(nodeX).toFixed(4)+"%, "+parseFloat(nodeY)+"%")
+          myJSON.ObjectStates[0].AttachedSnapPoints.push({
+            Position:{
+              x:nodeX,
+              y:0.2,
+              z:nodeY,
+            }
+          })
+        }
+      });
+      
+      var luaScriptState = ""
+      
+      //Lua scripting - thresholds
+      const thresholds = Array.from(board.getElementsByTagName("threshold"))
+      luaScriptState += '"{\"thresholds\": ['
+      thresholds.forEach((threshold) => {
+        console.log(threshold)
+        var icons = Array.from(threshold.getElementsByTagName("icon"))
+        
+        let elementNums = threshold.innerHTML.split("<icon").map(x => isNaN(x) ? x.split("icon>")[1] : x);
+        
+        let elementCounts = [0,0,0,0,0,0,0,0]
+        icons.forEach((icon, i) => {
+          if(icon.classList.contains('sun')){
+            elementCounts[0]=elementNums[i];
+          }else if(icon.classList.contains('moon')){
+            elementCounts[1]=elementNums[i];
+          }else if(icon.classList.contains('fire')){
+            elementCounts[2]=elementNums[i];
+          }else if(icon.classList.contains('air')){
+            elementCounts[3]=elementNums[i];
+          }else if(icon.classList.contains('water')){
+            elementCounts[4]=elementNums[i];
+          }else if(icon.classList.contains('earth')){
+            elementCounts[5]=elementNums[i];
+          }else if(icon.classList.contains('plant')){
+            elementCounts[6]=elementNums[i];
+          }else if(icon.classList.contains('animal')){
+            elementCounts[7]=elementNums[i];
+          }
+        });
+        luaScriptState += '{\"elements\": '
+        //elements
+        luaScriptState += '\"'+elementCounts.join("")+'\", '
+
+        //position
+        luaScriptState += '\"position\": '
+        var rect = threshold.getBoundingClientRect();
+        console.log(rect)
+        console.log(boardRect)
+        var nodeX = -(boardRect.width/boardRect.height)*(-55+rect.left-boardRect.x-boardRect.width/2)/(boardRect.width/2)
+        var nodeY = (rect.y+(rect.height/2)-boardRect.y-boardRect.height/2)/(boardRect.height/2)
+        luaScriptState += '{\"x\": '+parseFloat(nodeX).toFixed(4)
+        luaScriptState += ', \"y\": 0'
+        luaScriptState += ', \"z\": '+parseFloat(nodeY).toFixed(4)
+        luaScriptState += '}}, '
+        
+      });
+      luaScriptState += '],'
+
+
+      //Lua scripting - track energy & elements
+      var formNodes = spiritBoard.presenceTrack.energyNodes.concat(spiritBoard.presenceTrack.playsNodes)
+      var boardNodes= Array.from(board.getElementsByTagName("presence-node"))
+      luaScriptState += '\"trackElements\": ['
+      var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
+      formNodes.forEach((node, j) => {
+        var nodeEffectText = node.effect;
+        var matches = regExpOuterParentheses.exec(nodeEffectText)
+        if(matches){nodeEffectText=matches[1]}
+        
+        const nameCounts = {};
+        nodeEffectText.split('+').forEach(function (x) { nameCounts[x] = (nameCounts[x] || 0) + 1; });
+        let namesList = Object.keys(nameCounts);
+        let countList = Object.values(nameCounts);
+        let elementCounts = [0,0,0,0,0,0,0,0]
+        for (var i = 0; i < namesList.length; i++) {
+          if(namesList[i]=='sun'){elementCounts[0]=countList[i];}
+          if(namesList[i]=='moon'){elementCounts[1]=countList[i];}
+          if(namesList[i]=='fire'){elementCounts[2]=countList[i];}
+          if(namesList[i]=='air'){elementCounts[3]=countList[i];}
+          if(namesList[i]=='water'){elementCounts[4]=countList[i];}
+          if(namesList[i]=='earth'){elementCounts[5]=countList[i];}
+          if(namesList[i]=='plant'){elementCounts[6]=countList[i];}
+          if(namesList[i]=='animal'){elementCounts[7]=countList[i];}
+        }
+        if(elementCounts.reduce((partialSum, a) => partialSum + a, 0) > 0){
+          luaScriptState += '{\"elements\": '
+          luaScriptState += '\"'+elementCounts.join("")+'\", '
+          //position
+          var rect = boardNodes[j].getBoundingClientRect();
+          var nodeX = -(boardRect.width/boardRect.height)*(rect.x+(rect.width/2)-boardRect.x-boardRect.width/2)/(boardRect.width/2)
+          var nodeY = (rect.y+(rect.height/2)-boardRect.y-boardRect.height/2)/(boardRect.height/2)
+          console.log(nodeX)
+          console.log(nodeY)
+          luaScriptState += '\"position\": '
+          luaScriptState += '{\"x\": '+parseFloat(nodeX).toFixed(4)
+          luaScriptState += ', \"y\": 0'
+          luaScriptState += ', \"z\": '+parseFloat(nodeY).toFixed(4)
+          luaScriptState += '}}, '
+        }
+      });
+
+      luaScriptState += '],'
+      luaScriptState += '\"trackEnergy\": '
+
+      var energyNodes = spiritBoard.presenceTrack.energyNodes.slice().reverse()
+      var formEnergyNodes = Array.from(board.getElementsByClassName("energy-track")[0].getElementsByTagName("presence-node")).reverse()
+      console.log(energyNodes)
+      console.log(formEnergyNodes)
+      console.log(spiritBoard)
+      var maxEnergy = 100;
+      energyNodes.forEach((node, i) => {
+        
+        var nodeEffectText = node.effect;
+        var matches = regExpOuterParentheses.exec(nodeEffectText)
+        if(matches){nodeEffectText=matches[1]}
+        
+        const nameCounts = {};
+        nodeEffectText.split('+').forEach(function (x) { nameCounts[x] = (nameCounts[x] || 0) + 1; });
+        
+        let namesList = Object.keys(nameCounts);
+        for (var j = 0; j < namesList.length; j++) {
+          if(!isNaN(namesList[j])){
+            if(namesList[j]<maxEnergy){
+              maxEnergy = namesList[j]
+              luaScriptState += '{\"count\": '+maxEnergy+', '
+
+              //position
+              var rect = formEnergyNodes[i].getBoundingClientRect();
+              var nodeX = (rect.x+(rect.width/2)-boardRect.x-boardRect.width/2)/(boardRect.width/2)
+              var nodeY = (rect.y+(rect.height/2)-boardRect.y-boardRect.height/2)/(boardRect.height/2)
+              console.log(formEnergyNodes[i])
+              console.log(rect)
+              console.log(nodeX)
+              console.log(nodeY)
+              luaScriptState += '\"position\": '
+              luaScriptState += '{\"x\": '+parseFloat(nodeX).toFixed(4)
+              luaScriptState += ', \"y\": 0'
+              luaScriptState += ', \"z\": '+parseFloat(nodeY).toFixed(4)
+              luaScriptState += '}}, '
+
+            }
+          }
+        }
+      });
+      luaScriptState += ']'
+      luaScriptState += '}"'
+      console.log(luaScriptState)
+
+      myJSON.ObjectStates[0].LuaScriptState = luaScriptState
+      myJSON.ObjectStates[0].Nickname = spiritBoard.nameAndArt.name
+      myJSON.ObjectStates[0].Tags.push("Spirit");
+
+      var element = document.createElement("a");
+      element.setAttribute(
+        "href",
+        "data:text/json;charset=utf-8," +
+          encodeURI(JSON.stringify(myJSON))
+      );
+      element.setAttribute(
+        "download",
+        spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json"
+      );
+      element.style.display = "none";
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+
   }
 </script>
 
