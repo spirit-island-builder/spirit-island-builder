@@ -537,7 +537,7 @@
   function toggleSize() {
     var displayFrame = document.getElementById("scaled-frame");
     var displayWrap = document.getElementById("board-wrap");
-    findSnapPoints()
+
     if (!frameLarge) {
       displayFrame.style.webkitTransform = "scale(0.745)";
       displayWrap.style.height = "915px";
@@ -635,7 +635,7 @@
   }
 
 
-  async function findSnapPoints() {
+  async function downloadTTSJSON() {
     const response = await fetch('/template/MyCustomContent/MySpirit/Spirit_Blank_JSON.json');
     let myJSON = await response.json();
     console.log(myJSON)
@@ -855,7 +855,7 @@
       data-toggle="modal"
       data-target="modal-js-example"
       on:click={openExamplesModal}>
-      Load Examples
+      Examples
     </button>
     <label class="file-label">
       <input
@@ -866,12 +866,14 @@
         accept=".html"
         on:change={handleTextFileInput} />
       <span class="file-cta">
-        <span class="file-label"> Load Spirit Board file </span>
+        <span class="file-label"> Load </span>
       </span>
     </label>
   </div>
   <button class="button is-success  mr-1" on:click={exportSpiritBoard}
-    >Download Spirit Board file</button>
+    > Save </button>
+  <button class="button is-success  mr-1" on:click={downloadTTSJSON}
+  >Export TTS file</button>
   <button class="button is-success  mr-1" on:click={reloadPreview}>Generate Spirit Board</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
