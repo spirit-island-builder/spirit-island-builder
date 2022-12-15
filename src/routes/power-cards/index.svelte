@@ -386,14 +386,14 @@
         accept=".html"
         on:change={handleTextFileInput} />
       <span class="file-cta">
-        <span class="file-label"> Load Power Cards file </span>
+        <span class="file-label"> Load </span>
       </span>
     </label>
   </div>
   <button class="button is-success  mr-1" on:click={exportPowerCards}
-    >Download Power Cards file</button>
-  <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Power Cards</button>
+    > Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+  <button class="button is-warning  mr-1" on:click={reloadPreview}>Refresh Image</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Preview Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
