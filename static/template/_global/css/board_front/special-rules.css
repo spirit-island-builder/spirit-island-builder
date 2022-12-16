@@ -3,17 +3,17 @@ special-rules-container {
   background-repeat: repeat-y;
   background-position: top;
   position: absolute;
-  left: 18px;
+  left: 16px;
   min-height: 250px; 
   padding-bottom: 19px;
   padding-top: 48px;
-  width: 665px;
+  width: 667px;
   display: flex;
   flex-direction: column;
   font-family: 'JosefinSans-Regular';
   padding-left:15px;
-  padding-right:6px;
-  z-index: -1;
+  padding-right:8px;
+  z-index: 1;
 }
 
 special-rules-subtitle {

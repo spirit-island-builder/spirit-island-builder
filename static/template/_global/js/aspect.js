@@ -39,7 +39,7 @@ function parseSubNodes(aspect){
 
 function parseAspectBack(back){
   var html = '<img src="' + back.getAttribute("src") + '" />';
-  html += '<img class="overlay" />';
+  html += '<aspect-overlay/>';
   html += '<div class="aspect-back-title">ASPECT</div>';
   html += '<div class="aspect-back-name">' + back.getAttribute("spirit-name") + '</div>';
   back.innerHTML = html;

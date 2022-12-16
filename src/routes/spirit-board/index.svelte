@@ -828,6 +828,13 @@
       document.body.removeChild(element);
 
   }
+
+  function screenshotSetUp() {
+    const frameId = "scaled-frame";
+    const fileNames = [spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.png"];
+    const elementNamesInIframe = ["board"];
+    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe);
+  }
 </script>
 
 <h5 class="title is-5 mb-0">Spirit Board Play Side</h5>
@@ -870,8 +877,8 @@
       </span>
     </label>
   </div>
-  <button class="button is-success  mr-1" on:click={exportSpiritBoard}
-    > Save </button>
+  <button class="button is-success  mr-1" on:click={exportSpiritBoard}> Save </button>
+  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-success  mr-1" on:click={downloadTTSJSON}
   >Export TTS file</button>
   <button class="button is-warning  mr-1" on:click={reloadPreview}>Refresh Image</button>

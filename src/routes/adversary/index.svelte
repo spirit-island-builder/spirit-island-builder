@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import NameLossAndEscalation from "./name-loss-escalation.svelte";
   import AdversaryLevels from "./adversary-levels.svelte";
+  import * as Lib from "../lib";
 
   export let adversary;
   export let isShowingInstructions;
@@ -273,6 +274,13 @@
     isShowingInstructions = true;
     instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions#adversary";
   }
+
+  function screenshotSetUp() {
+    const frameId = "adversary-scaled-frame";
+    const fileNames = [adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.png"];
+    const elementNamesInIframe = ["adversary"];
+    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe);
+  }
 </script>
 
 <h5 class="title is-5 mb-0">Adversary</h5>
@@ -303,13 +311,14 @@
         accept=".html"
         on:change={handleTextFileInput} />
       <span class="file-cta">
-        <span class="file-label"> Load Adversary file </span>
+        <span class="file-label"> Load </span>
       </span>
     </label>
   </div>
   <button class="button is-success  mr-1" on:click={exportAdversary}
-    >Download Adversary file</button>
-  <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Adversary</button>
+    > Save </button>
+  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+  <button class="button is-warning  mr-1" on:click={reloadPreview}>Refresh Image</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>

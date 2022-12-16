@@ -180,6 +180,19 @@ aspect-back{
   position:relative;
 }
 
+aspect-overlay{
+  width: 682px;
+  height: 488px;
+  display: flex;
+  position:relative;
+  
+  
+  background-image: url('../images/aspect-back.png');
+  background-size: cover;
+  background-position: top left;
+  background-repeat: no-repeat;
+}
+
 aspect-back .overlay {
   content:url('../../_global/images/aspect-back.png');
   border-radius:22px;

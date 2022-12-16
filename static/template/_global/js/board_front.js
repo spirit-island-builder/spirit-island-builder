@@ -46,12 +46,13 @@ function dynamicSpecialRuleHeight(board){
 
     const spiritName = board.querySelectorAll('spirit-name')[0]
     if(specialRules){
-      if(debug) {console.log(`calc(100% - ${height})`)}
-        specialRules.style.top = `calc(100% - ${height})`
+      if(debug) {console.log(`calc(100% - (${height} + 15px))`)}
+        specialRules.style.top = `calc(100% - (${height} + 15px))`
+
         specialRules.style.height = height
     }
     if(spiritName){
-        spiritName.style.top = `calc(100% - ${height})`
+        spiritName.style.top = `calc(100% - (${height} + 15px))`
     }
 }
 
