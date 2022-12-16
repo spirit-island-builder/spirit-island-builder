@@ -9,6 +9,11 @@
 }
 
 @font-face{
+  font-family: 'Gobold Extra2';
+  src: url(../fonts/Gobold-Extra2/Gobold Extra2.otf);
+}
+
+@font-face{
   font-family: 'Antropos';
   src: url(../fonts/antropos-font/AntroposFreefont-BW2G.ttf);
 }
