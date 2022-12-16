@@ -31,7 +31,13 @@ export const addGrowthSet = (spiritBoard, growthChoiceText = "") => {
   return spiritBoard;
 };
 
-export const addGrowthGroup = (spiritBoard, setIndex, groupCost = "", groupTint = "", groupTitle = "") => {
+export const addGrowthGroup = (
+  spiritBoard,
+  setIndex,
+  groupCost = "",
+  groupTint = "",
+  groupTitle = ""
+) => {
   let groupHasCost = false;
   let groupHasTint = false;
   let groupHasTitle = false;
@@ -160,4 +166,23 @@ export const addCustomIcon = (customIcons, iconName = "") => {
     name: iconName,
   });
   return customIcons;
+};
+
+export const takeScreenshot = (frameId, fileNames, elementNamesInIframe, useElementId) => {
+  elementNamesInIframe.forEach((elementNameInIframe, index) => {
+    document
+      .getElementById(frameId)
+      .contentWindow.takeScreenshot(elementNameInIframe, useElementId)
+      .then((imageURL) => {
+        const image = new Image();
+        image.src = imageURL;
+        var element = document.createElement("a");
+        element.setAttribute("href", imageURL);
+        element.setAttribute("download", fileNames[index]);
+        element.style.display = "none";
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      });
+  });
 };

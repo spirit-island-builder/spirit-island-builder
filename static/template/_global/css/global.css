@@ -72,7 +72,7 @@ icon.no::before {
 }
 
 icon.range{background-image: url('../images/50px-Rangeicon.png');}
-icon.range-growth{background-image: url('../images/board/range_arrow')}
+icon.range-growth{background-image: url('../images/board/range_arrow.png')}
 icon.spirit{background-image: url('../images/50px-Spiriticon.png'); }
 icon.player{background-image: url('../images/50px-Spiriticon.png'); }
 icon.player-spirit{background-image: url('../images/50px-Spiriticon.png'); }
@@ -221,6 +221,8 @@ range{
   background-repeat: no-repeat;
   background-position-y:23px;
   background-size: contain;
+  font-family: 'Antropos';
+  font-size: 40px;
 }
 
 no-range{

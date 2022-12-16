@@ -44,14 +44,6 @@
     spiritBoardBack[event.target.id].isVisible = !spiritBoardBack[event.target.id].isVisible;
   }
 
-  function showOrHideBoard() {
-    if (document.getElementById("lore-board-wrap").style.display == "none") {
-      document.getElementById("lore-board-wrap").style.display = "block";
-    } else {
-      document.getElementById("lore-board-wrap").style.display = "none";
-    }
-  }
-
   function reloadPreview() {
     console.log("Updating Preview Lore Side Board (f=setBoardValues)");
     setBoardValues(spiritBoardBack);
@@ -90,7 +82,7 @@
       //Set Spirit Image
       const loreImage = loreBoardHTML.querySelectorAll("img")[0];
       loreImage.setAttribute("src", spiritBoardBack.nameImage.img);
-      if(spiritBoardBack.nameImage.scale){
+      if (spiritBoardBack.nameImage.scale) {
         loreImage.setAttribute("scale", spiritBoardBack.nameImage.scale);
       }
 
@@ -155,11 +147,11 @@
 
       //Set Spirit Image
       const loreImage = loreBoardHTML.querySelectorAll("img")[0];
-      if(loreImage){
+      if (loreImage) {
         spiritBoardBack.nameImage.img = loreImage.getAttribute("src");
-        var imgScale = loreImage.getAttribute('scale')
-        console.log(imgScale)
-        if(imgScale){
+        var imgScale = loreImage.getAttribute("scale");
+        console.log(imgScale);
+        if (imgScale) {
           spiritBoardBack.nameImage.scale = imgScale;
         }
       }
@@ -193,7 +185,7 @@
       spiritBoardBack.summary.usesTokens = summaryPowersHeader.getAttribute("uses");
 
       //Custom Icons
-      if(spiritBoardBack.demoBoardWasLoaded){
+      if (spiritBoardBack.demoBoardWasLoaded) {
         const spiritStyle = htmlElement.querySelectorAll("style")[0];
         customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
         if (spiritStyle) {
@@ -206,7 +198,9 @@
             });
           }
         }
-      }else{console.log('SKIPPING ICON LOAD')}
+      } else {
+        console.log("SKIPPING ICON LOAD");
+      }
     }
   }
 
@@ -217,7 +211,7 @@
     if (!loreFrameLarge) {
       displayFrame.style.webkitTransform = "scale(0.745)";
       displayWrap.style.height = "915px";
-      window.scrollBy(0,245)
+      window.scrollBy(0, 245);
     } else {
       displayFrame.style.webkitTransform = "scale(0.55)";
       displayWrap.style.height = "670px";
@@ -226,7 +220,7 @@
   }
 
   function exportSpiritBoardBack() {
-    setBoardValues(spiritBoardBack)
+    setBoardValues(spiritBoardBack);
     var element = document.createElement("a");
     element.setAttribute(
       "href",
@@ -264,7 +258,9 @@
         dummyEl.head = dummyEl.getElementsByTagName("head")[0];
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         readHTML(dummyEl);
-        setTimeout(() => {reloadPreview();}, 100);
+        setTimeout(() => {
+          reloadPreview();
+        }, 100);
       };
 
       // This reads the file and then triggers the onload function above once it finishes
@@ -273,7 +269,9 @@
   }
 
   function clearAllFields() {
-    if(window.confirm('Are you sure? This permanently clears all fields in Spirit Board Lore Side.')){
+    if (
+      window.confirm("Are you sure? This permanently clears all fields in Spirit Board Lore Side.")
+    ) {
       spiritBoardBack = {
         prop: "value",
         demoBoardWasLoaded: false,
@@ -322,6 +320,15 @@
     instructionsSource =
       "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-lore-side";
   }
+
+  function screenshotSetUp() {
+    const frameId = "lore-scaled-frame";
+    const fileNames = [
+      spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritBoardBack.png",
+    ];
+    const elementNamesInIframe = ["board"];
+    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe);
+  }
 </script>
 
 <h5 class="title is-5 mb-0">Spirit Board Lore Side</h5>
@@ -352,13 +359,14 @@
         accept=".html"
         on:change={handleTextFileInput} />
       <span class="file-cta">
-        <span class="file-label"> Load Spirit Board file </span>
+        <span class="file-label"> Load </span>
       </span>
     </label>
   </div>
   <button class="button is-success  mr-1" on:click={exportSpiritBoardBack}
-    >Download Spirit Board file</button>
-  <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Spirit Board Lore</button>
+    > Save </button>
+  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+  <button class="button is-warning  mr-1" on:click={reloadPreview}>Refresh Image</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>

@@ -1,7 +1,4 @@
 <script>
-  // import * as Lib from "./lib";
-  // Do we need to define Lib for each, or should we move it around?
-
   export let spiritBoardBack;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";

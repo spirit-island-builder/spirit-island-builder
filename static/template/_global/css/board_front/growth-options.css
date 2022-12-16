@@ -126,9 +126,7 @@ growth-border {
 }
 
 growth-border[double] {
-  background-repeat: repeat-x;
-  background-position: left;
-  min-width: 10px;
+  background-image: url('../../images/board/Growthborder_double.png');
 }
 
 growth-cell {
@@ -424,6 +422,21 @@ range-growth {
   width: 106px;
   margin-top: 0px;
   margin-bottom: 0px;
+  display: inline-block;
+}
+
+growth-cell range {
+  background-image: url('../../images/board/range_arrow.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  font-size: 40px;
+  line-height: 28px;
+  font-family: 'Antropos';
+  height: 45px;
+  width: 106px;
+  margin-top: 42px;
+  margin-bottom: 4px;
   display: inline-block;
 }
 

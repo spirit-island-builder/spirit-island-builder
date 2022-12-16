@@ -11,12 +11,14 @@ console.log('Start Main cards')
 
 var quickCards = document.querySelectorAll('quick-card');
 
+let cardIndex = 0
 for(var quickCard of quickCards)
 {
   var data = getData(quickCard);
-  var card = constructCard(data);
+  var card = constructCard(data, cardIndex);
   insertAfter(card, quickCard);
   quickCard.remove();
+	cardIndex++
 }
 
     const cards = document.querySelectorAll('card');
@@ -29,14 +31,10 @@ setTimeout(() => {resize()}, 200);
 
 }
 
-
-
-
-
-
-function constructCard(data)
+function constructCard(data, cardIndex)
 {
   var card = document.createElement('card');
+	card.id = `card${cardIndex}`
   card.className = data.speed;
   card.innerHTML = `
   <img class="image" src=${data.image} />

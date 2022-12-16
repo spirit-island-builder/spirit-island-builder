@@ -32,8 +32,6 @@ body {
 }
 
 board {
-    background-image: url('../images/board/BlankLoreBoard.png');
-    background-color: transparent;
     position: relative;
     width: 100%;
     height: 100%;
@@ -194,6 +192,15 @@ complexity-title{
 summary-of-powers{
     bottom: -190px;
     position: absolute;
+}
+
+lore-overlay{
+  background-image: url('../images/board/BlankLoreBoard.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height:99.5%;
+  width:100%;
+  position: absolute;
 }
 
 div.summary-of-powers-title{

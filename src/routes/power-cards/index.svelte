@@ -43,14 +43,6 @@
     powerCards[event.target.id].isVisible = !powerCards[event.target.id].isVisible;
   }
 
-  function showOrHideBoard() {
-    if (document.getElementById("cards-board-wrap").style.display == "none") {
-      document.getElementById("cards-board-wrap").style.display = "block";
-    } else {
-      document.getElementById("cards-board-wrap").style.display = "none";
-    }
-  }
-
   function reloadPreview() {
     console.log("Updating Preview (f=reloadPreview)");
     setBoardValues(powerCards);
@@ -122,7 +114,7 @@
       });
 
       //Set Custom Icons
-      console.log('setting custom icons')      
+      console.log("setting custom icons");
       let cardsStyle = cardsFrame.contentDocument.querySelectorAll("style")[0];
       if (!cardsStyle) {
         const spiritHead = cardsFrame.contentDocument.querySelectorAll("head")[0];
@@ -135,7 +127,7 @@
           "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
       });
       cardsStyle.textContent = customIconText;
-      console.log('customIconText: ', customIconText);
+      console.log("customIconText: ", customIconText);
     }
   }
 
@@ -155,8 +147,8 @@
       });
 
       //Custom Icons
-      if(powerCards.demoBoardWasLoaded){
-      const cardsStyle = htmlElement.querySelectorAll("style")[0];
+      if (powerCards.demoBoardWasLoaded) {
+        const cardsStyle = htmlElement.querySelectorAll("style")[0];
         customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
         if (cardsStyle) {
           const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
@@ -168,7 +160,9 @@
             });
           }
         }
-      }else{console.log('SKIPPING ICON LOAD')}
+      } else {
+        console.log("SKIPPING ICON LOAD");
+      }
     }
   }
 
@@ -207,8 +201,10 @@
     });
 
     //Check for Null targeting
-    var targetTitleCheck = powerCardHTML.getAttribute("target-title")
-    if(!targetTitleCheck){targetTitleCheck="target land"}
+    var targetTitleCheck = powerCardHTML.getAttribute("target-title");
+    if (!targetTitleCheck) {
+      targetTitleCheck = "target land";
+    }
 
     //Add the card
     powerCards.cards.push({
@@ -240,7 +236,7 @@
       displayFrame.style.webkitTransform = "scale(1)";
       displayWrap.style.height = "700px";
       displayFrame.style.width = "100%";
-      window.scrollBy(0,240)
+      window.scrollBy(0, 240);
     } else {
       displayFrame.style.webkitTransform = "scale(0.67)";
       displayWrap.style.height = "460px";
@@ -250,7 +246,7 @@
   }
 
   function exportPowerCards() {
-    setBoardValues(powerCards)
+    setBoardValues(powerCards);
     var element = document.createElement("a");
     element.setAttribute(
       "href",
@@ -288,7 +284,9 @@
         dummyEl.head = dummyEl.getElementsByTagName("head")[0];
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         readHTML(dummyEl);
-        setTimeout(() => {reloadPreview();}, 100);
+        setTimeout(() => {
+          reloadPreview();
+        }, 100);
       };
 
       // This reads the file and then triggers the onload function above once it finishes
@@ -297,7 +295,7 @@
   }
 
   function clearAllFields() {
-    if(window.confirm('Are you sure? This permanently clears all fields in Power Cards.')){
+    if (window.confirm("Are you sure? This permanently clears all fields in Power Cards.")) {
       powerCards = {
         prop: "value",
         spiritName: "",
@@ -346,6 +344,18 @@
     isShowingInstructions = true;
     instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions#power-cards";
   }
+
+  function screenshotSetUp() {
+    const frameId = "cards-scaled-frame";
+    const fileNames = [];
+    const elementNamesInIframe = [];
+    powerCards.cards.forEach((card, index) => {
+      elementNamesInIframe.push(`card${index}`);
+      fileNames.push(card.name.replaceAll(" ", "_") + "_PowerCard.png");
+    });
+    const useElementId = true;
+    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe, useElementId);
+  }
 </script>
 
 <h5 class="title is-5 mb-0">Power Cards</h5>
@@ -376,13 +386,14 @@
         accept=".html"
         on:change={handleTextFileInput} />
       <span class="file-cta">
-        <span class="file-label"> Load Power Cards file </span>
+        <span class="file-label"> Load </span>
       </span>
     </label>
   </div>
   <button class="button is-success  mr-1" on:click={exportPowerCards}
-    >Download Power Cards file</button>
-  <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Power Cards</button>
+    > Save </button>
+  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+  <button class="button is-warning  mr-1" on:click={reloadPreview}>Refresh Image</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Preview Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
@@ -393,19 +404,6 @@
     <CustomIcons bind:customIcons {showOrHideSection} />
   </div>
 </div>
-<article class="message is-small mb-1">
-  <div class="message-body p-1">
-    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
-      >Instructions</a>
-    for details on how to use the form. For custom art,
-    <a href="https://www.wombo.art/" target="_blank">Wombo</a>
-    (unaffiliated) is a popular art generator.
-    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island
-    Builder is adapted from
-    <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
-    developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
-  </div>
-</article>
 <div id="cards-holder">
   <iframe
     bind:this={cardsFrame}

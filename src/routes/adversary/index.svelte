@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import NameLossAndEscalation from "./name-loss-escalation.svelte";
   import AdversaryLevels from "./adversary-levels.svelte";
+  import * as Lib from "../lib";
 
   export let adversary;
   export let isShowingInstructions;
@@ -39,14 +40,6 @@
 
   function showOrHideSection(event) {
     adversary[event.target.id].isVisible = !adversary[event.target.id].isVisible;
-  }
-
-  function showOrHideBoard() {
-    if (document.getElementById("adversaryBoardWrap").style.display == "none") {
-      document.getElementById("adversaryBoardWrap").style.display = "block";
-    } else {
-      document.getElementById("adversaryBoardWrap").style.display = "none";
-    }
   }
 
   function reloadPreview() {
@@ -146,7 +139,7 @@
     if (!adversaryFrameLarge) {
       displayFrame.style.webkitTransform = "scale(1.55)";
       displayWrap.style.height = "845px";
-      window.scrollBy(0,295)
+      window.scrollBy(0, 295);
     } else {
       displayFrame.style.webkitTransform = "scale(1)";
       displayWrap.style.height = "550px";
@@ -155,7 +148,7 @@
   }
 
   function exportAdversary() {
-    setBoardValues(adversary)
+    setBoardValues(adversary);
     var element = document.createElement("a");
     element.setAttribute(
       "href",
@@ -193,7 +186,9 @@
         dummyEl.head = dummyEl.getElementsByTagName("head")[0];
         dummyEl.body = dummyEl.getElementsByTagName("body")[0];
         readHTML(dummyEl);
-        setTimeout(() => {reloadPreview();}, 100);
+        setTimeout(() => {
+          reloadPreview();
+        }, 100);
       };
 
       // This reads the file and then triggers the onload function above once it finishes
@@ -202,8 +197,7 @@
   }
 
   function clearAllFields() {
-
-    if(window.confirm('Are you sure? This permanently clears all fields in Adversary.')){
+    if (window.confirm("Are you sure? This permanently clears all fields in Adversary.")) {
       adversary = {
         prop: "value",
         demoBoardWasLoaded: true,
@@ -280,6 +274,13 @@
     isShowingInstructions = true;
     instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions#adversary";
   }
+
+  function screenshotSetUp() {
+    const frameId = "adversary-scaled-frame";
+    const fileNames = [adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.png"];
+    const elementNamesInIframe = ["adversary"];
+    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe);
+  }
 </script>
 
 <h5 class="title is-5 mb-0">Adversary</h5>
@@ -310,13 +311,14 @@
         accept=".html"
         on:change={handleTextFileInput} />
       <span class="file-cta">
-        <span class="file-label"> Load Adversary file </span>
+        <span class="file-label"> Load </span>
       </span>
     </label>
   </div>
   <button class="button is-success  mr-1" on:click={exportAdversary}
-    >Download Adversary file</button>
-  <button class="button is-info  mr-1" on:click={reloadPreview}>Generate Adversary</button>
+    > Save </button>
+  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+  <button class="button is-warning  mr-1" on:click={reloadPreview}>Refresh Image</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
@@ -329,19 +331,7 @@
     <AdversaryLevels bind:adversary {showOrHideSection} />
   </div>
 </div>
-<article class="message is-small mb-1">
-  <div class="message-body p-1">
-    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
-      >Instructions</a>
-    for details on how to use the form. For custom art,
-    <a href="https://www.wombo.art/" target="_blank">Wombo</a>
-    (unaffiliated) is a popular art generator.
-    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island
-    Builder is adapted from
-    <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
-    developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
-  </div>
-</article>
+
 <div id="adversary-holder">
   <iframe
     bind:this={adversaryFrame}

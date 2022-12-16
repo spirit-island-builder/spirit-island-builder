@@ -1,0 +1,154 @@
+{
+  "SaveName": "",
+  "Date": "",
+  "VersionNumber": "",
+  "GameMode": "",
+  "GameType": "",
+  "GameComplexity": "",
+  "Tags": [],
+  "Gravity": 0.5,
+  "PlayArea": 0.5,
+  "Table": "",
+  "Sky": "",
+  "Note": "",
+  "TabStates": {},
+  "LuaScript": "",
+  "LuaScriptState": "",
+  "XmlUI": "",
+  "ObjectStates": [
+    {
+      "GUID": "72de5c",
+      "Name": "Custom_Tile",
+      "Transform": {
+        "posX": -14.2600012,
+        "posY": 1.05000067,
+        "posZ": 10.38,
+        "rotX": -3.57830743E-08,
+        "rotY": 180.0,
+        "rotZ": 180.0,
+        "scaleX": 5.46,
+        "scaleY": 1.0,
+        "scaleZ": 5.46
+      },
+      "Nickname": "Vengeance as a Burning Plague",
+      "Description": "JE",
+      "GMNotes": "",
+      "AltLookAngle": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "ColorDiffuse": {
+        "r": 0.200299948,
+        "g": 0.160299957,
+        "b": 0.151799977
+      },
+      "Tags": [
+        "High",
+        "JE",
+        "Spirit"
+      ],
+      "LayoutGroupSortIndex": 0,
+      "Value": 0,
+      "Locked": false,
+      "Grid": true,
+      "Snap": true,
+      "IgnoreFoW": false,
+      "MeasureMovement": false,
+      "DragSelectable": true,
+      "Autoraise": true,
+      "Sticky": true,
+      "Tooltip": true,
+      "GridProjection": false,
+      "HideWhenFaceDown": false,
+      "Hands": false,
+      "CustomImage": {
+        "ImageURL": "http://cloud-3.steamusercontent.com/ugc/1617312248753218421/251C36BA25667DCB2E25E2E86CF77B21B84CD71F/",
+        "ImageSecondaryURL": "http://cloud-3.steamusercontent.com/ugc/1617312248753217329/CA9DEAA8E1E123A784A7B9F47525DCADFF1C92A3/",
+        "ImageScalar": 1.0,
+        "WidthScale": 0.0,
+        "CustomTile": {
+          "Type": 0,
+          "Thickness": 0.2,
+          "Stackable": false,
+          "Stretch": true
+        }
+      },
+      "LuaScript": "-- Spirit Panel for MJ & iakona's Spirit Island Mod --\nuseProgression = false\nuseAspect = 2\n\nfunction onLoad(saved_data)\n    Color.Add(\"SoftBlue\", Color.new(0.53,0.92,1))\n    Color.Add(\"SoftYellow\", Color.new(1,0.8,0.5))\n    getObjectFromGUID(\"SourceSpirit\").call(\"load\", {obj = self, saved_data = saved_data})\nend",
+      "LuaScriptState": "{\"thresholds\": [{\"elements\": \"00100003\", \"position\": {\"x\": 0.34, \"y\": 0, \"z\": 0.49}}, {\"elements\": \"00201004\", \"position\": {\"x\": 0.34, \"y\": 0, \"z\": 0.61}}, {\"elements\": \"00303005\", \"position\": {\"x\": 0.34, \"y\": 0, \"z\": 0.76}}, {\"elements\": \"00030000\", \"position\": {\"x\": -0.57, \"y\": 0, \"z\": 0.39}}, {\"elements\": \"00300001\", \"position\": {\"x\": -0.57, \"y\": 0, \"z\": 0.51}}, {\"elements\": \"00400002\", \"position\": {\"x\": -0.57, \"y\": 0, \"z\": 0.64}}, {\"elements\": \"00520002\", \"position\": {\"x\": -0.57, \"y\": 0, \"z\": 0.75}}], \"trackElements\": [{\"elements\": \"00100000\", \"position\": {\"x\": -0.28, \"y\": 0, \"z\": -0.09}}, {\"elements\": \"00000001\", \"position\": {\"x\": -0.27, \"y\": 0, \"z\": -0.4}}], \"trackEnergy\": [{\"count\": 4, \"position\": {\"x\": -0.73, \"y\": 0, \"z\": -0.4}}, {\"count\": 3, \"position\": {\"x\": -0.5, \"y\": 0, \"z\": -0.41}}, {\"count\": 2, \"position\": {\"x\": -0.04, \"y\": 0, \"z\": -0.4}}, {\"count\": 1, \"position\": {\"x\": 0.18, \"y\": 0, \"z\": -0.4}}]}",
+      "XmlUI": "",
+      "AttachedSnapPoints": [
+        {
+          "Position": {
+            "x": -0.0442,
+            "y": 0.2,
+            "z": -0.3986
+          }
+        },
+        {
+          "Position": {
+            "x": -0.0413,
+            "y": 0.2,
+            "z": -0.0826
+          }
+        },
+        {
+          "Position": {
+            "x": -1.1906,
+            "y": 0.2,
+            "z": -0.0805
+          }
+        },
+        {
+          "Position": {
+            "x": -0.9578,
+            "y": 0.2,
+            "z": -0.0788
+          }
+        },
+        {
+          "Position": {
+            "x": -0.726,
+            "y": 0.2,
+            "z": -0.0788
+          }
+        },
+        {
+          "Position": {
+            "x": -0.5065,
+            "y": 0.2,
+            "z": -0.0822
+          }
+        },
+        {
+          "Position": {
+            "x": -0.2757,
+            "y": 0.2,
+            "z": -0.0854
+          }
+        },
+        {
+          "Position": {
+            "x": -0.7314,
+            "y": 0.2,
+            "z": -0.401
+          }
+        },
+        {
+          "Position": {
+            "x": -0.5002,
+            "y": 0.2,
+            "z": -0.4062
+          }
+        },
+        {
+          "Position": {
+            "x": -0.2724,
+            "y": 0.2,
+            "z": -0.4045
+          }
+        }
+      ]
+    }
+  ]
+}

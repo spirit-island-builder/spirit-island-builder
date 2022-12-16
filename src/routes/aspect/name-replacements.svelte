@@ -1,7 +1,4 @@
 <script>
-  // import * as Lib from "./lib";
-  // Do we need to define Lib for each, or should we move it around?
-
   export let aspect;
   export let showOrHideSection;
 
@@ -22,21 +19,19 @@
   function setComplexity(val, aspectHolder) {
     aspectHolder.complexity = val;
     aspect = aspect;
-    console.log(aspect)
-    console.log(aspect.nameReplacements.complexity)
+    console.log(aspect);
+    console.log(aspect.nameReplacements.complexity);
   }
 
   function setBack() {
-    aspect.nameReplacements.hasBack =
-      !aspect.nameReplacements.hasBack;
-    aspect=aspect;
+    aspect.nameReplacements.hasBack = !aspect.nameReplacements.hasBack;
+    aspect = aspect;
   }
 
   function toggleProfile() {
     aspect.profile = !aspect.profile;
-    aspect=aspect;
+    aspect = aspect;
   }
-
 </script>
 
 <h6
@@ -120,66 +115,60 @@
           disabled
           bind:value={aspect.nameReplacements.complexity} />
         <button
-            class="button is-danger is-light button-hold mb-0"
-            on:click={setComplexity("up",aspect.nameReplacements)}>Up</button>
-          <button
-            class="button is-warning is-light button-hold mb-0"
-            on:click={setComplexity("equal",aspect.nameReplacements)}>Equal</button>
-          <button
-            class="button is-success is-light button-hold mb-0"
-            on:click={setComplexity("down",aspect.nameReplacements)}>Down</button>
-          <button
-            class="button is-light button-hold mb-0"
-            on:click={setComplexity("",aspect.nameReplacements)}>None</button>
+          class="button is-danger is-light button-hold mb-0"
+          on:click={setComplexity("up", aspect.nameReplacements)}>Up</button>
+        <button
+          class="button is-warning is-light button-hold mb-0"
+          on:click={setComplexity("equal", aspect.nameReplacements)}>Equal</button>
+        <button
+          class="button is-success is-light button-hold mb-0"
+          on:click={setComplexity("down", aspect.nameReplacements)}>Down</button>
+        <button
+          class="button is-light button-hold mb-0"
+          on:click={setComplexity("", aspect.nameReplacements)}>None</button>
       </div>
     </div>
     {#if aspect.nameReplacements.hasBack}
-    <label class="label is-flex is-justify-content-space-between" for="rulesReplacedInput"
-      >Spirit Name
-    </label>
-    <div class="field is-flex is-small mb-0">
-      <div class="control" style="width:100%">
-        <input
-          id="aspectSpiritName"
-          class="input"
-          type="text"
-          placeholder="The Name of a Spirit"
-          tabindex="1"
-          bind:value={aspect.nameReplacements.spiritName} />
-      </div>
-    </div>
-    <button
-      class="button is-warning is-light is-small row-button"
-      on:click={setBack}>Remove Card Back</button>
-    <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-0">
-      <div class="field has-addons mr-2 ml-1">
-        <label class="label is-unselectable mr-1" for="">Art: </label>
-        <div class="control">
+      <button class="button is-warning is-light is-small row-button" on:click={setBack}
+        >Remove Card Back</button>
+      <label class="label is-flex is-justify-content-space-between" for="rulesReplacedInput"
+        >Spirit Name
+      </label>
+      <div class="field is-flex is-small mb-0">
+        <div class="control" style="width:100%">
           <input
-            accept="image/png, image/jpeg"
-            on:change={handleImageFileInput}
-            id={`backArt`}
-            name="cardArt"
-            type="file"
-            class="input is-small" />
+            id="aspectSpiritName"
+            class="input"
+            type="text"
+            placeholder="The Name of a Spirit"
+            tabindex="1"
+            bind:value={aspect.nameReplacements.spiritName} />
         </div>
       </div>
-    </div>
+      <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-0">
+        <div class="field has-addons mr-2 ml-1">
+          <label class="label is-unselectable mr-1" for="">Art: </label>
+          <div class="control">
+            <input
+              accept="image/png, image/jpeg"
+              on:change={handleImageFileInput}
+              id={`backArt`}
+              name="cardArt"
+              type="file"
+              class="input is-small" />
+          </div>
+        </div>
+      </div>
     {:else}
-      <button
-        class="button is-warning is-light is-small row-button"
-        on:click={setBack}>Add Card Back</button>
+      <button class="button is-warning is-light is-small row-button" on:click={setBack}
+        >Add Card Back</button>
     {/if}
   </div>
   <div class="field is-flex is-flex-direction-row has-addons">
-    <label class="label is-flex is-justify-content-space-between" for="aspectInput"
-        >Format: 
-    </label>
+    <label class="label is-flex is-justify-content-space-between" for="aspectInput">Format: </label>
     <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 ml-2">
       {#if aspect.profile}
-        <button
-          class="button is-success is-small button-hold mb-0"
-          id="fast-button"
+        <button class="button is-success is-small button-hold mb-0" id="fast-button"
           >Portrait</button>
         <button
           class="button is-success is-light is-small button-hold mb-0"
@@ -189,10 +178,8 @@
         <button
           class="button is-success is-light is-small button-hold mb-0"
           id="fast-button"
-          on:click={toggleProfile}>Profile</button>
-        <button
-          class="button is-success is-small button-hold mb-0"
-          id="slow-button"
+          on:click={toggleProfile}>Portrait</button>
+        <button class="button is-success is-small button-hold mb-0" id="slow-button"
           >Landscape</button>
       {/if}
     </div>

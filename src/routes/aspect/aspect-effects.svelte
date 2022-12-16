@@ -1,26 +1,10 @@
 <script>
-  // import * as Lib from "./lib";
-  // Do we need to define Lib for each, or should we move it around?
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import * as Lib from "../lib";
 
   export let aspect;
   export let showOrHideSection;
-
-  function handleImageFileInput(event) {
-    const file = event.target.files.item(0);
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const imageURL = data.target.result;
-        aspect.nameImage.img = imageURL;
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsDataURL(file);
-    }
-  }
 
   function addSpecialRule() {
     aspect.aspectEffects = Lib.addSpecialRule(aspect.aspectEffects);
@@ -70,7 +54,6 @@
     aspect.aspectEffects.innatePowers.powers[powerIndex].levels[levelIndex].isLong =
       !aspect.aspectEffects.innatePowers.powers[powerIndex].levels[levelIndex].isLong;
   }
-
 </script>
 
 <h6
@@ -86,8 +69,8 @@
     {/if}
   </span>
 </h6>
-{#if aspect.aspectEffects.isVisible} 
-<!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
+{#if aspect.aspectEffects.isVisible}
+  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -97,30 +80,30 @@
         ></span>
     </div>
   </article>
-  {#each aspect.aspectEffects.specialRules.rules as rule, i (rule.id)} 
-  <div class="field">
-    <label class="label is-flex is-justify-content-space-between" for={`ruleNameInput${i}`}
-      >Special Rule {i + 1}
-    </label>
-    <div class="growth-action-container">
-      <div class="control" style="width:100%">
-        <input
-          id={`ruleNameInput${i}`}
-          class="input"
-          type="text"
-          placeholder="Name"
-          tabindex="1"
-          bind:value={rule.name} />
+  {#each aspect.aspectEffects.specialRules.rules as rule, i (rule.id)}
+    <div class="field">
+      <label class="label is-flex is-justify-content-space-between" for={`ruleNameInput${i}`}
+        >Special Rule {i + 1}
+      </label>
+      <div class="growth-action-container">
+        <div class="control" style="width:100%">
+          <input
+            id={`ruleNameInput${i}`}
+            class="input"
+            type="text"
+            placeholder="Name"
+            tabindex="1"
+            bind:value={rule.name} />
+        </div>
+        <button class="button is-warning is-light" on:click={removeSpecialRule(i)}>Remove</button>
       </div>
-      <button class="button is-warning is-light" on:click={removeSpecialRule(i)}>Remove</button>
+      <AutoComplete
+        id={`ruleEffectInput${i}`}
+        elementType="textarea"
+        placeholder="Effect"
+        validAutoCompleteValues={iconValuesSorted}
+        bind:value={rule.effect} />
     </div>
-    <AutoComplete
-      id={`ruleEffectInput${i}`}
-      elementType="textarea"
-      placeholder="Effect"
-      validAutoCompleteValues = {iconValuesSorted}
-      bind:value={rule.effect} />
-  </div>
   {/each}
   <div class="field">
     <div class="control">
@@ -128,151 +111,149 @@
         >Add Special Rule</button>
     </div>
   </div>
-  {#each aspect.aspectEffects.innatePowers.powers as power, i (power.id)} 
-  
-  <div class="field mt-2">
-    <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
-      >{`Innate Power ${i + 1}`}</label>
-    <div class="is-flex is-flex-direction-row">
-      <div class="control" style="width:100%">
-        <input
-          id={`powerName${i}`}
-          class="input"
-          type="text"
-          tabindex="1"
-          placeholder="Power Name"
-          bind:value={power.name} />
-      </div>
-      <button class="button is-primary is-light is-warning" on:click={removeInnatePower(i)}
-        >Remove Innate Power</button>
-    </div>
-  </div>
-  <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
-    <div class="is-flex is-flex-direction-column-reverse">
-      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-        {#if power.speed == ""}
-          <button
-            class="button is-danger is-light button-hold mb-0"
-            id="fast-button"
-            on:click={setSpeedTextbox("Fast", power)}>Fast</button>
-          <button
-            class="button is-info is-light button-hold mb-0"
-            id="slow-button"
-            on:click={setSpeedTextbox("Slow", power)}>Slow</button>
-        {:else if power.speed == "Fast" || power.speed == "fast"}
-          <button
-            class="button is-danger button-hold mb-0"
-            id="fast-button"
-            on:click={setSpeedTextbox("Fast", power)}>Fast</button>
-          <button
-            class="button is-info is-light button-hold mb-0"
-            id="slow-button"
-            on:click={setSpeedTextbox("Slow", power)}>Slow</button>
-        {:else}
-          <button
-            class="button is-danger is-light button-hold mb-0"
-            id="fast-button"
-            on:click={setSpeedTextbox("Fast", power)}>Fast</button>
-          <button
-            class="button is-info button-hold mb-0"
-            id="slow-button"
-            on:click={setSpeedTextbox("Slow", power)}>Slow</button>
-        {/if}
-      </div>
-    </div>
-    <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap">
-      <div class="is-flex is-flex-direction-row-reverse is-flex-wrap-nowrap">
-        <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-          {#if power.targetTitle == ""}
-            <button
-              class="button is-success is-light is-small mb-0"
-              on:click={setTargetTextbox("Target Land", power)}>Target Land</button>
-            <button
-              class="button is-success is-light is-small mb-0"
-              on:click={setTargetTextbox("Target", power)}>Target</button>
-          {:else if power.targetTitle == "target" || power.targetTitle == "Target"}
-            <button
-              class="button is-success is-light is-small mb-0"
-              on:click={setTargetTextbox("Target Land", power)}>Target Land</button>
-            <button
-              class="button is-success is-small mb-0"
-              on:click={setTargetTextbox("Target", power)}>Target</button>
-          {:else}
-            <button
-              class="button is-success is-small mb-0"
-              on:click={setTargetTextbox("Target Land", power)}>Target Land</button>
-            <button
-              class="button is-success is-light is-small mb-0"
-              on:click={setTargetTextbox("Target", power)}>Target</button>
-          {/if}
-        </div>
-      </div>
-      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-        <div class="control">
+  {#each aspect.aspectEffects.innatePowers.powers as power, i (power.id)}
+    <div class="field mt-2">
+      <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
+        >{`Innate Power ${i + 1}`}</label>
+      <div class="is-flex is-flex-direction-row">
+        <div class="control" style="width:100%">
           <input
-            id={`powerRange${i}`}
+            id={`powerName${i}`}
             class="input"
             type="text"
             tabindex="1"
-            placeholder="Range"
-            bind:value={power.range} />
+            placeholder="Power Name"
+            bind:value={power.name} />
         </div>
-        <div class="control">
-          <AutoComplete
-            id={`powerTarget${i}`}
-            elementType="input"
-            placeholder="Target"
-            validAutoCompleteValues = {iconValuesSorted}
-            bind:value={power.target} />
+        <button class="button is-primary is-light is-warning" on:click={removeInnatePower(i)}
+          >Remove Innate Power</button>
+      </div>
+    </div>
+    <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
+      <div class="is-flex is-flex-direction-column-reverse">
+        <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+          {#if power.speed == ""}
+            <button
+              class="button is-danger is-light button-hold mb-0"
+              id="fast-button"
+              on:click={setSpeedTextbox("Fast", power)}>Fast</button>
+            <button
+              class="button is-info is-light button-hold mb-0"
+              id="slow-button"
+              on:click={setSpeedTextbox("Slow", power)}>Slow</button>
+          {:else if power.speed == "Fast" || power.speed == "fast"}
+            <button
+              class="button is-danger button-hold mb-0"
+              id="fast-button"
+              on:click={setSpeedTextbox("Fast", power)}>Fast</button>
+            <button
+              class="button is-info is-light button-hold mb-0"
+              id="slow-button"
+              on:click={setSpeedTextbox("Slow", power)}>Slow</button>
+          {:else}
+            <button
+              class="button is-danger is-light button-hold mb-0"
+              id="fast-button"
+              on:click={setSpeedTextbox("Fast", power)}>Fast</button>
+            <button
+              class="button is-info button-hold mb-0"
+              id="slow-button"
+              on:click={setSpeedTextbox("Slow", power)}>Slow</button>
+          {/if}
+        </div>
+      </div>
+      <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap">
+        <div class="is-flex is-flex-direction-row-reverse is-flex-wrap-nowrap">
+          <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+            {#if power.targetTitle == ""}
+              <button
+                class="button is-success is-light is-small mb-0"
+                on:click={setTargetTextbox("Target Land", power)}>Target Land</button>
+              <button
+                class="button is-success is-light is-small mb-0"
+                on:click={setTargetTextbox("Target", power)}>Target</button>
+            {:else if power.targetTitle == "target" || power.targetTitle == "Target"}
+              <button
+                class="button is-success is-light is-small mb-0"
+                on:click={setTargetTextbox("Target Land", power)}>Target Land</button>
+              <button
+                class="button is-success is-small mb-0"
+                on:click={setTargetTextbox("Target", power)}>Target</button>
+            {:else}
+              <button
+                class="button is-success is-small mb-0"
+                on:click={setTargetTextbox("Target Land", power)}>Target Land</button>
+              <button
+                class="button is-success is-light is-small mb-0"
+                on:click={setTargetTextbox("Target", power)}>Target</button>
+            {/if}
+          </div>
+        </div>
+        <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+          <div class="control">
+            <input
+              id={`powerRange${i}`}
+              class="input"
+              type="text"
+              tabindex="1"
+              placeholder="Range"
+              bind:value={power.range} />
+          </div>
+          <div class="control">
+            <AutoComplete
+              id={`powerTarget${i}`}
+              elementType="input"
+              placeholder="Target"
+              validAutoCompleteValues={iconValuesSorted}
+              bind:value={power.target} />
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="control field">
-    <AutoComplete
-      id={`powerNote${i}`}
-      elementType="input"
-      placeholder="Note (optional)"
-      classNames="is-small"
-      validAutoCompleteValues = {iconValuesSorted}
-      bind:value={power.note} />
-  </div>
-  <button class="button is-primary is-light is-small" on:click={addLevel(i)}>Add Level</button>
-  {#each power.levels as level, j (level.id)}
-    <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
-      <div class="control">
-        <input
-          id={`power${i}levelThreshold${j}`}
-          class="input is-small"
-          type="text"
-          tabindex="1"
-          placeholder="Threshold"
-          bind:value={level.threshold} />
-      </div>
-      <div class="control" style="width:100%">
-        <AutoComplete
-          id={`power${i}levelEffect${j}`}
-          elementType="input"
-          placeholder="Effect"
-          classNames="is-small"
-          validAutoCompleteValues = {iconValuesSorted}
-          bind:value={level.effect} />
-      </div>
-      {#if !level.isLong}
+    <div class="control field">
+      <AutoComplete
+        id={`powerNote${i}`}
+        elementType="input"
+        placeholder="Note (optional)"
+        classNames="is-small"
+        validAutoCompleteValues={iconValuesSorted}
+        bind:value={power.note} />
+    </div>
+    <button class="button is-primary is-light is-small" on:click={addLevel(i)}>Add Level</button>
+    {#each power.levels as level, j (level.id)}
+      <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
+        <div class="control">
+          <input
+            id={`power${i}levelThreshold${j}`}
+            class="input is-small"
+            type="text"
+            tabindex="1"
+            placeholder="Threshold"
+            bind:value={level.threshold} />
+        </div>
+        <div class="control" style="width:100%">
+          <AutoComplete
+            id={`power${i}levelEffect${j}`}
+            elementType="input"
+            placeholder="Effect"
+            classNames="is-small"
+            validAutoCompleteValues={iconValuesSorted}
+            bind:value={level.effect} />
+        </div>
+        {#if !level.isLong}
+          <button
+            class="button is-primary is-light is-warning is-small row-button"
+            on:click={switchLong(i, j)}>Long</button>
+        {:else}
+          <button
+            class="button is-primary is-warning is-small row-button"
+            on:click={switchLong(i, j)}>Long</button>
+        {/if}
         <button
           class="button is-primary is-light is-warning is-small row-button"
-          on:click={switchLong(i, j)}>Long</button>
-      {:else}
-        <button
-          class="button is-primary is-warning is-small row-button"
-          on:click={switchLong(i, j)}>Long</button>
-      {/if}
-      <button
-        class="button is-primary is-light is-warning is-small row-button"
-        on:click={removeLevel(i, j)}>Remove</button>
-    </div>
-  {/each}
-
+          on:click={removeLevel(i, j)}>Remove</button>
+      </div>
+    {/each}
   {/each}
   <div class="pt-1">
     <button class="button is-primary is-light" on:click={addInnatePower}>Add Innate Power</button>

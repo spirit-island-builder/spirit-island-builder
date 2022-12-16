@@ -19,7 +19,7 @@ function replaceIcon(html)
     }
     
     let iconHtml = elementCountText;
-    let HTMLClass = 'icon';
+    let HTMLTag = 'icon';
     
     // Check for 'no'
     let is_no = '';
@@ -39,17 +39,24 @@ function replaceIcon(html)
     let range_num = '';
     // Check for Range
     if(iconName.startsWith('range-')){
-      HTMLClass = 'range';
-      // iconName = 'range';
+      HTMLTag = 'range';
       range_num = iconName.substring(6);
-
       if(isNaN(range_num)){
         range_num = '<icon class="range-small-icon '+range_num+'"></icon>'
       }
+      iconName = 'range';
+    }else if(iconName.startsWith('gain-range-')){
+      HTMLTag = 'range';
+      
+      range_num = '+'+iconName.substring(11);
+      iconName = 'gain-range';
+/*       if(isNaN(range_num)){
+        range_num = '<icon class="range-small-icon '+range_num+'"></icon>'
+      } */
     }
     
     
-    iconHtml += `<`+HTMLClass+` class="`+is_no+`${iconName}`+is_terrain+`">`+range_num+`</`+HTMLClass+`>`;
+    iconHtml += `<`+HTMLTag+` class="`+is_no+iconName+is_terrain+`">`+range_num+`</`+HTMLTag+`>`;
     
     result = result.replace(new RegExp(match, "ig"), iconHtml);
   }
@@ -57,3 +64,16 @@ function replaceIcon(html)
   return result;
 }
 
+async function takeScreenshot(elementName, useElementId) {
+  let { default: html2canvas } = await import('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js')
+  let element
+  if (useElementId) {
+    element = document.getElementById(elementName)
+  } else {
+    element = document.querySelector(elementName)
+  }
+  let canvas = await html2canvas(element, {
+    scale: 1
+  })
+  return canvas.toDataURL()
+}
