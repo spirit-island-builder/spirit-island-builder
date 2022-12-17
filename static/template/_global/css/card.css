@@ -399,6 +399,11 @@ info-range icon{
   height:32px;
 }
 
+info-range range{
+  width: 60px;
+  font-size: 38px;
+}
+
 info-target icon{
   width:45px;
   height:32px;
