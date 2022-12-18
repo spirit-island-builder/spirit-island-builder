@@ -315,8 +315,7 @@
       </span>
     </label>
   </div>
-  <button class="button is-success  mr-1" on:click={exportAdversary}
-    > Save </button>
+  <button class="button is-success  mr-1" on:click={exportAdversary}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-warning  mr-1" on:click={reloadPreview}>Refresh Image</button>
   <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>

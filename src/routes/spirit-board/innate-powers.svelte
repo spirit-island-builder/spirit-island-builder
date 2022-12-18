@@ -44,8 +44,6 @@
       !spiritBoard.innatePowers.powers[powerIndex].levels[levelIndex].isLong;
     console.log("isLong=" + spiritBoard.innatePowers.powers[powerIndex].levels[levelIndex].isLong);
   }
-
-  
 </script>
 
 <h6
@@ -164,7 +162,7 @@
               id={`powerTarget${i}`}
               elementType="input"
               placeholder="Target"
-              validAutoCompleteValues = {iconValuesSorted}
+              validAutoCompleteValues={iconValuesSorted}
               bind:value={innatePower.target} />
           </div>
         </div>
@@ -176,7 +174,7 @@
         elementType="input"
         placeholder="Note (optional)"
         classNames="is-small"
-        validAutoCompleteValues = {iconValuesSorted}
+        validAutoCompleteValues={iconValuesSorted}
         bind:value={innatePower.note} />
     </div>
     <button class="button is-primary is-light is-small" on:click={addLevel(i)}>Add Level</button>
@@ -197,7 +195,7 @@
             elementType="input"
             placeholder="Effect"
             classNames="is-small"
-            validAutoCompleteValues = {iconValuesSorted}
+            validAutoCompleteValues={iconValuesSorted}
             bind:value={level.effect} />
         </div>
         {#if !level.isLong}

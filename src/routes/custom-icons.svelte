@@ -8,7 +8,7 @@
       name: "",
     });
     customIcons = customIcons;
-  };
+  }
 
   function removeCustomIcon(iconIndex) {
     customIcons.icons.splice(iconIndex, 1);
@@ -16,7 +16,7 @@
       icon.id = i;
     });
     customIcons = customIcons;
-  };
+  }
 
   function showOrHideSection() {
     customIcons.isVisible = !customIcons.isVisible;
