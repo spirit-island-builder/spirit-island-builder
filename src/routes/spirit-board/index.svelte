@@ -641,30 +641,29 @@
       if (node.classList.contains("first")) {
         console.log("skip");
       } else {
-        var nodeX =
-          (-(boardRect.width / boardRect.height) *
-            (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
-          (boardRect.width / 2);
-        var nodeY =
-          (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) / (boardRect.height / 2);
-        console.log(
-          "my midpoint x,z= " + parseFloat(nodeX).toFixed(4) + "%, " + parseFloat(nodeY) + "%"
-        );
         myJSON.ObjectStates[0].AttachedSnapPoints.push({
           Position: {
-            x: nodeX,
+            x:
+              (-(boardRect.width / boardRect.height) *
+                (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
+              (boardRect.width / 2),
             y: 0.2,
-            z: nodeY,
+            z:
+              (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+              (boardRect.height / 2),
           },
         });
       }
     });
 
-    var luaScriptState = "";
+    var scriptState = {
+      thresholds: [],
+      trackElements: [],
+      trackEnergy: [],
+    };
 
     //Lua scripting - thresholds
     const thresholds = Array.from(board.getElementsByTagName("threshold"));
-    luaScriptState += '{"thresholds": [';
     thresholds.forEach((threshold) => {
       console.log(threshold);
       var icons = Array.from(threshold.getElementsByTagName("icon"));
@@ -693,35 +692,31 @@
           elementCounts[7] = elementNums[i];
         }
       });
-      luaScriptState += '{"elements": ';
-      //elements
-      luaScriptState += '"' + elementCounts.join("") + '", ';
-
-      //position
-      luaScriptState += '"position": ';
       var rect = threshold.getBoundingClientRect();
-      console.log(rect);
-      console.log(boardRect);
-      var nodeX =
-        (-(boardRect.width / boardRect.height) *
-          (-23 + rect.left - boardRect.x - boardRect.width / 2)) /
-        (boardRect.width / 2);
-      var nodeY =
-        (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) / (boardRect.height / 2);
-      luaScriptState += '{"x": ' + parseFloat(nodeX).toFixed(4);
-      luaScriptState += ', "y": 0';
-      luaScriptState += ', "z": ' + parseFloat(nodeY).toFixed(4);
-      luaScriptState += "}}, ";
+      scriptState.thresholds.push({
+        elements: elementCounts.join(""),
+        position: {
+          x: Lib.toFixedNumber(
+            (-(boardRect.width / boardRect.height) *
+              (-23 + rect.left - boardRect.x - boardRect.width / 2)) /
+              (boardRect.width / 2),
+            4
+          ),
+          y: 0,
+          z: Lib.toFixedNumber(
+            (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+              (boardRect.height / 2),
+            4
+          ),
+        },
+      });
     });
-    luaScriptState = luaScriptState.slice(0, -2); // delete the comma
-    luaScriptState += "],";
 
     //Lua scripting - track energy & elements
     var formNodes = spiritBoard.presenceTrack.energyNodes.concat(
       spiritBoard.presenceTrack.playsNodes
     );
     var boardNodes = Array.from(board.getElementsByTagName("presence-node"));
-    luaScriptState += '"trackElements": [';
     var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
     formNodes.forEach((node, j) => {
       var nodeEffectText = node.effect;
@@ -764,28 +759,26 @@
         }
       }
       if (elementCounts.reduce((partialSum, a) => partialSum + a, 0) > 0) {
-        luaScriptState += '{"elements": ';
-        luaScriptState += '"' + elementCounts.join("") + '", ';
-        //position
         var rect = boardNodes[j].getElementsByTagName("ring-icon")[0].getBoundingClientRect();
-        var nodeX =
-          (-(boardRect.width / boardRect.height) *
-            (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
-          (boardRect.width / 2);
-        var nodeY =
-          (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) / (boardRect.height / 2);
-        console.log(nodeX);
-        console.log(nodeY);
-        luaScriptState += '"position": ';
-        luaScriptState += '{"x": ' + parseFloat(nodeX).toFixed(4);
-        luaScriptState += ', "y": 0';
-        luaScriptState += ', "z": ' + parseFloat(nodeY).toFixed(4);
-        luaScriptState += "}}, ";
+        scriptState.trackElements.push({
+          elements: elementCounts.join(""),
+          position: {
+            x: Lib.toFixedNumber(
+              (-(boardRect.width / boardRect.height) *
+                (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
+                (boardRect.width / 2),
+              4
+            ),
+            y: 0,
+            z: Lib.toFixedNumber(
+              (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+                (boardRect.height / 2),
+              4
+            ),
+          },
+        });
       }
     });
-    luaScriptState = luaScriptState.slice(0, -2); // delete the comma
-    luaScriptState += "],";
-    luaScriptState += '"trackEnergy": [';
 
     var energyNodes = spiritBoard.presenceTrack.energyNodes.slice().reverse();
     var formEnergyNodes = Array.from(
@@ -811,40 +804,33 @@
       for (var j = 0; j < namesList.length; j++) {
         if (!isNaN(namesList[j])) {
           if (namesList[j] < maxEnergy) {
-            maxEnergy = namesList[j];
-            luaScriptState += '{"count": ' + maxEnergy + ", ";
-
-            //position
             var rect = formEnergyNodes[i]
               .getElementsByTagName("ring-icon")[0]
               .getBoundingClientRect();
-            var nodeX =
-              (-(boardRect.width / boardRect.height) *
-                (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
-              (boardRect.width / 2);
-            var nodeY =
-              (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
-              (boardRect.height / 2);
-            console.log(formEnergyNodes[i]);
-            console.log(rect);
-            console.log(nodeX);
-            console.log(nodeY);
-            luaScriptState += '"position": ';
-            luaScriptState += '{"x": ' + parseFloat(nodeX).toFixed(4);
-            luaScriptState += ', "y": 0';
-            luaScriptState += ', "z": ' + parseFloat(nodeY).toFixed(4);
-            luaScriptState += "}}, ";
+            maxEnergy = namesList[j];
+            scriptState.trackEnergy.push({
+              count: Number(maxEnergy),
+              position: {
+                x: Lib.toFixedNumber(
+                  (-(boardRect.width / boardRect.height) *
+                    (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
+                    (boardRect.width / 2),
+                  4
+                ),
+                y: 0,
+                z: Lib.toFixedNumber(
+                  (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+                    (boardRect.height / 2),
+                  4
+                ),
+              },
+            });
           }
         }
       }
     });
-    luaScriptState = luaScriptState.slice(0, -2); // delete the comma
-    luaScriptState += "]";
-    luaScriptState += "}";
-    console.log(luaScriptState);
-    console.log(JSON.parse(luaScriptState));
 
-    myJSON.ObjectStates[0].LuaScriptState = luaScriptState;
+    myJSON.ObjectStates[0].LuaScriptState = JSON.stringify(scriptState);
     myJSON.ObjectStates[0].Nickname = spiritBoard.nameAndArt.name;
     myJSON.ObjectStates[0].Tags.push("Spirit");
 
