@@ -860,19 +860,9 @@
     myJSON.ObjectStates[0].Nickname = spiritBoard.nameAndArt.name;
     myJSON.ObjectStates[0].Tags.push("Spirit");
 
-    var element = document.createElement("a");
-    element.setAttribute(
-      "href",
-      "data:text/json;charset=utf-8," + encodeURI(JSON.stringify(myJSON))
-    );
-    element.setAttribute(
-      "download",
-      spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json"
-    );
-    element.style.display = "none";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    const jsonURL = "data:text/json;charset=utf-8," + encodeURI(JSON.stringify(myJSON));
+    const jsonFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json";
+    Lib.downloadFile(jsonURL, jsonFileName);
   }
 
   function screenshotSetUp() {
