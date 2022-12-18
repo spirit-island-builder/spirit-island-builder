@@ -631,7 +631,7 @@
       reloadPreview();
       closeExamplesModal(document.getElementById("modal-js-example"));
       hideAll();
-    }, 400);
+    }, 500);
   }
 
 
