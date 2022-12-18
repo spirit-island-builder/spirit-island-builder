@@ -233,7 +233,7 @@
                       id={`set${i}group${j}cost`}
                       class="input  is-small"
                       type="text"
-                      placeholder="Try "2" or "3,dahan""
+                      placeholder="Try &quot;2&quot; or &quot;3,dahan&quot;"
                       bind:value={growthGroup.cost} />
                   </div>
                   <button
@@ -249,7 +249,7 @@
                       id={`set${i}group${j}tint`}
                       class="input  is-small"
                       type="text"
-                      placeholder="Try "blue""
+                      placeholder="Try &quot;blue&quot;"
                       bind:value={growthGroup.tint} />
                   </div>
                   <button
@@ -265,7 +265,7 @@
                       id={`set${i}group${j}title`}
                       class="input  is-small"
                       type="text"
-                      placeholder="Try "Max 1/Game""
+                      placeholder="Try &quot;Max 1/Game&quot;"
                       bind:value={growthGroup.title} />
                   </div>
                   <button

@@ -1,7 +1,6 @@
 <script>
   export let spiritBoard;
   export let showOrHideSection;
-  import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
 

@@ -1,6 +1,5 @@
 <script>
   export let customIcons;
-  import * as Lib from "./lib";
 
   function addCustomIcon() {
     customIcons.icons.push({
