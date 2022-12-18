@@ -1,0 +1,25 @@
+name: Liniting
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        name: Configure npm caching
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/workflows/prettier.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+      - name: Install dependencies
+        run: |-
+          npm install
+      - name: Linting
+        run: |-
+          npm run lint
