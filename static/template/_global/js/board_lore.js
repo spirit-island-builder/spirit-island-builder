@@ -1,111 +1,111 @@
-window.onload = (event) =>{
-	startMain();
-    console.log('Lore Page Loaded');
-
+window.onload = (event) => {
+  startMain();
+  console.log("Lore Page Loaded");
 };
 
-function startMain(){
-  var html = document.querySelectorAll('board')[0].innerHTML;
-  document.querySelectorAll('board')[0].innerHTML = replaceIcon(html);
+function startMain() {
+  var html = document.querySelectorAll("board")[0].innerHTML;
+  document.querySelectorAll("board")[0].innerHTML = replaceIcon(html);
   adjustComplexityValue();
   createPowerProperties();
-  var setup = document.querySelectorAll('setup-description')[0]
-  addHTMLLineBreaks(setup)
-	var playstyle = document.querySelectorAll('play-style-description')[0]
-  addHTMLLineBreaks(playstyle)
-  var lore = document.querySelectorAll('lore-description')[0]
-  addHTMLLineBreaks(lore)
+  var setup = document.querySelectorAll("setup-description")[0];
+  addHTMLLineBreaks(setup);
+  var playstyle = document.querySelectorAll("play-style-description")[0];
+  addHTMLLineBreaks(playstyle);
+  var lore = document.querySelectorAll("lore-description")[0];
+  addHTMLLineBreaks(lore);
 
-	setTimeout(() => {resize()}, 200);
+  setTimeout(() => {
+    resize();
+  }, 200);
 }
 
 function resize() {
-	dynamicSizing(document.querySelectorAll('lore-description')[0]);
-	
-	secondContainer = document.querySelectorAll('second-section-container')[0]
-	setup = document.querySelectorAll('setup-description')[0]
-	playstyle = document.querySelectorAll('play-style-description')[0]
+  dynamicSizing(document.querySelectorAll("lore-description")[0]);
 
-	let j = 0
-	while (checkOverflow(secondContainer)){
-		var style = window.getComputedStyle(setup, null).getPropertyValue('font-size');
-		var fontSize = parseFloat(style); 
-		setup.style.fontSize = (fontSize - 1) + 'px';
-		playstyle.style.fontSize = (fontSize - 1) + 'px';
-		// safety valve
-		j += 1
-		if (j>8){ 
-			console.log('safety')
-			break;
-		}
-	}
-	// dynamicSizing(document.querySelectorAll('setup-description')[0]);
-	// dynamicSizing(document.querySelectorAll('play-style-description')[0]);
-  
-  loreImage = document.querySelectorAll('img')[0];
-  var loreOverlay = document.createElement('lore-overlay');
+  secondContainer = document.querySelectorAll("second-section-container")[0];
+  setup = document.querySelectorAll("setup-description")[0];
+  playstyle = document.querySelectorAll("play-style-description")[0];
+
+  let j = 0;
+  while (checkOverflow(secondContainer)) {
+    var style = window.getComputedStyle(setup, null).getPropertyValue("font-size");
+    var fontSize = parseFloat(style);
+    setup.style.fontSize = fontSize - 1 + "px";
+    playstyle.style.fontSize = fontSize - 1 + "px";
+    // safety valve
+    j += 1;
+    if (j > 8) {
+      console.log("safety");
+      break;
+    }
+  }
+  // dynamicSizing(document.querySelectorAll('setup-description')[0]);
+  // dynamicSizing(document.querySelectorAll('play-style-description')[0]);
+
+  loreImage = document.querySelectorAll("img")[0];
+  var loreOverlay = document.createElement("lore-overlay");
   loreImage.after(loreOverlay);
-  var imgWidth = window.getComputedStyle(loreImage, null).getPropertyValue('width');
-  imageScale = loreImage.getAttribute('scale');
-  if(imageScale){
-    if(isNaN(imageScale)){
+  var imgWidth = window.getComputedStyle(loreImage, null).getPropertyValue("width");
+  imageScale = loreImage.getAttribute("scale");
+  if (imageScale) {
+    if (isNaN(imageScale)) {
       loreImage.style.width = imageScale;
-    }else{
-      loreImage.style.width = imageScale+"%";
+    } else {
+      loreImage.style.width = imageScale + "%";
     }
   }
 }
 
-function addHTMLLineBreaks(htmlElement){
-  ruleLines = htmlElement.innerHTML.split("\n")
+function addHTMLLineBreaks(htmlElement) {
+  ruleLines = htmlElement.innerHTML.split("\n");
   rulesHTML = "";
   for (let i = 0; i < ruleLines.length; i++) {
-    if(ruleLines[i] && ruleLines[i].trim().length){
-    rulesHTML += "<div>"+ruleLines[i]+"</div>"
-    }else if(i>0 && i<ruleLines.length-1){
-      rulesHTML += "<br>"
+    if (ruleLines[i] && ruleLines[i].trim().length) {
+      rulesHTML += "<div>" + ruleLines[i] + "</div>";
+    } else if (i > 0 && i < ruleLines.length - 1) {
+      rulesHTML += "<br>";
       // allows user's line breaks to show up on the card
     }
   }
-  htmlElement.innerHTML = rulesHTML
+  htmlElement.innerHTML = rulesHTML;
 
-  return htmlElement
+  return htmlElement;
 }
 
 function adjustComplexityValue() {
-	
-	//Quick Complexity
-	var quickComplexity = document.getElementsByTagName("complexity")[0].getAttribute("value");
-	if (quickComplexity){
-		var quickDescriptor = document.getElementsByTagName("complexity")[0].getAttribute("descriptor");
-		var inner = `
+  //Quick Complexity
+  var quickComplexity = document.getElementsByTagName("complexity")[0].getAttribute("value");
+  if (quickComplexity) {
+    var quickDescriptor = document.getElementsByTagName("complexity")[0].getAttribute("descriptor");
+    var inner = `
                 <complexity-title>COMPLEXITY</complexity-title>
                 <complexity-value value="${quickComplexity}" style="width: 300px;">${quickDescriptor}</complexity-value>
                 <red-box></red-box>`;
-		document.getElementsByTagName("complexity")[0].innerHTML = inner
-	}
-	
-    var complexityValue = document.getElementsByTagName("complexity-value")[0].getAttribute("value");
-    //add 45px for each value
-    var basePixels = 120;
-    var addedPixels = (complexityValue*45);
-    var totalPixels = basePixels+addedPixels+"px";
-    document.getElementsByTagName("complexity-value")[0].style.width = totalPixels;
+    document.getElementsByTagName("complexity")[0].innerHTML = inner;
+  }
+
+  var complexityValue = document.getElementsByTagName("complexity-value")[0].getAttribute("value");
+  //add 45px for each value
+  var basePixels = 120;
+  var addedPixels = complexityValue * 45;
+  var totalPixels = basePixels + addedPixels + "px";
+  document.getElementsByTagName("complexity-value")[0].style.width = totalPixels;
 }
 
-function createPowerProperties(){
-	// Quick Summary of Powers
-	var valueSummary = document.getElementsByTagName("summary-of-powers")[0].getAttribute("values");
-	if (valueSummary){
-		var values = valueSummary.split(",");
-		var offenseValue = values[0];
-		var controlValue = values[1];
-		var fearValue = values[2];
-		var defenseValue = values[3];
-		var utilityValue = values[4];
-		var powerTable = document.createElement('table');
-		powerTable.className = 'powers-summary';
-		powerTable.innerHTML = `
+function createPowerProperties() {
+  // Quick Summary of Powers
+  var valueSummary = document.getElementsByTagName("summary-of-powers")[0].getAttribute("values");
+  if (valueSummary) {
+    var values = valueSummary.split(",");
+    var offenseValue = values[0];
+    var controlValue = values[1];
+    var fearValue = values[2];
+    var defenseValue = values[3];
+    var utilityValue = values[4];
+    var powerTable = document.createElement("table");
+    powerTable.className = "powers-summary";
+    powerTable.innerHTML = `
                     <tbody><tr class="power-bar">
                         <td>
                             <div class="summary-of-powers-title">Summary of Powers
@@ -146,87 +146,86 @@ function createPowerProperties(){
                     </tr>
                 </tbody>
 		  `;
-		  document.getElementsByTagName("summary-of-powers")[0].appendChild(powerTable)
-	}
-	
-	var summaryOfPowers = document.getElementsByTagName("summary-of-powers")[0]
-	var offenseTag = summaryOfPowers.getElementsByClassName("offense")[0];
-	var controlTag = summaryOfPowers.getElementsByClassName("control")[0];
-	var fearTag = summaryOfPowers.getElementsByClassName("fear")[0];
-	var defenseTag = summaryOfPowers.getElementsByClassName("defense")[0];
-	var utilityTag = summaryOfPowers.getElementsByClassName("utility")[0];
+    document.getElementsByTagName("summary-of-powers")[0].appendChild(powerTable);
+  }
 
-	var offenseValue = offenseTag.getAttribute("value");
-	var controlValue = controlTag.getAttribute("value");
-	var fearValue = fearTag.getAttribute("value");
-	var defenseValue = defenseTag.getAttribute("value");
-	var utilityValue = utilityTag.getAttribute("value");
+  var summaryOfPowers = document.getElementsByTagName("summary-of-powers")[0];
+  var offenseTag = summaryOfPowers.getElementsByClassName("offense")[0];
+  var controlTag = summaryOfPowers.getElementsByClassName("control")[0];
+  var fearTag = summaryOfPowers.getElementsByClassName("fear")[0];
+  var defenseTag = summaryOfPowers.getElementsByClassName("defense")[0];
+  var utilityTag = summaryOfPowers.getElementsByClassName("utility")[0];
 
-    offenseTag.style.height = (offenseValue * 15) + 'px';
-    controlTag.style.height = (controlValue * 15) + 'px';
-    fearTag.style.height = (fearValue * 15) + 'px';
-    defenseTag.style.height = (defenseValue * 15) + 'px';
-    utilityTag.style.height = (utilityValue * 15) + 'px';
-	
-	uses = document.getElementsByTagName("summary-of-powers")[0].getAttribute("uses");
-	if(uses){
-		table = document.getElementsByClassName("powers-summary")[0];
-		rowElements = table.getElementsByTagName("td")
-		for(let i = 0; i < rowElements.length; i++){ 
-			rowElements[i].style.width = 90 + "px";
-		}
-		offenseTag.style.marginLeft = 14 + 'px';
-		controlTag.style.marginLeft = 14 + 'px';
-		fearTag.style.marginLeft = 14 + 'px';
-		defenseTag.style.marginLeft = 14 + 'px';
-		utilityTag.style.marginLeft = 14 + 'px';
-		table = document.getElementsByClassName("powers-summary")[0]
-		table.paddingRight = 15+'px'
-		topRow = table.getElementsByTagName("tr")[0];
-		lineCol = document.createElement('td');
-		lineCol.className = "power-divider"
-		lineCol.style.width = "10px"
-		usesCol = document.createElement('td');
-		usesCol.rowSpan = "2"
-		usesCol.className = "uses-icon"
-		usesCol.style.width = "140px"
-		usesCol.append('USES')
-		usesList = uses.split(',')
-		iconHolder = document.createElement('uses-icon-holder');
-		for(let i = 0; i < usesList.length; i++){ 
-			usesIcon = document.createElement('icon');
-			usesIcon.className = usesList[i]+' uses-icon';
-			iconHolder.append(usesIcon)
-		}
-		usesCol.append(iconHolder)
-		topRow.append(lineCol)
-		topRow.append(usesCol)
-	}
+  var offenseValue = offenseTag.getAttribute("value");
+  var controlValue = controlTag.getAttribute("value");
+  var fearValue = fearTag.getAttribute("value");
+  var defenseValue = defenseTag.getAttribute("value");
+  var utilityValue = utilityTag.getAttribute("value");
+
+  offenseTag.style.height = offenseValue * 15 + "px";
+  controlTag.style.height = controlValue * 15 + "px";
+  fearTag.style.height = fearValue * 15 + "px";
+  defenseTag.style.height = defenseValue * 15 + "px";
+  utilityTag.style.height = utilityValue * 15 + "px";
+
+  uses = document.getElementsByTagName("summary-of-powers")[0].getAttribute("uses");
+  if (uses) {
+    table = document.getElementsByClassName("powers-summary")[0];
+    rowElements = table.getElementsByTagName("td");
+    for (let i = 0; i < rowElements.length; i++) {
+      rowElements[i].style.width = 90 + "px";
+    }
+    offenseTag.style.marginLeft = 14 + "px";
+    controlTag.style.marginLeft = 14 + "px";
+    fearTag.style.marginLeft = 14 + "px";
+    defenseTag.style.marginLeft = 14 + "px";
+    utilityTag.style.marginLeft = 14 + "px";
+    table = document.getElementsByClassName("powers-summary")[0];
+    table.paddingRight = 15 + "px";
+    topRow = table.getElementsByTagName("tr")[0];
+    lineCol = document.createElement("td");
+    lineCol.className = "power-divider";
+    lineCol.style.width = "10px";
+    usesCol = document.createElement("td");
+    usesCol.rowSpan = "2";
+    usesCol.className = "uses-icon";
+    usesCol.style.width = "140px";
+    usesCol.append("USES");
+    usesList = uses.split(",");
+    iconHolder = document.createElement("uses-icon-holder");
+    for (let i = 0; i < usesList.length; i++) {
+      usesIcon = document.createElement("icon");
+      usesIcon.className = usesList[i] + " uses-icon";
+      iconHolder.append(usesIcon);
+    }
+    usesCol.append(iconHolder);
+    topRow.append(lineCol);
+    topRow.append(usesCol);
+  }
 }
 
-function dynamicSizing(el, maxSize=el.offsetHeight)
-{
-	let j = 0
-	while (checkOverflow(el)){
-		var style = window.getComputedStyle(el, null).getPropertyValue('font-size');
-		var fontSize = parseFloat(style); 
-		el.style.fontSize = (fontSize - 1) + 'px';
+function dynamicSizing(el, maxSize = el.offsetHeight) {
+  let j = 0;
+  while (checkOverflow(el)) {
+    var style = window.getComputedStyle(el, null).getPropertyValue("font-size");
+    var fontSize = parseFloat(style);
+    el.style.fontSize = fontSize - 1 + "px";
 
-		// safety valve
-		j += 1
-		if (j>8){ 
-			console.log('safety')
-			break;
-		}
-	}
+    // safety valve
+    j += 1;
+    if (j > 8) {
+      console.log("safety");
+      break;
+    }
+  }
 }
 
 function checkOverflow(el) {
-    let curOverflow = el.style.overflow
-    if (!curOverflow || curOverflow === "visible") {
-        el.style.overflow = "hidden"
-    }
-    let isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight
-    el.style.overflow = curOverflow
-    return isOverflowing
+  let curOverflow = el.style.overflow;
+  if (!curOverflow || curOverflow === "visible") {
+    el.style.overflow = "hidden";
+  }
+  let isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
+  el.style.overflow = curOverflow;
+  return isOverflowing;
 }
