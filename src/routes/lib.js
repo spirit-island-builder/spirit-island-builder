@@ -174,8 +174,6 @@ export const takeScreenshot = (frameId, fileNames, elementNamesInIframe, useElem
       .getElementById(frameId)
       .contentWindow.takeScreenshot(elementNameInIframe, useElementId)
       .then((imageURL) => {
-        const image = new Image();
-        image.src = imageURL;
         var element = document.createElement("a");
         element.setAttribute("href", imageURL);
         element.setAttribute("download", fileNames[index]);
