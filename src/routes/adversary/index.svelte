@@ -149,29 +149,12 @@
 
   function exportAdversary() {
     setBoardValues(adversary);
-    var element = document.createElement("a");
-    element.setAttribute(
-      "href",
-      "data:text/html;charset=utf-8," +
-        encodeURIComponent(
-          document
-            .getElementById("adversary-mod-frame")
-            .contentWindow.document.getElementsByTagName("html")[0].innerHTML
-        )
-    );
-    console.log(
-      document
-        .getElementById("adversary-mod-frame")
-        .contentWindow.document.getElementsByTagName("html")[0].innerHTML
-    );
-    element.setAttribute(
-      "download",
-      adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.html"
-    );
-    element.style.display = "none";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    const element = document
+      .getElementById("adversary-mod-frame")
+      .contentWindow.document.getElementsByTagName("html")[0];
+    const htmlURL = "data:text/html;charset=utf-8," + encodeURIComponent(element.innerHTML);
+    const htmlFileName = adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.html";
+    Lib.downloadFile(htmlURL, htmlFileName);
   }
 
   function handleTextFileInput(event) {

@@ -221,29 +221,12 @@
 
   function exportSpiritBoardBack() {
     setBoardValues(spiritBoardBack);
-    var element = document.createElement("a");
-    element.setAttribute(
-      "href",
-      "data:text/html;charset=utf-8," +
-        encodeURIComponent(
-          document
-            .getElementById("lore-mod-frame")
-            .contentWindow.document.getElementsByTagName("html")[0].innerHTML
-        )
-    );
-    console.log(
-      document
-        .getElementById("lore-mod-frame")
-        .contentWindow.document.getElementsByTagName("html")[0].innerHTML
-    );
-    element.setAttribute(
-      "download",
-      spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritLore.html"
-    );
-    element.style.display = "none";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    var element = document
+      .getElementById("lore-mod-frame")
+      .contentWindow.document.getElementsByTagName("html")[0];
+    const htmlURL = "data:text/html;charset=utf-8," + encodeURIComponent(element.innerHTML);
+    const htmlFileName = spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritLore.html";
+    Lib.downloadFile(htmlURL, htmlFileName);
   }
 
   function handleTextFileInput(event) {
