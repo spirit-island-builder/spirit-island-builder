@@ -34,5 +34,8 @@
       "eslint",
       "prettier --write --plugin-search-dir=."
     ]
+  },
+  "dependencies": {
+    "json-e": "^4.4.3"
   }
 }
