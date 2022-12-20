@@ -1,99 +1,39 @@
-<!DOCTYPE html>
-
 <head>
-    <link href="../../_global/css/global.css" rel="stylesheet" />
-    <link href="../../_global/css/board_front.css" rel="stylesheet" />
+    <link href="../../_global/css/global.css" rel="stylesheet">
+    <link href="../../_global/css/board_front.css" rel="stylesheet">
 
 <!-- 	Custom Icons. Instructions 
 				1) place image in same folder as HTLM (this file) 
 				2) replace demo file name with your file name below 
 				3) use custom1, custom2, or custom3 in your HTLM to reference 
 -->
-	<style>
-	icon.custom1{background-image: url('demo_custom_icon.png'); }
-	icon.custom2{background-image: url('filename.png'); }
-	icon.custom3{background-image: url('filename.png'); }
-	</style>
+	<style>icon.custom1{background-image: url('demo_custom_icon.png'); }
+icon.custom2{background-image: url('filename.png'); }
+icon.custom3{background-image: url('filename.png'); }
+</style>
 
 </head>
 
 <body>
 
-  <board spirit-image="example1.png" spirit-image-scale="190%"  spirit-border="example2.png">
+  <board spirit-image="example1.png" spirit-image-scale="190%" spirit-border="example2.png">
     
-    <spirit-name>
-      Finder of Paths Unseen
-    </spirit-name>
-	<artist-name>
-	
-	</artist-name>
+    <spirit-name>Finder of Paths Unseen</spirit-name>
+	<artist-name></artist-name>
 
-    <special-rules-container>
-      <section-title>SPECIAL RULES</section-title>
-      <special-rules-subtitle>RESPONSIBILITIES TO THE DEAD</special-rules-subtitle>
-      <special-rule>
-        After one of your Actions Destroys 1 or more {dahan}/Invaders, or directly triggers their Destruction by moving them, Destroy 1 of your {presence} and lose 1 Energy. If you have no Energy to lose, Destroy another {presence}.
-      </special-rule>
-      <special-rules-subtitle>OPEN THE WAYS</special-rules-subtitle>
-      <special-rule>
-        You may make up to two of your lands adjacent at a time. You may change which lands are adjacent once between Actions.
-      </special-rule>
-    </special-rules-container>
+    <special-rules-container><section-title>SPECIAL RULES</section-title><special-rules-subtitle>RESPONSIBILITIES TO THE DEAD</special-rules-subtitle><special-rule>After one of your Actions Destroys 1 or more {dahan}/Invaders, or directly triggers their Destruction by moving them, Destroy 1 of your {presence} and lose 1 Energy. If you have no Energy to lose, Destroy another {presence}.</special-rule><special-rules-subtitle>OPEN THE WAYS</special-rules-subtitle><special-rule>You may make up to two of your lands adjacent at a time. You may change which lands are adjacent once between Actions.</special-rule></special-rules-container>
 
     <right>
 
-      <growth title="Growth">
-        <growth-group values="reclaim(all);gain-power-card;ignore-range"></growth-group>
-        <growth-group values="add-presence(1);gain-card-play(1)"></growth-group>
-        <growth-group values="gain-power-card;add-presence(2)"></growth-group>
-        <growth-group values="add-presence(any);gain-energy(2)"></growth-group>
-    </growth>
+      <growth title="Growth (Pick One)"><growth-group values="reclaim(all);gain-power-card;ignore-range"></growth-group><growth-group values="add-presence(1);gain-card-play(1)"></growth-group><growth-group values="gain-power-card;add-presence(2)"></growth-group><growth-group values="add-presence(any);gain-energy(2)"></growth-group></growth>
 
-		<presence-tracks>
-		  <energy-track banner="" banner-v-scale="50%" values="0,sun,middle(1+moon),2+water,middle(move-presence(1)+air),+2,middle(1+gain-range(1;everything)),+1+any"></energy-track>
-		  <card-play-track banner="" banner-v-scale="50%" values="1,earth,gain-card-play,gain-card-play,push(town;city)"></card-play-track>
-		</presence-tracks>
+		<presence-tracks note="{presence} spaces may be uncovered along any paths from the starting 2 spaces, including traveling backwards."><energy-track banner="" banner-v-scale="50%" values="0,sun,middle(1+moon),2+water,middle(move-presence(1)+air),+2,middle(1+gain-range(1;everything)),+1+any"></energy-track><card-play-track banner="" banner-v-scale="50%" values="1,earth,gain-card-play,gain-card-play,push(town;city)"></card-play-track></presence-tracks>
 
 
-    <innate-powers>
-      <quick-innate-power
-        name="LAY PATHS THEY CANNOT HELP BUT WALK"
-        speed="fast"
-        range="0"
-        target="any"
-        target-title="TARGET LAND"
-		>
-      <level threshold="2-moon,2-air">
-          Push up to half (rounded down) of Invaders from target land. Do likewise for {dahan}, {presence}, and {beasts} (each separately).
-        </level>
-        <level threshold="2-sun,2-air">
-          Push up to 1 Invader/{dahan}/{presence}/{beasts}.
-        </level>
-        <level threshold="2-moon,4-air,3-water">
-          Repeat this Power.
-        </level>
-      </quick-innate-power>
-      <quick-innate-power
-      name="CLOSE THE WAYS"
-      speed="fast"
-      range="1"
-      target="any"
-      target-title="TARGET LAND"
-	  note="Target each level of this as a separate Power."
-	  >
-      <level threshold="1-air,2-water">
-          Isolate target land.
-        </level>
-        <level threshold="2-air,2-earth">
-          Isolate target land.
-        </level>
-        <level threshold="3-air,2-plant">
-          Isolate target land.
-        </level>
-      </quick-innate-power>
-    </innate-powers>
+    <innate-powers><quick-innate-power name="LAY PATHS THEY CANNOT HELP BUT WALK" speed="fast" range="0" target="any" target-title="TARGET LAND"><level threshold="2-moon,2-air">Push up to half (rounded down) of Invaders from target land. Do likewise for {dahan}, {presence}, and {beasts} (each separately).</level><level threshold="2-sun,2-air">Push up to 1 Invader/{dahan}/{presence}/{beasts}.</level><level threshold="2-moon,4-air,3-water">Repeat this Power.</level></quick-innate-power><quick-innate-power name="CLOSE THE WAYS" speed="fast" range="1" target="any" target-title="TARGET LAND" note="Target each level of this as a separate Power."><level threshold="1-air,2-water">Isolate target land.</level><level threshold="2-air,2-earth">Isolate target land.</level><level threshold="3-air,2-plant">Isolate target land.</level></quick-innate-power></innate-powers>
   </right>
   </board>
-</body>
 
-</html>
+
+
+</body>
