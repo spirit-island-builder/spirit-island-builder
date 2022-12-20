@@ -50,7 +50,7 @@ spirit-name {
     height: 22.67px;
     width: 900px;
     font-size: 40pt;
-    font-family: 'DK Snemand', 'Mouse Memoirs';
+    font-family: 'Name Headings';
     text-transform: uppercase;
     vertical-align: middle;
     text-align: left;
@@ -96,7 +96,7 @@ setup{
 }
 
 setup-title, play-style-title, complexity-title, complexity-value, div.summary-of-powers-title{
-    font-family: 'DK Snemand', 'Mouse Memoirs';
+    font-family: 'Name Headings';
     text-transform: uppercase;
     font-size: 32px;
     font-weight: bold;
@@ -220,7 +220,7 @@ div.summary-of-powers-title{
 
 .powers-summary tbody tr td {
     width:120px;
-    font-family: 'DK Snemand', 'Mouse Memoirs';
+    font-family: 'Name Headings';
     text-transform: uppercase;
     font-size: 25px;
     font-weight: bold;

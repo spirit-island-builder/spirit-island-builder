@@ -111,7 +111,7 @@ name{
 
   font-size:34px;
   line-height:32px;
-  font-family:'DK Snemand', 'Mouse Memoirs';
+  font-family:'Name Headings';
   text-transform: uppercase;
   color:white;
   
@@ -194,7 +194,7 @@ info-title{
   align-items: center;
 
   color:white;
-  font-family: 'DK Snemand', 'Mouse Memoirs';
+  font-family: 'Name Headings';
   text-transform: uppercase;
   letter-spacing:1.5px;
   text-align:center;
@@ -211,7 +211,7 @@ info{
 
   display:flex;
 
-  font-family: 'DK Snemand', 'Mouse Memoirs';
+  font-family: 'Name Headings';
   text-transform: uppercase;
   mix-blend-mode: multiply;
   background-image: url('../images/target-background.png');
@@ -326,7 +326,7 @@ threshold{
 
 threshold.threshold-custom::before{
    content: attr(data-before);
-   font-family: 'DK Snemand', 'Mouse Memoirs';
+   font-family: 'Name Headings';
    text-transform: uppercase;
    letter-spacing: 1px;
    color: #431E0AFF;
@@ -397,6 +397,11 @@ icon.bigger{
 info-range icon{
   width:40px;
   height:32px;
+}
+
+info-range range{
+  width: 60px;
+  font-size: 38px;
 }
 
 info-target icon{
