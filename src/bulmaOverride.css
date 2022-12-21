@@ -44,10 +44,12 @@
   font-family: "JosefinSans-Regular";
 }
 
-h1, h5, h6 {
-  font-family: 'Lato';
+h1,
+h5,
+h6 {
+  font-family: "Lato";
 }
 
 .button.navbar-item {
-  font-family: 'Lato';
+  font-family: "Lato";
 }
