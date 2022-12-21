@@ -643,14 +643,18 @@
       } else {
         myJSON.ObjectStates[0].AttachedSnapPoints.push({
           Position: {
-            x:
+            x: Lib.toFixedNumber(
               (-(boardRect.width / boardRect.height) *
                 (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
-              (boardRect.width / 2),
+                (boardRect.width / 2),
+              4
+            ),
             y: 0.2,
-            z:
+            z: Lib.toFixedNumber(
               (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
-              (boardRect.height / 2),
+                (boardRect.height / 2),
+              4
+            ),
           },
         });
       }
