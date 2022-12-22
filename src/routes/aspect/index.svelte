@@ -283,29 +283,12 @@
 
   function exportAspect() {
     setBoardValues(aspect);
-    var element = document.createElement("a");
-    element.setAttribute(
-      "href",
-      "data:text/html;charset=utf-8," +
-        encodeURIComponent(
-          document
-            .getElementById("aspect-mod-frame")
-            .contentWindow.document.getElementsByTagName("html")[0].innerHTML
-        )
-    );
-    console.log(
-      document
-        .getElementById("aspect-mod-frame")
-        .contentWindow.document.getElementsByTagName("html")[0].innerHTML
-    );
-    element.setAttribute(
-      "download",
-      aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.html"
-    );
-    element.style.display = "none";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    var element = document
+      .getElementById("aspect-mod-frame")
+      .contentWindow.document.getElementsByTagName("html")[0];
+    const htmlURL = "data:text/html;charset=utf-8," + encodeURIComponent(element.innerHTML);
+    const htmlFileName = aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.html";
+    Lib.downloadFile(htmlURL, htmlFileName);
   }
 
   function handleTextFileInput(event) {
