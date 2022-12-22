@@ -1,31 +1,32 @@
-html, body {
+html,
+body {
   padding: 0px;
   margin: 0px;
-  height:100%;
+  height: 100%;
 }
 
-body{
-  display:flex;
+body {
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
-card-back{
+card-back {
   width: 488px;
   height: 682px;
-  position:relative;
+  position: relative;
 }
 
-card-back::after{
-  display:block;
-  position:absolute;
-  top:0px;
-  left:0px;
+card-back::after {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
   width: 488px;
   height: 682px;
-  background-image: url('../images/Unique-Power-Back.png');
-  background-size:cover;
-  content: ''
+  background-image: url("../images/Unique-Power-Back.png");
+  background-size: cover;
+  content: "";
 }
 
 .image {
