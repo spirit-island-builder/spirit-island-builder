@@ -247,29 +247,12 @@
 
   function exportPowerCards() {
     setBoardValues(powerCards);
-    var element = document.createElement("a");
-    element.setAttribute(
-      "href",
-      "data:text/html;charset=utf-8," +
-        encodeURIComponent(
-          document
-            .getElementById("cards-mod-frame")
-            .contentWindow.document.getElementsByTagName("html")[0].innerHTML
-        )
-    );
-    console.log(
-      document
-        .getElementById("cards-mod-frame")
-        .contentWindow.document.getElementsByTagName("html")[0].innerHTML
-    );
-    element.setAttribute(
-      "download",
-      powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html"
-    );
-    element.style.display = "none";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    const element = document
+      .getElementById("cards-mod-frame")
+      .contentWindow.document.getElementsByTagName("html")[0];
+    const htmlURL = "data:text/html;charset=utf-8," + encodeURIComponent(element.innerHTML);
+    const htmlFileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
+    Lib.downloadFile(htmlURL, htmlFileName);
   }
 
   function handleTextFileInput(event) {

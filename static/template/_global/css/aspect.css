@@ -1,86 +1,88 @@
-@import 'board_front/global.css';
-@import 'board_front/special-rules.css';
-@import 'board_front/innate-power.css';
-@import 'board_front/icon.css';
+@import "board_front/global.css";
+@import "board_front/special-rules.css";
+@import "board_front/innate-power.css";
+@import "board_front/icon.css";
 
-
-@font-face{
+@font-face {
   font-family: JosefinSans-Regular;
   src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf);
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-html, body{
-  padding:0px;
-  margin:0px;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size:14px;
+html,
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 14px;
 }
 
-html{
-  height:100%;
-  width:100%;
-  overflow-y:auto;
+html {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
 }
 
-body{
-  display:flex;
-  flex-wrap:wrap;
+body {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
-aspect{
-  overflow:hidden;
-  width:682px;
-  height:488px;
+aspect {
+  overflow: hidden;
+  width: 682px;
+  height: 488px;
   padding: 22px 22px 22px 22px;
-  border-radius:22px;
-  background-image: url('../images/aspect.png');
+  border-radius: 22px;
+  background-image: url("../images/aspect.png");
   background-size: cover;
   background-position: top left;
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
-  position:relative;
+  position: relative;
 }
 
-aspect.profile{
-  width:488px;
-  height:682px;
+aspect.profile {
+  width: 488px;
+  height: 682px;
   padding: 16px 15px 20px 15px;
-  background-image: url('../images/aspect-profile.png');
+  background-image: url("../images/aspect-profile.png");
 }
 
-aspect.round-border{
-  border-radius:22px;
+aspect.round-border {
+  border-radius: 22px;
 }
 
-aspect aspect-name{
-  font-size:30px;
-  font-family:'Name Headings';
+aspect aspect-name {
+  font-size: 30px;
+  font-family: "Name Headings";
   text-transform: uppercase;
-  color:white;
+  color: white;
   padding-bottom: 8px;
-  align-items:center;
+  align-items: center;
   justify-content: center;
-  text-align:center;
+  text-align: center;
   white-space: normal;
 }
 
-aspect aspect-name.has-complexity, aspect aspect-subtext.has-complexity{
+aspect aspect-name.has-complexity,
+aspect aspect-subtext.has-complexity {
   padding-right: 25%;
   padding-left: 3.5%;
 }
 
-aspect.profile aspect-name.has-complexity, aspect.profile aspect-subtext.has-complexity{
+aspect.profile aspect-name.has-complexity,
+aspect.profile aspect-subtext.has-complexity {
   padding-right: 25%;
   padding-left: 3%;
 }
 
-aspect complexity{
+aspect complexity {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -93,46 +95,52 @@ aspect complexity{
   filter: drop-shadow(2px 2px 5px);
 }
 
-aspect.profile complexity{
+aspect.profile complexity {
   top: 26px;
   right: -1px;
 }
 
-aspect-subtext icon{
+aspect-subtext icon {
   filter: invert(1);
 }
 
-complexity.up{background-image: url(../images/board/NewIcons/Complexity_Up.png);}
-complexity.equal{background-image: url(../images/board/NewIcons/Complexity_Equal.png);}
-complexity.down{background-image: url(../images/board/NewIcons/Complexity_Down.png);}
+complexity.up {
+  background-image: url(../images/board/NewIcons/Complexity_Up.png);
+}
+complexity.equal {
+  background-image: url(../images/board/NewIcons/Complexity_Equal.png);
+}
+complexity.down {
+  background-image: url(../images/board/NewIcons/Complexity_Down.png);
+}
 
-aspect aspect-subtext{
-  padding-top:7px;
+aspect aspect-subtext {
+  padding-top: 7px;
   padding-left: 21px;
   padding-right: 21px;
-  font-size:20px;
-  font-family:JosefinSans-Regular;
-  color:white;
-  
-    width: 106.3%;
+  font-size: 20px;
+  font-family: JosefinSans-Regular;
+  color: white;
+
+  width: 106.3%;
   margin-left: -20px;
   margin-right: -3px;
-  
-  align-items:center;
+
+  align-items: center;
   justify-content: center;
-  text-align:center;
+  text-align: center;
   white-space: normal;
-  
+
   background-image: url(../images/aspect-subtitle.png);
   background-size: 100% 100%;
   background-position: top left;
   background-repeat: no-repeat;
-  
-      min-height: 20px;
+
+  min-height: 20px;
 }
 
-aspect.profile aspect-subtext{
-  width:106.7%;
+aspect.profile aspect-subtext {
+  width: 106.7%;
   margin-left: -15px;
   padding-top: 3px;
 }
@@ -152,14 +160,19 @@ aspect-container {
   width: 100%;
 } */
 
-aspect innate-power level, aspect innate-power note, aspect innate-power description-container, aspect innate-power div.description {
+aspect innate-power level,
+aspect innate-power note,
+aspect innate-power description-container,
+aspect innate-power div.description {
   width: 618px;
 }
 
-aspect.profile innate-power level, aspect.profile innate-power note, aspect.profile innate-power description-container, aspect.profile innate-power div.description {
+aspect.profile innate-power level,
+aspect.profile innate-power note,
+aspect.profile innate-power description-container,
+aspect.profile innate-power div.description {
   width: 438px;
 }
-
 
 aspect-container innate-power:only-child level {
   width: 100% !important;
@@ -173,29 +186,28 @@ aspect-container level .description {
   /* padding-top: 13px; */
 }
 
-aspect-back{
+aspect-back {
   width: 682px;
   height: 488px;
   display: flex;
-  position:relative;
+  position: relative;
 }
 
-aspect-overlay{
+aspect-overlay {
   width: 682px;
   height: 488px;
   display: flex;
-  position:relative;
-  
-  
-  background-image: url('../images/aspect-back.png');
+  position: relative;
+
+  background-image: url("../images/aspect-back.png");
   background-size: cover;
   background-position: top left;
   background-repeat: no-repeat;
 }
 
 aspect-back .overlay {
-  content:url('../../_global/images/aspect-back.png');
-  border-radius:22px;
+  content: url("../../_global/images/aspect-back.png");
+  border-radius: 22px;
 }
 
 aspect-back img {
@@ -204,7 +216,7 @@ aspect-back img {
   height: 488px;
   left: 0px;
   top: 0px;
-  border-radius:22px;
+  border-radius: 22px;
 }
 
 .aspect-back-title {
@@ -212,37 +224,36 @@ aspect-back img {
   left: 35px;
   top: 28px;
   width: 280px;
-  font-size:30px;
-  font-family:'Name Headings';
-  color:white;
-  text-align:center;
+  font-size: 30px;
+  font-family: "Name Headings";
+  color: white;
+  text-align: center;
 }
 
 .aspect-back-name {
-position: absolute;
-    left: 32px;
-    top: 70px;
-    width: 290px;
-    font-size: 20px;
-    font-family: 'Name Headings';
-    text-transform: uppercase;
-    color: black;
-    text-align: center;
+  position: absolute;
+  left: 32px;
+  top: 70px;
+  width: 290px;
+  font-size: 20px;
+  font-family: "Name Headings";
+  text-transform: uppercase;
+  color: black;
+  text-align: center;
 }
 
 .or {
-    background-image: url(../images/or.PNG);
-    background-size: 45%;
-    mix-blend-mode: multiply;
-    display: block;
-    height: 25px;
-    width: 300px;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin-top: 5px;
-    margin-bottom: 10px;
+  background-image: url(../images/or.PNG);
+  background-size: 45%;
+  mix-blend-mode: multiply;
+  display: block;
+  height: 25px;
+  width: 300px;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
-
 
 aspect innate-power {
   scale: 0.9;
@@ -258,13 +269,13 @@ aspect innate-power-title {
   transform-origin: left top;
 } */
 
-aspect special-rule{
+aspect special-rule {
   font-size: 15.5pt;
   line-height: 26px;
   padding-bottom: 21px;
 }
 
-aspect special-rules-subtitle{
+aspect special-rules-subtitle {
   font-size: 13pt;
   padding-top: 0px;
 }

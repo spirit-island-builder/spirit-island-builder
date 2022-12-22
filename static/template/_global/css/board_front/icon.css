@@ -1,4 +1,4 @@
-icon{
+icon {
   display: inline-block;
   background-repeat: no-repeat;
   background-size: contain;
@@ -10,26 +10,26 @@ icon{
 }
 
 icon.none {
-  display:none;
+  display: none;
 }
 
 icon.backslash {
-    background-image: url('../../images/board/backslash.png');
-    background-size: cover;
-    width: 8px;
-    height: 28px;
-    margin-bottom: 22px;
-    margin-left: -2px;
-    margin-right: -2px;
-    margin-top: 37px;
+  background-image: url("../../images/board/backslash.png");
+  background-size: cover;
+  width: 8px;
+  height: 28px;
+  margin-bottom: 22px;
+  margin-left: -2px;
+  margin-right: -2px;
+  margin-top: 37px;
 }
 
 icon.invaders {
-  background-image: url('../../images/board/invaders.png');
+  background-image: url("../../images/board/invaders.png");
 }
 
 icon.move-presence {
-  background-image: url('../../images/board/75px_presence.png');
+  background-image: url("../../images/board/75px_presence.png");
   display: block;
   height: 18px;
   margin-top: 4px;
@@ -37,33 +37,41 @@ icon.move-presence {
 }
 
 icon.move-range-1 {
-  background-image: url('../../images/board/move_range_1.png');
+  background-image: url("../../images/board/move_range_1.png");
   display: block;
 }
 
 icon.move-range-2 {
-  background-image: url('../../images/board/move_range_2.png');
+  background-image: url("../../images/board/move_range_2.png");
   display: block;
 }
 
 icon.move-range-3 {
-  background-image: url('../../images/board/move_range_3.png');
+  background-image: url("../../images/board/move_range_3.png");
   display: block;
 }
 
 icon.move-range-4 {
-  background-image: url('../../images/board/move_range_4.png');
+  background-image: url("../../images/board/move_range_4.png");
   display: block;
 }
 
-icon.move-range-1, icon.move-range-2, icon.move-range-3, icon.move-range-4 {
+icon.move-range-1,
+icon.move-range-2,
+icon.move-range-3,
+icon.move-range-4 {
   height: 55px;
   width: 133px;
   margin-top: 5px;
   margin-bottom: 7px;
 }
 
-icon.range-0, icon.range-1, icon.range-2, icon.range-3, icon.range-4, icon.range-any {
+icon.range-0,
+icon.range-1,
+icon.range-2,
+icon.range-3,
+icon.range-4,
+icon.range-any {
   height: 45px;
   width: 130px;
   margin-top: 0px;
@@ -71,20 +79,21 @@ icon.range-0, icon.range-1, icon.range-2, icon.range-3, icon.range-4, icon.range
 }
 
 icon.range-any {
-  background-image: url('../../images/board/presence_range_any.png');
+  background-image: url("../../images/board/presence_range_any.png");
   display: inline-block;
-  width:0px;
+  width: 0px;
 }
 
-icon.gain-range-x, icon.gain-range-X,
+icon.gain-range-x,
+icon.gain-range-X,
 icon.gain-range-1,
 icon.gain-range-2,
 icon.gain-range-3 {
-    width: 100px;
+  width: 100px;
 }
 
 icon.resilience {
-  background-image: url('../../images/board/NewIcons/Resilience.png');
+  background-image: url("../../images/board/NewIcons/Resilience.png");
   width: 30px;
   height: 30px;
   margin-bottom: -8px;
@@ -92,8 +101,10 @@ icon.resilience {
   margin-right: -3px;
 }
 
-icon.player-spirit, icon.player, icon.spirit{
-  background-image: url('../../images/board/player-spirit.png');
+icon.player-spirit,
+icon.player,
+icon.spirit {
+  background-image: url("../../images/board/player-spirit.png");
   width: 30px;
   height: 30px;
 }
@@ -110,27 +121,35 @@ icon.move-presence-4 {
   margin-bottom: 8px;
 }
 
-icon.move-presence-1 { background-image: url('../../images/board/move_presence_1.png'); }
-icon.move-presence-2 { background-image: url('../../images/board/move_presence_2.png'); }
-icon.move-presence-3 { background-image: url('../../images/board/move_presence_3.png'); }
-icon.move-presence-4 { background-image: url('../../images/board/move_presence_4.png'); }
+icon.move-presence-1 {
+  background-image: url("../../images/board/move_presence_1.png");
+}
+icon.move-presence-2 {
+  background-image: url("../../images/board/move_presence_2.png");
+}
+icon.move-presence-3 {
+  background-image: url("../../images/board/move_presence_3.png");
+}
+icon.move-presence-4 {
+  background-image: url("../../images/board/move_presence_4.png");
+}
 
 icon.presence-ring {
-  background-image: url('../../images/board/CardPlayRing.png');
+  background-image: url("../../images/board/CardPlayRing.png");
 }
 
 icon.no-blight {
-  background-image: url('../../images/board/75px_no_blight.png');
+  background-image: url("../../images/board/75px_no_blight.png");
   margin-bottom: -7px;
   margin-top: 10px;
 }
 
-icon.energy-blank{
-	background-image: url('../../images/board/EnergyBlank.png');
+icon.energy-blank {
+  background-image: url("../../images/board/EnergyBlank.png");
 }
 
-.energy-blank value{
-  font-family: 'Gobold Extra2', 'Noto Sans';
+.energy-blank value {
+  font-family: "Gobold Extra2", "Noto Sans";
   font-size: 16pt;
   display: inline-block;
 }
@@ -139,30 +158,30 @@ icon.your-land {
   background-repeat: no-repeat;
   background-size: contain;
   display: inline-block;
-    height: 67px;
-    width: 105px;
-    margin-right: 0px;
-    margin-bottom: -6px;
+  height: 67px;
+  width: 105px;
+  margin-right: 0px;
+  margin-bottom: -6px;
 }
 
-icon.your-land>icon {
-    position: relative;
-    text-align: unset;
-    top: 17px;
-    left: 29px;
-    width: 30px;
-    height: 25px;
-    margin: 0px;
-    padding: 0px;
+icon.your-land > icon {
+  position: relative;
+  text-align: unset;
+  top: 17px;
+  left: 29px;
+  width: 30px;
+  height: 25px;
+  margin: 0px;
+  padding: 0px;
 }
 
-icon.your-land>icon.misc-plus {
-    left: 27px;
-    width: 14px;
+icon.your-land > icon.misc-plus {
+  left: 27px;
+  width: 14px;
 }
 
 icon.misc-plus {
-  background-image: url('../../images/board/NewIcons/Misc Gain.png');
+  background-image: url("../../images/board/NewIcons/Misc Gain.png");
   background-repeat: no-repeat;
   background-size: contain;
   display: inline-block;
@@ -173,20 +192,20 @@ icon.misc-plus {
 icon.gather {
   display: inline-block;
   height: 62px;
-  width:100px;
+  width: 100px;
   margin-right: 20px;
   margin-bottom: 7px;
 }
 
 icon.gather > icon {
-    position: relative;
-    text-align: unset;
-    top: 17px;
-    left: 24px;
-    width: 30px;
-    height: 25px;
-    margin: 0px;
-    padding: 0px;
+  position: relative;
+  text-align: unset;
+  top: 17px;
+  left: 24px;
+  width: 30px;
+  height: 25px;
+  margin: 0px;
+  padding: 0px;
 }
 
 icon.push {
@@ -199,43 +218,41 @@ icon.push {
 }
 
 icon.push > icon {
-    position: relative;
-    text-align: center;
-    top: 17px;
-    left: 24px;
-    width: 25px;
-    height: 25px;
-    margin: 0px;
-    padding: 0px;
+  position: relative;
+  text-align: center;
+  top: 17px;
+  left: 24px;
+  width: 25px;
+  height: 25px;
+  margin: 0px;
+  padding: 0px;
 }
 
 icon.push > div.push {
-    position: relative;
-    text-align: center;
-    top: 20px;
-    left: 47%;
-    transform: translateX(-54%);
+  position: relative;
+  text-align: center;
+  top: 20px;
+  left: 47%;
+  transform: translateX(-54%);
 }
 
 div.push > icon {
-    width: 25px;
-    height: 25px;
-    margin: 0px;
-    padding: 0px;
+  width: 25px;
+  height: 25px;
+  margin: 0px;
+  padding: 0px;
 }
 
 div.push > icon.explorer {
-    margin-top: -5px;
-    width: 28px;
-    height: 30px;
+  margin-top: -5px;
+  width: 28px;
+  height: 30px;
 }
 
 div.push > icon.backslash {
-    width: 10px;
+  width: 10px;
 }
 
 icon.push > icon.backslash {
-    width: 10px;
+  width: 10px;
 }
-
-

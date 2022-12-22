@@ -1,13 +1,13 @@
 growth {
-  background-image: url('../../images/board/Growth_Without_Text.png');
+  background-image: url("../../images/board/Growth_Without_Text.png");
   background-repeat: no-repeat;
   background-position: left bottom;
   background-size: cover;
   background-color: transparent;
   background-clip: border-box;
   display: block;
-  position:relative;
-  z-index:3;
+  position: relative;
+  z-index: 3;
 }
 
 growth section-title {
@@ -24,58 +24,58 @@ growth sub-section-title {
   position: absolute;
 
   display: flex;
-  font-family: 'Name Headings';
+  font-family: "Name Headings";
   text-transform: uppercase;
   font-size: 18pt;
   font-weight: bold;
-  z-index:0;
+  z-index: 0;
 }
 
 growth special-section-title {
-    position: absolute;
-    font-family: 'Name Headings';
-    text-transform: uppercase;
-    font-size: 18pt;
-    font-weight: bold;
-    z-index: 0;
-    transform: translateX(-50%);
-    left: 50%;
-    top: -60px;
+  position: absolute;
+  font-family: "Name Headings";
+  text-transform: uppercase;
+  font-size: 18pt;
+  font-weight: bold;
+  z-index: 0;
+  transform: translateX(-50%);
+  left: 50%;
+  top: -60px;
 }
 
 growth-table.has-special-title {
   padding-top: 26px;
 }
 
-growth .tint{
-    width: 100%;
-    opacity: 0.2;
-    position: absolute;
-	z-index: -1;
+growth .tint {
+  width: 100%;
+  opacity: 0.2;
+  position: absolute;
+  z-index: -1;
   height: 120%;
-    top: -20%;
-    left:3px;
+  top: -20%;
+  left: 3px;
 }
 
-growth .start-tint{
-    border-radius: 8px 0px 0px 8px;
+growth .start-tint {
+  border-radius: 8px 0px 0px 8px;
 }
 
-growth .end-tint{
-    border-radius: 0px 8px 8px 0px;
+growth .end-tint {
+  border-radius: 0px 8px 8px 0px;
 }
 
-growth .solo-tint{
-    border-radius: 8px;
+growth .solo-tint {
+  border-radius: 8px;
 }
 
-growth sub-section-title>span {
+growth sub-section-title > span {
   flex-grow: 0;
   flex-shrink: 0;
 }
 
 growth sub-section-line {
-  background-image: url('../../images/board/growth_underline.png');	
+  background-image: url("../../images/board/growth_underline.png");
   height: 5px;
   width: 100%;
   background-size: 100% 100%;
@@ -101,17 +101,17 @@ growth-table {
   box-sizing: border-box;
 }
 
-sub-section-title+growth-table{
+sub-section-title + growth-table {
   margin-top: 55px;
 }
 
 growth-group {
-  display:inline-flex;
+  display: inline-flex;
   position: relative;
 }
 
 growth-border {
-  background-image: url('../../images/board/Growthborder.png');
+  background-image: url("../../images/board/Growthborder.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -126,7 +126,7 @@ growth-border {
 }
 
 growth-border[double] {
-  background-image: url('../../images/board/Growthborder_double.png');
+  background-image: url("../../images/board/Growthborder_double.png");
 }
 
 growth-cell {
@@ -141,10 +141,10 @@ growth-cell-double {
   display: flex;
   align-items: center;
   flex-direction: row;
-  font-family: 'Lato SemiBold';
-    font-size: 14pt;
-    font-style: italic;
-    text-align: center;
+  font-family: "Lato SemiBold";
+  font-size: 14pt;
+  font-style: italic;
+  text-align: center;
 }
 
 growth-cell icon {
@@ -152,7 +152,7 @@ growth-cell icon {
   height: 90px;
 }
 
-growth-cell icon.presence{
+growth-cell icon.presence {
   margin-left: 5px;
   width: 35px;
   height: 35px;
@@ -160,15 +160,18 @@ growth-cell icon.presence{
   margin-right: -2px;
 }
 
-growth-cell icon.reclaim-all,growth-cell icon.reclaim-one,growth-cell icon.reclaim-none, 
-growth-cell icon.reclaim-custom, growth-cell icon.reclaim-half {
+growth-cell icon.reclaim-all,
+growth-cell icon.reclaim-one,
+growth-cell icon.reclaim-none,
+growth-cell icon.reclaim-custom,
+growth-cell icon.reclaim-half {
   display: block;
   height: 90px;
-  width:70px;
+  width: 70px;
 }
 
 growth-cell icon.empower-incarna {
-  width:95px;
+  width: 95px;
   height: 110px;
   margin-top: -26px;
 }
@@ -184,11 +187,11 @@ growth-cell icon.incarna.add-move {
   margin-bottom: 10px;
 }
 
-growth-cell add-move-upper{
+growth-cell add-move-upper {
   margin-bottom: 35px;
 }
 
-growth-cell add-move-lower{
+growth-cell add-move-lower {
   display: inline-flex;
   height: 33px;
   flex-direction: row;
@@ -196,11 +199,11 @@ growth-cell add-move-lower{
   margin-bottom: 10px;
 }
 
-growth-cell add-token-upper{
+growth-cell add-token-upper {
   margin-bottom: 25px;
 }
 
-growth-cell add-token-lower{
+growth-cell add-token-lower {
   display: inline-flex;
   height: 33px;
   flex-direction: row;
@@ -208,7 +211,7 @@ growth-cell add-token-lower{
   margin-bottom: 20px;
 }
 
-growth-cell icon.add-token{
+growth-cell icon.add-token {
   margin-left: 5px;
   width: 35px;
   height: 35px;
@@ -216,23 +219,22 @@ growth-cell icon.add-token{
   margin-right: -2px;
 }
 
-
 add-move-upper icon.backslash {
-    width: 8px;
-    height: 25px;
-    margin-bottom: -3px;
-    margin-left: 2px;
-    margin-right: 5px;
-    margin-top: -1px;
+  width: 8px;
+  height: 25px;
+  margin-bottom: -3px;
+  margin-left: 2px;
+  margin-right: 5px;
+  margin-top: -1px;
 }
 
 add-move-upper icon.move-arrow {
-    width: 81px;
-    height: 25px;
-    margin-bottom: -3px;
-    margin-left: 2px;
-    margin-right: 5px;
-    margin-top: -1px;
+  width: 81px;
+  height: 25px;
+  margin-bottom: -3px;
+  margin-left: 2px;
+  margin-right: 5px;
+  margin-top: -1px;
 }
 
 growth-cell icon.with-your {
@@ -255,21 +257,21 @@ growth-cell icon.with-incarna {
 }
 
 growth-cell icon.reclaim-half {
-  width:82px;
+  width: 82px;
 }
 
 growth-cell icon.reclaim-element {
-    position: relative;
-    left: 28px;
-    top: -28px;
-    width: 36px;
+  position: relative;
+  left: 28px;
+  top: -28px;
+  width: 36px;
 }
 
 growth-cell icon.discard-element {
-    position: relative;
-    left: 28px;
-    top: -28px;
-    width: 36px;
+  position: relative;
+  left: 28px;
+  top: -28px;
+  width: 36px;
 }
 
 presence-node.growth {
@@ -277,7 +279,7 @@ presence-node.growth {
 }
 
 plus-presence {
-	display: block;
+  display: block;
 }
 
 custom-presence plus-presence {
@@ -286,39 +288,38 @@ custom-presence plus-presence {
 }
 
 custom-presence-or plus-presence {
-	display: inline-block;
+  display: inline-block;
 }
 
 custom-presence-no-range plus-presence {
-	display: inline-block;
+  display: inline-block;
 }
 
 /* Repeating Growth Options (Fractured Days) */
 repeat-growth {
-    background-image: url('../../images/board/NewIcons/Growth Multiply Blank.png');
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    top: -30px;
-    left: -12px;
-	background-repeat: no-repeat;
-    background-size: contain;
+  background-image: url("../../images/board/NewIcons/Growth Multiply Blank.png");
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: -30px;
+  left: -12px;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
-repeat-growth value{
-  font-family: 'Gobold Extra2', 'Noto Sans';
-    font-size: 18pt;
-    display: inline-block;
-	font-style: normal;
-    margin-top: 4px;
-    margin-left: 10px;
-    color: #52301e;
-  
+repeat-growth value {
+  font-family: "Gobold Extra2", "Noto Sans";
+  font-size: 18pt;
+  display: inline-block;
+  font-style: normal;
+  margin-top: 4px;
+  margin-left: 10px;
+  color: #52301e;
 }
 
 /* Gaining Flat Energy */
 growth-energy {
-  background-image: url('../../images/board/AddEnergyBlank.png');
+  background-image: url("../../images/board/AddEnergyBlank.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -329,7 +330,7 @@ growth-energy {
 }
 
 growth-energy value {
-  font-family: 'Gobold Extra2', 'Noto Sans';
+  font-family: "Gobold Extra2", "Noto Sans";
   font-size: 24pt;
   font-style: normal;
   display: inline-block;
@@ -339,14 +340,14 @@ growth-energy value {
 
 /* Complex add presence options */
 custom-presence-req {
-    font-size: 20pt;
-    font-weight: bold;
-    margin-top: -34px;
-    margin-bottom: 0px;
-    width: auto;
-    height: 125px;
-    display: inline-flex;
-    flex-direction: column;
+  font-size: 20pt;
+  font-weight: bold;
+  margin-top: -34px;
+  margin-bottom: 0px;
+  width: auto;
+  height: 125px;
+  display: inline-flex;
+  flex-direction: column;
 }
 
 custom-presence {
@@ -360,32 +361,31 @@ custom-presence {
   margin-top: 11px;
 }
 
-
 custom-presence-or {
-	font-size: 20pt;
-    font-weight: bold;
-    display: block;
-    margin-top: 5px;
-    width: auto;
-    height: 40px;
-    margin-bottom: 0px;
-    margin-top: 36px;
+  font-size: 20pt;
+  font-weight: bold;
+  display: block;
+  margin-top: 5px;
+  width: auto;
+  height: 40px;
+  margin-bottom: 0px;
+  margin-top: 36px;
 }
 
 custom-presence-or icon.backslash {
-    width: 8px;
-    height: 25px;
-    margin-bottom: -3px;
-    margin-left: 2px;
-    margin-right: 5px;
-    margin-top: -1px;
+  width: 8px;
+  height: 25px;
+  margin-bottom: -3px;
+  margin-left: 2px;
+  margin-right: 5px;
+  margin-top: -1px;
 }
 
 custom-presence-or icon {
-    margin-bottom: -5px;
-    width: 33px;
-    height: 34px;
-    margin-left: -4px;
+  margin-bottom: -5px;
+  width: 33px;
+  height: 34px;
+  margin-left: -4px;
 }
 
 custom-presence-no-range {
@@ -399,7 +399,7 @@ custom-presence-no-range {
 }
 
 custom-presence-no-range icon.range-any {
-width:0px
+  width: 0px;
 }
 
 custom-presence icon.range-0,
@@ -411,13 +411,13 @@ custom-presence icon.range-4 {
 }
 
 range-growth {
-  background-image: url('../../images/board/range_arrow.png');
+  background-image: url("../../images/board/range_arrow.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: bottom;
   font-size: 40px;
   line-height: 28px;
-  font-family: 'Antropos';
+  font-family: "Antropos";
   height: 45px;
   width: 106px;
   margin-top: 0px;
@@ -426,13 +426,13 @@ range-growth {
 }
 
 growth-cell range {
-  background-image: url('../../images/board/range_arrow.png');
+  background-image: url("../../images/board/range_arrow.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: bottom;
   font-size: 40px;
   line-height: 28px;
-  font-family: 'Antropos';
+  font-family: "Antropos";
   height: 45px;
   width: 106px;
   margin-top: 42px;
@@ -454,51 +454,53 @@ custom-presence-req icon.range-4 {
 }
 
 custom-presence-req icon.dahan {
-    height: 37px;
-    width: 37px;
-    margin-top: 0px;
-    margin-bottom: -9px;
+  height: 37px;
+  width: 37px;
+  margin-top: 0px;
+  margin-bottom: -9px;
 }
 
 presence-req icon.presence {
-    display: inline-block;
-    height: 45px;
-    width: 45px;
-    margin-top: 7px;
-    margin-bottom: -5px;
+  display: inline-block;
+  height: 45px;
+  width: 45px;
+  margin-top: 7px;
+  margin-bottom: -5px;
 }
 
 presence-req icon {
-	height: 37px;
-	width: 37px;
+  height: 37px;
+  width: 37px;
   margin-left: auto;
   margin-right: auto;
-	margin-top: 0px;
-	margin-bottom: -10px;
+  margin-top: 0px;
+  margin-bottom: -10px;
 }
 
-presence-req icon.town, presence-req icon.disease {
-	height: 37px;
-	width: 27px;
+presence-req icon.town,
+presence-req icon.disease {
+  height: 37px;
+  width: 27px;
 }
 
 presence-req icon.presence {
-	width: 35px;
-	height: 27px;
-	margin-top: 0px;
+  width: 35px;
+  height: 27px;
+  margin-top: 0px;
 }
 
 presence-req icon.blight {
-    width: 30px;
+  width: 30px;
 }
 
 presence-req icon.invaders {
-	width: 70px;
-	height: 25px;
-	margin-top: 22px;
+  width: 70px;
+  height: 25px;
+  margin-top: 22px;
 }
 
-presence-req icon.terrain-single, presence-req icon.terrain-double {
+presence-req icon.terrain-single,
+presence-req icon.terrain-double {
   height: 37px;
   width: 37px;
   margin-top: -1px;
@@ -508,28 +510,28 @@ presence-req icon.terrain-single, presence-req icon.terrain-double {
 }
 
 presence-req icon.terrain-double {
-	width: 80px;
-	transform: translateY(0px) translateX(6px);
+  width: 80px;
+  transform: translateY(0px) translateX(6px);
 }
 
-presence-req icon.ocean{
-	height: 46px;
+presence-req icon.ocean {
+  height: 46px;
   width: 65px;
   margin-top: -3px;
   margin-left: -3px;
 }
 
 presence-req {
-  font-family: 'Lato SemiBold';
+  font-family: "Lato SemiBold";
   font-size: 14pt;
   font-style: italic;
   display: block;
-  height:45px;
+  height: 45px;
 }
 
 display-custom {
-	display: inline-flex;
-    flex-direction: row;
+  display: inline-flex;
+  flex-direction: row;
 }
 
 growth-cell icon.make-fast {
@@ -545,14 +547,18 @@ growth-cell icon.reclaim-custom {
 }
 
 growth-cell icon.isolate {
-  width:70px;
+  width: 70px;
   margin-bottom: 7px;
 }
 
-growth-cell icon.gain-power-card, growth-cell icon.forget-power-card,
-growth-cell icon.discard-cards, growth-cell icon.discard-2-cards,
-growth-cell icon.discard-card, growth-cell icon.discard-1-card,
-growth-cell icon.gain-card-play, growth-cell icon.gain-card-play-blank,
+growth-cell icon.gain-power-card,
+growth-cell icon.forget-power-card,
+growth-cell icon.discard-cards,
+growth-cell icon.discard-2-cards,
+growth-cell icon.discard-card,
+growth-cell icon.discard-1-card,
+growth-cell icon.gain-card-play,
+growth-cell icon.gain-card-play-blank,
 growth-cell icon.days-never-were {
   margin-bottom: 7px;
   height: 90px;
@@ -560,10 +566,10 @@ growth-cell icon.days-never-were {
 }
 
 growth-cell icon.energy-per-play {
-    margin-bottom: 0px;
-    margin-top: -20px;
-    width: 100px;
-    height: 110px;
+  margin-bottom: 0px;
+  margin-top: -20px;
+  width: 100px;
+  height: 110px;
 }
 /* 
 growth-cell icon.destroyed-presence, growth-cell icon.destroy-presence {
@@ -587,15 +593,16 @@ growth-cell icon.ignore-range {
   width: 100px;
 }
 
-growth-cell icon.gain-1-time, growth-cell icon.gain-2-time {
-    height: 100px;
-    width: 100px;
-    margin-top: -17px;
+growth-cell icon.gain-1-time,
+growth-cell icon.gain-2-time {
+  height: 100px;
+  width: 100px;
+  margin-top: -17px;
 }
 
 growth-cell icon.make-fast {
   margin-bottom: 3px;
-  width:90px;
+  width: 90px;
 }
 
 custom-icon {
@@ -612,107 +619,134 @@ custom-icon {
 }
 
 custom-icon .token {
-    width: 40px;
-    height: 35px;
-    margin-bottom: -3px;
-    margin-left: 0px;
+  width: 40px;
+  height: 35px;
+  margin-bottom: -3px;
+  margin-left: 0px;
 }
 
 custom-icon .destroyed-presence {
-    width: 40px;
-    height: 30px;
-    margin-bottom: -3px;
-    margin-left: 1px;
+  width: 40px;
+  height: 30px;
+  margin-bottom: -3px;
+  margin-left: 1px;
 }
 
 icon.gain-card-modifier {
-    width: 50px;
-    position: relative;
-    left: -29px;
-    top: -34px;
+  width: 50px;
+  position: relative;
+  left: -29px;
+  top: -34px;
 }
 
-icon.gain-card-modifier.sun {background-image: url(../../images/board/element_simple_sun.png);}
-icon.gain-card-modifier.earth {background-image: url(../../images/board/element_simple_earth.png);}
-icon.gain-card-modifier.plant {background-image: url(../../images/board/element_simple_plant.png);}
-icon.gain-card-modifier.fire {background-image: url(../../images/board/element_simple_fire.png);}
-icon.gain-card-modifier.air {background-image: url(../../images/board/element_simple_air.png);}
-icon.gain-card-modifier.moon {background-image: url(../../images/board/element_simple_moon.png);}
-icon.gain-card-modifier.animal {background-image: url(../../images/board/element_simple_animal.png);}
-icon.gain-card-modifier.water {background-image: url(../../images/board/element_simple_water.png);}
-icon.gain-card-modifier.any {background-image: url(../../images/board/element_simple_any.png);}
+icon.gain-card-modifier.sun {
+  background-image: url(../../images/board/element_simple_sun.png);
+}
+icon.gain-card-modifier.earth {
+  background-image: url(../../images/board/element_simple_earth.png);
+}
+icon.gain-card-modifier.plant {
+  background-image: url(../../images/board/element_simple_plant.png);
+}
+icon.gain-card-modifier.fire {
+  background-image: url(../../images/board/element_simple_fire.png);
+}
+icon.gain-card-modifier.air {
+  background-image: url(../../images/board/element_simple_air.png);
+}
+icon.gain-card-modifier.moon {
+  background-image: url(../../images/board/element_simple_moon.png);
+}
+icon.gain-card-modifier.animal {
+  background-image: url(../../images/board/element_simple_animal.png);
+}
+icon.gain-card-modifier.water {
+  background-image: url(../../images/board/element_simple_water.png);
+}
+icon.gain-card-modifier.any {
+  background-image: url(../../images/board/element_simple_any.png);
+}
 
 icon.gain-card-modifier.minor {
-  width:42px;
+  width: 42px;
 }
 
-token-wrap{
+token-wrap {
   display: inline-flex;
   flex-wrap: wrap;
   vertical-align: bottom;
   align-content: flex-end;
-  height:69px;
+  height: 69px;
   padding-bottom: 2px;
   justify-content: center;
 }
 
-replace-wrap{
+replace-wrap {
   display: inline-flex;
   flex-wrap: wrap;
   vertical-align: bottom;
   align-content: flex-end;
-  height:69px;
+  height: 69px;
   padding-bottom: 2px;
   justify-content: center;
   font-size: 20pt;
   font-weight: bold;
 }
 
-icon.replace-with, icon.replace-this, icon.replace-this-no-range,
-icon.replace-with.presence, icon.replace-this.presence, icon.replace-this-no-range.presence{
-  height:40px;
-  width:40px;
-  margin-bottom:0px;
-  margin-top:-5px;
+icon.replace-with,
+icon.replace-this,
+icon.replace-this-no-range,
+icon.replace-with.presence,
+icon.replace-this.presence,
+icon.replace-this-no-range.presence {
+  height: 40px;
+  width: 40px;
+  margin-bottom: 0px;
+  margin-top: -5px;
   top: 10px;
 }
 
-icon.replace-with.presence, icon.replace-this.presence, icon.replace-this-no-range.presence{
-  margin-right:0px;
-  margin-left:0px;
+icon.replace-with.presence,
+icon.replace-this.presence,
+icon.replace-this-no-range.presence {
+  margin-right: 0px;
+  margin-left: 0px;
 }
 
-icon.replace-with{
+icon.replace-with {
   position: inherit;
 }
 
-icon.replace-this{
-  position:absolute;
+icon.replace-this {
+  position: absolute;
   transform: translate(6px, -33px);
 }
 
-icon.replace-this-no-range{
-  position:absolute;
+icon.replace-this-no-range {
+  position: absolute;
   transform: translate(6px, 7px);
 }
 
-custom-icon icon.isolate{
-    width: 50px;
-    margin-bottom: -10px;
+custom-icon icon.isolate {
+  width: 50px;
+  margin-bottom: -10px;
 }
 
 custom-icon2 {
-	display:flex;
-	flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-custom-icon2 icon.move-range-1,custom-icon2 icon.move-range-2,custom-icon2 icon.move-range-3,custom-icon2 icon.move-range-4 {
-    margin-top: 8px;
-    margin-left: 0px;
+custom-icon2 icon.move-range-1,
+custom-icon2 icon.move-range-2,
+custom-icon2 icon.move-range-3,
+custom-icon2 icon.move-range-4 {
+  margin-top: 8px;
+  margin-left: 0px;
 }
 
 growth-text {
-  font-family: 'Lato SemiBold';
+  font-family: "Lato SemiBold";
   font-size: 14pt;
   font-style: italic;
   margin-top: 0px;
@@ -730,46 +764,45 @@ growth-text icon.wilds,
 growth-text icon.disease,
 growth-text icon.strife,
 growth-text icon.beasts {
-    width: 24px;
-    height: 24px;
-    margin-bottom: -3px;
-    margin-left: -4px;
-    margin-right: -4px;
+  width: 24px;
+  height: 24px;
+  margin-bottom: -3px;
+  margin-left: -4px;
+  margin-right: -4px;
 }
 
 .plus-text {
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-	font-size: 20pt;
-    font-weight: bold;
-    font-style: normal;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 20pt;
+  font-weight: bold;
+  font-style: normal;
 }
 
 plus-text {
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-	font-size: 20pt;
-    font-weight: bold;
-    font-style: normal;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 20pt;
+  font-weight: bold;
+  font-style: normal;
 }
 
 plus-text::after {
-	content: "+";
-
+  content: "+";
 }
 
 .non-icon {
-    font-family: 'Name Headings';
-    font-size: 20pt;
-	font-style: normal;
-    margin: auto;
+  font-family: "Name Headings";
+  font-size: 20pt;
+  font-style: normal;
+  margin: auto;
 }
 
 .non-icon.small {
-    font-size: 14pt;
+  font-size: 14pt;
 }
 
 growth-cell icon.gather-arrow {
   margin-bottom: 7px;
-  background-image: url('../../images/board/half_arrow_gather.png');
+  background-image: url("../../images/board/half_arrow_gather.png");
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
@@ -781,7 +814,7 @@ growth-cell icon.gather-arrow {
 
 growth-cell icon.push-arrow {
   margin-bottom: 7px;
-  background-image: url('../../images/board/half_arrow_push.png');
+  background-image: url("../../images/board/half_arrow_push.png");
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
@@ -793,44 +826,44 @@ growth-cell icon.push-arrow {
 
 growth-cell icon.push {
   height: 62px;
-  width:100px;
+  width: 100px;
 }
 
-growth-cell icon.push>icon {
+growth-cell icon.push > icon {
   left: -15px;
   top: 17px;
 }
 
-growth-cell icon.push-from>.from {
-    left: -20px;
-    top: 11px;
-    width: 35px;
+growth-cell icon.push-from > .from {
+  left: -20px;
+  top: 11px;
+  width: 35px;
 }
 
 growth-cell icon.push-from {
   display: inline-block;
   height: 62px;
-  width:100px;
+  width: 100px;
   margin-bottom: 7px;
 }
 
 growth-cell icon.push-from > icon {
-    position: relative;
-    text-align: unset;
-    left: -10px;
-    top: 30px;
-    width: 30px;
-    height: 25px;
-    margin: 0px;
-    padding: 0px;
+  position: relative;
+  text-align: unset;
+  left: -10px;
+  top: 30px;
+  width: 30px;
+  height: 25px;
+  margin: 0px;
+  padding: 0px;
 }
 
-growth-cell icon.gather>icon {
+growth-cell icon.gather > icon {
   left: 65px;
   top: 17px;
 }
 
-growth-cell icon.gather-into>icon {
+growth-cell icon.gather-into > icon {
   left: 79px;
   top: 23px;
 }
@@ -838,37 +871,37 @@ growth-cell icon.gather-into>icon {
 growth-cell icon.gather-into {
   display: inline-block;
   height: 62px;
-  width:100px;
+  width: 100px;
   margin-right: 20px;
   margin-bottom: 7px;
 }
 
 growth-cell icon.gather-into > icon {
-    position: relative;
-    text-align: unset;
-    left: 79px;
-    top: 23px;
-    width: 30px;
-    height: 25px;
-    margin: 0px;
-    padding: 0px;
+  position: relative;
+  text-align: unset;
+  left: 79px;
+  top: 23px;
+  width: 30px;
+  height: 25px;
+  margin: 0px;
+  padding: 0px;
 }
 
-growth-cell icon.gather-into>.into {
+growth-cell icon.gather-into > .into {
   left: -30px;
   top: 10px;
-  width:35px;
+  width: 35px;
 }
 
-growth-cell icon.gather-into>icon.explorer {
-    height: 35px;
-    margin-top: -10px;
-    margin-bottom: -6px;
+growth-cell icon.gather-into > icon.explorer {
+  height: 35px;
+  margin-top: -10px;
+  margin-bottom: -6px;
 }
 
 growth-cost {
-  background-image: url('../../images/board/NewIcons/Energy Blank Small.png');
-  font-family: 'Gobold Extra2', 'Noto Sans';
+  background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
+  font-family: "Gobold Extra2", "Noto Sans";
   font-size: 16pt;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -903,8 +936,8 @@ growth-cost {
 } */
 
 growth-cost::after {
-  content: 'Cost';
-  font-family: 'Lato SemiBold';
+  content: "Cost";
+  font-family: "Lato SemiBold";
   font-size: 14pt;
   font-style: italic;
   position: absolute;
@@ -914,15 +947,15 @@ growth-cost::after {
 
 growth-cost.custom {
   background-image: none;
-    font-size: 20pt;
-    top: -35px;
-    padding-top: 1px;
-    float: left;
+  font-size: 20pt;
+  top: -35px;
+  padding-top: 1px;
+  float: left;
 }
 
 growth-cost.custom > icon {
-    height: 45px;
-    width: 45px;
+  height: 45px;
+  width: 45px;
 }
 
 growth-cost.custom value {
@@ -933,8 +966,8 @@ growth-cost.custom value {
 }
 
 growth-cost.custom::after {
-  content: 'Cost';
-  font-family: 'Lato SemiBold';
+  content: "Cost";
+  font-family: "Lato SemiBold";
   font-size: 14pt;
   font-style: italic;
   position: absolute;
@@ -1002,7 +1035,7 @@ growth-cost.nonscaling > icon {
 }
 
 growth-cost-custom-nonscaling-description {
-  font-family: 'Lato SemiBold';
+  font-family: "Lato SemiBold";
   font-size: 10.5pt;
   font-style: italic;
   width: 120px;
@@ -1014,7 +1047,7 @@ growth-cost-custom-nonscaling-description {
 }
 
 presence-special-req {
-  background-image: url('../../images/board/75px_presence.png');
+  background-image: url("../../images/board/75px_presence.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -1032,61 +1065,62 @@ add-presence-req {
 
 /* Deal Damage in Growth */
 growth-damage {
-    background-image: url('../../images/board/NewIcons/Damage Blank.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    font-size: 20pt;
-    font-weight: bold;
-    display: block;
-    margin-top: -11px;
-    width: 80px;
-    height: 80px;
-    margin-bottom: 1px;
-    margin-right: 0px;
+  background-image: url("../../images/board/NewIcons/Damage Blank.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  font-size: 20pt;
+  font-weight: bold;
+  display: block;
+  margin-top: -11px;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1px;
+  margin-right: 0px;
 }
 
 growth-damage value {
-  font-family: 'Gobold Extra2', 'Noto Sans';
-    font-size: 22pt;
-    display: inline-block;
-    margin-top: 36px;
-    margin-left: 0px;
-	font-style: normal;
+  font-family: "Gobold Extra2", "Noto Sans";
+  font-size: 22pt;
+  display: inline-block;
+  margin-top: 36px;
+  margin-left: 0px;
+  font-style: normal;
 }
 
-growth icon.damage-1, growth icon.damage-2 {
-  height:80px;
-  width:80px;
+growth icon.damage-1,
+growth icon.damage-2 {
+  height: 80px;
+  width: 80px;
   margin-bottom: 17px;
 }
 
 card-play-num {
-    background-image: url('../../images/board/NewIcons/Cardplay Gain Blank.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    height: 90px;
-    width: 90px;
-    display: block;
-    z-index: 1;
-    position: relative;
-    margin-left: 0;
-    margin-bottom: 7px;
-    margin-top: -7px;
+  background-image: url("../../images/board/NewIcons/Cardplay Gain Blank.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  height: 90px;
+  width: 90px;
+  display: block;
+  z-index: 1;
+  position: relative;
+  margin-left: 0;
+  margin-bottom: 7px;
+  margin-top: -7px;
 }
 
 card-play-num value {
-    font-family: 'Gobold Extra2', 'Noto Sans';
-    font-size: 24pt;
-	font-style: normal;
-    display: inline-block;
-    margin-top: 32px;
-    margin-left: 0px;
+  font-family: "Gobold Extra2", "Noto Sans";
+  font-size: 24pt;
+  font-style: normal;
+  display: inline-block;
+  margin-top: 32px;
+  margin-left: 0px;
 }
 
 growth-cell card-play {
-  background-image: url('../../images/board/card_play.png');
+  background-image: url("../../images/board/card_play.png");
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
@@ -1096,7 +1130,7 @@ growth-cell card-play {
 }
 
 your-land {
-  background-image: url('../../images/board/NeutralBoard.png');
+  background-image: url("../../images/board/NeutralBoard.png");
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
@@ -1114,10 +1148,8 @@ move {
   text-align: center;
 }
 
-
-
 push {
-  background-image: url('../../images/board/half_arrow_push.png');
+  background-image: url("../../images/board/half_arrow_push.png");
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
@@ -1128,7 +1160,7 @@ push {
 }
 
 gather {
-  background-image: url('../../images/board/half_arrow_gather.png');
+  background-image: url("../../images/board/half_arrow_gather.png");
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
@@ -1149,87 +1181,87 @@ push-gather {
 }
 
 push-gather icon.terrain-gather {
-	display: inline-block;
-    height: 62px;
-    width: 100px;
-    margin-right: 20px;
-    margin-bottom: 7px;
-    margin-top: 0px;
-    margin-left: 0px;
+  display: inline-block;
+  height: 62px;
+  width: 100px;
+  margin-right: 20px;
+  margin-bottom: 7px;
+  margin-top: 0px;
+  margin-left: 0px;
 }
 
 push-gather icon.terrain-push {
-	display: inline-block;
-    height: 62px;
-    width: 100px;
-    margin-right: 0px;
-    margin-bottom: 7px;
-    margin-top: 0px;
-    margin-left: 0px;
+  display: inline-block;
+  height: 62px;
+  width: 100px;
+  margin-right: 0px;
+  margin-bottom: 7px;
+  margin-top: 0px;
+  margin-left: 0px;
 }
 
-push-gather icon.terrain-gather>icon.into{
-    left: 58px;
-    top: -8px;
-	position: relative;
-    text-align: unset;
-    width: 30px;
-    height: 25px;
-    margin: 0px;
-    padding: 0px;
+push-gather icon.terrain-gather > icon.into {
+  left: 58px;
+  top: -8px;
+  position: relative;
+  text-align: unset;
+  width: 30px;
+  height: 25px;
+  margin: 0px;
+  padding: 0px;
 }
 
-push-gather icon.terrain-push>icon.from{
-	left: -26px;
-    top: 13px;
-	position: relative;
-    text-align: unset;
-    width: 30px;
-    height: 25px;
-    margin: 0px;
-    padding: 0px;
+push-gather icon.terrain-push > icon.from {
+  left: -26px;
+  top: 13px;
+  position: relative;
+  text-align: unset;
+  width: 30px;
+  height: 25px;
+  margin: 0px;
+  padding: 0px;
 }
 
-push-gather icon.terrain-push.ocean>icon.from{
-	left: -8px;
-    top: -8px;
+push-gather icon.terrain-push.ocean > icon.from {
+  left: -8px;
+  top: -8px;
 }
 
-push-gather icon.terrain-gather>icon.gather-arrow{
-	left: 60px;
-    top: 17px;
-	position: relative;
-    text-align: unset;
-	width: 32px;
-    height: 25px;
-	margin: 0px;
-    padding: 0px;
+push-gather icon.terrain-gather > icon.gather-arrow {
+  left: 60px;
+  top: 17px;
+  position: relative;
+  text-align: unset;
+  width: 32px;
+  height: 25px;
+  margin: 0px;
+  padding: 0px;
 }
 
-push-gather icon.terrain-push>icon.push-arrow{
-	left: 47px;
-    top: 38px;
-	position: relative;
-    text-align: unset;
-	width: 40px;
-    height: 25px;
-	margin: 0px;
-    padding: 0px;
+push-gather icon.terrain-push > icon.push-arrow {
+  left: 47px;
+  top: 38px;
+  position: relative;
+  text-align: unset;
+  width: 40px;
+  height: 25px;
+  margin: 0px;
+  padding: 0px;
 }
 
-push-gather icon.terrain-push.ocean>icon.push-arrow{
-	left: 63px;
-    top: 17px;
+push-gather icon.terrain-push.ocean > icon.push-arrow {
+  left: 63px;
+  top: 17px;
 }
 
 push-gather-range-req {
-    font-size: 20pt;
-    font-weight: bold;
-    margin-top: -27px;
-    margin-bottom: 8px;
-    width: auto;
-    height: 110px;
-    display: block;
+  font-size: 20pt;
+  font-weight: bold;
+  margin-top: -27px;
+  margin-bottom: 8px;
+  width: auto;
+  height: 110px;
+  display: block;
 }
 
 /* Element Icons */
@@ -1255,13 +1287,13 @@ growth-cell gain icon.markerplus {
 }
 
 growth-cell gain icon.star {
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: inline-block;
-    height: 87px;
-    width: 87px;
-    margin-top: -3px;
-    margin-bottom: 7px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  height: 87px;
+  width: 87px;
+  margin-top: -3px;
+  margin-bottom: 7px;
 }
 
 /* Enables growth option - OR multiple different elements */
@@ -1273,8 +1305,8 @@ growth-cell gain icon.orelement {
 }
 
 gain.or {
-	display:flex;
-	flex-direction:row;
+  display: flex;
+  flex-direction: row;
 }
 
 /* growth-cell icon.presence{
@@ -1285,46 +1317,48 @@ gain.or {
   margin-right: -2px;
 } */
 
-growth-cell div.custom-scaling{
-    font-family: 'Name Headings';
-    font-size: 28pt;
-    font-style: normal;
+growth-cell div.custom-scaling {
+  font-family: "Name Headings";
+  font-size: 28pt;
+  font-style: normal;
 }
 
 gain {
-	height: 90px;
+  height: 90px;
 }
 
 /* Enables growth option - 2 of same element */
-icon-multi-element icon, icon-multi-element energy-icon,icon-multi-element card-icon {
+icon-multi-element icon,
+icon-multi-element energy-icon,
+icon-multi-element card-icon {
   display: inline-block;
   position: absolute;
 }
 
-icon-multi-element icon.star{
-    width: 80px;
-    margin-top: -10px;
-    margin-left: -5px;
+icon-multi-element icon.star {
+  width: 80px;
+  margin-top: -10px;
+  margin-left: -5px;
 }
 
 /* Gaining Energy per Element/Icon */
 gain-per {
-    background-image: url('../../images/board/AddEnergyBlank.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    height: 75px;
-    width: 75px;
-    display: block;
-    z-index: 1;
-    position: relative;
-    margin-left: -27px;
-    margin-bottom: 50px;
-    margin-top: -35px;
+  background-image: url("../../images/board/AddEnergyBlank.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  height: 75px;
+  width: 75px;
+  display: block;
+  z-index: 1;
+  position: relative;
+  margin-left: -27px;
+  margin-bottom: 50px;
+  margin-top: -35px;
 }
 
 gain-per value {
-  font-family: 'Gobold Extra2', 'Noto Sans';
+  font-family: "Gobold Extra2", "Noto Sans";
   font-size: 16pt;
   font-style: normal;
   display: inline-block;
@@ -1332,7 +1366,7 @@ gain-per value {
   margin-left: 11px;
 }
 
-gain-per-element icon{
+gain-per-element icon {
   height: 50px;
   width: 50px;
   z-index: 1;
@@ -1354,8 +1388,12 @@ gain-per-element icon.sun,
 gain-per-element icon.moon,
 gain-per-element icon.sacred-site,
 gain-per-element icon.destroyed-presence,
-gain-per-element icon.explorer, gain-per-element icon.town, gain-per-element icon.city,
-gain-per-element icon.custom1, gain-per-element icon.custom2, gain-per-element icon.custom3 {
+gain-per-element icon.explorer,
+gain-per-element icon.town,
+gain-per-element icon.city,
+gain-per-element icon.custom1,
+gain-per-element icon.custom2,
+gain-per-element icon.custom3 {
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
@@ -1364,115 +1402,132 @@ gain-per-element icon.custom1, gain-per-element icon.custom2, gain-per-element i
   z-index: 0;
 }
 
-gain-per-element icon.sun {background-image: url(../../images/board/element_simple_sun.png);}
-gain-per-element icon.earth {background-image: url(../../images/board/element_simple_earth.png);}
-gain-per-element icon.plant {background-image: url(../../images/board/element_simple_plant.png);}
-gain-per-element icon.fire {background-image: url(../../images/board/element_simple_fire.png);}
-gain-per-element icon.air {background-image: url(../../images/board/element_simple_air.png);}
-gain-per-element icon.moon {background-image: url(../../images/board/element_simple_moon.png);}
-gain-per-element icon.animal {background-image: url(../../images/board/element_simple_animal.png);}
-gain-per-element icon.water {background-image: url(../../images/board/element_simple_water.png);}
-gain-per-element icon.any {background-image: url(../../images/board/element_simple_any.png);}
+gain-per-element icon.sun {
+  background-image: url(../../images/board/element_simple_sun.png);
+}
+gain-per-element icon.earth {
+  background-image: url(../../images/board/element_simple_earth.png);
+}
+gain-per-element icon.plant {
+  background-image: url(../../images/board/element_simple_plant.png);
+}
+gain-per-element icon.fire {
+  background-image: url(../../images/board/element_simple_fire.png);
+}
+gain-per-element icon.air {
+  background-image: url(../../images/board/element_simple_air.png);
+}
+gain-per-element icon.moon {
+  background-image: url(../../images/board/element_simple_moon.png);
+}
+gain-per-element icon.animal {
+  background-image: url(../../images/board/element_simple_animal.png);
+}
+gain-per-element icon.water {
+  background-image: url(../../images/board/element_simple_water.png);
+}
+gain-per-element icon.any {
+  background-image: url(../../images/board/element_simple_any.png);
+}
 
-gain-per-element ring-icon{
-    background-image: url(../../images/board/CardPlayRing.png);
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: inline-block;
-    height: 70px;
-    width: 70px;
-    z-index: 2;
-	margin-left: -47px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+gain-per-element ring-icon {
+  background-image: url(../../images/board/CardPlayRing.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  height: 70px;
+  width: 70px;
+  z-index: 2;
+  margin-left: -47px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Totally Custom Growth Options (Icon, text, etc) */
 custom-growth-icon {
-    font-size: 20pt;
-    font-weight: bold;
-    margin-top: -10px;
-    margin-bottom: 0px;
-    width: auto;
-    height: 100px;
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: space-around;
+  font-size: 20pt;
+  font-weight: bold;
+  margin-top: -10px;
+  margin-bottom: 0px;
+  width: auto;
+  height: 100px;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
-
 custom-growth-icon icon.explorer {
-    width: 50px;
-    height: 70px;
-	margin-top: 0px;
+  width: 50px;
+  height: 70px;
+  margin-top: 0px;
 }
 
 icon.custom-growth-icon {
-    width: 80px;
-    height: 90px;
-	margin-top: 0px;
-    margin-bottom: 7px;
-	background-position: bottom;
+  width: 80px;
+  height: 90px;
+  margin-top: 0px;
+  margin-bottom: 7px;
+  background-position: bottom;
 }
 
 /* Gaining Fear */
 growth-fear {
-  background-image: url('../../images/board/fear.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    display: block;
-    height: 110px;
-    width: 80px;
-    margin-top: -20px;
+  background-image: url("../../images/board/fear.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: block;
+  height: 110px;
+  width: 80px;
+  margin-top: -20px;
 }
 
 growth-fear value {
-    font-family: 'Gobold Extra2', 'Noto Sans';
-    font-size: 20pt;
-    display: inline-block;
-    font-style: normal;
-    margin-top: 48px;
-    margin-left: 0px;
+  font-family: "Gobold Extra2", "Noto Sans";
+  font-size: 20pt;
+  display: inline-block;
+  font-style: normal;
+  margin-top: 48px;
+  margin-left: 0px;
 }
 
 fear-per {
-    background-image: url('../../images/board/fear.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    height: 75px;
-    width: 53px;
-    display: block;
-    z-index: 1;
-    position: relative;
-    margin-left: 0px;
-    margin-bottom: 50px;
-    margin-top: -35px;
+  background-image: url("../../images/board/fear.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  height: 75px;
+  width: 53px;
+  display: block;
+  z-index: 1;
+  position: relative;
+  margin-left: 0px;
+  margin-bottom: 50px;
+  margin-top: -35px;
 }
 
-fear-per value{
-    font-family: 'Gobold Extra2', 'Noto Sans';
-    font-size: 14pt;
-    display: inline-block;
-    font-style: normal;
-    margin-top: 33px;
-    margin-left: 0px;
+fear-per value {
+  font-family: "Gobold Extra2", "Noto Sans";
+  font-size: 14pt;
+  display: inline-block;
+  font-style: normal;
+  margin-top: 33px;
+  margin-left: 0px;
 }
 
-gain-per-fear ring-icon{
-    background-image: url('../../images/board/CardPlayRing.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: inline-block;
-    height: 70px;
-    width: 70px;
-    z-index: 2;
-    margin-left: -32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+gain-per-fear ring-icon {
+  background-image: url("../../images/board/CardPlayRing.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  height: 70px;
+  width: 70px;
+  z-index: 2;
+  margin-left: -32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 gain-per-fear icon,
@@ -1487,8 +1542,12 @@ gain-per-fear icon.sun,
 gain-per-fear icon.moon,
 gain-per-fear icon.sacred-site,
 gain-per-fear icon.destroyed-presence,
-gain-per-fear icon.explorer, gain-per-fear icon.town, gain-per-fear icon.city,
-gain-per-fear icon.custom1, gain-per-faer icon.custom2, gain-per-fear icon.custom3 {
+gain-per-fear icon.explorer,
+gain-per-fear icon.town,
+gain-per-fear icon.city,
+gain-per-fear icon.custom1,
+gain-per-faer icon.custom2,
+gain-per-fear icon.custom3 {
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
@@ -1500,25 +1559,40 @@ gain-per-fear icon.custom1, gain-per-faer icon.custom2, gain-per-fear icon.custo
   margin-bottom: 0px;
 }
 
-gain-per-fear icon.sun {background-image: url(../../images/board/element_simple_sun.png);}
-gain-per-fear icon.earth {background-image: url(../../images/board/element_simple_earth.png);}
-gain-per-fear icon.plant {background-image: url(../../images/board/element_simple_plant.png);}
-gain-per-fear icon.fire {background-image: url(../../images/board/element_simple_fire.png);}
-gain-per-fear icon.air {background-image: url(../../images/board/element_simple_air.png);}
-gain-per-fear icon.moon {background-image: url(../../images/board/element_simple_moon.png);}
-gain-per-fear icon.animal {background-image: url(../../images/board/element_simple_animal.png);}
-gain-per-fear icon.water {background-image: url(../../images/board/element_simple_water.png);}
-
-growth-row-line {
-	background-image: url(../../images/board/growth_underline.png);
-    height: 5px;
-    width: 133px;
-    display: block;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    margin-left: 21px;
-    margin-right: 8px;
-    margin-bottom: 21px;
-    margin-top: -17px;
+gain-per-fear icon.sun {
+  background-image: url(../../images/board/element_simple_sun.png);
+}
+gain-per-fear icon.earth {
+  background-image: url(../../images/board/element_simple_earth.png);
+}
+gain-per-fear icon.plant {
+  background-image: url(../../images/board/element_simple_plant.png);
+}
+gain-per-fear icon.fire {
+  background-image: url(../../images/board/element_simple_fire.png);
+}
+gain-per-fear icon.air {
+  background-image: url(../../images/board/element_simple_air.png);
+}
+gain-per-fear icon.moon {
+  background-image: url(../../images/board/element_simple_moon.png);
+}
+gain-per-fear icon.animal {
+  background-image: url(../../images/board/element_simple_animal.png);
+}
+gain-per-fear icon.water {
+  background-image: url(../../images/board/element_simple_water.png);
 }
 
+growth-row-line {
+  background-image: url(../../images/board/growth_underline.png);
+  height: 5px;
+  width: 133px;
+  display: block;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  margin-left: 21px;
+  margin-right: 8px;
+  margin-bottom: 21px;
+  margin-top: -17px;
+}
