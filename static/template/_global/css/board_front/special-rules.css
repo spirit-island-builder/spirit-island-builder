@@ -2,11 +2,8 @@ special-rules-container {
   background-image: url("../../images/board/Innate__Special_Rules_Without_Text.png");
   background-repeat: repeat-y;
   background-position: top;
-  position: absolute;
-  left: 16px;
   min-height: 250px;
   padding-bottom: 19px;
-  padding-top: 48px;
   width: 667px;
   display: flex;
   flex-direction: column;

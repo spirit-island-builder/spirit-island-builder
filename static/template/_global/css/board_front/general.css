@@ -46,6 +46,12 @@ board {
   width: 100%;
   height: 100%;
   border-radius: 15.1px;
+  display: flex;
+  padding-left: 16px;
+  padding-top: 17.75px;
+  padding-bottom: 15px;
+  justify-content: end;
+  flex-direction: column;
 }
 
 board.round-border {
@@ -53,11 +59,9 @@ board.round-border {
 }
 
 spirit-name {
-  position: absolute;
   display: flex;
   align-items: center;
-  left: 45px;
-  top: 734px;
+  margin-left: 29px;
   height: 0px;
   width: 666.25px;
   font-size: 40px;
@@ -101,11 +105,11 @@ custom-meeple {
 }
 
 .spirit-border {
-  position: absolute;
-  left: 0px;
-  top: -50px;
+  margin-left: -15px;
+  margin-right: -8px;
+  margin-top: -50px;
+  margin-bottom: -2px;
   height: 100px;
-  width: 100%;
   z-index: 1;
   background-repeat: no-repeat;
   background-position: left center;
@@ -113,12 +117,11 @@ custom-meeple {
 }
 
 .spirit-image {
-  position: absolute;
-  left: 16.5px;
-  top: 17.75px;
+  margin-left: 0.5px;
+  margin-bottom: -32.75px;
   width: 667.5px;
-  height: calc(100% - (17.75px * 2));
   z-index: -1;
+  flex-grow: 1;
   background-repeat: no-repeat;
 }
 

@@ -23,34 +23,8 @@ function startMain() {
 
   setTimeout(function () {
     dynamicCellWidth();
-    dynamicSpecialRuleHeight(board);
     addImages(board);
   }, 200);
-}
-
-function dynamicSpecialRuleHeight(board) {
-  var debug = false;
-  console.log("RESIZING: Special Rule");
-  const specialRules = board.querySelectorAll("special-rules-container")[0];
-  let height = specialRules.getAttribute("height");
-
-  if (!height) {
-    const computedStyle = window.getComputedStyle(specialRules);
-    height = computedStyle.getPropertyValue("height");
-  }
-
-  const spiritName = board.querySelectorAll("spirit-name")[0];
-  if (specialRules) {
-    if (debug) {
-      console.log(`calc(100% - (${height} + 15px))`);
-    }
-    specialRules.style.top = `calc(100% - (${height} + 15px))`;
-
-    specialRules.style.height = height;
-  }
-  if (spiritName) {
-    spiritName.style.top = `calc(100% - (${height} + 15px))`;
-  }
 }
 
 function addImages(board) {
@@ -85,7 +59,7 @@ function addImages(board) {
   if (spiritImage) {
     //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
     board.innerHTML =
-      `<div class="spirit-image" style="background-image: url(${spiritImage}); background-size: auto ${imageSize}; height:calc(100% - ${height}); width:1700px;" ></div>` +
+      `<div class="spirit-image" style="background-image: url(${spiritImage}); background-size: auto ${imageSize}; width:1700px;" ></div>` +
       board.innerHTML;
     artistCredit[0].style.display = "block";
     artistCredit[0].innerHTML = "Artist Credit: " + artistCredit[0].innerHTML;
