@@ -24,14 +24,13 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
 
 ## Spirit Board Play Side
 
-### Preview Board and Interface
+### Interface
 
-Click 'Preview Board' to show or hide the preview of your spirit board. Note that the board won't reload when you do this. Click 'Generate Spirit Board' to load changes into the preview.
-
-- Load Examples: Click this button to load the official spirits into the Builder, as an example.
-- Load Spirit Board file: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage.
-- Download Spirit Board file: Click this button to immediately download save file for your Spirit
-- Generate Spirit Board: Click this button to load a new preview board and see your changes.
+- Examples: Click this button to load the official spirits into the Builder, as an example.
+- Load: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage.
+- Save: Click this button to immediately download save file for your Spirit
+- Download Image: Click this button to download a PNG of your Spirit Board or other content.
+- Update Preview: Click this button to load a new preview board and see your changes.
 - Toggle Board Size: Click this to change the size of the preview. NOTE: There is no way to export the image of your board, so use a screen capture tool such as the snipping tool on Windows.
 - Clear All Fields: Click this to delete everything in the Builder form. It will ask for confirmation.
 - Instructions: Pulls up an instructions overlay.
@@ -176,11 +175,11 @@ Growth is broken into Growth Sets, Groups, and Actions.
 
 ### Presence Tracks
 
-The two presence tracks (energy & plays) are filled out here, with options for special tracks (such as Serpent or Finder. See 'middle' in Supported Presence Track Options).
+The two presence tracks (energy & plays) are filled out here. To accomplish middle nodes (such as Serpent or Finder), wrap the energy node in 'middle()'.
 
 - Node boxes: Each text box represents the effect of one node. See 'Supported Presence Track Options'. In most cases, icon brackets {} are NOT needed in Presence Track nodes (custom is the exception).
-- Add Node: Adds a node on the right side of the track.
-- Remove Node: Removes the right-most node of the track.
+- + Button: Adds a node between the two nodes.
+- x Button: Removes the node.
 - Note: This will appear at the top of the Presence track box, as seen on Finder. Use [{icon shortcuts}](#general-icons) here.
 
 [Home](#index)
