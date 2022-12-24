@@ -94,6 +94,8 @@ function buildGrowthPanel() {
   var newGrowthCellHTML = "";
 
   let currentHeaderIndex = 0;
+  let setIndex = 0;
+  let groupIndex = 0;
 
   for (let i = 0; i < growthHTML[0].children.length; i++) {
     const childElement = growthHTML[0].children[i];
@@ -108,13 +110,16 @@ function buildGrowthPanel() {
           j < childElement.children.length - 1 ? childElement.children[j + 1] : undefined;
 
         newGrowthCellHTML += writeGrowthGroup(
-          childElement.children[j],
+          childElement.children[j], 
+          setIndex, 
+          groupIndex,
           childElement.title ? currentHeaderIndex : undefined
         );
         
         // Add single border
         if (nextSubElement && nextSubElement.nodeName.toLowerCase() == "growth-group") {
           newGrowthCellHTML += "<growth-border" + ` header=${currentHeaderIndex}` + "></growth-border>";
+          groupIndex += 1;
         }
       }
 
@@ -124,13 +129,16 @@ function buildGrowthPanel() {
 
       if (childElement.getAttribute("bordered") !== undefined && nextElement) {
         newGrowthCellHTML += `<growth-border double></growth-border>`;
+        groupIndex = 0;
+        setIndex += 1;
       }
       
     } else {
       // Not Using Growth Sets
-      newGrowthCellHTML += writeGrowthGroup(childElement);
+      newGrowthCellHTML += writeGrowthGroup(childElement, setIndex, groupIndex);
       if (nextElement && nextElement.nodeName.toLowerCase() == "growth-group") {
         newGrowthCellHTML += "<growth-border></growth-border>";
+        groupIndex += 1;
       }
     }
   }
@@ -141,10 +149,10 @@ function buildGrowthPanel() {
   board.getElementsByTagName("growth")[0].innerHTML = fullHTML;
 }
 
-function writeGrowthGroup(growthGroup, headerIndex = NaN) {
+function writeGrowthGroup(growthGroup, setIndex=0, groupIndex=0, headerIndex = NaN) {
   let debug = true;
 
-  console.log("--Growth Group:--");
+  console.log("--Growth Group s"+setIndex+"g"+groupIndex+"--");
   if(debug){console.log('growthGroup: ' + growthGroup.outerHTML)}
   
   let growthGroupHTML = ""
@@ -202,7 +210,7 @@ function writeGrowthGroup(growthGroup, headerIndex = NaN) {
   console.log(growthActions);
   
   for (j = 0; j < growthActions.length; j++) {
-    growthGroupHTML += writeGrowthAction(growthActions[j], tint_text="");
+    growthGroupHTML += writeGrowthAction(growthActions[j], setIndex, groupIndex, j, tint_text="");
   }
 
   growthGroupHTML += "</growth-group>";
@@ -210,7 +218,7 @@ function writeGrowthGroup(growthGroup, headerIndex = NaN) {
   return growthGroupHTML;
 }
 
-function writeGrowthAction(growthAction, tint_text=""){
+function writeGrowthAction(growthAction, setIndex=0, groupIndex=0, actionIndex=0, tint_text=""){
   let debug = true;
   var regExp = /\(([^)]+)\)/;
   var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
@@ -218,8 +226,9 @@ function writeGrowthAction(growthAction, tint_text=""){
 
   let growthActionHTML = "";
   let growthActionType = growthAction.split("(")[0].split("^")[0];
+  let growthActionID = "s"+setIndex+"g"+groupIndex+"a"+actionIndex
   if (debug) {    
-    console.log("Growth Action "+ (j+1) +": " + growthAction);
+    console.log("Growth Action "+growthActionID+": " + growthAction);
     console.log("Growth Action Type: " + growthActionType)
   }
   
@@ -247,7 +256,7 @@ function writeGrowthAction(growthAction, tint_text=""){
   }
 
   // Establish Growth HTML Openers and Closers
-  let growthOpen = "<growth-cell>" + tint_text;
+  let growthOpen = "<growth-cell id='"+growthActionID+"'>" + tint_text;
   let growthTextOpen = "<growth-text>";
   let growthTextClose = "</growth-text></growth-cell>";
   let growthIcons = "";
