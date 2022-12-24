@@ -10,7 +10,7 @@
   import CustomIcons from "../custom-icons.svelte";
   import * as Lib from "../lib";
 
-  import { createTTSSave } from "$lib/tts.js";
+  import { createTTSSave, toFixedNumber } from "$lib/tts.js";
 
   import spiritBoardJsonTemplate from "./tts-spirit-board.json";
 
@@ -645,14 +645,14 @@
       } else {
         snapPoints.push({
           Position: {
-            x: Lib.toFixedNumber(
+            x: toFixedNumber(
               (-(boardRect.width / boardRect.height) *
                 (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
                 (boardRect.width / 2),
               4
             ),
             y: 0.2,
-            z: Lib.toFixedNumber(
+            z: toFixedNumber(
               (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
                 (boardRect.height / 2),
               4
@@ -697,14 +697,14 @@
       thresholds.push({
         elements: elementCounts.join(""),
         position: {
-          x: Lib.toFixedNumber(
+          x: toFixedNumber(
             (-(boardRect.width / boardRect.height) *
               (-23 + rect.left - boardRect.x - boardRect.width / 2)) /
               (boardRect.width / 2),
             4
           ),
           y: 0,
-          z: Lib.toFixedNumber(
+          z: toFixedNumber(
             (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
               (boardRect.height / 2),
             4
@@ -765,14 +765,14 @@
         trackElements.push({
           elements: elementCounts.join(""),
           position: {
-            x: Lib.toFixedNumber(
+            x: toFixedNumber(
               (-(boardRect.width / boardRect.height) *
                 (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
                 (boardRect.width / 2),
               4
             ),
             y: 0,
-            z: Lib.toFixedNumber(
+            z: toFixedNumber(
               (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
                 (boardRect.height / 2),
               4
@@ -814,14 +814,14 @@
             trackEnergy.push({
               count: Number(maxEnergy),
               position: {
-                x: Lib.toFixedNumber(
+                x: toFixedNumber(
                   (-(boardRect.width / boardRect.height) *
                     (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
                     (boardRect.width / 2),
                   4
                 ),
                 y: 0,
-                z: Lib.toFixedNumber(
+                z: toFixedNumber(
                   (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
                     (boardRect.height / 2),
                   4
