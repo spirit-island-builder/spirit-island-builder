@@ -224,9 +224,8 @@
     var element = document
       .getElementById("lore-mod-frame")
       .contentWindow.document.getElementsByTagName("html")[0];
-    const htmlURL = "data:text/html;charset=utf-8," + encodeURIComponent(element.innerHTML);
     const htmlFileName = spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritLore.html";
-    Lib.downloadFile(htmlURL, htmlFileName);
+    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
   }
 
   function handleTextFileInput(event) {

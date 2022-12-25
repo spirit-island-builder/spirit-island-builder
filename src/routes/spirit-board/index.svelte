@@ -10,7 +10,7 @@
   import CustomIcons from "../custom-icons.svelte";
   import * as Lib from "../lib";
 
-  import { createTTSSave, toFixedNumber } from "$lib/tts.js";
+  import { createTTSSave, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
 
   import spiritBoardJsonTemplate from "./tts-spirit-board.json";
 
@@ -584,9 +584,8 @@
     const element = document
       .getElementById("mod-frame")
       .contentWindow.document.getElementsByTagName("html")[0];
-    const htmlURL = "data:text/html;charset=utf-8," + encodeURI(element.innerHTML);
     const htmlFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html";
-    Lib.downloadFile(htmlURL, htmlFileName);
+    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
   }
 
   function showInstructions() {
@@ -843,9 +842,8 @@
     });
     let ttsSave = createTTSSave([spiritBoardJson]);
 
-    const jsonURL = "data:text/json;charset=utf-8," + encodeURI(ttsSave);
     const jsonFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json";
-    Lib.downloadFile(jsonURL, jsonFileName);
+    Lib.downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
 
   function screenshotSetUp() {

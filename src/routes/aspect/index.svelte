@@ -286,9 +286,8 @@
     var element = document
       .getElementById("aspect-mod-frame")
       .contentWindow.document.getElementsByTagName("html")[0];
-    const htmlURL = "data:text/html;charset=utf-8," + encodeURIComponent(element.innerHTML);
     const htmlFileName = aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.html";
-    Lib.downloadFile(htmlURL, htmlFileName);
+    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
   }
 
   function handleTextFileInput(event) {

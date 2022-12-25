@@ -250,9 +250,8 @@
     const element = document
       .getElementById("cards-mod-frame")
       .contentWindow.document.getElementsByTagName("html")[0];
-    const htmlURL = "data:text/html;charset=utf-8," + encodeURIComponent(element.innerHTML);
     const htmlFileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
-    Lib.downloadFile(htmlURL, htmlFileName);
+    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
   }
 
   function handleTextFileInput(event) {

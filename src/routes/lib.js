@@ -178,6 +178,10 @@ export const downloadFile = (fileURL, fileName) => {
   document.body.removeChild(element);
 };
 
+export const downloadString = (mimeType, fileContent, fileName) => {
+  downloadFile(`${mimeType},${encodeURI(fileContent)}`, fileName);
+};
+
 export const takeScreenshot = (frameId, fileNames, elementNamesInIframe, useElementId) => {
   elementNamesInIframe.forEach((elementNameInIframe, index) => {
     document
