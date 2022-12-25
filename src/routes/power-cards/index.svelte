@@ -332,11 +332,10 @@
     const fileNames = [];
     const elementNamesInIframe = [];
     powerCards.cards.forEach((card, index) => {
-      elementNamesInIframe.push(`card${index}`);
+      elementNamesInIframe.push(`#card${index}`);
       fileNames.push(card.name.replaceAll(" ", "_") + "_PowerCard.png");
     });
-    const useElementId = true;
-    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe, useElementId);
+    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe);
   }
 </script>
 
