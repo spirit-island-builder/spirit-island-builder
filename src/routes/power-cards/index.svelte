@@ -1,8 +1,11 @@
 <script>
   import { onMount } from "svelte";
+
+  import * as Lib from "../lib";
+  import PreviewFrame from "$lib/preview-frame.svelte";
+
   import PowerCard from "./power-card.svelte";
   import CustomIcons from "../custom-icons.svelte";
-  import * as Lib from "../lib";
 
   export let powerCards;
   export let customIcons;
@@ -10,9 +13,11 @@
   export let instructionsSource;
 
   let cardsFrame;
-  let scaledFrameSrc = "/template/MyCustomContent/MySpirit/card_front.html";
+  let previewFrame;
+  let previewDoc;
+  let previewFrameSrc = "/template/MyCustomContent/MySpirit/card_front.html";
   if (powerCards.demoBoardWasLoaded) {
-    scaledFrameSrc = "/template/MyCustomContent/MySpirit/card_front_blank.html";
+    previewFrameSrc = "/template/MyCustomContent/MySpirit/card_front_blank.html";
   }
 
   onMount(() => {
@@ -46,28 +51,8 @@
   function reloadPreview() {
     console.log("Updating Preview (f=reloadPreview)");
     setBoardValues(powerCards);
-    copyHTML();
-    document.getElementById("cards-scaled-frame").contentWindow.startMain();
-  }
-
-  function copyHTML() {
-    console.log("Copying HTML from Form to Preview (f=copyHTML)");
-    var modFrame = document.getElementById("cards-mod-frame");
-    modFrame.doc = document.getElementById("cards-mod-frame").contentWindow.document;
-    modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
-    modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
-    var scaledFrame = document.getElementById("cards-scaled-frame");
-    scaledFrame.doc = document.getElementById("cards-scaled-frame").contentWindow.document;
-    scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
-    scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
-
-    let bodyClone;
-    bodyClone = document
-      .getElementById("cards-mod-frame")
-      .contentWindow.document.body.cloneNode(true);
-    document.getElementById("cards-scaled-frame").contentWindow.document.body = bodyClone;
-    let headClone = modFrame.head.cloneNode(true);
-    scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
+    previewFrame.copyHTMLFrom(cardsFrame.contentDocument);
+    previewFrame.startMain();
   }
 
   function setBoardValues(powerCards) {
@@ -228,23 +213,6 @@
     return powerCards;
   }
 
-  let cardsFrameLarge = false;
-  function toggleSize() {
-    var displayFrame = document.getElementById("cards-scaled-frame");
-    var displayWrap = document.getElementById("cards-board-wrap");
-    if (!cardsFrameLarge) {
-      displayFrame.style.webkitTransform = "scale(1)";
-      displayWrap.style.height = "700px";
-      displayFrame.style.width = "100%";
-      window.scrollBy(0, 240);
-    } else {
-      displayFrame.style.webkitTransform = "scale(0.67)";
-      displayWrap.style.height = "460px";
-      displayFrame.style.width = "149%";
-    }
-    cardsFrameLarge = !cardsFrameLarge;
-  }
-
   function exportPowerCards() {
     setBoardValues(powerCards);
     const element = document
@@ -328,14 +296,13 @@
   }
 
   function screenshotSetUp() {
-    const frameId = "cards-scaled-frame";
     const fileNames = [];
     const elementNamesInIframe = [];
     powerCards.cards.forEach((card, index) => {
       elementNamesInIframe.push(`#card${index}`);
       fileNames.push(card.name.replaceAll(" ", "_") + "_PowerCard.png");
     });
-    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe);
+    previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 </script>
 
@@ -353,9 +320,11 @@
     {/if}
   </span>
 </h6> -->
-<div id="cards-board-wrap">
-  <iframe src={scaledFrameSrc} height="700" width="125%" id="cards-scaled-frame" title="yay" />
-</div>
+<PreviewFrame
+  id="power-cards-preview"
+  src={previewFrameSrc}
+  bind:this={previewFrame}
+  bind:document={previewDoc} />
 <div class="field has-addons mt-2 mb-2">
   <div class="file is-success mr-1">
     <label class="file-label">
@@ -374,7 +343,8 @@
   <button class="button is-success  mr-1" on:click={exportPowerCards}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
-  <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Preview Size</button>
+  <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
+    >Toggle Preview Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>

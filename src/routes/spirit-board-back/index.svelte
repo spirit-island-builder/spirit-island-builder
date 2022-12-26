@@ -1,9 +1,12 @@
 <script>
   import { onMount } from "svelte";
+
+  import * as Lib from "../lib";
+  import PreviewFrame from "$lib/preview-frame.svelte";
+
   import NameArtLore from "./name-art-lore.svelte";
   import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";
   import CustomIcons from "../custom-icons.svelte";
-  import * as Lib from "../lib";
 
   export let spiritBoardBack;
   export let customIcons;
@@ -11,9 +14,11 @@
   export let instructionsSource;
 
   let loreFrame;
-  let scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_lore.html";
+  let previewFrame;
+  let previewDoc;
+  let previewFrameSrc = "/template/MyCustomContent/MySpirit/board_lore.html";
   if (spiritBoardBack.demoBoardWasLoaded) {
-    scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_lore_blank.html";
+    previewFrameSrc = "/template/MyCustomContent/MySpirit/board_lore_blank.html";
   }
 
   onMount(() => {
@@ -47,28 +52,8 @@
   function reloadPreview() {
     console.log("Updating Preview Lore Side Board (f=setBoardValues)");
     setBoardValues(spiritBoardBack);
-    copyHTML();
-    document.getElementById("lore-scaled-frame").contentWindow.startMain();
-  }
-
-  function copyHTML() {
-    console.log("Copying HTML from Form to Preview (f=copyHTML)");
-    var modFrame = document.getElementById("lore-mod-frame");
-    modFrame.doc = document.getElementById("lore-mod-frame").contentWindow.document;
-    modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
-    modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
-    var scaledFrame = document.getElementById("lore-scaled-frame");
-    scaledFrame.doc = document.getElementById("lore-scaled-frame").contentWindow.document;
-    scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
-    scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
-
-    let bodyClone;
-    bodyClone = document
-      .getElementById("lore-mod-frame")
-      .contentWindow.document.body.cloneNode(true);
-    document.getElementById("lore-scaled-frame").contentWindow.document.body = bodyClone;
-    let headClone = modFrame.head.cloneNode(true);
-    scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
+    previewFrame.copyHTMLFrom(loreFrame.contentDocument);
+    previewFrame.startMain();
   }
 
   function setBoardValues(spiritBoardBack) {
@@ -204,21 +189,6 @@
     }
   }
 
-  let loreFrameLarge = false;
-  function toggleSize() {
-    var displayFrame = document.getElementById("lore-scaled-frame");
-    var displayWrap = document.getElementById("lore-board-wrap");
-    if (!loreFrameLarge) {
-      displayFrame.style.webkitTransform = "scale(0.745)";
-      displayWrap.style.height = "915px";
-      window.scrollBy(0, 245);
-    } else {
-      displayFrame.style.webkitTransform = "scale(0.55)";
-      displayWrap.style.height = "670px";
-    }
-    loreFrameLarge = !loreFrameLarge;
-  }
-
   function exportSpiritBoardBack() {
     setBoardValues(spiritBoardBack);
     var element = document
@@ -304,12 +274,11 @@
   }
 
   function screenshotSetUp() {
-    const frameId = "lore-scaled-frame";
     const fileNames = [
       spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritBoardBack.png",
     ];
     const elementNamesInIframe = ["board"];
-    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe);
+    previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 </script>
 
@@ -327,9 +296,11 @@
     {/if}
   </span>
 </h6> -->
-<div id="lore-board-wrap">
-  <iframe src={scaledFrameSrc} height="600" width="100%" id="lore-scaled-frame" title="yay" />
-</div>
+<PreviewFrame
+  id="lore-preview"
+  src={previewFrameSrc}
+  bind:this={previewFrame}
+  bind:document={previewDoc} />
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
     <label class="file-label">
@@ -348,7 +319,8 @@
   <button class="button is-success  mr-1" on:click={exportSpiritBoardBack}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
-  <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
+  <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
+    >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
