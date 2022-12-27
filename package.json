@@ -16,6 +16,7 @@
     "@sveltejs/adapter-cloudflare": "^1.0.0",
     "@sveltejs/adapter-static": "^1.0.0",
     "@sveltejs/kit": "^1.0.0",
+    "bulma": "^0.9.4",
     "cross-env": "^7.0.3",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.3.0",
