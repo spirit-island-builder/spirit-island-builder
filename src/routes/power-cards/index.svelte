@@ -119,35 +119,33 @@
   function readHTML(htmlElement) {
     console.log("Loading power cards into form (f=readHTML)");
     //Reads the Template HTML file into the Form
-    if (cardsFrame) {
-      const powerCardsHTML = htmlElement.querySelectorAll("quick-card");
-      console.log("Loading " + powerCardsHTML.length + " cards...");
+    const powerCardsHTML = htmlElement.querySelectorAll("quick-card");
+    console.log("Loading " + powerCardsHTML.length + " cards...");
 
-      //Clear the form first
-      powerCards.cards.splice(0, powerCards.cards.length); //Clear the Form first
+    //Clear the form first
+    powerCards.cards.splice(0, powerCards.cards.length); //Clear the Form first
 
-      //Iterate through the cards
-      powerCardsHTML.forEach((powerCardHTML) => {
-        addPowerCard(powerCards, powerCardHTML);
-      });
+    //Iterate through the cards
+    powerCardsHTML.forEach((powerCardHTML) => {
+      addPowerCard(powerCards, powerCardHTML);
+    });
 
-      //Custom Icons
-      if (powerCards.demoBoardWasLoaded) {
-        const cardsStyle = htmlElement.querySelectorAll("style")[0];
-        customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-        if (cardsStyle) {
-          const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-          let iconList = cardsStyle.textContent.match(regExp);
-          if (iconList) {
-            iconList.forEach((customIcon) => {
-              customIcons = Lib.addCustomIcon(customIcons, customIcon);
-              console.log(customIcon);
-            });
-          }
+    //Custom Icons
+    if (powerCards.demoBoardWasLoaded) {
+      const cardsStyle = htmlElement.querySelectorAll("style")[0];
+      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+      if (cardsStyle) {
+        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+        let iconList = cardsStyle.textContent.match(regExp);
+        if (iconList) {
+          iconList.forEach((customIcon) => {
+            customIcons = Lib.addCustomIcon(customIcons, customIcon);
+            console.log(customIcon);
+          });
         }
-      } else {
-        console.log("SKIPPING ICON LOAD");
       }
+    } else {
+      console.log("SKIPPING ICON LOAD");
     }
   }
 
