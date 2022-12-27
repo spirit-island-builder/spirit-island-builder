@@ -195,6 +195,12 @@ export const downloadString = (mimeType, fileContent, fileName) => {
   downloadFile(`${mimeType},${encodeURIComponent(fileContent)}`, fileName);
 };
 
+export const downloadHTML = (fragment, fileName) => {
+  const helper = document.createElement("helper");
+  helper.append(fragment);
+  downloadString("data:text/html;charset=utf-8", helper.innerHTML, fileName);
+};
+
 export const takeScreenshot = (frame, fileNames, elementNamesInIframe) => {
   elementNamesInIframe.forEach((elementNameInIframe, index) => {
     frame.contentWindow
@@ -300,3 +306,9 @@ export const nextNode = (event) => {
     document.getElementById(focusID).focus();
   }
 };
+
+export async function loadHTML(url) {
+  let response = await fetch(url);
+  let parser = new DOMParser();
+  return parser.parseFromString(await response.text(), "text/html");
+}

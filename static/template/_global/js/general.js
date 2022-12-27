@@ -99,6 +99,7 @@ async function takeScreenshot(elementName) {
   );
   let element = document.querySelector(elementName);
   let canvas = await html2canvas(element, {
+    allowTaint: true,
     scale: 1,
   });
   return canvas.toDataURL();

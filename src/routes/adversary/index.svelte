@@ -11,75 +11,67 @@
   export let isShowingInstructions;
   export let instructionsSource;
 
-  let adversaryFrame;
   let previewFrame;
   let previewDoc;
-  let previewFrameSrc = "/template/MyCustomContent/MyAdversary/adversary.html";
-  if (adversary.demoBoardWasLoaded) {
-    previewFrameSrc = "/template/MyCustomContent/MyAdversary/adversary_blank.html";
+
+  async function loadHTMLFromURL(url) {
+    let loadedDocument = await Lib.loadHTML(url);
+    readHTML(loadedDocument);
+    reloadPreview();
   }
 
-  onMount(() => {
-    adversaryFrame.addEventListener("load", onLoad());
-  });
-
+  const demoURL = "/template/MyCustomContent/MyAdversary/adversary_noJS.html";
   function onLoad() {
-    let localFrame = adversaryFrame;
-    let localObject = adversary;
-
-    if (localFrame) {
-      if (localObject.demoBoardWasLoaded === false) {
-        setTimeout(() => {
-          console.log("First tab load. Using default preview.");
-          readHTML(localFrame.contentDocument);
-          localObject.demoBoardWasLoaded = true;
-        }, 200);
-      } else {
-        setTimeout(() => {
-          console.log("Tab previously loaded. Reloaded from form.");
-          reloadPreview();
-        }, 200);
-      }
+    if (adversary.demoBoardWasLoaded === false) {
+      loadHTMLFromURL(demoURL).then(() => {
+        adversary.demoBoardWasLoaded = true;
+      });
+    } else {
+      reloadPreview();
     }
   }
+  onMount(onLoad);
 
   function reloadPreview() {
     console.log("Updating Preview Adversary (f=setBoardValues)");
-    setBoardValues(adversary);
-    previewFrame.copyHTMLFrom(adversaryFrame.contentDocument);
-    previewFrame.startMain();
+    previewFrame.copyHTMLFrom(generateHTML(adversary)).then(() => {
+      previewFrame.startMain();
+    });
   }
 
-  function setBoardValues(adversary) {
-    if (adversaryFrame) {
-      //Set Adversary Name, Diffuclty and Flag Image
-      const adversaryHeader = adversaryFrame.contentDocument.querySelectorAll("quick-adversary")[0];
+  function generateHTML(adversary) {
+    const fragment = new DocumentFragment();
 
-      adversaryHeader.setAttribute("name", adversary.nameLossEscalation.name);
-      adversaryHeader.setAttribute("base-difficulty", adversary.nameLossEscalation.baseDif);
-      adversaryHeader.setAttribute("flag-image", adversary.nameLossEscalation.flagImg);
+    //Set Adversary Name, Diffuclty and Flag Image
+    const adversaryHeader = document.createElement("quick-adversary");
+    adversaryHeader.setAttribute("name", adversary.nameLossEscalation.name);
+    adversaryHeader.setAttribute("base-difficulty", adversary.nameLossEscalation.baseDif);
+    adversaryHeader.setAttribute("flag-image", adversary.nameLossEscalation.flagImg);
+    fragment.append(adversaryHeader);
 
-      //Set Loss Condition
-      const lossConditionHeader =
-        adversaryFrame.contentDocument.querySelectorAll("loss-condition")[0];
-      lossConditionHeader.setAttribute("name", adversary.nameLossEscalation.lossCondition.name);
-      lossConditionHeader.setAttribute("rules", adversary.nameLossEscalation.lossCondition.effect);
+    //Set Loss Condition
+    const lossConditionHeader = document.createElement("loss-condition");
+    lossConditionHeader.setAttribute("name", adversary.nameLossEscalation.lossCondition.name);
+    lossConditionHeader.setAttribute("rules", adversary.nameLossEscalation.lossCondition.effect);
+    adversaryHeader.append(lossConditionHeader);
 
-      //Set Escalation
-      const escalationHeader =
-        adversaryFrame.contentDocument.querySelectorAll("escalation-effect")[0];
-      escalationHeader.setAttribute("name", adversary.nameLossEscalation.escalation.name);
-      escalationHeader.setAttribute("rules", adversary.nameLossEscalation.escalation.effect);
+    //Set Escalation
+    const escalationHeader = document.createElement("escalation-effect");
+    escalationHeader.setAttribute("name", adversary.nameLossEscalation.escalation.name);
+    escalationHeader.setAttribute("rules", adversary.nameLossEscalation.escalation.effect);
+    adversaryHeader.append(escalationHeader);
 
-      //Set Levels
-      adversary.levelSummary.levels.forEach((level, i) => {
-        let HTMLlevel = adversaryFrame.contentDocument.querySelectorAll("level-" + (i + 1))[0];
-        HTMLlevel.setAttribute("name", level.name);
-        HTMLlevel.setAttribute("difficulty", level.difficulty);
-        HTMLlevel.setAttribute("fear-cards", level.fearCards);
-        HTMLlevel.setAttribute("rules", level.effect);
-      });
-    }
+    //Set Levels
+    adversary.levelSummary.levels.forEach((level, i) => {
+      let HTMLlevel = document.createElement("level-" + (i + 1));
+      HTMLlevel.setAttribute("name", level.name);
+      HTMLlevel.setAttribute("difficulty", level.difficulty);
+      HTMLlevel.setAttribute("fear-cards", level.fearCards);
+      HTMLlevel.setAttribute("rules", level.effect);
+      adversaryHeader.append(HTMLlevel);
+    });
+
+    return fragment;
   }
 
   function readHTML(htmlElement) {
@@ -112,33 +104,17 @@
   }
 
   function exportAdversary() {
-    setBoardValues(adversary);
-    const element = document
-      .getElementById("adversary-mod-frame")
-      .contentWindow.document.getElementsByTagName("html")[0];
     const htmlFileName = adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.html";
-    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
+    Lib.downloadHTML(generateHTML(adversary), htmlFileName);
   }
 
   function handleTextFileInput(event) {
-    let dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
-    console.log(file);
     if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const fileText = data.target.result;
-        dummyEl.innerHTML = fileText;
-        dummyEl.head = dummyEl.getElementsByTagName("head")[0];
-        dummyEl.body = dummyEl.getElementsByTagName("body")[0];
-        readHTML(dummyEl);
-        setTimeout(() => {
-          reloadPreview();
-        }, 100);
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsText(file);
+      let url = URL.createObjectURL(file);
+      loadHTMLFromURL(url).finally(() => {
+        URL.revokeObjectURL(url);
+      });
     }
   }
 
@@ -230,9 +206,16 @@
 
 <PreviewFrame
   id="adversary-preview"
-  src={previewFrameSrc}
+  baseURI="/template/MyCustomContent/MyAdversary/"
   bind:this={previewFrame}
-  bind:document={previewDoc} />
+  bind:document={previewDoc}>
+  <svelte:fragment slot="head">
+    <link href="/template/_global/css/global.css" rel="stylesheet" />
+    <link href="/template/_global/css/adversary.css" rel="stylesheet" />
+    <script type="text/javascript" src="/template/_global/js/general.js"></script>
+    <script type="text/javascript" src="/template/_global/js/adversary.js"></script>
+  </svelte:fragment>
+</PreviewFrame>
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
     <label class="file-label">
@@ -263,15 +246,4 @@
   <div class="column pt-0">
     <AdversaryLevels bind:adversary />
   </div>
-</div>
-
-<div id="adversary-holder">
-  <iframe
-    bind:this={adversaryFrame}
-    src="/template/MyCustomContent/MyAdversary/adversary_noJS.html"
-    height="600"
-    width="100%"
-    title="yay"
-    style="display:none;"
-    id="adversary-mod-frame" />
 </div>

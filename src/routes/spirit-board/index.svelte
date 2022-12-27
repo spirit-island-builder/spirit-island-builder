@@ -143,211 +143,187 @@
     customIcons.isVisible = false;
   }
 
-  let frame;
   let previewFrame;
   let previewDoc;
-  let previewFrameSrc = "";
 
-  onMount(() => {
-    frame.addEventListener("load", onLoad());
-  });
-
-  function onLoad() {
-    let localFrame = frame;
-    let localObject = spiritBoard;
-    console.log(">>>>>>>>>>>>>>>onload happening!");
-    if (localFrame) {
-      if (localObject.demoBoardWasLoaded === false) {
-        console.log("First tab load. Using default preview.");
-        previewFrameSrc = "/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
-        setTimeout(() => {
-          readHTML(localFrame.contentDocument);
-          localObject.demoBoardWasLoaded = true;
-        }, 200);
-      } else {
-        console.log("Tab previously loaded. Reloaded from form.");
-        previewFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html";
-        setTimeout(() => {
-          reloadPreview();
-        }, 200);
-      }
-    }
+  async function loadHTMLFromURL(url) {
+    let loadedDocument = await Lib.loadHTML(url);
+    readHTML(loadedDocument);
+    reloadPreview();
   }
 
-  function setBoardValues(spiritBoard) {
-    if (frame) {
-      console.log("setting board values from form");
-      console.log(frame.contentDocument);
-      //Set Spirit Name and Image
-      const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
-      if (spiritName) {
-        spiritName.textContent = spiritBoard.nameAndArt.name;
-      }
-      const board = frame.contentDocument.querySelectorAll("board")[0];
-      console.log(board);
-      board.setAttribute("spirit-image", spiritBoard.nameAndArt.artPath);
-      board.setAttribute("spirit-image-scale", spiritBoard.nameAndArt.artScale);
-      board.setAttribute("spirit-border", spiritBoard.nameAndArt.bannerPath);
-
-      const artistName = frame.contentDocument.querySelectorAll("artist-name")[0];
-      if (artistName) {
-        artistName.textContent = spiritBoard.nameAndArt.artistCredit;
-      } else {
-        let newArtistElement = frame.contentDocument.createElement("artist-name");
-        newArtistElement.textContent = spiritBoard.nameAndArt.artistCredit;
-        board.appendChild(newArtistElement);
-      }
-
-      //Set Special Rules
-      const specialRulesContainer =
-        frame.contentDocument.querySelectorAll("special-rules-container")[0];
-      if (specialRulesContainer) {
-        specialRulesContainer.textContent = ""; // (easiest to start fresh each time)
-        let specialRulesHeader = frame.contentDocument.createElement("section-title");
-        specialRulesHeader.textContent = "SPECIAL RULES";
-        specialRulesContainer.appendChild(specialRulesHeader);
-      }
-      spiritBoard.specialRules.rules.forEach((rule) => {
-        let newRuleName = frame.contentDocument.createElement("special-rules-subtitle");
-        newRuleName.textContent = rule.name;
-        let newRuleEffect = frame.contentDocument.createElement("special-rule");
-        newRuleEffect.innerHTML = rule.effect;
-        specialRulesContainer.appendChild(newRuleName);
-        specialRulesContainer.appendChild(newRuleEffect);
+  const demoURL = "/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html";
+  function onLoad() {
+    if (spiritBoard.demoBoardWasLoaded === false) {
+      loadHTMLFromURL(demoURL).then(() => {
+        spiritBoard.demoBoardWasLoaded = true;
       });
-
-      //Set Growth
-      const growthContainer = frame.contentDocument.querySelectorAll("growth")[0];
-      if (growthContainer) {
-        growthContainer.textContent = ""; //(easiest to start fresh each time)
-      }
-      if (!spiritBoard.growth.useGrowthSets) {
-        growthContainer.setAttribute("title", `Growth (${spiritBoard.growth.directions})`);
-      } else {
-        growthContainer.setAttribute("title", `Growth`);
-      }
-
-      spiritBoard.growth.growthSets.forEach((growthSet, i) => {
-        let containerLayer;
-        let newSubgroup;
-        if (spiritBoard.growth.growthSets.length > 1) {
-          newSubgroup = frame.contentDocument.createElement("sub-growth");
-          newSubgroup.setAttribute("title", `${growthSet.choiceText}`);
-          if (i < spiritBoard.growth.growthSets.length - 1) {
-            newSubgroup.setAttribute("bordered", "");
-          }
-          containerLayer = newSubgroup;
-        } else {
-          containerLayer = growthContainer;
-        }
-        growthSet.growthGroups.forEach((growthGroup) => {
-          let growthGroupOutput = frame.contentDocument.createElement("growth-group");
-
-          //Cost
-          if (growthGroup.hasCost) {
-            growthGroupOutput.setAttribute("cost", growthGroup.cost);
-          }
-          //Tint
-          if (growthGroup.hasTint) {
-            growthGroupOutput.setAttribute("tint", growthGroup.tint);
-          }
-          //Title
-          if (growthGroup.hasTitle) {
-            growthGroupOutput.setAttribute("special-title", growthGroup.title);
-          }
-          //Values
-          let values = "";
-          growthGroup.growthActions.forEach((growthAction) => {
-            values += growthAction.effect + ";";
-          });
-          growthGroupOutput.setAttribute("values", values.slice(0, -1)); //slice removes last semicolon
-
-          containerLayer.appendChild(growthGroupOutput);
-        });
-
-        if (spiritBoard.growth.growthSets.length > 1) {
-          //Add growth set to the growth if using sets
-          growthContainer.appendChild(newSubgroup);
-        }
-      });
-
-      //Set Presence Tracks
-      const presenceTrackContainer = frame.contentDocument.querySelectorAll("presence-tracks")[0];
-      if (presenceTrackContainer) {
-        //(easiest to start fresh each time)
-        presenceTrackContainer.textContent = "";
-      }
-      if (spiritBoard.presenceTrack.note) {
-        presenceTrackContainer.setAttribute("note", spiritBoard.presenceTrack.note);
-      } else {
-        if (presenceTrackContainer.getAttribute("note")) {
-          presenceTrackContainer.removeAttribute("note");
-        }
-      }
-      checkTracksForCommas(); //swap commas for semicolons
-      let energyTrack = frame.contentDocument.createElement("energy-track");
-      energyTrack.setAttribute("banner", spiritBoard.nameAndArt.energyBannerPath);
-      energyTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.energyBannerScale);
-      let energyValues = "";
-      spiritBoard.presenceTrack.energyNodes.forEach((energyNode) => {
-        energyValues += energyNode.effect + ",";
-      });
-      energyTrack.setAttribute("values", energyValues.slice(0, -1));
-      presenceTrackContainer.appendChild(energyTrack);
-
-      let playsTrack = frame.contentDocument.createElement("card-play-track");
-      playsTrack.setAttribute("banner", spiritBoard.nameAndArt.playsBannerPath);
-      playsTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.playsBannerScale);
-      let playsValues = "";
-      spiritBoard.presenceTrack.playsNodes.forEach((playsNode) => {
-        playsValues += playsNode.effect + ",";
-      });
-      playsTrack.setAttribute("values", playsValues.slice(0, -1));
-      presenceTrackContainer.appendChild(playsTrack);
-
-      //Set Innate Powers
-      const innatePowerContainer = frame.contentDocument.querySelectorAll("innate-powers")[0];
-      if (innatePowerContainer) {
-        //(easiest to start fresh each time)
-        innatePowerContainer.textContent = "";
-      }
-
-      spiritBoard.innatePowers.powers.forEach((power) => {
-        let newInnatePower = frame.contentDocument.createElement("quick-innate-power");
-        newInnatePower.setAttribute("name", power.name);
-        newInnatePower.setAttribute("speed", power.speed.toLowerCase());
-        newInnatePower.setAttribute("range", power.range);
-        newInnatePower.setAttribute("target", power.target);
-        newInnatePower.setAttribute("target-title", power.targetTitle);
-        if (power.note) {
-          newInnatePower.setAttribute("note", power.note);
-        } // may need to clear it?
-        power.levels.forEach((level) => {
-          let newLevel = frame.contentDocument.createElement("level");
-          newLevel.setAttribute("threshold", level.threshold);
-          newLevel.innerHTML = level.effect;
-          if (level.isLong) {
-            newLevel.setAttribute("long", "");
-          }
-          newInnatePower.appendChild(newLevel);
-        });
-        innatePowerContainer.appendChild(newInnatePower);
-      });
-
-      //Set Custom Icons
-      let spiritStyle = frame.contentDocument.querySelectorAll("style")[0];
-      if (!spiritStyle) {
-        const spiritHead = frame.contentDocument.querySelectorAll("head")[0];
-        spiritStyle = frame.contentDocument.createElement("style");
-        spiritHead.appendChild(spiritStyle);
-      }
-      let customIconText = "";
-      customIcons.icons.forEach((icon) => {
-        customIconText +=
-          "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-      });
-      spiritStyle.textContent = customIconText;
+    } else {
+      reloadPreview();
     }
+  }
+  onMount(onLoad);
+
+  function generateHTML(spiritBoard) {
+    const fragment = new DocumentFragment();
+
+    const board = document.createElement("board");
+    fragment.append(board);
+    board.setAttribute("spirit-image", spiritBoard.nameAndArt.artPath);
+    board.setAttribute("spirit-image-scale", spiritBoard.nameAndArt.artScale);
+    board.setAttribute("spirit-border", spiritBoard.nameAndArt.bannerPath);
+
+    //Set Spirit Name and Image
+    const spiritName = document.createElement("spirit-name");
+    if (spiritName) {
+      spiritName.textContent = spiritBoard.nameAndArt.name;
+    }
+    board.appendChild(spiritName);
+
+    const artistName = document.createElement("artist-name");
+    artistName.textContent = spiritBoard.nameAndArt.artistCredit;
+    board.appendChild(artistName);
+
+    //Set Special Rules
+    const specialRulesContainer = document.createElement("special-rules-container");
+    board.appendChild(specialRulesContainer);
+
+    let specialRulesHeader = document.createElement("section-title");
+    specialRulesHeader.textContent = "SPECIAL RULES";
+    specialRulesContainer.appendChild(specialRulesHeader);
+    spiritBoard.specialRules.rules.forEach((rule) => {
+      let newRuleName = document.createElement("special-rules-subtitle");
+      newRuleName.textContent = rule.name;
+      let newRuleEffect = document.createElement("special-rule");
+      newRuleEffect.innerHTML = rule.effect;
+      specialRulesContainer.appendChild(newRuleName);
+      specialRulesContainer.appendChild(newRuleEffect);
+    });
+
+    const right = document.createElement("right");
+    board.appendChild(right);
+
+    //Set Growth
+    const growthContainer = document.createElement("growth");
+    right.appendChild(growthContainer);
+    if (!spiritBoard.growth.useGrowthSets) {
+      growthContainer.setAttribute("title", `Growth (${spiritBoard.growth.directions})`);
+    } else {
+      growthContainer.setAttribute("title", `Growth`);
+    }
+
+    spiritBoard.growth.growthSets.forEach((growthSet, i) => {
+      let containerLayer;
+      let newSubgroup;
+      if (spiritBoard.growth.growthSets.length > 1) {
+        newSubgroup = document.createElement("sub-growth");
+        newSubgroup.setAttribute("title", `${growthSet.choiceText}`);
+        if (i < spiritBoard.growth.growthSets.length - 1) {
+          newSubgroup.setAttribute("bordered", "");
+        }
+        containerLayer = newSubgroup;
+      } else {
+        containerLayer = growthContainer;
+      }
+      growthSet.growthGroups.forEach((growthGroup) => {
+        let growthGroupOutput = document.createElement("growth-group");
+
+        //Cost
+        if (growthGroup.hasCost) {
+          growthGroupOutput.setAttribute("cost", growthGroup.cost);
+        }
+        //Tint
+        if (growthGroup.hasTint) {
+          growthGroupOutput.setAttribute("tint", growthGroup.tint);
+        }
+        //Title
+        if (growthGroup.hasTitle) {
+          growthGroupOutput.setAttribute("special-title", growthGroup.title);
+        }
+        //Values
+        let values = "";
+        growthGroup.growthActions.forEach((growthAction) => {
+          values += growthAction.effect + ";";
+        });
+        growthGroupOutput.setAttribute("values", values.slice(0, -1)); //slice removes last semicolon
+
+        containerLayer.appendChild(growthGroupOutput);
+      });
+
+      if (spiritBoard.growth.growthSets.length > 1) {
+        //Add growth set to the growth if using sets
+        growthContainer.appendChild(newSubgroup);
+      }
+    });
+
+    //Set Presence Tracks
+    const presenceTrackContainer = document.createElement("presence-tracks");
+    right.appendChild(presenceTrackContainer);
+    if (spiritBoard.presenceTrack.note) {
+      presenceTrackContainer.setAttribute("note", spiritBoard.presenceTrack.note);
+    } else {
+      if (presenceTrackContainer.getAttribute("note")) {
+        presenceTrackContainer.removeAttribute("note");
+      }
+    }
+    checkTracksForCommas(); //swap commas for semicolons
+    let energyTrack = document.createElement("energy-track");
+    energyTrack.setAttribute("banner", spiritBoard.nameAndArt.energyBannerPath);
+    energyTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.energyBannerScale);
+    let energyValues = "";
+    spiritBoard.presenceTrack.energyNodes.forEach((energyNode) => {
+      energyValues += energyNode.effect + ",";
+    });
+    energyTrack.setAttribute("values", energyValues.slice(0, -1));
+    presenceTrackContainer.appendChild(energyTrack);
+
+    let playsTrack = document.createElement("card-play-track");
+    playsTrack.setAttribute("banner", spiritBoard.nameAndArt.playsBannerPath);
+    playsTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.playsBannerScale);
+    let playsValues = "";
+    spiritBoard.presenceTrack.playsNodes.forEach((playsNode) => {
+      playsValues += playsNode.effect + ",";
+    });
+    playsTrack.setAttribute("values", playsValues.slice(0, -1));
+    presenceTrackContainer.appendChild(playsTrack);
+
+    //Set Innate Powers
+    const innatePowerContainer = document.createElement("innate-powers");
+    right.appendChild(innatePowerContainer);
+
+    spiritBoard.innatePowers.powers.forEach((power) => {
+      let newInnatePower = document.createElement("quick-innate-power");
+      newInnatePower.setAttribute("name", power.name);
+      newInnatePower.setAttribute("speed", power.speed.toLowerCase());
+      newInnatePower.setAttribute("range", power.range);
+      newInnatePower.setAttribute("target", power.target);
+      newInnatePower.setAttribute("target-title", power.targetTitle);
+      if (power.note) {
+        newInnatePower.setAttribute("note", power.note);
+      } // may need to clear it?
+      power.levels.forEach((level) => {
+        let newLevel = document.createElement("level");
+        newLevel.setAttribute("threshold", level.threshold);
+        newLevel.innerHTML = level.effect;
+        if (level.isLong) {
+          newLevel.setAttribute("long", "");
+        }
+        newInnatePower.appendChild(newLevel);
+      });
+      innatePowerContainer.appendChild(newInnatePower);
+    });
+
+    //Set Custom Icons
+    const spiritStyle = document.createElement("style");
+    fragment.prepend(spiritStyle);
+    let customIconText = "";
+    customIcons.icons.forEach((icon) => {
+      customIconText +=
+        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
+    });
+    spiritStyle.textContent = customIconText;
+
+    return fragment;
   }
 
   function checkTracksForCommas() {
@@ -496,58 +472,28 @@
     }
   }
 
-  function additionalScripts() {
-    let fragment = new DocumentFragment();
-    let scriptGeneralDummy = document.createElement("script");
-    scriptGeneralDummy.type = "text/javascript";
-    scriptGeneralDummy.src = "../../_global/js/general.js";
-    let scriptBoardFrontDummy = document.createElement("script");
-    scriptBoardFrontDummy.type = "text/javascript";
-    scriptBoardFrontDummy.src = "../../_global/js/board_front.js";
-    fragment.appendChild(scriptGeneralDummy);
-    fragment.appendChild(scriptBoardFrontDummy);
-    return fragment;
-  }
-
   function reloadPreview() {
     console.log("Updating Preview Board (f=setBoardValues)");
-    setBoardValues(spiritBoard);
-    previewFrame.copyHTMLFrom(frame.contentDocument, additionalScripts());
-    previewFrame.startMain();
+    previewFrame.copyHTMLFrom(generateHTML(spiritBoard)).then(() => {
+      previewFrame.startMain();
+    });
     document.getElementById("updateButton").classList.remove("is-flashy");
   }
 
   function handleTextFileInput(event) {
     hideAll();
-    let dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
-    console.log(file);
     if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const fileText = data.target.result;
-        dummyEl.innerHTML = fileText;
-        dummyEl.head = dummyEl.getElementsByTagName("head")[0];
-        dummyEl.body = dummyEl.getElementsByTagName("body")[0];
-        dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
-        readHTML(dummyEl);
-        setTimeout(() => {
-          reloadPreview();
-        }, 100);
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsText(file);
+      let url = URL.createObjectURL(file);
+      loadHTMLFromURL(url).finally(() => {
+        URL.revokeObjectURL(url);
+      });
     }
   }
 
   function exportSpiritBoard() {
-    setBoardValues(spiritBoard);
-    const element = document
-      .getElementById("mod-frame")
-      .contentWindow.document.getElementsByTagName("html")[0];
     const htmlFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html";
-    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
+    Lib.downloadHTML(generateHTML(spiritBoard), htmlFileName);
   }
 
   function showInstructions() {
@@ -571,22 +517,10 @@
   }
 
   function loadNewExample(event) {
-    let modFrame = document.getElementById("mod-frame");
-    modFrame.src = event.target.id;
-    console.log("loading new example");
-    console.log("reading:");
-    console.log(modFrame.contentDocument);
-    console.log("from:");
-    console.log(modFrame.src);
-    // frame = frame;
-    setTimeout(() => {
-      readHTML(modFrame.contentDocument);
-    }, 300);
-    setTimeout(() => {
-      reloadPreview();
+    loadHTMLFromURL(event.target.id).finally(() => {
       closeExamplesModal(document.getElementById("modal-js-example"));
       hideAll();
-    }, 500);
+    });
   }
 
   async function downloadTTSJSON() {
@@ -842,9 +776,16 @@
 
 <PreviewFrame
   id="spirit-preview"
-  src={previewFrameSrc}
+  baseURI="/template/MyCustomContent/MySpirit/"
   bind:this={previewFrame}
-  bind:document={previewDoc} />
+  bind:document={previewDoc}>
+  <svelte:fragment slot="head">
+    <link href="/template/_global/css/global.css" rel="stylesheet" />
+    <link href="/template/_global/css/board_front.css" rel="stylesheet" />
+    <script type="text/javascript" src="/template/_global/js/general.js"></script>
+    <script type="text/javascript" src="/template/_global/js/board_front.js"></script>
+  </svelte:fragment>
+</PreviewFrame>
 
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
@@ -889,16 +830,6 @@
     <PresenceTracks bind:spiritBoard />
     <InnatePowers bind:spiritBoard />
   </div>
-</div>
-<div id="holder">
-  <iframe
-    bind:this={frame}
-    src="/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html"
-    height="600"
-    width="100%"
-    title="yay"
-    style="display:none;"
-    id="mod-frame" />
 </div>
 <div id="modal-js-example" class="modal">
   <div class="modal-background" />

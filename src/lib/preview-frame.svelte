@@ -1,10 +1,9 @@
-<svelte:options accessors={false} />
-
 <script>
   export let id;
-  export let src;
+  export let baseURI = "/";
 
-  import { tick } from "svelte";
+  import { tick, onMount } from "svelte";
+  import { browser } from "$app/environment";
 
   import { downloadFile } from "../routes/lib.js";
 
@@ -12,12 +11,24 @@
   let wrapper;
   let large = false;
 
-  export const copyHTMLFrom = (sourceDocument, headFragment) => {
-    previewIframe.contentDocument.head.replaceWith(sourceDocument.head.cloneNode(true));
-    if (headFragment) {
-      previewIframe.contentDocument.head.append(headFragment);
+  let previewTemplate;
+
+  const waitForEvent = (eventTarget, eventType, rejectEventType) => {
+    return new Promise((resolve, reject) => {
+      eventTarget.addEventListener(eventType, resolve, { once: true });
+      if (rejectEventType) {
+        eventTarget.addEventListener(rejectEventType, reject, { once: true });
+      }
+    });
+  };
+
+  export const copyHTMLFrom = async (fragment) => {
+    if (previewIframe.contentDocument.readyState !== "complete") {
+      await waitForEvent(previewIframe.contentWindow, "load");
     }
-    previewIframe.contentDocument.body.replaceWith(sourceDocument.body.cloneNode(true));
+    previewIframe.contentDocument.body.replaceChildren(
+      previewIframe.contentDocument.importNode(fragment, true)
+    );
   };
 
   export const takeScreenshot = (fileNames, elementNamesInIframe) => {
@@ -43,13 +54,21 @@
       tick().then(() => window.scrollBy(0, scrollAmount));
     }
   };
+
+  onMount(() => {
+    previewIframe.srcdoc = previewTemplate.innerHTML;
+  });
 </script>
 
 <div {id} class="preview-wrap" class:large bind:this={wrapper}>
-  <iframe
-    {src}
-    bind:this={previewIframe}
-    class="preview-frame"
-    id="preview-iframe"
-    title="Preview" />
+  <template bind:this={previewTemplate}>
+    <html lang="en">
+      <head>
+        <base href={browser ? new URL(baseURI, document.baseURI) : baseURI} />
+        <slot name="head" />
+      </head>
+      <body />
+    </html>
+  </template>
+  <iframe bind:this={previewIframe} class="preview-frame" id="preview-iframe" title="Preview" />
 </div>
