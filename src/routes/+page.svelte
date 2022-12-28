@@ -429,14 +429,15 @@
       >Code for this project is hosted <a
         href="https://github.com/neubee/spirit-island-builder"
         target="_blank">here</a>
-        {#if import.meta.env.VITE_COMMIT_SHA != undefined}
+      {#if import.meta.env.VITE_COMMIT_SHA != undefined}
         &nbsp;(built from
         <a
           href="https://github.com/neubee/spirit-island-builder/commit/{import.meta.env
             .VITE_COMMIT_SHA}"
           target="_blank"
-          rel="noreferrer">{import.meta.env.VITE_COMMIT_SHA.substring(0, 8)}</a>)
-        {/if}.</span>
+          rel="noreferrer">{import.meta.env.VITE_COMMIT_SHA.substring(0, 8)}</a
+        >)
+      {/if}.</span>
     <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island
     Builder is adapted from
     <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
