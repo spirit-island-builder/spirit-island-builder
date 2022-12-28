@@ -130,7 +130,6 @@
             id={`powerName${i}`}
             class="input"
             type="text"
-            tabindex="1"
             placeholder="Power Name"
             bind:value={card.name} />
         </div>
@@ -147,7 +146,6 @@
             class="input"
             style="width:3rem; text-align:center;"
             type="text"
-            tabindex="1"
             placeholder="Cost"
             bind:value={card.cost} />
         </div>
@@ -244,7 +242,6 @@
             id={`powerRange${i}`}
             class="input"
             type="text"
-            tabindex="1"
             placeholder="Range"
             bind:value={card.range} />
         </div>
@@ -308,7 +305,6 @@
             class="input is-small mr-3"
             style="width:35%"
             type="text"
-            tabindex="1"
             placeholder="Elemental Conditions"
             bind:value={card.thresholdCondition} />
           <label class="label is-unselectable mr-2 mb-0 mt-1" style="min-width:7rem" for=""
@@ -317,7 +313,6 @@
             id={`powerCustomText${i}`}
             class="input is-small"
             type="text"
-            tabindex="1"
             placeholder="use if an alternative to 'IF YOU HAVE' is desired"
             bind:value={card.thresholdText} />
         </div>
@@ -342,7 +337,6 @@
             id={`cardArtist${i}`}
             class="input is-small"
             type="text"
-            tabindex="1"
             placeholder="Artist"
             bind:value={card.cardArtist} />
         </div>

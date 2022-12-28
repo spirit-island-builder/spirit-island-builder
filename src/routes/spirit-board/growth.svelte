@@ -247,7 +247,6 @@
               id={`growthSetChoice${i}`}
               class="input"
               type="text"
-              tabindex="1"
               placeholder="Growth Set Choice ie. (PICK ONE OF)"
               bind:value={growthSet.choiceText} />
           </div>
@@ -348,7 +347,6 @@
                 <button
                   id={`growthSet${i}Group${j}AddAction`}
                   class="button is-primary is-light is-small row-button"
-                  tabindex="1"
                   on:click={addGrowthAction(i, j)}>Add Growth Action</button>
               </div>
             </div>
@@ -359,7 +357,6 @@
             <div class="control">
               <button
                 class="button is-primary is-light is-small row-button"
-                tabindex="1"
                 on:click={addGrowthGroup(i)}>Add Growth Group</button>
             </div>
           </div>
@@ -370,10 +367,8 @@
   {#if spiritBoard.growth.useGrowthSets}
     <div class="field">
       <div class="control">
-        <button
-          class="button is-primary is-light is-small row-button"
-          tabindex="1"
-          on:click={addGrowthSet}>Add Growth Set</button>
+        <button class="button is-primary is-light is-small row-button" on:click={addGrowthSet}
+          >Add Growth Set</button>
       </div>
     </div>
   {/if}

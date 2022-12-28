@@ -135,7 +135,6 @@
             id={`powerName${i}`}
             class="input"
             type="text"
-            tabindex="1"
             placeholder="Power Name"
             on:keyup={nextNode}
             on:focus={selectNode}
@@ -211,7 +210,6 @@
               id={`powerRange${i}`}
               class="input"
               type="text"
-              tabindex="1"
               placeholder="Range"
               on:keyup={nextNode}
               on:focus={selectNode}
@@ -248,7 +246,6 @@
             id={`power${i}levelThreshold${j}`}
             class="input is-small"
             type="text"
-            tabindex="1"
             placeholder="Threshold"
             on:focus={selectNode}
             on:blur={updateInnatePowerThreshold(level, `ip${i}L${j}t`)}

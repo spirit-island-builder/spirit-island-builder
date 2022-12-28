@@ -61,7 +61,6 @@
             class="input"
             type="text"
             placeholder="Name"
-            tabindex="1"
             on:focus={selectNode}
             on:keyup={nextNode}
             bind:value={spiritBoard.specialRules.rules[i].name} />
@@ -78,7 +77,7 @@
     {#if i === spiritBoard.specialRules.rules.length - 1}
       <div class="field">
         <div class="control">
-          <button class="button is-primary is-light" tabindex="1" on:click={addSpecialRule}
+          <button class="button is-primary is-light" on:click={addSpecialRule}
             >Add Another Rule</button>
         </div>
       </div>

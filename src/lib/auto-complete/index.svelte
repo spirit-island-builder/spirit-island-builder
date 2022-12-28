@@ -8,7 +8,6 @@
   export let startCharacter = "{";
   export let value;
   export let id;
-  export let tabindex = "1";
   export let classNames = "";
   export let showListImmediately;
 
@@ -237,7 +236,6 @@
       class={`input ${classNames}`}
       type="text"
       {placeholder}
-      {tabindex}
       autocomplete="off"
       on:input={handleInputAndFocus}
       on:focus={handleInputAndFocus}
@@ -254,7 +252,6 @@
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
-      {tabindex}
       bind:value />
   {/if}
   {#if showAutoCompleteList === true}

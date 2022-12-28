@@ -92,7 +92,6 @@
             class="input"
             type="text"
             placeholder="Name"
-            tabindex="1"
             bind:value={rule.name} />
         </div>
         <button class="button is-warning is-light" on:click={removeSpecialRule(i)}>Remove</button>
@@ -107,8 +106,7 @@
   {/each}
   <div class="field">
     <div class="control">
-      <button class="button is-primary is-light" tabindex="1" on:click={addSpecialRule}
-        >Add Special Rule</button>
+      <button class="button is-primary is-light" on:click={addSpecialRule}>Add Special Rule</button>
     </div>
   </div>
   {#each aspect.aspectEffects.innatePowers.powers as power, i (power.id)}
@@ -121,7 +119,6 @@
             id={`powerName${i}`}
             class="input"
             type="text"
-            tabindex="1"
             placeholder="Power Name"
             bind:value={power.name} />
         </div>
@@ -195,7 +192,6 @@
               id={`powerRange${i}`}
               class="input"
               type="text"
-              tabindex="1"
               placeholder="Range"
               bind:value={power.range} />
           </div>
@@ -227,7 +223,6 @@
             id={`power${i}levelThreshold${j}`}
             class="input is-small"
             type="text"
-            tabindex="1"
             placeholder="Threshold"
             bind:value={level.threshold} />
         </div>
