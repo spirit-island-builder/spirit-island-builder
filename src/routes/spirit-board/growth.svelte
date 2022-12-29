@@ -2,6 +2,9 @@
   import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { growthValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  import PreviewFrame from "$lib/preview-frame.svelte";
+
+  let previewFrame;
 
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
@@ -131,6 +134,42 @@
 	  var data = ev.dataTransfer.getData("text");
 	  ev.target.appendChild(document.getElementById(data));
 	} */
+
+  function onKeyDown(e) {
+    console.log('onkeydown')
+		 if(e.keyCode==13) {
+      growthActionBuilderID = e.target.id
+      console.log('Builder ID = '+growthActionBuilderID)
+		 }
+	}
+
+  function updateGrowthAction(setIndex, groupIndex, actionIndex) {
+    console.log('rewriting growth node')
+    var newGrowthActionText = spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions[actionIndex].effect;
+    var templateGrowthID = 's'+setIndex+'g'+groupIndex+'a'+actionIndex;
+    console.log('node id: '+templateGrowthID)
+    var growthActionTest = "";
+    console.log("write new growth node (ignore generated ID)")
+    // the below could use some error catching.
+    try {
+      growthActionTest = document.getElementById("preview-iframe").contentWindow.writeGrowthAction(newGrowthActionText);
+    }
+    catch(err) {
+      growthActionTest = document.getElementById("preview-iframe").contentWindow.writeGrowthAction('custom(error! check syntax)');
+      console.log('malformed growth option, try again')
+    }
+    growthActionTest = document.getElementById("preview-iframe").contentWindow.replaceIcon(growthActionTest);
+
+    // Create dummy node with new content
+    const placeholder = document.createElement("div");
+    placeholder.innerHTML = growthActionTest;
+    const newNode = placeholder.firstElementChild;
+
+    var findGrowth = document.getElementById("spirit-preview").getElementsByTagName('iframe')[0].contentWindow.document.getElementById(templateGrowthID)
+    console.log('find new to replace:')
+    console.log(findGrowth)
+    findGrowth.innerHTML = newNode.innerHTML
+  }
 
   export let spiritBoard;
   export let showOrHideSection;
@@ -275,19 +314,22 @@
               {/if}
               {#each growthGroup.growthActions as growthAction, k (growthAction.id)}
                 <div class="growth-action-container">
-                  <div class="control">
+                  <div class="control" on:blur={easyReport}>
                     <AutoComplete
                       id={`growthSet${i}Group${j}Action${k}`}
                       elementType="input"
                       placeholder="Growth Action"
                       showListImmediately={true}
                       validAutoCompleteValues={growthValuesSorted}
-                      on:blur={easyReport}
+                      on:keydown={onKeyDown}
                       bind:value={growthAction.effect} />
                   </div>
                   <button
                     class="button is-warning is-light row-button"
                     on:click={removeGrowthAction(i, j, k)}>Remove</button>
+                  <button
+                    class="button is-warning is-light row-button"
+                    on:click={updateGrowthAction(i, j, k)}>&#x21bb;</button>
                 </div>
               {/each}
               <div class="control">

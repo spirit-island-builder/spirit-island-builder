@@ -815,22 +815,42 @@
     const elementNamesInIframe = ["board"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
+
+  function fGrowthActionTest() {
+    var newGrowthActionText = 'gain-energy(1)';
+    var builderGrowthID = 'growthSet0Group0Action0';
+    var matches = builderGrowthID.match(/\d+/g);
+    console.log('rewriting growth node')
+    var templateGrowthID = 's'+matches[0]+'g'+matches[1]+'a'+matches[2];
+    console.log('node id: '+templateGrowthID)
+    var growthActionTest = "";
+    console.log("write new growth node (ignore generated ID)")
+    // the below could use some error catching.
+    try {
+      growthActionTest = previewFrame.writeGrowthAction(newGrowthActionText);
+    }
+    catch(err) {
+      growthActionTest = previewFrame.writeGrowthAction('custom(error)');
+      console.log('malformed growth option, try again')
+    }
+    
+    const placeholder = document.createElement("div");
+    placeholder.innerHTML = growthActionTest;
+    const newNode = placeholder.firstElementChild;
+    var findGrowth = document.getElementById("spirit-preview").getElementsByTagName('iframe')[0].contentWindow.document.getElementById(templateGrowthID)
+    console.log('find new to replace:')
+    console.log(findGrowth)
+    findGrowth.innerHTML = newNode.innerHTML
+    console.log(previewFrame)
+    console.log(document.getElementById("preview-iframe"))
+  }
+
+
+
 </script>
 
 <h5 class="title is-5 mb-0 no-anchor">Spirit Board Play Side</h5>
-<!-- <h6
-  on:click={showOrHideBoard}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
-  id="previewBoard">
-  Preview
-  <span on:click={showOrHideBoard}>
-    {#if spiritBoard.previewBoard.isVisible}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6> -->
+
 <PreviewFrame
   id="spirit-preview"
   src={previewFrameSrc}
@@ -867,6 +887,7 @@
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
+  <button class="button is-info  mr-1" on:click={fGrowthActionTest}>Test Growth Button</button>
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
