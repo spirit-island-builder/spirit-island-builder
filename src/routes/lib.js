@@ -178,11 +178,14 @@ export const downloadFile = (fileURL, fileName) => {
   document.body.removeChild(element);
 };
 
-export const takeScreenshot = (frameId, fileNames, elementNamesInIframe, useElementId) => {
+export const downloadString = (mimeType, fileContent, fileName) => {
+  downloadFile(`${mimeType},${encodeURI(fileContent)}`, fileName);
+};
+
+export const takeScreenshot = (frame, fileNames, elementNamesInIframe) => {
   elementNamesInIframe.forEach((elementNameInIframe, index) => {
-    document
-      .getElementById(frameId)
-      .contentWindow.takeScreenshot(elementNameInIframe, useElementId)
+    frame.contentWindow
+      .takeScreenshot(elementNameInIframe)
       .then((imageURL) => downloadFile(imageURL, fileNames[index]));
   });
 };

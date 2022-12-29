@@ -1,17 +1,22 @@
 <script>
   import { onMount } from "svelte";
+
+  import * as Lib from "../lib";
+  import PreviewFrame from "$lib/preview-frame.svelte";
+
   import NameLossAndEscalation from "./name-loss-escalation.svelte";
   import AdversaryLevels from "./adversary-levels.svelte";
-  import * as Lib from "../lib";
 
   export let adversary;
   export let isShowingInstructions;
   export let instructionsSource;
 
   let adversaryFrame;
-  let scaledFrameSrc = "/template/MyCustomContent/MyAdversary/adversary.html";
+  let previewFrame;
+  let previewDoc;
+  let previewFrameSrc = "/template/MyCustomContent/MyAdversary/adversary.html";
   if (adversary.demoBoardWasLoaded) {
-    scaledFrameSrc = "/template/MyCustomContent/MyAdversary/adversary_blank.html";
+    previewFrameSrc = "/template/MyCustomContent/MyAdversary/adversary_blank.html";
   }
 
   onMount(() => {
@@ -45,28 +50,8 @@
   function reloadPreview() {
     console.log("Updating Preview Adversary (f=setBoardValues)");
     setBoardValues(adversary);
-    copyHTML();
-    document.getElementById("adversary-scaled-frame").contentWindow.startMain();
-  }
-
-  function copyHTML() {
-    console.log("Copying HTML from Form to Preview (f=copyHTML)");
-    var modFrame = document.getElementById("adversary-mod-frame");
-    modFrame.doc = document.getElementById("adversary-mod-frame").contentWindow.document;
-    modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
-    modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
-    var scaledFrame = document.getElementById("adversary-scaled-frame");
-    scaledFrame.doc = document.getElementById("adversary-scaled-frame").contentWindow.document;
-    scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
-    scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
-
-    let bodyClone;
-    bodyClone = document
-      .getElementById("adversary-mod-frame")
-      .contentWindow.document.body.cloneNode(true);
-    document.getElementById("adversary-scaled-frame").contentWindow.document.body = bodyClone;
-    let headClone = modFrame.head.cloneNode(true);
-    scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
+    previewFrame.copyHTMLFrom(adversaryFrame.contentDocument);
+    previewFrame.startMain();
   }
 
   function setBoardValues(adversary) {
@@ -132,29 +117,13 @@
     }
   }
 
-  let adversaryFrameLarge = false;
-  function toggleSize() {
-    var displayFrame = document.getElementById("adversary-scaled-frame");
-    var displayWrap = document.getElementById("adversaryBoardWrap");
-    if (!adversaryFrameLarge) {
-      displayFrame.style.webkitTransform = "scale(1.55)";
-      displayWrap.style.height = "845px";
-      window.scrollBy(0, 295);
-    } else {
-      displayFrame.style.webkitTransform = "scale(1)";
-      displayWrap.style.height = "550px";
-    }
-    adversaryFrameLarge = !adversaryFrameLarge;
-  }
-
   function exportAdversary() {
     setBoardValues(adversary);
     const element = document
       .getElementById("adversary-mod-frame")
       .contentWindow.document.getElementsByTagName("html")[0];
-    const htmlURL = "data:text/html;charset=utf-8," + encodeURIComponent(element.innerHTML);
     const htmlFileName = adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.html";
-    Lib.downloadFile(htmlURL, htmlFileName);
+    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
   }
 
   function handleTextFileInput(event) {
@@ -259,10 +228,9 @@
   }
 
   function screenshotSetUp() {
-    const frameId = "adversary-scaled-frame";
     const fileNames = [adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.png"];
     const elementNamesInIframe = ["adversary"];
-    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe);
+    previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 </script>
 
@@ -280,9 +248,11 @@
     {/if}
   </span>
 </h6> -->
-<div id="adversaryBoardWrap">
-  <iframe src={scaledFrameSrc} height="600" width="100%" id="adversary-scaled-frame" title="yay" />
-</div>
+<PreviewFrame
+  id="adversary-preview"
+  src={previewFrameSrc}
+  bind:this={previewFrame}
+  bind:document={previewDoc} />
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
     <label class="file-label">
@@ -301,7 +271,8 @@
   <button class="button is-success  mr-1" on:click={exportAdversary}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
-  <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
+  <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
+    >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
