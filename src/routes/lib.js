@@ -186,8 +186,3 @@ export const takeScreenshot = (frameId, fileNames, elementNamesInIframe, useElem
       .then((imageURL) => downloadFile(imageURL, fileNames[index]));
   });
 };
-
-export const toFixedNumber = (num, digits) => {
-  const mult = 10 ** digits;
-  return Math.round(num * mult) / mult;
-};

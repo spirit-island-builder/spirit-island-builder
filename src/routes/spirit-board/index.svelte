@@ -1,5 +1,7 @@
 <script>
   import { onMount } from "svelte";
+  import jsone from "json-e";
+
   import NameAndArt from "./name-and-art.svelte";
   import SpecialRules from "./special-rules.svelte";
   import Growth from "./growth.svelte";
@@ -7,6 +9,10 @@
   import InnatePowers from "./innate-powers.svelte";
   import CustomIcons from "../custom-icons.svelte";
   import * as Lib from "../lib";
+
+  import { createTTSSave, toFixedNumber } from "$lib/tts.js";
+
+  import spiritBoardJsonTemplate from "./tts-spirit-board.json";
 
   export let spiritBoard;
   export let customIcons;
@@ -623,11 +629,6 @@
   }
 
   async function downloadTTSJSON() {
-    const response = await fetch("/template/MyCustomContent/MySpirit/Spirit_Blank_JSON.json");
-    let myJSON = await response.json();
-    console.log(myJSON);
-    console.log(myJSON.ObjectStates[0]);
-
     const board = document
       .getElementById("scaled-frame")
       .contentDocument.querySelectorAll("board")[0];
@@ -635,22 +636,23 @@
 
     //Snap Points
     var presenceNodes = Array.from(board.getElementsByTagName("presence-node"));
+    let snapPoints = [];
     console.log(presenceNodes);
     presenceNodes.forEach((node) => {
       var rect = node.getElementsByTagName("ring-icon")[0].getBoundingClientRect();
       if (node.classList.contains("first")) {
         console.log("skip");
       } else {
-        myJSON.ObjectStates[0].AttachedSnapPoints.push({
+        snapPoints.push({
           Position: {
-            x: Lib.toFixedNumber(
+            x: toFixedNumber(
               (-(boardRect.width / boardRect.height) *
                 (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
                 (boardRect.width / 2),
               4
             ),
             y: 0.2,
-            z: Lib.toFixedNumber(
+            z: toFixedNumber(
               (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
                 (boardRect.height / 2),
               4
@@ -660,15 +662,10 @@
       }
     });
 
-    var scriptState = {
-      thresholds: [],
-      trackElements: [],
-      trackEnergy: [],
-    };
-
     //Lua scripting - thresholds
-    const thresholds = Array.from(board.getElementsByTagName("threshold"));
-    thresholds.forEach((threshold) => {
+    let thresholds = [];
+    const thresholdsNodes = Array.from(board.getElementsByTagName("threshold"));
+    thresholdsNodes.forEach((threshold) => {
       console.log(threshold);
       var icons = Array.from(threshold.getElementsByTagName("icon"));
 
@@ -697,17 +694,17 @@
         }
       });
       var rect = threshold.getBoundingClientRect();
-      scriptState.thresholds.push({
+      thresholds.push({
         elements: elementCounts.join(""),
         position: {
-          x: Lib.toFixedNumber(
+          x: toFixedNumber(
             (-(boardRect.width / boardRect.height) *
               (-23 + rect.left - boardRect.x - boardRect.width / 2)) /
               (boardRect.width / 2),
             4
           ),
           y: 0,
-          z: Lib.toFixedNumber(
+          z: toFixedNumber(
             (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
               (boardRect.height / 2),
             4
@@ -717,6 +714,7 @@
     });
 
     //Lua scripting - track energy & elements
+    let trackElements = [];
     var formNodes = spiritBoard.presenceTrack.energyNodes.concat(
       spiritBoard.presenceTrack.playsNodes
     );
@@ -764,17 +762,17 @@
       }
       if (elementCounts.reduce((partialSum, a) => partialSum + a, 0) > 0) {
         var rect = boardNodes[j].getElementsByTagName("ring-icon")[0].getBoundingClientRect();
-        scriptState.trackElements.push({
+        trackElements.push({
           elements: elementCounts.join(""),
           position: {
-            x: Lib.toFixedNumber(
+            x: toFixedNumber(
               (-(boardRect.width / boardRect.height) *
                 (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
                 (boardRect.width / 2),
               4
             ),
             y: 0,
-            z: Lib.toFixedNumber(
+            z: toFixedNumber(
               (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
                 (boardRect.height / 2),
               4
@@ -784,6 +782,7 @@
       }
     });
 
+    let trackEnergy = [];
     var energyNodes = spiritBoard.presenceTrack.energyNodes.slice().reverse();
     var formEnergyNodes = Array.from(
       board.getElementsByClassName("energy-track")[0].getElementsByTagName("presence-node")
@@ -812,17 +811,17 @@
               .getElementsByTagName("ring-icon")[0]
               .getBoundingClientRect();
             maxEnergy = namesList[j];
-            scriptState.trackEnergy.push({
+            trackEnergy.push({
               count: Number(maxEnergy),
               position: {
-                x: Lib.toFixedNumber(
+                x: toFixedNumber(
                   (-(boardRect.width / boardRect.height) *
                     (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
                     (boardRect.width / 2),
                   4
                 ),
                 y: 0,
-                z: Lib.toFixedNumber(
+                z: toFixedNumber(
                   (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
                     (boardRect.height / 2),
                   4
@@ -834,11 +833,17 @@
       }
     });
 
-    myJSON.ObjectStates[0].LuaScriptState = JSON.stringify(scriptState);
-    myJSON.ObjectStates[0].Nickname = spiritBoard.nameAndArt.name;
-    myJSON.ObjectStates[0].Tags.push("Spirit");
+    let spiritBoardJson = jsone(spiritBoardJsonTemplate, {
+      guid: spiritBoard.nameAndArt.name.replaceAll(" ", "_"),
+      spiritName: spiritBoard.nameAndArt.name,
+      snapPoints,
+      thresholds,
+      trackElements,
+      trackEnergy,
+    });
+    let ttsSave = createTTSSave([spiritBoardJson]);
 
-    const jsonURL = "data:text/json;charset=utf-8," + encodeURI(JSON.stringify(myJSON));
+    const jsonURL = "data:text/json;charset=utf-8," + encodeURI(ttsSave);
     const jsonFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json";
     Lib.downloadFile(jsonURL, jsonFileName);
   }
