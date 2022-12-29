@@ -1,12 +1,20 @@
 <script>
   import { onMount } from "svelte";
+  import jsone from "json-e";
+
+  import * as Lib from "../lib";
+  import PreviewFrame from "$lib/preview-frame.svelte";
+
   import NameAndArt from "./name-and-art.svelte";
   import SpecialRules from "./special-rules.svelte";
   import Growth from "./growth.svelte";
   import PresenceTracks from "./presence-tracks.svelte";
   import InnatePowers from "./innate-powers.svelte";
   import CustomIcons from "../custom-icons.svelte";
-  import * as Lib from "../lib";
+
+  import { createTTSSave, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
+
+  import spiritBoardJsonTemplate from "./tts-spirit-board.json";
 
   export let spiritBoard;
   export let customIcons;
@@ -140,7 +148,9 @@
   }
 
   let frame;
-  let scaledFrameSrc = "";
+  let previewFrame;
+  let previewDoc;
+  let previewFrameSrc = "";
 
   onMount(() => {
     frame.addEventListener("load", onLoad());
@@ -153,14 +163,14 @@
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
         console.log("First tab load. Using default preview.");
-        scaledFrameSrc = "/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
+        previewFrameSrc = "/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
         setTimeout(() => {
           readHTML(localFrame.contentDocument);
           localObject.demoBoardWasLoaded = true;
         }, 200);
       } else {
         console.log("Tab previously loaded. Reloaded from form.");
-        scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html";
+        previewFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html";
         setTimeout(() => {
           reloadPreview();
         }, 200);
@@ -491,62 +501,24 @@
     }
   }
 
-  function copyHTML() {
-    console.log("Copying HTML from Form to Preview (f=copyHTML)");
-    var modFrame = document.getElementById("mod-frame");
-    modFrame.doc = document.getElementById("mod-frame").contentWindow.document;
-    modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
-    modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
-    var scaledFrame = document.getElementById("scaled-frame");
-    scaledFrame.doc = document.getElementById("scaled-frame").contentWindow.document;
-    scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
-    scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
-
-    let bodyClone;
-    bodyClone = document.getElementById("mod-frame").contentWindow.document.body.cloneNode(true);
-    document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
-    let headClone = modFrame.head.cloneNode(true);
-    console.log("headClone: ", headClone);
-    addJavaToHead(headClone);
-    console.log("headClone: ", headClone);
-    scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
-  }
-
-  function addJavaToHead(head) {
+  function additionalScripts() {
+    let fragment = new DocumentFragment();
     var scriptGeneralDummy = document.createElement("script");
     scriptGeneralDummy.type = "text/javascript";
     scriptGeneralDummy.src = "../../_global/js/general.js";
     var scriptBoardFrontDummy = document.createElement("script");
     scriptBoardFrontDummy.type = "text/javascript";
     scriptBoardFrontDummy.src = "../../_global/js/board_front.js";
-    head.appendChild(scriptGeneralDummy);
-    head.appendChild(scriptBoardFrontDummy);
-    return head;
+    fragment.appendChild(scriptGeneralDummy);
+    fragment.appendChild(scriptBoardFrontDummy);
+    return fragment;
   }
 
   function reloadPreview() {
     console.log("Updating Preview Board (f=setBoardValues)");
     setBoardValues(spiritBoard);
-    copyHTML();
-    console.log("startMain");
-    document.getElementById("scaled-frame").contentWindow.startMain();
-    // document.getElementById('scaled-frame').contentWindow.location.reload();
-  }
-
-  let frameLarge = false;
-  function toggleSize() {
-    var displayFrame = document.getElementById("scaled-frame");
-    var displayWrap = document.getElementById("board-wrap");
-
-    if (!frameLarge) {
-      displayFrame.style.webkitTransform = "scale(0.745)";
-      displayWrap.style.height = "915px";
-      window.scrollBy(0, 245);
-    } else {
-      displayFrame.style.webkitTransform = "scale(0.55)";
-      displayWrap.style.height = "670px";
-    }
-    frameLarge = !frameLarge;
+    previewFrame.copyHTMLFrom(frame.contentDocument, additionalScripts());
+    previewFrame.startMain();
   }
 
   function handleTextFileInput(event) {
@@ -575,24 +547,11 @@
 
   function exportSpiritBoard() {
     setBoardValues(spiritBoard);
-    var element = document.createElement("a");
-    element.setAttribute(
-      "href",
-      "data:text/html;charset=utf-8," +
-        encodeURI(
-          document
-            .getElementById("mod-frame")
-            .contentWindow.document.getElementsByTagName("html")[0].innerHTML
-        )
-    );
-    element.setAttribute(
-      "download",
-      spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html"
-    );
-    element.style.display = "none";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    const element = document
+      .getElementById("mod-frame")
+      .contentWindow.document.getElementsByTagName("html")[0];
+    const htmlFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html";
+    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
   }
 
   function showInstructions() {
@@ -631,213 +590,234 @@
       reloadPreview();
       closeExamplesModal(document.getElementById("modal-js-example"));
       hideAll();
-    }, 400);
+    }, 500);
   }
 
-
   async function downloadTTSJSON() {
-    const response = await fetch('/template/MyCustomContent/MySpirit/Spirit_Blank_JSON.json');
-    let myJSON = await response.json();
-    console.log(myJSON)
-    console.log(myJSON.ObjectStates[0])
-    
-    const board = document.getElementById("scaled-frame").contentDocument.querySelectorAll("board")[0];
-    const boardRect = board.getBoundingClientRect()
+    const board = previewDoc.querySelectorAll("board")[0];
+    const boardRect = board.getBoundingClientRect();
 
     //Snap Points
-    var presenceNodes = Array.from(board.getElementsByTagName("presence-node"))
-    console.log(presenceNodes)
+    var presenceNodes = Array.from(board.getElementsByTagName("presence-node"));
+    let snapPoints = [];
+    console.log(presenceNodes);
     presenceNodes.forEach((node) => {
-        var rect = node.getElementsByTagName('ring-icon')[0].getBoundingClientRect()
-        if(node.classList.contains('first')){
-          console.log('skip')
-        }else{
-          var nodeX = -(boardRect.width/boardRect.height)*(rect.x+(rect.width/2)-boardRect.x-boardRect.width/2)/(boardRect.width/2)
-          var nodeY = (rect.y+(rect.height/2)-boardRect.y-boardRect.height/2)/(boardRect.height/2)
-          console.log('my midpoint x,z= '+parseFloat(nodeX).toFixed(4)+"%, "+parseFloat(nodeY)+"%")
-          myJSON.ObjectStates[0].AttachedSnapPoints.push({
-            Position:{
-              x:nodeX,
-              y:0.2,
-              z:nodeY,
-            }
-          })
-        }
-      });
-      
-      var luaScriptState = ""
-      
-      //Lua scripting - thresholds
-      const thresholds = Array.from(board.getElementsByTagName("threshold"))
-      luaScriptState += '{\"thresholds\": ['
-      thresholds.forEach((threshold) => {
-        console.log(threshold)
-        var icons = Array.from(threshold.getElementsByTagName("icon"))
-        
-        let elementNums = threshold.innerHTML.split("<icon").map(x => isNaN(x) ? x.split("icon>")[1] : x);
-        
-        let elementCounts = [0,0,0,0,0,0,0,0]
-        icons.forEach((icon, i) => {
-          if(icon.classList.contains('sun')){
-            elementCounts[0]=elementNums[i];
-          }else if(icon.classList.contains('moon')){
-            elementCounts[1]=elementNums[i];
-          }else if(icon.classList.contains('fire')){
-            elementCounts[2]=elementNums[i];
-          }else if(icon.classList.contains('air')){
-            elementCounts[3]=elementNums[i];
-          }else if(icon.classList.contains('water')){
-            elementCounts[4]=elementNums[i];
-          }else if(icon.classList.contains('earth')){
-            elementCounts[5]=elementNums[i];
-          }else if(icon.classList.contains('plant')){
-            elementCounts[6]=elementNums[i];
-          }else if(icon.classList.contains('animal')){
-            elementCounts[7]=elementNums[i];
-          }
+      var rect = node.getElementsByTagName("ring-icon")[0].getBoundingClientRect();
+      if (node.classList.contains("first")) {
+        console.log("skip");
+      } else {
+        snapPoints.push({
+          Position: {
+            x: toFixedNumber(
+              (-(boardRect.width / boardRect.height) *
+                (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
+                (boardRect.width / 2),
+              4
+            ),
+            y: 0.2,
+            z: toFixedNumber(
+              (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+                (boardRect.height / 2),
+              4
+            ),
+          },
         });
-        luaScriptState += '{\"elements\": '
-        //elements
-        luaScriptState += '\"'+elementCounts.join("")+'\", '
+      }
+    });
 
-        //position
-        luaScriptState += '\"position\": '
-        var rect = threshold.getBoundingClientRect();
-        console.log(rect)
-        console.log(boardRect)
-        var nodeX = -(boardRect.width/boardRect.height)*(-23+rect.left-boardRect.x-boardRect.width/2)/(boardRect.width/2)
-        var nodeY = (rect.y+(rect.height/2)-boardRect.y-boardRect.height/2)/(boardRect.height/2)
-        luaScriptState += '{\"x\": '+parseFloat(nodeX).toFixed(4)
-        luaScriptState += ', \"y\": 0'
-        luaScriptState += ', \"z\": '+parseFloat(nodeY).toFixed(4)
-        luaScriptState += '}}, '
-        
-      });
-      luaScriptState = luaScriptState.slice(0, -2); // delete the comma
-      luaScriptState += '],'
+    //Lua scripting - thresholds
+    let thresholds = [];
+    const thresholdsNodes = Array.from(board.getElementsByTagName("threshold"));
+    thresholdsNodes.forEach((threshold) => {
+      console.log(threshold);
+      var icons = Array.from(threshold.getElementsByTagName("icon"));
 
+      let elementNums = threshold.innerHTML
+        .split("<icon")
+        .map((x) => (isNaN(x) ? x.split("icon>")[1] : x));
 
-      //Lua scripting - track energy & elements
-      var formNodes = spiritBoard.presenceTrack.energyNodes.concat(spiritBoard.presenceTrack.playsNodes)
-      var boardNodes= Array.from(board.getElementsByTagName("presence-node"))
-      luaScriptState += '\"trackElements\": ['
-      var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
-      formNodes.forEach((node, j) => {
-        var nodeEffectText = node.effect;
-        var matches = regExpOuterParentheses.exec(nodeEffectText)
-        if(matches){nodeEffectText=matches[1]}
-        
-        const nameCounts = {};
-        nodeEffectText.split('+').forEach(function (x) { nameCounts[x] = (nameCounts[x] || 0) + 1; });
-        let namesList = Object.keys(nameCounts);
-        let countList = Object.values(nameCounts);
-        let elementCounts = [0,0,0,0,0,0,0,0]
-        for (var i = 0; i < namesList.length; i++) {
-          if(namesList[i]=='sun'){elementCounts[0]=countList[i];}
-          if(namesList[i]=='moon'){elementCounts[1]=countList[i];}
-          if(namesList[i]=='fire'){elementCounts[2]=countList[i];}
-          if(namesList[i]=='air'){elementCounts[3]=countList[i];}
-          if(namesList[i]=='water'){elementCounts[4]=countList[i];}
-          if(namesList[i]=='earth'){elementCounts[5]=countList[i];}
-          if(namesList[i]=='plant'){elementCounts[6]=countList[i];}
-          if(namesList[i]=='animal'){elementCounts[7]=countList[i];}
-        }
-        if(elementCounts.reduce((partialSum, a) => partialSum + a, 0) > 0){
-          luaScriptState += '{\"elements\": '
-          luaScriptState += '\"'+elementCounts.join("")+'\", '
-          //position
-          var rect = boardNodes[j].getElementsByTagName("ring-icon")[0].getBoundingClientRect();
-          var nodeX = -(boardRect.width/boardRect.height)*(rect.x+(rect.width/2)-boardRect.x-boardRect.width/2)/(boardRect.width/2)
-          var nodeY = (rect.y+(rect.height/2)-boardRect.y-boardRect.height/2)/(boardRect.height/2)
-          console.log(nodeX)
-          console.log(nodeY)
-          luaScriptState += '\"position\": '
-          luaScriptState += '{\"x\": '+parseFloat(nodeX).toFixed(4)
-          luaScriptState += ', \"y\": 0'
-          luaScriptState += ', \"z\": '+parseFloat(nodeY).toFixed(4)
-          luaScriptState += '}}, '
+      let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
+      icons.forEach((icon, i) => {
+        if (icon.classList.contains("sun")) {
+          elementCounts[0] = elementNums[i];
+        } else if (icon.classList.contains("moon")) {
+          elementCounts[1] = elementNums[i];
+        } else if (icon.classList.contains("fire")) {
+          elementCounts[2] = elementNums[i];
+        } else if (icon.classList.contains("air")) {
+          elementCounts[3] = elementNums[i];
+        } else if (icon.classList.contains("water")) {
+          elementCounts[4] = elementNums[i];
+        } else if (icon.classList.contains("earth")) {
+          elementCounts[5] = elementNums[i];
+        } else if (icon.classList.contains("plant")) {
+          elementCounts[6] = elementNums[i];
+        } else if (icon.classList.contains("animal")) {
+          elementCounts[7] = elementNums[i];
         }
       });
-      luaScriptState = luaScriptState.slice(0, -2); // delete the comma
-      luaScriptState += '],'
-      luaScriptState += '\"trackEnergy\": ['
+      var rect = threshold.getBoundingClientRect();
+      thresholds.push({
+        elements: elementCounts.join(""),
+        position: {
+          x: toFixedNumber(
+            (-(boardRect.width / boardRect.height) *
+              (-23 + rect.left - boardRect.x - boardRect.width / 2)) /
+              (boardRect.width / 2),
+            4
+          ),
+          y: 0,
+          z: toFixedNumber(
+            (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+              (boardRect.height / 2),
+            4
+          ),
+        },
+      });
+    });
 
-      var energyNodes = spiritBoard.presenceTrack.energyNodes.slice().reverse()
-      var formEnergyNodes = Array.from(board.getElementsByClassName("energy-track")[0].getElementsByTagName("presence-node")).reverse()
-      console.log(energyNodes)
-      console.log(formEnergyNodes)
-      console.log(spiritBoard)
-      var maxEnergy = 100;
-      energyNodes.forEach((node, i) => {
-        
-        var nodeEffectText = node.effect;
-        var matches = regExpOuterParentheses.exec(nodeEffectText)
-        if(matches){nodeEffectText=matches[1]}
-        
-        const nameCounts = {};
-        nodeEffectText.split('+').forEach(function (x) { nameCounts[x] = (nameCounts[x] || 0) + 1; });
-        
-        let namesList = Object.keys(nameCounts);
-        for (var j = 0; j < namesList.length; j++) {
-          if(!isNaN(namesList[j])){
-            if(namesList[j]<maxEnergy){
-              maxEnergy = namesList[j]
-              luaScriptState += '{\"count\": '+maxEnergy+', '
+    //Lua scripting - track energy & elements
+    let trackElements = [];
+    var formNodes = spiritBoard.presenceTrack.energyNodes.concat(
+      spiritBoard.presenceTrack.playsNodes
+    );
+    var boardNodes = Array.from(board.getElementsByTagName("presence-node"));
+    var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
+    formNodes.forEach((node, j) => {
+      var nodeEffectText = node.effect;
+      var matches = regExpOuterParentheses.exec(nodeEffectText);
+      if (matches) {
+        nodeEffectText = matches[1];
+      }
 
-              //position
-              var rect = formEnergyNodes[i].getElementsByTagName("ring-icon")[0].getBoundingClientRect();
-              var nodeX = -(boardRect.width/boardRect.height)*(rect.x+(rect.width/2)-boardRect.x-boardRect.width/2)/(boardRect.width/2)
-              var nodeY = (rect.y+(rect.height/2)-boardRect.y-boardRect.height/2)/(boardRect.height/2)
-              console.log(formEnergyNodes[i])
-              console.log(rect)
-              console.log(nodeX)
-              console.log(nodeY)
-              luaScriptState += '\"position\": '
-              luaScriptState += '{\"x\": '+parseFloat(nodeX).toFixed(4)
-              luaScriptState += ', \"y\": 0'
-              luaScriptState += ', \"z\": '+parseFloat(nodeY).toFixed(4)
-              luaScriptState += '}}, '
+      const nameCounts = {};
+      nodeEffectText.split("+").forEach(function (x) {
+        nameCounts[x] = (nameCounts[x] || 0) + 1;
+      });
+      let namesList = Object.keys(nameCounts);
+      let countList = Object.values(nameCounts);
+      let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
+      for (var i = 0; i < namesList.length; i++) {
+        if (namesList[i] == "sun") {
+          elementCounts[0] = countList[i];
+        }
+        if (namesList[i] == "moon") {
+          elementCounts[1] = countList[i];
+        }
+        if (namesList[i] == "fire") {
+          elementCounts[2] = countList[i];
+        }
+        if (namesList[i] == "air") {
+          elementCounts[3] = countList[i];
+        }
+        if (namesList[i] == "water") {
+          elementCounts[4] = countList[i];
+        }
+        if (namesList[i] == "earth") {
+          elementCounts[5] = countList[i];
+        }
+        if (namesList[i] == "plant") {
+          elementCounts[6] = countList[i];
+        }
+        if (namesList[i] == "animal") {
+          elementCounts[7] = countList[i];
+        }
+      }
+      if (elementCounts.reduce((partialSum, a) => partialSum + a, 0) > 0) {
+        var rect = boardNodes[j].getElementsByTagName("ring-icon")[0].getBoundingClientRect();
+        trackElements.push({
+          elements: elementCounts.join(""),
+          position: {
+            x: toFixedNumber(
+              (-(boardRect.width / boardRect.height) *
+                (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
+                (boardRect.width / 2),
+              4
+            ),
+            y: 0,
+            z: toFixedNumber(
+              (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+                (boardRect.height / 2),
+              4
+            ),
+          },
+        });
+      }
+    });
 
-            }
+    let trackEnergy = [];
+    var energyNodes = spiritBoard.presenceTrack.energyNodes.slice().reverse();
+    var formEnergyNodes = Array.from(
+      board.getElementsByClassName("energy-track")[0].getElementsByTagName("presence-node")
+    ).reverse();
+    console.log(energyNodes);
+    console.log(formEnergyNodes);
+    console.log(spiritBoard);
+    var maxEnergy = 100;
+    energyNodes.forEach((node, i) => {
+      var nodeEffectText = node.effect;
+      var matches = regExpOuterParentheses.exec(nodeEffectText);
+      if (matches) {
+        nodeEffectText = matches[1];
+      }
+
+      const nameCounts = {};
+      nodeEffectText.split("+").forEach(function (x) {
+        nameCounts[x] = (nameCounts[x] || 0) + 1;
+      });
+
+      let namesList = Object.keys(nameCounts);
+      for (var j = 0; j < namesList.length; j++) {
+        if (!isNaN(namesList[j])) {
+          if (namesList[j] < maxEnergy) {
+            var rect = formEnergyNodes[i]
+              .getElementsByTagName("ring-icon")[0]
+              .getBoundingClientRect();
+            maxEnergy = namesList[j];
+            trackEnergy.push({
+              count: Number(maxEnergy),
+              position: {
+                x: toFixedNumber(
+                  (-(boardRect.width / boardRect.height) *
+                    (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
+                    (boardRect.width / 2),
+                  4
+                ),
+                y: 0,
+                z: toFixedNumber(
+                  (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+                    (boardRect.height / 2),
+                  4
+                ),
+              },
+            });
           }
         }
-      });
-      luaScriptState = luaScriptState.slice(0, -2); // delete the comma
-      luaScriptState += ']'
-      luaScriptState += '}'
-      console.log(luaScriptState)
-      console.log(JSON.parse(luaScriptState))
+      }
+    });
 
-      myJSON.ObjectStates[0].LuaScriptState = luaScriptState
-      myJSON.ObjectStates[0].Nickname = spiritBoard.nameAndArt.name
-      myJSON.ObjectStates[0].Tags.push("Spirit");
+    let spiritBoardJson = jsone(spiritBoardJsonTemplate, {
+      guid: spiritBoard.nameAndArt.name.replaceAll(" ", "_"),
+      spiritName: spiritBoard.nameAndArt.name,
+      snapPoints,
+      thresholds,
+      trackElements,
+      trackEnergy,
+    });
+    let ttsSave = createTTSSave([spiritBoardJson]);
 
-      var element = document.createElement("a");
-      element.setAttribute(
-        "href",
-        "data:text/json;charset=utf-8," +
-          encodeURI(JSON.stringify(myJSON))
-      );
-      element.setAttribute(
-        "download",
-        spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json"
-      );
-      element.style.display = "none";
-      document.body.appendChild(element);
-      element.click();
-      document.body.removeChild(element);
-
+    const jsonFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json";
+    Lib.downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
 
   function screenshotSetUp() {
-    const frameId = "scaled-frame";
     const fileNames = [spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.png"];
     const elementNamesInIframe = ["board"];
-    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe);
+    previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 </script>
 
-<h5 class="title is-5 mb-0">Spirit Board Play Side</h5>
+<h5 class="title is-5 mb-0 no-anchor">Spirit Board Play Side</h5>
 <!-- <h6
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
@@ -851,9 +831,11 @@
     {/if}
   </span>
 </h6> -->
-<div id="board-wrap">
-  <iframe src={scaledFrameSrc} height="600" width="100%" id="scaled-frame" title="Scaled Frame" />
-</div>
+<PreviewFrame
+  id="spirit-preview"
+  src={previewFrameSrc}
+  bind:this={previewFrame}
+  bind:document={previewDoc} />
 
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
@@ -879,10 +861,10 @@
   </div>
   <button class="button is-success  mr-1" on:click={exportSpiritBoard}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
-  <button class="button is-success  mr-1" on:click={downloadTTSJSON}
-  >Export TTS file</button>
-  <button class="button is-warning  mr-1" on:click={reloadPreview}>Refresh Image</button>
-  <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
+  <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
+  <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
+  <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
+    >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>

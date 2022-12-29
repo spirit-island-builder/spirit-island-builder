@@ -20,7 +20,7 @@
   height: 1.5rem;
 }
 
-button.button.presence-track-add-node{
+button.button.presence-track-add-node {
   width: 0px;
   height: 0px;
   border-width: 12px;
@@ -35,7 +35,7 @@ button.button.presence-track-add-node{
   background-color: white !important;
 }
 
-button.button.presence-track-remove-node{
+button.button.presence-track-remove-node {
   border-radius: 0rem;
   top: -30px;
   right: -11px;

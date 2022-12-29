@@ -168,21 +168,24 @@ export const addCustomIcon = (customIcons, iconName = "") => {
   return customIcons;
 };
 
-export const takeScreenshot = (frameId, fileNames, elementNamesInIframe, useElementId) => {
+export const downloadFile = (fileURL, fileName) => {
+  var element = document.createElement("a");
+  element.setAttribute("href", fileURL);
+  element.setAttribute("download", fileName);
+  element.style.display = "none";
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+};
+
+export const downloadString = (mimeType, fileContent, fileName) => {
+  downloadFile(`${mimeType},${encodeURI(fileContent)}`, fileName);
+};
+
+export const takeScreenshot = (frame, fileNames, elementNamesInIframe) => {
   elementNamesInIframe.forEach((elementNameInIframe, index) => {
-    document
-      .getElementById(frameId)
-      .contentWindow.takeScreenshot(elementNameInIframe, useElementId)
-      .then((imageURL) => {
-        const image = new Image();
-        image.src = imageURL;
-        var element = document.createElement("a");
-        element.setAttribute("href", imageURL);
-        element.setAttribute("download", fileNames[index]);
-        element.style.display = "none";
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
-      });
+    frame.contentWindow
+      .takeScreenshot(elementNameInIframe)
+      .then((imageURL) => downloadFile(imageURL, fileNames[index]));
   });
 };

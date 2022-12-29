@@ -3,7 +3,6 @@
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { growthValuesSorted } from "$lib/auto-complete/autoCompleteValues";
 
-
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
   }
@@ -77,10 +76,10 @@
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost;
 
-    var focusId =    "set" +    setIndex +    "group" +    groupIndex +    "cost";
+    var focusId = "set" + setIndex + "group" + groupIndex + "cost";
     //Set the focus to the Growth Group Cost if it is visible.
     if (spiritBoard.growth.isVisible) {
-      if(spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost){
+      if (spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost) {
         setTimeout(() => {
           document.getElementById(focusId).focus();
         }, 100);
@@ -92,10 +91,10 @@
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint;
 
-    var focusId =    "set" +    setIndex +    "group" +    groupIndex +    "tint";
+    var focusId = "set" + setIndex + "group" + groupIndex + "tint";
     //Set the focus to the Growth Group Cost if it is visible.
     if (spiritBoard.growth.isVisible) {
-      if(spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint){
+      if (spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint) {
         setTimeout(() => {
           document.getElementById(focusId).focus();
         }, 100);
@@ -107,10 +106,10 @@
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle;
 
-    var focusId =    "set" +    setIndex +    "group" +    groupIndex +    "title";
+    var focusId = "set" + setIndex + "group" + groupIndex + "title";
     //Set the focus to the Growth Group Cost if it is visible.
     if (spiritBoard.growth.isVisible) {
-      if(spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle){
+      if (spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle) {
         setTimeout(() => {
           document.getElementById(focusId).focus();
         }, 100);
@@ -234,7 +233,7 @@
                       id={`set${i}group${j}cost`}
                       class="input  is-small"
                       type="text"
-                      placeholder='Try "2" or "3,dahan"'
+                      placeholder="Try &quot;2&quot; or &quot;3,dahan&quot;"
                       bind:value={growthGroup.cost} />
                   </div>
                   <button
@@ -250,7 +249,7 @@
                       id={`set${i}group${j}tint`}
                       class="input  is-small"
                       type="text"
-                      placeholder='Try "blue"'
+                      placeholder="Try &quot;blue&quot;"
                       bind:value={growthGroup.tint} />
                   </div>
                   <button
@@ -266,7 +265,7 @@
                       id={`set${i}group${j}title`}
                       class="input  is-small"
                       type="text"
-                      placeholder='Try "Max 1/Game"'
+                      placeholder="Try &quot;Max 1/Game&quot;"
                       bind:value={growthGroup.title} />
                   </div>
                   <button

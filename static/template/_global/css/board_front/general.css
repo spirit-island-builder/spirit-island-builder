@@ -1,7 +1,8 @@
-html, body {
+html,
+body {
   padding: 0px;
   margin: 0px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 14px;
 }
 
@@ -9,15 +10,15 @@ html {
   height: 100%;
   width: 100%;
   overflow-y: auto;
-  background-color:transparent;
+  background-color: transparent;
 }
 
 bullet {
-margin-left:30px;
+  margin-left: 30px;
 }
 
-*{
-  box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
 body {
@@ -36,7 +37,7 @@ body {
 }
 
 board {
-  background-image: url('../../images/board/Frame.png');
+  background-image: url("../../images/board/Frame.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -45,6 +46,12 @@ board {
   width: 100%;
   height: 100%;
   border-radius: 15.1px;
+  display: flex;
+  padding-left: 16px;
+  padding-top: 17.75px;
+  padding-bottom: 15px;
+  justify-content: end;
+  flex-direction: column;
 }
 
 board.round-border {
@@ -52,15 +59,13 @@ board.round-border {
 }
 
 spirit-name {
-  position: absolute;
   display: flex;
   align-items: center;
-  left: 45px;
-  top: 734px;
+  margin-left: 29px;
   height: 0px;
   width: 666.25px;
-  font-size:40px;
-  font-family: 'Name Headings';
+  font-size: 40px;
+  font-family: "Name Headings";
   text-transform: uppercase;
   color: white;
   text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
@@ -71,53 +76,52 @@ spirit-name {
 }
 
 artist-name {
-    position: absolute;
-    left: 22px;
-    top: 1163px;
-    height: 0px;
-    width: 666.25px;
-    font-size: 10px;
-    font-family: 'Lato SemiBold';
-    color: #d1c5a6;
-    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
-    text-align: left;
-    z-index: 1;
-	display: none;
-    white-space: normal;
+  position: absolute;
+  left: 22px;
+  top: 1163px;
+  height: 0px;
+  width: 666.25px;
+  font-size: 10px;
+  font-family: "Lato SemiBold";
+  color: #d1c5a6;
+  text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+  text-align: left;
+  z-index: 1;
+  display: none;
+  white-space: normal;
 }
 
 custom-meeple {
-    background-image: url(../../images/customIcons/Meeple.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    position: absolute;
-    display: block;
-    top: 1135px;
-    left: 1725px;
-    height: 20px;
-    width: 20px;
-    z-index: 4;
+  background-image: url(../../images/customIcons/Meeple.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  display: block;
+  top: 1135px;
+  left: 1725px;
+  height: 20px;
+  width: 20px;
+  z-index: 4;
 }
 
 .spirit-border {
-	position: absolute;
-    left: 0px;
-    top: -50px;
-    height: 100px;
-    width: 100%;
-    z-index: 1;
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: 705px 100%;
+  margin-left: -15px;
+  margin-right: -8px;
+  margin-top: -50px;
+  margin-bottom: -2px;
+  height: 100px;
+  z-index: 1;
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 705px 100%;
 }
 
 .spirit-image {
-  position: absolute;
-  left: 16.5px;
-  top: 17.75px;
+  margin-left: 0.5px;
+  margin-bottom: -32.75px;
   width: 667.5px;
-  height: calc(100% - (17.75px * 2));
   z-index: -1;
+  flex-grow: 1;
   background-repeat: no-repeat;
 }
 
@@ -127,22 +131,32 @@ custom-meeple {
 }
 
 .note {
-  font-family: 'JosefinSans-Regular';
+  font-family: "JosefinSans-Regular";
   font-size: 18pt;
 }
-
 
 range {
   width: 50px;
   margin-top: -10px;
 }
 
-range-plus-1 { background-image: url('../../images/board/range_plus_1.png'); }
-range-plus-2 { background-image: url('../../images/board/range_plus_2.png'); }
-range-plus-3 { background-image: url('../../images/board/range_plus_3.png'); }
-range-plus-4 { background-image: url('../../images/board/range_plus_4.png'); }
+range-plus-1 {
+  background-image: url("../../images/board/range_plus_1.png");
+}
+range-plus-2 {
+  background-image: url("../../images/board/range_plus_2.png");
+}
+range-plus-3 {
+  background-image: url("../../images/board/range_plus_3.png");
+}
+range-plus-4 {
+  background-image: url("../../images/board/range_plus_4.png");
+}
 
-range-plus-1, range-plus-2, range-plus-3, range-plus-4 {
+range-plus-1,
+range-plus-2,
+range-plus-3,
+range-plus-4 {
   background-repeat: no-repeat;
   background-size: contain;
   display: inline-block;
@@ -153,20 +167,20 @@ range-plus-1, range-plus-2, range-plus-3, range-plus-4 {
   margin-right: 0px;
 }
 
-none{
+none {
   display: block;
   height: 3px;
 }
 
 section-title {
   display: block;
-  font-family: 'Name Headings';
+  font-family: "Name Headings";
   text-transform: uppercase;
   font-size: 25pt;
   padding-top: 10px;
 }
 
-right{
+right {
   position: absolute;
   display: flex;
   flex-direction: column;

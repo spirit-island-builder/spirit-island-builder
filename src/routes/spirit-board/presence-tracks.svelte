@@ -1,13 +1,12 @@
 <script>
   export let spiritBoard;
   export let showOrHideSection;
-  import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
 
-  function insertEnergyTrackNode(index){
-    var focusId = "energy" + (index+1);
-    spiritBoard.presenceTrack.energyNodes.splice(index+1,0,{
+  function insertEnergyTrackNode(index) {
+    var focusId = "energy" + (index + 1);
+    spiritBoard.presenceTrack.energyNodes.splice(index + 1, 0, {
       id: spiritBoard.presenceTrack.energyNodes.length,
       effect: "",
     });
@@ -17,12 +16,12 @@
         document.getElementById(focusId).focus();
       }, 100);
     }
-    spiritBoard=spiritBoard;
+    spiritBoard = spiritBoard;
   }
 
-  function insertPlaysTrackNode(index){
-    var focusId = "plays" + (index+1);
-    spiritBoard.presenceTrack.playsNodes.splice(index+1,0,{
+  function insertPlaysTrackNode(index) {
+    var focusId = "plays" + (index + 1);
+    spiritBoard.presenceTrack.playsNodes.splice(index + 1, 0, {
       id: spiritBoard.presenceTrack.playsNodes.length,
       effect: "",
     });
@@ -32,7 +31,7 @@
         document.getElementById(focusId).focus();
       }, 100);
     }
-    spiritBoard=spiritBoard;
+    spiritBoard = spiritBoard;
   }
 
   function removeEnergyTrackNode(index) {
@@ -78,7 +77,7 @@
   <div class="field">
     <label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput"
       >Energy Track
-      </label>
+    </label>
     <div class="presence-track-row">
       {#each spiritBoard.presenceTrack.energyNodes as energyNode, i (energyNode.id)}
         <div>
@@ -92,14 +91,16 @@
           </div>
           <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
             <button
-            class="presence-track-add-node button is-light is-primary presence-track-button "
-            on:click={insertEnergyTrackNode(i)}><span style="margin-top:11px;pointer-events: none;">+</span>
+              class="presence-track-add-node button is-light is-primary presence-track-button "
+              on:click={insertEnergyTrackNode(i)}
+              ><span style="margin-top:11px;pointer-events: none;">+</span>
             </button>
             <button
-            class="button is-light presence-track-button presence-track-remove-node"
-            on:click={removeEnergyTrackNode(i)}><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
+              class="button is-light presence-track-button presence-track-remove-node"
+              on:click={removeEnergyTrackNode(i)}
+              ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
             </button>
-            <div style="width:15px;"></div>
+            <div style="width:15px;" />
           </div>
         </div>
       {/each}
@@ -111,40 +112,41 @@
     </label>
     <div class="presence-track-row">
       {#each spiritBoard.presenceTrack.playsNodes as playNode, i (playNode.id)}
-      <div>
-        <div class="control">
-          <input
-            id={`plays${i}`}
-            class="input is-small"
-            style="z-index: 2;"
-            type="text"
-            bind:value={spiritBoard.presenceTrack.playsNodes[i].effect} />
+        <div>
+          <div class="control">
+            <input
+              id={`plays${i}`}
+              class="input is-small"
+              style="z-index: 2;"
+              type="text"
+              bind:value={spiritBoard.presenceTrack.playsNodes[i].effect} />
+          </div>
+          <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
+            <button
+              class="presence-track-add-node button is-light is-primary presence-track-button "
+              on:click={insertPlaysTrackNode(i)}
+              ><span style="margin-top:11px;pointer-events: none;">+</span>
+            </button>
+            <button
+              class="button is-light presence-track-button presence-track-remove-node"
+              on:click={removePlaysTrackNode(i)}
+              ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
+            </button>
+            <div style="width:15px;" />
+          </div>
         </div>
-        <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
-          <button
-          class="presence-track-add-node button is-light is-primary presence-track-button "
-          on:click={insertPlaysTrackNode(i)}><span style="margin-top:11px;pointer-events: none;">+</span>
-          </button>
-          <button
-          class="button is-light presence-track-button presence-track-remove-node"
-          on:click={removePlaysTrackNode(i)}><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
-          </button>
-          <div style="width:15px;"></div>
-        </div>
-      </div>
       {/each}
     </div>
   </div>
   <div class="field has-addons">
-    <label class="label is-small has-addons mr-2"
-      >Note:</label>
+    <label class="label is-small has-addons mr-2">Note:</label>
     <div class="control field" style="width:100%">
       <AutoComplete
         id={`presenceTrackNote`}
         elementType="input"
         placeholder="Presence Track Note (optional, like Finder)"
         classNames="is-small"
-        validAutoCompleteValues = {iconValuesSorted}
+        validAutoCompleteValues={iconValuesSorted}
         bind:value={spiritBoard.presenceTrack.note} />
     </div>
   </div>
