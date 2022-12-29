@@ -178,16 +178,14 @@ export const downloadFile = (fileURL, fileName) => {
   document.body.removeChild(element);
 };
 
-export const takeScreenshot = (frameId, fileNames, elementNamesInIframe, useElementId) => {
-  elementNamesInIframe.forEach((elementNameInIframe, index) => {
-    document
-      .getElementById(frameId)
-      .contentWindow.takeScreenshot(elementNameInIframe, useElementId)
-      .then((imageURL) => downloadFile(imageURL, fileNames[index]));
-  });
+export const downloadString = (mimeType, fileContent, fileName) => {
+  downloadFile(`${mimeType},${encodeURI(fileContent)}`, fileName);
 };
 
-export const toFixedNumber = (num, digits) => {
-  const mult = 10 ** digits;
-  return Math.round(num * mult) / mult;
+export const takeScreenshot = (frame, fileNames, elementNamesInIframe) => {
+  elementNamesInIframe.forEach((elementNameInIframe, index) => {
+    frame.contentWindow
+      .takeScreenshot(elementNameInIframe)
+      .then((imageURL) => downloadFile(imageURL, fileNames[index]));
+  });
 };

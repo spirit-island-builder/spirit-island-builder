@@ -1,12 +1,20 @@
 <script>
   import { onMount } from "svelte";
+  import jsone from "json-e";
+
+  import * as Lib from "../lib";
+  import PreviewFrame from "$lib/preview-frame.svelte";
+
   import NameAndArt from "./name-and-art.svelte";
   import SpecialRules from "./special-rules.svelte";
   import Growth from "./growth.svelte";
   import PresenceTracks from "./presence-tracks.svelte";
   import InnatePowers from "./innate-powers.svelte";
   import CustomIcons from "../custom-icons.svelte";
-  import * as Lib from "../lib";
+
+  import { createTTSSave, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
+
+  import spiritBoardJsonTemplate from "./tts-spirit-board.json";
 
   export let spiritBoard;
   export let customIcons;
@@ -140,7 +148,9 @@
   }
 
   let frame;
-  let scaledFrameSrc = "";
+  let previewFrame;
+  let previewDoc;
+  let previewFrameSrc = "";
 
   onMount(() => {
     frame.addEventListener("load", onLoad());
@@ -153,14 +163,14 @@
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
         console.log("First tab load. Using default preview.");
-        scaledFrameSrc = "/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
+        previewFrameSrc = "/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
         setTimeout(() => {
           readHTML(localFrame.contentDocument);
           localObject.demoBoardWasLoaded = true;
         }, 200);
       } else {
         console.log("Tab previously loaded. Reloaded from form.");
-        scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html";
+        previewFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html";
         setTimeout(() => {
           reloadPreview();
         }, 200);
@@ -491,62 +501,24 @@
     }
   }
 
-  function copyHTML() {
-    console.log("Copying HTML from Form to Preview (f=copyHTML)");
-    var modFrame = document.getElementById("mod-frame");
-    modFrame.doc = document.getElementById("mod-frame").contentWindow.document;
-    modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
-    modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
-    var scaledFrame = document.getElementById("scaled-frame");
-    scaledFrame.doc = document.getElementById("scaled-frame").contentWindow.document;
-    scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
-    scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
-
-    let bodyClone;
-    bodyClone = document.getElementById("mod-frame").contentWindow.document.body.cloneNode(true);
-    document.getElementById("scaled-frame").contentWindow.document.body = bodyClone;
-    let headClone = modFrame.head.cloneNode(true);
-    console.log("headClone: ", headClone);
-    addJavaToHead(headClone);
-    console.log("headClone: ", headClone);
-    scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
-  }
-
-  function addJavaToHead(head) {
+  function additionalScripts() {
+    let fragment = new DocumentFragment();
     var scriptGeneralDummy = document.createElement("script");
     scriptGeneralDummy.type = "text/javascript";
     scriptGeneralDummy.src = "../../_global/js/general.js";
     var scriptBoardFrontDummy = document.createElement("script");
     scriptBoardFrontDummy.type = "text/javascript";
     scriptBoardFrontDummy.src = "../../_global/js/board_front.js";
-    head.appendChild(scriptGeneralDummy);
-    head.appendChild(scriptBoardFrontDummy);
-    return head;
+    fragment.appendChild(scriptGeneralDummy);
+    fragment.appendChild(scriptBoardFrontDummy);
+    return fragment;
   }
 
   function reloadPreview() {
     console.log("Updating Preview Board (f=setBoardValues)");
     setBoardValues(spiritBoard);
-    copyHTML();
-    console.log("startMain");
-    document.getElementById("scaled-frame").contentWindow.startMain();
-    // document.getElementById('scaled-frame').contentWindow.location.reload();
-  }
-
-  let frameLarge = false;
-  function toggleSize() {
-    var displayFrame = document.getElementById("scaled-frame");
-    var displayWrap = document.getElementById("board-wrap");
-
-    if (!frameLarge) {
-      displayFrame.style.webkitTransform = "scale(0.745)";
-      displayWrap.style.height = "915px";
-      window.scrollBy(0, 245);
-    } else {
-      displayFrame.style.webkitTransform = "scale(0.55)";
-      displayWrap.style.height = "670px";
-    }
-    frameLarge = !frameLarge;
+    previewFrame.copyHTMLFrom(frame.contentDocument, additionalScripts());
+    previewFrame.startMain();
   }
 
   function handleTextFileInput(event) {
@@ -578,9 +550,8 @@
     const element = document
       .getElementById("mod-frame")
       .contentWindow.document.getElementsByTagName("html")[0];
-    const htmlURL = "data:text/html;charset=utf-8," + encodeURI(element.innerHTML);
     const htmlFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html";
-    Lib.downloadFile(htmlURL, htmlFileName);
+    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
   }
 
   function showInstructions() {
@@ -623,34 +594,28 @@
   }
 
   async function downloadTTSJSON() {
-    const response = await fetch("/template/MyCustomContent/MySpirit/Spirit_Blank_JSON.json");
-    let myJSON = await response.json();
-    console.log(myJSON);
-    console.log(myJSON.ObjectStates[0]);
-
-    const board = document
-      .getElementById("scaled-frame")
-      .contentDocument.querySelectorAll("board")[0];
+    const board = previewDoc.querySelectorAll("board")[0];
     const boardRect = board.getBoundingClientRect();
 
     //Snap Points
     var presenceNodes = Array.from(board.getElementsByTagName("presence-node"));
+    let snapPoints = [];
     console.log(presenceNodes);
     presenceNodes.forEach((node) => {
       var rect = node.getElementsByTagName("ring-icon")[0].getBoundingClientRect();
       if (node.classList.contains("first")) {
         console.log("skip");
       } else {
-        myJSON.ObjectStates[0].AttachedSnapPoints.push({
+        snapPoints.push({
           Position: {
-            x: Lib.toFixedNumber(
+            x: toFixedNumber(
               (-(boardRect.width / boardRect.height) *
                 (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
                 (boardRect.width / 2),
               4
             ),
             y: 0.2,
-            z: Lib.toFixedNumber(
+            z: toFixedNumber(
               (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
                 (boardRect.height / 2),
               4
@@ -660,15 +625,10 @@
       }
     });
 
-    var scriptState = {
-      thresholds: [],
-      trackElements: [],
-      trackEnergy: [],
-    };
-
     //Lua scripting - thresholds
-    const thresholds = Array.from(board.getElementsByTagName("threshold"));
-    thresholds.forEach((threshold) => {
+    let thresholds = [];
+    const thresholdsNodes = Array.from(board.getElementsByTagName("threshold"));
+    thresholdsNodes.forEach((threshold) => {
       console.log(threshold);
       var icons = Array.from(threshold.getElementsByTagName("icon"));
 
@@ -697,17 +657,17 @@
         }
       });
       var rect = threshold.getBoundingClientRect();
-      scriptState.thresholds.push({
+      thresholds.push({
         elements: elementCounts.join(""),
         position: {
-          x: Lib.toFixedNumber(
+          x: toFixedNumber(
             (-(boardRect.width / boardRect.height) *
               (-23 + rect.left - boardRect.x - boardRect.width / 2)) /
               (boardRect.width / 2),
             4
           ),
           y: 0,
-          z: Lib.toFixedNumber(
+          z: toFixedNumber(
             (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
               (boardRect.height / 2),
             4
@@ -717,6 +677,7 @@
     });
 
     //Lua scripting - track energy & elements
+    let trackElements = [];
     var formNodes = spiritBoard.presenceTrack.energyNodes.concat(
       spiritBoard.presenceTrack.playsNodes
     );
@@ -764,17 +725,17 @@
       }
       if (elementCounts.reduce((partialSum, a) => partialSum + a, 0) > 0) {
         var rect = boardNodes[j].getElementsByTagName("ring-icon")[0].getBoundingClientRect();
-        scriptState.trackElements.push({
+        trackElements.push({
           elements: elementCounts.join(""),
           position: {
-            x: Lib.toFixedNumber(
+            x: toFixedNumber(
               (-(boardRect.width / boardRect.height) *
                 (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
                 (boardRect.width / 2),
               4
             ),
             y: 0,
-            z: Lib.toFixedNumber(
+            z: toFixedNumber(
               (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
                 (boardRect.height / 2),
               4
@@ -784,6 +745,7 @@
       }
     });
 
+    let trackEnergy = [];
     var energyNodes = spiritBoard.presenceTrack.energyNodes.slice().reverse();
     var formEnergyNodes = Array.from(
       board.getElementsByClassName("energy-track")[0].getElementsByTagName("presence-node")
@@ -812,17 +774,17 @@
               .getElementsByTagName("ring-icon")[0]
               .getBoundingClientRect();
             maxEnergy = namesList[j];
-            scriptState.trackEnergy.push({
+            trackEnergy.push({
               count: Number(maxEnergy),
               position: {
-                x: Lib.toFixedNumber(
+                x: toFixedNumber(
                   (-(boardRect.width / boardRect.height) *
                     (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
                     (boardRect.width / 2),
                   4
                 ),
                 y: 0,
-                z: Lib.toFixedNumber(
+                z: toFixedNumber(
                   (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
                     (boardRect.height / 2),
                   4
@@ -834,24 +796,28 @@
       }
     });
 
-    myJSON.ObjectStates[0].LuaScriptState = JSON.stringify(scriptState);
-    myJSON.ObjectStates[0].Nickname = spiritBoard.nameAndArt.name;
-    myJSON.ObjectStates[0].Tags.push("Spirit");
+    let spiritBoardJson = jsone(spiritBoardJsonTemplate, {
+      guid: spiritBoard.nameAndArt.name.replaceAll(" ", "_"),
+      spiritName: spiritBoard.nameAndArt.name,
+      snapPoints,
+      thresholds,
+      trackElements,
+      trackEnergy,
+    });
+    let ttsSave = createTTSSave([spiritBoardJson]);
 
-    const jsonURL = "data:text/json;charset=utf-8," + encodeURI(JSON.stringify(myJSON));
     const jsonFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json";
-    Lib.downloadFile(jsonURL, jsonFileName);
+    Lib.downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
 
   function screenshotSetUp() {
-    const frameId = "scaled-frame";
     const fileNames = [spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.png"];
     const elementNamesInIframe = ["board"];
-    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe);
+    previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 </script>
 
-<h5 class="title is-5 mb-0">Spirit Board Play Side</h5>
+<h5 class="title is-5 mb-0 no-anchor">Spirit Board Play Side</h5>
 <!-- <h6
   on:click={showOrHideBoard}
   class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
@@ -865,9 +831,11 @@
     {/if}
   </span>
 </h6> -->
-<div id="board-wrap">
-  <iframe src={scaledFrameSrc} height="600" width="100%" id="scaled-frame" title="Scaled Frame" />
-</div>
+<PreviewFrame
+  id="spirit-preview"
+  src={previewFrameSrc}
+  bind:this={previewFrame}
+  bind:document={previewDoc} />
 
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
@@ -895,7 +863,8 @@
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
   <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
-  <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
+  <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
+    >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
