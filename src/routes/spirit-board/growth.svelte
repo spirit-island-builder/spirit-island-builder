@@ -3,6 +3,7 @@
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { growthValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import PreviewFrame from "$lib/preview-frame.svelte";
+  // import {updateGrowthAction} from "./index.svelte"
 
   let previewFrame;
 
@@ -143,32 +144,46 @@
 		 }
 	}
 
-  function updateGrowthAction(setIndex, groupIndex, actionIndex) {
-    console.log('rewriting growth node')
+  // function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
+  //   updateGrowthAction(setIndex, groupIndex, actionIndex);
+  // }
+
+  function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
     var newGrowthActionText = spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions[actionIndex].effect;
     var templateGrowthID = 's'+setIndex+'g'+groupIndex+'a'+actionIndex;
-    console.log('node id: '+templateGrowthID)
+    var previewFrame = document.getElementById("preview-iframe").contentWindow
+    console.log('Rewriting Growth Node ID: '+templateGrowthID)
+    
+    // Check growth height
+    var growthPanel = previewFrame.document.getElementsByTagName("growth")[0]
+    var growthHeight = growthPanel.offsetHeight
+
+    // Try to write a new node    
+   
     var growthActionTest = "";
-    console.log("write new growth node (ignore generated ID)")
-    // the below could use some error catching.
     try {
-      growthActionTest = document.getElementById("preview-iframe").contentWindow.writeGrowthAction(newGrowthActionText);
+      growthActionTest = previewFrame.writeGrowthAction(newGrowthActionText);
     }
     catch(err) {
-      growthActionTest = document.getElementById("preview-iframe").contentWindow.writeGrowthAction('custom(error! check syntax)');
-      console.log('malformed growth option, try again')
+      growthActionTest = previewFrame.writeGrowthAction('custom(error! check syntax)');
+      console.log('Malformed growth option, try again')
     }
-    growthActionTest = document.getElementById("preview-iframe").contentWindow.replaceIcon(growthActionTest);
+    growthActionTest = previewFrame.replaceIcon(growthActionTest);
 
     // Create dummy node with new content
     const placeholder = document.createElement("div");
     placeholder.innerHTML = growthActionTest;
     const newNode = placeholder.firstElementChild;
 
-    var findGrowth = document.getElementById("spirit-preview").getElementsByTagName('iframe')[0].contentWindow.document.getElementById(templateGrowthID)
-    console.log('find new to replace:')
-    console.log(findGrowth)
+    // Transfer new node into preview
+    var findGrowth = previewFrame.document.getElementById(templateGrowthID)
     findGrowth.innerHTML = newNode.innerHTML
+
+    // If new growth panel is larger, re-run    
+    var newGrowthHeight = growthPanel.offsetHeight
+    if(newGrowthHeight > growthHeight){
+      console.log('Recommend Re-running the whole board (click "Update Preview")')
+    }
   }
 
   export let spiritBoard;
@@ -329,7 +344,7 @@
                     on:click={removeGrowthAction(i, j, k)}>Remove</button>
                   <button
                     class="button is-warning is-light row-button"
-                    on:click={updateGrowthAction(i, j, k)}>&#x21bb;</button>
+                    on:click={updateGrowthActionLocal(i, j, k)}>&#x21bb;</button>
                 </div>
               {/each}
               <div class="control">

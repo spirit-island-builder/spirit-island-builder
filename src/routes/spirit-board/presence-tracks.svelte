@@ -49,6 +49,60 @@
     });
     spiritBoard = spiritBoard;
   }
+
+  function updatePresenceNodeLocal(index, type) {
+    var newPresenceNodeText = "";
+    var templatePresenceNodeID = type+index;
+    switch (type) {
+      case 'energy': 
+        newPresenceNodeText = spiritBoard.presenceTrack.energyNodes[index].effect
+        break;
+      case 'card':
+        newPresenceNodeText = spiritBoard.presenceTrack.playsNodes[index].effect
+        break;
+    }
+    var previewFrame = document.getElementById("preview-iframe").contentWindow
+    console.log('Rewriting Growth Node ID: '+templatePresenceNodeID)
+    console.log('new node: '+newPresenceNodeText)
+    
+    // Find node in Template
+    var findPresenceNode = previewFrame.document.getElementById(templatePresenceNodeID)
+    var isFirst = findPresenceNode.classList.contains('first');
+    var hasEnergyRing = findPresenceNode.getElementsByTagName('energy-icon')[0] !== undefined ? true : false;
+    console.log('is first  '+isFirst)
+    console.log('has energy ring '+hasEnergyRing)
+
+    // Check growth height
+    var presenceTrackPanel = previewFrame.document.getElementsByTagName("presence-tracks")[0]
+    var presenceTrackHeight = presenceTrackPanel.offsetHeight
+
+    // Try to write a new node    
+   
+    var newPresenceNode = "";
+    try {
+      newPresenceNode = previewFrame.getPresenceNodeHtml(newPresenceNodeText,isFirst,index,type,hasEnergyRing);
+    }
+    catch(err) {
+      newPresenceNode = previewFrame.getPresenceNodeHtml('custom(error! check syntax)',isFirst,index,type,hasEnergyRing);
+      console.log('Malformed growth option, try again')
+    }
+    newPresenceNode = previewFrame.replaceIcon(newPresenceNode);
+
+    // Create dummy node with new content
+    const placeholder = document.createElement("div");
+    placeholder.innerHTML = newPresenceNode;
+    const newNode = placeholder.firstElementChild;
+    console.log(newNode)
+
+    // update node
+    findPresenceNode.innerHTML = newNode.innerHTML
+
+    // If new panel is larger, re-run    
+    var newPresenceTrackHeight = presenceTrackPanel.offsetHeight
+    if(newPresenceTrackHeight > presenceTrackHeight){
+      console.log('Recommend Re-running the whole board (click "Update Preview")')
+    }
+  }
 </script>
 
 <h6
@@ -97,7 +151,7 @@
             </button>
             <button
               class="button is-light presence-track-button presence-track-remove-node"
-              on:click={removeEnergyTrackNode(i)}
+              on:click={updatePresenceNodeLocal(i,'energy')}
               ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
             </button>
             <div style="width:15px;" />
@@ -129,7 +183,7 @@
             </button>
             <button
               class="button is-light presence-track-button presence-track-remove-node"
-              on:click={removePlaysTrackNode(i)}
+              on:click={updatePresenceNodeLocal(i,'card')}
               ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
             </button>
             <div style="width:15px;" />

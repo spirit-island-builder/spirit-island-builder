@@ -110,16 +110,15 @@ function buildGrowthPanel() {
           j < childElement.children.length - 1 ? childElement.children[j + 1] : undefined;
 
         newGrowthCellHTML += writeGrowthGroup(
-          childElement.children[j],
-          setIndex,
+          childElement.children[j], 
+          setIndex, 
           groupIndex,
           childElement.title ? currentHeaderIndex : undefined
         );
-
+        
         // Add single border
         if (nextSubElement && nextSubElement.nodeName.toLowerCase() == "growth-group") {
-          newGrowthCellHTML +=
-            "<growth-border" + ` header=${currentHeaderIndex}` + "></growth-border>";
+          newGrowthCellHTML += "<growth-border" + ` header=${currentHeaderIndex}` + "></growth-border>";
           groupIndex += 1;
         }
       }
@@ -133,6 +132,7 @@ function buildGrowthPanel() {
         groupIndex = 0;
         setIndex += 1;
       }
+      
     } else {
       // Not Using Growth Sets
       newGrowthCellHTML += writeGrowthGroup(childElement, setIndex, groupIndex);
@@ -149,16 +149,14 @@ function buildGrowthPanel() {
   board.getElementsByTagName("growth")[0].innerHTML = fullHTML;
 }
 
-function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex = NaN) {
-  let debug = true;
+function writeGrowthGroup(growthGroup, setIndex=0, groupIndex=0, headerIndex = NaN) {
+  let debug = false;
 
-  console.log("--Growth Group s" + setIndex + "g" + groupIndex + "--");
-  if (debug) {
-    console.log("growthGroup: " + growthGroup.outerHTML);
-  }
-
-  let growthGroupHTML = "";
-
+  console.log("--Growth Group s"+setIndex+"g"+groupIndex+"--");
+  if(debug){console.log('growthGroup: ' + growthGroup.outerHTML)}
+  
+  let growthGroupHTML = ""
+  
   const tint = growthGroup.getAttribute("tint");
   let tint_text = "";
   if (tint) {
@@ -210,53 +208,41 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
 
   const growthActions = growthGroup.getAttribute("values").split(";");
   console.log(growthActions);
-
+  
   for (j = 0; j < growthActions.length; j++) {
-    growthGroupHTML += writeGrowthAction(
-      growthActions[j],
-      setIndex,
-      groupIndex,
-      j,
-      (tint_text = "")
-    );
+    growthGroupHTML += writeGrowthAction(growthActions[j], setIndex, groupIndex, j, tint_text="");
   }
 
   growthGroupHTML += "</growth-group>";
-
+  
   return growthGroupHTML;
 }
 
-function writeGrowthAction(
-  growthAction,
-  setIndex = 0,
-  groupIndex = 0,
-  actionIndex = 0,
-  tint_text = ""
-) {
-  let debug = true;
+function writeGrowthAction(growthAction, setIndex=0, groupIndex=0, actionIndex=0, tint_text=""){
+  let debug = false;
   var regExp = /\(([^)]+)\)/;
   var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
   var regExpCommaNoParentheses = /,(?![^(]*\))/;
 
   let growthActionHTML = "";
   let growthActionType = growthAction.split("(")[0].split("^")[0];
-  let growthActionID = "s" + setIndex + "g" + groupIndex + "a" + actionIndex;
-  if (debug) {
-    console.log("Growth Action " + growthActionID + ": " + growthAction);
-    console.log("Growth Action Type: " + growthActionType);
+  let growthActionID = "s"+setIndex+"g"+groupIndex+"a"+actionIndex
+  if (debug) {    
+    console.log("Growth Action "+growthActionID+": " + growthAction);
+    console.log("Growth Action Type: " + growthActionType)
   }
-
+  
   // Some tools for OR and Presence nodes
   let isOr = false;
   let isPresenceNode = false;
-
+  
   if (growthActionType == "or") {
     console.log("or detected");
     isOr = true;
     let matches = regExpOuterParentheses.exec(growthAction)[1];
     orGrowthActions = matches.split(regExpCommaNoParentheses);
   }
-
+  
   // Check for Presence Node in Growth
   if (growthActionType == "presence-node") {
     let matches = regExpOuterParentheses.exec(growthAction)[1];
@@ -270,29 +256,30 @@ function writeGrowthAction(
   }
 
   // Establish Growth HTML Openers and Closers
-  let growthOpen = "<growth-cell id='" + growthActionID + "'>" + tint_text;
+  let growthOpen = "<growth-cell id='"+growthActionID+"'>" + tint_text;
   let growthTextOpen = "<growth-text>";
   let growthTextClose = "</growth-text></growth-cell>";
   let growthIcons = "";
   let growthText = "";
-
+  
   // Get the Text and Icons for the Growth Action
-  if (isOr) {
+  if(isOr){
     firstAction = getGrowthActionTextAndIcons(orGrowthActions[0]);
     secondAction = getGrowthActionTextAndIcons(orGrowthActions[1]);
-    growthIcons = firstAction[0];
-    growthText = firstAction[1];
-  } else {
+    growthIcons = firstAction[0]
+    growthText = firstAction[1]
+  }else{
     let actionIconsAndText = getGrowthActionTextAndIcons(growthAction);
-    console.log(actionIconsAndText);
-    growthIcons = actionIconsAndText[0];
-    growthText = actionIconsAndText[1];
+    growthIcons = actionIconsAndText[0]
+    growthText = actionIconsAndText[1]
   }
-
+  
   //Handle Presence Node
   if (isPresenceNode) {
     growthIcons =
-      '<presence-node class="growth"><ring-icon>' + growthIcons + "</ring-icon></presence-node>";
+      '<presence-node class="growth"><ring-icon>' +
+      growthIcons +
+      "</ring-icon></presence-node>";
     isPresenceNode = false;
   }
 
@@ -304,15 +291,24 @@ function writeGrowthAction(
     isOr = false;
   }
 
-  growthActionHTML = growthOpen + growthIcons + growthTextOpen + growthText + growthTextClose;
-  return growthActionHTML;
+  growthActionHTML = growthOpen + growthIcons + growthTextOpen + growthText + growthTextClose;  
+  return growthActionHTML
 }
 
-function getGrowthActionTextAndIcons(growthAction) {
+function getGrowthActionTextAndIcons(growthAction){
   let debug = true;
   let growthActionType = growthAction.split("(")[0].split("^")[0];
   const terrains = new Set(["wetland", "mountain", "sand", "sands", "jungle"]);
-  const elementNames = new Set(["sun", "moon", "fire", "air", "plant", "water", "earth", "animal"]);
+  const elementNames = new Set([
+    "sun",
+    "moon",
+    "fire",
+    "air",
+    "plant",
+    "water",
+    "earth",
+    "animal"
+  ]);
   var regExp = /\(([^)]+)\)/;
   var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
 
@@ -416,7 +412,9 @@ function getGrowthActionTextAndIcons(growthAction) {
             break;
           default:
             gainPowerCardIcon +=
-              "<icon class='" + gainPowerCardType.toLowerCase() + " gain-card-modifier'></icon>";
+              "<icon class='" +
+              gainPowerCardType.toLowerCase() +
+              " gain-card-modifier'></icon>";
             gainPowerCardText = "Gain " + Capitalise(gainPowerCardType) + " Power Card";
         }
         gainPowerCardIcon += "</icon>";
@@ -510,7 +508,9 @@ function getGrowthActionTextAndIcons(growthAction) {
       if (scaling_entity || has_custom_text) {
         energyGrowthIcons += "<gain-per><value>" + scaling_value + "</value></gain-per>";
         energyGrowthIcons +=
-          "<gain-per-element><ring-icon>" + customScalingIcon + "</ring-icon></gain-per-element>";
+          "<gain-per-element><ring-icon>" +
+          customScalingIcon +
+          "</ring-icon></gain-per-element>";
         if (x_is_flat) {
           energyGrowthText += " and +" + scaling_value + " more per ";
         } else {
@@ -1198,7 +1198,8 @@ function getGrowthActionTextAndIcons(growthAction) {
       let incarnaOptions = matches[1].split(",");
       let incarnaAction = incarnaOptions[0];
       let incarnaRangeOrToken = incarnaOptions[1] !== undefined ? incarnaOptions[1] : 0;
-      let customIncarnaIcon = incarnaOptions[2] !== undefined ? incarnaOptions[2] : "incarna-ember";
+      let customIncarnaIcon =
+        incarnaOptions[2] !== undefined ? incarnaOptions[2] : "incarna-ember";
       switch (incarnaAction) {
         case "move":
           incarnaIcon =
@@ -1229,7 +1230,8 @@ function getGrowthActionTextAndIcons(growthAction) {
             '"><icon class="replace-with-incarna no ' +
             incarnaRangeOrToken +
             '"></custom-icon>';
-          incarnaText = "You may Replace " + IconName(incarnaRangeOrToken) + " with your Incarna";
+          incarnaText =
+            "You may Replace " + IconName(incarnaRangeOrToken) + " with your Incarna";
           break;
         case "add-token":
           incarnaIcon =
@@ -1291,7 +1293,12 @@ function getGrowthActionTextAndIcons(growthAction) {
         }
       }
       growthIcons =
-        tokenReqOpen + "<token-wrap>" + tokenIcons + "</token-wrap>" + tokenRange + tokenReqClose;
+        tokenReqOpen +
+        "<token-wrap>" +
+        tokenIcons +
+        "</token-wrap>" +
+        tokenRange +
+        tokenReqClose;
       growthText = tokenText;
       break;
     }
@@ -1352,10 +1359,10 @@ function getGrowthActionTextAndIcons(growthAction) {
   //Handle Repeats
   if (repeatText) {
     growthIcons = "<repeat-wrapper>" + repeatOpen + growthIcons + "</repeat-wrapper>";
-    growthText = repeatText + growthText;
+    growthText = repeatText+growthText
   }
-
-  return [growthIcons, growthText];
+  
+  return [growthIcons,growthText];
 }
 
 function parseEnergyTrackTags() {
@@ -1416,7 +1423,7 @@ function parseEnergyTrackTags() {
     }
 
     energyHTML +=
-      "<td" + isMiddle + ">" + getPresenceNodeHtml(nodeText, isFirst, "energy", addRing) + "</td>";
+      "<td" + isMiddle + ">" + getPresenceNodeHtml(nodeText, i == 0 , i, "energy", addRing) + "</td>";
     isFirst = false;
   }
   energyHTML += "</tr>";
@@ -1463,7 +1470,7 @@ function parseCardPlayTrackTags() {
 
   for (i = 0; i < cardPlayOptions.length; i++) {
     cardPlayHTML +=
-      "<td>" + getPresenceNodeHtml(cardPlayOptions[i], i == 0, "card", false) + "</td>";
+      "<td>" + getPresenceNodeHtml(cardPlayOptions[i], i == 0, i, "card", false) + "</td>";
   }
   cardPlayHTML += "</tr>";
   board.getElementsByTagName("card-play-track")[0].removeAttribute("values");
@@ -1486,7 +1493,7 @@ function enhancePresenceTracksTable() {
 
   for (var i = 0, row; (row = table.rows[i]); i++) {
     for (var j = 0, cell; (cell = row.cells[j]); j++) {
-      cell.innerHTML = getPresenceNodeHtml(cell.firstChild.nodeValue, j == 0, "dynamic", i == 0);
+      cell.innerHTML = getPresenceNodeHtml(cell.firstChild.nodeValue, j == 0, j, "dynamic", i == 0);
     }
   }
 
@@ -1508,7 +1515,7 @@ function enhancePresenceTracksTable() {
   } */
 }
 
-function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
+function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRing) {
   var result = "";
   //Find values between parenthesis
   var regExp = /\(([^)]+)\)/;
@@ -1518,6 +1525,8 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
   // Every node will have a presence-node element with
   // a ring-icon element inside, so we can add these now.
   presenceNode = document.createElement("presence-node");
+  nodeID = trackType + nodeIndex;
+  presenceNode.setAttribute('id',nodeID);
   ring = document.createElement("ring-icon");
   presenceNode.appendChild(ring);
   // Will be populated with the sub text that will be added at the end
@@ -1915,6 +1924,7 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
       "</icon>" +
       presenceNode.innerHTML;
   }
+  console.log(presenceNode.outerHTML)
   return presenceNode.outerHTML;
 }
 
@@ -2942,7 +2952,7 @@ function parseSpecialRules() {
 
     for (i = 0; i < specialOptions.length; i++) {
       let nodeText = specialOptions[i];
-      specialHTML += "<td>" + getPresenceNodeHtml(nodeText, i == 0, "special", true) + "</td>";
+      specialHTML += "<td>" + getPresenceNodeHtml(nodeText, i == 0, i, "special", true) + "</td>";
     }
     specialHTML += "</tr>";
     board.getElementsByTagName("special-rules-track")[0].removeAttribute("values");

@@ -845,7 +845,44 @@
     console.log(document.getElementById("preview-iframe"))
   }
 
+  // export const updateGrowthAction = (setIndex, groupIndex, actionIndex) => {
+  //   var newGrowthActionText = spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions[actionIndex].effect;
+  //   var templateGrowthID = 's'+setIndex+'g'+groupIndex+'a'+actionIndex;
+  //   var previewFrame = document.getElementById("preview-iframe").contentWindow
+  //   console.log('Rewriting Growth Node ID: '+templateGrowthID)
+    
+  //   // Check growth height
+  //   var growthPanel = previewFrame.document.getElementsByTagName("growth")[0]
+  //   var growthHeight = growthPanel.offsetHeight
 
+  //   // Try to write a new node    
+   
+  //   var growthActionTest = "";
+  //   try {
+  //     growthActionTest = previewFrame.writeGrowthAction(newGrowthActionText);
+  //   }
+  //   catch(err) {
+  //     growthActionTest = previewFrame.writeGrowthAction('custom(error! check syntax)');
+  //     console.log('Malformed growth option, try again')
+  //   }
+  //   growthActionTest = previewFrame.replaceIcon(growthActionTest);
+
+  //   // Create dummy node with new content
+  //   const placeholder = document.createElement("div");
+  //   placeholder.innerHTML = growthActionTest;
+  //   const newNode = placeholder.firstElementChild;
+
+  //   // Transfer new node into preview
+  //   var findGrowth = previewFrame.document.getElementById(templateGrowthID)
+  //   findGrowth.innerHTML = newNode.innerHTML
+
+  //   // If new growth panel is larger, re-run    
+  //   var newGrowthHeight = growthPanel.offsetHeight
+  //   if(newGrowthHeight > growthHeight){
+  //     console.log('Recommend Re-running the whole board (click "Update Preview")')
+  //   }
+
+  // };
 
 </script>
 
