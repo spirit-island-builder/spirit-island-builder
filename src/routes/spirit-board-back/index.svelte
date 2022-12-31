@@ -278,7 +278,8 @@
 <PreviewFrame
   id="lore-preview"
   baseURI="/template/MyCustomContent/MySpirit/"
-  bind:this={previewFrame}>
+  bind:this={previewFrame}
+  on:hot-reload={reloadPreview}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/board_lore.css" rel="stylesheet" />

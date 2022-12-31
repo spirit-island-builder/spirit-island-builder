@@ -309,7 +309,8 @@
 <PreviewFrame
   id="aspect-preview"
   baseURI="/template/MyCustomContent/MyAspect/"
-  bind:this={previewFrame}>
+  bind:this={previewFrame}
+  on:hot-reload={reloadPreview}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/aspect.css" rel="stylesheet" />
