@@ -2767,7 +2767,7 @@ function parseInnatePowers() {
   var innateHTML = board.getElementsByTagName("quick-innate-power");
 
   for (i = 0; i < innateHTML.length; i++) {
-    fullHTML += parseInnatePower(innateHTML[i]);
+    fullHTML += parseInnatePower(innateHTML[i],i);
   }
   board.getElementsByTagName("innate-powers")[0].innerHTML =
     "<section-title>Innate Powers</section-title><innate-power-container>" +
@@ -2794,13 +2794,13 @@ function parseInnatePowers() {
   }
 }
 
-function parseInnatePower(innatePowerHTML) {
+function parseInnatePower(innatePowerHTML,index) {
   var debug = false;
   var currentPowerHTML = "<innate-power class='" + innatePowerHTML.getAttribute("speed") + "'>";
 
   //Innate Power title
   currentPowerHTML +=
-    "<innate-power-title>" +
+    "<innate-power-title id='ip"+index+"title'>" +
     innatePowerHTML.getAttribute("name") +
     "</innate-power-title><info-container><info-title>";
 
@@ -2852,7 +2852,7 @@ function parseInnatePower(innatePowerHTML) {
   if (noteValue == null || noteValue == "") {
     noteValue = "";
   } else {
-    currentPowerHTML += "<note>" + noteValue + "</note>";
+    currentPowerHTML += "<note id='ip"+index+"note'>" + noteValue + "</note>";
   }
 
   //Innate Power Levels and Thresholds

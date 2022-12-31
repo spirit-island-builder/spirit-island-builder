@@ -183,6 +183,7 @@
     var newGrowthHeight = growthPanel.offsetHeight
     if(newGrowthHeight > growthHeight){
       console.log('Recommend Re-running the whole board (click "Update Preview")')
+      document.getElementById('updateButton').classList.add("is-flashy");
     }
   }
 
@@ -341,10 +342,10 @@
                   </div>
                   <button
                     class="button is-warning is-light row-button"
-                    on:click={removeGrowthAction(i, j, k)}>Remove</button>
-                  <button
-                    class="button is-warning is-light row-button"
                     on:click={updateGrowthActionLocal(i, j, k)}>&#x21bb;</button>
+                  <button
+                    class="button is-light row-button"
+                    on:click={removeGrowthAction(i, j, k)}>Remove</button>
                 </div>
               {/each}
               <div class="control">

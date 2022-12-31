@@ -53,3 +53,24 @@ h6 {
 .button.navbar-item {
   font-family: "Lato";
 }
+
+.button.is-flashy {
+  -webkit-animation: is-flashy 1s step-end infinite;    
+  animation: is-flashy 1s step-end infinite;    
+}
+@-webkit-keyframes is-flashy {    
+  from, to {    
+      border-color: transparent    
+  }    
+  50% {    
+      border-color: black    
+  }    
+}    
+@keyframes is-flashy {    
+  from, to {    
+      border-color: transparent    
+  }    
+  50% {    
+      border-color: black    
+  }    
+}   

@@ -40,6 +40,7 @@
       node.id = i;
     });
     spiritBoard = spiritBoard;
+    removeTemplatePresenceNode('energy'+index)
   }
 
   function removePlaysTrackNode(index) {
@@ -48,9 +49,18 @@
       node.id = i;
     });
     spiritBoard = spiritBoard;
+    removeTemplatePresenceNode('card'+index)
+  }
+
+  function removeTemplatePresenceNode(templatePresenceNodeID){
+    var previewFrame = document.getElementById("preview-iframe").contentWindow
+    var findPresenceNode = previewFrame.document.getElementById(templatePresenceNodeID)
+    findPresenceNode.parentElement.remove()
   }
 
   function updatePresenceNodeLocal(index, type) {
+    //this code works but has an issue with the first node, which is used to modify the spacing...perhaps i should change that spacing instead.
+
     var newPresenceNodeText = "";
     var templatePresenceNodeID = type+index;
     switch (type) {
@@ -62,7 +72,7 @@
         break;
     }
     var previewFrame = document.getElementById("preview-iframe").contentWindow
-    console.log('Rewriting Growth Node ID: '+templatePresenceNodeID)
+    console.log('Rewriting Presence Node ID: '+templatePresenceNodeID)
     console.log('new node: '+newPresenceNodeText)
     
     // Find node in Template
@@ -74,7 +84,7 @@
 
     // Check growth height
     var presenceTrackPanel = previewFrame.document.getElementsByTagName("presence-tracks")[0]
-    var presenceTrackHeight = presenceTrackPanel.offsetHeight
+    var presenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight
 
     // Try to write a new node    
    
@@ -98,9 +108,10 @@
     findPresenceNode.innerHTML = newNode.innerHTML
 
     // If new panel is larger, re-run    
-    var newPresenceTrackHeight = presenceTrackPanel.offsetHeight
-    if(newPresenceTrackHeight > presenceTrackHeight){
+    var newPresenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight
+    if(newPresenceTrackHeight !== presenceTrackHeight){
       console.log('Recommend Re-running the whole board (click "Update Preview")')
+      document.getElementById('updateButton').classList.add("is-flashy");
     }
   }
 </script>
@@ -151,8 +162,13 @@
             </button>
             <button
               class="button is-light presence-track-button presence-track-remove-node"
-              on:click={updatePresenceNodeLocal(i,'energy')}
+              on:click={removeEnergyTrackNode(i)}
               ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
+            </button>
+            <button
+              class="button is-warning is-light presence-track-button presence-track-remove-node"
+              on:click={updatePresenceNodeLocal(i,'energy')}
+              ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">&#x21bb;</span>
             </button>
             <div style="width:15px;" />
           </div>
@@ -183,8 +199,13 @@
             </button>
             <button
               class="button is-light presence-track-button presence-track-remove-node"
-              on:click={updatePresenceNodeLocal(i,'card')}
+              on:click={removePlaysTrackNode(i)}
               ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
+            </button>
+            <button
+              class="button is-warning is-light presence-track-button presence-track-remove-node"
+              on:click={updatePresenceNodeLocal(i,'card')}
+              ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">&#x21bb;</span>
             </button>
             <div style="width:15px;" />
           </div>
