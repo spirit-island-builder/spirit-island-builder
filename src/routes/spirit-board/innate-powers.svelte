@@ -44,6 +44,72 @@
       !spiritBoard.innatePowers.powers[powerIndex].levels[levelIndex].isLong;
     console.log("isLong=" + spiritBoard.innatePowers.powers[powerIndex].levels[levelIndex].isLong);
   }
+
+  function updateInnatePowerThreshold(level, ID) {
+    var newIPThresholdText = level.threshold;
+    var templateInnatePowerThresholdID = ID;
+    var previewFrame = document.getElementById("preview-iframe").contentWindow
+    console.log('Rewriting Innate Power ID: '+templateInnatePowerThresholdID + ' with ' + newIPThresholdText)
+    
+    // Find node in Template
+    var findIPThreshold = previewFrame.document.getElementById(templateInnatePowerThresholdID)
+
+    // Check growth height
+    // var presenceTrackPanel = previewFrame.document.getElementsByTagName("presence-tracks")[0]
+    // var presenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight
+
+    // Try to write a new node    
+    var newIPThreshold = "";
+    try {
+      newIPThreshold = previewFrame.writeInnateThreshold(newIPThresholdText);
+    }
+    catch(err) {
+      newIPThreshold = previewFrame.getPresenceNodeHtml('1-water');
+      console.log('Malformed growth option, try again')
+    }
+    newIPThreshold = previewFrame.replaceIcon(newIPThreshold);
+
+    // Create dummy node with new content
+    const placeholder = document.createElement("div");
+    placeholder.innerHTML = newIPThreshold;
+    const newNode = placeholder.firstElementChild;
+
+    // update node
+    findIPThreshold.innerHTML = newNode.innerHTML
+
+    // If new panel is larger, re-run    
+    // var newPresenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight
+    // if(newPresenceTrackHeight !== presenceTrackHeight){
+    //   console.log('Recommend Re-running the whole board (click "Update Preview")')
+    //   document.getElementById('updateButton').classList.add("is-flashy");
+    // }
+  }
+
+  function selectNode(event) {
+    var nodeID = event.target.id;
+    document.getElementById(nodeID).select();
+  }
+
+  function nextNode(event, i){
+    if (event.key == 'Enter'){
+      var currentID = event.target.id;
+      var focusID = ""
+      if (currentID.includes('Threshold')){
+        focusID = currentID.replace('Threshold','Effect');
+      }
+      console.log(focusID)
+      var newNode = document.getElementById(focusID)
+    //Set the focus to the Growth Action if it is visible.
+      if (spiritBoard.innatePowers.isVisible) {
+        if (newNode !== null){
+          document.getElementById(focusID).focus();
+        }else{
+          document.getElementById(`power${i}addLevel`).focus();
+        }
+      }
+    }
+  }
+
 </script>
 
 <h6
@@ -177,7 +243,7 @@
         validAutoCompleteValues={iconValuesSorted}
         bind:value={innatePower.note} />
     </div>
-    <button class="button is-primary is-light is-small" on:click={addLevel(i)}>Add Level</button>
+    <button class="button is-primary is-light is-small" id={`power${i}addLevel`} on:click={addLevel(i)}>Add Level</button>
     {#each innatePower.levels as level, j (level.id)}
       <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
         <div class="control">
@@ -187,6 +253,9 @@
             type="text"
             tabindex="1"
             placeholder="Threshold"
+            on:focus={selectNode}
+            on:blur={updateInnatePowerThreshold(level,`ip${i}L${j}t`)}
+            on:keyup={(e) => nextNode(e, i)}
             bind:value={level.threshold} />
         </div>
         <div class="control" style="width:100%">

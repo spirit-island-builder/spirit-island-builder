@@ -5,7 +5,7 @@
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
 
   function insertEnergyTrackNode(index) {
-    var focusId = "energy" + (index + 1);
+    var focusId = "energy" + (index + 1) + "builder";
     spiritBoard.presenceTrack.energyNodes.splice(index + 1, 0, {
       id: spiritBoard.presenceTrack.energyNodes.length,
       effect: "",
@@ -17,10 +17,11 @@
       }, 100);
     }
     spiritBoard = spiritBoard;
+    insertTemplatePresenceNode(index,'energy')
   }
 
   function insertPlaysTrackNode(index) {
-    var focusId = "plays" + (index + 1);
+    var focusId = "plays" + (index + 1) + "builder";
     spiritBoard.presenceTrack.playsNodes.splice(index + 1, 0, {
       id: spiritBoard.presenceTrack.playsNodes.length,
       effect: "",
@@ -32,6 +33,18 @@
       }, 100);
     }
     spiritBoard = spiritBoard;
+    insertTemplatePresenceNode(index,'card')
+  }
+
+  function insertTemplatePresenceNode(index,type){
+    var previewFrame = document.getElementById("preview-iframe").contentWindow
+    var findPresenceNode = previewFrame.document.getElementById(type+index)
+    var newPresenceNode = previewFrame.getPresenceNodeHtml('custom(new presence node)',false,index,type,type=='energy');
+    const placeholder = document.createElement("td");
+    placeholder.innerHTML = newPresenceNode;
+    console.log(placeholder)
+    findPresenceNode.parentElement.after(placeholder)
+    previewFrame.updatePresenceNodeIDs()
   }
 
   function removeEnergyTrackNode(index) {
@@ -56,6 +69,7 @@
     var previewFrame = document.getElementById("preview-iframe").contentWindow
     var findPresenceNode = previewFrame.document.getElementById(templatePresenceNodeID)
     findPresenceNode.parentElement.remove()
+    previewFrame.updatePresenceNodeIDs()
   }
 
   function updatePresenceNodeLocal(index, type) {
@@ -87,7 +101,6 @@
     var presenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight
 
     // Try to write a new node    
-   
     var newPresenceNode = "";
     try {
       newPresenceNode = previewFrame.getPresenceNodeHtml(newPresenceNodeText,isFirst,index,type,hasEnergyRing);
@@ -114,6 +127,31 @@
       document.getElementById('updateButton').classList.add("is-flashy");
     }
   }
+
+  function nextNode(event){
+    if (event.key == 'Enter'){
+      var currentID = event.target.id;
+      var focusID= currentID.replace(/(\d+)+/g, function(match, number) {
+        return parseInt(number)+1;
+      });
+      console.log(focusID)
+      var newNode = document.getElementById(focusID)
+    //Set the focus to the Growth Action if it is visible.
+      if (spiritBoard.presenceTrack.isVisible) {
+        if (newNode !== null){
+          document.getElementById(focusID).focus();
+        }else{
+          document.getElementById(currentID+'add').focus();
+        }
+      }
+    }
+  }
+
+  function selectNode(event) {
+    var nodeID = event.target.id;
+    document.getElementById(nodeID).select();
+  }
+
 </script>
 
 <h6
@@ -148,15 +186,19 @@
         <div>
           <div class="control">
             <input
-              id={`energy${i}`}
+              id={`energy${i}builder`}
               class="input is-small"
               style="z-index: 2;"
               type="text"
+              on:focus={selectNode}
+              on:blur={updatePresenceNodeLocal(i,'energy')}
+              on:keyup={nextNode}
               bind:value={spiritBoard.presenceTrack.energyNodes[i].effect} />
           </div>
           <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
             <button
               class="presence-track-add-node button is-light is-primary presence-track-button "
+              id={`energy${i}builderadd`}
               on:click={insertEnergyTrackNode(i)}
               ><span style="margin-top:11px;pointer-events: none;">+</span>
             </button>
@@ -164,11 +206,6 @@
               class="button is-light presence-track-button presence-track-remove-node"
               on:click={removeEnergyTrackNode(i)}
               ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
-            </button>
-            <button
-              class="button is-warning is-light presence-track-button presence-track-remove-node"
-              on:click={updatePresenceNodeLocal(i,'energy')}
-              ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">&#x21bb;</span>
             </button>
             <div style="width:15px;" />
           </div>
@@ -185,15 +222,19 @@
         <div>
           <div class="control">
             <input
-              id={`plays${i}`}
+              id={`plays${i}builder`}
               class="input is-small"
               style="z-index: 2;"
               type="text"
+              on:blur={updatePresenceNodeLocal(i,'card')}
+              on:focus={selectNode}
+              on:keyup={nextNode}
               bind:value={spiritBoard.presenceTrack.playsNodes[i].effect} />
           </div>
           <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
             <button
               class="presence-track-add-node button is-light is-primary presence-track-button "
+              id={`plays${i}builderadd`}
               on:click={insertPlaysTrackNode(i)}
               ><span style="margin-top:11px;pointer-events: none;">+</span>
             </button>
@@ -201,11 +242,6 @@
               class="button is-light presence-track-button presence-track-remove-node"
               on:click={removePlaysTrackNode(i)}
               ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
-            </button>
-            <button
-              class="button is-warning is-light presence-track-button presence-track-remove-node"
-              on:click={updatePresenceNodeLocal(i,'card')}
-              ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">&#x21bb;</span>
             </button>
             <div style="width:15px;" />
           </div>
