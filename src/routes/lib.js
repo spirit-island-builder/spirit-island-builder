@@ -179,7 +179,7 @@ export const downloadFile = (fileURL, fileName) => {
 };
 
 export const downloadString = (mimeType, fileContent, fileName) => {
-  downloadFile(`${mimeType},${encodeURI(fileContent)}`, fileName);
+  downloadFile(`${mimeType},${encodeURIComponent(fileContent)}`, fileName);
 };
 
 export const takeScreenshot = (frame, fileNames, elementNamesInIframe) => {
