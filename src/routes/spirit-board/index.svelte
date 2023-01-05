@@ -134,10 +134,6 @@
     }
   }
 
-  function showOrHideSection(event) {
-    spiritBoard[event.target.id].isVisible = !spiritBoard[event.target.id].isVisible;
-  }
-
   function hideAll() {
     spiritBoard.nameAndArt.isVisible = false;
     spiritBoard.specialRules.isVisible = false;
@@ -819,7 +815,6 @@
 </script>
 
 <h5 class="title is-5 mb-0 no-anchor">Spirit Board Play Side</h5>
-
 <PreviewFrame
   id="spirit-preview"
   src={previewFrameSrc}
@@ -860,14 +855,14 @@
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
-    <NameAndArt bind:spiritBoard {showOrHideSection} />
-    <SpecialRules bind:spiritBoard {showOrHideSection} />
-    <CustomIcons bind:customIcons {showOrHideSection} />
+    <NameAndArt bind:spiritBoard />
+    <SpecialRules bind:spiritBoard />
+    <CustomIcons bind:customIcons />
   </div>
   <div class="column pt-0">
-    <Growth bind:spiritBoard {showOrHideSection} />
-    <PresenceTracks bind:spiritBoard {showOrHideSection} />
-    <InnatePowers bind:spiritBoard {showOrHideSection} />
+    <Growth bind:spiritBoard />
+    <PresenceTracks bind:spiritBoard />
+    <InnatePowers bind:spiritBoard />
   </div>
 </div>
 <div id="holder">

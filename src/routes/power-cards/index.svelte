@@ -44,10 +44,6 @@
     }
   }
 
-  function showOrHideSection(event) {
-    powerCards[event.target.id].isVisible = !powerCards[event.target.id].isVisible;
-  }
-
   function reloadPreview() {
     console.log("Updating Preview (f=reloadPreview)");
     setBoardValues(powerCards);
@@ -305,19 +301,6 @@
 </script>
 
 <h5 class="title is-5 mb-0">Power Cards</h5>
-<!-- <h6
-  on:click={showOrHideBoard}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
-  id="previewBoard">
-  Preview
-  <span on:click={showOrHideBoard}>
-    {#if powerCards.previewBoard.isVisible}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6> -->
 <PreviewFrame
   id="power-cards-preview"
   src={previewFrameSrc}
@@ -348,8 +331,8 @@
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
-    <PowerCard bind:powerCards {showOrHideSection} />
-    <CustomIcons bind:customIcons {showOrHideSection} />
+    <PowerCard bind:powerCards />
+    <CustomIcons bind:customIcons />
   </div>
 </div>
 <div id="cards-holder">

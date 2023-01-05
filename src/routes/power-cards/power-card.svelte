@@ -2,6 +2,7 @@
   export let powerCards;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  import Section from "$lib/section.svelte";
 
   function handleImageFileInput(event, card) {
     const file = event.target.files.item(0);
@@ -86,11 +87,6 @@
       event.target.classList.remove("is-active");
     }
   }
-
-  function showOrHideSectionSubsection(card) {
-    card.isVisible = !card.isVisible;
-    powerCards = powerCards;
-  }
 </script>
 
 <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap mb-0">
@@ -108,19 +104,7 @@
   </div>
 </div>
 {#each powerCards.cards as card, i (card.id)}
-  <h6
-    on:click={showOrHideSectionSubsection(card)}
-    class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1">
-    {`Power Card ${i + 1}: ${card.name}`}
-    <span on:click={showOrHideSectionSubsection(card)}>
-      {#if card.isVisible}
-        <ion-icon on:click={showOrHideSectionSubsection(card)} name="chevron-down-outline" />
-      {:else}
-        <ion-icon on:click={showOrHideSectionSubsection(card)} name="chevron-up-outline" />
-      {/if}
-    </span>
-  </h6>
-  {#if card.isVisible}
+  <Section title={`Power Card ${i + 1}: ${card.name}`} bind:isVisible={card.isVisible}>
     <div class="field mt-2">
       <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
         >{`Power Card ${i + 1}`}</label>
@@ -355,7 +339,7 @@
       </div>
     </div>
     <hr />
-  {/if}
+  </Section>
 {/each}
 <div class="pt-1 pb-2">
   <button class="button is-primary is-light" on:click={addEmptyPowerCard}>Add Power Card</button>

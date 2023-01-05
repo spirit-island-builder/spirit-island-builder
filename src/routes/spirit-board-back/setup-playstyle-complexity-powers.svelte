@@ -2,30 +2,12 @@
   export let spiritBoardBack;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
-  export let showOrHideSection;
+  import Section from "$lib/section.svelte";
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="setupPlaystyleComplexityPowers">
-  Setup, Play Style, Complexity and Summary of Powers
-  <span on:click={showOrHideSection}>
-    {#if spiritBoardBack.setupPlaystyleComplexityPowers.isVisible}
-      <ion-icon
-        id="setupPlaystyleComplexityPowers"
-        on:click={showOrHideSection}
-        name="chevron-down-outline" />
-    {:else}
-      <ion-icon
-        id="setupPlaystyleComplexityPowers"
-        on:click={showOrHideSection}
-        name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if spiritBoardBack.setupPlaystyleComplexityPowers.isVisible}
-  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
+<Section
+  title="Setup, Play Style, Complexity and Summary of Powers"
+  bind:isVisible={spiritBoardBack.setupPlaystyleComplexityPowers.isVisible}>
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -192,4 +174,4 @@
       </div>
     </div>
   </div>
-{/if}
+</Section>
