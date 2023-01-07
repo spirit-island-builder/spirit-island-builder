@@ -61,8 +61,8 @@ board.round-border {
 spirit-name {
   display: flex;
   align-items: center;
-  margin-left: 29px;
-  height: 0px;
+  margin-left: 0px;
+  height: 100px;
   width: 666.25px;
   font-size: 40px;
   font-family: "Name Headings";
@@ -73,6 +73,12 @@ spirit-name {
   text-align: left;
   z-index: 2;
   white-space: normal;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: left center;
+  text-indent: 29px;
+  margin-bottom: -50px;
+  margin-top: -50px;
 }
 
 artist-name {
@@ -123,6 +129,7 @@ custom-meeple {
   z-index: -1;
   flex-grow: 1;
   background-repeat: no-repeat;
+  position:relative;
 }
 
 #single-line {

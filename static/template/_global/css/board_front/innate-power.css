@@ -187,6 +187,11 @@ description-container {
   width: 900px;
 }
 
+level .single-line {
+  padding-top: 12px;
+  padding-bottom: 4px;
+}
+
 note {
   display: inline-block;
   height: auto;
@@ -649,8 +654,7 @@ cost-energy {
 }
 
 .cost-custom > value {
-  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px 0px 0 #fff,
-    0px 1px 0 #fff, 1px 0px 0 #fff, 0px -1px 0 #fff;
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px 0px 0 #fff, 0px 1px 0 #fff, 1px 0px 0 #fff, 0px -1px 0 #fff;
 }
 
 cost-energy value,

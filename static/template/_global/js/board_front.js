@@ -22,7 +22,7 @@ function startMain() {
   board.innerHTML = replaceIcon(html);
 
   setTimeout(function () {
-    dynamicCellWidth();
+    dynamicResizing();
     addImages(board);
   }, 200);
 }
@@ -45,16 +45,13 @@ function addImages(board) {
   if (spiritBorder) {
     const specialRules = board.querySelectorAll("special-rules-container")[0];
     const spiritBorderSize = board.getAttribute("spirit-border-scale");
-    if (spiritBorderSize) {
-      borderHeight = spiritBorderSize;
-      specialRules.innerHTML =
-        `<div class="spirit-border" style="background-image: url(${spiritBorder}); background-size: 705px ${borderHeight};" ></div>` +
-        specialRules.innerHTML;
-    } else {
-      specialRules.innerHTML =
-        `<div class="spirit-border" style="background-image: url(${spiritBorder});" ></div>` +
-        specialRules.innerHTML;
-    }
+    const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
+    console.log('here')
+    console.log(spiritBorderSize)
+    spiritNamePanel.style.backgroundImage = `url(${spiritBorder})`
+    borderHeight = spiritBorderSize !== null ? spiritBorderSize : '100px'
+    console.log('here too')
+    spiritNamePanel.style.backgroundSize = `705px ${borderHeight}`
   }
   if (spiritImage) {
     //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
@@ -110,16 +107,15 @@ function buildGrowthPanel() {
           j < childElement.children.length - 1 ? childElement.children[j + 1] : undefined;
 
         newGrowthCellHTML += writeGrowthGroup(
-          childElement.children[j],
-          setIndex,
+          childElement.children[j], 
+          setIndex, 
           groupIndex,
           childElement.title ? currentHeaderIndex : undefined
         );
-
+        
         // Add single border
         if (nextSubElement && nextSubElement.nodeName.toLowerCase() == "growth-group") {
-          newGrowthCellHTML +=
-            "<growth-border" + ` header=${currentHeaderIndex}` + "></growth-border>";
+          newGrowthCellHTML += "<growth-border" + ` header=${currentHeaderIndex}` + "></growth-border>";
           groupIndex += 1;
         }
       }
@@ -133,6 +129,7 @@ function buildGrowthPanel() {
         groupIndex = 0;
         setIndex += 1;
       }
+      
     } else {
       // Not Using Growth Sets
       newGrowthCellHTML += writeGrowthGroup(childElement, setIndex, groupIndex);
@@ -149,16 +146,14 @@ function buildGrowthPanel() {
   board.getElementsByTagName("growth")[0].innerHTML = fullHTML;
 }
 
-function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex = NaN) {
-  let debug = true;
+function writeGrowthGroup(growthGroup, setIndex=0, groupIndex=0, headerIndex = NaN) {
+  let debug = false;
 
-  console.log("--Growth Group s" + setIndex + "g" + groupIndex + "--");
-  if (debug) {
-    console.log("growthGroup: " + growthGroup.outerHTML);
-  }
-
-  let growthGroupHTML = "";
-
+  console.log("--Growth Group s"+setIndex+"g"+groupIndex+"--");
+  if(debug){console.log('growthGroup: ' + growthGroup.outerHTML)}
+  
+  let growthGroupHTML = ""
+  
   const tint = growthGroup.getAttribute("tint");
   let tint_text = "";
   if (tint) {
@@ -210,53 +205,41 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
 
   const growthActions = growthGroup.getAttribute("values").split(";");
   console.log(growthActions);
-
+  
   for (j = 0; j < growthActions.length; j++) {
-    growthGroupHTML += writeGrowthAction(
-      growthActions[j],
-      setIndex,
-      groupIndex,
-      j,
-      (tint_text = "")
-    );
+    growthGroupHTML += writeGrowthAction(growthActions[j], setIndex, groupIndex, j, tint_text="");
   }
 
   growthGroupHTML += "</growth-group>";
-
+  
   return growthGroupHTML;
 }
 
-function writeGrowthAction(
-  growthAction,
-  setIndex = 0,
-  groupIndex = 0,
-  actionIndex = 0,
-  tint_text = ""
-) {
-  let debug = true;
+function writeGrowthAction(growthAction, setIndex=0, groupIndex=0, actionIndex=0, tint_text=""){
+  let debug = false;
   var regExp = /\(([^)]+)\)/;
   var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
   var regExpCommaNoParentheses = /,(?![^(]*\))/;
 
   let growthActionHTML = "";
   let growthActionType = growthAction.split("(")[0].split("^")[0];
-  let growthActionID = "s" + setIndex + "g" + groupIndex + "a" + actionIndex;
-  if (debug) {
-    console.log("Growth Action " + growthActionID + ": " + growthAction);
-    console.log("Growth Action Type: " + growthActionType);
+  let growthActionID = "s"+setIndex+"g"+groupIndex+"a"+actionIndex
+  if (debug) {    
+    console.log("Growth Action "+growthActionID+": " + growthAction);
+    console.log("Growth Action Type: " + growthActionType)
   }
-
+  
   // Some tools for OR and Presence nodes
   let isOr = false;
   let isPresenceNode = false;
-
+  
   if (growthActionType == "or") {
     console.log("or detected");
     isOr = true;
     let matches = regExpOuterParentheses.exec(growthAction)[1];
     orGrowthActions = matches.split(regExpCommaNoParentheses);
   }
-
+  
   // Check for Presence Node in Growth
   if (growthActionType == "presence-node") {
     let matches = regExpOuterParentheses.exec(growthAction)[1];
@@ -270,29 +253,30 @@ function writeGrowthAction(
   }
 
   // Establish Growth HTML Openers and Closers
-  let growthOpen = "<growth-cell id='" + growthActionID + "'>" + tint_text;
+  let growthOpen = "<growth-cell id='"+growthActionID+"'>" + tint_text;
   let growthTextOpen = "<growth-text>";
   let growthTextClose = "</growth-text></growth-cell>";
   let growthIcons = "";
   let growthText = "";
-
+  
   // Get the Text and Icons for the Growth Action
-  if (isOr) {
+  if(isOr){
     firstAction = getGrowthActionTextAndIcons(orGrowthActions[0]);
     secondAction = getGrowthActionTextAndIcons(orGrowthActions[1]);
-    growthIcons = firstAction[0];
-    growthText = firstAction[1];
-  } else {
+    growthIcons = firstAction[0]
+    growthText = firstAction[1]
+  }else{
     let actionIconsAndText = getGrowthActionTextAndIcons(growthAction);
-    console.log(actionIconsAndText);
-    growthIcons = actionIconsAndText[0];
-    growthText = actionIconsAndText[1];
+    growthIcons = actionIconsAndText[0]
+    growthText = actionIconsAndText[1]
   }
-
+  
   //Handle Presence Node
   if (isPresenceNode) {
     growthIcons =
-      '<presence-node class="growth"><ring-icon>' + growthIcons + "</ring-icon></presence-node>";
+      '<presence-node class="growth"><ring-icon>' +
+      growthIcons +
+      "</ring-icon></presence-node>";
     isPresenceNode = false;
   }
 
@@ -304,15 +288,24 @@ function writeGrowthAction(
     isOr = false;
   }
 
-  growthActionHTML = growthOpen + growthIcons + growthTextOpen + growthText + growthTextClose;
-  return growthActionHTML;
+  growthActionHTML = growthOpen + growthIcons + growthTextOpen + growthText + growthTextClose;  
+  return growthActionHTML
 }
 
-function getGrowthActionTextAndIcons(growthAction) {
+function getGrowthActionTextAndIcons(growthAction){
   let debug = true;
   let growthActionType = growthAction.split("(")[0].split("^")[0];
   const terrains = new Set(["wetland", "mountain", "sand", "sands", "jungle"]);
-  const elementNames = new Set(["sun", "moon", "fire", "air", "plant", "water", "earth", "animal"]);
+  const elementNames = new Set([
+    "sun",
+    "moon",
+    "fire",
+    "air",
+    "plant",
+    "water",
+    "earth",
+    "animal"
+  ]);
   var regExp = /\(([^)]+)\)/;
   var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
 
@@ -416,7 +409,9 @@ function getGrowthActionTextAndIcons(growthAction) {
             break;
           default:
             gainPowerCardIcon +=
-              "<icon class='" + gainPowerCardType.toLowerCase() + " gain-card-modifier'></icon>";
+              "<icon class='" +
+              gainPowerCardType.toLowerCase() +
+              " gain-card-modifier'></icon>";
             gainPowerCardText = "Gain " + Capitalise(gainPowerCardType) + " Power Card";
         }
         gainPowerCardIcon += "</icon>";
@@ -510,7 +505,9 @@ function getGrowthActionTextAndIcons(growthAction) {
       if (scaling_entity || has_custom_text) {
         energyGrowthIcons += "<gain-per><value>" + scaling_value + "</value></gain-per>";
         energyGrowthIcons +=
-          "<gain-per-element><ring-icon>" + customScalingIcon + "</ring-icon></gain-per-element>";
+          "<gain-per-element><ring-icon>" +
+          customScalingIcon +
+          "</ring-icon></gain-per-element>";
         if (x_is_flat) {
           energyGrowthText += " and +" + scaling_value + " more per ";
         } else {
@@ -1198,7 +1195,8 @@ function getGrowthActionTextAndIcons(growthAction) {
       let incarnaOptions = matches[1].split(",");
       let incarnaAction = incarnaOptions[0];
       let incarnaRangeOrToken = incarnaOptions[1] !== undefined ? incarnaOptions[1] : 0;
-      let customIncarnaIcon = incarnaOptions[2] !== undefined ? incarnaOptions[2] : "incarna-ember";
+      let customIncarnaIcon =
+        incarnaOptions[2] !== undefined ? incarnaOptions[2] : "incarna-ember";
       switch (incarnaAction) {
         case "move":
           incarnaIcon =
@@ -1229,7 +1227,8 @@ function getGrowthActionTextAndIcons(growthAction) {
             '"><icon class="replace-with-incarna no ' +
             incarnaRangeOrToken +
             '"></custom-icon>';
-          incarnaText = "You may Replace " + IconName(incarnaRangeOrToken) + " with your Incarna";
+          incarnaText =
+            "You may Replace " + IconName(incarnaRangeOrToken) + " with your Incarna";
           break;
         case "add-token":
           incarnaIcon =
@@ -1291,7 +1290,12 @@ function getGrowthActionTextAndIcons(growthAction) {
         }
       }
       growthIcons =
-        tokenReqOpen + "<token-wrap>" + tokenIcons + "</token-wrap>" + tokenRange + tokenReqClose;
+        tokenReqOpen +
+        "<token-wrap>" +
+        tokenIcons +
+        "</token-wrap>" +
+        tokenRange +
+        tokenReqClose;
       growthText = tokenText;
       break;
     }
@@ -1352,10 +1356,10 @@ function getGrowthActionTextAndIcons(growthAction) {
   //Handle Repeats
   if (repeatText) {
     growthIcons = "<repeat-wrapper>" + repeatOpen + growthIcons + "</repeat-wrapper>";
-    growthText = repeatText + growthText;
+    growthText = repeatText+growthText
   }
-
-  return [growthIcons, growthText];
+  
+  return [growthIcons,growthText];
 }
 
 function parseEnergyTrackTags() {
@@ -1416,7 +1420,7 @@ function parseEnergyTrackTags() {
     }
 
     energyHTML +=
-      "<td" + isMiddle + ">" + getPresenceNodeHtml(nodeText, isFirst, "energy", addRing) + "</td>";
+      "<td" + isMiddle + ">" + getPresenceNodeHtml(nodeText, isFirst , i, "energy", addRing) + "</td>";
     isFirst = false;
   }
   energyHTML += "</tr>";
@@ -1463,7 +1467,7 @@ function parseCardPlayTrackTags() {
 
   for (i = 0; i < cardPlayOptions.length; i++) {
     cardPlayHTML +=
-      "<td>" + getPresenceNodeHtml(cardPlayOptions[i], i == 0, "card", false) + "</td>";
+      "<td>" + getPresenceNodeHtml(cardPlayOptions[i], i == 0, i, "card", false) + "</td>";
   }
   cardPlayHTML += "</tr>";
   board.getElementsByTagName("card-play-track")[0].removeAttribute("values");
@@ -1486,7 +1490,7 @@ function enhancePresenceTracksTable() {
 
   for (var i = 0, row; (row = table.rows[i]); i++) {
     for (var j = 0, cell; (cell = row.cells[j]); j++) {
-      cell.innerHTML = getPresenceNodeHtml(cell.firstChild.nodeValue, j == 0, "dynamic", i == 0);
+      cell.innerHTML = getPresenceNodeHtml(cell.firstChild.nodeValue, j == 0, j, "dynamic", i == 0);
     }
   }
 
@@ -1508,7 +1512,7 @@ function enhancePresenceTracksTable() {
   } */
 }
 
-function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
+function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRing) {
   var result = "";
   //Find values between parenthesis
   var regExp = /\(([^)]+)\)/;
@@ -1518,6 +1522,8 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
   // Every node will have a presence-node element with
   // a ring-icon element inside, so we can add these now.
   presenceNode = document.createElement("presence-node");
+  nodeID = trackType + nodeIndex;
+  presenceNode.setAttribute('id',nodeID);
   ring = document.createElement("ring-icon");
   presenceNode.appendChild(ring);
   // Will be populated with the sub text that will be added at the end
@@ -1915,7 +1921,24 @@ function getPresenceNodeHtml(nodeText, first, trackType, addEnergyRing) {
       "</icon>" +
       presenceNode.innerHTML;
   }
+
   return presenceNode.outerHTML;
+}
+
+function updatePresenceNodeIDs() {
+  const board = document.querySelectorAll("board")[0];
+  console.log(board)
+  var presenceTable = document.getElementById("presence-table");
+  var energyTrack = board.getElementsByClassName("energy-track")[0];
+  var energyNodes = energyTrack.getElementsByTagName("presence-node")
+  var playsTrack = board.getElementsByClassName("plays-track")[0];
+  var playsNodes = playsTrack.getElementsByTagName("presence-node")
+  for (i = 0; i < energyNodes.length; i++) {
+    energyNodes[i].id = 'energy'+i;
+  }
+  for (i = 0; i < playsNodes.length; i++) {
+    playsNodes[i].id = 'card'+i;
+  }
 }
 
 function IconName(str, iconNum = 1) {
@@ -2124,165 +2147,10 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
   }
 }
 
-function dynamicCellWidth() {
-  var debug = false;
-  const board = document.querySelectorAll("board")[0];
-
-  console.log("RESIZING: Growth");
-  // Growth Sizing
-  growthCells = board.getElementsByTagName("growth-cell");
-  growthCellCount = growthCells.length;
-  growthBorders = Array.from(board.getElementsByTagName("growth-border"));
-  growthBorderCount = growthBorders.length;
-  let growthTable = board.getElementsByTagName("growth-table")[0];
-
-  // Add additional Growth Row if necessary
-  let totalWidth = getGrowthTableWidth(growthTable);
-  let growthTexts = board.getElementsByTagName("growth-text");
-  let tallGrowthText = hasTallGrowthText(growthTexts);
-  if (debug) {
-    console.log("Tall growth text found? (4 or more lines) " + tallGrowthText);
-  }
-
-  function hasTallGrowthText(texts) {
-    hasTall = false;
-    for (i = 0; i < texts.length; i++) {
-      hasTall = texts[i].offsetHeight > 90 ? true : hasTall;
-      // true if any growth-text is more than 3 lines
-    }
-    return hasTall;
-  }
-
-  if (totalWidth > 1090 || tallGrowthText) {
-    growthGroups = growthTable.getElementsByTagName("growth-group");
-    growthBorders = growthTable.getElementsByTagName("growth-border");
-    var newGrowthTable = document.createElement("growth-table");
-    var growthLine = document.createElement("growth-row-line");
-    var c = 0;
-    while (totalWidth > 1090 || tallGrowthText) {
-      if (c == 0) {
-        newGrowthTable.appendChild(growthGroups[growthGroups.length - 1]);
-      } else {
-        var growthBorder = document.createElement("growth-border");
-        newGrowthTable.insertBefore(growthBorder, newGrowthTable.firstChild);
-        newGrowthTable.insertBefore(
-          growthGroups[growthGroups.length - 1],
-          newGrowthTable.firstChild
-        );
-      }
-      growthBorders[growthBorders.length - 1].remove();
-      totalWidth = getGrowthTableWidth(growthTable);
-      tallGrowthText = hasTallGrowthText(growthTable.getElementsByTagName("growth-text"));
-      c++;
-    }
-    document.getElementsByTagName("growth")[0].append(growthLine);
-    document.getElementsByTagName("growth")[0].append(newGrowthTable);
-  }
-
-  // TEST iterate through growth cells
-  var totalIconWidths = 0;
-  var cellWidthV2 = [];
-  for (const cell of growthCells) {
-    var cellRect = findBoundingRect(cell);
-    // console.log('-- TEST --')
-    // console.log(cellRect)
-    // console.log(cell)
-    // console.log(cellRect.width)
-    // console.log('^--RESULT--^')
-    totalIconWidths += cellRect.width;
-    cellWidthV2.push(cellRect.width);
-  }
-  /* console.log('total icon width = '+totalIconWidths) */
-  // console.log('old way = '+totalWidth)
-  // console.log(cellWidthV2)
-
-  //Iterate through growth table(s) to resize
-  const largeCellScale = 1.5;
-  const extraLargeCellScale = 1.8;
-  const growthTables = board.getElementsByTagName("growth-table");
-
-  let tightFlag = false; // flag for tightening presence tracks later
-  for (i = 0; i < growthTables.length; i++) {
-    growthTable = growthTables[i];
-    if (growthTables.length > 1) {
-      growthTable.style.marginTop = "10px";
-      tightFlag = true;
-      console.log("will tighten presence tracks");
-    }
-
-    const growthCells = growthTable.getElementsByTagName("growth-cell");
-    const growthTableStyle = window.getComputedStyle(growthTable);
-    const growthTableWidth = growthTableStyle.getPropertyValue("width");
-    let widthArray = [];
-
-    var growthCosts = growthTable.getElementsByTagName("growth-cost");
-    let growthCostsPixels = 0;
-    for (j = 0; j < growthCosts.length; j++) {
-      growthCostsPixels += 10; //Currently, all costs are width 10 (including negative margins).
-    }
-
-    var localBorders = growthTable.getElementsByTagName("growth-border");
-    let localBorderPixels = 0;
-    for (j = 0; j < localBorders.length; j++) {
-      localBorderPixels += localBorders[j].offsetWidth;
-    }
-
-    growthPanelWidth = 1090 - 10 - localBorderPixels - growthCostsPixels;
-    if (debug) {
-      console.log("width for growth actions = " + growthPanelWidth);
-    }
-    totalCellWidth = 0;
-    for (j = 0; j < growthCells.length; j++) {
-      totalCellWidth += growthCells[j].offsetWidth;
-      widthArray[j] = growthCells[j].offsetWidth;
-    }
-
-    averageWidth = totalCellWidth / growthCells.length;
-    if (debug) {
-      console.log("aveage width = " + averageWidth);
-    }
-    if (totalCellWidth > 1000 || i == 0) {
-      let smallCellFinder = widthArray.map((x) => x <= averageWidth * 1.35);
-      let largeCellFinder = widthArray.map((x) => x > averageWidth * 1.35);
-      let extraLargeCellFinder = widthArray.map((x) => x > averageWidth * 2);
-      largeCellFinder = largeCellFinder.map((x, index) => x && !extraLargeCellFinder[index]);
-      const largeCell = largeCellFinder.filter(Boolean).length;
-      const smallCell = smallCellFinder.filter(Boolean).length;
-      const extraLargeCell = extraLargeCellFinder.filter(Boolean).length;
-      weightedSmallCellWidth =
-        growthPanelWidth /
-        (smallCell + largeCellScale * largeCell + extraLargeCellScale * extraLargeCell);
-      weightedLargeCellWidth = weightedSmallCellWidth * largeCellScale;
-      weightedExtraLargeCellWidth = weightedSmallCellWidth * extraLargeCellScale;
-      for (j = 0; j < growthCells.length; j++) {
-        if (extraLargeCellFinder[j]) {
-          growthCells[j].style.width = weightedExtraLargeCellWidth + "px";
-        } else if (largeCellFinder[j]) {
-          growthCells[j].style.width = weightedLargeCellWidth + "px";
-        } else {
-          growthCells[j].style.width = weightedSmallCellWidth + "px";
-        }
-      }
-    } else if (i > 0) {
-      growthTable.style.maxWidth = growthCells.length * averageWidth + "px";
-      growthTable.style.justifyContent = "flex-start";
-      for (j = 0; j < growthCells.length; j++) {
-        growthCells[j].style.maxWidth = averageWidth + "px";
-        growthCells[j].style.minWidth = "100px";
-      }
-    }
-
-    totalWidth = 0;
-    for (j = 0; j < growthCells.length; j++) {
-      totalWidth += growthCells[j].offsetWidth;
-    }
-    if (i > 0) {
-      growthLines = board.getElementsByTagName("growth-row-line");
-      growthLines[i - 1].style.width = totalWidth + "px";
-    }
-  }
-
+function growthHeadersAndTitles(){
   // Create Headers (if using Subsets)
+  var debug = true;
+  const board = document.querySelectorAll("board")[0];
   growthTable = board.getElementsByTagName("growth-table")[0];
   const headerWidth = {};
   const headerAdditionalWidth = {};
@@ -2361,6 +2229,164 @@ function dynamicCellWidth() {
       }
     }
   }
+}
+
+function dynamicResizing() {
+  var debug = false;
+  const board = document.querySelectorAll("board")[0];
+
+  console.log("RESIZING: Growth");
+  // Growth Sizing
+  growthCells = board.getElementsByTagName("growth-cell");
+  growthBorders = Array.from(board.getElementsByTagName("growth-border"));
+  let growthTable = board.getElementsByTagName("growth-table")[0];
+
+  // Add additional Growth Row if necessary
+  let totalWidth = getGrowthTableWidth(growthTable);
+  let growthTexts = board.getElementsByTagName("growth-text");
+  let tallGrowthText = hasTallGrowthText(growthTexts);
+  if (debug) {
+    console.log("Tall growth text found? (4 or more lines) " + tallGrowthText);
+  }
+
+  function hasTallGrowthText(texts) {
+    hasTall = false;
+    for (i = 0; i < texts.length; i++) {
+      hasTall = texts[i].offsetHeight > 90 ? true : hasTall;
+      // true if any growth-text is more than 3 lines
+    }
+    return hasTall;
+  }
+
+  if (totalWidth > 1090 || tallGrowthText) {
+    growthGroups = growthTable.getElementsByTagName("growth-group");
+    growthBorders = growthTable.getElementsByTagName("growth-border");
+    var newGrowthTable = document.createElement("growth-table");
+    var growthLine = document.createElement("growth-row-line");
+    var c = 0;
+    while (totalWidth > 1090 || tallGrowthText) {
+      if (c == 0) {
+        newGrowthTable.appendChild(growthGroups[growthGroups.length - 1]);
+      } else {
+        var growthBorder = document.createElement("growth-border");
+        newGrowthTable.insertBefore(growthBorder, newGrowthTable.firstChild);
+        newGrowthTable.insertBefore(
+          growthGroups[growthGroups.length - 1],
+          newGrowthTable.firstChild
+        );
+      }
+      growthBorders[growthBorders.length - 1].remove();
+      totalWidth = getGrowthTableWidth(growthTable);
+      tallGrowthText = hasTallGrowthText(growthTable.getElementsByTagName("growth-text"));
+      c++;
+    }
+    document.getElementsByTagName("growth")[0].append(growthLine);
+    document.getElementsByTagName("growth")[0].append(newGrowthTable);
+  }
+
+  // TEST iterate through growth cells
+  var totalIconWidths = 0;
+  var cellWidthV2 = [];
+  for (const cell of growthCells) {
+    var cellRect = findBoundingRect(cell);
+    // console.log('-- TEST --')
+    // console.log(cellRect)
+    // console.log(cell)
+    // console.log(cellRect.width)
+    // console.log('^--RESULT--^')
+    totalIconWidths += cellRect.width;
+    cellWidthV2.push(cellRect.width);
+  }
+  /* console.log('total icon width = '+totalIconWidths) */
+  // console.log('old way = '+totalWidth)
+  // console.log(cellWidthV2)
+
+  //Iterate through growth table(s) to resize
+  const largeCellScale = 1.5;
+  const extraLargeCellScale = 1.8;
+  const growthTables = board.getElementsByTagName("growth-table");
+
+  let tightFlag = false; // flag for tightening presence tracks later
+  for (i = 0; i < growthTables.length; i++) {
+    growthTable = growthTables[i];
+    if (growthTables.length > 1) {
+      growthTable.style.marginTop = "10px";
+      tightFlag = true;
+      console.log("will tighten presence tracks");
+    }
+
+    const growthCells = growthTable.getElementsByTagName("growth-cell");
+    const growthTableStyle = window.getComputedStyle(growthTable);
+    let widthArray = [];
+
+    var growthCosts = growthTable.getElementsByTagName("growth-cost");
+    let growthCostsPixels = 0;
+    for (j = 0; j < growthCosts.length; j++) {
+      growthCostsPixels += 10; //Currently, all costs are width 10 (including negative margins).
+    }
+
+    var localBorders = growthTable.getElementsByTagName("growth-border");
+    let localBorderPixels = 0;
+    for (j = 0; j < localBorders.length; j++) {
+      localBorderPixels += localBorders[j].offsetWidth;
+    }
+
+    growthPanelWidth = 1090 - 10 - localBorderPixels - growthCostsPixels;
+    if (debug) {
+      console.log("width for growth actions = " + growthPanelWidth);
+    }
+    totalCellWidth = 0;
+    for (j = 0; j < growthCells.length; j++) {
+      totalCellWidth += growthCells[j].offsetWidth;
+      widthArray[j] = growthCells[j].offsetWidth;
+    }
+
+    averageWidth = totalCellWidth / growthCells.length;
+    if (debug) {
+      console.log("aveage width = " + averageWidth);
+    }
+    if (totalCellWidth > 1000 || i == 0) {
+      let smallCellFinder = widthArray.map((x) => x <= averageWidth * 1.35);
+      let largeCellFinder = widthArray.map((x) => x > averageWidth * 1.35);
+      let extraLargeCellFinder = widthArray.map((x) => x > averageWidth * 2);
+      largeCellFinder = largeCellFinder.map((x, index) => x && !extraLargeCellFinder[index]);
+      const largeCell = largeCellFinder.filter(Boolean).length;
+      const smallCell = smallCellFinder.filter(Boolean).length;
+      const extraLargeCell = extraLargeCellFinder.filter(Boolean).length;
+      weightedSmallCellWidth =
+        growthPanelWidth /
+        (smallCell + largeCellScale * largeCell + extraLargeCellScale * extraLargeCell);
+      weightedLargeCellWidth = weightedSmallCellWidth * largeCellScale;
+      weightedExtraLargeCellWidth = weightedSmallCellWidth * extraLargeCellScale;
+      for (j = 0; j < growthCells.length; j++) {
+        if (extraLargeCellFinder[j]) {
+          growthCells[j].style.width = weightedExtraLargeCellWidth + "px";
+        } else if (largeCellFinder[j]) {
+          growthCells[j].style.width = weightedLargeCellWidth + "px";
+        } else {
+          growthCells[j].style.width = weightedSmallCellWidth + "px";
+        }
+      }
+    } else if (i > 0) {
+      growthTable.style.maxWidth = growthCells.length * averageWidth + "px";
+      growthTable.style.justifyContent = "flex-start";
+      for (j = 0; j < growthCells.length; j++) {
+        growthCells[j].style.maxWidth = averageWidth + "px";
+        growthCells[j].style.minWidth = "100px";
+      }
+    }
+
+    totalWidth = 0;
+    for (j = 0; j < growthCells.length; j++) {
+      totalWidth += growthCells[j].offsetWidth;
+    }
+    if (i > 0) {
+      growthLines = board.getElementsByTagName("growth-row-line");
+      growthLines[i - 1].style.width = totalWidth + "px";
+    }
+  }
+
+  growthHeadersAndTitles()
 
   // Final resize (catches really big things that were missed)
   let growthItems = board.getElementsByTagName("growth-cell");
@@ -2468,7 +2494,7 @@ function dynamicCellWidth() {
     var textHeight = description[i].clientHeight;
 
     if (textHeight < 40) {
-      description[i].id = "single-line";
+      description[i].classList.add("single-line");
       // Align-middle the text if its a single line
     } else if (textHeight > 75) {
       description[i].style.paddingLeft = "0px";
@@ -2593,7 +2619,7 @@ function dynamicCellWidth() {
   if (checkOverflowHeight(innatePowerBox)) {
     console.log("Innate Powers overflowing, shrinking notes (if applicable)...");
 
-    // First, check if its just one IP, and if so, move it to the side (see Ember-Eyed)
+    // First, check if its just one IP, and if so, move its note to the side (see Ember-Eyed)
     if (innatePowers.length == 1) {
       note = innatePowers[0].getElementsByTagName("note")[0];
       if (note) {
@@ -2757,7 +2783,7 @@ function parseInnatePowers() {
   var innateHTML = board.getElementsByTagName("quick-innate-power");
 
   for (i = 0; i < innateHTML.length; i++) {
-    fullHTML += parseInnatePower(innateHTML[i]);
+    fullHTML += parseInnatePower(innateHTML[i],i);
   }
   board.getElementsByTagName("innate-powers")[0].innerHTML =
     "<section-title>Innate Powers</section-title><innate-power-container>" +
@@ -2784,13 +2810,14 @@ function parseInnatePowers() {
   }
 }
 
-function parseInnatePower(innatePowerHTML) {
+function parseInnatePower(innatePowerHTML,index) {
   var debug = false;
-  var currentPowerHTML = "<innate-power class='" + innatePowerHTML.getAttribute("speed") + "'>";
+  var innatePowerID = 'ip'+index
+  var currentPowerHTML = "<innate-power id='"+innatePowerID+"' class='" + innatePowerHTML.getAttribute("speed") + "'>";
 
   //Innate Power title
   currentPowerHTML +=
-    "<innate-power-title>" +
+    "<innate-power-title id='"+innatePowerID+"title'>" +
     innatePowerHTML.getAttribute("name") +
     "</innate-power-title><info-container><info-title>";
 
@@ -2800,7 +2827,7 @@ function parseInnatePower(innatePowerHTML) {
 
   //Innate Power Target Header
   currentPowerHTML +=
-    "<info-title-target>" +
+    "<info-title-target id='"+innatePowerID+"targettitle'>" +
     innatePowerHTML.getAttribute("target-title") +
     "</info-title-target></info-title><innate-info>";
 
@@ -2842,89 +2869,109 @@ function parseInnatePower(innatePowerHTML) {
   if (noteValue == null || noteValue == "") {
     noteValue = "";
   } else {
-    currentPowerHTML += "<note>" + noteValue + "</note>";
+    currentPowerHTML += "<note id='"+innatePowerID+"note'>" + noteValue + "</note>";
   }
 
   //Innate Power Levels and Thresholds
   var currentLevels = innatePowerHTML.getElementsByTagName("level");
-  var regExp = /\(([^)]+)\)/;
   for (j = 0; j < currentLevels.length; j++) {
-    var currentThreshold = currentLevels[j].getAttribute("threshold");
-    var isText = currentLevels[j].getAttribute("text");
-    if (isText != null) {
-      // User wants a special text-only line
-      currentPowerHTML += "<level><level-note>";
-      currentPowerHTML += currentLevels[j].innerHTML + "</level-note></level>";
-    } else {
-      // User wants a normal thershold-level effect
-
-      let isLong = currentLevels[j].getAttribute("long");
-      if (isLong != null) {
-        isLong = " long";
-      } else {
-        isLong = "";
-      }
-
-      // Break the cost into a numeral and element piece (then do error handling to allow switching the order)
-      var currentThresholdPieces = currentThreshold.split(",");
-      var elementPieces = [];
-      var numeralPieces = [];
-      for (k = 0; k < currentThresholdPieces.length; k++) {
-        elementPieces[k] = currentThresholdPieces[k].substring(
-          currentThresholdPieces[k].indexOf("-") + 1
-        );
-        numeralPieces[k] = currentThresholdPieces[k].split("-")[0];
-      }
-
-      currentPowerHTML += "<level><threshold>";
-      for (k = 0; k < currentThresholdPieces.length; k++) {
-        var currentNumeral = 0;
-        var currentElement = "";
-        if (isNaN(numeralPieces[k])) {
-          currentNumeral = elementPieces[k];
-          currentElement = numeralPieces[k];
-        } else {
-          currentElement = elementPieces[k];
-          currentNumeral = numeralPieces[k];
-        }
-
-        if (currentElement.toUpperCase() == "OR") {
-          currentThresholdPieces[k] = "<threshold-or>or</threshold-or>";
-        } else if (currentElement.toUpperCase().startsWith("TEXT")) {
-          if (currentElement.split("(")[1]) {
-            customText = regExp.exec(currentElement)[1];
-            currentThresholdPieces[k] = currentNumeral + " " + customText;
-          } else {
-            currentThresholdPieces[k] = currentNumeral + " " + "X";
-          }
-        } else if (currentElement.toUpperCase().startsWith("COST")) {
-          if (currentElement.split("(")[1]) {
-            customCost = regExp.exec(currentElement)[1];
-            currentThresholdPieces[k] =
-              "<cost-threshold>Cost<icon class='" +
-              customCost +
-              " cost-custom'><value>-" +
-              currentNumeral +
-              "</value></icon></cost-threshold>";
-          } else {
-            currentThresholdPieces[k] =
-              "<cost-threshold>Cost<cost-energy><value>-" +
-              currentNumeral +
-              "</value></cost-energy></cost-threshold>";
-          }
-        } else {
-          currentThresholdPieces[k] = currentNumeral + "{" + currentElement + "}";
-        }
-        currentPowerHTML += currentThresholdPieces[k];
-      }
-      currentPowerHTML += "</threshold><div class='description" + isLong + "'>";
-      var currentDescription = currentLevels[j].innerHTML;
-      currentPowerHTML += currentDescription + "</div></level>";
-    }
+    currentPowerHTML += writeInnateLevel(currentLevels[j], innatePowerID+'L'+j)
   }
 
   currentPowerHTML += "</description-container></innate-power>";
   return currentPowerHTML;
+}
+
+function writeInnateLevel(currentLevel, levelID){
+  var debug = false;
+  if(debug){console.log('writing level')}
+  if(debug){console.log(currentLevel)}
+  var levelHTML = ""
+  var currentThreshold = currentLevel.getAttribute("threshold");
+  var isText = currentLevel.getAttribute("text");
+  if (isText != null) {
+    // User wants a special text-only line
+    levelHTML += "<level><level-note>";
+    levelHTML += currentLevel.innerHTML + "</level-note></level>";
+  } else {
+    // User wants a normal thershold-level effect
+
+    let isLong = currentLevel.getAttribute("long");
+    if (isLong != null) {
+      isLong = " long";
+    } else {
+      isLong = "";
+    }
+
+    // Break the cost into a numeral and element piece (then do error handling to allow switching the order)
+    levelHTML += "<level>";
+    levelHTML += writeInnateThreshold(currentThreshold, levelID);
+    levelHTML += "<div class='description" + isLong + "' id='"+levelID+"'>";
+    var currentDescription = currentLevel.innerHTML;
+    levelHTML += currentDescription + "</div></level>";
+  }
+  return levelHTML;
+}
+
+function writeInnateThreshold(currentThreshold, levelID='placeholder'){
+  var debug = false;
+  var regExp = /\(([^)]+)\)/;
+  var thresholdHTML = "";
+  if(debug){console.log('writing threshold')}
+  if(debug){console.log(currentThreshold)}
+  thresholdHTML += "<threshold id='"+levelID+"t'>";
+  var currentThresholdPieces = currentThreshold.split(",");
+  var elementPieces = [];
+  var numeralPieces = [];
+  for (k = 0; k < currentThresholdPieces.length; k++) {
+    elementPieces[k] = currentThresholdPieces[k].substring(
+      currentThresholdPieces[k].indexOf("-") + 1
+    );
+    numeralPieces[k] = currentThresholdPieces[k].split("-")[0];
+  }
+
+  for (k = 0; k < currentThresholdPieces.length; k++) {
+    var currentNumeral = 0;
+    var currentElement = "";
+    if (isNaN(numeralPieces[k])) {
+      currentNumeral = elementPieces[k];
+      currentElement = numeralPieces[k];
+    } else {
+      currentElement = elementPieces[k];
+      currentNumeral = numeralPieces[k];
+    }
+
+    if (currentElement.toUpperCase() == "OR") {
+      currentThresholdPieces[k] = "<threshold-or>or</threshold-or>";
+    } else if (currentElement.toUpperCase().startsWith("TEXT")) {
+      if (currentElement.split("(")[1]) {
+        customText = regExp.exec(currentElement)[1];
+        currentThresholdPieces[k] = currentNumeral + " " + customText;
+      } else {
+        currentThresholdPieces[k] = currentNumeral + " " + "X";
+      }
+    } else if (currentElement.toUpperCase().startsWith("COST")) {
+      if (currentElement.split("(")[1]) {
+        customCost = regExp.exec(currentElement)[1];
+        currentThresholdPieces[k] =
+          "<cost-threshold>Cost<icon class='" +
+          customCost +
+          " cost-custom'><value>-" +
+          currentNumeral +
+          "</value></icon></cost-threshold>";
+      } else {
+        currentThresholdPieces[k] =
+          "<cost-threshold>Cost<cost-energy><value>-" +
+          currentNumeral +
+          "</value></cost-energy></cost-threshold>";
+      }
+    } else {
+      currentThresholdPieces[k] = currentNumeral + "{" + currentElement + "}";
+    }
+    thresholdHTML += currentThresholdPieces[k];
+  }
+  thresholdHTML += "</threshold>";
+  return thresholdHTML;
 }
 
 function parseSpecialRules() {
@@ -2942,7 +2989,7 @@ function parseSpecialRules() {
 
     for (i = 0; i < specialOptions.length; i++) {
       let nodeText = specialOptions[i];
-      specialHTML += "<td>" + getPresenceNodeHtml(nodeText, i == 0, "special", true) + "</td>";
+      specialHTML += "<td>" + getPresenceNodeHtml(nodeText, i == 0, i, "special", true) + "</td>";
     }
     specialHTML += "</tr>";
     board.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
