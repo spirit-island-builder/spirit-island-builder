@@ -162,92 +162,90 @@
   function readHTML(htmlElement) {
     console.log("Loading aspect into form (f=readHTML)");
     //Reads the Template HTML file into the Form
-    if (aspectFrame) {
-      const aspectHTML = htmlElement.querySelectorAll("aspect")[0];
+    const aspectHTML = htmlElement.querySelectorAll("aspect")[0];
 
-      //Profile or Landscape
-      if (aspectHTML.hasAttribute("profile")) {
-        aspect.profile = true;
-      }
-
-      //Read Aspect Name
-      const aspectName = aspectHTML.querySelectorAll("aspect-name")[0];
-      aspect.nameReplacements.aspectName = aspectName.innerHTML.trim();
-
-      //Read Replacement
-      const aspectReplacementHTML = aspectHTML.querySelectorAll("aspect-subtext")[0];
-      if (aspectReplacementHTML) {
-        aspect.nameReplacements.aspectRelacement = aspectReplacementHTML.textContent.split(":")[0];
-        aspect.nameReplacements.rulesReplaced = aspectHTML.querySelectorAll("i")[0].textContent;
-      }
-
-      //Read Complexity
-      const complexityHTML = aspectHTML.querySelectorAll("complexity")[0];
-      if (complexityHTML) {
-        aspect.nameReplacements.complexity = complexityHTML.getAttribute("value");
-      }
-
-      //Read Aspect Back
-      const aspectBackHTML = htmlElement.querySelectorAll("aspect-back")[0];
-      console.log(aspectBackHTML);
-      console.log("^^^^");
-      if (aspectBackHTML) {
-        aspect.nameReplacements.spiritName = aspectBackHTML.getAttribute("spirit-name");
-        aspect.nameReplacements.spiritImage = aspectBackHTML.getAttribute("src");
-        aspect.nameReplacements.hasBack = true;
-      } else {
-        aspect.nameReplacements.hasBack = false;
-      }
-
-      //Read Special Rules
-      const specialRulesNames = aspectHTML.querySelectorAll("special-rules-subtitle");
-      const specialRulesEffects = aspectHTML.querySelectorAll("special-rule");
-      aspect.aspectEffects.specialRules.rules.splice(
-        0,
-        aspect.aspectEffects.specialRules.rules.length
-      ); //Clear the Form first
-      specialRulesNames.forEach((specialRulesName, j) => {
-        aspect.aspectEffects = Lib.addSpecialRule(
-          aspect.aspectEffects,
-          specialRulesName.textContent,
-          specialRulesEffects[j].innerHTML.trim()
-        );
-        aspect = aspect;
-      });
-
-      //Read Innate Powers
-      var innatePowers = htmlElement.querySelectorAll("quick-innate-power");
-      aspect.aspectEffects.innatePowers.powers.splice(
-        0,
-        aspect.aspectEffects.innatePowers.powers.length
-      ); //Clear the Form first
-      if (innatePowers) {
-        innatePowers.forEach((innatePower, k) => {
-          aspect.aspectEffects = Lib.addInnatePower(
-            aspect.aspectEffects,
-            innatePower.getAttribute("name"),
-            innatePower.getAttribute("speed"),
-            innatePower.getAttribute("range"),
-            innatePower.getAttribute("target"),
-            innatePower.getAttribute("target-title"),
-            innatePower.getAttribute("note")
-          );
-          var htmlLevels = innatePower.querySelectorAll("level");
-          htmlLevels.forEach((htmlLevel) => {
-            aspect.aspectEffects = Lib.addLevel(
-              aspect.aspectEffects,
-              k,
-              htmlLevel.getAttribute("threshold"),
-              htmlLevel.textContent.trim(),
-              htmlLevel.hasAttribute("long")
-            );
-          });
-        });
-      }
-
-      console.log("aspect loaded");
-      console.log(aspect);
+    //Profile or Landscape
+    if (aspectHTML.hasAttribute("profile")) {
+      aspect.profile = true;
     }
+
+    //Read Aspect Name
+    const aspectName = aspectHTML.querySelectorAll("aspect-name")[0];
+    aspect.nameReplacements.aspectName = aspectName.innerHTML.trim();
+
+    //Read Replacement
+    const aspectReplacementHTML = aspectHTML.querySelectorAll("aspect-subtext")[0];
+    if (aspectReplacementHTML) {
+      aspect.nameReplacements.aspectRelacement = aspectReplacementHTML.textContent.split(":")[0];
+      aspect.nameReplacements.rulesReplaced = aspectHTML.querySelectorAll("i")[0].textContent;
+    }
+
+    //Read Complexity
+    const complexityHTML = aspectHTML.querySelectorAll("complexity")[0];
+    if (complexityHTML) {
+      aspect.nameReplacements.complexity = complexityHTML.getAttribute("value");
+    }
+
+    //Read Aspect Back
+    const aspectBackHTML = htmlElement.querySelectorAll("aspect-back")[0];
+    console.log(aspectBackHTML);
+    console.log("^^^^");
+    if (aspectBackHTML) {
+      aspect.nameReplacements.spiritName = aspectBackHTML.getAttribute("spirit-name");
+      aspect.nameReplacements.spiritImage = aspectBackHTML.getAttribute("src");
+      aspect.nameReplacements.hasBack = true;
+    } else {
+      aspect.nameReplacements.hasBack = false;
+    }
+
+    //Read Special Rules
+    const specialRulesNames = aspectHTML.querySelectorAll("special-rules-subtitle");
+    const specialRulesEffects = aspectHTML.querySelectorAll("special-rule");
+    aspect.aspectEffects.specialRules.rules.splice(
+      0,
+      aspect.aspectEffects.specialRules.rules.length
+    ); //Clear the Form first
+    specialRulesNames.forEach((specialRulesName, j) => {
+      aspect.aspectEffects = Lib.addSpecialRule(
+        aspect.aspectEffects,
+        specialRulesName.textContent,
+        specialRulesEffects[j].innerHTML.trim()
+      );
+      aspect = aspect;
+    });
+
+    //Read Innate Powers
+    var innatePowers = htmlElement.querySelectorAll("quick-innate-power");
+    aspect.aspectEffects.innatePowers.powers.splice(
+      0,
+      aspect.aspectEffects.innatePowers.powers.length
+    ); //Clear the Form first
+    if (innatePowers) {
+      innatePowers.forEach((innatePower, k) => {
+        aspect.aspectEffects = Lib.addInnatePower(
+          aspect.aspectEffects,
+          innatePower.getAttribute("name"),
+          innatePower.getAttribute("speed"),
+          innatePower.getAttribute("range"),
+          innatePower.getAttribute("target"),
+          innatePower.getAttribute("target-title"),
+          innatePower.getAttribute("note")
+        );
+        var htmlLevels = innatePower.querySelectorAll("level");
+        htmlLevels.forEach((htmlLevel) => {
+          aspect.aspectEffects = Lib.addLevel(
+            aspect.aspectEffects,
+            k,
+            htmlLevel.getAttribute("threshold"),
+            htmlLevel.textContent.trim(),
+            htmlLevel.hasAttribute("long")
+          );
+        });
+      });
+    }
+
+    console.log("aspect loaded");
+    console.log(aspect);
   }
 
   function exportAspect() {

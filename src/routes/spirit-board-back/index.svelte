@@ -122,70 +122,68 @@
   function readHTML(htmlElement) {
     console.log("Loading spirit lore board into form (f=readHTML)");
     //Reads the Template HTML file into the Form
-    if (loreFrame) {
-      const loreBoardHTML = htmlElement.querySelectorAll("board")[0];
+    const loreBoardHTML = htmlElement.querySelectorAll("board")[0];
 
-      //Set Spirit Name
-      const loreName = loreBoardHTML.querySelectorAll("spirit-name")[0];
+    //Set Spirit Name
+    const loreName = loreBoardHTML.querySelectorAll("spirit-name")[0];
 
-      spiritBoardBack.nameImage.name = loreName.innerHTML.trim();
+    spiritBoardBack.nameImage.name = loreName.innerHTML.trim();
 
-      //Set Spirit Image
-      const loreImage = loreBoardHTML.querySelectorAll("img")[0];
-      if (loreImage) {
-        spiritBoardBack.nameImage.img = loreImage.getAttribute("src");
-        var imgScale = loreImage.getAttribute("scale");
-        console.log(imgScale);
-        if (imgScale) {
-          spiritBoardBack.nameImage.scale = imgScale;
+    //Set Spirit Image
+    const loreImage = loreBoardHTML.querySelectorAll("img")[0];
+    if (loreImage) {
+      spiritBoardBack.nameImage.img = loreImage.getAttribute("src");
+      var imgScale = loreImage.getAttribute("scale");
+      console.log(imgScale);
+      if (imgScale) {
+        spiritBoardBack.nameImage.scale = imgScale;
+      }
+    }
+    //Set Lore Description
+    const loreDescription = loreBoardHTML.querySelectorAll("lore-description")[0];
+
+    spiritBoardBack.lore.loreText = loreDescription.innerHTML.trim();
+
+    //Set Lore Setup
+    const loreSetup = loreBoardHTML.querySelectorAll("setup-description")[0];
+    spiritBoardBack.setup.setupText = loreSetup.innerHTML.trim();
+
+    //Set Lore Play Style
+    const lorePlayStyle = loreBoardHTML.querySelectorAll("play-style-description")[0];
+    spiritBoardBack.playStyle.playStyleText = lorePlayStyle.innerHTML.trim();
+
+    //Set Complexity
+    const complexityHeader = loreBoardHTML.querySelectorAll("complexity")[0];
+    spiritBoardBack.complexity.complexityValue = complexityHeader.getAttribute("value");
+    spiritBoardBack.complexity.complexityDescriptor = complexityHeader.getAttribute("descriptor");
+
+    //Set Summary of Powers
+    const summaryPowersHeader = loreBoardHTML.querySelectorAll("summary-of-powers")[0];
+    var summaryPowersValues = summaryPowersHeader.getAttribute("values");
+    var summaryPowersSplit = summaryPowersValues.split(",");
+    spiritBoardBack.summary.offenseValue = summaryPowersSplit[0];
+    spiritBoardBack.summary.controlValue = summaryPowersSplit[1];
+    spiritBoardBack.summary.fearValue = summaryPowersSplit[2];
+    spiritBoardBack.summary.defenseValue = summaryPowersSplit[3];
+    spiritBoardBack.summary.utilityValue = summaryPowersSplit[4];
+    spiritBoardBack.summary.usesTokens = summaryPowersHeader.getAttribute("uses");
+
+    //Custom Icons
+    if (spiritBoardBack.demoBoardWasLoaded) {
+      const spiritStyle = htmlElement.querySelectorAll("style")[0];
+      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+      if (spiritStyle) {
+        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+        let iconList = spiritStyle.textContent.match(regExp);
+        if (iconList) {
+          iconList.forEach((customIcon) => {
+            customIcons = Lib.addCustomIcon(customIcons, customIcon);
+            console.log(customIcon);
+          });
         }
       }
-      //Set Lore Description
-      const loreDescription = loreBoardHTML.querySelectorAll("lore-description")[0];
-
-      spiritBoardBack.lore.loreText = loreDescription.innerHTML.trim();
-
-      //Set Lore Setup
-      const loreSetup = loreBoardHTML.querySelectorAll("setup-description")[0];
-      spiritBoardBack.setup.setupText = loreSetup.innerHTML.trim();
-
-      //Set Lore Play Style
-      const lorePlayStyle = loreBoardHTML.querySelectorAll("play-style-description")[0];
-      spiritBoardBack.playStyle.playStyleText = lorePlayStyle.innerHTML.trim();
-
-      //Set Complexity
-      const complexityHeader = loreBoardHTML.querySelectorAll("complexity")[0];
-      spiritBoardBack.complexity.complexityValue = complexityHeader.getAttribute("value");
-      spiritBoardBack.complexity.complexityDescriptor = complexityHeader.getAttribute("descriptor");
-
-      //Set Summary of Powers
-      const summaryPowersHeader = loreBoardHTML.querySelectorAll("summary-of-powers")[0];
-      var summaryPowersValues = summaryPowersHeader.getAttribute("values");
-      var summaryPowersSplit = summaryPowersValues.split(",");
-      spiritBoardBack.summary.offenseValue = summaryPowersSplit[0];
-      spiritBoardBack.summary.controlValue = summaryPowersSplit[1];
-      spiritBoardBack.summary.fearValue = summaryPowersSplit[2];
-      spiritBoardBack.summary.defenseValue = summaryPowersSplit[3];
-      spiritBoardBack.summary.utilityValue = summaryPowersSplit[4];
-      spiritBoardBack.summary.usesTokens = summaryPowersHeader.getAttribute("uses");
-
-      //Custom Icons
-      if (spiritBoardBack.demoBoardWasLoaded) {
-        const spiritStyle = htmlElement.querySelectorAll("style")[0];
-        customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-        if (spiritStyle) {
-          const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-          let iconList = spiritStyle.textContent.match(regExp);
-          if (iconList) {
-            iconList.forEach((customIcon) => {
-              customIcons = Lib.addCustomIcon(customIcons, customIcon);
-              console.log(customIcon);
-            });
-          }
-        }
-      } else {
-        console.log("SKIPPING ICON LOAD");
-      }
+    } else {
+      console.log("SKIPPING ICON LOAD");
     }
   }
 
