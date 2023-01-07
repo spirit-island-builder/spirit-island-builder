@@ -45,16 +45,13 @@ function addImages(board) {
   if (spiritBorder) {
     const specialRules = board.querySelectorAll("special-rules-container")[0];
     const spiritBorderSize = board.getAttribute("spirit-border-scale");
-    if (spiritBorderSize) {
-      borderHeight = spiritBorderSize;
-      specialRules.innerHTML =
-        `<div class="spirit-border" style="background-image: url(${spiritBorder}); background-size: 705px ${borderHeight};" ></div>` +
-        specialRules.innerHTML;
-    } else {
-      specialRules.innerHTML =
-        `<div class="spirit-border" style="background-image: url(${spiritBorder});" ></div>` +
-        specialRules.innerHTML;
-    }
+    const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
+    console.log('here')
+    console.log(spiritBorderSize)
+    spiritNamePanel.style.backgroundImage = `url(${spiritBorder})`
+    borderHeight = spiritBorderSize !== null ? spiritBorderSize : '100px'
+    console.log('here too')
+    spiritNamePanel.style.backgroundSize = `705px ${borderHeight}`
   }
   if (spiritImage) {
     //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
@@ -2815,8 +2812,9 @@ function parseInnatePowers() {
 
 function parseInnatePower(innatePowerHTML,index) {
   var debug = false;
-  var currentPowerHTML = "<innate-power class='" + innatePowerHTML.getAttribute("speed") + "'>";
   var innatePowerID = 'ip'+index
+  var currentPowerHTML = "<innate-power id='"+innatePowerID+"' class='" + innatePowerHTML.getAttribute("speed") + "'>";
+
   //Innate Power title
   currentPowerHTML +=
     "<innate-power-title id='"+innatePowerID+"title'>" +
@@ -2829,7 +2827,7 @@ function parseInnatePower(innatePowerHTML,index) {
 
   //Innate Power Target Header
   currentPowerHTML +=
-    "<info-title-target>" +
+    "<info-title-target id='"+innatePowerID+"targettitle'>" +
     innatePowerHTML.getAttribute("target-title") +
     "</info-title-target></info-title><innate-info>";
 
