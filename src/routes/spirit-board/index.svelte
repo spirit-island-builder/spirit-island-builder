@@ -595,7 +595,8 @@
   }
 
   async function downloadTTSJSON() {
-    const board = previewDoc.querySelectorAll("board")[0];
+    var previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document
+    const board = previewFrameDoc.querySelectorAll("board")[0];
     const boardRect = board.getBoundingClientRect();
 
     //Snap Points
