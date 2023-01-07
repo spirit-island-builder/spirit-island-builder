@@ -1,6 +1,7 @@
 <script>
   export let spiritBoard;
   export let showOrHideSection;
+  import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
 
@@ -129,23 +130,28 @@
   }
 
   function nextNode(event){
-    if (event.key == 'Enter'){
-      var currentID = event.target.id;
-      var focusID= currentID.replace(/(\d+)+/g, function(match, number) {
-        return parseInt(number)+1;
-      });
-      console.log(focusID)
-      var newNode = document.getElementById(focusID)
-    //Set the focus to the Growth Action if it is visible.
-      if (spiritBoard.presenceTrack.isVisible) {
-        if (newNode !== null){
-          document.getElementById(focusID).focus();
-        }else{
-          document.getElementById(currentID+'add').focus();
-        }
-      }
-    }
+    console.log('next node')
+    Lib.nextNode(event)
   }
+
+  // function nextNode(event){
+  //   if (event.key == 'Enter'){
+  //     var currentID = event.target.id;
+  //     var focusID= currentID.replace(/(\d+)+/g, function(match, number) {
+  //       return parseInt(number)+1;
+  //     });
+  //     console.log(focusID)
+  //     var newNode = document.getElementById(focusID)
+  //   //Set the focus to the Growth Action if it is visible.
+  //     if (spiritBoard.presenceTrack.isVisible) {
+  //       if (newNode !== null){
+  //         document.getElementById(focusID).focus();
+  //       }else{
+  //         document.getElementById(currentID+'add').focus();
+  //       }
+  //     }
+  //   }
+  // }
 
   function selectNode(event) {
     var nodeID = event.target.id;

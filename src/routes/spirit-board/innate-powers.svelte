@@ -8,11 +8,20 @@
   function setSpeedTextbox(powerSpeed, innatePower) {
     innatePower.speed = powerSpeed;
     spiritBoard = spiritBoard;
+    var templateID = 'ip'+innatePower.id;
+    var previewFrame = document.getElementById("preview-iframe").contentWindow
+    var findPowerSpeed = previewFrame.document.getElementById(templateID)
+    findPowerSpeed.removeAttribute('class')
+    findPowerSpeed.setAttribute('class',powerSpeed.toLowerCase());
   }
 
   function setTargetTextbox(targetTitle, innatePower) {
     innatePower.targetTitle = targetTitle;
     spiritBoard = spiritBoard;
+    var templateID = 'ip'+innatePower.id+'targettitle';
+    var previewFrame = document.getElementById("preview-iframe").contentWindow
+    var findTargetTitle = previewFrame.document.getElementById(templateID)
+    findTargetTitle.innerHTML = targetTitle;
   }
 
   function removeLevel(powerIndex, levelIndex) {
@@ -47,42 +56,36 @@
 
   function updateInnatePowerThreshold(level, ID) {
     var newIPThresholdText = level.threshold;
-    var templateInnatePowerThresholdID = ID;
-    var previewFrame = document.getElementById("preview-iframe").contentWindow
-    console.log('Rewriting Innate Power ID: '+templateInnatePowerThresholdID + ' with ' + newIPThresholdText)
-    
-    // Find node in Template
-    var findIPThreshold = previewFrame.document.getElementById(templateInnatePowerThresholdID)
+    if (newIPThresholdText){
+      var templateInnatePowerThresholdID = ID;
+      var previewFrame = document.getElementById("preview-iframe").contentWindow
+      
+      // Find node in Template
+      var findIPThreshold = previewFrame.document.getElementById(templateInnatePowerThresholdID)
+      if(findIPThreshold){
+        console.log('Rewriting Innate Power ID: '+templateInnatePowerThresholdID + ' with ' + newIPThresholdText)
 
-    // Check growth height
-    // var presenceTrackPanel = previewFrame.document.getElementsByTagName("presence-tracks")[0]
-    // var presenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight
+        // Try to write a new node    
+        var newIPThreshold = "";
+        try {
+          newIPThreshold = previewFrame.writeInnateThreshold(newIPThresholdText);
+        }
+        catch(err) {
+          newIPThreshold = previewFrame.getPresenceNodeHtml('1-water');
+          console.log('Malformed growth option, try again')
+        }
+        newIPThreshold = previewFrame.replaceIcon(newIPThreshold);
 
-    // Try to write a new node    
-    var newIPThreshold = "";
-    try {
-      newIPThreshold = previewFrame.writeInnateThreshold(newIPThresholdText);
+        // Create dummy node with new content
+        const placeholder = document.createElement("div");
+        placeholder.innerHTML = newIPThreshold;
+        const newNode = placeholder.firstElementChild;
+
+        // update node
+        findIPThreshold.innerHTML = newNode.innerHTML
+
+      }
     }
-    catch(err) {
-      newIPThreshold = previewFrame.getPresenceNodeHtml('1-water');
-      console.log('Malformed growth option, try again')
-    }
-    newIPThreshold = previewFrame.replaceIcon(newIPThreshold);
-
-    // Create dummy node with new content
-    const placeholder = document.createElement("div");
-    placeholder.innerHTML = newIPThreshold;
-    const newNode = placeholder.firstElementChild;
-
-    // update node
-    findIPThreshold.innerHTML = newNode.innerHTML
-
-    // If new panel is larger, re-run    
-    // var newPresenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight
-    // if(newPresenceTrackHeight !== presenceTrackHeight){
-    //   console.log('Recommend Re-running the whole board (click "Update Preview")')
-    //   document.getElementById('updateButton').classList.add("is-flashy");
-    // }
   }
 
   function selectNode(event) {
@@ -90,24 +93,9 @@
     document.getElementById(nodeID).select();
   }
 
-  function nextNode(event, i){
-    if (event.key == 'Enter'){
-      var currentID = event.target.id;
-      var focusID = ""
-      if (currentID.includes('Threshold')){
-        focusID = currentID.replace('Threshold','Effect');
-      }
-      console.log(focusID)
-      var newNode = document.getElementById(focusID)
-    //Set the focus to the Growth Action if it is visible.
-      if (spiritBoard.innatePowers.isVisible) {
-        if (newNode !== null){
-          document.getElementById(focusID).focus();
-        }else{
-          document.getElementById(`power${i}addLevel`).focus();
-        }
-      }
-    }
+  function nextNode(event){
+    console.log('next node')
+    Lib.nextNode(event)
   }
 
 </script>
@@ -147,6 +135,8 @@
             type="text"
             tabindex="1"
             placeholder="Power Name"
+            on:keyup={nextNode}
+            on:focus={selectNode}
             bind:value={innatePower.name} />
         </div>
         <button class="button is-primary is-light is-warning" on:click={removeInnatePower(i)}
@@ -221,6 +211,8 @@
               type="text"
               tabindex="1"
               placeholder="Range"
+              on:keyup={nextNode}
+              on:focus={selectNode}
               bind:value={innatePower.range} />
           </div>
           <div class="control">
@@ -255,7 +247,7 @@
             placeholder="Threshold"
             on:focus={selectNode}
             on:blur={updateInnatePowerThreshold(level,`ip${i}L${j}t`)}
-            on:keyup={(e) => nextNode(e, i)}
+            on:keyup={nextNode}
             bind:value={level.threshold} />
         </div>
         <div class="control" style="width:100%">

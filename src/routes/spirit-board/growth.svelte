@@ -350,6 +350,7 @@
               {/each}
               <div class="control">
                 <button
+                  id={`growthSet${i}Group${j}AddAction`}
                   class="button is-primary is-light is-small row-button"
                   tabindex="1"
                   on:click={addGrowthAction(i, j)}>Add Growth Action</button>
