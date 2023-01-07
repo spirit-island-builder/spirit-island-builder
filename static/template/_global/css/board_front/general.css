@@ -129,7 +129,7 @@ custom-meeple {
   z-index: -1;
   flex-grow: 1;
   background-repeat: no-repeat;
-  position:relative;
+  position: relative;
 }
 
 #single-line {

@@ -137,36 +137,37 @@
 	} */
 
   function onKeyDown(e) {
-    console.log('onkeydown')
-		 if(e.keyCode==13) {
-      growthActionBuilderID = e.target.id
-      console.log('Builder ID = '+growthActionBuilderID)
-		 }
-	}
+    console.log("onkeydown");
+    if (e.keyCode == 13) {
+      growthActionBuilderID = e.target.id;
+      console.log("Builder ID = " + growthActionBuilderID);
+    }
+  }
 
   // function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
   //   updateGrowthAction(setIndex, groupIndex, actionIndex);
   // }
 
   function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
-    var newGrowthActionText = spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions[actionIndex].effect;
-    var templateGrowthID = 's'+setIndex+'g'+groupIndex+'a'+actionIndex;
-    var previewFrame = document.getElementById("preview-iframe").contentWindow
-    console.log('Rewriting Growth Node ID: '+templateGrowthID)
-    
-    // Check growth height
-    var growthPanel = previewFrame.document.getElementsByTagName("growth")[0]
-    var growthHeight = growthPanel.offsetHeight
+    var newGrowthActionText =
+      spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions[actionIndex]
+        .effect;
+    var templateGrowthID = "s" + setIndex + "g" + groupIndex + "a" + actionIndex;
+    var previewFrame = document.getElementById("preview-iframe").contentWindow;
+    console.log("Rewriting Growth Node ID: " + templateGrowthID);
 
-    // Try to write a new node    
-   
+    // Check growth height
+    var growthPanel = previewFrame.document.getElementsByTagName("growth")[0];
+    var growthHeight = growthPanel.offsetHeight;
+
+    // Try to write a new node
+
     var growthActionTest = "";
     try {
       growthActionTest = previewFrame.writeGrowthAction(newGrowthActionText);
-    }
-    catch(err) {
-      growthActionTest = previewFrame.writeGrowthAction('custom(error! check syntax)');
-      console.log('Malformed growth option, try again')
+    } catch (err) {
+      growthActionTest = previewFrame.writeGrowthAction("custom(error! check syntax)");
+      console.log("Malformed growth option, try again");
     }
     growthActionTest = previewFrame.replaceIcon(growthActionTest);
 
@@ -176,14 +177,14 @@
     const newNode = placeholder.firstElementChild;
 
     // Transfer new node into preview
-    var findGrowth = previewFrame.document.getElementById(templateGrowthID)
-    findGrowth.innerHTML = newNode.innerHTML
+    var findGrowth = previewFrame.document.getElementById(templateGrowthID);
+    findGrowth.innerHTML = newNode.innerHTML;
 
-    // If new growth panel is larger, re-run    
-    var newGrowthHeight = growthPanel.offsetHeight
-    if(newGrowthHeight > growthHeight){
-      console.log('Recommend Re-running the whole board (click "Update Preview")')
-      document.getElementById('updateButton').classList.add("is-flashy");
+    // If new growth panel is larger, re-run
+    var newGrowthHeight = growthPanel.offsetHeight;
+    if (newGrowthHeight > growthHeight) {
+      console.log('Recommend Re-running the whole board (click "Update Preview")');
+      document.getElementById("updateButton").classList.add("is-flashy");
     }
   }
 
@@ -343,9 +344,8 @@
                   <button
                     class="button is-warning is-light row-button"
                     on:click={updateGrowthActionLocal(i, j, k)}>&#x21bb;</button>
-                  <button
-                    class="button is-light row-button"
-                    on:click={removeGrowthAction(i, j, k)}>Remove</button>
+                  <button class="button is-light row-button" on:click={removeGrowthAction(i, j, k)}
+                    >Remove</button>
                 </div>
               {/each}
               <div class="control">

@@ -14,16 +14,15 @@
     spiritBoard = Lib.removeSpecialRule(spiritBoard, index);
   }
 
-  function nextNode(event){
-    console.log('next node')
-    Lib.nextNode(event)
+  function nextNode(event) {
+    console.log("next node");
+    Lib.nextNode(event);
   }
 
   function selectNode(event) {
     var nodeID = event.target.id;
     document.getElementById(nodeID).select();
   }
-
 </script>
 
 <h6
