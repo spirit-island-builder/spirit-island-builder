@@ -2,10 +2,6 @@
   import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { growthValuesSorted } from "$lib/auto-complete/autoCompleteValues";
-  import PreviewFrame from "$lib/preview-frame.svelte";
-  // import {updateGrowthAction} from "./index.svelte"
-
-  let previewFrame;
 
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
@@ -139,7 +135,7 @@
   function onKeyDown(e) {
     console.log("onkeydown");
     if (e.keyCode == 13) {
-      growthActionBuilderID = e.target.id;
+      const growthActionBuilderID = e.target.id;
       console.log("Builder ID = " + growthActionBuilderID);
     }
   }
