@@ -370,133 +370,131 @@
     console.log("Loading Spirit Board from HTML into form (f=readHTML)");
     console.log(htmlElement);
     //Reads the Template HTML file into the Form
-    if (frame) {
-      //Load Spirit Name and Image
-      const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
-      if (spiritName) {
-        spiritBoard.nameAndArt.name = spiritName.textContent.trim();
-      }
-      const board = htmlElement.querySelectorAll("board")[0];
-      spiritBoard.nameAndArt.artPath = board.getAttribute("spirit-image");
-      spiritBoard.nameAndArt.artScale = board.getAttribute("spirit-image-scale");
-      spiritBoard.nameAndArt.bannerPath = board.getAttribute("spirit-border");
+    //Load Spirit Name and Image
+    const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
+    if (spiritName) {
+      spiritBoard.nameAndArt.name = spiritName.textContent.trim();
+    }
+    const board = htmlElement.querySelectorAll("board")[0];
+    spiritBoard.nameAndArt.artPath = board.getAttribute("spirit-image");
+    spiritBoard.nameAndArt.artScale = board.getAttribute("spirit-image-scale");
+    spiritBoard.nameAndArt.bannerPath = board.getAttribute("spirit-border");
 
-      const artistName = htmlElement.querySelectorAll("artist-name")[0];
-      if (artistName) {
-        spiritBoard.nameAndArt.artistCredit = artistName.textContent.trim();
-      }
+    const artistName = htmlElement.querySelectorAll("artist-name")[0];
+    if (artistName) {
+      spiritBoard.nameAndArt.artistCredit = artistName.textContent.trim();
+    }
 
-      //Load Special Rules
-      const specialRulesNames = htmlElement.querySelectorAll("special-rules-subtitle");
-      const specialRulesEffects = htmlElement.querySelectorAll("special-rule");
-      spiritBoard.specialRules.rules.splice(0, spiritBoard.specialRules.rules.length); //Clear the Form first
-      specialRulesNames.forEach((specialRulesName, j) => {
-        spiritBoard = Lib.addSpecialRule(
+    //Load Special Rules
+    const specialRulesNames = htmlElement.querySelectorAll("special-rules-subtitle");
+    const specialRulesEffects = htmlElement.querySelectorAll("special-rule");
+    spiritBoard.specialRules.rules.splice(0, spiritBoard.specialRules.rules.length); //Clear the Form first
+    specialRulesNames.forEach((specialRulesName, j) => {
+      spiritBoard = Lib.addSpecialRule(
+        spiritBoard,
+        specialRulesName.textContent,
+        specialRulesEffects[j].innerHTML.trim()
+      );
+    });
+
+    //Load Growth
+    const growthContainer = htmlElement.querySelectorAll("growth");
+    var htmlGrowthSets = growthContainer[0].querySelectorAll("sub-growth");
+    var containerLayer;
+    if (htmlGrowthSets[0]) {
+      // if the HTML file isn't using subgroups (Growth Sets), then there's a whole layer that's missing... this gynamstics accounts for it.
+      spiritBoard.growth.useGrowthSets = true;
+      containerLayer = htmlGrowthSets;
+    } else {
+      containerLayer = growthContainer;
+    }
+
+    // Identify text inside the parathesis of the growth option (if any) ie. for Growth (Pick Two), this code will find Pick Two
+    var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
+    let innerDirections = regExpOuterParentheses.exec(growthContainer[0].title);
+    spiritBoard.growth.directions = innerDirections !== null ? innerDirections[1] : "";
+
+    spiritBoard.growth.growthSets.splice(0, spiritBoard.growth.growthSets.length); //Clear the Form first
+    containerLayer.forEach((topGrowthLayer, i) => {
+      let groups = topGrowthLayer.querySelectorAll("growth-group");
+      spiritBoard = Lib.addGrowthSet(spiritBoard, containerLayer[i].getAttribute("title"));
+      groups.forEach((group, j) => {
+        spiritBoard = Lib.addGrowthGroup(
           spiritBoard,
-          specialRulesName.textContent,
-          specialRulesEffects[j].innerHTML.trim()
+          i,
+          group.getAttribute("cost"),
+          group.getAttribute("tint"),
+          group.getAttribute("special-title")
         );
-      });
-
-      //Load Growth
-      const growthContainer = htmlElement.querySelectorAll("growth");
-      var htmlGrowthSets = growthContainer[0].querySelectorAll("sub-growth");
-      var containerLayer;
-      if (htmlGrowthSets[0]) {
-        // if the HTML file isn't using subgroups (Growth Sets), then there's a whole layer that's missing... this gynamstics accounts for it.
-        spiritBoard.growth.useGrowthSets = true;
-        containerLayer = htmlGrowthSets;
-      } else {
-        containerLayer = growthContainer;
-      }
-
-      // Identify text inside the parathesis of the growth option (if any) ie. for Growth (Pick Two), this code will find Pick Two
-      var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
-      let innerDirections = regExpOuterParentheses.exec(growthContainer[0].title);
-      spiritBoard.growth.directions = innerDirections !== null ? innerDirections[1] : "";
-
-      spiritBoard.growth.growthSets.splice(0, spiritBoard.growth.growthSets.length); //Clear the Form first
-      containerLayer.forEach((topGrowthLayer, i) => {
-        let groups = topGrowthLayer.querySelectorAll("growth-group");
-        spiritBoard = Lib.addGrowthSet(spiritBoard, containerLayer[i].getAttribute("title"));
-        groups.forEach((group, j) => {
-          spiritBoard = Lib.addGrowthGroup(
-            spiritBoard,
-            i,
-            group.getAttribute("cost"),
-            group.getAttribute("tint"),
-            group.getAttribute("special-title")
-          );
-          let values = group.getAttribute("values").split(";");
-          values.forEach((growthValue) => {
-            spiritBoard = Lib.addGrowthAction(spiritBoard, i, j, growthValue);
-          });
+        let values = group.getAttribute("values").split(";");
+        values.forEach((growthValue) => {
+          spiritBoard = Lib.addGrowthAction(spiritBoard, i, j, growthValue);
         });
       });
+    });
 
-      //Load Presence Tracks
+    //Load Presence Tracks
 
-      var presenceTracks = htmlElement.querySelectorAll("presence-tracks")[0];
-      var presenceNote = presenceTracks.getAttribute("note");
-      if (presenceNote) {
-        spiritBoard.presenceTrack.note = presenceNote;
-      } else {
-        spiritBoard.presenceTrack.note = "";
-      }
-      var energyTrack = htmlElement.querySelectorAll("energy-track")[0];
-      spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
-      spiritBoard.nameAndArt.energyBannerScale = energyTrack.getAttribute("banner-v-scale");
-      var energyValues = energyTrack.getAttribute("values").split(",");
-      spiritBoard.presenceTrack.energyNodes.splice(0, spiritBoard.presenceTrack.energyNodes.length); //Clear the Form first
-      energyValues.forEach((value) => {
-        spiritBoard = Lib.addEnergyTrackNode(spiritBoard, value);
-      });
-      var playsTrack = htmlElement.querySelectorAll("card-play-track")[0];
-      spiritBoard.nameAndArt.playsBannerPath = playsTrack.getAttribute("banner");
-      spiritBoard.nameAndArt.playsBannerScale = playsTrack.getAttribute("banner-v-scale");
-      var playsValues = playsTrack.getAttribute("values").split(",");
-      spiritBoard.presenceTrack.playsNodes.splice(0, spiritBoard.presenceTrack.playsNodes.length); //Clear the Form first
-      playsValues.forEach((value) => {
-        spiritBoard = Lib.addPlaysTrackNode(spiritBoard, value);
-      });
+    var presenceTracks = htmlElement.querySelectorAll("presence-tracks")[0];
+    var presenceNote = presenceTracks.getAttribute("note");
+    if (presenceNote) {
+      spiritBoard.presenceTrack.note = presenceNote;
+    } else {
+      spiritBoard.presenceTrack.note = "";
+    }
+    var energyTrack = htmlElement.querySelectorAll("energy-track")[0];
+    spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
+    spiritBoard.nameAndArt.energyBannerScale = energyTrack.getAttribute("banner-v-scale");
+    var energyValues = energyTrack.getAttribute("values").split(",");
+    spiritBoard.presenceTrack.energyNodes.splice(0, spiritBoard.presenceTrack.energyNodes.length); //Clear the Form first
+    energyValues.forEach((value) => {
+      spiritBoard = Lib.addEnergyTrackNode(spiritBoard, value);
+    });
+    var playsTrack = htmlElement.querySelectorAll("card-play-track")[0];
+    spiritBoard.nameAndArt.playsBannerPath = playsTrack.getAttribute("banner");
+    spiritBoard.nameAndArt.playsBannerScale = playsTrack.getAttribute("banner-v-scale");
+    var playsValues = playsTrack.getAttribute("values").split(",");
+    spiritBoard.presenceTrack.playsNodes.splice(0, spiritBoard.presenceTrack.playsNodes.length); //Clear the Form first
+    playsValues.forEach((value) => {
+      spiritBoard = Lib.addPlaysTrackNode(spiritBoard, value);
+    });
 
-      //Load Innate Powers
-      var innatePowers = htmlElement.querySelectorAll("quick-innate-power");
-      spiritBoard.innatePowers.powers.splice(0, spiritBoard.innatePowers.powers.length); //Clear the Form first
-      innatePowers.forEach((innatePower, k) => {
-        spiritBoard = Lib.addInnatePower(
+    //Load Innate Powers
+    var innatePowers = htmlElement.querySelectorAll("quick-innate-power");
+    spiritBoard.innatePowers.powers.splice(0, spiritBoard.innatePowers.powers.length); //Clear the Form first
+    innatePowers.forEach((innatePower, k) => {
+      spiritBoard = Lib.addInnatePower(
+        spiritBoard,
+        innatePower.getAttribute("name"),
+        innatePower.getAttribute("speed"),
+        innatePower.getAttribute("range"),
+        innatePower.getAttribute("target"),
+        innatePower.getAttribute("target-title"),
+        innatePower.getAttribute("note")
+      );
+      var htmlLevels = innatePower.querySelectorAll("level");
+      htmlLevels.forEach((htmlLevel) => {
+        spiritBoard = Lib.addLevel(
           spiritBoard,
-          innatePower.getAttribute("name"),
-          innatePower.getAttribute("speed"),
-          innatePower.getAttribute("range"),
-          innatePower.getAttribute("target"),
-          innatePower.getAttribute("target-title"),
-          innatePower.getAttribute("note")
+          k,
+          htmlLevel.getAttribute("threshold"),
+          htmlLevel.textContent.trim(),
+          htmlLevel.hasAttribute("long")
         );
-        var htmlLevels = innatePower.querySelectorAll("level");
-        htmlLevels.forEach((htmlLevel) => {
-          spiritBoard = Lib.addLevel(
-            spiritBoard,
-            k,
-            htmlLevel.getAttribute("threshold"),
-            htmlLevel.textContent.trim(),
-            htmlLevel.hasAttribute("long")
-          );
-        });
       });
+    });
 
-      //Load Custom Icons
-      const spiritStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (spiritStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = spiritStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
+    //Load Custom Icons
+    const spiritStyle = htmlElement.querySelectorAll("style")[0];
+    customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+    if (spiritStyle) {
+      const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+      let iconList = spiritStyle.textContent.match(regExp);
+      if (iconList) {
+        iconList.forEach((customIcon) => {
+          customIcons = Lib.addCustomIcon(customIcons, customIcon);
+          console.log(customIcon);
+        });
       }
     }
   }
@@ -519,6 +517,7 @@
     setBoardValues(spiritBoard);
     previewFrame.copyHTMLFrom(frame.contentDocument, additionalScripts());
     previewFrame.startMain();
+    document.getElementById('updateButton').classList.remove("is-flashy");
   }
 
   function handleTextFileInput(event) {
@@ -594,7 +593,8 @@
   }
 
   async function downloadTTSJSON() {
-    const board = previewDoc.querySelectorAll("board")[0];
+    var previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document
+    const board = previewFrameDoc.querySelectorAll("board")[0];
     const boardRect = board.getBoundingClientRect();
 
     //Snap Points
@@ -815,22 +815,11 @@
     const elementNamesInIframe = ["board"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
+
 </script>
 
 <h5 class="title is-5 mb-0 no-anchor">Spirit Board Play Side</h5>
-<!-- <h6
-  on:click={showOrHideBoard}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
-  id="previewBoard">
-  Preview
-  <span on:click={showOrHideBoard}>
-    {#if spiritBoard.previewBoard.isVisible}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6> -->
+
 <PreviewFrame
   id="spirit-preview"
   src={previewFrameSrc}
@@ -862,7 +851,7 @@
   <button class="button is-success  mr-1" on:click={exportSpiritBoard}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
-  <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
+  <button class="button is-warning  mr-1" id = "updateButton" on:click={reloadPreview}>Update Preview</button>
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
