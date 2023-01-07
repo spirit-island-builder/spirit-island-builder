@@ -73,7 +73,7 @@ spirit-name {
   text-align: left;
   z-index: 2;
   white-space: normal;
-  
+  position: relative;
   background-repeat: no-repeat;
   background-position: left center;
   text-indent: 29px;
@@ -129,6 +129,7 @@ custom-meeple {
   z-index: -1;
   flex-grow: 1;
   background-repeat: no-repeat;
+  position:relative;
 }
 
 #single-line {
