@@ -2,6 +2,10 @@
   import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { growthValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  import PreviewFrame from "$lib/preview-frame.svelte";
+  // import {updateGrowthAction} from "./index.svelte"
+
+  let previewFrame;
 
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
@@ -131,6 +135,57 @@
 	  var data = ev.dataTransfer.getData("text");
 	  ev.target.appendChild(document.getElementById(data));
 	} */
+
+  function onKeyDown(e) {
+    console.log('onkeydown')
+		 if(e.keyCode==13) {
+      growthActionBuilderID = e.target.id
+      console.log('Builder ID = '+growthActionBuilderID)
+		 }
+	}
+
+  // function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
+  //   updateGrowthAction(setIndex, groupIndex, actionIndex);
+  // }
+
+  function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
+    var newGrowthActionText = spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions[actionIndex].effect;
+    var templateGrowthID = 's'+setIndex+'g'+groupIndex+'a'+actionIndex;
+    var previewFrame = document.getElementById("preview-iframe").contentWindow
+    console.log('Rewriting Growth Node ID: '+templateGrowthID)
+    
+    // Check growth height
+    var growthPanel = previewFrame.document.getElementsByTagName("growth")[0]
+    var growthHeight = growthPanel.offsetHeight
+
+    // Try to write a new node    
+   
+    var growthActionTest = "";
+    try {
+      growthActionTest = previewFrame.writeGrowthAction(newGrowthActionText);
+    }
+    catch(err) {
+      growthActionTest = previewFrame.writeGrowthAction('custom(error! check syntax)');
+      console.log('Malformed growth option, try again')
+    }
+    growthActionTest = previewFrame.replaceIcon(growthActionTest);
+
+    // Create dummy node with new content
+    const placeholder = document.createElement("div");
+    placeholder.innerHTML = growthActionTest;
+    const newNode = placeholder.firstElementChild;
+
+    // Transfer new node into preview
+    var findGrowth = previewFrame.document.getElementById(templateGrowthID)
+    findGrowth.innerHTML = newNode.innerHTML
+
+    // If new growth panel is larger, re-run    
+    var newGrowthHeight = growthPanel.offsetHeight
+    if(newGrowthHeight > growthHeight){
+      console.log('Recommend Re-running the whole board (click "Update Preview")')
+      document.getElementById('updateButton').classList.add("is-flashy");
+    }
+  }
 
   export let spiritBoard;
   export let showOrHideSection;
@@ -275,23 +330,27 @@
               {/if}
               {#each growthGroup.growthActions as growthAction, k (growthAction.id)}
                 <div class="growth-action-container">
-                  <div class="control">
+                  <div class="control" on:blur={easyReport}>
                     <AutoComplete
                       id={`growthSet${i}Group${j}Action${k}`}
                       elementType="input"
                       placeholder="Growth Action"
                       showListImmediately={true}
                       validAutoCompleteValues={growthValuesSorted}
-                      on:blur={easyReport}
+                      on:keydown={onKeyDown}
                       bind:value={growthAction.effect} />
                   </div>
                   <button
                     class="button is-warning is-light row-button"
+                    on:click={updateGrowthActionLocal(i, j, k)}>&#x21bb;</button>
+                  <button
+                    class="button is-light row-button"
                     on:click={removeGrowthAction(i, j, k)}>Remove</button>
                 </div>
               {/each}
               <div class="control">
                 <button
+                  id={`growthSet${i}Group${j}AddAction`}
                   class="button is-primary is-light is-small row-button"
                   tabindex="1"
                   on:click={addGrowthAction(i, j)}>Add Growth Action</button>
