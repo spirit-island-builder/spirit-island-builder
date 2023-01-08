@@ -135,7 +135,7 @@
   function onKeyDown(e) {
     console.log("onkeydown");
     if (e.keyCode === 13) {
-      const growthActionBuilderID = e.target.id;
+      let growthActionBuilderID = e.target.id;
       console.log("Builder ID = " + growthActionBuilderID);
     }
   }
