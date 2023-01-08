@@ -84,7 +84,3 @@ h6 {
 .subtitle.is-6 {
   margin-bottom: 0.25rem;
 }
-
-.title:not(.is-spaced) + .subtitle {
-  margin-top: -1rem;
-}
