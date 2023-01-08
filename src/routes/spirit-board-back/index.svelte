@@ -1,9 +1,12 @@
 <script>
   import { onMount } from "svelte";
+
+  import * as Lib from "../lib";
+  import PreviewFrame from "$lib/preview-frame.svelte";
+
   import NameArtLore from "./name-art-lore.svelte";
   import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";
   import CustomIcons from "../custom-icons.svelte";
-  import * as Lib from "../lib";
 
   export let spiritBoardBack;
   export let customIcons;
@@ -11,9 +14,11 @@
   export let instructionsSource;
 
   let loreFrame;
-  let scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_lore.html";
+  let previewFrame;
+  let previewDoc;
+  let previewFrameSrc = "/template/MyCustomContent/MySpirit/board_lore.html";
   if (spiritBoardBack.demoBoardWasLoaded) {
-    scaledFrameSrc = "/template/MyCustomContent/MySpirit/board_lore_blank.html";
+    previewFrameSrc = "/template/MyCustomContent/MySpirit/board_lore_blank.html";
   }
 
   onMount(() => {
@@ -47,28 +52,8 @@
   function reloadPreview() {
     console.log("Updating Preview Lore Side Board (f=setBoardValues)");
     setBoardValues(spiritBoardBack);
-    copyHTML();
-    document.getElementById("lore-scaled-frame").contentWindow.startMain();
-  }
-
-  function copyHTML() {
-    console.log("Copying HTML from Form to Preview (f=copyHTML)");
-    var modFrame = document.getElementById("lore-mod-frame");
-    modFrame.doc = document.getElementById("lore-mod-frame").contentWindow.document;
-    modFrame.head = modFrame.doc.getElementsByTagName("head")[0];
-    modFrame.body = modFrame.doc.getElementsByTagName("body")[0];
-    var scaledFrame = document.getElementById("lore-scaled-frame");
-    scaledFrame.doc = document.getElementById("lore-scaled-frame").contentWindow.document;
-    scaledFrame.head = scaledFrame.doc.getElementsByTagName("head")[0];
-    scaledFrame.body = scaledFrame.doc.getElementsByTagName("body")[0];
-
-    let bodyClone;
-    bodyClone = document
-      .getElementById("lore-mod-frame")
-      .contentWindow.document.body.cloneNode(true);
-    document.getElementById("lore-scaled-frame").contentWindow.document.body = bodyClone;
-    let headClone = modFrame.head.cloneNode(true);
-    scaledFrame.head.parentElement.replaceChild(headClone, scaledFrame.head);
+    previewFrame.copyHTMLFrom(loreFrame.contentDocument);
+    previewFrame.startMain();
   }
 
   function setBoardValues(spiritBoardBack) {
@@ -137,86 +122,69 @@
   function readHTML(htmlElement) {
     console.log("Loading spirit lore board into form (f=readHTML)");
     //Reads the Template HTML file into the Form
-    if (loreFrame) {
-      const loreBoardHTML = htmlElement.querySelectorAll("board")[0];
+    const loreBoardHTML = htmlElement.querySelectorAll("board")[0];
 
-      //Set Spirit Name
-      const loreName = loreBoardHTML.querySelectorAll("spirit-name")[0];
+    //Set Spirit Name
+    const loreName = loreBoardHTML.querySelectorAll("spirit-name")[0];
 
-      spiritBoardBack.nameImage.name = loreName.innerHTML.trim();
+    spiritBoardBack.nameImage.name = loreName.innerHTML.trim();
 
-      //Set Spirit Image
-      const loreImage = loreBoardHTML.querySelectorAll("img")[0];
-      if (loreImage) {
-        spiritBoardBack.nameImage.img = loreImage.getAttribute("src");
-        var imgScale = loreImage.getAttribute("scale");
-        console.log(imgScale);
-        if (imgScale) {
-          spiritBoardBack.nameImage.scale = imgScale;
-        }
-      }
-      //Set Lore Description
-      const loreDescription = loreBoardHTML.querySelectorAll("lore-description")[0];
-
-      spiritBoardBack.lore.loreText = loreDescription.innerHTML.trim();
-
-      //Set Lore Setup
-      const loreSetup = loreBoardHTML.querySelectorAll("setup-description")[0];
-      spiritBoardBack.setup.setupText = loreSetup.innerHTML.trim();
-
-      //Set Lore Play Style
-      const lorePlayStyle = loreBoardHTML.querySelectorAll("play-style-description")[0];
-      spiritBoardBack.playStyle.playStyleText = lorePlayStyle.innerHTML.trim();
-
-      //Set Complexity
-      const complexityHeader = loreBoardHTML.querySelectorAll("complexity")[0];
-      spiritBoardBack.complexity.complexityValue = complexityHeader.getAttribute("value");
-      spiritBoardBack.complexity.complexityDescriptor = complexityHeader.getAttribute("descriptor");
-
-      //Set Summary of Powers
-      const summaryPowersHeader = loreBoardHTML.querySelectorAll("summary-of-powers")[0];
-      var summaryPowersValues = summaryPowersHeader.getAttribute("values");
-      var summaryPowersSplit = summaryPowersValues.split(",");
-      spiritBoardBack.summary.offenseValue = summaryPowersSplit[0];
-      spiritBoardBack.summary.controlValue = summaryPowersSplit[1];
-      spiritBoardBack.summary.fearValue = summaryPowersSplit[2];
-      spiritBoardBack.summary.defenseValue = summaryPowersSplit[3];
-      spiritBoardBack.summary.utilityValue = summaryPowersSplit[4];
-      spiritBoardBack.summary.usesTokens = summaryPowersHeader.getAttribute("uses");
-
-      //Custom Icons
-      if (spiritBoardBack.demoBoardWasLoaded) {
-        const spiritStyle = htmlElement.querySelectorAll("style")[0];
-        customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-        if (spiritStyle) {
-          const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-          let iconList = spiritStyle.textContent.match(regExp);
-          if (iconList) {
-            iconList.forEach((customIcon) => {
-              customIcons = Lib.addCustomIcon(customIcons, customIcon);
-              console.log(customIcon);
-            });
-          }
-        }
-      } else {
-        console.log("SKIPPING ICON LOAD");
+    //Set Spirit Image
+    const loreImage = loreBoardHTML.querySelectorAll("img")[0];
+    if (loreImage) {
+      spiritBoardBack.nameImage.img = loreImage.getAttribute("src");
+      var imgScale = loreImage.getAttribute("scale");
+      console.log(imgScale);
+      if (imgScale) {
+        spiritBoardBack.nameImage.scale = imgScale;
       }
     }
-  }
+    //Set Lore Description
+    const loreDescription = loreBoardHTML.querySelectorAll("lore-description")[0];
 
-  let loreFrameLarge = false;
-  function toggleSize() {
-    var displayFrame = document.getElementById("lore-scaled-frame");
-    var displayWrap = document.getElementById("lore-board-wrap");
-    if (!loreFrameLarge) {
-      displayFrame.style.webkitTransform = "scale(0.745)";
-      displayWrap.style.height = "915px";
-      window.scrollBy(0, 245);
+    spiritBoardBack.lore.loreText = loreDescription.innerHTML.trim();
+
+    //Set Lore Setup
+    const loreSetup = loreBoardHTML.querySelectorAll("setup-description")[0];
+    spiritBoardBack.setup.setupText = loreSetup.innerHTML.trim();
+
+    //Set Lore Play Style
+    const lorePlayStyle = loreBoardHTML.querySelectorAll("play-style-description")[0];
+    spiritBoardBack.playStyle.playStyleText = lorePlayStyle.innerHTML.trim();
+
+    //Set Complexity
+    const complexityHeader = loreBoardHTML.querySelectorAll("complexity")[0];
+    spiritBoardBack.complexity.complexityValue = complexityHeader.getAttribute("value");
+    spiritBoardBack.complexity.complexityDescriptor = complexityHeader.getAttribute("descriptor");
+
+    //Set Summary of Powers
+    const summaryPowersHeader = loreBoardHTML.querySelectorAll("summary-of-powers")[0];
+    var summaryPowersValues = summaryPowersHeader.getAttribute("values");
+    var summaryPowersSplit = summaryPowersValues.split(",");
+    spiritBoardBack.summary.offenseValue = summaryPowersSplit[0];
+    spiritBoardBack.summary.controlValue = summaryPowersSplit[1];
+    spiritBoardBack.summary.fearValue = summaryPowersSplit[2];
+    spiritBoardBack.summary.defenseValue = summaryPowersSplit[3];
+    spiritBoardBack.summary.utilityValue = summaryPowersSplit[4];
+    spiritBoardBack.summary.usesTokens = summaryPowersHeader.getAttribute("uses");
+
+    //Custom Icons
+    if (spiritBoardBack.demoBoardWasLoaded) {
+      const spiritStyle = htmlElement.querySelectorAll("style")[0];
+      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+      if (spiritStyle) {
+        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+        let iconList = spiritStyle.textContent.match(regExp);
+        if (iconList) {
+          iconList.forEach((customIcon) => {
+            customIcons = Lib.addCustomIcon(customIcons, customIcon);
+            console.log(customIcon);
+          });
+        }
+      }
     } else {
-      displayFrame.style.webkitTransform = "scale(0.55)";
-      displayWrap.style.height = "670px";
+      console.log("SKIPPING ICON LOAD");
     }
-    loreFrameLarge = !loreFrameLarge;
   }
 
   function exportSpiritBoardBack() {
@@ -224,9 +192,8 @@
     var element = document
       .getElementById("lore-mod-frame")
       .contentWindow.document.getElementsByTagName("html")[0];
-    const htmlURL = "data:text/html;charset=utf-8," + encodeURIComponent(element.innerHTML);
     const htmlFileName = spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritLore.html";
-    Lib.downloadFile(htmlURL, htmlFileName);
+    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
   }
 
   function handleTextFileInput(event) {
@@ -305,12 +272,11 @@
   }
 
   function screenshotSetUp() {
-    const frameId = "lore-scaled-frame";
     const fileNames = [
       spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritBoardBack.png",
     ];
     const elementNamesInIframe = ["board"];
-    Lib.takeScreenshot(frameId, fileNames, elementNamesInIframe);
+    previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 </script>
 
@@ -328,9 +294,11 @@
     {/if}
   </span>
 </h6> -->
-<div id="lore-board-wrap">
-  <iframe src={scaledFrameSrc} height="600" width="100%" id="lore-scaled-frame" title="yay" />
-</div>
+<PreviewFrame
+  id="lore-preview"
+  src={previewFrameSrc}
+  bind:this={previewFrame}
+  bind:document={previewDoc} />
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
     <label class="file-label">
@@ -349,7 +317,8 @@
   <button class="button is-success  mr-1" on:click={exportSpiritBoardBack}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
-  <button class="button is-warning mr-1" on:click={toggleSize}>Toggle Board Size</button>
+  <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
+    >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
@@ -362,19 +331,6 @@
     <SetupPlaystyleComplexityPowers bind:spiritBoardBack {showOrHideSection} />
   </div>
 </div>
-<article class="message is-small mb-1">
-  <div class="message-body p-1">
-    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
-      >Instructions</a>
-    for details on how to use the form. For custom art,
-    <a href="https://www.wombo.art/" target="_blank">Wombo</a>
-    (unaffiliated) is a popular art generator.
-    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island
-    Builder is adapted from
-    <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
-    developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
-  </div>
-</article>
 <div id="lore-holder">
   <iframe
     bind:this={loreFrame}

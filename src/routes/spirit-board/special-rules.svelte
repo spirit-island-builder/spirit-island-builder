@@ -13,6 +13,16 @@
   function removeSpecialRule(index) {
     spiritBoard = Lib.removeSpecialRule(spiritBoard, index);
   }
+
+  function nextNode(event) {
+    console.log("next node");
+    Lib.nextNode(event);
+  }
+
+  function selectNode(event) {
+    var nodeID = event.target.id;
+    document.getElementById(nodeID).select();
+  }
 </script>
 
 <h6
@@ -52,6 +62,8 @@
             type="text"
             placeholder="Name"
             tabindex="1"
+            on:focus={selectNode}
+            on:keyup={nextNode}
             bind:value={spiritBoard.specialRules.rules[i].name} />
         </div>
         <button class="button is-warning is-light" on:click={removeSpecialRule(i)}>Remove</button>

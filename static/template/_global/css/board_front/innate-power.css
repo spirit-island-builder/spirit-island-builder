@@ -187,6 +187,11 @@ description-container {
   width: 900px;
 }
 
+level .single-line {
+  padding-top: 12px;
+  padding-bottom: 4px;
+}
+
 note {
   display: inline-block;
   height: auto;

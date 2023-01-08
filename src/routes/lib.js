@@ -151,12 +151,25 @@ export const addLevel = (
   levelEffect = "",
   levelLong = false
 ) => {
+  var focusId =
+    "power" +
+    powerIndex +
+    "levelThreshold" +
+    spiritBoard.innatePowers.powers[powerIndex].levels.length;
+  console.log(focusId);
   spiritBoard.innatePowers.powers[powerIndex].levels.push({
     id: spiritBoard.innatePowers.powers[powerIndex].levels.length,
     threshold: levelThreshold,
     effect: levelEffect,
     isLong: levelLong,
   });
+
+  if (spiritBoard.innatePowers.isVisible) {
+    setTimeout(() => {
+      document.getElementById(focusId).focus();
+    }, 100);
+  }
+
   return spiritBoard;
 };
 
@@ -178,11 +191,81 @@ export const downloadFile = (fileURL, fileName) => {
   document.body.removeChild(element);
 };
 
-export const takeScreenshot = (frameId, fileNames, elementNamesInIframe, useElementId) => {
+export const downloadString = (mimeType, fileContent, fileName) => {
+  downloadFile(`${mimeType},${encodeURIComponent(fileContent)}`, fileName);
+};
+
+export const takeScreenshot = (frame, fileNames, elementNamesInIframe) => {
   elementNamesInIframe.forEach((elementNameInIframe, index) => {
-    document
-      .getElementById(frameId)
-      .contentWindow.takeScreenshot(elementNameInIframe, useElementId)
+    frame.contentWindow
+      .takeScreenshot(elementNameInIframe)
       .then((imageURL) => downloadFile(imageURL, fileNames[index]));
   });
+};
+
+export const nextNode = (event) => {
+  if (event.key == "Enter") {
+    var currentID = event.target.id;
+    var numlessID = currentID.replace(/\d/g, "");
+    var focusID = "";
+    var regFindNumbers = /^\d+|\d+\b|\d+(?=\w)/g;
+    var numMatches = currentID.match(regFindNumbers);
+
+    switch (numlessID) {
+      //Special Rule
+      case "ruleNameInput":
+        focusID = currentID.replace("Name", "Effect");
+        break;
+      //Growth
+      case "growthSetGroupAction":
+        focusID = currentID.replace(/\d+$/, function (m) {
+          return parseInt(m) + 1;
+        });
+        if (document.getElementById(focusID) == null) {
+          focusID = currentID.replace("Action", "AddAction");
+          focusID = focusID.slice(0, -1);
+        }
+        break;
+      //Presence Tracks
+      case "energybuilder":
+      case "playsbuilder":
+        focusID = currentID.replace(/(\d+)+/g, function (match, number) {
+          return parseInt(number) + 1;
+        });
+        if (document.getElementById(focusID) == null) {
+          focusID = currentID + "add";
+        }
+        break;
+      //Innate Powers
+      case "powerlevelThreshold":
+        focusID = currentID.replace("Threshold", "Effect");
+        break;
+      case "powerlevelEffect":
+        focusID = currentID.replace("Effect", "Threshold");
+        focusID = focusID.replace(/\d+$/, function (m) {
+          return parseInt(m) + 1;
+        });
+        if (document.getElementById(focusID) == null) {
+          focusID = "power" + numMatches[0] + "addLevel";
+        }
+        break;
+      case "powerName":
+        focusID = "powerRange" + numMatches[0];
+        break;
+      case "powerRange":
+        focusID = "powerTarget" + numMatches[0];
+        break;
+      case "powerTarget":
+        focusID = "powerNote" + numMatches[0];
+        break;
+      case "powerNote":
+        focusID = "power" + numMatches[0] + "levelThreshold0";
+        if (document.getElementById(focusID) == null) {
+          focusID = "power" + numMatches[0] + "addLevel";
+        }
+        break;
+    }
+
+    document.getElementById(focusID).focus();
+  }
 };
