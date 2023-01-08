@@ -89,31 +89,29 @@
   function readHTML(htmlElement) {
     console.log("Loading adversary into form (f=readHTML)");
     //Reads the Template HTML file into the Form
-    if (adversaryFrame) {
-      //Load Adversary Name, Base Difficulty and Flag Image
-      const adversaryHeader = htmlElement.querySelectorAll("quick-adversary")[0];
-      adversary.nameLossEscalation.name = adversaryHeader.getAttribute("name");
-      adversary.nameLossEscalation.baseDif = adversaryHeader.getAttribute("base-difficulty");
-      adversary.nameLossEscalation.flagImg = adversaryHeader.getAttribute("flag-image");
+    //Load Adversary Name, Base Difficulty and Flag Image
+    const adversaryHeader = htmlElement.querySelectorAll("quick-adversary")[0];
+    adversary.nameLossEscalation.name = adversaryHeader.getAttribute("name");
+    adversary.nameLossEscalation.baseDif = adversaryHeader.getAttribute("base-difficulty");
+    adversary.nameLossEscalation.flagImg = adversaryHeader.getAttribute("flag-image");
 
-      //Load Loss Condition
-      const lossConditionHeader = htmlElement.querySelectorAll("loss-condition")[0];
-      adversary.nameLossEscalation.lossCondition.name = lossConditionHeader.getAttribute("name");
-      adversary.nameLossEscalation.lossCondition.effect = lossConditionHeader.getAttribute("rules");
+    //Load Loss Condition
+    const lossConditionHeader = htmlElement.querySelectorAll("loss-condition")[0];
+    adversary.nameLossEscalation.lossCondition.name = lossConditionHeader.getAttribute("name");
+    adversary.nameLossEscalation.lossCondition.effect = lossConditionHeader.getAttribute("rules");
 
-      //Load Escalation
-      const escalationHeader = htmlElement.querySelectorAll("escalation-effect")[0];
-      adversary.nameLossEscalation.escalation.name = escalationHeader.getAttribute("name");
-      adversary.nameLossEscalation.escalation.effect = escalationHeader.getAttribute("rules");
+    //Load Escalation
+    const escalationHeader = htmlElement.querySelectorAll("escalation-effect")[0];
+    adversary.nameLossEscalation.escalation.name = escalationHeader.getAttribute("name");
+    adversary.nameLossEscalation.escalation.effect = escalationHeader.getAttribute("rules");
 
-      //Load Levels
-      for (let i = 0; i < 6; i++) {
-        var HTMLLevel = htmlElement.querySelectorAll("level-" + (i + 1))[0];
-        adversary.levelSummary.levels[i].name = HTMLLevel.getAttribute("name");
-        adversary.levelSummary.levels[i].difficulty = HTMLLevel.getAttribute("difficulty");
-        adversary.levelSummary.levels[i].fearCards = HTMLLevel.getAttribute("fear-cards");
-        adversary.levelSummary.levels[i].effect = HTMLLevel.getAttribute("rules");
-      }
+    //Load Levels
+    for (let i = 0; i < 6; i++) {
+      var HTMLLevel = htmlElement.querySelectorAll("level-" + (i + 1))[0];
+      adversary.levelSummary.levels[i].name = HTMLLevel.getAttribute("name");
+      adversary.levelSummary.levels[i].difficulty = HTMLLevel.getAttribute("difficulty");
+      adversary.levelSummary.levels[i].fearCards = HTMLLevel.getAttribute("fear-cards");
+      adversary.levelSummary.levels[i].effect = HTMLLevel.getAttribute("rules");
     }
   }
 
