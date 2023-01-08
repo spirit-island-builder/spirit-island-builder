@@ -17,8 +17,9 @@
   let previewFrame;
 
   async function loadHTMLFromURL(url) {
+    url = new URL(url, document.baseURI);
     let loadedDocument = await Lib.loadHTML(url);
-    readHTML(loadedDocument);
+    readHTML(loadedDocument, url);
     reloadPreview();
   }
 
@@ -131,7 +132,7 @@
     return fragment;
   }
 
-  function readHTML(htmlElement) {
+  function readHTML(htmlElement, baseURI) {
     console.log("Loading spirit lore board into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     const loreBoardHTML = htmlElement.querySelectorAll("board")[0];
@@ -144,7 +145,7 @@
     //Set Spirit Image
     const loreImage = loreBoardHTML.querySelectorAll("img")[0];
     if (loreImage) {
-      spiritBoardBack.nameImage.img = loreImage.getAttribute("src");
+      spiritBoardBack.nameImage.img = Lib.maybeResolveURL(loreImage.getAttribute("src"), baseURI);
       let imgScale = loreImage.getAttribute("scale");
       console.log(imgScale);
       if (imgScale) {
@@ -189,6 +190,7 @@
         let iconList = spiritStyle.textContent.match(regExp);
         if (iconList) {
           iconList.forEach((customIcon) => {
+            customIcon = Lib.maybeResolveURL(customIcon, baseURI);
             customIcons = Lib.addCustomIcon(customIcons, customIcon);
             console.log(customIcon);
           });
@@ -266,11 +268,7 @@
   }
 </script>
 
-<PreviewFrame
-  id="lore-preview"
-  baseURI="/template/MyCustomContent/MySpirit/"
-  bind:this={previewFrame}
-  on:hot-reload={reloadPreview}>
+<PreviewFrame id="lore-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/board_lore.css" rel="stylesheet" />
