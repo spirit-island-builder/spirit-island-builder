@@ -12,5 +12,8 @@ module.exports = {
     es6: true,
     node: true,
   },
-  settings: {},
+  rules: {
+    "no-var": "error",
+    "eqeqeq": "error",
+  },
 };
