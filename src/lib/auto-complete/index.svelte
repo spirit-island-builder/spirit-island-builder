@@ -37,6 +37,11 @@
   });
 
   function handleInputAndFocus(event) {
+    // select all for 'input' type fields
+    if (event.target.tagName === "INPUT") {
+      document.getElementById(event.target.id).select();
+    }
+
     const inputValue = event.target.value;
     const currentCursorPostion = event.target.selectionStart;
     if (
