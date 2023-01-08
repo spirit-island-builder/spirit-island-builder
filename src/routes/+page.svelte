@@ -337,57 +337,29 @@
 
   let isShowingInstructions = false;
   let instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions";
+
+  let pages = [
+    ["spiritBoardFront", "Spirit Board Play Side"],
+    ["spiritBoardBack", "Spirit Board Lore Side"],
+    ["powerCards", "Power Cards"],
+    ["aspect", "Aspect / Special Cards"],
+    ["adversary", "Adversary"],
+  ];
 </script>
 
 <h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
 <nav class="navbar ml-5">
   <div class="navbar-brand">
-    <button
-      class={`button navbar-item ${
-        currentPage === "spiritBoardFront" ? "is-primary" : "is-link is-light"
-      }`}
-      on:click={() => {
-        setCurrentPage("spiritBoardFront");
-      }}>
-      Spirit Board Play Side
-    </button>
-    <button
-      style=""
-      class={`button navbar-item ${
-        currentPage === "spiritBoardBack" ? "is-primary" : "is-link is-light"
-      }`}
-      on:click={() => {
-        setCurrentPage("spiritBoardBack");
-      }}>
-      Spirit Board Lore Side
-    </button>
-    <button
-      style=""
-      class={`button navbar-item ${
-        currentPage === "powerCards" ? "is-primary" : "is-link is-light"
-      }`}
-      on:click={() => {
-        setCurrentPage("powerCards");
-      }}>
-      Power Cards
-    </button>
-    <button
-      style=""
-      class={`button navbar-item ${currentPage === "aspect" ? "is-primary" : "is-link is-light"}`}
-      on:click={() => {
-        setCurrentPage("aspect");
-      }}>
-      Aspect / Special Cards
-    </button>
-    <button
-      class={`button navbar-item ${
-        currentPage === "adversary" ? "is-primary" : "is-link is-light"
-      }`}
-      on:click={() => {
-        setCurrentPage("adversary");
-      }}>
-      Adversary
-    </button>
+    {#each pages as [page, title]}
+      {@const isCurrent = currentPage === page}
+      <button
+        class={`button navbar-item ${isCurrent ? "is-primary" : "is-link is-light"}`}
+        on:click={() => {
+          setCurrentPage(page);
+        }}>
+        {title}
+      </button>
+    {/each}
   </div>
 </nav>
 {#if isShowingInstructions === true}
