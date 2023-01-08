@@ -117,24 +117,9 @@
     }
   }
 
-  //Drag and Drop stuff
-  /* 	function allowDrop(ev) {
-	  ev.preventDefault();
-	}
-
-	function drag(ev) {
-	  ev.dataTransfer.setData("text", ev.target.id);
-	}
-
-	function drop(ev) {
-	  ev.preventDefault();
-	  var data = ev.dataTransfer.getData("text");
-	  ev.target.appendChild(document.getElementById(data));
-	} */
-
   function onKeyDown(e) {
     console.log("onkeydown");
-    if (e.keyCode === 13) {
+    if (e.key === "Enter") {
       let growthActionBuilderID = e.target.id;
       console.log("Builder ID = " + growthActionBuilderID);
     }
