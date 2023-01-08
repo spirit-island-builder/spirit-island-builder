@@ -205,7 +205,7 @@
     <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
       <div class="is-flex is-flex-direction-column-reverse">
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-          {#if card.speed == ""}
+          {#if card.speed === ""}
             <button
               class="button is-danger is-light button-hold mb-0"
               id="fast-button"
@@ -214,7 +214,7 @@
               class="button is-info is-light button-hold mb-0"
               id="slow-button"
               on:click={setSpeedTextbox("Slow", card)}>Slow</button>
-          {:else if card.speed == "Fast" || card.speed == "fast"}
+          {:else if card.speed === "Fast" || card.speed === "fast"}
             <button
               class="button is-danger button-hold mb-0"
               id="fast-button"
@@ -262,14 +262,14 @@
           <label class="label is-unselectable mr-1 mb-0 pt-2" for="">Target</label>
           <div
             class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 is-align-items-flex-end">
-            {#if card.targetTitle == ""}
+            {#if card.targetTitle === ""}
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target", card)}>Target</button>
-            {:else if card.targetTitle == "target" || card.targetTitle == "Target"}
+            {:else if card.targetTitle === "target" || card.targetTitle === "Target"}
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
@@ -348,7 +348,7 @@
             name="cardArt"
             type="file"
             class="input is-small" />
-          {#if card.cardImage == ""}
+          {#if card.cardImage === ""}
             <img id="cardArtImage" src={card.cardImage} alt="power card art" />
           {/if}
         </div>

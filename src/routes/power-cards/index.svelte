@@ -25,8 +25,8 @@
   });
 
   function onLoad() {
-    var localFrame = cardsFrame;
-    var localObject = powerCards;
+    let localFrame = cardsFrame;
+    let localObject = powerCards;
 
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
@@ -66,7 +66,7 @@
 
       //Loop through cards
       powerCards.cards.forEach((card) => {
-        var newPowerCard = cardsFrame.contentDocument.createElement("quick-card");
+        let newPowerCard = cardsFrame.contentDocument.createElement("quick-card");
         newPowerCard.setAttribute("name", card.name);
         newPowerCard.setAttribute("speed", card.speed.toLowerCase());
         newPowerCard.setAttribute("cost", card.cost);
@@ -76,19 +76,19 @@
         newPowerCard.setAttribute("target-title", card.targetTitle);
         newPowerCard.setAttribute("artist-name", card.cardArtist);
 
-        var elementalList = card.powerElements;
-        var elementListHTML = [];
+        let elementalList = card.powerElements;
+        let elementListHTML = [];
         for (let key in elementalList) {
           if (elementalList[key]) elementListHTML.push(key);
         }
         newPowerCard.setAttribute("elements", elementListHTML.join());
 
         bodyContainer.appendChild(newPowerCard);
-        var newPowerCardRules = cardsFrame.contentDocument.createElement("rules");
+        let newPowerCardRules = cardsFrame.contentDocument.createElement("rules");
         newPowerCardRules.innerHTML = card.rules;
         newPowerCard.appendChild(newPowerCardRules);
         if (card.threshold) {
-          var newPowerCardThreshold = cardsFrame.contentDocument.createElement("threshold");
+          let newPowerCardThreshold = cardsFrame.contentDocument.createElement("threshold");
           newPowerCardThreshold.innerHTML = card.threshold;
           newPowerCardThreshold.setAttribute("condition", card.thresholdCondition);
           if (card.thresholdText) {
@@ -106,7 +106,7 @@
         cardsStyle = cardsFrame.contentDocument.createElement("style");
         spiritHead.appendChild(cardsStyle);
       }
-      var customIconText = "";
+      let customIconText = "";
       customIcons.icons.forEach((icon) => {
         customIconText +=
           "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
@@ -150,16 +150,16 @@
   }
 
   function addPowerCard(powerCards, powerCardHTML) {
-    var rulesHTML = powerCardHTML.querySelectorAll("rules")[0];
-    var rulesPush = "";
+    let rulesHTML = powerCardHTML.querySelectorAll("rules")[0];
+    let rulesPush = "";
     if (rulesHTML) {
       rulesPush = rulesHTML.innerHTML.trim();
     }
-    var thresholdHTML = powerCardHTML.querySelectorAll("threshold")[0];
-    var thresholdPush = "";
-    var hasThresholdPush = false;
-    var thresholdConditionPush = "";
-    var thresholdTextPush = "";
+    let thresholdHTML = powerCardHTML.querySelectorAll("threshold")[0];
+    let thresholdPush = "";
+    let hasThresholdPush = false;
+    let thresholdConditionPush = "";
+    let thresholdTextPush = "";
     if (thresholdHTML) {
       hasThresholdPush = true;
       thresholdPush = thresholdHTML.innerHTML.trim();
@@ -168,8 +168,8 @@
     }
 
     //Parse elements
-    var elementList = powerCardHTML.getAttribute("elements").split(",");
-    var elementsForm = {
+    let elementList = powerCardHTML.getAttribute("elements").split(",");
+    let elementsForm = {
       air: false,
       sun: false,
       moon: false,
@@ -184,7 +184,7 @@
     });
 
     //Check for Null targeting
-    var targetTitleCheck = powerCardHTML.getAttribute("target-title");
+    let targetTitleCheck = powerCardHTML.getAttribute("target-title");
     if (!targetTitleCheck) {
       targetTitleCheck = "target land";
     }
@@ -221,7 +221,7 @@
   }
 
   function handleTextFileInput(event) {
-    var dummyEl = document.createElement("html");
+    let dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
     console.log(file);
     if (file) {

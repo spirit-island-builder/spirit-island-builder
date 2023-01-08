@@ -24,8 +24,8 @@
   });
 
   function onLoad() {
-    var localFrame = adversaryFrame;
-    var localObject = adversary;
+    let localFrame = adversaryFrame;
+    let localObject = adversary;
 
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
@@ -77,7 +77,7 @@
 
       //Set Levels
       adversary.levelSummary.levels.forEach((level, i) => {
-        var HTMLlevel = adversaryFrame.contentDocument.querySelectorAll("level-" + (i + 1))[0];
+        let HTMLlevel = adversaryFrame.contentDocument.querySelectorAll("level-" + (i + 1))[0];
         HTMLlevel.setAttribute("name", level.name);
         HTMLlevel.setAttribute("difficulty", level.difficulty);
         HTMLlevel.setAttribute("fear-cards", level.fearCards);
@@ -107,7 +107,7 @@
 
     //Load Levels
     for (let i = 0; i < 6; i++) {
-      var HTMLLevel = htmlElement.querySelectorAll("level-" + (i + 1))[0];
+      let HTMLLevel = htmlElement.querySelectorAll("level-" + (i + 1))[0];
       adversary.levelSummary.levels[i].name = HTMLLevel.getAttribute("name");
       adversary.levelSummary.levels[i].difficulty = HTMLLevel.getAttribute("difficulty");
       adversary.levelSummary.levels[i].fearCards = HTMLLevel.getAttribute("fear-cards");
@@ -125,7 +125,7 @@
   }
 
   function handleTextFileInput(event) {
-    var dummyEl = document.createElement("html");
+    let dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
     console.log(file);
     if (file) {

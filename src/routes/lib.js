@@ -1,5 +1,5 @@
 export const addSpecialRule = (spiritBoard, ruleName = "", ruleEffect = "") => {
-  var focusId = "ruleNameInput" + spiritBoard.specialRules.rules.length;
+  let focusId = "ruleNameInput" + spiritBoard.specialRules.rules.length;
   spiritBoard.specialRules.rules.push({
     id: spiritBoard.specialRules.rules.length,
     name: ruleName,
@@ -64,7 +64,7 @@ export const addGrowthGroup = (
 };
 
 export const addGrowthAction = (spiritBoard, setIndex, groupIndex, actionEffect = "") => {
-  var focusId =
+  let focusId =
     "growthSet" +
     setIndex +
     "Group" +
@@ -85,7 +85,7 @@ export const addGrowthAction = (spiritBoard, setIndex, groupIndex, actionEffect 
 };
 
 export const addEnergyTrackNode = (spiritBoard, nodeEffect = "") => {
-  var focusId = "energy" + spiritBoard.presenceTrack.energyNodes.length;
+  let focusId = "energy" + spiritBoard.presenceTrack.energyNodes.length;
   spiritBoard.presenceTrack.energyNodes.push({
     id: spiritBoard.presenceTrack.energyNodes.length,
     effect: nodeEffect,
@@ -100,7 +100,7 @@ export const addEnergyTrackNode = (spiritBoard, nodeEffect = "") => {
 };
 
 export const addPlaysTrackNode = (spiritBoard, nodeEffect = "") => {
-  var focusId = "plays" + spiritBoard.presenceTrack.playsNodes.length;
+  let focusId = "plays" + spiritBoard.presenceTrack.playsNodes.length;
   spiritBoard.presenceTrack.playsNodes.push({
     id: spiritBoard.presenceTrack.playsNodes.length,
     effect: nodeEffect,
@@ -123,7 +123,7 @@ export const addInnatePower = (
   powerTargetTitle = "",
   powerNote = ""
 ) => {
-  var focusId = "powerName" + spiritBoard.innatePowers.powers.length;
+  let focusId = "powerName" + spiritBoard.innatePowers.powers.length;
   spiritBoard.innatePowers.powers.push({
     id: spiritBoard.innatePowers.powers.length,
     name: powerName,
@@ -151,7 +151,7 @@ export const addLevel = (
   levelEffect = "",
   levelLong = false
 ) => {
-  var focusId =
+  let focusId =
     "power" +
     powerIndex +
     "levelThreshold" +
@@ -182,7 +182,7 @@ export const addCustomIcon = (customIcons, iconName = "") => {
 };
 
 export const downloadFile = (fileURL, fileName) => {
-  var element = document.createElement("a");
+  let element = document.createElement("a");
   element.setAttribute("href", fileURL);
   element.setAttribute("download", fileName);
   element.style.display = "none";
@@ -204,12 +204,12 @@ export const takeScreenshot = (frame, fileNames, elementNamesInIframe) => {
 };
 
 export const nextNode = (event) => {
-  if (event.key == "Enter") {
-    var currentID = event.target.id;
-    var numlessID = currentID.replace(/\d/g, "");
-    var focusID = "";
-    var regFindNumbers = /^\d+|\d+\b|\d+(?=\w)/g;
-    var numMatches = currentID.match(regFindNumbers);
+  if (event.key === "Enter") {
+    let currentID = event.target.id;
+    let numlessID = currentID.replace(/\d/g, "");
+    let focusID = "";
+    let regFindNumbers = /^\d+|\d+\b|\d+(?=\w)/g;
+    let numMatches = currentID.match(regFindNumbers);
 
     switch (numlessID) {
       //Special Rule
@@ -221,7 +221,7 @@ export const nextNode = (event) => {
         focusID = currentID.replace(/\d+$/, function (m) {
           return parseInt(m) + 1;
         });
-        if (document.getElementById(focusID) == null) {
+        if (document.getElementById(focusID) === null) {
           focusID = currentID.replace("Action", "AddAction");
           focusID = focusID.slice(0, -1);
         }
@@ -232,7 +232,7 @@ export const nextNode = (event) => {
         focusID = currentID.replace(/(\d+)+/g, function (match, number) {
           return parseInt(number) + 1;
         });
-        if (document.getElementById(focusID) == null) {
+        if (document.getElementById(focusID) === null) {
           focusID = currentID + "add";
         }
         break;
@@ -245,7 +245,7 @@ export const nextNode = (event) => {
         focusID = focusID.replace(/\d+$/, function (m) {
           return parseInt(m) + 1;
         });
-        if (document.getElementById(focusID) == null) {
+        if (document.getElementById(focusID) === null) {
           focusID = "power" + numMatches[0] + "addLevel";
         }
         break;
@@ -260,7 +260,7 @@ export const nextNode = (event) => {
         break;
       case "powerNote":
         focusID = "power" + numMatches[0] + "levelThreshold0";
-        if (document.getElementById(focusID) == null) {
+        if (document.getElementById(focusID) === null) {
           focusID = "power" + numMatches[0] + "addLevel";
         }
         break;
