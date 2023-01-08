@@ -339,7 +339,5 @@
     width="100%"
     title="yay"
     style="display:none;"
-    id="lore-mod-frame" 
-    
-    />
+    id="lore-mod-frame" />
 </div>

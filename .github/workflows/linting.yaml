@@ -1,4 +1,4 @@
-name: Linting And Formatting
+name: Check Linting And Formatting
 
 on:
   push:
@@ -22,4 +22,4 @@ jobs:
           npm install
       - name: Lint And Format
         run: |-
-          npm run writeFormatAndLint
+          npm run checkFormatAndLint
