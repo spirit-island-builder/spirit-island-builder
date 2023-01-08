@@ -5,7 +5,7 @@
   import { tick, onMount } from "svelte";
   import { browser } from "$app/environment";
 
-  import { downloadFile } from "../routes/lib.js";
+  import { downloadFile } from "../../routes/lib.js";
 
   let previewIframe;
   let wrapper;

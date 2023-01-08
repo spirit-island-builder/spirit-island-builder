@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
-  import PreviewFrame from "$lib/preview-frame.svelte";
+  import PreviewFrame from "$lib/preview-frame/index.svelte";
 
   import NameReplacements from "./name-replacements.svelte";
   import AspectEffects from "./aspect-effects.svelte";
