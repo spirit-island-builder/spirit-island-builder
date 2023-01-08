@@ -157,8 +157,8 @@
   });
 
   function onLoad() {
-    var localFrame = frame;
-    var localObject = spiritBoard;
+    let localFrame = frame;
+    let localObject = spiritBoard;
     console.log(">>>>>>>>>>>>>>>onload happening!");
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
@@ -197,7 +197,7 @@
       if (artistName) {
         artistName.textContent = spiritBoard.nameAndArt.artistCredit;
       } else {
-        var newArtistElement = frame.contentDocument.createElement("artist-name");
+        let newArtistElement = frame.contentDocument.createElement("artist-name");
         newArtistElement.textContent = spiritBoard.nameAndArt.artistCredit;
         board.appendChild(newArtistElement);
       }
@@ -207,14 +207,14 @@
         frame.contentDocument.querySelectorAll("special-rules-container")[0];
       if (specialRulesContainer) {
         specialRulesContainer.textContent = ""; // (easiest to start fresh each time)
-        var specialRulesHeader = frame.contentDocument.createElement("section-title");
+        let specialRulesHeader = frame.contentDocument.createElement("section-title");
         specialRulesHeader.textContent = "SPECIAL RULES";
         specialRulesContainer.appendChild(specialRulesHeader);
       }
       spiritBoard.specialRules.rules.forEach((rule) => {
-        var newRuleName = frame.contentDocument.createElement("special-rules-subtitle");
+        let newRuleName = frame.contentDocument.createElement("special-rules-subtitle");
         newRuleName.textContent = rule.name;
-        var newRuleEffect = frame.contentDocument.createElement("special-rule");
+        let newRuleEffect = frame.contentDocument.createElement("special-rule");
         newRuleEffect.innerHTML = rule.effect;
         specialRulesContainer.appendChild(newRuleName);
         specialRulesContainer.appendChild(newRuleEffect);
@@ -232,9 +232,10 @@
       }
 
       spiritBoard.growth.growthSets.forEach((growthSet, i) => {
-        var containerLayer;
+        let containerLayer;
+        let newSubgroup;
         if (spiritBoard.growth.growthSets.length > 1) {
-          var newSubgroup = frame.contentDocument.createElement("sub-growth");
+          newSubgroup = frame.contentDocument.createElement("sub-growth");
           newSubgroup.setAttribute("title", `${growthSet.choiceText}`);
           if (i < spiritBoard.growth.growthSets.length - 1) {
             newSubgroup.setAttribute("bordered", "");
@@ -244,7 +245,7 @@
           containerLayer = growthContainer;
         }
         growthSet.growthGroups.forEach((growthGroup) => {
-          var growthGroupOutput = frame.contentDocument.createElement("growth-group");
+          let growthGroupOutput = frame.contentDocument.createElement("growth-group");
 
           //Cost
           if (growthGroup.hasCost) {
@@ -259,7 +260,7 @@
             growthGroupOutput.setAttribute("special-title", growthGroup.title);
           }
           //Values
-          var values = "";
+          let values = "";
           growthGroup.growthActions.forEach((growthAction) => {
             values += growthAction.effect + ";";
           });
@@ -288,20 +289,20 @@
         }
       }
       checkTracksForCommas(); //swap commas for semicolons
-      var energyTrack = frame.contentDocument.createElement("energy-track");
+      let energyTrack = frame.contentDocument.createElement("energy-track");
       energyTrack.setAttribute("banner", spiritBoard.nameAndArt.energyBannerPath);
       energyTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.energyBannerScale);
-      var energyValues = "";
+      let energyValues = "";
       spiritBoard.presenceTrack.energyNodes.forEach((energyNode) => {
         energyValues += energyNode.effect + ",";
       });
       energyTrack.setAttribute("values", energyValues.slice(0, -1));
       presenceTrackContainer.appendChild(energyTrack);
 
-      var playsTrack = frame.contentDocument.createElement("card-play-track");
+      let playsTrack = frame.contentDocument.createElement("card-play-track");
       playsTrack.setAttribute("banner", spiritBoard.nameAndArt.playsBannerPath);
       playsTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.playsBannerScale);
-      var playsValues = "";
+      let playsValues = "";
       spiritBoard.presenceTrack.playsNodes.forEach((playsNode) => {
         playsValues += playsNode.effect + ",";
       });
@@ -316,7 +317,7 @@
       }
 
       spiritBoard.innatePowers.powers.forEach((power) => {
-        var newInnatePower = frame.contentDocument.createElement("quick-innate-power");
+        let newInnatePower = frame.contentDocument.createElement("quick-innate-power");
         newInnatePower.setAttribute("name", power.name);
         newInnatePower.setAttribute("speed", power.speed.toLowerCase());
         newInnatePower.setAttribute("range", power.range);
@@ -326,7 +327,7 @@
           newInnatePower.setAttribute("note", power.note);
         } // may need to clear it?
         power.levels.forEach((level) => {
-          var newLevel = frame.contentDocument.createElement("level");
+          let newLevel = frame.contentDocument.createElement("level");
           newLevel.setAttribute("threshold", level.threshold);
           newLevel.innerHTML = level.effect;
           if (level.isLong) {
@@ -344,7 +345,7 @@
         spiritStyle = frame.contentDocument.createElement("style");
         spiritHead.appendChild(spiritStyle);
       }
-      var customIconText = "";
+      let customIconText = "";
       customIcons.icons.forEach((icon) => {
         customIconText +=
           "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
@@ -399,8 +400,8 @@
 
     //Load Growth
     const growthContainer = htmlElement.querySelectorAll("growth");
-    var htmlGrowthSets = growthContainer[0].querySelectorAll("sub-growth");
-    var containerLayer;
+    let htmlGrowthSets = growthContainer[0].querySelectorAll("sub-growth");
+    let containerLayer;
     if (htmlGrowthSets[0]) {
       // if the HTML file isn't using subgroups (Growth Sets), then there's a whole layer that's missing... this gynamstics accounts for it.
       spiritBoard.growth.useGrowthSets = true;
@@ -410,7 +411,7 @@
     }
 
     // Identify text inside the parathesis of the growth option (if any) ie. for Growth (Pick Two), this code will find Pick Two
-    var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
+    let regExpOuterParentheses = /\(\s*(.+)\s*\)/;
     let innerDirections = regExpOuterParentheses.exec(growthContainer[0].title);
     spiritBoard.growth.directions = innerDirections !== null ? innerDirections[1] : "";
 
@@ -435,32 +436,32 @@
 
     //Load Presence Tracks
 
-    var presenceTracks = htmlElement.querySelectorAll("presence-tracks")[0];
-    var presenceNote = presenceTracks.getAttribute("note");
+    let presenceTracks = htmlElement.querySelectorAll("presence-tracks")[0];
+    let presenceNote = presenceTracks.getAttribute("note");
     if (presenceNote) {
       spiritBoard.presenceTrack.note = presenceNote;
     } else {
       spiritBoard.presenceTrack.note = "";
     }
-    var energyTrack = htmlElement.querySelectorAll("energy-track")[0];
+    let energyTrack = htmlElement.querySelectorAll("energy-track")[0];
     spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
     spiritBoard.nameAndArt.energyBannerScale = energyTrack.getAttribute("banner-v-scale");
-    var energyValues = energyTrack.getAttribute("values").split(",");
+    let energyValues = energyTrack.getAttribute("values").split(",");
     spiritBoard.presenceTrack.energyNodes.splice(0, spiritBoard.presenceTrack.energyNodes.length); //Clear the Form first
     energyValues.forEach((value) => {
       spiritBoard = Lib.addEnergyTrackNode(spiritBoard, value);
     });
-    var playsTrack = htmlElement.querySelectorAll("card-play-track")[0];
+    let playsTrack = htmlElement.querySelectorAll("card-play-track")[0];
     spiritBoard.nameAndArt.playsBannerPath = playsTrack.getAttribute("banner");
     spiritBoard.nameAndArt.playsBannerScale = playsTrack.getAttribute("banner-v-scale");
-    var playsValues = playsTrack.getAttribute("values").split(",");
+    let playsValues = playsTrack.getAttribute("values").split(",");
     spiritBoard.presenceTrack.playsNodes.splice(0, spiritBoard.presenceTrack.playsNodes.length); //Clear the Form first
     playsValues.forEach((value) => {
       spiritBoard = Lib.addPlaysTrackNode(spiritBoard, value);
     });
 
     //Load Innate Powers
-    var innatePowers = htmlElement.querySelectorAll("quick-innate-power");
+    let innatePowers = htmlElement.querySelectorAll("quick-innate-power");
     spiritBoard.innatePowers.powers.splice(0, spiritBoard.innatePowers.powers.length); //Clear the Form first
     innatePowers.forEach((innatePower, k) => {
       spiritBoard = Lib.addInnatePower(
@@ -472,7 +473,7 @@
         innatePower.getAttribute("target-title"),
         innatePower.getAttribute("note")
       );
-      var htmlLevels = innatePower.querySelectorAll("level");
+      let htmlLevels = innatePower.querySelectorAll("level");
       htmlLevels.forEach((htmlLevel) => {
         spiritBoard = Lib.addLevel(
           spiritBoard,
@@ -501,10 +502,10 @@
 
   function additionalScripts() {
     let fragment = new DocumentFragment();
-    var scriptGeneralDummy = document.createElement("script");
+    let scriptGeneralDummy = document.createElement("script");
     scriptGeneralDummy.type = "text/javascript";
     scriptGeneralDummy.src = "../../_global/js/general.js";
-    var scriptBoardFrontDummy = document.createElement("script");
+    let scriptBoardFrontDummy = document.createElement("script");
     scriptBoardFrontDummy.type = "text/javascript";
     scriptBoardFrontDummy.src = "../../_global/js/board_front.js";
     fragment.appendChild(scriptGeneralDummy);
@@ -522,7 +523,7 @@
 
   function handleTextFileInput(event) {
     hideAll();
-    var dummyEl = document.createElement("html");
+    let dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
     console.log(file);
     if (file) {
@@ -561,7 +562,7 @@
 
   function openExamplesModal(event) {
     console.log(event.target.dataset.target);
-    var examplesModal = document.getElementById(event.target.dataset.target);
+    let examplesModal = document.getElementById(event.target.dataset.target);
     if (examplesModal.classList.contains("is-active")) {
       examplesModal.classList.remove("is-active");
     } else {
@@ -574,7 +575,7 @@
   }
 
   function loadNewExample(event) {
-    var modFrame = document.getElementById("mod-frame");
+    let modFrame = document.getElementById("mod-frame");
     modFrame.src = event.target.id;
     console.log("loading new example");
     console.log("reading:");
@@ -593,16 +594,16 @@
   }
 
   async function downloadTTSJSON() {
-    var previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
+    let previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
     const board = previewFrameDoc.querySelectorAll("board")[0];
     const boardRect = board.getBoundingClientRect();
 
     //Snap Points
-    var presenceNodes = Array.from(board.getElementsByTagName("presence-node"));
+    let presenceNodes = Array.from(board.getElementsByTagName("presence-node"));
     let snapPoints = [];
     console.log(presenceNodes);
     presenceNodes.forEach((node) => {
-      var rect = node.getElementsByTagName("ring-icon")[0].getBoundingClientRect();
+      let rect = node.getElementsByTagName("ring-icon")[0].getBoundingClientRect();
       if (node.classList.contains("first")) {
         console.log("skip");
       } else {
@@ -630,7 +631,7 @@
     const thresholdsNodes = Array.from(board.getElementsByTagName("threshold"));
     thresholdsNodes.forEach((threshold) => {
       console.log(threshold);
-      var icons = Array.from(threshold.getElementsByTagName("icon"));
+      let icons = Array.from(threshold.getElementsByTagName("icon"));
 
       let elementNums = threshold.innerHTML
         .split("<icon")
@@ -656,7 +657,7 @@
           elementCounts[7] = elementNums[i];
         }
       });
-      var rect = threshold.getBoundingClientRect();
+      let rect = threshold.getBoundingClientRect();
       thresholds.push({
         elements: elementCounts.join(""),
         position: {
@@ -678,14 +679,14 @@
 
     //Lua scripting - track energy & elements
     let trackElements = [];
-    var formNodes = spiritBoard.presenceTrack.energyNodes.concat(
+    let formNodes = spiritBoard.presenceTrack.energyNodes.concat(
       spiritBoard.presenceTrack.playsNodes
     );
-    var boardNodes = Array.from(board.getElementsByTagName("presence-node"));
-    var regExpOuterParentheses = /\(\s*(.+)\s*\)/;
+    let boardNodes = Array.from(board.getElementsByTagName("presence-node"));
+    let regExpOuterParentheses = /\(\s*(.+)\s*\)/;
     formNodes.forEach((node, j) => {
-      var nodeEffectText = node.effect;
-      var matches = regExpOuterParentheses.exec(nodeEffectText);
+      let nodeEffectText = node.effect;
+      let matches = regExpOuterParentheses.exec(nodeEffectText);
       if (matches) {
         nodeEffectText = matches[1];
       }
@@ -697,34 +698,34 @@
       let namesList = Object.keys(nameCounts);
       let countList = Object.values(nameCounts);
       let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
-      for (var i = 0; i < namesList.length; i++) {
-        if (namesList[i] == "sun") {
+      for (let i = 0; i < namesList.length; i++) {
+        if (namesList[i] === "sun") {
           elementCounts[0] = countList[i];
         }
-        if (namesList[i] == "moon") {
+        if (namesList[i] === "moon") {
           elementCounts[1] = countList[i];
         }
-        if (namesList[i] == "fire") {
+        if (namesList[i] === "fire") {
           elementCounts[2] = countList[i];
         }
-        if (namesList[i] == "air") {
+        if (namesList[i] === "air") {
           elementCounts[3] = countList[i];
         }
-        if (namesList[i] == "water") {
+        if (namesList[i] === "water") {
           elementCounts[4] = countList[i];
         }
-        if (namesList[i] == "earth") {
+        if (namesList[i] === "earth") {
           elementCounts[5] = countList[i];
         }
-        if (namesList[i] == "plant") {
+        if (namesList[i] === "plant") {
           elementCounts[6] = countList[i];
         }
-        if (namesList[i] == "animal") {
+        if (namesList[i] === "animal") {
           elementCounts[7] = countList[i];
         }
       }
       if (elementCounts.reduce((partialSum, a) => partialSum + a, 0) > 0) {
-        var rect = boardNodes[j].getElementsByTagName("ring-icon")[0].getBoundingClientRect();
+        let rect = boardNodes[j].getElementsByTagName("ring-icon")[0].getBoundingClientRect();
         trackElements.push({
           elements: elementCounts.join(""),
           position: {
@@ -746,17 +747,17 @@
     });
 
     let trackEnergy = [];
-    var energyNodes = spiritBoard.presenceTrack.energyNodes.slice().reverse();
-    var formEnergyNodes = Array.from(
+    let energyNodes = spiritBoard.presenceTrack.energyNodes.slice().reverse();
+    let formEnergyNodes = Array.from(
       board.getElementsByClassName("energy-track")[0].getElementsByTagName("presence-node")
     ).reverse();
     console.log(energyNodes);
     console.log(formEnergyNodes);
     console.log(spiritBoard);
-    var maxEnergy = 100;
+    let maxEnergy = 100;
     energyNodes.forEach((node, i) => {
-      var nodeEffectText = node.effect;
-      var matches = regExpOuterParentheses.exec(nodeEffectText);
+      let nodeEffectText = node.effect;
+      let matches = regExpOuterParentheses.exec(nodeEffectText);
       if (matches) {
         nodeEffectText = matches[1];
       }
@@ -767,10 +768,10 @@
       });
 
       let namesList = Object.keys(nameCounts);
-      for (var j = 0; j < namesList.length; j++) {
+      for (let j = 0; j < namesList.length; j++) {
         if (!isNaN(namesList[j])) {
           if (namesList[j] < maxEnergy) {
-            var rect = formEnergyNodes[i]
+            let rect = formEnergyNodes[i]
               .getElementsByTagName("ring-icon")[0]
               .getBoundingClientRect();
             maxEnergy = namesList[j];

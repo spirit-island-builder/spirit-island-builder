@@ -429,7 +429,7 @@
       >Code for this project is hosted <a
         href="https://github.com/neubee/spirit-island-builder"
         target="_blank">here</a
-      >{#if import.meta.env.VITE_COMMIT_SHA != undefined}
+      >{#if import.meta.env.VITE_COMMIT_SHA !== undefined}
         &nbsp;(built from
         <a
           href="https://github.com/neubee/spirit-island-builder/commit/{import.meta.env

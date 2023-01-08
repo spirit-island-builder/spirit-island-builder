@@ -20,7 +20,7 @@
   }
 
   function selectNode(event) {
-    var nodeID = event.target.id;
+    let nodeID = event.target.id;
     document.getElementById(nodeID).select();
   }
 </script>

@@ -6,7 +6,7 @@
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
 
   function insertEnergyTrackNode(index) {
-    var focusId = "energy" + (index + 1) + "builder";
+    let focusId = "energy" + (index + 1) + "builder";
     spiritBoard.presenceTrack.energyNodes.splice(index + 1, 0, {
       id: spiritBoard.presenceTrack.energyNodes.length,
       effect: "",
@@ -22,7 +22,7 @@
   }
 
   function insertPlaysTrackNode(index) {
-    var focusId = "plays" + (index + 1) + "builder";
+    let focusId = "plays" + (index + 1) + "builder";
     spiritBoard.presenceTrack.playsNodes.splice(index + 1, 0, {
       id: spiritBoard.presenceTrack.playsNodes.length,
       effect: "",
@@ -38,14 +38,14 @@
   }
 
   function insertTemplatePresenceNode(index, type) {
-    var previewFrame = document.getElementById("preview-iframe").contentWindow;
-    var findPresenceNode = previewFrame.document.getElementById(type + index);
-    var newPresenceNode = previewFrame.getPresenceNodeHtml(
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let findPresenceNode = previewFrame.document.getElementById(type + index);
+    let newPresenceNode = previewFrame.getPresenceNodeHtml(
       "custom(new presence node)",
       false,
       index,
       type,
-      type == "energy"
+      type === "energy"
     );
     const placeholder = document.createElement("td");
     placeholder.innerHTML = newPresenceNode;
@@ -73,8 +73,8 @@
   }
 
   function removeTemplatePresenceNode(templatePresenceNodeID) {
-    var previewFrame = document.getElementById("preview-iframe").contentWindow;
-    var findPresenceNode = previewFrame.document.getElementById(templatePresenceNodeID);
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let findPresenceNode = previewFrame.document.getElementById(templatePresenceNodeID);
     findPresenceNode.parentElement.remove();
     previewFrame.updatePresenceNodeIDs();
   }
@@ -82,8 +82,8 @@
   function updatePresenceNodeLocal(index, type) {
     //this code works but has an issue with the first node, which is used to modify the spacing...perhaps i should change that spacing instead.
 
-    var newPresenceNodeText = "";
-    var templatePresenceNodeID = type + index;
+    let newPresenceNodeText = "";
+    let templatePresenceNodeID = type + index;
     switch (type) {
       case "energy":
         newPresenceNodeText = spiritBoard.presenceTrack.energyNodes[index].effect;
@@ -92,24 +92,24 @@
         newPresenceNodeText = spiritBoard.presenceTrack.playsNodes[index].effect;
         break;
     }
-    var previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
     console.log("Rewriting Presence Node ID: " + templatePresenceNodeID);
     console.log("new node: " + newPresenceNodeText);
 
     // Find node in Template
-    var findPresenceNode = previewFrame.document.getElementById(templatePresenceNodeID);
-    var isFirst = findPresenceNode.classList.contains("first");
-    var hasEnergyRing =
+    let findPresenceNode = previewFrame.document.getElementById(templatePresenceNodeID);
+    let isFirst = findPresenceNode.classList.contains("first");
+    let hasEnergyRing =
       findPresenceNode.getElementsByTagName("energy-icon")[0] !== undefined ? true : false;
     console.log("is first  " + isFirst);
     console.log("has energy ring " + hasEnergyRing);
 
     // Check growth height
-    var presenceTrackPanel = previewFrame.document.getElementsByTagName("presence-tracks")[0];
-    var presenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight;
+    let presenceTrackPanel = previewFrame.document.getElementsByTagName("presence-tracks")[0];
+    let presenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight;
 
     // Try to write a new node
-    var newPresenceNode = "";
+    let newPresenceNode = "";
     try {
       newPresenceNode = previewFrame.getPresenceNodeHtml(
         newPresenceNodeText,
@@ -140,7 +140,7 @@
     findPresenceNode.innerHTML = newNode.innerHTML;
 
     // If new panel is larger, re-run
-    var newPresenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight;
+    let newPresenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight;
     if (newPresenceTrackHeight !== presenceTrackHeight) {
       console.log('Recommend Re-running the whole board (click "Update Preview")');
       document.getElementById("updateButton").classList.add("is-flashy");
@@ -172,7 +172,7 @@
   // }
 
   function selectNode(event) {
-    var nodeID = event.target.id;
+    let nodeID = event.target.id;
     document.getElementById(nodeID).select();
   }
 </script>

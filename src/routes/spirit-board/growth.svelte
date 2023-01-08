@@ -15,7 +15,7 @@
     // "Turns off" Growth Sets, collapsing all growth groups into the first Set
     spiritBoard.growth.useGrowthSets = false;
     spiritBoard.growth.directions = "";
-    var firstSet = spiritBoard.growth.growthSets[0];
+    let firstSet = spiritBoard.growth.growthSets[0];
     for (let i = 1; i < spiritBoard.growth.growthSets.length; i++) {
       while (spiritBoard.growth.growthSets[i].growthGroups.length > 0) {
         firstSet.growthGroups.push(spiritBoard.growth.growthSets[i].growthGroups.shift());
@@ -76,7 +76,7 @@
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost;
 
-    var focusId = "set" + setIndex + "group" + groupIndex + "cost";
+    let focusId = "set" + setIndex + "group" + groupIndex + "cost";
     //Set the focus to the Growth Group Cost if it is visible.
     if (spiritBoard.growth.isVisible) {
       if (spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost) {
@@ -91,7 +91,7 @@
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint;
 
-    var focusId = "set" + setIndex + "group" + groupIndex + "tint";
+    let focusId = "set" + setIndex + "group" + groupIndex + "tint";
     //Set the focus to the Growth Group Cost if it is visible.
     if (spiritBoard.growth.isVisible) {
       if (spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint) {
@@ -106,7 +106,7 @@
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle;
 
-    var focusId = "set" + setIndex + "group" + groupIndex + "title";
+    let focusId = "set" + setIndex + "group" + groupIndex + "title";
     //Set the focus to the Growth Group Cost if it is visible.
     if (spiritBoard.growth.isVisible) {
       if (spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle) {
@@ -117,25 +117,10 @@
     }
   }
 
-  //Drag and Drop stuff
-  /* 	function allowDrop(ev) {
-	  ev.preventDefault();
-	}
-
-	function drag(ev) {
-	  ev.dataTransfer.setData("text", ev.target.id);
-	}
-
-	function drop(ev) {
-	  ev.preventDefault();
-	  var data = ev.dataTransfer.getData("text");
-	  ev.target.appendChild(document.getElementById(data));
-	} */
-
   function onKeyDown(e) {
     console.log("onkeydown");
-    if (e.keyCode == 13) {
-      const growthActionBuilderID = e.target.id;
+    if (e.key === "Enter") {
+      let growthActionBuilderID = e.target.id;
       console.log("Builder ID = " + growthActionBuilderID);
     }
   }
@@ -145,20 +130,20 @@
   // }
 
   function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
-    var newGrowthActionText =
+    let newGrowthActionText =
       spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions[actionIndex]
         .effect;
-    var templateGrowthID = "s" + setIndex + "g" + groupIndex + "a" + actionIndex;
-    var previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let templateGrowthID = "s" + setIndex + "g" + groupIndex + "a" + actionIndex;
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
     console.log("Rewriting Growth Node ID: " + templateGrowthID);
 
     // Check growth height
-    var growthPanel = previewFrame.document.getElementsByTagName("growth")[0];
-    var growthHeight = growthPanel.offsetHeight;
+    let growthPanel = previewFrame.document.getElementsByTagName("growth")[0];
+    let growthHeight = growthPanel.offsetHeight;
 
     // Try to write a new node
 
-    var growthActionTest = "";
+    let growthActionTest = "";
     try {
       growthActionTest = previewFrame.writeGrowthAction(newGrowthActionText);
     } catch (err) {
@@ -173,11 +158,11 @@
     const newNode = placeholder.firstElementChild;
 
     // Transfer new node into preview
-    var findGrowth = previewFrame.document.getElementById(templateGrowthID);
+    let findGrowth = previewFrame.document.getElementById(templateGrowthID);
     findGrowth.innerHTML = newNode.innerHTML;
 
     // If new growth panel is larger, re-run
-    var newGrowthHeight = growthPanel.offsetHeight;
+    let newGrowthHeight = growthPanel.offsetHeight;
     if (newGrowthHeight > growthHeight) {
       console.log('Recommend Re-running the whole board (click "Update Preview")');
       document.getElementById("updateButton").classList.add("is-flashy");
