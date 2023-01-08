@@ -203,6 +203,11 @@ export const takeScreenshot = (frame, fileNames, elementNamesInIframe) => {
   });
 };
 
+export const selectNode = (event) => {
+  let nodeID = event.target.id;
+  document.getElementById(nodeID).select();
+};
+
 export const nextNode = (event) => {
   if (event.key === "Enter") {
     let currentID = event.target.id;

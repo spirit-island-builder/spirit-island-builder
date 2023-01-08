@@ -172,8 +172,7 @@
   // }
 
   function selectNode(event) {
-    let nodeID = event.target.id;
-    document.getElementById(nodeID).select();
+    Lib.selectNode(event);
   }
 </script>
 
