@@ -7,8 +7,9 @@
     "package": "svelte-kit package",
     "preview": "vite preview",
     "prepare": "husky install",
-    "lint": "prettier --check --plugin-search-dir=. . && eslint .",
-    "format": "prettier --write --plugin-search-dir=. .",
+    "checkFormatAndLint": "prettier --check --plugin-search-dir=. . && eslint .",
+    "lint": "eslint .",
+    "writeFormatAndLint": "prettier --write --plugin-search-dir=. . && eslint .",
     "svelteCheck": "svelte-check"
   },
   "devDependencies": {
