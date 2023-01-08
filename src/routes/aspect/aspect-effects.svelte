@@ -129,7 +129,7 @@
     <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
       <div class="is-flex is-flex-direction-column-reverse">
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-          {#if power.speed == ""}
+          {#if power.speed === ""}
             <button
               class="button is-danger is-light button-hold mb-0"
               id="fast-button"
@@ -138,7 +138,7 @@
               class="button is-info is-light button-hold mb-0"
               id="slow-button"
               on:click={setSpeedTextbox("Slow", power)}>Slow</button>
-          {:else if power.speed == "Fast" || power.speed == "fast"}
+          {:else if power.speed === "Fast" || power.speed === "fast"}
             <button
               class="button is-danger button-hold mb-0"
               id="fast-button"
@@ -162,14 +162,14 @@
       <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap">
         <div class="is-flex is-flex-direction-row-reverse is-flex-wrap-nowrap">
           <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-            {#if power.targetTitle == ""}
+            {#if power.targetTitle === ""}
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target Land", power)}>Target Land</button>
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target", power)}>Target</button>
-            {:else if power.targetTitle == "target" || power.targetTitle == "Target"}
+            {:else if power.targetTitle === "target" || power.targetTitle === "Target"}
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target Land", power)}>Target Land</button>

@@ -26,8 +26,8 @@
   });
 
   function onLoad() {
-    var localFrame = loreFrame;
-    var localObject = spiritBoardBack;
+    let localFrame = loreFrame;
+    let localObject = spiritBoardBack;
 
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
@@ -90,7 +90,7 @@
 
       //Set Summary of Powers
       const summaryPowersHeader = loreBoardHTML.querySelectorAll("summary-of-powers")[0];
-      var summaryPowersValues =
+      let summaryPowersValues =
         spiritBoardBack.summary.offenseValue +
         "," +
         spiritBoardBack.summary.controlValue +
@@ -110,7 +110,7 @@
         spiritStyle = loreFrame.contentDocument.createElement("style");
         spiritHead.appendChild(spiritStyle);
       }
-      var customIconText = "";
+      let customIconText = "";
       customIcons.icons.forEach((icon) => {
         customIconText +=
           "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
@@ -133,7 +133,7 @@
     const loreImage = loreBoardHTML.querySelectorAll("img")[0];
     if (loreImage) {
       spiritBoardBack.nameImage.img = loreImage.getAttribute("src");
-      var imgScale = loreImage.getAttribute("scale");
+      let imgScale = loreImage.getAttribute("scale");
       console.log(imgScale);
       if (imgScale) {
         spiritBoardBack.nameImage.scale = imgScale;
@@ -159,8 +159,8 @@
 
     //Set Summary of Powers
     const summaryPowersHeader = loreBoardHTML.querySelectorAll("summary-of-powers")[0];
-    var summaryPowersValues = summaryPowersHeader.getAttribute("values");
-    var summaryPowersSplit = summaryPowersValues.split(",");
+    let summaryPowersValues = summaryPowersHeader.getAttribute("values");
+    let summaryPowersSplit = summaryPowersValues.split(",");
     spiritBoardBack.summary.offenseValue = summaryPowersSplit[0];
     spiritBoardBack.summary.controlValue = summaryPowersSplit[1];
     spiritBoardBack.summary.fearValue = summaryPowersSplit[2];
@@ -189,7 +189,7 @@
 
   function exportSpiritBoardBack() {
     setBoardValues(spiritBoardBack);
-    var element = document
+    let element = document
       .getElementById("lore-mod-frame")
       .contentWindow.document.getElementsByTagName("html")[0];
     const htmlFileName = spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritLore.html";
@@ -197,7 +197,7 @@
   }
 
   function handleTextFileInput(event) {
-    var dummyEl = document.createElement("html");
+    let dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
 
     if (file) {
