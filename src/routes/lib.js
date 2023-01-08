@@ -192,13 +192,13 @@ export const downloadFile = (fileURL, fileName) => {
 };
 
 export const downloadString = (mimeType, fileContent, fileName) => {
-  downloadFile(`${mimeType},${encodeURIComponent(fileContent)}`, fileName);
+  downloadFile(`data:${mimeType},${encodeURIComponent(fileContent)}`, fileName);
 };
 
 export const downloadHTML = (fragment, fileName) => {
   const helper = document.createElement("helper");
   helper.append(fragment);
-  downloadString("data:text/html;charset=utf-8", helper.innerHTML, fileName);
+  downloadString("text/html;charset=utf-8", helper.innerHTML, fileName);
 };
 
 export const takeScreenshot = (frame, fileNames, elementNamesInIframe) => {
