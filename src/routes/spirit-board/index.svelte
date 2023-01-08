@@ -517,7 +517,7 @@
     setBoardValues(spiritBoard);
     previewFrame.copyHTMLFrom(frame.contentDocument, additionalScripts());
     previewFrame.startMain();
-    document.getElementById('updateButton').classList.remove("is-flashy");
+    document.getElementById("updateButton").classList.remove("is-flashy");
   }
 
   function handleTextFileInput(event) {
@@ -593,7 +593,7 @@
   }
 
   async function downloadTTSJSON() {
-    var previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document
+    var previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
     const board = previewFrameDoc.querySelectorAll("board")[0];
     const boardRect = board.getBoundingClientRect();
 
@@ -815,7 +815,6 @@
     const elementNamesInIframe = ["board"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
-
 </script>
 
 <h5 class="title is-5 mb-0 no-anchor">Spirit Board Play Side</h5>
@@ -851,7 +850,8 @@
   <button class="button is-success  mr-1" on:click={exportSpiritBoard}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
-  <button class="button is-warning  mr-1" id = "updateButton" on:click={reloadPreview}>Update Preview</button>
+  <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
+    >Update Preview</button>
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>

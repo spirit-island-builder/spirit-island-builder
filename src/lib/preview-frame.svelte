@@ -46,5 +46,10 @@
 </script>
 
 <div {id} class="preview-wrap" class:large bind:this={wrapper}>
-  <iframe {src} bind:this={previewIframe} class="preview-frame" id="preview-iframe" title="Preview" />
+  <iframe
+    {src}
+    bind:this={previewIframe}
+    class="preview-frame"
+    id="preview-iframe"
+    title="Preview" />
 </div>

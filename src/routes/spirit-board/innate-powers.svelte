@@ -8,19 +8,19 @@
   function setSpeedTextbox(powerSpeed, innatePower) {
     innatePower.speed = powerSpeed;
     spiritBoard = spiritBoard;
-    var templateID = 'ip'+innatePower.id;
-    var previewFrame = document.getElementById("preview-iframe").contentWindow
-    var findPowerSpeed = previewFrame.document.getElementById(templateID)
-    findPowerSpeed.removeAttribute('class')
-    findPowerSpeed.setAttribute('class',powerSpeed.toLowerCase());
+    var templateID = "ip" + innatePower.id;
+    var previewFrame = document.getElementById("preview-iframe").contentWindow;
+    var findPowerSpeed = previewFrame.document.getElementById(templateID);
+    findPowerSpeed.removeAttribute("class");
+    findPowerSpeed.setAttribute("class", powerSpeed.toLowerCase());
   }
 
   function setTargetTextbox(targetTitle, innatePower) {
     innatePower.targetTitle = targetTitle;
     spiritBoard = spiritBoard;
-    var templateID = 'ip'+innatePower.id+'targettitle';
-    var previewFrame = document.getElementById("preview-iframe").contentWindow
-    var findTargetTitle = previewFrame.document.getElementById(templateID)
+    var templateID = "ip" + innatePower.id + "targettitle";
+    var previewFrame = document.getElementById("preview-iframe").contentWindow;
+    var findTargetTitle = previewFrame.document.getElementById(templateID);
     findTargetTitle.innerHTML = targetTitle;
   }
 
@@ -56,23 +56,27 @@
 
   function updateInnatePowerThreshold(level, ID) {
     var newIPThresholdText = level.threshold;
-    if (newIPThresholdText){
+    if (newIPThresholdText) {
       var templateInnatePowerThresholdID = ID;
-      var previewFrame = document.getElementById("preview-iframe").contentWindow
-      
-      // Find node in Template
-      var findIPThreshold = previewFrame.document.getElementById(templateInnatePowerThresholdID)
-      if(findIPThreshold){
-        console.log('Rewriting Innate Power ID: '+templateInnatePowerThresholdID + ' with ' + newIPThresholdText)
+      var previewFrame = document.getElementById("preview-iframe").contentWindow;
 
-        // Try to write a new node    
+      // Find node in Template
+      var findIPThreshold = previewFrame.document.getElementById(templateInnatePowerThresholdID);
+      if (findIPThreshold) {
+        console.log(
+          "Rewriting Innate Power ID: " +
+            templateInnatePowerThresholdID +
+            " with " +
+            newIPThresholdText
+        );
+
+        // Try to write a new node
         var newIPThreshold = "";
         try {
           newIPThreshold = previewFrame.writeInnateThreshold(newIPThresholdText);
-        }
-        catch(err) {
-          newIPThreshold = previewFrame.getPresenceNodeHtml('1-water');
-          console.log('Malformed growth option, try again')
+        } catch (err) {
+          newIPThreshold = previewFrame.getPresenceNodeHtml("1-water");
+          console.log("Malformed growth option, try again");
         }
         newIPThreshold = previewFrame.replaceIcon(newIPThreshold);
 
@@ -82,8 +86,7 @@
         const newNode = placeholder.firstElementChild;
 
         // update node
-        findIPThreshold.innerHTML = newNode.innerHTML
-
+        findIPThreshold.innerHTML = newNode.innerHTML;
       }
     }
   }
@@ -93,11 +96,10 @@
     document.getElementById(nodeID).select();
   }
 
-  function nextNode(event){
-    console.log('next node')
-    Lib.nextNode(event)
+  function nextNode(event) {
+    console.log("next node");
+    Lib.nextNode(event);
   }
-
 </script>
 
 <h6
@@ -133,7 +135,6 @@
             id={`powerName${i}`}
             class="input"
             type="text"
-            tabindex="1"
             placeholder="Power Name"
             on:keyup={nextNode}
             on:focus={selectNode}
@@ -209,7 +210,6 @@
               id={`powerRange${i}`}
               class="input"
               type="text"
-              tabindex="1"
               placeholder="Range"
               on:keyup={nextNode}
               on:focus={selectNode}
@@ -235,7 +235,10 @@
         validAutoCompleteValues={iconValuesSorted}
         bind:value={innatePower.note} />
     </div>
-    <button class="button is-primary is-light is-small" id={`power${i}addLevel`} on:click={addLevel(i)}>Add Level</button>
+    <button
+      class="button is-primary is-light is-small"
+      id={`power${i}addLevel`}
+      on:click={addLevel(i)}>Add Level</button>
     {#each innatePower.levels as level, j (level.id)}
       <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
         <div class="control">
@@ -243,10 +246,9 @@
             id={`power${i}levelThreshold${j}`}
             class="input is-small"
             type="text"
-            tabindex="1"
             placeholder="Threshold"
             on:focus={selectNode}
-            on:blur={updateInnatePowerThreshold(level,`ip${i}L${j}t`)}
+            on:blur={updateInnatePowerThreshold(level, `ip${i}L${j}t`)}
             on:keyup={nextNode}
             bind:value={level.threshold} />
         </div>

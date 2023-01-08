@@ -70,7 +70,6 @@
             class="input"
             type="text"
             placeholder="Name"
-            tabindex="1"
             bind:value={aspect.nameReplacements.aspectName} />
         </div>
       </div>
@@ -85,7 +84,6 @@
           class="input"
           type="text"
           placeholder="ie. Replaces Special Rule"
-          tabindex="1"
           bind:value={aspect.nameReplacements.aspectRelacement} />
       </div>
     </div>
@@ -99,7 +97,6 @@
           class="input"
           type="text"
           placeholder="ie. The Name of a Spirit's Special Rule"
-          tabindex="1"
           bind:value={aspect.nameReplacements.rulesReplaced} />
       </div>
     </div>
@@ -141,7 +138,6 @@
             class="input"
             type="text"
             placeholder="The Name of a Spirit"
-            tabindex="1"
             bind:value={aspect.nameReplacements.spiritName} />
         </div>
       </div>

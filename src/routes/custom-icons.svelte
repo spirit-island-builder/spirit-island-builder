@@ -92,7 +92,7 @@
   {/each}
   <div class="field is-flex is-justify-content-right">
     <div class="control">
-      <button class="button is-primary is-light is-small" tabindex="1" on:click={addCustomIcon}
+      <button class="button is-primary is-light is-small" on:click={addCustomIcon}
         >Add Custom Icon</button>
     </div>
   </div>
