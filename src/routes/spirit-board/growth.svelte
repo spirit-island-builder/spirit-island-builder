@@ -117,18 +117,6 @@
     }
   }
 
-  function onKeyDown(e) {
-    console.log("onkeydown");
-    if (e.key === "Enter") {
-      let growthActionBuilderID = e.target.id;
-      console.log("Builder ID = " + growthActionBuilderID);
-    }
-  }
-
-  // function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
-  //   updateGrowthAction(setIndex, groupIndex, actionIndex);
-  // }
-
   function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
     let newGrowthActionText =
       spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions[actionIndex]
@@ -167,6 +155,11 @@
       console.log('Recommend Re-running the whole board (click "Update Preview")');
       document.getElementById("updateButton").classList.add("is-flashy");
     }
+  }
+
+  function nextNode(event) {
+    console.log("next node");
+    Lib.nextNode(event);
   }
 
   export let spiritBoard;
@@ -270,6 +263,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;2&quot; or &quot;3,dahan&quot;"
+                      on:keyup={nextNode}
                       bind:value={growthGroup.cost} />
                   </div>
                   <button
@@ -286,6 +280,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;blue&quot;"
+                      on:keyup={nextNode}
                       bind:value={growthGroup.tint} />
                   </div>
                   <button
@@ -302,6 +297,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;Max 1/Game&quot;"
+                      on:keyup={nextNode}
                       bind:value={growthGroup.title} />
                   </div>
                   <button
@@ -318,7 +314,6 @@
                       placeholder="Growth Action"
                       showListImmediately={true}
                       validAutoCompleteValues={growthValuesSorted}
-                      on:keydown={onKeyDown}
                       bind:value={growthAction.effect} />
                   </div>
                   <button

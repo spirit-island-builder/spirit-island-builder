@@ -1,5 +1,6 @@
 <script>
   import { afterUpdate } from "svelte";
+  import * as Lib from "../../routes/lib";
 
   export let elementType;
   export let placeholder;
@@ -232,6 +233,11 @@
       boldEndIndex
     )}</strong>${autoCompleteItem.label.substring(boldEndIndex)}`;
   }
+
+  function nextNode(event) {
+    console.log("next node");
+    Lib.nextNode(event);
+  }
 </script>
 
 <div class="control autocomplete">
@@ -246,6 +252,7 @@
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
+      on:keyup={nextNode}
       bind:value />
   {:else if elementType === "textarea"}
     <textarea
@@ -257,6 +264,7 @@
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
+      on:keyup={nextNode}
       bind:value />
   {/if}
   {#if showAutoCompleteList === true}

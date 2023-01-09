@@ -77,7 +77,7 @@
     {#if i === spiritBoard.specialRules.rules.length - 1}
       <div class="field">
         <div class="control">
-          <button class="button is-primary is-light" on:click={addSpecialRule}
+          <button class="button is-primary is-light" id="addSpecialRule" on:click={addSpecialRule}
             >Add Another Rule</button>
         </div>
       </div>
