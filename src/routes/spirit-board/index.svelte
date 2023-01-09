@@ -840,7 +840,6 @@
   }
 </script>
 
-<h5 class="title is-5 mb-0 no-anchor">Spirit Board Play Side</h5>
 <PreviewFrame
   id="spirit-preview"
   src={previewFrameSrc}
