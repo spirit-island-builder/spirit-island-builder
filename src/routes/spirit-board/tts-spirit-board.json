@@ -55,6 +55,7 @@
   "LuaScript": "-- Spirit Panel for MJ & iakona's Spirit Island Mod --\nuseProgression = false\nuseAspect = 2\n\nfunction onLoad(saved_data)\n    Color.Add(\"SoftBlue\", Color.new(0.53,0.92,1))\n    Color.Add(\"SoftYellow\", Color.new(1,0.8,0.5))\n    getObjectFromGUID(\"SourceSpirit\").call(\"load\", {obj = self, saved_data = saved_data})\nend",
   "LuaScriptState": {
     "$json": {
+      "bonusEnergy": { "$eval": "bonusEnergy" },
       "thresholds": { "$eval": "thresholds" },
       "trackElements": { "$eval": "trackElements" },
       "trackEnergy": { "$eval": "trackEnergy" }
