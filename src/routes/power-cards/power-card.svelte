@@ -87,6 +87,8 @@
       event.target.classList.remove("is-active");
     }
   }
+
+  const elements = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
 </script>
 
 <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap mb-0">
@@ -136,54 +138,16 @@
       </div>
       <div class="field has-addons">
         <label class="label is-unselectable mr-1 mt-1" for="">Elements: </label>
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.sun}
-          id="sun"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_sun.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.moon}
-          id="moon"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_moon.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.fire}
-          id="fire"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_fire.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.air}
-          id="air"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_air.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.water}
-          id="water"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_water.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.earth}
-          id="earth"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_earth.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.plant}
-          id="plant"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_plant.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.animal}
-          id="animal"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_animal.png')" />
+        {#each elements as element}
+          <div
+            class="img-elements"
+            class:is-active={card.powerElements[element]}
+            on:click={(e) => {
+              card.powerElements[element] = !card.powerElements[element];
+            }}>
+            <img src="/template/_global/images/board/element_simple_{element}.png" alt={element} />
+          </div>
+        {/each}
       </div>
     </div>
     <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
