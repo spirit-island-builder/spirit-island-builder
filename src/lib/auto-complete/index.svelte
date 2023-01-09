@@ -38,7 +38,7 @@
 
   function handleInputAndFocus(event) {
     // select all for 'input' type fields
-    if (event.target.tagName === "INPUT") {
+    if (event.target.tagName === "INPUT" && event.type === "focus") {
       document.getElementById(event.target.id).select();
     }
 
