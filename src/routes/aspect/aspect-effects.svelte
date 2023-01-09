@@ -92,7 +92,6 @@
             class="input"
             type="text"
             placeholder="Name"
-            tabindex="1"
             bind:value={rule.name} />
         </div>
         <button class="button is-warning is-light" on:click={removeSpecialRule(i)}>Remove</button>
@@ -107,8 +106,7 @@
   {/each}
   <div class="field">
     <div class="control">
-      <button class="button is-primary is-light" tabindex="1" on:click={addSpecialRule}
-        >Add Special Rule</button>
+      <button class="button is-primary is-light" on:click={addSpecialRule}>Add Special Rule</button>
     </div>
   </div>
   {#each aspect.aspectEffects.innatePowers.powers as power, i (power.id)}
@@ -121,7 +119,6 @@
             id={`powerName${i}`}
             class="input"
             type="text"
-            tabindex="1"
             placeholder="Power Name"
             bind:value={power.name} />
         </div>
@@ -132,7 +129,7 @@
     <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
       <div class="is-flex is-flex-direction-column-reverse">
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-          {#if power.speed == ""}
+          {#if power.speed === ""}
             <button
               class="button is-danger is-light button-hold mb-0"
               id="fast-button"
@@ -141,7 +138,7 @@
               class="button is-info is-light button-hold mb-0"
               id="slow-button"
               on:click={setSpeedTextbox("Slow", power)}>Slow</button>
-          {:else if power.speed == "Fast" || power.speed == "fast"}
+          {:else if power.speed === "Fast" || power.speed === "fast"}
             <button
               class="button is-danger button-hold mb-0"
               id="fast-button"
@@ -165,14 +162,14 @@
       <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap">
         <div class="is-flex is-flex-direction-row-reverse is-flex-wrap-nowrap">
           <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-            {#if power.targetTitle == ""}
+            {#if power.targetTitle === ""}
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target Land", power)}>Target Land</button>
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target", power)}>Target</button>
-            {:else if power.targetTitle == "target" || power.targetTitle == "Target"}
+            {:else if power.targetTitle === "target" || power.targetTitle === "Target"}
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target Land", power)}>Target Land</button>
@@ -195,7 +192,6 @@
               id={`powerRange${i}`}
               class="input"
               type="text"
-              tabindex="1"
               placeholder="Range"
               bind:value={power.range} />
           </div>
@@ -227,7 +223,6 @@
             id={`power${i}levelThreshold${j}`}
             class="input is-small"
             type="text"
-            tabindex="1"
             placeholder="Threshold"
             bind:value={level.threshold} />
         </div>

@@ -8,7 +8,6 @@
   export let startCharacter = "{";
   export let value;
   export let id;
-  export let tabindex = "1";
   export let classNames = "";
   export let showListImmediately;
 
@@ -38,6 +37,11 @@
   });
 
   function handleInputAndFocus(event) {
+    // select all for 'input' type fields
+    if (event.target.tagName === "INPUT") {
+      document.getElementById(event.target.id).select();
+    }
+
     const inputValue = event.target.value;
     const currentCursorPostion = event.target.selectionStart;
     if (
@@ -237,7 +241,6 @@
       class={`input ${classNames}`}
       type="text"
       {placeholder}
-      {tabindex}
       autocomplete="off"
       on:input={handleInputAndFocus}
       on:focus={handleInputAndFocus}
@@ -254,7 +257,6 @@
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
-      {tabindex}
       bind:value />
   {/if}
   {#if showAutoCompleteList === true}

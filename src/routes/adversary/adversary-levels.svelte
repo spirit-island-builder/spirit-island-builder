@@ -42,7 +42,6 @@
             class="input"
             type="text"
             placeholder="Name"
-            tabindex="1"
             bind:value={level.name} />
         </div>
         <div class="control" style="width:15%; min-width:2rem;">
@@ -51,7 +50,6 @@
             class="input"
             type="text"
             placeholder="Difficulty"
-            tabindex="1"
             bind:value={level.difficulty} />
         </div>
         <div class="control" style="width:15%; min-width:2rem;">
@@ -60,7 +58,6 @@
             class="input"
             type="text"
             placeholder="Fear Cards"
-            tabindex="1"
             bind:value={level.fearCards} />
         </div>
       </div>
@@ -70,7 +67,6 @@
           elementType="textarea"
           classNames="is-small"
           placeholder="Effect"
-          tabindex="1"
           validAutoCompleteValues={iconValuesSorted}
           bind:value={level.effect} />
       </div>

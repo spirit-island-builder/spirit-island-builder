@@ -7,8 +7,9 @@
     "package": "svelte-kit package",
     "preview": "vite preview",
     "prepare": "husky install",
-    "lint": "prettier --check --plugin-search-dir=. . && eslint .",
-    "format": "prettier --write --plugin-search-dir=. .",
+    "checkFormatAndLint": "prettier --check --plugin-search-dir=. . && eslint .",
+    "lint": "eslint . --fix",
+    "writeFormatAndLint": "prettier --write --plugin-search-dir=. . && eslint .",
     "svelteCheck": "svelte-check"
   },
   "devDependencies": {
@@ -16,6 +17,7 @@
     "@sveltejs/adapter-cloudflare": "^1.0.0",
     "@sveltejs/adapter-static": "^1.0.0",
     "@sveltejs/kit": "^1.0.0",
+    "bulma": "^0.9.4",
     "cross-env": "^7.0.3",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.3.0",

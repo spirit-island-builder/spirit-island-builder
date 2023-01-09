@@ -57,7 +57,6 @@
           class="input"
           type="text"
           placeholder="Name"
-          tabindex="1"
           bind:value={spiritBoardBack.nameImage.name} />
       </div>
     </div>
@@ -108,7 +107,6 @@
         class="textarea"
         type="text"
         placeholder="Name"
-        tabindex="1"
         bind:value={spiritBoardBack.lore.loreText} />
     </div>
   </div>

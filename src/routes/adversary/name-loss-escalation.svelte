@@ -54,7 +54,6 @@
           class="input"
           type="text"
           placeholder="Name"
-          tabindex="1"
           bind:value={adversary.nameLossEscalation.name} />
       </div>
       <div class="control" style="width:20%; min-width:2rem;">
@@ -63,7 +62,6 @@
           class="input"
           type="text"
           placeholder="Difficulty"
-          tabindex="1"
           bind:value={adversary.nameLossEscalation.baseDif} />
       </div>
     </div>
@@ -101,7 +99,6 @@
           class="input"
           type="text"
           placeholder="Name"
-          tabindex="1"
           bind:value={adversary.nameLossEscalation.lossCondition.name} />
       </div>
     </div>
@@ -111,7 +108,6 @@
         elementType="textarea"
         placeholder="Effect"
         classNames="is-small"
-        tabindex="1"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={adversary.nameLossEscalation.lossCondition.effect} />
     </div>
@@ -128,7 +124,6 @@
           class="input"
           type="text"
           placeholder="Name"
-          tabindex="1"
           bind:value={adversary.nameLossEscalation.escalation.name} />
       </div>
     </div>
@@ -138,7 +133,6 @@
         elementType="textarea"
         classNames="is-small"
         placeholder="Effect"
-        tabindex="1"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={adversary.nameLossEscalation.escalation.effect} />
     </div>

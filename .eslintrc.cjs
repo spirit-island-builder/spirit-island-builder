@@ -12,12 +12,8 @@ module.exports = {
     es6: true,
     node: true,
   },
-  settings: {
-    "svelte3/ignore-warnings": (object) => {
-      if (object.code === "a11y-positive-tabindex") {
-        return true;
-      }
-      return false;
-    },
+  rules: {
+    "no-var": "error",
+    "eqeqeq": "error",
   },
 };
