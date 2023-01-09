@@ -79,15 +79,6 @@
     powerCards = powerCards;
   }
 
-  function activateElement(event, card) {
-    card.powerElements[event.target.id] = !card.powerElements[event.target.id];
-    if (!event.target.classList.contains("is-active")) {
-      event.target.classList.add("is-active");
-    } else {
-      event.target.classList.remove("is-active");
-    }
-  }
-
   const elements = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
 </script>
 
@@ -139,14 +130,14 @@
       <div class="field has-addons">
         <label class="label is-unselectable mr-1 mt-1" for="">Elements: </label>
         {#each elements as element}
-          <div
-            class="img-elements"
-            class:is-active={card.powerElements[element]}
-            on:click={(e) => {
+          <button
+            class="element-toggle"
+            aria-pressed={card.powerElements[element]}
+            on:click={() => {
               card.powerElements[element] = !card.powerElements[element];
             }}>
             <img src="/template/_global/images/board/element_simple_{element}.png" alt={element} />
-          </div>
+          </button>
         {/each}
       </div>
     </div>
@@ -308,3 +299,21 @@
 <div class="pt-1 pb-2">
   <button class="button is-primary is-light" on:click={addEmptyPowerCard}>Add Power Card</button>
 </div>
+
+<style>
+  .element-toggle {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+  }
+  .element-toggle img {
+    display: block;
+    margin: auto;
+    width: 35px;
+  }
+  .element-toggle[aria-pressed="false"] img {
+    filter: opacity(0.2);
+  }
+</style>
