@@ -747,13 +747,13 @@
     });
 
     let trackEnergy = [];
+    let bonusEnergy = [];
     let energyNodes = spiritBoard.presenceTrack.energyNodes.slice().reverse();
     let formEnergyNodes = Array.from(
       board.getElementsByClassName("energy-track")[0].getElementsByTagName("presence-node")
     ).reverse();
     console.log(energyNodes);
     console.log(formEnergyNodes);
-    console.log(spiritBoard);
     let maxEnergy = 100;
     energyNodes.forEach((node, i) => {
       let nodeEffectText = node.effect;
@@ -763,17 +763,45 @@
       }
 
       const nameCounts = {};
-      nodeEffectText.split("+").forEach(function (x) {
+      let nodeEffectSplit = nodeEffectText.split("+");
+      let plus_check = nodeEffectSplit.indexOf("");
+      if (plus_check !== -1) {
+        nodeEffectSplit.splice(plus_check, 1);
+        nodeEffectSplit[plus_check] = "+" + nodeEffectSplit[plus_check];
+      }
+      nodeEffectSplit.forEach(function (x) {
         nameCounts[x] = (nameCounts[x] || 0) + 1;
       });
 
       let namesList = Object.keys(nameCounts);
+      console.log("namesList:" + namesList);
       for (let j = 0; j < namesList.length; j++) {
         if (!isNaN(namesList[j])) {
-          if (namesList[j] < maxEnergy) {
-            let rect = formEnergyNodes[i]
-              .getElementsByTagName("ring-icon")[0]
-              .getBoundingClientRect();
+          console.log(namesList[j]);
+          let rect = formEnergyNodes[i]
+            .getElementsByTagName("ring-icon")[0]
+            .getBoundingClientRect();
+          if (namesList[j][0] === "+") {
+            console.log("its a plus");
+            bonusEnergy.push({
+              count: Number(namesList[j]),
+              position: {
+                x: toFixedNumber(
+                  (-(boardRect.width / boardRect.height) *
+                    (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
+                    (boardRect.width / 2),
+                  4
+                ),
+                y: 0,
+                z: toFixedNumber(
+                  (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+                    (boardRect.height / 2),
+                  4
+                ),
+              },
+            });
+          } else if (namesList[j] < maxEnergy) {
+            console.log("its energy:" + namesList[j]);
             maxEnergy = namesList[j];
             trackEnergy.push({
               count: Number(maxEnergy),
@@ -800,6 +828,7 @@
     let spiritBoardJson = jsone(spiritBoardJsonTemplate, {
       guid: spiritBoard.nameAndArt.name.replaceAll(" ", "_"),
       spiritName: spiritBoard.nameAndArt.name,
+      bonusEnergy,
       snapPoints,
       thresholds,
       trackElements,
