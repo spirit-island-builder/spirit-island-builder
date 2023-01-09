@@ -46,11 +46,8 @@ function addImages(board) {
     const specialRules = board.querySelectorAll("special-rules-container")[0];
     const spiritBorderSize = board.getAttribute("spirit-border-scale");
     const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
-    console.log("here");
-    console.log(spiritBorderSize);
     spiritNamePanel.style.backgroundImage = `url(${spiritBorder})`;
     borderHeight = spiritBorderSize !== null ? spiritBorderSize : "100px";
-    console.log("here too");
     spiritNamePanel.style.backgroundSize = `705px ${borderHeight}`;
   }
   if (spiritImage) {
@@ -2285,17 +2282,9 @@ function dynamicResizing() {
   var cellWidthV2 = [];
   for (const cell of growthCells) {
     var cellRect = findBoundingRect(cell);
-    // console.log('-- TEST --')
-    // console.log(cellRect)
-    // console.log(cell)
-    // console.log(cellRect.width)
-    // console.log('^--RESULT--^')
     totalIconWidths += cellRect.width;
     cellWidthV2.push(cellRect.width);
   }
-  /* console.log('total icon width = '+totalIconWidths) */
-  // console.log('old way = '+totalWidth)
-  // console.log(cellWidthV2)
 
   //Iterate through growth table(s) to resize
   const largeCellScale = 1.5;
@@ -2576,12 +2565,12 @@ function dynamicResizing() {
       presence_nodes[0].classList.contains("first") &&
       track_tds[1].classList.contains("middle")
     ) {
-      subtext[1].style.height = first_row_max + 2 + "px";
+      presence_nodes[1].style.marginBottom = first_row_max + 2 - 24 + "px";
       if (debug) {
         console.log("found middle & first node");
       }
     } else {
-      subtext[0].style.height = first_row_max + 2 + "px";
+      presence_nodes[0].style.marginBottom = first_row_max + 2 - 24 + "px";
     }
   }
   var presence_table = document.getElementById("presence-table");
