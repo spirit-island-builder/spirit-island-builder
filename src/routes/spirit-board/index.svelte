@@ -774,15 +774,13 @@
       });
 
       let namesList = Object.keys(nameCounts);
-      console.log("namesList:" + namesList);
+
       for (let j = 0; j < namesList.length; j++) {
         if (!isNaN(namesList[j])) {
-          console.log(namesList[j]);
           let rect = formEnergyNodes[i]
             .getElementsByTagName("ring-icon")[0]
             .getBoundingClientRect();
           if (namesList[j][0] === "+") {
-            console.log("its a plus");
             bonusEnergy.push({
               count: Number(namesList[j]),
               position: {
@@ -801,7 +799,6 @@
               },
             });
           } else if (namesList[j] < maxEnergy) {
-            console.log("its energy:" + namesList[j]);
             maxEnergy = namesList[j];
             trackEnergy.push({
               count: Number(maxEnergy),
