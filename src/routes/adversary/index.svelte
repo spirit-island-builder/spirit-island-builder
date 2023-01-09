@@ -212,7 +212,7 @@
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/adversary.css" rel="stylesheet" />
-    <script type="text/javascript" src="/template/_global/js/general.js"></script>
+    <script type="text/javascript" src="/template/_global/js/common.js"></script>
     <script type="text/javascript" src="/template/_global/js/adversary.js"></script>
   </svelte:fragment>
 </PreviewFrame>
