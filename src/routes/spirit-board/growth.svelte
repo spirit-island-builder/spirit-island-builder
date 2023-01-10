@@ -118,18 +118,6 @@
     }
   }
 
-  function onKeyDown(e) {
-    console.log("onkeydown");
-    if (e.key === "Enter") {
-      let growthActionBuilderID = e.target.id;
-      console.log("Builder ID = " + growthActionBuilderID);
-    }
-  }
-
-  // function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
-  //   updateGrowthAction(setIndex, groupIndex, actionIndex);
-  // }
-
   function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
     let newGrowthActionText =
       spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions[actionIndex]
@@ -305,7 +293,7 @@
                       placeholder="Growth Action"
                       showListImmediately={true}
                       validAutoCompleteValues={growthValuesSorted}
-                      on:keydown={onKeyDown}
+                      additionalOnBlurFunction={() => updateGrowthActionLocal(i, j, k)}
                       bind:value={growthAction.effect} />
                   </div>
                   <button
