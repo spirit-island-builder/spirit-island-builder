@@ -10,6 +10,8 @@
   export let id;
   export let classNames = "";
   export let showListImmediately;
+  export let additionalOnKeyDownFunction = () => {};
+  export let additionalOnBlurFunction = () => {};
 
   let showAutoCompleteList = false;
   let valuesToShow;
@@ -137,6 +139,7 @@
         }
       }
     }
+    additionalOnKeyDownFunction(event);
   }
 
   function updateCurrentKeyBoardFocus(valueToAdd) {
@@ -186,7 +189,7 @@
     handleAutoCompleteSelectionFromList(event);
   }
 
-  function closeAutoComplete() {
+  function closeAutoComplete(event) {
     // selectedWord, startOfWordPosition, and inputElementThatWasCompleted are intentionally not reset here so that cursor repositioning in afterUpdate() works
     showAutoCompleteList = false;
     showActiveSelection = true;
@@ -195,6 +198,11 @@
     currentKeyBoardFocus = 0;
     startingCharacterPosition = 0;
     currentAutoCompleteTermLength = 0;
+
+    // since closeAutoComplete can be called from events other than "blur", we check to make sure this is a "blur" event before calling the function that might have been passed in from the parent
+    if (event?.type === "blur") {
+      additionalOnBlurFunction();
+    }
   }
 
   function openAutoComplete(currentCursorPostion, inputValue) {

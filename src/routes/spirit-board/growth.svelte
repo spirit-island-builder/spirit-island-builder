@@ -119,11 +119,16 @@
   }
 
   function onKeyDown(e) {
-    console.log("onkeydown");
+    console.log("e: ", e);
     if (e.key === "Enter") {
       let growthActionBuilderID = e.target.id;
       console.log("Builder ID = " + growthActionBuilderID);
     }
+  }
+
+  function onBlurTest(index, somethingElse) {
+    console.log("somethingElse: ", somethingElse);
+    console.log("index: ", index);
   }
 
   // function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
@@ -305,7 +310,8 @@
                       placeholder="Growth Action"
                       showListImmediately={true}
                       validAutoCompleteValues={growthValuesSorted}
-                      on:keydown={onKeyDown}
+                      additionalOnKeyDownFunction={onKeyDown}
+                      additionalOnBlurFunction={() => onBlurTest(k, growthAction.effect)}
                       bind:value={growthAction.effect} />
                   </div>
                   <button
