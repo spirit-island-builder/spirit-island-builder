@@ -347,21 +347,23 @@
   ];
 </script>
 
-<h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
-<nav class="navbar ml-5">
-  <div class="navbar-brand">
-    {#each pages as [page, title]}
-      {@const isCurrent = currentPage === page}
-      <button
-        class={`button navbar-item ${isCurrent ? "is-primary" : "is-link is-light"}`}
-        on:click={() => {
-          setCurrentPage(page);
-        }}>
-        {title}
-      </button>
-    {/each}
-  </div>
-</nav>
+<header>
+  <h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
+  <nav class="navbar ml-5">
+    <div class="navbar-brand">
+      {#each pages as [page, title]}
+        {@const isCurrent = currentPage === page}
+        <button
+          class={`button navbar-item ${isCurrent ? "is-primary" : "is-link is-light"}`}
+          on:click={() => {
+            setCurrentPage(page);
+          }}>
+          {title}
+        </button>
+      {/each}
+    </div>
+  </nav>
+</header>
 {#if isShowingInstructions === true}
   <Instructions bind:isShowingInstructions bind:instructionsSource />
 {/if}
