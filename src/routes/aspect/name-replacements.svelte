@@ -1,6 +1,7 @@
 <script>
+  import Section from "$lib/section.svelte";
+
   export let aspect;
-  export let showOrHideSection;
 
   function handleImageFileInput(event) {
     const file = event.target.files.item(0);
@@ -34,21 +35,7 @@
   }
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="nameReplacements">
-  Name & Rules Replacements
-  <span on:click={showOrHideSection}>
-    {#if aspect.nameReplacements.isVisible}
-      <ion-icon id="nameReplacements" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="nameReplacements" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if aspect.nameReplacements.isVisible}
-  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
+<Section title="Name & Rules Replacements" bind:isVisible={aspect.nameReplacements.isVisible}>
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -180,4 +167,4 @@
       {/if}
     </div>
   </div>
-{/if}
+</Section>

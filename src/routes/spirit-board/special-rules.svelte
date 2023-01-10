@@ -2,9 +2,9 @@
   import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  import Section from "$lib/section.svelte";
 
   export let spiritBoard;
-  export let showOrHideSection;
 
   function addSpecialRule() {
     spiritBoard = Lib.addSpecialRule(spiritBoard);
@@ -25,21 +25,7 @@
   }
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="specialRules">
-  Special Rules
-  <span on:click={showOrHideSection}>
-    {#if spiritBoard.specialRules.isVisible}
-      <ion-icon id="specialRules" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="specialRules" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if spiritBoard.specialRules.isVisible}
-  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
+<Section title="Special Rules" bind:isVisible={spiritBoard.specialRules.isVisible}>
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -49,6 +35,7 @@
         ></span>
     </div>
   </article>
+  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
   {#each spiritBoard.specialRules.rules as rule, i (rule.id)}
     <div class="field">
       <label class="label is-flex is-justify-content-space-between" for={`ruleNameInput${i}`}
@@ -83,4 +70,4 @@
       </div>
     {/if}
   {/each}
-{/if}
+</Section>

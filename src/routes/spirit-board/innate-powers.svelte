@@ -1,9 +1,9 @@
 <script>
   export let spiritBoard;
-  export let showOrHideSection;
   import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  import Section from "$lib/section.svelte";
 
   function setSpeedTextbox(powerSpeed, innatePower) {
     innatePower.speed = powerSpeed;
@@ -102,20 +102,7 @@
   }
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="innatePowers">
-  Innate Powers
-  <span id="innatePowers" on:click={showOrHideSection}>
-    {#if spiritBoard.innatePowers.isVisible}
-      <ion-icon id="innatePowers" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="innatePowers" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if spiritBoard.innatePowers.isVisible}
+<Section title="Innate Powers" bind:isVisible={spiritBoard.innatePowers.isVisible}>
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -279,4 +266,4 @@
   <div class="pt-1">
     <button class="button is-primary is-light" on:click={addInnatePower}>Add Innate Power</button>
   </div>
-{/if}
+</Section>

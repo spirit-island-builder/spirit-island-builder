@@ -2,24 +2,10 @@
   export let adversary;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
-  export let showOrHideSection;
+  import Section from "$lib/section.svelte";
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="levelSummary">
-  Levels
-  <span on:click={showOrHideSection}>
-    {#if adversary.levelSummary.isVisible}
-      <ion-icon id="levelSummary" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="levelSummary" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if adversary.levelSummary.isVisible}
-  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
+<Section title="Levels" bind:isVisible={adversary.levelSummary.isVisible}>
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -30,6 +16,7 @@
     </div>
   </article>
 
+  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
   {#each adversary.levelSummary.levels as level, i (level.id)}
     <div class="field">
       <label class="label is-flex is-justify-content-space-between" for={`levelNameInput${i}`}
@@ -72,4 +59,4 @@
       </div>
     </div>
   {/each}
-{/if}
+</Section>

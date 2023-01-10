@@ -1,10 +1,10 @@
 <script>
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  import Section from "$lib/section.svelte";
   import * as Lib from "../lib";
 
   export let aspect;
-  export let showOrHideSection;
 
   function addSpecialRule() {
     aspect.aspectEffects = Lib.addSpecialRule(aspect.aspectEffects);
@@ -56,21 +56,7 @@
   }
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="aspectEffects">
-  Aspect Effects
-  <span on:click={showOrHideSection}>
-    {#if aspect.aspectEffects.isVisible}
-      <ion-icon id="aspectEffects" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="aspectEffects" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if aspect.aspectEffects.isVisible}
-  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
+<Section title="Aspect Effects" bind:isVisible={aspect.aspectEffects.isVisible}>
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -287,4 +273,4 @@
           ],
         },
       ], -->
-{/if}
+</Section>

@@ -43,10 +43,6 @@
     }
   }
 
-  function showOrHideSection(event) {
-    adversary[event.target.id].isVisible = !adversary[event.target.id].isVisible;
-  }
-
   function reloadPreview() {
     console.log("Updating Preview Adversary (f=setBoardValues)");
     setBoardValues(adversary);
@@ -233,19 +229,6 @@
 </script>
 
 <h5 class="title is-5 mb-0">Adversary</h5>
-<!-- <h6
-  on:click={showOrHideBoard}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
-  id="previewBoard">
-  Preview
-  <span on:click={showOrHideBoard}>
-    {#if adversary.previewBoard.isVisible}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6> -->
 <PreviewFrame
   id="adversary-preview"
   src={previewFrameSrc}
@@ -276,10 +259,10 @@
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
-    <NameLossAndEscalation bind:adversary {showOrHideSection} />
+    <NameLossAndEscalation bind:adversary />
   </div>
   <div class="column pt-0">
-    <AdversaryLevels bind:adversary {showOrHideSection} />
+    <AdversaryLevels bind:adversary />
   </div>
 </div>
 
