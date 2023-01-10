@@ -1,9 +1,9 @@
 <script>
   export let spiritBoard;
-  export let showOrHideSection;
   import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  import Section from "$lib/section.svelte";
 
   function insertEnergyTrackNode(index) {
     let focusId = "energy" + (index + 1) + "builder";
@@ -176,20 +176,7 @@
   }
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="presenceTrack">
-  Presence Tracks
-  <span id="presenceTrack" on:click={showOrHideSection}>
-    {#if spiritBoard.presenceTrack.isVisible}
-      <ion-icon id="presenceTrack" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="presenceTrack" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if spiritBoard.presenceTrack.isVisible}
+<Section title="Presence Tracks" bind:isVisible={spiritBoard.presenceTrack.isVisible}>
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -283,4 +270,4 @@
         bind:value={spiritBoard.presenceTrack.note} />
     </div>
   </div>
-{/if}
+</Section>

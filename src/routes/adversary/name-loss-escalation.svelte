@@ -2,7 +2,7 @@
   export let adversary;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
-  export let showOrHideSection;
+  import Section from "$lib/section.svelte";
 
   function handleImageFileInput(event) {
     const file = event.target.files.item(0);
@@ -19,21 +19,9 @@
   }
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="nameLossEscalation">
-  Name, Loss Condition, and Escalation
-  <span on:click={showOrHideSection}>
-    {#if adversary.nameLossEscalation.isVisible}
-      <ion-icon id="nameLossEscalation" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="nameLossEscalation" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if adversary.nameLossEscalation.isVisible}
-  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
+<Section
+  title="Name, Loss Condition, and Escalation"
+  bind:isVisible={adversary.nameLossEscalation.isVisible}>
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -137,4 +125,4 @@
         bind:value={adversary.nameLossEscalation.escalation.effect} />
     </div>
   </div>
-{/if}
+</Section>

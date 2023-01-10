@@ -2,6 +2,7 @@
   import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { growthValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  import Section from "$lib/section.svelte";
 
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
@@ -163,23 +164,9 @@
   }
 
   export let spiritBoard;
-  export let showOrHideSection;
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="growth">
-  Growth
-  <span on:click={showOrHideSection}>
-    {#if spiritBoard.growth.isVisible}
-      <ion-icon id="growth" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="growth" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if spiritBoard.growth.isVisible}
+<Section title="Growth" bind:isVisible={spiritBoard.growth.isVisible}>
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -352,4 +339,4 @@
       </div>
     </div>
   {/if}
-{/if}
+</Section>

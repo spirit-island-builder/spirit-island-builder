@@ -1,6 +1,7 @@
 <script>
+  import Section from "$lib/section.svelte";
+
   export let spiritBoardBack;
-  export let showOrHideSection;
 
   function handleImageFileInput(event) {
     const file = event.target.files.item(0);
@@ -22,21 +23,7 @@
   }
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="nameArtLore">
-  Name, Art and Lore
-  <span on:click={showOrHideSection}>
-    {#if spiritBoardBack.nameArtLore.isVisible}
-      <ion-icon id="nameArtLore" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="nameArtLore" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if spiritBoardBack.nameArtLore.isVisible}
-  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
+<Section title="Name, Art and Lore" bind:isVisible={spiritBoardBack.nameArtLore.isVisible}>
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -110,4 +97,4 @@
         bind:value={spiritBoardBack.lore.loreText} />
     </div>
   </div>
-{/if}
+</Section>

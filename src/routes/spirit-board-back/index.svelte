@@ -45,10 +45,6 @@
     }
   }
 
-  function showOrHideSection(event) {
-    spiritBoardBack[event.target.id].isVisible = !spiritBoardBack[event.target.id].isVisible;
-  }
-
   function reloadPreview() {
     console.log("Updating Preview Lore Side Board (f=setBoardValues)");
     setBoardValues(spiritBoardBack);
@@ -281,19 +277,6 @@
 </script>
 
 <h5 class="title is-5 mb-0">Spirit Board Lore Side</h5>
-<!-- <h6
-  on:click={showOrHideBoard}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
-  id="previewBoard">
-  Preview
-  <span on:click={showOrHideBoard}>
-    {#if spiritBoardBack.previewBoard.isVisible}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6> -->
 <PreviewFrame
   id="lore-preview"
   src={previewFrameSrc}
@@ -324,11 +307,11 @@
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
-    <NameArtLore bind:spiritBoardBack {showOrHideSection} />
-    <CustomIcons bind:customIcons {showOrHideSection} />
+    <NameArtLore bind:spiritBoardBack />
+    <CustomIcons bind:customIcons />
   </div>
   <div class="column pt-0">
-    <SetupPlaystyleComplexityPowers bind:spiritBoardBack {showOrHideSection} />
+    <SetupPlaystyleComplexityPowers bind:spiritBoardBack />
   </div>
 </div>
 <div id="lore-holder">
