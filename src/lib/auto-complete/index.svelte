@@ -242,7 +242,6 @@
   }
 
   function nextNode(event) {
-    console.log("next node");
     Lib.nextNode(event);
   }
 </script>
