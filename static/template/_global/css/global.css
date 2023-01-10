@@ -35,6 +35,12 @@
 }
 
 @font-face {
+  font-family: "Energy Font";
+  src: url(../fonts/Gobold-Extra2/Gobold-Extra2.otf),
+    url(../fonts/Noto_Sans/NotoSans-Bold.ttf);
+}
+
+@font-face {
   font-family: "Lato SemiBold";
   src: url(../fonts/lato/Lato-BoldItalic.ttf);
   font-style: italic;

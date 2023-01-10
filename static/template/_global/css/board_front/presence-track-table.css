@@ -236,7 +236,7 @@ icon.energy-blank {
 }
 
 presence-node value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 36pt;
   display: inline-block;
 }
@@ -350,7 +350,7 @@ custom-presence-track-icon {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 24pt;
   color: #431e0aff;
 }
