@@ -44,10 +44,6 @@
     }
   }
 
-  function showOrHideSection(event) {
-    aspect[event.target.id].isVisible = !aspect[event.target.id].isVisible;
-  }
-
   function reloadPreview() {
     console.log("Updating Preview (f=reloadPreview)");
     setBoardValues(aspect);
@@ -353,19 +349,6 @@
 </script>
 
 <h5 class="title is-5 mb-0">Aspect</h5>
-<!-- <h6
-  on:click={showOrHideBoard}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
-  id="previewBoard">
-  Preview Aspect
-  <span on:click={showOrHideBoard}>
-    {#if aspect.previewBoard.isVisible}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6> -->
 <PreviewFrame
   id="aspect-preview"
   src={previewFrameSrc}
@@ -397,11 +380,11 @@
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
-    <NameReplacements bind:aspect {showOrHideSection} />
-    <!-- <CustomIcons bind:customIcons {showOrHideSection} /> -->
+    <NameReplacements bind:aspect />
+    <!-- <CustomIcons bind:customIcons /> -->
   </div>
   <div class="column pt-0">
-    <AspectEffects bind:aspect {showOrHideSection} />
+    <AspectEffects bind:aspect />
   </div>
 </div>
 
