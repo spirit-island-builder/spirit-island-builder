@@ -158,6 +158,10 @@
     }
   }
 
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
+
   export let spiritBoard;
 </script>
 
@@ -245,6 +249,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;2&quot; or &quot;3,dahan&quot;"
+                      on:keyup={nextNode}
                       bind:value={growthGroup.cost} />
                   </div>
                   <button
@@ -261,6 +266,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;blue&quot;"
+                      on:keyup={nextNode}
                       bind:value={growthGroup.tint} />
                   </div>
                   <button
@@ -277,6 +283,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;Max 1/Game&quot;"
+                      on:keyup={nextNode}
                       bind:value={growthGroup.title} />
                   </div>
                   <button
