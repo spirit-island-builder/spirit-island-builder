@@ -15,13 +15,31 @@
   }
 
   function nextNode(event) {
-    console.log("next node");
     Lib.nextNode(event);
   }
 
   function selectNode(event) {
     let nodeID = event.target.id;
     document.getElementById(nodeID).select();
+  }
+
+  function updateSpecialRule(rule, ID) {
+    let newSpecialRuleText = rule.effect;
+    if (newSpecialRuleText) {
+      let templateSpecialRuleID = "sr" + ID + "effect";
+      let previewFrame = document.getElementById("preview-iframe").contentWindow;
+
+      // Find node in Template
+      let findSpecialRuleTempalte = previewFrame.document.getElementById(templateSpecialRuleID);
+      if (findSpecialRuleTempalte) {
+        console.log(
+          "Rewriting Special Rule ID: " + templateSpecialRuleID + " with " + newSpecialRuleText
+        );
+
+        // update node
+        findSpecialRuleTempalte.innerHTML = previewFrame.replaceIcon(newSpecialRuleText);
+      }
+    }
   }
 </script>
 
@@ -59,6 +77,7 @@
         elementType="textarea"
         placeholder="Effect"
         validAutoCompleteValues={iconValuesSorted}
+        additionalOnBlurFunction={() => updateSpecialRule(rule, i)}
         bind:value={rule.effect} />
     </div>
     {#if i === spiritBoard.specialRules.rules.length - 1}

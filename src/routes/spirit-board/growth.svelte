@@ -159,7 +159,6 @@
   }
 
   function nextNode(event) {
-    console.log("next node");
     Lib.nextNode(event);
   }
 
@@ -301,6 +300,7 @@
                       placeholder="Growth Action"
                       showListImmediately={true}
                       validAutoCompleteValues={growthValuesSorted}
+                      additionalOnBlurFunction={() => updateGrowthActionLocal(i, j, k)}
                       bind:value={growthAction.effect} />
                   </div>
                   <button
