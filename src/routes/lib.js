@@ -221,6 +221,15 @@ export const nextNode = (event) => {
       case "ruleNameInput":
         focusID = currentID.replace("Name", "Effect");
         break;
+      case "ruleEffectInput":
+        focusID = currentID.replace("Effect", "Name");
+        focusID = focusID.replace(/\d+$/, function (m) {
+          return parseInt(m) + 1;
+        });
+        if (document.getElementById(focusID) === null) {
+          focusID = "addSpecialRule";
+        }
+        break;
       //Growth
       case "growthSetGroupAction":
         focusID = currentID.replace(/\d+$/, function (m) {
@@ -230,6 +239,23 @@ export const nextNode = (event) => {
           focusID = currentID.replace("Action", "AddAction");
           focusID = focusID.slice(0, -1);
         }
+        break;
+      case "setgroupcost":
+        focusID = currentID.replace("cost", "tint");
+        if (document.getElementById(focusID) !== null) {
+          break;
+        }
+        currentID = focusID;
+      // eslint-disable-next-line no-fallthrough
+      case "setgrouptint":
+        focusID = currentID.replace("tint", "title");
+        if (document.getElementById(focusID) !== null) {
+          break;
+        }
+        currentID = focusID;
+      // eslint-disable-next-line no-fallthrough
+      case "setgrouptitle":
+        focusID = "growthSet" + numMatches[0] + "Group" + numMatches[1] + "Action0";
         break;
       //Presence Tracks
       case "energybuilder":
