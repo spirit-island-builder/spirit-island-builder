@@ -96,7 +96,6 @@ function buildGrowthPanel() {
 
   for (let i = 0; i < growthHTML[0].children.length; i++) {
     const childElement = growthHTML[0].children[i];
-    const previousElement = i > 0 ? growthHTML[0].children[i - 1] : undefined;
     const nextElement =
       i < growthHTML[0].children.length - 1 ? growthHTML[0].children[i + 1] : undefined;
 
@@ -209,13 +208,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   console.log(growthActions);
 
   for (let j = 0; j < growthActions.length; j++) {
-    growthGroupHTML += writeGrowthAction(
-      growthActions[j],
-      setIndex,
-      groupIndex,
-      j,
-      (tint_text = "")
-    );
+    growthGroupHTML += writeGrowthAction(growthActions[j], setIndex, groupIndex, j, tint_text);
   }
 
   growthGroupHTML += "</growth-group>";
@@ -231,7 +224,6 @@ function writeGrowthAction(
   tint_text = ""
 ) {
   let debug = false;
-  const regExp = /\(([^)]+)\)/;
   const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
   const regExpCommaNoParentheses = /,(?![^(]*\))/;
 
@@ -917,8 +909,6 @@ function getGrowthActionTextAndIcons(growthAction) {
         //Check if they want multiples of the same element or a choice of elements by looking for a numeral
         if (isNaN(elementOptions[1]) && elementOptions.at(-1) !== "and") {
           //No numeral - user wants different elements. For example gain-element(water,fire)
-          if (elementOptions.at(-1) === "or" || elementOptions.at(-1) === "and") {
-          }
 
           //Icons
           let elementIcons = "<gain class='or'>";
@@ -1878,7 +1868,6 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           const matches = regExp.exec(splitOptions[i]);
           const elementList = matches[1].split(";");
           let elementIcons = "";
-          let elementText = "";
           if (elementList.length === 2) {
             elementIcons +=
               "<icon-multi-element><element-or-wrap class='small'" +
@@ -1891,9 +1880,6 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
               "<icon class='" +
               elementList[1] +
               " presence-or-second small'></icon></element-or-wrap></icon-multi-element>";
-            elementText += Capitalise(elementList[0]);
-            elementText += " OR ";
-            elementText += Capitalise(elementList[1]);
           }
           trackIcons += elementIcons;
         } else {
@@ -2216,13 +2202,11 @@ function growthHeadersAndTitles() {
 
   // Create special titles
   const growthTableTitles = board.getElementsByTagName("growth-table");
-  let specialTitleFlag = false;
   for (const table of growthTableTitles) {
     const growthGroupsTitles = table.getElementsByTagName("growth-group");
     for (const group of growthGroupsTitles) {
       const specialTitle = group.getAttribute("special-title");
       if (specialTitle) {
-        specialTitleFlag = true;
         const growthActionsTitles = group.getElementsByTagName("growth-cell");
         let growthGroupWidth = 0;
         for (const action of growthActionsTitles) {
@@ -2295,7 +2279,6 @@ function dynamicResizing() {
   }
 
   // TEST iterate through growth cells
-  let totalIconWidths = 0;
   const cellWidthV2 = [];
   for (const cell of allGrowthCells) {
     const cellRect = findBoundingRect(cell);
@@ -2304,7 +2287,6 @@ function dynamicResizing() {
     // console.log(cell)
     // console.log(cellRect.width)
     // console.log('^--RESULT--^')
-    totalIconWidths += cellRect.width;
     cellWidthV2.push(cellRect.width);
   }
   /* console.log('total icon width = '+totalIconWidths) */
@@ -2326,7 +2308,6 @@ function dynamicResizing() {
     }
 
     const growthCells = growthTable.getElementsByTagName("growth-cell");
-    const growthTableStyle = window.getComputedStyle(growthTable);
     let widthArray = [];
 
     const growthCosts = growthTable.getElementsByTagName("growth-cost");
@@ -2477,13 +2458,8 @@ function dynamicResizing() {
   // Innate Power Thresholds
   const thresholds = board.getElementsByTagName("threshold");
   const thresholdsCount = thresholds.length;
-  const ICONWIDTH = 60;
-  let dynamicThresholdWidth = [];
   let outerThresholdWidth = [];
   for (let i = 0; i < thresholdsCount; i++) {
-    const icon = thresholds[i].getElementsByTagName("icon");
-    const iconCount = icon.length;
-    dynamicThresholdWidth = iconCount * ICONWIDTH + iconCount * 12;
     // Check if the threshold width is overflowing. If so, just let it size itself...
     const thresholdHeight = thresholds[i].offsetHeight;
     if (thresholdHeight > 60) {
