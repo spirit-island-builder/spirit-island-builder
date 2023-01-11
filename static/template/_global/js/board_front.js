@@ -55,7 +55,7 @@ function addImages(board) {
   if (spiritImage) {
     //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
     board.innerHTML =
-      `<div class="spirit-image" style="background-image: url(${spiritImage}); background-size: auto ${imageSize}; width:1700px;" ></div>` +
+      `<div class="spirit-image" style="background-image: url(&quot;${spiritImage}&quot;); background-size: auto ${imageSize}; width: 1700px;" ></div>` +
       board.innerHTML;
     artistCredit[0].style.display = "block";
     artistCredit[0].innerHTML = "Artist Credit: " + artistCredit[0].innerHTML;
@@ -1364,9 +1364,9 @@ function parseEnergyTrackTags() {
   let energyLength = energyOptions.length * 130 + 15;
   if (energyBanner) {
     energyHTML =
-      "<tr class='energy-track' style='background-image:  url(" +
+      "<tr class='energy-track' style='background-image: url(&quot;" +
       energyBanner +
-      "); background-size: " +
+      "&quot;); background-size: " +
       energyLength +
       "px " +
       energyBannerScale +
@@ -1376,7 +1376,7 @@ function parseEnergyTrackTags() {
   }
 
   // This can be scaled to move the first presence icon.
-  energyHTML += "<td style='width:10px'></td>";
+  energyHTML += "<td style='width: 10px;'></td>";
   let firstIsMiddle = false;
   let isFirst = false;
   for (let i = 0; i < energyOptions.length; i++) {
@@ -1433,9 +1433,9 @@ function parseCardPlayTrackTags() {
   let cardPlayLength = cardPlayOptions.length * 130 + 15;
   if (cardPlayBanner) {
     cardPlayHTML =
-      "<tr class='plays-track' style='background-image:  url(" +
+      "<tr class='plays-track' style='background-image: url(&quot;" +
       cardPlayBanner +
-      "); background-size: " +
+      "&quot;); background-size: " +
       cardPlayLength +
       "px " +
       cardPlayBannerScale +
@@ -1445,7 +1445,7 @@ function parseCardPlayTrackTags() {
   }
 
   // This can be scaled to move the first presence icon.
-  cardPlayHTML += "<td style='width:10px'></td>";
+  cardPlayHTML += "<td style='width: 10px;'></td>";
 
   for (let i = 0; i < cardPlayOptions.length; i++) {
     cardPlayHTML +=
