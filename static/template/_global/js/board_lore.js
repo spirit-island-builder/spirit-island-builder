@@ -9,11 +9,8 @@ function startMain() {
   adjustComplexityValue();
   createPowerProperties();
   var setup = document.querySelectorAll("setup-description")[0];
-  addHTMLLineBreaks(setup);
   var playstyle = document.querySelectorAll("play-style-description")[0];
-  addHTMLLineBreaks(playstyle);
   var lore = document.querySelectorAll("lore-description")[0];
-  addHTMLLineBreaks(lore);
 
   setTimeout(() => {
     resize();
@@ -55,22 +52,6 @@ function resize() {
       loreImage.style.width = imageScale + "%";
     }
   }
-}
-
-function addHTMLLineBreaks(htmlElement) {
-  ruleLines = htmlElement.innerHTML.split("\n");
-  rulesHTML = "";
-  for (let i = 0; i < ruleLines.length; i++) {
-    if (ruleLines[i] && ruleLines[i].trim().length) {
-      rulesHTML += "<div>" + ruleLines[i] + "</div>";
-    } else if (i > 0 && i < ruleLines.length - 1) {
-      rulesHTML += "<br>";
-      // allows user's line breaks to show up on the card
-    }
-  }
-  htmlElement.innerHTML = rulesHTML;
-
-  return htmlElement;
 }
 
 function adjustComplexityValue() {

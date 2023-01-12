@@ -2785,25 +2785,6 @@ function parseInnatePowers() {
     "<section-title>Innate Powers</section-title><innate-power-container>" +
     fullHTML +
     "</innate-power-container>";
-
-  //Enable custom line breaks
-  var levelList = board.getElementsByClassName("description");
-
-  for (let j = 0; j < levelList.length; j++) {
-    ruleLines = levelList[j].innerHTML.split("\n");
-    rulesHTML = "";
-    for (let i = 0; i < ruleLines.length; i++) {
-      rulesText = ruleLines[i];
-      rulesText = rulesText.replaceAll("\t", "");
-      if (rulesText && rulesText.trim().length) {
-        rulesHTML += "<div>" + ruleLines[i] + "</div>";
-      } else if (i > 0 && i < ruleLines.length - 1) {
-        rulesHTML += "<br>";
-        // allows user's line breaks to show up on the card
-      }
-    }
-    levelList[j].innerHTML = rulesHTML;
-  }
 }
 
 function parseInnatePower(innatePowerHTML, index) {
@@ -3021,19 +3002,5 @@ function parseSpecialRules() {
     specialRuleNameList[j].id = "sr" + j + "name";
   }
 
-  // Enable user's own line breaks to show up in code
-  for (let j = 0; j < specialRuleList.length; j++) {
-    ruleLines = specialRuleList[j].innerHTML.split("\n");
-    rulesHTML = "";
-    for (let i = 0; i < ruleLines.length; i++) {
-      if (ruleLines[i] && ruleLines[i].trim().length) {
-        rulesHTML += "<div>" + ruleLines[i] + "</div>";
-      } else if (i > 0 && i < ruleLines.length - 1) {
-        rulesHTML += "<br>";
-        // allows user's line breaks to show up on the card
-      }
-    }
-    specialRuleList[j].innerHTML = rulesHTML;
-  }
   // <special-rules-track values="2,3,4"></special-rules-track>
 }
