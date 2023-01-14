@@ -2,9 +2,9 @@
   import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  import Section from "$lib/section.svelte";
 
   export let spiritBoard;
-  export let showOrHideSection;
 
   function addSpecialRule() {
     spiritBoard = Lib.addSpecialRule(spiritBoard);
@@ -14,33 +14,36 @@
     spiritBoard = Lib.removeSpecialRule(spiritBoard, index);
   }
 
-  function nextNode(event){
-    console.log('next node')
-    Lib.nextNode(event)
+  function nextNode(event) {
+    Lib.nextNode(event);
   }
 
   function selectNode(event) {
-    var nodeID = event.target.id;
+    let nodeID = event.target.id;
     document.getElementById(nodeID).select();
   }
 
+  function updateSpecialRule(rule, ID) {
+    let newSpecialRuleText = rule.effect;
+    if (newSpecialRuleText) {
+      let templateSpecialRuleID = "sr" + ID + "effect";
+      let previewFrame = document.getElementById("preview-iframe").contentWindow;
+
+      // Find node in Template
+      let findSpecialRuleTempalte = previewFrame.document.getElementById(templateSpecialRuleID);
+      if (findSpecialRuleTempalte) {
+        console.log(
+          "Rewriting Special Rule ID: " + templateSpecialRuleID + " with " + newSpecialRuleText
+        );
+
+        // update node
+        findSpecialRuleTempalte.innerHTML = previewFrame.replaceIcon(newSpecialRuleText);
+      }
+    }
+  }
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="specialRules">
-  Special Rules
-  <span on:click={showOrHideSection}>
-    {#if spiritBoard.specialRules.isVisible}
-      <ion-icon id="specialRules" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="specialRules" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if spiritBoard.specialRules.isVisible}
-  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
+<Section title="Special Rules" bind:isVisible={spiritBoard.specialRules.isVisible}>
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -50,6 +53,7 @@
         ></span>
     </div>
   </article>
+  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
   {#each spiritBoard.specialRules.rules as rule, i (rule.id)}
     <div class="field">
       <label class="label is-flex is-justify-content-space-between" for={`ruleNameInput${i}`}
@@ -62,7 +66,6 @@
             class="input"
             type="text"
             placeholder="Name"
-            tabindex="1"
             on:focus={selectNode}
             on:keyup={nextNode}
             bind:value={spiritBoard.specialRules.rules[i].name} />
@@ -74,15 +77,16 @@
         elementType="textarea"
         placeholder="Effect"
         validAutoCompleteValues={iconValuesSorted}
+        additionalOnBlurFunction={() => updateSpecialRule(rule, i)}
         bind:value={rule.effect} />
     </div>
     {#if i === spiritBoard.specialRules.rules.length - 1}
       <div class="field">
         <div class="control">
-          <button class="button is-primary is-light" tabindex="1" on:click={addSpecialRule}
+          <button class="button is-primary is-light" id="addSpecialRule" on:click={addSpecialRule}
             >Add Another Rule</button>
         </div>
       </div>
     {/if}
   {/each}
-{/if}
+</Section>

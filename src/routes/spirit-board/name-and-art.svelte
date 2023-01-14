@@ -1,4 +1,6 @@
 <script>
+  import Section from "$lib/section.svelte";
+
   function handleImageFileInput(event) {
     const file = event.target.files.item(0);
     if (file) {
@@ -41,23 +43,9 @@
 
   // exports allow for properties to be passed into this component. So the value of spiritBoard can be set by whatever component is the parent of this one. See https://svelte.dev/tutorial/declaring-props
   export let spiritBoard;
-  export let showOrHideSection;
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="nameAndArt">
-  Spirit Name & Art
-  <span on:click={showOrHideSection}>
-    {#if spiritBoard.nameAndArt.isVisible}
-      <ion-icon id="nameAndArt" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="nameAndArt" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if spiritBoard.nameAndArt.isVisible}
+<Section title="Spirit Name & Art" bind:isVisible={spiritBoard.nameAndArt.isVisible}>
   <div class="field">
     <label class="label" for="spiritNameInput">Spirit Name</label>
     <div class="control">
@@ -260,4 +248,4 @@
         bind:value={spiritBoard.nameAndArt.artistCredit} />
     </div>
   </div>
-{/if}
+</Section>

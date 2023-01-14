@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: "Gobold Extra2";
-  src: url(../fonts/Gobold-Extra2/Gobold Extra2.otf);
+  src: url(../fonts/Gobold-Extra2/Gobold-Extra2.otf);
 }
 
 @font-face {
@@ -32,6 +32,11 @@
   font-family: "Name Headings";
   src: url(../fonts/DKSnemand/DK-Snemand.otf), local("DK Snemand Regular"),
     url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf);
+}
+
+@font-face {
+  font-family: "Energy Font";
+  src: url(../fonts/Gobold-Extra2/Gobold-Extra2.otf), url(../fonts/Noto_Sans/NotoSans-Bold.ttf);
 }
 
 @font-face {

@@ -24,7 +24,6 @@ body {
   align-items: center;
   justify-content: center;
   align-content: center;
-  margin: auto;
 }
 
 card {
@@ -67,7 +66,7 @@ card.slow info-speed {
 }
 
 cost {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 34px;
   color: white;
   text-align: center;
@@ -357,7 +356,7 @@ threshold.threshold-custom::before {
 threshold-condition {
   display: block;
   font-size: 27px;
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   margin-bottom: 5px;
 }
 

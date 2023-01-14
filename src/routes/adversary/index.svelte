@@ -24,8 +24,8 @@
   });
 
   function onLoad() {
-    var localFrame = adversaryFrame;
-    var localObject = adversary;
+    let localFrame = adversaryFrame;
+    let localObject = adversary;
 
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
@@ -41,10 +41,6 @@
         }, 200);
       }
     }
-  }
-
-  function showOrHideSection(event) {
-    adversary[event.target.id].isVisible = !adversary[event.target.id].isVisible;
   }
 
   function reloadPreview() {
@@ -77,7 +73,7 @@
 
       //Set Levels
       adversary.levelSummary.levels.forEach((level, i) => {
-        var HTMLlevel = adversaryFrame.contentDocument.querySelectorAll("level-" + (i + 1))[0];
+        let HTMLlevel = adversaryFrame.contentDocument.querySelectorAll("level-" + (i + 1))[0];
         HTMLlevel.setAttribute("name", level.name);
         HTMLlevel.setAttribute("difficulty", level.difficulty);
         HTMLlevel.setAttribute("fear-cards", level.fearCards);
@@ -107,7 +103,7 @@
 
     //Load Levels
     for (let i = 0; i < 6; i++) {
-      var HTMLLevel = htmlElement.querySelectorAll("level-" + (i + 1))[0];
+      let HTMLLevel = htmlElement.querySelectorAll("level-" + (i + 1))[0];
       adversary.levelSummary.levels[i].name = HTMLLevel.getAttribute("name");
       adversary.levelSummary.levels[i].difficulty = HTMLLevel.getAttribute("difficulty");
       adversary.levelSummary.levels[i].fearCards = HTMLLevel.getAttribute("fear-cards");
@@ -125,7 +121,7 @@
   }
 
   function handleTextFileInput(event) {
-    var dummyEl = document.createElement("html");
+    let dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
     console.log(file);
     if (file) {
@@ -233,19 +229,6 @@
 </script>
 
 <h5 class="title is-5 mb-0">Adversary</h5>
-<!-- <h6
-  on:click={showOrHideBoard}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
-  id="previewBoard">
-  Preview
-  <span on:click={showOrHideBoard}>
-    {#if adversary.previewBoard.isVisible}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6> -->
 <PreviewFrame
   id="adversary-preview"
   src={previewFrameSrc}
@@ -276,10 +259,10 @@
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
-    <NameLossAndEscalation bind:adversary {showOrHideSection} />
+    <NameLossAndEscalation bind:adversary />
   </div>
   <div class="column pt-0">
-    <AdversaryLevels bind:adversary {showOrHideSection} />
+    <AdversaryLevels bind:adversary />
   </div>
 </div>
 

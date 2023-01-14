@@ -25,8 +25,8 @@
   });
 
   function onLoad() {
-    var localFrame = aspectFrame;
-    var localObject = aspect;
+    let localFrame = aspectFrame;
+    let localObject = aspect;
 
     if (localFrame) {
       if (localObject.demoBoardWasLoaded === false) {
@@ -42,10 +42,6 @@
         }, 200);
       }
     }
-  }
-
-  function showOrHideSection(event) {
-    aspect[event.target.id].isVisible = !aspect[event.target.id].isVisible;
   }
 
   function reloadPreview() {
@@ -64,11 +60,11 @@
         bodyContainer.textContent = "";
       }
 
-      var aspectHTML = aspectFrame.contentDocument.createElement("aspect");
+      let aspectHTML = aspectFrame.contentDocument.createElement("aspect");
       bodyContainer.appendChild(aspectHTML);
 
       //Set Aspect Name
-      var aspectName = aspectFrame.contentDocument.createElement("aspect-name");
+      let aspectName = aspectFrame.contentDocument.createElement("aspect-name");
       aspectHTML.appendChild(aspectName);
       aspectName.innerHTML = aspect.nameReplacements.aspectName;
 
@@ -78,9 +74,9 @@
       }
 
       //Set Replacement
-      var aspectReplacementHTML = aspectFrame.contentDocument.createElement("aspect-subtext");
+      let aspectReplacementHTML = aspectFrame.contentDocument.createElement("aspect-subtext");
       aspectHTML.appendChild(aspectReplacementHTML);
-      var replacementFullText = aspect.nameReplacements.aspectRelacement;
+      let replacementFullText = aspect.nameReplacements.aspectRelacement;
       if (aspect.nameReplacements.rulesReplaced) {
         replacementFullText += ": <i>" + aspect.nameReplacements.rulesReplaced + "</i>";
       }
@@ -112,10 +108,8 @@
       }
 
       //Set Aspect Back
-      console.log(aspectFrame.contentDocument);
-      console.log(aspectBackHTML);
       if (aspect.nameReplacements.hasBack) {
-        var aspectBackHTML = aspectFrame.contentDocument.createElement("aspect-back");
+        let aspectBackHTML = aspectFrame.contentDocument.createElement("aspect-back");
         aspectHTML.after(aspectBackHTML);
         aspectBackHTML.setAttribute("spirit-name", aspect.nameReplacements.spiritName);
         aspectBackHTML.setAttribute("src", aspect.nameReplacements.spiritImage);
@@ -126,9 +120,9 @@
       aspectHTML.appendChild(aspectRulesContainer);
 
       aspect.aspectEffects.specialRules.rules.forEach((rule) => {
-        var newRuleName = aspectFrame.contentDocument.createElement("special-rules-subtitle");
+        let newRuleName = aspectFrame.contentDocument.createElement("special-rules-subtitle");
         newRuleName.textContent = rule.name;
-        var newRuleEffect = aspectFrame.contentDocument.createElement("special-rule");
+        let newRuleEffect = aspectFrame.contentDocument.createElement("special-rule");
         newRuleEffect.innerHTML = rule.effect;
         aspectRulesContainer.appendChild(newRuleName);
         aspectRulesContainer.appendChild(newRuleEffect);
@@ -136,7 +130,7 @@
 
       //Set Innate Powers
       aspect.aspectEffects.innatePowers.powers.forEach((power) => {
-        var newInnatePower = aspectFrame.contentDocument.createElement("quick-innate-power");
+        let newInnatePower = aspectFrame.contentDocument.createElement("quick-innate-power");
         newInnatePower.setAttribute("name", power.name);
         newInnatePower.setAttribute("speed", power.speed.toLowerCase());
         newInnatePower.setAttribute("range", power.range);
@@ -146,7 +140,7 @@
           newInnatePower.setAttribute("note", power.note);
         } // may need to clear it?
         power.levels.forEach((level) => {
-          var newLevel = aspectFrame.contentDocument.createElement("level");
+          let newLevel = aspectFrame.contentDocument.createElement("level");
           newLevel.setAttribute("threshold", level.threshold);
           newLevel.textContent = level.effect;
           if (level.isLong) {
@@ -215,7 +209,7 @@
     });
 
     //Read Innate Powers
-    var innatePowers = htmlElement.querySelectorAll("quick-innate-power");
+    let innatePowers = htmlElement.querySelectorAll("quick-innate-power");
     aspect.aspectEffects.innatePowers.powers.splice(
       0,
       aspect.aspectEffects.innatePowers.powers.length
@@ -231,7 +225,7 @@
           innatePower.getAttribute("target-title"),
           innatePower.getAttribute("note")
         );
-        var htmlLevels = innatePower.querySelectorAll("level");
+        let htmlLevels = innatePower.querySelectorAll("level");
         htmlLevels.forEach((htmlLevel) => {
           aspect.aspectEffects = Lib.addLevel(
             aspect.aspectEffects,
@@ -250,7 +244,7 @@
 
   function exportAspect() {
     setBoardValues(aspect);
-    var element = document
+    let element = document
       .getElementById("aspect-mod-frame")
       .contentWindow.document.getElementsByTagName("html")[0];
     const htmlFileName = aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.html";
@@ -258,7 +252,7 @@
   }
 
   function handleTextFileInput(event) {
-    var dummyEl = document.createElement("html");
+    let dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
     console.log(file);
     if (file) {
@@ -355,19 +349,6 @@
 </script>
 
 <h5 class="title is-5 mb-0">Aspect</h5>
-<!-- <h6
-  on:click={showOrHideBoard}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light"
-  id="previewBoard">
-  Preview Aspect
-  <span on:click={showOrHideBoard}>
-    {#if aspect.previewBoard.isVisible}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="previewBoard" on:click={showOrHideBoard} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6> -->
 <PreviewFrame
   id="aspect-preview"
   src={previewFrameSrc}
@@ -399,11 +380,11 @@
 </div>
 <div class="columns mt-0">
   <div class="column pt-0">
-    <NameReplacements bind:aspect {showOrHideSection} />
-    <!-- <CustomIcons bind:customIcons {showOrHideSection} /> -->
+    <NameReplacements bind:aspect />
+    <!-- <CustomIcons bind:customIcons /> -->
   </div>
   <div class="column pt-0">
-    <AspectEffects bind:aspect {showOrHideSection} />
+    <AspectEffects bind:aspect />
   </div>
 </div>
 

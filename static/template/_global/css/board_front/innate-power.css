@@ -454,7 +454,7 @@ level range {
 }
 
 .element-for-each {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 17pt;
   color: #431e0aff;
   margin-top: -13px;
@@ -501,7 +501,7 @@ level {
 }
 
 threshold {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 24pt;
   color: #431e0aff;
   float: left;
@@ -654,12 +654,13 @@ cost-energy {
 }
 
 .cost-custom > value {
-  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px 0px 0 #fff, 0px 1px 0 #fff, 1px 0px 0 #fff, 0px -1px 0 #fff;
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px 0px 0 #fff,
+    0px 1px 0 #fff, 1px 0px 0 #fff, 0px -1px 0 #fff;
 }
 
 cost-energy value,
 cost-threshold value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-weight: normal;
   font-style: normal;
   color: #431e0a;

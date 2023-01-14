@@ -1,5 +1,6 @@
 <script>
   import { afterUpdate } from "svelte";
+  import * as Lib from "../../routes/lib";
 
   export let elementType;
   export let placeholder;
@@ -8,9 +9,10 @@
   export let startCharacter = "{";
   export let value;
   export let id;
-  export let tabindex = "1";
   export let classNames = "";
   export let showListImmediately;
+  export let additionalOnKeyDownFunction = () => {};
+  export let additionalOnBlurFunction = () => {};
 
   let showAutoCompleteList = false;
   let valuesToShow;
@@ -38,6 +40,11 @@
   });
 
   function handleInputAndFocus(event) {
+    // select all for 'input' type fields
+    if (event.target.tagName === "INPUT" && event.type === "focus") {
+      document.getElementById(event.target.id).select();
+    }
+
     const inputValue = event.target.value;
     const currentCursorPostion = event.target.selectionStart;
     if (
@@ -182,7 +189,7 @@
     handleAutoCompleteSelectionFromList(event);
   }
 
-  function closeAutoComplete() {
+  function closeAutoComplete(event) {
     // selectedWord, startOfWordPosition, and inputElementThatWasCompleted are intentionally not reset here so that cursor repositioning in afterUpdate() works
     showAutoCompleteList = false;
     showActiveSelection = true;
@@ -191,6 +198,11 @@
     currentKeyBoardFocus = 0;
     startingCharacterPosition = 0;
     currentAutoCompleteTermLength = 0;
+
+    // since closeAutoComplete can be called from events other than "blur", we check to make sure this is a "blur" event before calling the function that might have been passed in from the parent
+    if (event?.type === "blur") {
+      additionalOnBlurFunction();
+    }
   }
 
   function openAutoComplete(currentCursorPostion, inputValue) {
@@ -228,6 +240,10 @@
       boldEndIndex
     )}</strong>${autoCompleteItem.label.substring(boldEndIndex)}`;
   }
+
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
 </script>
 
 <div class="control autocomplete">
@@ -237,12 +253,12 @@
       class={`input ${classNames}`}
       type="text"
       {placeholder}
-      {tabindex}
       autocomplete="off"
       on:input={handleInputAndFocus}
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
+      on:keyup={nextNode}
       bind:value />
   {:else if elementType === "textarea"}
     <textarea
@@ -254,7 +270,7 @@
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
-      {tabindex}
+      on:keyup={nextNode}
       bind:value />
   {/if}
   {#if showAutoCompleteList === true}
