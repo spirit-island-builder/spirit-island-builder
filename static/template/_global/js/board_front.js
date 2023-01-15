@@ -4,27 +4,30 @@
 
 /* exported startMain */
 function startMain() {
-  console.log("CREATING SPIRIT BOARD");
-  buildGrowthPanel();
+  window.running = new Promise((resolve) => {
+    console.log("CREATING SPIRIT BOARD");
+    buildGrowthPanel();
 
-  if (document.getElementById("presence-table")) {
-    enhancePresenceTracksTable();
-  } else {
-    setNewEnergyCardPlayTracks(parseEnergyTrackTags(), parseCardPlayTrackTags());
-  }
+    if (document.getElementById("presence-table")) {
+      enhancePresenceTracksTable();
+    } else {
+      setNewEnergyCardPlayTracks(parseEnergyTrackTags(), parseCardPlayTrackTags());
+    }
 
-  parseInnatePowers();
+    parseInnatePowers();
 
-  parseSpecialRules();
+    parseSpecialRules();
 
-  const board = document.querySelectorAll("board")[0];
-  const html = board.innerHTML;
-  board.innerHTML = replaceIcon(html);
+    const board = document.querySelectorAll("board")[0];
+    const html = board.innerHTML;
+    board.innerHTML = replaceIcon(html);
 
-  setTimeout(function () {
-    dynamicResizing();
-    addImages(board);
-  }, 200);
+    setTimeout(function () {
+      dynamicResizing();
+      addImages(board);
+      resolve();
+    }, 200);
+  });
 }
 
 function addImages(board) {
