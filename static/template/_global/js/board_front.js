@@ -55,9 +55,8 @@ function addImages(board) {
   if (spiritImage) {
     //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
     board.innerHTML =
-      `<div class="spirit-image" style="background-image: url(&quot;${spiritImage}&quot;); background-size: auto ${imageSize}; width: 1700px;" ></div>` +
+      `<spirit-image style="background-image: url(&quot;${spiritImage}&quot;); background-size: auto ${imageSize}; width: 1700px;" ></spirit-image>` +
       board.innerHTML;
-    artistCredit[0].style.display = "block";
     artistCredit[0].innerHTML = "Artist Credit: " + artistCredit[0].innerHTML;
   }
 
@@ -2225,6 +2224,12 @@ function dynamicResizing() {
   let debug = false;
   const board = document.querySelectorAll("board")[0];
 
+  for (let element of board.querySelectorAll(
+    "[style]:not(artist-name, spirit-name, spirit-image, tr)"
+  )) {
+    element.style = null;
+  }
+
   console.log("RESIZING: Growth");
   // Growth Sizing
   // const allGrowthCells = board.getElementsByTagName("growth-cell");
@@ -2273,21 +2278,6 @@ function dynamicResizing() {
     document.getElementsByTagName("growth")[0].append(growthLine);
     document.getElementsByTagName("growth")[0].append(newGrowthTable);
   }
-
-  // TEST iterate through growth cells
-  // const cellWidthV2 = [];
-  // for (const cell of allGrowthCells) {
-  //   const cellRect = findBoundingRect(cell);
-  //   // console.log('-- TEST --')
-  //   // console.log(cellRect)
-  //   // console.log(cell)
-  //   // console.log(cellRect.width)
-  //   // console.log('^--RESULT--^')
-  //   cellWidthV2.push(cellRect.width);
-  // }
-  /* console.log('total icon width = '+totalIconWidths) */
-  // console.log('old way = '+totalWidth)
-  // console.log(cellWidthV2)
 
   //Iterate through growth table(s) to resize
   const largeCellScale = 1.5;

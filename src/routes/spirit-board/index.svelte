@@ -20,6 +20,8 @@
   import examples from "./examples.json";
   import spiritBoardJsonTemplate from "./tts-spirit-board.json";
 
+  import Preview from "./preview/index.svelte";
+
   export let spiritBoard;
   export let customIcons;
   export let isShowingInstructions;
@@ -765,7 +767,12 @@
   }
 </script>
 
-<PreviewFrame id="spirit-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
+<PreviewFrame
+  id="spirit-preview"
+  bind:this={previewFrame}
+  on:hot-reload={reloadPreview}
+  component={Preview}
+  props={{ spiritBoard }}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/board_front.css" rel="stylesheet" />

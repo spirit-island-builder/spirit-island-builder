@@ -78,6 +78,7 @@ spirit-name {
 
 artist-name {
   position: absolute;
+  display: block;
   left: 22px;
   top: 1163px;
   height: 0px;
@@ -117,7 +118,7 @@ custom-meeple {
   background-size: 705px 100%;
 }
 
-.spirit-image {
+spirit-image {
   margin-left: 0.5px;
   margin-bottom: -32.75px;
   width: 667.5px;
