@@ -2231,7 +2231,7 @@ function dynamicResizing() {
 
   console.log("RESIZING: Growth");
   // Growth Sizing
-  const allGrowthCells = board.getElementsByTagName("growth-cell");
+  // const allGrowthCells = board.getElementsByTagName("growth-cell");
   let growthTable = board.getElementsByTagName("growth-table")[0];
 
   // Add additional Growth Row if necessary
@@ -2279,16 +2279,16 @@ function dynamicResizing() {
   }
 
   // TEST iterate through growth cells
-  const cellWidthV2 = [];
-  for (const cell of allGrowthCells) {
-    const cellRect = findBoundingRect(cell);
-    // console.log('-- TEST --')
-    // console.log(cellRect)
-    // console.log(cell)
-    // console.log(cellRect.width)
-    // console.log('^--RESULT--^')
-    cellWidthV2.push(cellRect.width);
-  }
+  // const cellWidthV2 = [];
+  // for (const cell of allGrowthCells) {
+  //   const cellRect = findBoundingRect(cell);
+  //   // console.log('-- TEST --')
+  //   // console.log(cellRect)
+  //   // console.log(cell)
+  //   // console.log(cellRect.width)
+  //   // console.log('^--RESULT--^')
+  //   cellWidthV2.push(cellRect.width);
+  // }
   /* console.log('total icon width = '+totalIconWidths) */
   // console.log('old way = '+totalWidth)
   // console.log(cellWidthV2)
@@ -2732,33 +2732,34 @@ function checkOverflowHeight(el) {
   return isOverflowing;
 }
 
-function findBoundingRect(el) {
-  let growthCellRect;
-  // console.log(el.tagName+", "+el.classList.value)
-  if (el.children.length === 0) {
-    growthCellRect = el.getBoundingClientRect();
-    return growthCellRect;
-  } else {
-    growthCellRect = el.children[0].getBoundingClientRect();
-  }
-  // console.log(el.tagName+", "+el.classList.value+' left = '+growthCellRect.left)
-  // console.log(el.tagName+", "+el.classList.value+' right = '+growthCellRect.right)
-  for (const child of el.children) {
-    if (child.tagName !== "GROWTH-TEXT") {
-      const newCellRect = findBoundingRect(child);
-      if (newCellRect.left < growthCellRect.left) {
-        growthCellRect.left = newCellRect.left;
-      }
-      if (newCellRect.right > growthCellRect.right) {
-        growthCellRect.right = newCellRect.right;
-      }
-    }
-  }
-  // console.log('returning for '+el.tagName+", "+el.classList.value+':')
-  // console.log(' left = '+growthCellRect.left)
-  // console.log(' right = '+growthCellRect.right)
-  return growthCellRect;
-}
+// Putting this function on ice for now, it isn't used presently.
+// function findBoundingRect(el) {
+//   let growthCellRect;
+//   // console.log(el.tagName+", "+el.classList.value)
+//   if (el.children.length === 0) {
+//     growthCellRect = el.getBoundingClientRect();
+//     return growthCellRect;
+//   } else {
+//     growthCellRect = el.children[0].getBoundingClientRect();
+//   }
+//   // console.log(el.tagName+", "+el.classList.value+' left = '+growthCellRect.left)
+//   // console.log(el.tagName+", "+el.classList.value+' right = '+growthCellRect.right)
+//   for (const child of el.children) {
+//     if (child.tagName !== "GROWTH-TEXT") {
+//       let newCellRect = findBoundingRect(child);
+//       if (newCellRect.left < growthCellRect.left) {
+//         growthCellRect.left = newCellRect.left;
+//       }
+//       if (newCellRect.right > growthCellRect.right) {
+//         growthCellRect.right = newCellRect.right;
+//       }
+//     }
+//   }
+//   // console.log('returning for '+el.tagName+", "+el.classList.value+':')
+//   // console.log(' left = '+growthCellRect.left)
+//   // console.log(' right = '+growthCellRect.right)
+//   return growthCellRect;
+// }
 
 function parseInnatePowers() {
   console.log("BUILDING INNATE POWERS");
