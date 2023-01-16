@@ -276,7 +276,6 @@
   }
 </script>
 
-<h5 class="title is-5 mb-0">Spirit Board Lore Side</h5>
 <PreviewFrame
   id="lore-preview"
   src={previewFrameSrc}

@@ -319,15 +319,13 @@
             </div>
           </div>
         {/each}
-        {#if spiritBoard.growth.useGrowthSets || i === spiritBoard.growth.growthSets.length - 1}
-          <div class="field">
-            <div class="control">
-              <button
-                class="button is-primary is-light is-small row-button"
-                on:click={addGrowthGroup(i)}>Add Growth Group</button>
-            </div>
+        <div class="field">
+          <div class="control">
+            <button
+              class="button is-primary is-light is-small row-button"
+              on:click={addGrowthGroup(i)}>Add Growth Group</button>
           </div>
-        {/if}
+        </div>
       </div>
     </div>
   {/each}
