@@ -7,13 +7,13 @@
   let iframeHeight = "250px";
 
   function initDragElement() {
-    var pos1 = 0,
+    let pos1 = 0,
       pos2 = 0,
       pos3 = 0,
       pos4 = 0;
-    var popup = document.getElementById("movableDialog");
-    var elmnt = null;
-    var headerItem = document.getElementById("movableDialog-header");
+    let popup = document.getElementById("movableDialog");
+    let elmnt = null;
+    let headerItem = document.getElementById("movableDialog-header");
 
     if (headerItem) {
       headerItem.parentPopup = popup;

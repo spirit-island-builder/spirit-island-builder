@@ -2,6 +2,7 @@
   export let powerCards;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  import Section from "$lib/section.svelte";
 
   function handleImageFileInput(event, card) {
     const file = event.target.files.item(0);
@@ -86,11 +87,6 @@
       event.target.classList.remove("is-active");
     }
   }
-
-  function showOrHideSectionSubsection(card) {
-    card.isVisible = !card.isVisible;
-    powerCards = powerCards;
-  }
 </script>
 
 <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap mb-0">
@@ -108,19 +104,7 @@
   </div>
 </div>
 {#each powerCards.cards as card, i (card.id)}
-  <h6
-    on:click={showOrHideSectionSubsection(card)}
-    class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1">
-    {`Power Card ${i + 1}: ${card.name}`}
-    <span on:click={showOrHideSectionSubsection(card)}>
-      {#if card.isVisible}
-        <ion-icon on:click={showOrHideSectionSubsection(card)} name="chevron-down-outline" />
-      {:else}
-        <ion-icon on:click={showOrHideSectionSubsection(card)} name="chevron-up-outline" />
-      {/if}
-    </span>
-  </h6>
-  {#if card.isVisible}
+  <Section title={`Power Card ${i + 1}: ${card.name}`} bind:isVisible={card.isVisible}>
     <div class="field mt-2">
       <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
         >{`Power Card ${i + 1}`}</label>
@@ -130,7 +114,6 @@
             id={`powerName${i}`}
             class="input"
             type="text"
-            tabindex="1"
             placeholder="Power Name"
             bind:value={card.name} />
         </div>
@@ -147,7 +130,6 @@
             class="input"
             style="width:3rem; text-align:center;"
             type="text"
-            tabindex="1"
             placeholder="Cost"
             bind:value={card.cost} />
         </div>
@@ -207,7 +189,7 @@
     <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
       <div class="is-flex is-flex-direction-column-reverse">
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-          {#if card.speed == ""}
+          {#if card.speed === ""}
             <button
               class="button is-danger is-light button-hold mb-0"
               id="fast-button"
@@ -216,7 +198,7 @@
               class="button is-info is-light button-hold mb-0"
               id="slow-button"
               on:click={setSpeedTextbox("Slow", card)}>Slow</button>
-          {:else if card.speed == "Fast" || card.speed == "fast"}
+          {:else if card.speed === "Fast" || card.speed === "fast"}
             <button
               class="button is-danger button-hold mb-0"
               id="fast-button"
@@ -244,7 +226,6 @@
             id={`powerRange${i}`}
             class="input"
             type="text"
-            tabindex="1"
             placeholder="Range"
             bind:value={card.range} />
         </div>
@@ -265,14 +246,14 @@
           <label class="label is-unselectable mr-1 mb-0 pt-2" for="">Target</label>
           <div
             class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 is-align-items-flex-end">
-            {#if card.targetTitle == ""}
+            {#if card.targetTitle === ""}
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target", card)}>Target</button>
-            {:else if card.targetTitle == "target" || card.targetTitle == "Target"}
+            {:else if card.targetTitle === "target" || card.targetTitle === "Target"}
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
@@ -308,7 +289,6 @@
             class="input is-small mr-3"
             style="width:35%"
             type="text"
-            tabindex="1"
             placeholder="Elemental Conditions"
             bind:value={card.thresholdCondition} />
           <label class="label is-unselectable mr-2 mb-0 mt-1" style="min-width:7rem" for=""
@@ -317,7 +297,6 @@
             id={`powerCustomText${i}`}
             class="input is-small"
             type="text"
-            tabindex="1"
             placeholder="use if an alternative to 'IF YOU HAVE' is desired"
             bind:value={card.thresholdText} />
         </div>
@@ -342,7 +321,6 @@
             id={`cardArtist${i}`}
             class="input is-small"
             type="text"
-            tabindex="1"
             placeholder="Artist"
             bind:value={card.cardArtist} />
         </div>
@@ -354,14 +332,14 @@
             name="cardArt"
             type="file"
             class="input is-small" />
-          {#if card.cardImage == ""}
+          {#if card.cardImage === ""}
             <img id="cardArtImage" src={card.cardImage} alt="power card art" />
           {/if}
         </div>
       </div>
     </div>
     <hr />
-  {/if}
+  </Section>
 {/each}
 <div class="pt-1 pb-2">
   <button class="button is-primary is-light" on:click={addEmptyPowerCard}>Add Power Card</button>

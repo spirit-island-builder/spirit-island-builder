@@ -8,28 +8,32 @@
 
   import { downloadFile } from "../routes/lib.js";
 
-  let frame;
+  let previewIframe;
   let wrapper;
   let large = false;
 
   export const copyHTMLFrom = (sourceDocument, headFragment) => {
-    frame.contentDocument.head.replaceWith(sourceDocument.head.cloneNode(true));
+    previewIframe.contentDocument.head.replaceWith(sourceDocument.head.cloneNode(true));
     if (headFragment) {
-      frame.contentDocument.head.append(headFragment);
+      previewIframe.contentDocument.head.append(headFragment);
     }
-    frame.contentDocument.body.replaceWith(sourceDocument.body.cloneNode(true));
+    previewIframe.contentDocument.body.replaceWith(sourceDocument.body.cloneNode(true));
   };
 
   export const takeScreenshot = (fileNames, elementNamesInIframe) => {
     elementNamesInIframe.forEach((elementNameInIframe, index) => {
-      frame.contentWindow
+      previewIframe.contentWindow
         .takeScreenshot(elementNameInIframe)
         .then((imageURL) => downloadFile(imageURL, fileNames[index]));
     });
   };
 
   export const startMain = () => {
-    frame.contentWindow.startMain();
+    previewIframe.contentWindow.startMain();
+  };
+
+  export const writeGrowthAction = (action) => {
+    return previewIframe.contentWindow.writeGrowthAction(action);
   };
 
   export const toggleSize = () => {
@@ -42,5 +46,10 @@
 </script>
 
 <div {id} class="preview-wrap" class:large bind:this={wrapper}>
-  <iframe {src} bind:this={frame} class="preview-frame" title="Preview" />
+  <iframe
+    {src}
+    bind:this={previewIframe}
+    class="preview-frame"
+    id="preview-iframe"
+    title="Preview" />
 </div>

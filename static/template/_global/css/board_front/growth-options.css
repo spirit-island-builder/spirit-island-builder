@@ -308,7 +308,7 @@ repeat-growth {
 }
 
 repeat-growth value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 18pt;
   display: inline-block;
   font-style: normal;
@@ -330,7 +330,7 @@ growth-energy {
 }
 
 growth-energy value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 24pt;
   font-style: normal;
   display: inline-block;
@@ -901,7 +901,7 @@ growth-cell icon.gather-into > icon.explorer {
 
 growth-cost {
   background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 16pt;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -915,25 +915,6 @@ growth-cost {
   padding-top: 9px;
   transform: translateX(100%);
 }
-
-/* growth-cost {
-  font-family: 'Gobold Extra2', 'Noto Sans';
-  font-size: 16pt;
-  background-image: url('../../images/board/NewIcons/Energy Blank Small.png');
-    background-repeat: no-repeat;
-    background-size: 100%;
-    margin-right: -50px;
-    background-position: center;
-    height: 45px;
-    width: 45px;
-    top: -35px;
-    position: relative;
-    margin-right: -10px;
-    margin-left: -10px;
-    padding-top: 9px;
-    float: left;
-    transform: translateX(75%);
-} */
 
 growth-cost::after {
   content: "Cost";
@@ -975,40 +956,6 @@ growth-cost.custom::after {
   top: 44px;
 }
 
-/* growth-cost-custom {
-  font-family: 'Gobold Extra2', 'Noto Sans';
-  font-size: 20pt;
-  top: -35px;
-  position: relative;
-  margin-right: -10px;
-  margin-left: -10px;
-  padding-top: 1px;
-  float: left;
-  transform: translateX(55%);
-}
-
-growth-cost-custom > icon {
-    height: 45px;
-    width: 45px;
-}
-
-growth-cost-custom value {
-  text-shadow: -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px -1.5px 0 #fff;
-  position: relative;
-  top: 4px;
-  left: -2px;
-}
-
-growth-cost-custom::after {
-  content: 'Cost';
-  font-family: 'Lato SemiBold';
-  font-size: 14pt;
-  font-style: italic;
-  position: absolute;
-  left: 3px;
-  top: 44px;
-} */
-
 growth-cost.nonscaling {
   top: -42px;
   position: relative;
@@ -1018,16 +965,6 @@ growth-cost.nonscaling {
 growth-cost.nonscaling::after {
   content: none;
 }
-
-/* growth-cost-custom-nonscaling {
-  top: -42px;
-  position: relative;
-  margin-right: -165px;
-  float: left;
-  display: flex;
-  transform: translateX(0%);
-  text-align: left;
-} */
 
 growth-cost.nonscaling > icon {
   height: 45px;
@@ -1080,7 +1017,7 @@ growth-damage {
 }
 
 growth-damage value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 22pt;
   display: inline-block;
   margin-top: 36px;
@@ -1111,7 +1048,7 @@ card-play-num {
 }
 
 card-play-num value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 24pt;
   font-style: normal;
   display: inline-block;
@@ -1358,7 +1295,7 @@ gain-per {
 }
 
 gain-per value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 16pt;
   font-style: normal;
   display: inline-block;
@@ -1484,7 +1421,7 @@ growth-fear {
 }
 
 growth-fear value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 20pt;
   display: inline-block;
   font-style: normal;
@@ -1508,7 +1445,7 @@ fear-per {
 }
 
 fear-per value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 14pt;
   display: inline-block;
   font-style: normal;

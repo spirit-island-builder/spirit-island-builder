@@ -8,9 +8,11 @@ special-rules-container {
   display: flex;
   flex-direction: column;
   font-family: "JosefinSans-Regular";
+  padding-top: 50px;
   padding-left: 15px;
   padding-right: 8px;
   z-index: 1;
+  position: relative;
 }
 
 special-rules-subtitle {

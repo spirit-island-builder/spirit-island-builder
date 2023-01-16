@@ -2,6 +2,7 @@
   import * as Lib from "../lib";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { growthValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  import Section from "$lib/section.svelte";
 
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
@@ -15,7 +16,7 @@
     // "Turns off" Growth Sets, collapsing all growth groups into the first Set
     spiritBoard.growth.useGrowthSets = false;
     spiritBoard.growth.directions = "";
-    var firstSet = spiritBoard.growth.growthSets[0];
+    let firstSet = spiritBoard.growth.growthSets[0];
     for (let i = 1; i < spiritBoard.growth.growthSets.length; i++) {
       while (spiritBoard.growth.growthSets[i].growthGroups.length > 0) {
         firstSet.growthGroups.push(spiritBoard.growth.growthSets[i].growthGroups.shift());
@@ -76,7 +77,7 @@
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost;
 
-    var focusId = "set" + setIndex + "group" + groupIndex + "cost";
+    let focusId = "set" + setIndex + "group" + groupIndex + "cost";
     //Set the focus to the Growth Group Cost if it is visible.
     if (spiritBoard.growth.isVisible) {
       if (spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasCost) {
@@ -91,7 +92,7 @@
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint;
 
-    var focusId = "set" + setIndex + "group" + groupIndex + "tint";
+    let focusId = "set" + setIndex + "group" + groupIndex + "tint";
     //Set the focus to the Growth Group Cost if it is visible.
     if (spiritBoard.growth.isVisible) {
       if (spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTint) {
@@ -106,7 +107,7 @@
     spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle =
       !spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle;
 
-    var focusId = "set" + setIndex + "group" + groupIndex + "title";
+    let focusId = "set" + setIndex + "group" + groupIndex + "title";
     //Set the focus to the Growth Group Cost if it is visible.
     if (spiritBoard.growth.isVisible) {
       if (spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].hasTitle) {
@@ -117,39 +118,54 @@
     }
   }
 
-  //Drag and Drop stuff
-  /* 	function allowDrop(ev) {
-	  ev.preventDefault();
-	}
+  function updateGrowthActionLocal(setIndex, groupIndex, actionIndex) {
+    let newGrowthActionText =
+      spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions[actionIndex]
+        .effect;
+    let templateGrowthID = "s" + setIndex + "g" + groupIndex + "a" + actionIndex;
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    console.log("Rewriting Growth Node ID: " + templateGrowthID);
 
-	function drag(ev) {
-	  ev.dataTransfer.setData("text", ev.target.id);
-	}
+    // Check growth height
+    let growthPanel = previewFrame.document.getElementsByTagName("growth")[0];
+    let growthHeight = growthPanel.offsetHeight;
 
-	function drop(ev) {
-	  ev.preventDefault();
-	  var data = ev.dataTransfer.getData("text");
-	  ev.target.appendChild(document.getElementById(data));
-	} */
+    // Try to write a new node
+
+    let growthActionTest = "";
+    try {
+      growthActionTest = previewFrame.writeGrowthAction(newGrowthActionText);
+    } catch (err) {
+      growthActionTest = previewFrame.writeGrowthAction("custom(error! check syntax)");
+      console.log("Malformed growth option, try again");
+    }
+    growthActionTest = previewFrame.replaceIcon(growthActionTest);
+
+    // Create dummy node with new content
+    const placeholder = document.createElement("div");
+    placeholder.innerHTML = growthActionTest;
+    const newNode = placeholder.firstElementChild;
+
+    // Transfer new node into preview
+    let findGrowth = previewFrame.document.getElementById(templateGrowthID);
+    findGrowth.innerHTML = newNode.innerHTML;
+
+    // If new growth panel is larger, re-run
+    let newGrowthHeight = growthPanel.offsetHeight;
+    if (newGrowthHeight > growthHeight) {
+      console.log('Recommend Re-running the whole board (click "Update Preview")');
+      document.getElementById("updateButton").classList.add("is-flashy");
+    }
+  }
+
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
 
   export let spiritBoard;
-  export let showOrHideSection;
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="growth">
-  Growth
-  <span on:click={showOrHideSection}>
-    {#if spiritBoard.growth.isVisible}
-      <ion-icon id="growth" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="growth" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if spiritBoard.growth.isVisible}
+<Section title="Growth" bind:isVisible={spiritBoard.growth.isVisible}>
   <article class="message is-small mb-1">
     <div class="message-body p-1">
       <span
@@ -195,7 +211,6 @@
               id={`growthSetChoice${i}`}
               class="input"
               type="text"
-              tabindex="1"
               placeholder="Growth Set Choice ie. (PICK ONE OF)"
               bind:value={growthSet.choiceText} />
           </div>
@@ -234,6 +249,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;2&quot; or &quot;3,dahan&quot;"
+                      on:keyup={nextNode}
                       bind:value={growthGroup.cost} />
                   </div>
                   <button
@@ -250,6 +266,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;blue&quot;"
+                      on:keyup={nextNode}
                       bind:value={growthGroup.tint} />
                   </div>
                   <button
@@ -266,6 +283,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;Max 1/Game&quot;"
+                      on:keyup={nextNode}
                       bind:value={growthGroup.title} />
                   </div>
                   <button
@@ -275,25 +293,27 @@
               {/if}
               {#each growthGroup.growthActions as growthAction, k (growthAction.id)}
                 <div class="growth-action-container">
-                  <div class="control">
+                  <div class="control" on:blur={easyReport}>
                     <AutoComplete
                       id={`growthSet${i}Group${j}Action${k}`}
                       elementType="input"
                       placeholder="Growth Action"
                       showListImmediately={true}
                       validAutoCompleteValues={growthValuesSorted}
-                      on:blur={easyReport}
+                      additionalOnBlurFunction={() => updateGrowthActionLocal(i, j, k)}
                       bind:value={growthAction.effect} />
                   </div>
                   <button
                     class="button is-warning is-light row-button"
-                    on:click={removeGrowthAction(i, j, k)}>Remove</button>
+                    on:click={updateGrowthActionLocal(i, j, k)}>&#x21bb;</button>
+                  <button class="button is-light row-button" on:click={removeGrowthAction(i, j, k)}
+                    >Remove</button>
                 </div>
               {/each}
               <div class="control">
                 <button
+                  id={`growthSet${i}Group${j}AddAction`}
                   class="button is-primary is-light is-small row-button"
-                  tabindex="1"
                   on:click={addGrowthAction(i, j)}>Add Growth Action</button>
               </div>
             </div>
@@ -304,7 +324,6 @@
             <div class="control">
               <button
                 class="button is-primary is-light is-small row-button"
-                tabindex="1"
                 on:click={addGrowthGroup(i)}>Add Growth Group</button>
             </div>
           </div>
@@ -315,11 +334,9 @@
   {#if spiritBoard.growth.useGrowthSets}
     <div class="field">
       <div class="control">
-        <button
-          class="button is-primary is-light is-small row-button"
-          tabindex="1"
-          on:click={addGrowthSet}>Add Growth Set</button>
+        <button class="button is-primary is-light is-small row-button" on:click={addGrowthSet}
+          >Add Growth Set</button>
       </div>
     </div>
   {/if}
-{/if}
+</Section>
