@@ -23,9 +23,7 @@
   };
 
   export const copyHTMLFrom = async (fragment) => {
-    if (previewIframe.contentDocument.readyState !== "complete") {
-      await waitForEvent(previewIframe.contentWindow, "load");
-    }
+    await updateSrc();
     previewIframe.contentDocument.body.replaceChildren(
       previewIframe.contentDocument.importNode(fragment, true)
     );
@@ -55,9 +53,26 @@
     }
   };
 
-  onMount(() => {
-    previewIframe.srcdoc = previewTemplate.innerHTML;
-  });
+  /** Holds a promise that will fire when the frame has finished loading.
+   *
+   *  This should only be used by updateSrc.
+   */
+  let loaded;
+  /**
+   * Update frame srcdoc if necessary, and return a promise that resolves
+   * when the frame has finished loading.
+   */
+  function updateSrc() {
+    if (previewIframe.srcdoc === previewTemplate.innerHTML) {
+      return loaded;
+    } else {
+      loaded = waitForEvent(previewIframe, "load");
+      previewIframe.srcdoc = previewTemplate.innerHTML;
+      return loaded;
+    }
+  }
+
+  onMount(updateSrc);
 </script>
 
 <div {id} class="preview-wrap" class:large bind:this={wrapper}>
