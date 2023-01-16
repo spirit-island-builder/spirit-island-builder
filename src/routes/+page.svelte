@@ -446,6 +446,6 @@
 
 <style>
   h1 {
-    font-family: "Lato Semibold";
+    font-family: "Lato Semibold, sans-serif";
   }
 </style>
