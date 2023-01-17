@@ -39,9 +39,8 @@
   font-family: "JosefinSans-Regular";
 }
 
-.file.is-success .file-cta {
-  background-color: #0ba14a;
-  font-family: "JosefinSans-Regular";
+.button.is-file-load {
+  background-color: #ffe08a;
 }
 
 h1,
