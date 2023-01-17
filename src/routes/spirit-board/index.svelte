@@ -775,14 +775,14 @@
 </PreviewFrame>
 
 <div class="field has-addons mb-2">
+  <button
+    class="button is-info js-modal-trigger mr-1"
+    data-toggle="modal"
+    data-target="modal-js-example"
+    on:click={exampleModal.open}>
+    Examples
+  </button>
   <div class="file is-success mr-1">
-    <button
-      class="button is-info js-modal-trigger mr-1"
-      data-toggle="modal"
-      data-target="modal-js-example"
-      on:click={exampleModal.open}>
-      Examples
-    </button>
     <label class="file-label">
       <input
         class="file-input is-success"
