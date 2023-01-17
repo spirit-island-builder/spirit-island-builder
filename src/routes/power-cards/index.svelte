@@ -300,7 +300,6 @@
   }
 </script>
 
-<h5 class="title is-5 mb-0">Power Cards</h5>
 <PreviewFrame
   id="power-cards-preview"
   src={previewFrameSrc}
