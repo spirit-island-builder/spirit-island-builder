@@ -5,6 +5,7 @@
   import * as Lib from "../lib";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import Examples from "$lib/example-modal.svelte";
+  import LoadButton from "$lib/load-button.svelte";
 
   import NameAndArt from "./name-and-art.svelte";
   import SpecialRules from "./special-rules.svelte";
@@ -483,17 +484,6 @@
     document.getElementById("updateButton").classList.remove("is-flashy");
   }
 
-  function handleTextFileInput(event) {
-    hideAll();
-    const file = event.target.files.item(0);
-    if (file) {
-      let url = URL.createObjectURL(file);
-      loadHTMLFromURL(url).finally(() => {
-        URL.revokeObjectURL(url);
-      });
-    }
-  }
-
   function exportSpiritBoard() {
     const htmlFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html";
     Lib.downloadHTML(generateHTML(spiritBoard), htmlFileName);
@@ -782,21 +772,10 @@
     on:click={exampleModal.open}>
     Examples
   </button>
-  <div class="file is-success mr-1">
-    <label class="file-label">
-      <input
-        class="file-input is-success"
-        id="userHTMLInput"
-        type="file"
-        name="userHTMLInput"
-        accept=".html"
-        on:change={handleTextFileInput} />
-      <span class="file-cta">
-        <span class="file-label"> Load </span>
-      </span>
-    </label>
-  </div>
-  <button class="button is-success  mr-1" on:click={exportSpiritBoard}> Save </button>
+  <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+    Load
+  </LoadButton>
+  <button class="button is-success  mr-1" on:click={exportSpiritBoard}>Save</button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
   <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
