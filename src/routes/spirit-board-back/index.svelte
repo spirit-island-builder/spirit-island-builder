@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
-  import PreviewFrame from "$lib/preview-frame.svelte";
+  import PreviewFrame from "$lib/preview-frame/index.svelte";
 
   import NameArtLore from "./name-art-lore.svelte";
   import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";

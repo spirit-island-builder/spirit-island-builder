@@ -5,7 +5,12 @@
   import { tick, onMount } from "svelte";
   import { browser } from "$app/environment";
 
-  import { downloadFile } from "../routes/lib.js";
+  // Using a query string of `?worker&url` gives a URL from which we can
+  // pass to `<script type="module">` tag, which we can inject into the
+  // preview frame.
+  import takeScreenshotURL from "./take-screenshot?worker&url";
+
+  import { downloadFile } from "../../routes/lib.js";
 
   let previewIframe;
   let wrapper;
@@ -80,6 +85,7 @@
     <html lang="en">
       <head>
         <base href={browser ? new URL(baseURI, document.baseURI) : baseURI} />
+        <script type="module" src={takeScreenshotURL}></script>
         <slot name="head" />
       </head>
       <body />

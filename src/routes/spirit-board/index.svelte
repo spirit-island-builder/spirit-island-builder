@@ -3,7 +3,7 @@
   import jsone from "json-e";
 
   import * as Lib from "../lib";
-  import PreviewFrame from "$lib/preview-frame.svelte";
+  import PreviewFrame from "$lib/preview-frame/index.svelte";
 
   import NameAndArt from "./name-and-art.svelte";
   import SpecialRules from "./special-rules.svelte";
