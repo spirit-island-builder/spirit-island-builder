@@ -11,146 +11,121 @@
   export let isShowingInstructions;
   export let instructionsSource;
 
-  let aspectFrame;
   let previewFrame;
   let previewDoc;
-  let previewFrameSrc = "/template/MyCustomContent/MyAspect/aspect.html";
-  if (aspect.demoBoardWasLoaded) {
-    console.log("loading blank board");
-    previewFrameSrc = "/template/MyCustomContent/MyAspect/aspect_blank.html";
+
+  async function loadHTMLFromURL(url) {
+    let loadedDocument = await Lib.loadHTML(url);
+    readHTML(loadedDocument);
+    reloadPreview();
   }
 
-  onMount(() => {
-    aspectFrame.addEventListener("load", onLoad());
-  });
-
+  const demoURL = "/template/MyCustomContent/MyAspect/aspect_website.html";
   function onLoad() {
-    let localFrame = aspectFrame;
-    let localObject = aspect;
-
-    if (localFrame) {
-      if (localObject.demoBoardWasLoaded === false) {
-        setTimeout(() => {
-          console.log("First tab load. Using default preview.");
-          readHTML(localFrame.contentDocument);
-          localObject.demoBoardWasLoaded = true;
-        }, 200);
-      } else {
-        setTimeout(() => {
-          console.log("Tab previously loaded. Reloaded from form.");
-          reloadPreview();
-        }, 200);
-      }
+    if (aspect.demoBoardWasLoaded === false) {
+      loadHTMLFromURL(demoURL).then(() => {
+        aspect.demoBoardWasLoaded = true;
+      });
+    } else {
+      reloadPreview();
     }
   }
+  onMount(onLoad);
 
   function reloadPreview() {
     console.log("Updating Preview (f=reloadPreview)");
-    setBoardValues(aspect);
-    previewFrame.copyHTMLFrom(aspectFrame.contentDocument);
-    previewFrame.startMain();
+    previewFrame.copyHTMLFrom(generateHTML(aspect)).then(() => {
+      previewFrame.startMain();
+    });
   }
 
-  function setBoardValues(aspect) {
-    if (aspectFrame) {
-      //Clear any current power cards
-      const bodyContainer = aspectFrame.contentDocument.querySelectorAll("body")[0];
-      if (bodyContainer) {
-        //(easiest to start fresh each time)
-        bodyContainer.textContent = "";
-      }
+  function generateHTML(aspect) {
+    const fragment = new DocumentFragment();
 
-      let aspectHTML = aspectFrame.contentDocument.createElement("aspect");
-      bodyContainer.appendChild(aspectHTML);
+    let aspectHTML = document.createElement("aspect");
+    fragment.append(aspectHTML);
 
-      //Set Aspect Name
-      let aspectName = aspectFrame.contentDocument.createElement("aspect-name");
-      aspectHTML.appendChild(aspectName);
-      aspectName.innerHTML = aspect.nameReplacements.aspectName;
+    //Set Aspect Name
+    let aspectName = document.createElement("aspect-name");
+    aspectName.innerHTML = aspect.nameReplacements.aspectName;
+    aspectHTML.appendChild(aspectName);
 
-      //Profile or Landscape
-      if (aspect.profile) {
-        aspectHTML.setAttribute("profile", "");
-      }
-
-      //Set Replacement
-      let aspectReplacementHTML = aspectFrame.contentDocument.createElement("aspect-subtext");
-      aspectHTML.appendChild(aspectReplacementHTML);
-      let replacementFullText = aspect.nameReplacements.aspectRelacement;
-      if (aspect.nameReplacements.rulesReplaced) {
-        replacementFullText += ": <i>" + aspect.nameReplacements.rulesReplaced + "</i>";
-      }
-      if (aspectReplacementHTML) {
-        aspectReplacementHTML.innerHTML = replacementFullText;
-      }
-
-      //Set Complexity
-      if (aspect.nameReplacements.complexity) {
-        console.log("setting complexity");
-        const complexityHTML = aspectFrame.contentDocument.createElement("complexity");
-        aspectHTML.appendChild(complexityHTML);
-        console.log(complexityHTML);
-        if (complexityHTML) {
-          console.log("complexity found reseting value");
-          complexityHTML.setAttribute("value", aspect.nameReplacements.complexity);
-          console.log(aspect.nameReplacements.complexity);
-        } else {
-          const newComplexityHTML = document.createElement("complexity");
-          newComplexityHTML.setAttribute("value", aspect.nameReplacements.complexity);
-          aspectHTML.appendChild(newComplexityHTML);
-        }
-      } else {
-        // get rid of complexity element
-        const complexityHTML = aspectHTML.querySelectorAll("complexity")[0];
-        if (complexityHTML) {
-          complexityHTML.remove();
-        }
-      }
-
-      //Set Aspect Back
-      if (aspect.nameReplacements.hasBack) {
-        let aspectBackHTML = aspectFrame.contentDocument.createElement("aspect-back");
-        aspectHTML.after(aspectBackHTML);
-        aspectBackHTML.setAttribute("spirit-name", aspect.nameReplacements.spiritName);
-        aspectBackHTML.setAttribute("src", aspect.nameReplacements.spiritImage);
-      }
-
-      //Set Special Rules
-      const aspectRulesContainer = aspectFrame.contentDocument.createElement("aspect-container");
-      aspectHTML.appendChild(aspectRulesContainer);
-
-      aspect.aspectEffects.specialRules.rules.forEach((rule) => {
-        let newRuleName = aspectFrame.contentDocument.createElement("special-rules-subtitle");
-        newRuleName.textContent = rule.name;
-        let newRuleEffect = aspectFrame.contentDocument.createElement("special-rule");
-        newRuleEffect.innerHTML = rule.effect;
-        aspectRulesContainer.appendChild(newRuleName);
-        aspectRulesContainer.appendChild(newRuleEffect);
-      });
-
-      //Set Innate Powers
-      aspect.aspectEffects.innatePowers.powers.forEach((power) => {
-        let newInnatePower = aspectFrame.contentDocument.createElement("quick-innate-power");
-        newInnatePower.setAttribute("name", power.name);
-        newInnatePower.setAttribute("speed", power.speed.toLowerCase());
-        newInnatePower.setAttribute("range", power.range);
-        newInnatePower.setAttribute("target", power.target);
-        newInnatePower.setAttribute("target-title", power.targetTitle);
-        if (power.note) {
-          newInnatePower.setAttribute("note", power.note);
-        } // may need to clear it?
-        power.levels.forEach((level) => {
-          let newLevel = aspectFrame.contentDocument.createElement("level");
-          newLevel.setAttribute("threshold", level.threshold);
-          newLevel.textContent = level.effect;
-          if (level.isLong) {
-            newLevel.setAttribute("long", "");
-          }
-          newInnatePower.appendChild(newLevel);
-        });
-        aspectRulesContainer.appendChild(newInnatePower);
-      });
+    //Profile or Landscape
+    if (aspect.profile) {
+      aspectHTML.setAttribute("profile", "");
     }
+
+    //Set Replacement
+    let aspectReplacementHTML = document.createElement("aspect-subtext");
+    aspectHTML.appendChild(aspectReplacementHTML);
+    let replacementFullText = aspect.nameReplacements.aspectRelacement;
+    if (aspect.nameReplacements.rulesReplaced) {
+      replacementFullText += ": <i>" + aspect.nameReplacements.rulesReplaced + "</i>";
+    }
+    if (aspectReplacementHTML) {
+      aspectReplacementHTML.innerHTML = replacementFullText;
+    }
+
+    //Set Complexity
+    if (aspect.nameReplacements.complexity) {
+      const complexityHTML = document.createElement("complexity");
+      aspectHTML.appendChild(complexityHTML);
+      if (complexityHTML) {
+        console.log("complexity found reseting value");
+        complexityHTML.setAttribute("value", aspect.nameReplacements.complexity);
+        console.log(aspect.nameReplacements.complexity);
+      } else {
+        const newComplexityHTML = document.createElement("complexity");
+        newComplexityHTML.setAttribute("value", aspect.nameReplacements.complexity);
+        aspectHTML.appendChild(newComplexityHTML);
+      }
+    }
+
+    //Set Aspect Back
+    if (aspect.nameReplacements.hasBack) {
+      let aspectBackHTML = document.createElement("aspect-back");
+      fragment.append(aspectBackHTML);
+      aspectBackHTML.setAttribute("spirit-name", aspect.nameReplacements.spiritName);
+      aspectBackHTML.setAttribute("src", aspect.nameReplacements.spiritImage);
+    }
+
+    //Set Special Rules
+    const aspectRulesContainer = document.createElement("aspect-container");
+    aspectHTML.appendChild(aspectRulesContainer);
+
+    aspect.aspectEffects.specialRules.rules.forEach((rule) => {
+      let newRuleName = document.createElement("special-rules-subtitle");
+      newRuleName.textContent = rule.name;
+      let newRuleEffect = document.createElement("special-rule");
+      newRuleEffect.innerHTML = rule.effect;
+      aspectRulesContainer.appendChild(newRuleName);
+      aspectRulesContainer.appendChild(newRuleEffect);
+    });
+
+    //Set Innate Powers
+    aspect.aspectEffects.innatePowers.powers.forEach((power) => {
+      let newInnatePower = document.createElement("quick-innate-power");
+      newInnatePower.setAttribute("name", power.name);
+      newInnatePower.setAttribute("speed", power.speed.toLowerCase());
+      newInnatePower.setAttribute("range", power.range);
+      newInnatePower.setAttribute("target", power.target);
+      newInnatePower.setAttribute("target-title", power.targetTitle);
+      if (power.note) {
+        newInnatePower.setAttribute("note", power.note);
+      } // may need to clear it?
+      power.levels.forEach((level) => {
+        let newLevel = document.createElement("level");
+        newLevel.setAttribute("threshold", level.threshold);
+        newLevel.textContent = level.effect;
+        if (level.isLong) {
+          newLevel.setAttribute("long", "");
+        }
+        newInnatePower.appendChild(newLevel);
+      });
+      aspectRulesContainer.appendChild(newInnatePower);
+    });
+
+    return fragment;
   }
 
   function readHTML(htmlElement) {
@@ -243,33 +218,17 @@
   }
 
   function exportAspect() {
-    setBoardValues(aspect);
-    let element = document
-      .getElementById("aspect-mod-frame")
-      .contentWindow.document.getElementsByTagName("html")[0];
     const htmlFileName = aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.html";
-    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
+    Lib.downloadHTML(generateHTML(aspect), htmlFileName);
   }
 
   function handleTextFileInput(event) {
-    let dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
-    console.log(file);
     if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const fileText = data.target.result;
-        dummyEl.innerHTML = fileText;
-        dummyEl.head = dummyEl.getElementsByTagName("head")[0];
-        dummyEl.body = dummyEl.getElementsByTagName("body")[0];
-        readHTML(dummyEl);
-        setTimeout(() => {
-          reloadPreview();
-        }, 100);
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsText(file);
+      let url = URL.createObjectURL(file);
+      loadHTMLFromURL(url).finally(() => {
+        URL.revokeObjectURL(url);
+      });
     }
   }
 
@@ -350,9 +309,16 @@
 
 <PreviewFrame
   id="aspect-preview"
-  src={previewFrameSrc}
+  baseURI="/template/MyCustomContent/MyAspect/"
   bind:this={previewFrame}
-  bind:document={previewDoc} />
+  bind:document={previewDoc}>
+  <svelte:fragment slot="head">
+    <link href="/template/_global/css/global.css" rel="stylesheet" />
+    <link href="/template/_global/css/aspect.css" rel="stylesheet" />
+    <script type="text/javascript" src="/template/_global/js/common.js"></script>
+    <script type="text/javascript" src="/template/_global/js/aspect.js"></script>
+  </svelte:fragment>
+</PreviewFrame>
 
 <div class="field has-addons mb-2">
   <div class="file is-success mr-1">
@@ -385,15 +351,4 @@
   <div class="column pt-0">
     <AspectEffects bind:aspect />
   </div>
-</div>
-
-<div id="aspect-holder">
-  <iframe
-    bind:this={aspectFrame}
-    src="/template/MyCustomContent/MyAspect/aspect_website.html"
-    height="600"
-    width="100%"
-    title="yay"
-    style="display:none;"
-    id="aspect-mod-frame" />
 </div>

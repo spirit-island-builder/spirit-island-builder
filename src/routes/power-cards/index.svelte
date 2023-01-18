@@ -12,104 +12,82 @@
   export let isShowingInstructions;
   export let instructionsSource;
 
-  let cardsFrame;
   let previewFrame;
   let previewDoc;
-  let previewFrameSrc = "/template/MyCustomContent/MySpirit/card_front.html";
-  if (powerCards.demoBoardWasLoaded) {
-    previewFrameSrc = "/template/MyCustomContent/MySpirit/card_front_blank.html";
+
+  async function loadHTMLFromURL(url) {
+    let loadedDocument = await Lib.loadHTML(url);
+    readHTML(loadedDocument);
+    reloadPreview();
   }
 
-  onMount(() => {
-    cardsFrame.addEventListener("load", onLoad());
-  });
-
+  const demoURL = "/template/MyCustomContent/MySpirit/card_front_website.html";
   function onLoad() {
-    let localFrame = cardsFrame;
-    let localObject = powerCards;
-
-    if (localFrame) {
-      if (localObject.demoBoardWasLoaded === false) {
-        setTimeout(() => {
-          console.log("First tab load. Using default preview.");
-          readHTML(localFrame.contentDocument);
-          localObject.demoBoardWasLoaded = true;
-        }, 200);
-      } else {
-        setTimeout(() => {
-          console.log("Tab previously loaded. Reloaded from form.");
-          reloadPreview();
-        }, 200);
-      }
+    if (powerCards.demoBoardWasLoaded === false) {
+      loadHTMLFromURL(demoURL).then(() => {
+        powerCards.demoBoardWasLoaded = true;
+      });
+    } else {
+      reloadPreview();
     }
   }
+  onMount(onLoad);
 
   function reloadPreview() {
     console.log("Updating Preview (f=reloadPreview)");
-    setBoardValues(powerCards);
-    previewFrame.copyHTMLFrom(cardsFrame.contentDocument);
-    previewFrame.startMain();
+    previewFrame.copyHTMLFrom(generateHTML(powerCards)).then(() => {
+      previewFrame.startMain();
+    });
   }
 
-  function setBoardValues(powerCards) {
-    if (cardsFrame) {
-      //Clear any current power cards
-      const bodyContainer = cardsFrame.contentDocument.querySelectorAll("body")[0];
-      if (bodyContainer) {
-        //(easiest to start fresh each time)
-        bodyContainer.textContent = "";
+  function generateHTML(powerCards) {
+    const fragment = new DocumentFragment();
+
+    //Loop through cards
+    powerCards.cards.forEach((card) => {
+      let newPowerCard = document.createElement("quick-card");
+      newPowerCard.setAttribute("name", card.name);
+      newPowerCard.setAttribute("speed", card.speed.toLowerCase());
+      newPowerCard.setAttribute("cost", card.cost);
+      newPowerCard.setAttribute("image", card.cardImage);
+      newPowerCard.setAttribute("range", card.range);
+      newPowerCard.setAttribute("target", card.target);
+      newPowerCard.setAttribute("target-title", card.targetTitle);
+      newPowerCard.setAttribute("artist-name", card.cardArtist);
+
+      let elementalList = card.powerElements;
+      let elementListHTML = [];
+      for (let key in elementalList) {
+        if (elementalList[key]) elementListHTML.push(key);
       }
+      newPowerCard.setAttribute("elements", elementListHTML.join());
 
-      //Loop through cards
-      powerCards.cards.forEach((card) => {
-        let newPowerCard = cardsFrame.contentDocument.createElement("quick-card");
-        newPowerCard.setAttribute("name", card.name);
-        newPowerCard.setAttribute("speed", card.speed.toLowerCase());
-        newPowerCard.setAttribute("cost", card.cost);
-        newPowerCard.setAttribute("image", card.cardImage);
-        newPowerCard.setAttribute("range", card.range);
-        newPowerCard.setAttribute("target", card.target);
-        newPowerCard.setAttribute("target-title", card.targetTitle);
-        newPowerCard.setAttribute("artist-name", card.cardArtist);
-
-        let elementalList = card.powerElements;
-        let elementListHTML = [];
-        for (let key in elementalList) {
-          if (elementalList[key]) elementListHTML.push(key);
+      fragment.append(newPowerCard);
+      let newPowerCardRules = document.createElement("rules");
+      newPowerCardRules.innerHTML = card.rules;
+      newPowerCard.appendChild(newPowerCardRules);
+      if (card.threshold) {
+        let newPowerCardThreshold = document.createElement("threshold");
+        newPowerCardThreshold.innerHTML = card.threshold;
+        newPowerCardThreshold.setAttribute("condition", card.thresholdCondition);
+        if (card.thresholdText) {
+          newPowerCardThreshold.setAttribute("text", card.thresholdText);
         }
-        newPowerCard.setAttribute("elements", elementListHTML.join());
-
-        bodyContainer.appendChild(newPowerCard);
-        let newPowerCardRules = cardsFrame.contentDocument.createElement("rules");
-        newPowerCardRules.innerHTML = card.rules;
-        newPowerCard.appendChild(newPowerCardRules);
-        if (card.threshold) {
-          let newPowerCardThreshold = cardsFrame.contentDocument.createElement("threshold");
-          newPowerCardThreshold.innerHTML = card.threshold;
-          newPowerCardThreshold.setAttribute("condition", card.thresholdCondition);
-          if (card.thresholdText) {
-            newPowerCardThreshold.setAttribute("text", card.thresholdText);
-          }
-          newPowerCard.appendChild(newPowerCardThreshold);
-        }
-      });
-
-      //Set Custom Icons
-      console.log("setting custom icons");
-      let cardsStyle = cardsFrame.contentDocument.querySelectorAll("style")[0];
-      if (!cardsStyle) {
-        const spiritHead = cardsFrame.contentDocument.querySelectorAll("head")[0];
-        cardsStyle = cardsFrame.contentDocument.createElement("style");
-        spiritHead.appendChild(cardsStyle);
+        newPowerCard.appendChild(newPowerCardThreshold);
       }
-      let customIconText = "";
-      customIcons.icons.forEach((icon) => {
-        customIconText +=
-          "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-      });
-      cardsStyle.textContent = customIconText;
-      console.log("customIconText: ", customIconText);
-    }
+    });
+
+    //Set Custom Icons
+    const spiritStyle = document.createElement("style");
+    fragment.prepend(spiritStyle);
+    let customIconText = "";
+    customIcons.icons.forEach((icon) => {
+      customIconText +=
+        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
+    });
+    spiritStyle.textContent = customIconText;
+
+    return fragment;
   }
 
   function readHTML(htmlElement) {
@@ -208,33 +186,17 @@
   }
 
   function exportPowerCards() {
-    setBoardValues(powerCards);
-    const element = document
-      .getElementById("cards-mod-frame")
-      .contentWindow.document.getElementsByTagName("html")[0];
     const htmlFileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
-    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
+    Lib.downloadHTML(generateHTML(powerCards), htmlFileName);
   }
 
   function handleTextFileInput(event) {
-    let dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
-    console.log(file);
     if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const fileText = data.target.result;
-        dummyEl.innerHTML = fileText;
-        dummyEl.head = dummyEl.getElementsByTagName("head")[0];
-        dummyEl.body = dummyEl.getElementsByTagName("body")[0];
-        readHTML(dummyEl);
-        setTimeout(() => {
-          reloadPreview();
-        }, 100);
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsText(file);
+      let url = URL.createObjectURL(file);
+      loadHTMLFromURL(url).finally(() => {
+        URL.revokeObjectURL(url);
+      });
     }
   }
 
@@ -302,9 +264,16 @@
 
 <PreviewFrame
   id="power-cards-preview"
-  src={previewFrameSrc}
+  baseURI="/template/MyCustomContent/MySpirit/"
   bind:this={previewFrame}
-  bind:document={previewDoc} />
+  bind:document={previewDoc}>
+  <svelte:fragment slot="head">
+    <link href="/template/_global/css/global.css" rel="stylesheet" />
+    <link href="/template/_global/css/card.css" rel="stylesheet" />
+    <script type="text/javascript" src="/template/_global/js/common.js"></script>
+    <script type="text/javascript" src="/template/_global/js/card.js"></script>
+  </svelte:fragment>
+</PreviewFrame>
 <div class="field has-addons mt-2 mb-2">
   <div class="file is-success mr-1">
     <label class="file-label">
@@ -333,14 +302,4 @@
     <PowerCard bind:powerCards />
     <CustomIcons bind:customIcons />
   </div>
-</div>
-<div id="cards-holder">
-  <iframe
-    bind:this={cardsFrame}
-    src="/template/MyCustomContent/MySpirit/card_front_website.html"
-    height="600"
-    width="100%"
-    title="yay"
-    style="display:none;"
-    id="cards-mod-frame" />
 </div>

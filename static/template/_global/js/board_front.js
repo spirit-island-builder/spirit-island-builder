@@ -2,11 +2,7 @@
 
 /* global replaceIcon */
 
-window.onload = () => {
-  startMain();
-  console.log("Page Loaded");
-};
-
+/* exported startMain */
 function startMain() {
   console.log("CREATING SPIRIT BOARD");
   buildGrowthPanel();
