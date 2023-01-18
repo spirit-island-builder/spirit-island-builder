@@ -417,3 +417,9 @@
     developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
   </div>
 </article>
+
+<style>
+  h1 {
+    font-family: "Lato Semibold, sans-serif";
+  }
+</style>

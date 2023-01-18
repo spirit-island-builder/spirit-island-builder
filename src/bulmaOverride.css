@@ -54,6 +54,11 @@ h6 {
   font-family: "Lato";
 }
 
+@font-face {
+  font-family: "Lato SemiBold";
+  src: local("Lato Semibold") url("/template/_global/fonts/lato/Lato-Semibold.ttf");
+}
+
 .button.is-flashy {
   -webkit-animation: is-flashy 1s step-end infinite;
   animation: is-flashy 1s step-end infinite;
