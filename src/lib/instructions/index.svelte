@@ -1,7 +1,5 @@
 <script context="module">
-  export const instructionsURL = new URL(
-    "https://neubee.github.io/spirit-island-builder/instructions"
-  );
+  export const instructionsURL = "/instructions";
   export let instructions;
 </script>
 
@@ -14,10 +12,10 @@
   let popup;
   let dragBar;
 
-  const source = new URL(instructionsURL);
+  let source = instructionsURL;
   export const open = (fragement) => {
     if (fragement) {
-      source.hash = fragement;
+      source = `${instructionsURL}#${encodeURIComponent(fragement)}`;
     }
     popup.show();
   };

@@ -1,5 +1,16 @@
 <script>
-  import { dev } from "$app/environment";
+  import "bulma/css/bulma.css";
+  import "../bulmaOverride.css";
+  import "../growth.css";
+  import "../presenceTracks.css";
+  import "../previewBoard.css";
+  import "../innatePowers.css";
+
+  import { browser, dev } from "$app/environment";
+  import { defineCustomElement } from "ionicons/components/ion-icon.js";
+  if (browser) {
+    defineCustomElement(window);
+  }
 
   import SpiritBoard from "./spirit-board/index.svelte";
   import SpiritBoardBack from "./spirit-board-back/index.svelte";

@@ -2,25 +2,7 @@
 
 Welcome to the Spirit Island Spirit Board Builder! This document will help you use the Spirit Board builder.
 
-## Index
-
-- [Spirit Board Play Side](#spirit-board-play-side):
-  - [Preview Board and Builder Interface](#preview-board-and-interface)
-  - [Spirit Name & Art](#spirit-name-and-art)
-  - [Special Rules](#special-rules)
-  - [Custom Icons](#custom-icons)
-  - [Growth](#growth)
-  - [Presence Tracks](#presence-tracks)
-  - [Innate Powers](#innate-powers)
-- [Spirit Board Lore Side](#spirit-board-lore-side):
-  - [Name, Art, Lore](#spirit-lore-name)
-  - [Setup, Play Style, Complexity, Summary of Powers](#spirit-lore-setup)
-- [Power Cards](#power-cards)
-- [Adversary](#adversary):
-  - [Name, Loss Condition, Escalation](#adversary-name)
-  - [Levels](#adversary-levels)
-- [How to Use {Icons}](#general-icons)
-- [Fonts](#fonts)
+## Table of Contents {#index}
 
 ## Spirit Board Play Side
 
@@ -263,7 +245,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 
 ## Spirit Board Lore Side
 
-### <a name="spirit-lore-name"></a>Spirit Name, Art and Lore
+### Spirit Name, Art and Lore {#spirit-lore-name}
 
 - Name: The name of your Spirit
 - Spirit Art: The art for your spirit. Press 'Choose File' to select an image.
@@ -271,7 +253,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 
 [Home](#index)
 
-### <a name="spirit-lore-setup"></a>Spirit Setup, Play Style, Complexity and Summary of Powers
+### Spirit Setup, Play Style, Complexity and Summary of Powers {#spirit-lore-setup}
 
 - Setup: How to setup your spirit for play. You can use the [{icon shortcuts}](#general-icons) here.
 - Play Style: How to play your spirit. You can use the [{icon shortcuts}](#general-icons) here.
@@ -325,7 +307,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 
 ## Adversary
 
-### <a name="adversary-name"></a>Adversary Name, Loss Condition and Escalation
+### Adversary Name, Loss Condition and Escalation {#adversary-name}
 
 - Name: The name of your adversary. Will automatically be displayed in all capitals.
 - Flag Art: The flag art that appears on the adversary. Press 'Load' to select an image.
@@ -339,7 +321,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 
 [Home](#index)
 
-### <a name="adversary-levels"></a>Adversary Levels
+### Adversary Levels {#adversary-levels}
 
 For now, your adversary must have 6 levels. If you want to do less, you'll have to leave the later ones blank.
 
