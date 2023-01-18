@@ -1,8 +1,3 @@
-window.onload = (event) => {
-  startMain();
-  console.log("Page Loaded");
-};
-
 function startMain() {
   console.log("aspect startMain");
   var aspects = document.querySelectorAll("aspect");

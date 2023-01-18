@@ -7,8 +7,6 @@
   import "../previewBoard.css";
   import "../specialRules.css";
   import "../innatePowers.css";
-  import "../powerCards.css";
-  import "../aspect.css";
 </script>
 
 <slot />

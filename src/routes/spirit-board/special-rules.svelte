@@ -80,13 +80,12 @@
         additionalOnBlurFunction={() => updateSpecialRule(rule, i)}
         bind:value={rule.effect} />
     </div>
-    {#if i === spiritBoard.specialRules.rules.length - 1}
-      <div class="field">
-        <div class="control">
-          <button class="button is-primary is-light" id="addSpecialRule" on:click={addSpecialRule}
-            >Add Another Rule</button>
-        </div>
-      </div>
-    {/if}
   {/each}
+  <div class="field">
+    <div class="control">
+      <button class="button is-primary is-light" id="addSpecialRule" on:click={addSpecialRule}>
+        Add Another Rule
+      </button>
+    </div>
+  </div>
 </Section>

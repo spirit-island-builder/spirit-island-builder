@@ -92,14 +92,3 @@ function replaceIcon(html) {
 
   return result;
 }
-
-async function takeScreenshot(elementName) {
-  let { default: html2canvas } = await import(
-    "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js"
-  );
-  let element = document.querySelector(elementName);
-  let canvas = await html2canvas(element, {
-    scale: 1,
-  });
-  return canvas.toDataURL();
-}

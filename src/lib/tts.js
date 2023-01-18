@@ -7,7 +7,7 @@ import ttsSaveTemplate from "./tts-savegame.json";
 /**
  * MIME Type to use for Tabletop Simualator saves.
  */
-export const ttsSaveMIMEType = "data:text/json;charset=utf-8";
+export const ttsSaveMIMEType = "text/json;charset=utf-8";
 
 /**
  * Create a Tabletop Simulator savegame containting the given objects.
