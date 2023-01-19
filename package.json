@@ -36,6 +36,9 @@
     "*.{js,svelte}": [
       "eslint",
       "prettier --write --plugin-search-dir=."
+    ],
+    "*.{css}": [
+      "prettier --write --plugin-search-dir=."
     ]
   },
   "dependencies": {
