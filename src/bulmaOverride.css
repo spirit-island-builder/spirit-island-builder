@@ -47,11 +47,16 @@
 h1,
 h5,
 h6 {
-  font-family: "Lato";
+  font-family: "Lato Semibold";
 }
 
 .button.navbar-item {
-  font-family: "Lato";
+  font-family: "Lato Semibold";
+}
+
+@font-face {
+  font-family: "Lato Semibold";
+  src: local("Lato Semibold") url("/template/_global/fonts/lato/Lato-Semibold.ttf");
 }
 
 .button.is-flashy {
