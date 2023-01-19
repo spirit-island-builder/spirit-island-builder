@@ -39,6 +39,6 @@
     border-inline-start: 0.25rem solid #bfc0c5;
   }
   button:hover {
-    background-color: #bfc0c5;
+    background-color: #bfc0c575;
   }
 </style>
