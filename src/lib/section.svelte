@@ -4,13 +4,13 @@
 </script>
 
 <section>
-  <h3 class="subtitle is-6 is-unselectable">
+  <h3 class="subtitle is-6 mb-0 is-unselectable">
     <button
       aria-expanded={isVisible}
       on:click={() => {
         isVisible = !isVisible;
       }}
-      class="is-flex is-justify-content-space-between pl-1">
+      class="is-flex is-justify-content-space-between pl-1 mt-1">
       <span>{title}</span>
       {#if isVisible}
         <ion-icon name="chevron-down-outline" aria-hidden="true" />
@@ -19,7 +19,7 @@
       {/if}
     </button>
   </h3>
-  <div style:display={isVisible ? null : "none"}>
+  <div style:display={isVisible ? null : "none"} class="mt-1">
     <slot />
   </div>
 </section>
@@ -39,6 +39,6 @@
     border-inline-start: 0.25rem solid #bfc0c5;
   }
   button:hover {
-    background-color: #bfc0c5;
+    background-color: #bfc0c575;
   }
 </style>
