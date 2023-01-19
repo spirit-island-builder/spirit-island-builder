@@ -215,7 +215,7 @@ export const selectNode = (event) => {
 };
 
 export const nextNode = (event) => {
-  if (event.key === "Enter") {
+  if (event.key === "Enter" && event.shiftKey) {
     let currentID = event.target.id;
     let numlessID = currentID.replace(/\d/g, "");
     let focusID = "";
