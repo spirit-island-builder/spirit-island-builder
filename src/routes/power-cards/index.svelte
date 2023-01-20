@@ -7,6 +7,10 @@
   import PowerCard from "./power-card.svelte";
   import CustomIcons from "../custom-icons.svelte";
 
+  import powerCardsJsonTemplate from "./tts-power-card.json";
+  import jsone from "json-e";
+  import { createTTSSave, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
+
   export let powerCards;
   export let customIcons;
   export let isShowingInstructions;
@@ -260,6 +264,103 @@
     });
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
+
+  async function downloadTTSJSON() {
+    let previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
+
+    const cardsTemplate = previewFrameDoc.querySelectorAll("card");
+
+    powerCards.cards.forEach((card, index) => {
+      let cardTemplate = cardsTemplate[index];
+      let cardRect = cardTemplate.getBoundingClientRect();
+
+      let elements = "";
+      elements += card.powerElements.sun ? 1 : 0;
+      elements += card.powerElements.moon ? 1 : 0;
+      elements += card.powerElements.fire ? 1 : 0;
+      elements += card.powerElements.air ? 1 : 0;
+      elements += card.powerElements.water ? 1 : 0;
+      elements += card.powerElements.earth ? 1 : 0;
+      elements += card.powerElements.plant ? 1 : 0;
+      elements += card.powerElements.animal ? 1 : 0;
+
+      let energy = [];
+      energy = card.cost;
+
+      let tags = [];
+      tags.push(card.speed);
+      tags.push("Unique");
+
+      let thresholdText;
+      let thresholds = [];
+      if (card.hasThreshold) {
+        thresholdText =
+          'function onLoad(saved_data)\n    if saved_data ~= "" then\n        local loaded_data = JSON.decode(saved_data)\n        self.setTable("thresholds", loaded_data.thresholds)\n    end\nend\n-- card loading end';
+        //"{\"thresholds\": [{\"elements\": \"00030000\", \"position\": {\"x\": 0.07, \"y\": 0, \"z\": 1.09}}]}"
+        const thresholdNode = cardTemplate.getElementsByTagName("threshold-condition")[0];
+        console.log(card.name);
+        console.log(thresholdNode.innerHTML);
+        let icons = Array.from(thresholdNode.getElementsByTagName("icon"));
+        let elementNums = thresholdNode.innerHTML
+          .split("<icon")
+          .map((x) => (isNaN(x) ? x.split("icon>")[1] : x));
+        console.log(thresholdNode.innerHTML.split("<icon"));
+        let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
+        icons.forEach((icon, i) => {
+          if (icon.classList.contains("sun")) {
+            elementCounts[0] = elementNums[i];
+          } else if (icon.classList.contains("moon")) {
+            elementCounts[1] = elementNums[i];
+          } else if (icon.classList.contains("fire")) {
+            elementCounts[2] = elementNums[i];
+          } else if (icon.classList.contains("air")) {
+            elementCounts[3] = elementNums[i];
+          } else if (icon.classList.contains("water")) {
+            elementCounts[4] = elementNums[i];
+          } else if (icon.classList.contains("earth")) {
+            elementCounts[5] = elementNums[i];
+          } else if (icon.classList.contains("plant")) {
+            elementCounts[6] = elementNums[i];
+          } else if (icon.classList.contains("animal")) {
+            elementCounts[7] = elementNums[i];
+          }
+        });
+        console.log(elementCounts);
+        let rect = thresholdNode.getBoundingClientRect();
+        thresholds.push({
+          elements: elementCounts.join(""),
+          position: {
+            x: toFixedNumber(
+              (-(cardRect.width / cardRect.height) *
+                (-23 + rect.left - cardRect.x - cardRect.width / 2)) /
+                (cardRect.width / 2),
+              4
+            ),
+            y: 0,
+            z: toFixedNumber(
+              (rect.y + rect.height / 2 - cardRect.y - cardRect.height / 2) / (cardRect.height / 2),
+              4
+            ),
+          },
+        });
+      } else {
+        // No Threshold
+        thresholdText = "";
+      }
+
+      let powerCardJson = jsone(powerCardsJsonTemplate, {
+        guid: card.name.replaceAll(" ", "_"),
+        cardName: card.name,
+        elements,
+        energy,
+        thresholdText,
+      });
+      let ttsSave = createTTSSave([powerCardJson]);
+
+      const jsonFileName = card.name.replaceAll(" ", "_") + "_TTS.json";
+      Lib.downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
+    });
+  }
 </script>
 
 <PreviewFrame
@@ -291,6 +392,7 @@
   </div>
   <button class="button is-success  mr-1" on:click={exportPowerCards}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+  <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
   <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Preview Size</button>
