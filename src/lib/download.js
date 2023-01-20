@@ -3,8 +3,33 @@
  * Utilities for downloading files.
  */
 
+import { writable } from "svelte/store";
+let shouldDivertDownload = false;
+
+/**
+ * When downloads are divereted, contains the latest downloaded data.
+ *
+ * @type{import("svelte/store").Writable<{fileName?: string, imageURL?: string|URL, fileContent?: string}>}
+ */
+export const downloadData = writable({});
+
+/**
+ * Set whether downloads should be stored in `downloadData` or actually downloaded.
+ * @param {boolean} value
+ */
+export const divertDownload = (value) => {
+  shouldDivertDownload = value;
+};
+
 /**
  * Download the given URL with the given filename.
+ *
+ * Note: This does not support diverting the download, and
+ * so is not exported. If you need to download something other
+ * than a string or image, you should add a wrapper that knows
+ * how to divert that type download, rather than directly exporting
+ * this function.
+ *
  * @param {string|URL} fileURL
  * @param {string} fileName
  */
@@ -24,6 +49,10 @@ const downloadFile = (fileURL, fileName) => {
  * @param {string} fileName
  */
 export const downloadImage = (imageURL, fileName) => {
+  if (shouldDivertDownload) {
+    downloadData.set({ imageURL, fileName });
+    return;
+  }
   downloadFile(imageURL, fileName);
 };
 
@@ -35,6 +64,10 @@ export const downloadImage = (imageURL, fileName) => {
  * @param {string} fileName
  */
 export const downloadString = (mimeType, fileContent, fileName) => {
+  if (shouldDivertDownload) {
+    downloadData.set({ fileContent, fileName });
+    return;
+  }
   downloadFile(`data:${mimeType},${encodeURIComponent(fileContent)}`, fileName);
 };
 

@@ -1,10 +1,17 @@
 <script>
+  import { dev } from "$app/environment";
+
   import SpiritBoard from "./spirit-board/index.svelte";
   import SpiritBoardBack from "./spirit-board-back/index.svelte";
   import PowerCards from "./power-cards/index.svelte";
   import Aspect from "./aspect/index.svelte";
   import Adversary from "./adversary/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
+
+  import { divertDownload, downloadData } from "$lib/download";
+
+  let debugDownloads = false;
+  $: divertDownload(debugDownloads);
 
   let currentPage = "spiritBoardFront";
 
@@ -349,7 +356,7 @@
 
 <header>
   <h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
-  <nav class="navbar ml-5">
+  <nav class="navbar ml-5 mr-5">
     <div class="navbar-brand">
       {#each pages as [page, title]}
         {@const isCurrent = currentPage === page}
@@ -362,6 +369,19 @@
         </button>
       {/each}
     </div>
+    {#if dev}
+      <div class="navbar-menu">
+        <div class="navbar-end">
+          <button
+            class={`button navbar-item ${debugDownloads ? "is-primary is-selected" : ""}`}
+            on:click={() => {
+              debugDownloads = !debugDownloads;
+            }}>
+            Debug Downloads
+          </button>
+        </div>
+      </div>
+    {/if}
   </nav>
 </header>
 {#if isShowingInstructions === true}
@@ -392,6 +412,20 @@
     <Adversary bind:adversary bind:isShowingInstructions bind:instructionsSource />
   {/if}
 </div>
+
+{#if dev}
+  <!--
+    We import the debug view dynamically here, so that we only pay the cost
+    of loading the pretty-printing and code-highlighting code if we can actually
+    enable debugging.
+    -->
+  {#await import("$lib/debug-file-view.svelte") then { default: DebugFileView }}
+    {#if debugDownloads}
+      <DebugFileView {...$downloadData} />
+    {/if}
+  {/await}
+{/if}
+
 <article class="message is-small mb-1">
   <div class="message-body p-1">
     See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
