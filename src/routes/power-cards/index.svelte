@@ -13,7 +13,6 @@
   export let instructionsSource;
 
   let previewFrame;
-  let previewDoc;
 
   async function loadHTMLFromURL(url) {
     let loadedDocument = await Lib.loadHTML(url);
@@ -265,8 +264,7 @@
 <PreviewFrame
   id="power-cards-preview"
   baseURI="/template/MyCustomContent/MySpirit/"
-  bind:this={previewFrame}
-  bind:document={previewDoc}>
+  bind:this={previewFrame}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/card.css" rel="stylesheet" />

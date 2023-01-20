@@ -12,7 +12,6 @@
   export let instructionsSource;
 
   let previewFrame;
-  let previewDoc;
 
   async function loadHTMLFromURL(url) {
     let loadedDocument = await Lib.loadHTML(url);
@@ -207,8 +206,7 @@
 <PreviewFrame
   id="adversary-preview"
   baseURI="/template/MyCustomContent/MyAdversary/"
-  bind:this={previewFrame}
-  bind:document={previewDoc}>
+  bind:this={previewFrame}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/adversary.css" rel="stylesheet" />

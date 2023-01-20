@@ -146,7 +146,6 @@
   }
 
   let previewFrame;
-  let previewDoc;
   let exampleModal;
 
   async function loadHTMLFromURL(url) {
@@ -764,8 +763,7 @@
 <PreviewFrame
   id="spirit-preview"
   baseURI="/template/MyCustomContent/MySpirit/"
-  bind:this={previewFrame}
-  bind:document={previewDoc}>
+  bind:this={previewFrame}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/board_front.css" rel="stylesheet" />
