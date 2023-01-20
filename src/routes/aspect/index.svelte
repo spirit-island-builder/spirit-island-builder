@@ -12,7 +12,6 @@
   export let instructionsSource;
 
   let previewFrame;
-  let previewDoc;
 
   async function loadHTMLFromURL(url) {
     let loadedDocument = await Lib.loadHTML(url);
@@ -311,7 +310,7 @@
   id="aspect-preview"
   baseURI="/template/MyCustomContent/MyAspect/"
   bind:this={previewFrame}
-  bind:document={previewDoc}>
+  on:hot-reload={reloadPreview}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/aspect.css" rel="stylesheet" />
