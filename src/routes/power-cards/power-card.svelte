@@ -3,20 +3,7 @@
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
-
-  function handleImageFileInput(event, card) {
-    const file = event.target.files.item(0);
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const imageURL = data.target.result;
-        card.cardImage = imageURL;
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsDataURL(file);
-    }
-  }
+  import ImageInput from "$lib/image-input.svelte";
 
   function setSpeedTextbox(powerSpeed, card) {
     card.speed = powerSpeed;
@@ -271,7 +258,7 @@
     <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-4">
       <div class="field has-addons mr-2 ml-1">
         <label class="label is-unselectable mr-1" for="">Artist: </label>
-        <div class="control">
+        <div class="control mr-2">
           <input
             id={`cardArtist${i}`}
             class="input is-small"
@@ -279,18 +266,7 @@
             placeholder="Artist"
             bind:value={card.cardArtist} />
         </div>
-        <div class="control">
-          <input
-            accept="image/png, image/jpeg"
-            on:change={(e) => handleImageFileInput(e, card)}
-            id={`cardArt${i}`}
-            name="cardArt"
-            type="file"
-            class="input is-small" />
-          {#if card.cardImage === ""}
-            <img id="cardArtImage" src={card.cardImage} alt="power card art" />
-          {/if}
-        </div>
+        <ImageInput id="cardArt{i}" title="Card Art" bind:imageURL={card.cardImage} />
       </div>
     </div>
     <hr />
