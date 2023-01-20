@@ -7,6 +7,7 @@
 
   import NameReplacements from "./name-replacements.svelte";
   import AspectEffects from "./aspect-effects.svelte";
+  import { downloadHTML } from "$lib/download";
 
   export let aspect;
   export let isShowingInstructions;
@@ -223,7 +224,7 @@
 
   function exportAspect() {
     const htmlFileName = aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.html";
-    Lib.downloadHTML(generateHTML(aspect), htmlFileName);
+    downloadHTML(generateHTML(aspect), htmlFileName);
   }
 
   function clearAllFields() {
