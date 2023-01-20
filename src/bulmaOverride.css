@@ -39,23 +39,22 @@
   font-family: "JosefinSans-Regular";
 }
 
-.file.is-success .file-cta {
-  background-color: #0ba14a;
-  font-family: "JosefinSans-Regular";
+.button.is-file-load {
+  background-color: #ffe08a;
 }
 
 h1,
 h5,
 h6 {
-  font-family: "Lato";
+  font-family: "Lato Semibold";
 }
 
 .button.navbar-item {
-  font-family: "Lato";
+  font-family: "Lato Semibold";
 }
 
 @font-face {
-  font-family: "Lato SemiBold";
+  font-family: "Lato Semibold";
   src: local("Lato Semibold") url("/template/_global/fonts/lato/Lato-Semibold.ttf");
 }
 

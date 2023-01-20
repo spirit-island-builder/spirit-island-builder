@@ -252,14 +252,14 @@ export const nextNode = (event) => {
           break;
         }
         currentID = focusID;
-      // eslint-disable-next-line no-fallthrough
+      // Intentionally fallthrough.
       case "setgrouptint":
         focusID = currentID.replace("tint", "title");
         if (document.getElementById(focusID) !== null) {
           break;
         }
         currentID = focusID;
-      // eslint-disable-next-line no-fallthrough
+      // Intentionally fallthrough.
       case "setgrouptitle":
         focusID = "growthSet" + numMatches[0] + "Group" + numMatches[1] + "Action0";
         break;

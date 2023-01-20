@@ -4,6 +4,7 @@
 
   import { tick, onMount } from "svelte";
   import { browser } from "$app/environment";
+  import { installHotReloadEvent } from "$lib/hmr-helper.js";
 
   // Using a query string of `?worker&url` gives a URL from which we can
   // pass to `<script type="module">` tag, which we can inject into the
@@ -76,8 +77,9 @@
       return loaded;
     }
   }
-
   onMount(updateSrc);
+
+  installHotReloadEvent();
 </script>
 
 <div {id} class="preview-wrap" class:large bind:this={wrapper}>

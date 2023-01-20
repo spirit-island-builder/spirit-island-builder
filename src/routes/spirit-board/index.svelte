@@ -4,6 +4,8 @@
 
   import * as Lib from "../lib";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
+  import Examples from "$lib/example-modal.svelte";
+  import LoadButton from "$lib/load-button.svelte";
 
   import NameAndArt from "./name-and-art.svelte";
   import SpecialRules from "./special-rules.svelte";
@@ -14,6 +16,7 @@
 
   import { createTTSSave, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
 
+  import examples from "./examples.json";
   import spiritBoardJsonTemplate from "./tts-spirit-board.json";
 
   export let spiritBoard;
@@ -144,7 +147,7 @@
   }
 
   let previewFrame;
-  let previewDoc;
+  let exampleModal;
 
   async function loadHTMLFromURL(url) {
     let loadedDocument = await Lib.loadHTML(url);
@@ -480,17 +483,6 @@
     document.getElementById("updateButton").classList.remove("is-flashy");
   }
 
-  function handleTextFileInput(event) {
-    hideAll();
-    const file = event.target.files.item(0);
-    if (file) {
-      let url = URL.createObjectURL(file);
-      loadHTMLFromURL(url).finally(() => {
-        URL.revokeObjectURL(url);
-      });
-    }
-  }
-
   function exportSpiritBoard() {
     const htmlFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html";
     Lib.downloadHTML(generateHTML(spiritBoard), htmlFileName);
@@ -502,25 +494,9 @@
       "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-play-side";
   }
 
-  function openExamplesModal(event) {
-    console.log(event.target.dataset.target);
-    let examplesModal = document.getElementById(event.target.dataset.target);
-    if (examplesModal.classList.contains("is-active")) {
-      examplesModal.classList.remove("is-active");
-    } else {
-      examplesModal.classList.add("is-active");
-    }
-  }
-
-  function closeExamplesModal(examplesModal) {
-    examplesModal.classList.remove("is-active");
-  }
-
-  function loadNewExample(event) {
-    loadHTMLFromURL(event.target.id).finally(() => {
-      closeExamplesModal(document.getElementById("modal-js-example"));
-      hideAll();
-    });
+  async function loadExample(example) {
+    await loadHTMLFromURL(example.url);
+    hideAll();
   }
 
   async function downloadTTSJSON() {
@@ -778,7 +754,7 @@
   id="spirit-preview"
   baseURI="/template/MyCustomContent/MySpirit/"
   bind:this={previewFrame}
-  bind:document={previewDoc}>
+  on:hot-reload={reloadPreview}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/board_front.css" rel="stylesheet" />
@@ -788,28 +764,17 @@
 </PreviewFrame>
 
 <div class="field has-addons mb-2">
-  <div class="file is-success mr-1">
-    <button
-      class="button is-info js-modal-trigger mr-1"
-      data-toggle="modal"
-      data-target="modal-js-example"
-      on:click={openExamplesModal}>
-      Examples
-    </button>
-    <label class="file-label">
-      <input
-        class="file-input is-success"
-        id="userHTMLInput"
-        type="file"
-        name="userHTMLInput"
-        accept=".html"
-        on:change={handleTextFileInput} />
-      <span class="file-cta">
-        <span class="file-label"> Load </span>
-      </span>
-    </label>
-  </div>
-  <button class="button is-success  mr-1" on:click={exportSpiritBoard}> Save </button>
+  <button
+    class="button is-info js-modal-trigger mr-1"
+    data-toggle="modal"
+    data-target="modal-js-example"
+    on:click={exampleModal.open}>
+    Examples
+  </button>
+  <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+    Load
+  </LoadButton>
+  <button class="button is-success  mr-1" on:click={exportSpiritBoard}>Save</button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
   <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
@@ -831,138 +796,8 @@
     <InnatePowers bind:spiritBoard />
   </div>
 </div>
-<div id="modal-js-example" class="modal">
-  <div class="modal-background" />
-  <div class="modal-content">
-    <div class="box">
-      <h1><b>Load Examples & Official Spirits</b></h1>
-      <p><em>warning: will replace existing content</em></p>
-      <p>Core and Branch & Claw Spirits:</p>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Ocean's Hungry Grasp.html"
-        on:click={loadNewExample}>Ocean</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Serpent Slumbering Beneath the Island.html"
-        on:click={loadNewExample}>Snek</button>
-      <p>Jagged Earth Spirits:</p>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Downpour Drenches the World.html"
-        on:click={loadNewExample}>Downpour</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Finder of Paths Unseen.html"
-        on:click={loadNewExample}>Finder</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Fractured Days Split the Sky.html"
-        on:click={loadNewExample}>Fractured Days</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Grinning Trickster Stirs Up Trouble.html"
-        on:click={loadNewExample}>Trickster</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Lure of Deep Wilderness.html"
-        on:click={loadNewExample}>Lure</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Many Minds Move as One.html"
-        on:click={loadNewExample}>Many Minds</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Shifting Memory of Ages.html"
-        on:click={loadNewExample}>Shifting Memory</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Shroud of Silent Mist.html"
-        on:click={loadNewExample}>Shroud</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Stone's Unyielding Defiance.html"
-        on:click={loadNewExample}>Stone</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Vengeance as a Burning Plague.html"
-        on:click={loadNewExample}>Vengeance</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html"
-        on:click={loadNewExample}>Volcano</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_APOCRYPHA_Spreading Rot Renews the Earth.html"
-        on:click={loadNewExample}>Spreading Rot</button>
-      <p>Nature Incarnate:</p>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/Ember-Eyed_Behemoth_spiritBoard.html"
-        on:click={loadNewExample}>Ember-Eyed Behemoth</button>
-      <p>Examples:</p>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_add_presence.html"
-        on:click={loadNewExample}>Add Presence</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_add_presence_more.html"
-        on:click={loadNewExample}>Add Presence (more)</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_custom_growth_presence_tracks.html"
-        on:click={loadNewExample}>Custom Options</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_elements.html"
-        on:click={loadNewExample}>Elements</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_energy.html"
-        on:click={loadNewExample}>Energy</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_energy_more.html"
-        on:click={loadNewExample}>Energy (more)</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_fear.html"
-        on:click={loadNewExample}>Fear</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_gain_range.html"
-        on:click={loadNewExample}>Gain Range</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_gather.html"
-        on:click={loadNewExample}>Gather</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_middle_presence_tracks.html"
-        on:click={loadNewExample}>Middle Presence Tracks</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_other.html"
-        on:click={loadNewExample}>Other</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_push.html"
-        on:click={loadNewExample}>Push</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_reclaim.html"
-        on:click={loadNewExample}>Reclaim</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_tokens.html"
-        on:click={loadNewExample}>Tokens</button>
-    </div>
-  </div>
-  <button
-    class="modal-close is-large"
-    aria-label="close"
-    data-toggle="modal"
-    data-target="modal-js-example"
-    on:click={openExamplesModal} />
-</div>
+<Examples
+  bind:this={exampleModal}
+  {loadExample}
+  title="Load Examples & Official Spirits"
+  {examples} />

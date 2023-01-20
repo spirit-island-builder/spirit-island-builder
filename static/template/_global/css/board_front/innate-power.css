@@ -285,6 +285,7 @@ note icon.presence {
 
 div.description {
   margin-bottom: -5px;
+  white-space: pre-line;
 }
 
 .description icon.city {

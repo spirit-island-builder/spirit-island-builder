@@ -3,6 +3,7 @@
 
   import * as Lib from "../lib";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
+  import LoadButton from "$lib/load-button.svelte";
 
   import NameReplacements from "./name-replacements.svelte";
   import AspectEffects from "./aspect-effects.svelte";
@@ -12,7 +13,6 @@
   export let instructionsSource;
 
   let previewFrame;
-  let previewDoc;
 
   async function loadHTMLFromURL(url) {
     let loadedDocument = await Lib.loadHTML(url);
@@ -222,16 +222,6 @@
     Lib.downloadHTML(generateHTML(aspect), htmlFileName);
   }
 
-  function handleTextFileInput(event) {
-    const file = event.target.files.item(0);
-    if (file) {
-      let url = URL.createObjectURL(file);
-      loadHTMLFromURL(url).finally(() => {
-        URL.revokeObjectURL(url);
-      });
-    }
-  }
-
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Aspect.")) {
       aspect = {
@@ -311,7 +301,7 @@
   id="aspect-preview"
   baseURI="/template/MyCustomContent/MyAspect/"
   bind:this={previewFrame}
-  bind:document={previewDoc}>
+  on:hot-reload={reloadPreview}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/aspect.css" rel="stylesheet" />
@@ -321,20 +311,9 @@
 </PreviewFrame>
 
 <div class="field has-addons mb-2">
-  <div class="file is-success mr-1">
-    <label class="file-label">
-      <input
-        class="file-input is-success"
-        id="userHTMLInput"
-        type="file"
-        name="userHTMLInput"
-        accept=".html"
-        on:change={handleTextFileInput} />
-      <span class="file-cta">
-        <span class="file-label"> Load </span>
-      </span>
-    </label>
-  </div>
+  <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+    Load
+  </LoadButton>
   <button class="button is-success  mr-1" on:click={exportAspect}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
