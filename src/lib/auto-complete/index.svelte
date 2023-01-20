@@ -33,9 +33,9 @@
       // In textarea/input with multiple autocompletes set cursor position the end of the autocomplete term that was inserted. Without this the cursor goes to the end of the input.
       if (!showListImmediately) {
         inputElementThatWasCompleted.selectionEnd = startOfWordPosition + selectedWord.length + 1;
-      } else {
+      } else if (selectedWord.endsWith(")")) {
         // If its the 'growth' autocomplete, move cursor to between the ()
-        inputElementThatWasCompleted.selectionEnd = startOfWordPosition + selectedWord.length;
+        inputElementThatWasCompleted.selectionEnd = startOfWordPosition + selectedWord.length - 1;
       }
 
       // Prevent further refocus and cursor positioning
@@ -179,9 +179,6 @@
     );
     if (showListImmediately === true) {
       value = selectedWord;
-      if (selectedWord.endsWith("(")) {
-        value += ")";
-      }
     } else {
       value = `${value.substring(0, startOfWordPosition)}${selectedWord}}${value.substring(
         startingCharacterPosition + currentAutoCompleteTermLength
