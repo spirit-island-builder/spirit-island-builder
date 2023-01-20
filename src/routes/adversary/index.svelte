@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
+  import { downloadHTML } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
 
@@ -109,7 +110,7 @@
 
   function exportAdversary() {
     const htmlFileName = adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.html";
-    Lib.downloadHTML(generateHTML(adversary), htmlFileName);
+    downloadHTML(generateHTML(adversary), htmlFileName);
   }
 
   function clearAllFields() {

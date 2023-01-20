@@ -181,34 +181,6 @@ export const addCustomIcon = (customIcons, iconName = "") => {
   return customIcons;
 };
 
-export const downloadFile = (fileURL, fileName) => {
-  let element = document.createElement("a");
-  element.setAttribute("href", fileURL);
-  element.setAttribute("download", fileName);
-  element.style.display = "none";
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element);
-};
-
-export const downloadString = (mimeType, fileContent, fileName) => {
-  downloadFile(`data:${mimeType},${encodeURIComponent(fileContent)}`, fileName);
-};
-
-export const downloadHTML = (fragment, fileName) => {
-  const helper = document.createElement("helper");
-  helper.append(fragment);
-  downloadString("text/html;charset=utf-8", helper.innerHTML, fileName);
-};
-
-export const takeScreenshot = (frame, fileNames, elementNamesInIframe) => {
-  elementNamesInIframe.forEach((elementNameInIframe, index) => {
-    frame.contentWindow
-      .takeScreenshot(elementNameInIframe)
-      .then((imageURL) => downloadFile(imageURL, fileNames[index]));
-  });
-};
-
 export const selectNode = (event) => {
   let nodeID = event.target.id;
   document.getElementById(nodeID).select();

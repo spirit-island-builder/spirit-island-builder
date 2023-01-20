@@ -11,7 +11,7 @@
   // preview frame.
   import takeScreenshotURL from "./take-screenshot?worker&url";
 
-  import { downloadFile } from "../../routes/lib.js";
+  import { downloadFile } from "$lib/download";
 
   let previewIframe;
   let wrapper;
