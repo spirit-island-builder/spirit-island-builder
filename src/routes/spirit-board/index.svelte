@@ -3,7 +3,8 @@
   import jsone from "json-e";
 
   import * as Lib from "../lib";
-  import PreviewFrame from "$lib/preview-frame.svelte";
+  import PreviewFrame from "$lib/preview-frame/index.svelte";
+  import Examples from "$lib/example-modal.svelte";
 
   import NameAndArt from "./name-and-art.svelte";
   import SpecialRules from "./special-rules.svelte";
@@ -14,6 +15,7 @@
 
   import { createTTSSave, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
 
+  import examples from "./examples.json";
   import spiritBoardJsonTemplate from "./tts-spirit-board.json";
 
   export let spiritBoard;
@@ -143,211 +145,188 @@
     customIcons.isVisible = false;
   }
 
-  let frame;
   let previewFrame;
   let previewDoc;
-  let previewFrameSrc = "";
+  let exampleModal;
 
-  onMount(() => {
-    frame.addEventListener("load", onLoad());
-  });
-
-  function onLoad() {
-    let localFrame = frame;
-    let localObject = spiritBoard;
-    console.log(">>>>>>>>>>>>>>>onload happening!");
-    if (localFrame) {
-      if (localObject.demoBoardWasLoaded === false) {
-        console.log("First tab load. Using default preview.");
-        previewFrameSrc = "/template/MyCustomContent/MySpirit/demo_Volcano Looming High.html";
-        setTimeout(() => {
-          readHTML(localFrame.contentDocument);
-          localObject.demoBoardWasLoaded = true;
-        }, 200);
-      } else {
-        console.log("Tab previously loaded. Reloaded from form.");
-        previewFrameSrc = "/template/MyCustomContent/MySpirit/board_front_website.html";
-        setTimeout(() => {
-          reloadPreview();
-        }, 200);
-      }
-    }
+  async function loadHTMLFromURL(url) {
+    let loadedDocument = await Lib.loadHTML(url);
+    readHTML(loadedDocument);
+    reloadPreview();
   }
 
-  function setBoardValues(spiritBoard) {
-    if (frame) {
-      console.log("setting board values from form");
-      console.log(frame.contentDocument);
-      //Set Spirit Name and Image
-      const spiritName = frame.contentDocument.querySelectorAll("spirit-name")[0];
-      if (spiritName) {
-        spiritName.textContent = spiritBoard.nameAndArt.name;
-      }
-      const board = frame.contentDocument.querySelectorAll("board")[0];
-      console.log(board);
-      board.setAttribute("spirit-image", spiritBoard.nameAndArt.artPath);
-      board.setAttribute("spirit-image-scale", spiritBoard.nameAndArt.artScale);
-      board.setAttribute("spirit-border", spiritBoard.nameAndArt.bannerPath);
-
-      const artistName = frame.contentDocument.querySelectorAll("artist-name")[0];
-      if (artistName) {
-        artistName.textContent = spiritBoard.nameAndArt.artistCredit;
-      } else {
-        let newArtistElement = frame.contentDocument.createElement("artist-name");
-        newArtistElement.textContent = spiritBoard.nameAndArt.artistCredit;
-        board.appendChild(newArtistElement);
-      }
-
-      //Set Special Rules
-      const specialRulesContainer =
-        frame.contentDocument.querySelectorAll("special-rules-container")[0];
-      if (specialRulesContainer) {
-        specialRulesContainer.textContent = ""; // (easiest to start fresh each time)
-        let specialRulesHeader = frame.contentDocument.createElement("section-title");
-        specialRulesHeader.textContent = "SPECIAL RULES";
-        specialRulesContainer.appendChild(specialRulesHeader);
-      }
-      spiritBoard.specialRules.rules.forEach((rule) => {
-        let newRuleName = frame.contentDocument.createElement("special-rules-subtitle");
-        newRuleName.textContent = rule.name;
-        let newRuleEffect = frame.contentDocument.createElement("special-rule");
-        newRuleEffect.innerHTML = rule.effect;
-        specialRulesContainer.appendChild(newRuleName);
-        specialRulesContainer.appendChild(newRuleEffect);
+  const demoURL = "/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html";
+  function onLoad() {
+    if (spiritBoard.demoBoardWasLoaded === false) {
+      loadHTMLFromURL(demoURL).then(() => {
+        spiritBoard.demoBoardWasLoaded = true;
       });
-
-      //Set Growth
-      const growthContainer = frame.contentDocument.querySelectorAll("growth")[0];
-      if (growthContainer) {
-        growthContainer.textContent = ""; //(easiest to start fresh each time)
-      }
-      if (!spiritBoard.growth.useGrowthSets) {
-        growthContainer.setAttribute("title", `Growth (${spiritBoard.growth.directions})`);
-      } else {
-        growthContainer.setAttribute("title", `Growth`);
-      }
-
-      spiritBoard.growth.growthSets.forEach((growthSet, i) => {
-        let containerLayer;
-        let newSubgroup;
-        if (spiritBoard.growth.growthSets.length > 1) {
-          newSubgroup = frame.contentDocument.createElement("sub-growth");
-          newSubgroup.setAttribute("title", `${growthSet.choiceText}`);
-          if (i < spiritBoard.growth.growthSets.length - 1) {
-            newSubgroup.setAttribute("bordered", "");
-          }
-          containerLayer = newSubgroup;
-        } else {
-          containerLayer = growthContainer;
-        }
-        growthSet.growthGroups.forEach((growthGroup) => {
-          let growthGroupOutput = frame.contentDocument.createElement("growth-group");
-
-          //Cost
-          if (growthGroup.hasCost) {
-            growthGroupOutput.setAttribute("cost", growthGroup.cost);
-          }
-          //Tint
-          if (growthGroup.hasTint) {
-            growthGroupOutput.setAttribute("tint", growthGroup.tint);
-          }
-          //Title
-          if (growthGroup.hasTitle) {
-            growthGroupOutput.setAttribute("special-title", growthGroup.title);
-          }
-          //Values
-          let values = "";
-          growthGroup.growthActions.forEach((growthAction) => {
-            values += growthAction.effect + ";";
-          });
-          growthGroupOutput.setAttribute("values", values.slice(0, -1)); //slice removes last semicolon
-
-          containerLayer.appendChild(growthGroupOutput);
-        });
-
-        if (spiritBoard.growth.growthSets.length > 1) {
-          //Add growth set to the growth if using sets
-          growthContainer.appendChild(newSubgroup);
-        }
-      });
-
-      //Set Presence Tracks
-      const presenceTrackContainer = frame.contentDocument.querySelectorAll("presence-tracks")[0];
-      if (presenceTrackContainer) {
-        //(easiest to start fresh each time)
-        presenceTrackContainer.textContent = "";
-      }
-      if (spiritBoard.presenceTrack.note) {
-        presenceTrackContainer.setAttribute("note", spiritBoard.presenceTrack.note);
-      } else {
-        if (presenceTrackContainer.getAttribute("note")) {
-          presenceTrackContainer.removeAttribute("note");
-        }
-      }
-      checkTracksForCommas(); //swap commas for semicolons
-      let energyTrack = frame.contentDocument.createElement("energy-track");
-      energyTrack.setAttribute("banner", spiritBoard.nameAndArt.energyBannerPath);
-      energyTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.energyBannerScale);
-      let energyValues = "";
-      spiritBoard.presenceTrack.energyNodes.forEach((energyNode) => {
-        energyValues += energyNode.effect + ",";
-      });
-      energyTrack.setAttribute("values", energyValues.slice(0, -1));
-      presenceTrackContainer.appendChild(energyTrack);
-
-      let playsTrack = frame.contentDocument.createElement("card-play-track");
-      playsTrack.setAttribute("banner", spiritBoard.nameAndArt.playsBannerPath);
-      playsTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.playsBannerScale);
-      let playsValues = "";
-      spiritBoard.presenceTrack.playsNodes.forEach((playsNode) => {
-        playsValues += playsNode.effect + ",";
-      });
-      playsTrack.setAttribute("values", playsValues.slice(0, -1));
-      presenceTrackContainer.appendChild(playsTrack);
-
-      //Set Innate Powers
-      const innatePowerContainer = frame.contentDocument.querySelectorAll("innate-powers")[0];
-      if (innatePowerContainer) {
-        //(easiest to start fresh each time)
-        innatePowerContainer.textContent = "";
-      }
-
-      spiritBoard.innatePowers.powers.forEach((power) => {
-        let newInnatePower = frame.contentDocument.createElement("quick-innate-power");
-        newInnatePower.setAttribute("name", power.name);
-        newInnatePower.setAttribute("speed", power.speed.toLowerCase());
-        newInnatePower.setAttribute("range", power.range);
-        newInnatePower.setAttribute("target", power.target);
-        newInnatePower.setAttribute("target-title", power.targetTitle);
-        if (power.note) {
-          newInnatePower.setAttribute("note", power.note);
-        } // may need to clear it?
-        power.levels.forEach((level) => {
-          let newLevel = frame.contentDocument.createElement("level");
-          newLevel.setAttribute("threshold", level.threshold);
-          newLevel.innerHTML = level.effect;
-          if (level.isLong) {
-            newLevel.setAttribute("long", "");
-          }
-          newInnatePower.appendChild(newLevel);
-        });
-        innatePowerContainer.appendChild(newInnatePower);
-      });
-
-      //Set Custom Icons
-      let spiritStyle = frame.contentDocument.querySelectorAll("style")[0];
-      if (!spiritStyle) {
-        const spiritHead = frame.contentDocument.querySelectorAll("head")[0];
-        spiritStyle = frame.contentDocument.createElement("style");
-        spiritHead.appendChild(spiritStyle);
-      }
-      let customIconText = "";
-      customIcons.icons.forEach((icon) => {
-        customIconText +=
-          "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-      });
-      spiritStyle.textContent = customIconText;
+    } else {
+      reloadPreview();
     }
+  }
+  onMount(onLoad);
+
+  function generateHTML(spiritBoard) {
+    const fragment = new DocumentFragment();
+
+    const board = document.createElement("board");
+    fragment.append(board);
+    board.setAttribute("spirit-image", spiritBoard.nameAndArt.artPath);
+    board.setAttribute("spirit-image-scale", spiritBoard.nameAndArt.artScale);
+    board.setAttribute("spirit-border", spiritBoard.nameAndArt.bannerPath);
+
+    //Set Spirit Name and Image
+    const spiritName = document.createElement("spirit-name");
+    if (spiritName) {
+      spiritName.textContent = spiritBoard.nameAndArt.name;
+    }
+    board.appendChild(spiritName);
+
+    const artistName = document.createElement("artist-name");
+    artistName.textContent = spiritBoard.nameAndArt.artistCredit;
+    board.appendChild(artistName);
+
+    //Set Special Rules
+    const specialRulesContainer = document.createElement("special-rules-container");
+    board.appendChild(specialRulesContainer);
+
+    let specialRulesHeader = document.createElement("section-title");
+    specialRulesHeader.textContent = "SPECIAL RULES";
+    specialRulesContainer.appendChild(specialRulesHeader);
+    spiritBoard.specialRules.rules.forEach((rule) => {
+      let newRuleName = document.createElement("special-rules-subtitle");
+      newRuleName.textContent = rule.name;
+      let newRuleEffect = document.createElement("special-rule");
+      newRuleEffect.innerHTML = rule.effect;
+      specialRulesContainer.appendChild(newRuleName);
+      specialRulesContainer.appendChild(newRuleEffect);
+    });
+
+    const right = document.createElement("right");
+    board.appendChild(right);
+
+    //Set Growth
+    const growthContainer = document.createElement("growth");
+    right.appendChild(growthContainer);
+    if (!spiritBoard.growth.useGrowthSets) {
+      growthContainer.setAttribute("title", `Growth (${spiritBoard.growth.directions})`);
+    } else {
+      growthContainer.setAttribute("title", `Growth`);
+    }
+
+    spiritBoard.growth.growthSets.forEach((growthSet, i) => {
+      let containerLayer;
+      let newSubgroup;
+      if (spiritBoard.growth.growthSets.length > 1) {
+        newSubgroup = document.createElement("sub-growth");
+        newSubgroup.setAttribute("title", `${growthSet.choiceText}`);
+        if (i < spiritBoard.growth.growthSets.length - 1) {
+          newSubgroup.setAttribute("bordered", "");
+        }
+        containerLayer = newSubgroup;
+      } else {
+        containerLayer = growthContainer;
+      }
+      growthSet.growthGroups.forEach((growthGroup) => {
+        let growthGroupOutput = document.createElement("growth-group");
+
+        //Cost
+        if (growthGroup.hasCost) {
+          growthGroupOutput.setAttribute("cost", growthGroup.cost);
+        }
+        //Tint
+        if (growthGroup.hasTint) {
+          growthGroupOutput.setAttribute("tint", growthGroup.tint);
+        }
+        //Title
+        if (growthGroup.hasTitle) {
+          growthGroupOutput.setAttribute("special-title", growthGroup.title);
+        }
+        //Values
+        let values = "";
+        growthGroup.growthActions.forEach((growthAction) => {
+          values += growthAction.effect + ";";
+        });
+        growthGroupOutput.setAttribute("values", values.slice(0, -1)); //slice removes last semicolon
+
+        containerLayer.appendChild(growthGroupOutput);
+      });
+
+      if (spiritBoard.growth.growthSets.length > 1) {
+        //Add growth set to the growth if using sets
+        growthContainer.appendChild(newSubgroup);
+      }
+    });
+
+    //Set Presence Tracks
+    const presenceTrackContainer = document.createElement("presence-tracks");
+    right.appendChild(presenceTrackContainer);
+    if (spiritBoard.presenceTrack.note) {
+      presenceTrackContainer.setAttribute("note", spiritBoard.presenceTrack.note);
+    } else {
+      if (presenceTrackContainer.getAttribute("note")) {
+        presenceTrackContainer.removeAttribute("note");
+      }
+    }
+    checkTracksForCommas(); //swap commas for semicolons
+    let energyTrack = document.createElement("energy-track");
+    energyTrack.setAttribute("banner", spiritBoard.nameAndArt.energyBannerPath);
+    energyTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.energyBannerScale);
+    let energyValues = "";
+    spiritBoard.presenceTrack.energyNodes.forEach((energyNode) => {
+      energyValues += energyNode.effect + ",";
+    });
+    energyTrack.setAttribute("values", energyValues.slice(0, -1));
+    presenceTrackContainer.appendChild(energyTrack);
+
+    let playsTrack = document.createElement("card-play-track");
+    playsTrack.setAttribute("banner", spiritBoard.nameAndArt.playsBannerPath);
+    playsTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.playsBannerScale);
+    let playsValues = "";
+    spiritBoard.presenceTrack.playsNodes.forEach((playsNode) => {
+      playsValues += playsNode.effect + ",";
+    });
+    playsTrack.setAttribute("values", playsValues.slice(0, -1));
+    presenceTrackContainer.appendChild(playsTrack);
+
+    //Set Innate Powers
+    const innatePowerContainer = document.createElement("innate-powers");
+    right.appendChild(innatePowerContainer);
+
+    spiritBoard.innatePowers.powers.forEach((power) => {
+      let newInnatePower = document.createElement("quick-innate-power");
+      newInnatePower.setAttribute("name", power.name);
+      newInnatePower.setAttribute("speed", power.speed.toLowerCase());
+      newInnatePower.setAttribute("range", power.range);
+      newInnatePower.setAttribute("target", power.target);
+      newInnatePower.setAttribute("target-title", power.targetTitle);
+      if (power.note) {
+        newInnatePower.setAttribute("note", power.note);
+      } // may need to clear it?
+      power.levels.forEach((level) => {
+        let newLevel = document.createElement("level");
+        newLevel.setAttribute("threshold", level.threshold);
+        newLevel.innerHTML = level.effect;
+        if (level.isLong) {
+          newLevel.setAttribute("long", "");
+        }
+        newInnatePower.appendChild(newLevel);
+      });
+      innatePowerContainer.appendChild(newInnatePower);
+    });
+
+    //Set Custom Icons
+    const spiritStyle = document.createElement("style");
+    fragment.prepend(spiritStyle);
+    let customIconText = "";
+    customIcons.icons.forEach((icon) => {
+      customIconText +=
+        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
+    });
+    spiritStyle.textContent = customIconText;
+
+    return fragment;
   }
 
   function checkTracksForCommas() {
@@ -496,58 +475,28 @@
     }
   }
 
-  function additionalScripts() {
-    let fragment = new DocumentFragment();
-    let scriptGeneralDummy = document.createElement("script");
-    scriptGeneralDummy.type = "text/javascript";
-    scriptGeneralDummy.src = "../../_global/js/general.js";
-    let scriptBoardFrontDummy = document.createElement("script");
-    scriptBoardFrontDummy.type = "text/javascript";
-    scriptBoardFrontDummy.src = "../../_global/js/board_front.js";
-    fragment.appendChild(scriptGeneralDummy);
-    fragment.appendChild(scriptBoardFrontDummy);
-    return fragment;
-  }
-
   function reloadPreview() {
     console.log("Updating Preview Board (f=setBoardValues)");
-    setBoardValues(spiritBoard);
-    previewFrame.copyHTMLFrom(frame.contentDocument, additionalScripts());
-    previewFrame.startMain();
+    previewFrame.copyHTMLFrom(generateHTML(spiritBoard)).then(() => {
+      previewFrame.startMain();
+    });
     document.getElementById("updateButton").classList.remove("is-flashy");
   }
 
   function handleTextFileInput(event) {
     hideAll();
-    let dummyEl = document.createElement("html");
     const file = event.target.files.item(0);
-    console.log(file);
     if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const fileText = data.target.result;
-        dummyEl.innerHTML = fileText;
-        dummyEl.head = dummyEl.getElementsByTagName("head")[0];
-        dummyEl.body = dummyEl.getElementsByTagName("body")[0];
-        dummyEl.spiritName = dummyEl.querySelectorAll("spirit-name")[0];
-        readHTML(dummyEl);
-        setTimeout(() => {
-          reloadPreview();
-        }, 100);
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsText(file);
+      let url = URL.createObjectURL(file);
+      loadHTMLFromURL(url).finally(() => {
+        URL.revokeObjectURL(url);
+      });
     }
   }
 
   function exportSpiritBoard() {
-    setBoardValues(spiritBoard);
-    const element = document
-      .getElementById("mod-frame")
-      .contentWindow.document.getElementsByTagName("html")[0];
     const htmlFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html";
-    Lib.downloadString("data:text/html;charset=utf-8", element.innerHTML, htmlFileName);
+    Lib.downloadHTML(generateHTML(spiritBoard), htmlFileName);
   }
 
   function showInstructions() {
@@ -556,37 +505,9 @@
       "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-play-side";
   }
 
-  function openExamplesModal(event) {
-    console.log(event.target.dataset.target);
-    let examplesModal = document.getElementById(event.target.dataset.target);
-    if (examplesModal.classList.contains("is-active")) {
-      examplesModal.classList.remove("is-active");
-    } else {
-      examplesModal.classList.add("is-active");
-    }
-  }
-
-  function closeExamplesModal(examplesModal) {
-    examplesModal.classList.remove("is-active");
-  }
-
-  function loadNewExample(event) {
-    let modFrame = document.getElementById("mod-frame");
-    modFrame.src = event.target.id;
-    console.log("loading new example");
-    console.log("reading:");
-    console.log(modFrame.contentDocument);
-    console.log("from:");
-    console.log(modFrame.src);
-    // frame = frame;
-    setTimeout(() => {
-      readHTML(modFrame.contentDocument);
-    }, 300);
-    setTimeout(() => {
-      reloadPreview();
-      closeExamplesModal(document.getElementById("modal-js-example"));
-      hideAll();
-    }, 500);
+  async function loadExample(example) {
+    await loadHTMLFromURL(example.url);
+    hideAll();
   }
 
   async function downloadTTSJSON() {
@@ -840,22 +761,28 @@
   }
 </script>
 
-<h5 class="title is-5 mb-0 no-anchor">Spirit Board Play Side</h5>
 <PreviewFrame
   id="spirit-preview"
-  src={previewFrameSrc}
+  baseURI="/template/MyCustomContent/MySpirit/"
   bind:this={previewFrame}
-  bind:document={previewDoc} />
+  bind:document={previewDoc}>
+  <svelte:fragment slot="head">
+    <link href="/template/_global/css/global.css" rel="stylesheet" />
+    <link href="/template/_global/css/board_front.css" rel="stylesheet" />
+    <script type="text/javascript" src="/template/_global/js/common.js"></script>
+    <script type="text/javascript" src="/template/_global/js/board_front.js"></script>
+  </svelte:fragment>
+</PreviewFrame>
 
 <div class="field has-addons mb-2">
+  <button
+    class="button is-info js-modal-trigger mr-1"
+    data-toggle="modal"
+    data-target="modal-js-example"
+    on:click={exampleModal.open}>
+    Examples
+  </button>
   <div class="file is-success mr-1">
-    <button
-      class="button is-info js-modal-trigger mr-1"
-      data-toggle="modal"
-      data-target="modal-js-example"
-      on:click={openExamplesModal}>
-      Examples
-    </button>
     <label class="file-label">
       <input
         class="file-input is-success"
@@ -891,148 +818,8 @@
     <InnatePowers bind:spiritBoard />
   </div>
 </div>
-<div id="holder">
-  <iframe
-    bind:this={frame}
-    src="/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html"
-    height="600"
-    width="100%"
-    title="yay"
-    style="display:none;"
-    id="mod-frame" />
-</div>
-<div id="modal-js-example" class="modal">
-  <div class="modal-background" />
-  <div class="modal-content">
-    <div class="box">
-      <h1><b>Load Examples & Official Spirits</b></h1>
-      <p><em>warning: will replace existing content</em></p>
-      <p>Core and Branch & Claw Spirits:</p>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Ocean's Hungry Grasp.html"
-        on:click={loadNewExample}>Ocean</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Serpent Slumbering Beneath the Island.html"
-        on:click={loadNewExample}>Snek</button>
-      <p>Jagged Earth Spirits:</p>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Downpour Drenches the World.html"
-        on:click={loadNewExample}>Downpour</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Finder of Paths Unseen.html"
-        on:click={loadNewExample}>Finder</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Fractured Days Split the Sky.html"
-        on:click={loadNewExample}>Fractured Days</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Grinning Trickster Stirs Up Trouble.html"
-        on:click={loadNewExample}>Trickster</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Lure of Deep Wilderness.html"
-        on:click={loadNewExample}>Lure</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Many Minds Move as One.html"
-        on:click={loadNewExample}>Many Minds</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Shifting Memory of Ages.html"
-        on:click={loadNewExample}>Shifting Memory</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Shroud of Silent Mist.html"
-        on:click={loadNewExample}>Shroud</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Stone's Unyielding Defiance.html"
-        on:click={loadNewExample}>Stone</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Vengeance as a Burning Plague.html"
-        on:click={loadNewExample}>Vengeance</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html"
-        on:click={loadNewExample}>Volcano</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/OFFICIAL_APOCRYPHA_Spreading Rot Renews the Earth.html"
-        on:click={loadNewExample}>Spreading Rot</button>
-      <p>Nature Incarnate:</p>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/Ember-Eyed_Behemoth_spiritBoard.html"
-        on:click={loadNewExample}>Ember-Eyed Behemoth</button>
-      <p>Examples:</p>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_add_presence.html"
-        on:click={loadNewExample}>Add Presence</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_add_presence_more.html"
-        on:click={loadNewExample}>Add Presence (more)</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_custom_growth_presence_tracks.html"
-        on:click={loadNewExample}>Custom Options</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_elements.html"
-        on:click={loadNewExample}>Elements</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_energy.html"
-        on:click={loadNewExample}>Energy</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_energy_more.html"
-        on:click={loadNewExample}>Energy (more)</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_fear.html"
-        on:click={loadNewExample}>Fear</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_gain_range.html"
-        on:click={loadNewExample}>Gain Range</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_gather.html"
-        on:click={loadNewExample}>Gather</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_middle_presence_tracks.html"
-        on:click={loadNewExample}>Middle Presence Tracks</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_other.html"
-        on:click={loadNewExample}>Other</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_push.html"
-        on:click={loadNewExample}>Push</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_reclaim.html"
-        on:click={loadNewExample}>Reclaim</button>
-      <button
-        class="button"
-        id="/template/MyCustomContent/MySpirit/EXAMPLE_tokens.html"
-        on:click={loadNewExample}>Tokens</button>
-    </div>
-  </div>
-  <button
-    class="modal-close is-large"
-    aria-label="close"
-    data-toggle="modal"
-    data-target="modal-js-example"
-    on:click={openExamplesModal} />
-</div>
+<Examples
+  bind:this={exampleModal}
+  {loadExample}
+  title="Load Examples & Official Spirits"
+  {examples} />

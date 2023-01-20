@@ -192,7 +192,13 @@ export const downloadFile = (fileURL, fileName) => {
 };
 
 export const downloadString = (mimeType, fileContent, fileName) => {
-  downloadFile(`${mimeType},${encodeURIComponent(fileContent)}`, fileName);
+  downloadFile(`data:${mimeType},${encodeURIComponent(fileContent)}`, fileName);
+};
+
+export const downloadHTML = (fragment, fileName) => {
+  const helper = document.createElement("helper");
+  helper.append(fragment);
+  downloadString("text/html;charset=utf-8", helper.innerHTML, fileName);
 };
 
 export const takeScreenshot = (frame, fileNames, elementNamesInIframe) => {
@@ -246,14 +252,14 @@ export const nextNode = (event) => {
           break;
         }
         currentID = focusID;
-      // eslint-disable-next-line no-fallthrough
+      // Intentionally fallthrough.
       case "setgrouptint":
         focusID = currentID.replace("tint", "title");
         if (document.getElementById(focusID) !== null) {
           break;
         }
         currentID = focusID;
-      // eslint-disable-next-line no-fallthrough
+      // Intentionally fallthrough.
       case "setgrouptitle":
         focusID = "growthSet" + numMatches[0] + "Group" + numMatches[1] + "Action0";
         break;
@@ -300,3 +306,9 @@ export const nextNode = (event) => {
     document.getElementById(focusID).focus();
   }
 };
+
+export async function loadHTML(url) {
+  let response = await fetch(url);
+  let parser = new DOMParser();
+  return parser.parseFromString(await response.text(), "text/html");
+}

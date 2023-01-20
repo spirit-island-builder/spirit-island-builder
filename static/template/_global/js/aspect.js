@@ -1,8 +1,3 @@
-window.onload = (event) => {
-  startMain();
-  console.log("Page Loaded");
-};
-
 function startMain() {
   console.log("aspect startMain");
   var aspects = document.querySelectorAll("aspect");
@@ -294,20 +289,5 @@ function parseSpecialRules() {
     }
   }
 
-  // Enable user's own line breaks to show up in code
-  var specialRuleList = aspectContainer.getElementsByTagName("special-rule");
-  for (let j = 0; j < specialRuleList.length; j++) {
-    ruleLines = specialRuleList[j].innerHTML.split("\n");
-    rulesHTML = "";
-    for (let i = 0; i < ruleLines.length; i++) {
-      if (ruleLines[i] && ruleLines[i].trim().length) {
-        rulesHTML += "<div>" + ruleLines[i] + "</div>";
-      } else if (i > 0 && i < ruleLines.length - 1) {
-        rulesHTML += "<br>";
-        // allows user's line breaks to show up on the card
-      }
-    }
-    specialRuleList[j].innerHTML = rulesHTML;
-  }
   // <special-rules-track values="2,3,4"></special-rules-track>
 }

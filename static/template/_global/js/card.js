@@ -1,8 +1,3 @@
-window.onload = (event) => {
-  startMain();
-  console.log("Card Page Loaded");
-};
-
 function startMain() {
   console.log("Start Main cards");
 
