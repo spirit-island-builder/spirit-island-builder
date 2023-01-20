@@ -5,6 +5,12 @@
   import Aspect from "./aspect/index.svelte";
   import Adversary from "./adversary/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
+  import DebugFileView from "$lib/debug-file-view.svelte";
+
+  import { divertDownload, downloadData } from "$lib/download";
+
+  let debugDownloads = true;
+  $: divertDownload(debugDownloads);
 
   let currentPage = "spiritBoardFront";
 
@@ -349,7 +355,7 @@
 
 <header>
   <h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
-  <nav class="navbar ml-5">
+  <nav class="navbar ml-5 mr-5">
     <div class="navbar-brand">
       {#each pages as [page, title]}
         {@const isCurrent = currentPage === page}
@@ -361,6 +367,17 @@
           {title}
         </button>
       {/each}
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <button
+          class={`button navbar-item ${debugDownloads ? "is-primary is-selected" : ""}`}
+          on:click={() => {
+            debugDownloads = !debugDownloads;
+          }}>
+          Debug Downloads
+        </button>
+      </div>
     </div>
   </nav>
 </header>
@@ -392,6 +409,11 @@
     <Adversary bind:adversary bind:isShowingInstructions bind:instructionsSource />
   {/if}
 </div>
+
+{#if debugDownloads}
+  <DebugFileView {...$downloadData} />
+{/if}
+
 <article class="message is-small mb-1">
   <div class="message-body p-1">
     See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
