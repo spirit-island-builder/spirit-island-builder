@@ -72,6 +72,7 @@ lore-description {
   font-size: 25px;
   font-weight: bold;
   font-style: italic;
+  white-space: pre-line;
 }
 
 second-section-container {
@@ -119,6 +120,7 @@ play-style-description {
   margin-top: 6px;
   letter-spacing: -0.5px;
   width: 800px;
+  white-space: pre-line;
 }
 
 setup-description {

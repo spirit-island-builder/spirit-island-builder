@@ -36,6 +36,7 @@ special-rule {
   word-spacing: 0px;
   line-height: 29px;
   padding-bottom: 6px;
+  white-space: pre-line;
 }
 
 special-rule icon {
