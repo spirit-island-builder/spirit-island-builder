@@ -1,0 +1,138 @@
+[
+  {
+    "title": "Core and Branch & Claw Spirits",
+    "examples": [
+      {
+        "name": "Ocean",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Ocean's Hungry Grasp.html"
+      },
+      {
+        "name": "Snek",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Serpent Slumbering Beneath the Island.html"
+      }
+    ]
+  },
+  {
+    "title": "Jagged Earth Spirits",
+    "examples": [
+      {
+        "name": "Downpour",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Downpour Drenches the World.html"
+      },
+      {
+        "name": "Finder",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Finder of Paths Unseen.html"
+      },
+      {
+        "name": "Fractured Days",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Fractured Days Split the Sky.html"
+      },
+      {
+        "name": "Trickster",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Grinning Trickster Stirs Up Trouble.html"
+      },
+      {
+        "name": "Lure",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Lure of Deep Wilderness.html"
+      },
+      {
+        "name": "Many Minds",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Many Minds Move as One.html"
+      },
+      {
+        "name": "Shifting Memory",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Shifting Memory of Ages.html"
+      },
+      {
+        "name": "Shroud",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Shroud of Silent Mist.html"
+      },
+      {
+        "name": "Stone",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Stone's Unyielding Defiance.html"
+      },
+      {
+        "name": "Vengeance",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Vengeance as a Burning Plague.html"
+      },
+      {
+        "name": "Volcano",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html"
+      },
+      {
+        "name": "Spreading Rot",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_APOCRYPHA_Spreading Rot Renews the Earth.html"
+      }
+    ]
+  },
+  {
+    "title": "Nature Incarnate",
+    "examples": [
+      {
+        "name": "Ember-Eyed Behemoth",
+        "url": "/template/MyCustomContent/MySpirit/Ember-Eyed_Behemoth_spiritBoard.html"
+      }
+    ]
+  },
+  {
+    "title": "Examples",
+    "examples": [
+      {
+        "name": "Add Presence",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_add_presence.html"
+      },
+      {
+        "name": "Add Presence (more)",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_add_presence_more.html"
+      },
+      {
+        "name": "Custom Options",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_custom_growth_presence_tracks.html"
+      },
+      {
+        "name": "Elements",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_elements.html"
+      },
+      {
+        "name": "Energy",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_energy.html"
+      },
+      {
+        "name": "Energy (more)",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_energy_more.html"
+      },
+      {
+        "name": "Fear",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_fear.html"
+      },
+      {
+        "name": "Gain Range",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_gain_range.html"
+      },
+      {
+        "name": "Gather",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_gather.html"
+      },
+      {
+        "name": "Middle Presence Tracks",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_middle_presence_tracks.html"
+      },
+      {
+        "name": "Other",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_other.html"
+      },
+      {
+        "name": "Push",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_push.html"
+      },
+      {
+        "name": "Reclaim",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_reclaim.html"
+      },
+      {
+        "name": "Tokens",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_tokens.html"
+      }
+    ]
+  }
+]
