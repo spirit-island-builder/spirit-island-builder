@@ -22,6 +22,9 @@ module.exports = {
   rules: {
     "no-var": "error",
     "eqeqeq": "error",
+    "no-unused-vars": "off",
+    // "prefer-const": "error",
+    "no-shadow": "error",
   },
   reportUnusedDisableDirectives: true,
 };

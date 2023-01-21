@@ -3,6 +3,7 @@
   import jsone from "json-e";
 
   import * as Lib from "../lib";
+  import { downloadHTML, downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import Examples from "$lib/example-modal.svelte";
   import LoadButton from "$lib/load-button.svelte";
@@ -18,6 +19,8 @@
 
   import examples from "./examples.json";
   import spiritBoardJsonTemplate from "./tts-spirit-board.json";
+
+  import Preview from "./preview/index.svelte";
 
   export let spiritBoard;
   export let customIcons;
@@ -150,8 +153,9 @@
   let exampleModal;
 
   async function loadHTMLFromURL(url) {
+    url = new URL(url, document.baseURI);
     let loadedDocument = await Lib.loadHTML(url);
-    readHTML(loadedDocument);
+    readHTML(loadedDocument, url);
     reloadPreview();
   }
 
@@ -342,7 +346,7 @@
     spiritBoard = spiritBoard;
   }
 
-  function readHTML(htmlElement) {
+  function readHTML(htmlElement, baseURI) {
     console.log("Loading Spirit Board from HTML into form (f=readHTML)");
     console.log(htmlElement);
     //Reads the Template HTML file into the Form
@@ -352,9 +356,15 @@
       spiritBoard.nameAndArt.name = spiritName.textContent.trim();
     }
     const board = htmlElement.querySelectorAll("board")[0];
-    spiritBoard.nameAndArt.artPath = board.getAttribute("spirit-image");
+    spiritBoard.nameAndArt.artPath = Lib.maybeResolveURL(
+      board.getAttribute("spirit-image"),
+      baseURI
+    );
     spiritBoard.nameAndArt.artScale = board.getAttribute("spirit-image-scale");
-    spiritBoard.nameAndArt.bannerPath = board.getAttribute("spirit-border");
+    spiritBoard.nameAndArt.bannerPath = Lib.maybeResolveURL(
+      board.getAttribute("spirit-border"),
+      baseURI
+    );
 
     const artistName = htmlElement.querySelectorAll("artist-name")[0];
     if (artistName) {
@@ -419,7 +429,10 @@
       spiritBoard.presenceTrack.note = "";
     }
     let energyTrack = htmlElement.querySelectorAll("energy-track")[0];
-    spiritBoard.nameAndArt.energyBannerPath = energyTrack.getAttribute("banner");
+    spiritBoard.nameAndArt.energyBannerPath = Lib.maybeResolveURL(
+      energyTrack.getAttribute("banner"),
+      baseURI
+    );
     spiritBoard.nameAndArt.energyBannerScale = energyTrack.getAttribute("banner-v-scale");
     let energyValues = energyTrack.getAttribute("values").split(",");
     spiritBoard.presenceTrack.energyNodes.splice(0, spiritBoard.presenceTrack.energyNodes.length); //Clear the Form first
@@ -427,7 +440,10 @@
       spiritBoard = Lib.addEnergyTrackNode(spiritBoard, value);
     });
     let playsTrack = htmlElement.querySelectorAll("card-play-track")[0];
-    spiritBoard.nameAndArt.playsBannerPath = playsTrack.getAttribute("banner");
+    spiritBoard.nameAndArt.playsBannerPath = Lib.maybeResolveURL(
+      playsTrack.getAttribute("banner"),
+      baseURI
+    );
     spiritBoard.nameAndArt.playsBannerScale = playsTrack.getAttribute("banner-v-scale");
     let playsValues = playsTrack.getAttribute("values").split(",");
     spiritBoard.presenceTrack.playsNodes.splice(0, spiritBoard.presenceTrack.playsNodes.length); //Clear the Form first
@@ -468,6 +484,7 @@
       let iconList = spiritStyle.textContent.match(regExp);
       if (iconList) {
         iconList.forEach((customIcon) => {
+          customIcon = Lib.maybeResolveURL(customIcon, baseURI);
           customIcons = Lib.addCustomIcon(customIcons, customIcon);
           console.log(customIcon);
         });
@@ -485,7 +502,7 @@
 
   function exportSpiritBoard() {
     const htmlFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html";
-    Lib.downloadHTML(generateHTML(spiritBoard), htmlFileName);
+    downloadHTML(generateHTML(spiritBoard), htmlFileName);
   }
 
   function showInstructions() {
@@ -740,7 +757,7 @@
     let ttsSave = createTTSSave([spiritBoardJson]);
 
     const jsonFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json";
-    Lib.downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
+    downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
 
   function screenshotSetUp() {
@@ -752,9 +769,10 @@
 
 <PreviewFrame
   id="spirit-preview"
-  baseURI="/template/MyCustomContent/MySpirit/"
   bind:this={previewFrame}
-  on:hot-reload={reloadPreview}>
+  on:hot-reload={reloadPreview}
+  component={Preview}
+  props={{ spiritBoard }}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/board_front.css" rel="stylesheet" />

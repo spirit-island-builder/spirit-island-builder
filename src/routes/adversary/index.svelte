@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
+  import { downloadHTML } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
 
@@ -15,8 +16,9 @@
   let previewFrame;
 
   async function loadHTMLFromURL(url) {
+    url = new URL(url, document.baseURI);
     let loadedDocument = await Lib.loadHTML(url);
-    readHTML(loadedDocument);
+    readHTML(loadedDocument, url);
     reloadPreview();
   }
 
@@ -74,14 +76,17 @@
     return fragment;
   }
 
-  function readHTML(htmlElement) {
+  function readHTML(htmlElement, baseURI) {
     console.log("Loading adversary into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     //Load Adversary Name, Base Difficulty and Flag Image
     const adversaryHeader = htmlElement.querySelectorAll("quick-adversary")[0];
     adversary.nameLossEscalation.name = adversaryHeader.getAttribute("name");
     adversary.nameLossEscalation.baseDif = adversaryHeader.getAttribute("base-difficulty");
-    adversary.nameLossEscalation.flagImg = adversaryHeader.getAttribute("flag-image");
+    adversary.nameLossEscalation.flagImg = Lib.maybeResolveURL(
+      adversaryHeader.getAttribute("flag-image"),
+      baseURI
+    );
 
     //Load Loss Condition
     const lossConditionHeader = htmlElement.querySelectorAll("loss-condition")[0];
@@ -105,7 +110,7 @@
 
   function exportAdversary() {
     const htmlFileName = adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.html";
-    Lib.downloadHTML(generateHTML(adversary), htmlFileName);
+    downloadHTML(generateHTML(adversary), htmlFileName);
   }
 
   function clearAllFields() {
@@ -194,11 +199,7 @@
   }
 </script>
 
-<PreviewFrame
-  id="adversary-preview"
-  baseURI="/template/MyCustomContent/MyAdversary/"
-  bind:this={previewFrame}
-  on:hot-reload={reloadPreview}>
+<PreviewFrame id="adversary-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/adversary.css" rel="stylesheet" />

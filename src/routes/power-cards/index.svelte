@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
+  import { downloadHTML } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
 
@@ -16,8 +17,9 @@
   let previewFrame;
 
   async function loadHTMLFromURL(url) {
+    url = new URL(url, document.baseURI);
     let loadedDocument = await Lib.loadHTML(url);
-    readHTML(loadedDocument);
+    readHTML(loadedDocument, url);
     reloadPreview();
   }
 
@@ -90,7 +92,7 @@
     return fragment;
   }
 
-  function readHTML(htmlElement) {
+  function readHTML(htmlElement, baseURI) {
     console.log("Loading power cards into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     const powerCardsHTML = htmlElement.querySelectorAll("quick-card");
@@ -101,7 +103,7 @@
 
     //Iterate through the cards
     powerCardsHTML.forEach((powerCardHTML) => {
-      addPowerCard(powerCards, powerCardHTML);
+      addPowerCard(powerCards, powerCardHTML, baseURI);
     });
 
     //Custom Icons
@@ -123,7 +125,7 @@
     }
   }
 
-  function addPowerCard(powerCards, powerCardHTML) {
+  function addPowerCard(powerCards, powerCardHTML, baseURI) {
     let rulesHTML = powerCardHTML.querySelectorAll("rules")[0];
     let rulesPush = "";
     if (rulesHTML) {
@@ -169,7 +171,7 @@
       name: powerCardHTML.getAttribute("name"),
       speed: powerCardHTML.getAttribute("speed"),
       cost: powerCardHTML.getAttribute("cost"),
-      cardImage: powerCardHTML.getAttribute("image"),
+      cardImage: Lib.maybeResolveURL(powerCardHTML.getAttribute("image"), baseURI),
       powerElements: elementsForm,
       range: powerCardHTML.getAttribute("range"),
       target: powerCardHTML.getAttribute("target"),
@@ -187,7 +189,7 @@
 
   function exportPowerCards() {
     const htmlFileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
-    Lib.downloadHTML(generateHTML(powerCards), htmlFileName);
+    downloadHTML(generateHTML(powerCards), htmlFileName);
   }
 
   function clearAllFields() {
@@ -252,11 +254,7 @@
   }
 </script>
 
-<PreviewFrame
-  id="power-cards-preview"
-  baseURI="/template/MyCustomContent/MySpirit/"
-  bind:this={previewFrame}
-  on:hot-reload={reloadPreview}>
+<PreviewFrame id="power-cards-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/card.css" rel="stylesheet" />

@@ -19,6 +19,8 @@
     "@sveltejs/kit": "^1.0.0",
     "bulma": "^0.9.4",
     "cross-env": "^7.0.3",
+    "diff": "^5.1.0",
+    "diffable-html": "^5.0.0",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-svelte3": "^4.0.0",
@@ -29,6 +31,7 @@
     "prettier-plugin-svelte": "^2.7.0",
     "svelte": "^3.44.0",
     "svelte-check": "^2.8.0",
+    "svelte-highlight": "^7.1.2",
     "vite": "^4.0.0"
   },
   "type": "module",

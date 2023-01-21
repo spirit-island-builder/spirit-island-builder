@@ -7,6 +7,7 @@
 
   import NameReplacements from "./name-replacements.svelte";
   import AspectEffects from "./aspect-effects.svelte";
+  import { downloadHTML } from "$lib/download";
 
   export let aspect;
   export let isShowingInstructions;
@@ -15,8 +16,9 @@
   let previewFrame;
 
   async function loadHTMLFromURL(url) {
+    url = new URL(url, document.baseURI);
     let loadedDocument = await Lib.loadHTML(url);
-    readHTML(loadedDocument);
+    readHTML(loadedDocument, url);
     reloadPreview();
   }
 
@@ -128,7 +130,7 @@
     return fragment;
   }
 
-  function readHTML(htmlElement) {
+  function readHTML(htmlElement, baseURI) {
     console.log("Loading aspect into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     const aspectHTML = htmlElement.querySelectorAll("aspect")[0];
@@ -161,7 +163,10 @@
     console.log("^^^^");
     if (aspectBackHTML) {
       aspect.nameReplacements.spiritName = aspectBackHTML.getAttribute("spirit-name");
-      aspect.nameReplacements.spiritImage = aspectBackHTML.getAttribute("src");
+      aspect.nameReplacements.spiritImage = Lib.maybeResolveURL(
+        aspectBackHTML.getAttribute("src"),
+        baseURI
+      );
       aspect.nameReplacements.hasBack = true;
     } else {
       aspect.nameReplacements.hasBack = false;
@@ -219,7 +224,7 @@
 
   function exportAspect() {
     const htmlFileName = aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.html";
-    Lib.downloadHTML(generateHTML(aspect), htmlFileName);
+    downloadHTML(generateHTML(aspect), htmlFileName);
   }
 
   function clearAllFields() {
@@ -297,11 +302,7 @@
   }
 </script>
 
-<PreviewFrame
-  id="aspect-preview"
-  baseURI="/template/MyCustomContent/MyAspect/"
-  bind:this={previewFrame}
-  on:hot-reload={reloadPreview}>
+<PreviewFrame id="aspect-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/aspect.css" rel="stylesheet" />

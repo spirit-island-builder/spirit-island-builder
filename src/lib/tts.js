@@ -1,4 +1,5 @@
 /**
+ * @module $lib/tts
  * Utilities for dealing with Tabletop Simulator saves and objects.
  */
 import jsone from "json-e";

@@ -4,27 +4,30 @@
 
 /* exported startMain */
 function startMain() {
-  console.log("CREATING SPIRIT BOARD");
-  buildGrowthPanel();
+  window.running = new Promise((resolve) => {
+    console.log("CREATING SPIRIT BOARD");
+    buildGrowthPanel();
 
-  if (document.getElementById("presence-table")) {
-    enhancePresenceTracksTable();
-  } else {
-    setNewEnergyCardPlayTracks(parseEnergyTrackTags(), parseCardPlayTrackTags());
-  }
+    if (document.getElementById("presence-table")) {
+      enhancePresenceTracksTable();
+    } else {
+      setNewEnergyCardPlayTracks(parseEnergyTrackTags(), parseCardPlayTrackTags());
+    }
 
-  parseInnatePowers();
+    parseInnatePowers();
 
-  parseSpecialRules();
+    parseSpecialRules();
 
-  const board = document.querySelectorAll("board")[0];
-  const html = board.innerHTML;
-  board.innerHTML = replaceIcon(html);
+    const board = document.querySelectorAll("board")[0];
+    const html = board.innerHTML;
+    board.innerHTML = replaceIcon(html);
 
-  setTimeout(function () {
-    dynamicResizing();
-    addImages(board);
-  }, 200);
+    setTimeout(function () {
+      dynamicResizing();
+      addImages(board);
+      resolve();
+    }, 200);
+  });
 }
 
 function addImages(board) {
@@ -32,8 +35,11 @@ function addImages(board) {
   const spiritImage = board.getAttribute("spirit-image");
   const artistCredit = board.getElementsByTagName("artist-name");
   const spiritBorder = board.getAttribute("spirit-border");
+  board.removeAttribute("spirit-image");
+  board.removeAttribute("spirit-border");
 
   const imageSize = board.getAttribute("spirit-image-scale");
+  board.removeAttribute("spirit-image-scale");
 
   const specialRules = board.querySelectorAll("special-rules-container")[0];
   let height = specialRules.getAttribute("height");
@@ -44,6 +50,7 @@ function addImages(board) {
 
   if (spiritBorder) {
     const spiritBorderSize = board.getAttribute("spirit-border-scale");
+    board.removeAttribute("spirit-border-scale");
     const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
     console.log("here");
     console.log(spiritBorderSize);
@@ -55,9 +62,8 @@ function addImages(board) {
   if (spiritImage) {
     //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
     board.innerHTML =
-      `<div class="spirit-image" style="background-image: url(${spiritImage}); background-size: auto ${imageSize}; width:1700px;" ></div>` +
+      `<spirit-image style="background-image: url(&quot;${spiritImage}&quot;); background-size: auto ${imageSize}; width: 1700px;" ></spirit-image>` +
       board.innerHTML;
-    artistCredit[0].style.display = "block";
     artistCredit[0].innerHTML = "Artist Credit: " + artistCredit[0].innerHTML;
   }
 
@@ -1364,9 +1370,9 @@ function parseEnergyTrackTags() {
   let energyLength = energyOptions.length * 130 + 15;
   if (energyBanner) {
     energyHTML =
-      "<tr class='energy-track' style='background-image:  url(" +
+      "<tr class='energy-track' style='background-image: url(&quot;" +
       energyBanner +
-      "); background-size: " +
+      "&quot;); background-size: " +
       energyLength +
       "px " +
       energyBannerScale +
@@ -1376,7 +1382,7 @@ function parseEnergyTrackTags() {
   }
 
   // This can be scaled to move the first presence icon.
-  energyHTML += "<td style='width:10px'></td>";
+  energyHTML += "<td style='width: 10px;'></td>";
   let firstIsMiddle = false;
   let isFirst = false;
   for (let i = 0; i < energyOptions.length; i++) {
@@ -1433,9 +1439,9 @@ function parseCardPlayTrackTags() {
   let cardPlayLength = cardPlayOptions.length * 130 + 15;
   if (cardPlayBanner) {
     cardPlayHTML =
-      "<tr class='plays-track' style='background-image:  url(" +
+      "<tr class='plays-track' style='background-image: url(&quot;" +
       cardPlayBanner +
-      "); background-size: " +
+      "&quot;); background-size: " +
       cardPlayLength +
       "px " +
       cardPlayBannerScale +
@@ -1445,7 +1451,7 @@ function parseCardPlayTrackTags() {
   }
 
   // This can be scaled to move the first presence icon.
-  cardPlayHTML += "<td style='width:10px'></td>";
+  cardPlayHTML += "<td style='width: 10px;'></td>";
 
   for (let i = 0; i < cardPlayOptions.length; i++) {
     cardPlayHTML +=
@@ -2225,6 +2231,12 @@ function dynamicResizing() {
   let debug = false;
   const board = document.querySelectorAll("board")[0];
 
+  for (let element of board.querySelectorAll(
+    "[style]:not(artist-name, spirit-name, spirit-image, tr)"
+  )) {
+    element.style = null;
+  }
+
   console.log("RESIZING: Growth");
   // Growth Sizing
   // const allGrowthCells = board.getElementsByTagName("growth-cell");
@@ -2273,21 +2285,6 @@ function dynamicResizing() {
     document.getElementsByTagName("growth")[0].append(growthLine);
     document.getElementsByTagName("growth")[0].append(newGrowthTable);
   }
-
-  // TEST iterate through growth cells
-  // const cellWidthV2 = [];
-  // for (const cell of allGrowthCells) {
-  //   const cellRect = findBoundingRect(cell);
-  //   // console.log('-- TEST --')
-  //   // console.log(cellRect)
-  //   // console.log(cell)
-  //   // console.log(cellRect.width)
-  //   // console.log('^--RESULT--^')
-  //   cellWidthV2.push(cellRect.width);
-  // }
-  /* console.log('total icon width = '+totalIconWidths) */
-  // console.log('old way = '+totalWidth)
-  // console.log(cellWidthV2)
 
   //Iterate through growth table(s) to resize
   const largeCellScale = 1.5;
