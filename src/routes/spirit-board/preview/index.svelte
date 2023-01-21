@@ -12,7 +12,7 @@
   afterUpdate(() => {
     // return;
     let window = board.ownerDocument.defaultView;
-    if (!window.resizing) {
+    if (window && !window.resizing) {
       window.resizing = true;
       window.requestIdleCallback(
         () => {
@@ -56,7 +56,7 @@
       <section-title>
         Growth
         {#if !spiritBoard.growth.useGrowthSets}
-          ({spiritBoard.growth.directions})
+          ({@html spiritBoard.growth.directions})
         {/if}
       </section-title>
       <growth-table>
@@ -80,12 +80,12 @@
     </growth>
 
     <presence-tracks>
-      <presence-title
-        ><section-title class:has-note={spiritBoard.presenceTrack.note}>Presence</section-title
-        ></presence-title>
-      {#if spiritBoard.presenceTrack.note}<note
-          ><ParseIcons text={spiritBoard.presenceTrack.note} /></note
-        >{/if}
+      <presence-title>
+        <section-title class:has-note={spiritBoard.presenceTrack.note}>Presence</section-title>
+        {#if spiritBoard.presenceTrack.note}
+          <presence-note><ParseIcons text={spiritBoard.presenceTrack.note} /></presence-note>
+        {/if}
+      </presence-title>
       <table id="presence-table">
         <tbody>
           <tr
@@ -99,12 +99,12 @@
               : null}>
             <td style="width: 10px" />
             {#each spiritBoard.presenceTrack.energyNodes as energyNode, i}
-              <td>
-                <PresenceNode
-                  effect={energyNode.effect}
-                  first={i === 0}
-                  trackType="energy"
-                  addEnergyRing={true} />
+              {@const middle = energyNode.effect.startsWith("middle")}
+              {@const effect = middle
+                ? /\(\s*(.+)\s*\)/.exec(energyNode.effect)[1]
+                : energyNode.effect}
+              <td class:middle rowspan={middle ? "2" : null}>
+                <PresenceNode {effect} first={i === 0} trackType="energy" addEnergyRing={true} />
               </td>
             {/each}
           </tr>

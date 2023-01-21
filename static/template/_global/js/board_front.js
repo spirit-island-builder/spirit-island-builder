@@ -35,6 +35,8 @@ function addImages(board) {
   const spiritImage = board.getAttribute("spirit-image");
   const artistCredit = board.getElementsByTagName("artist-name");
   const spiritBorder = board.getAttribute("spirit-border");
+  board.removeAttribute("spirit-image");
+  board.removeAttribute("spirit-border")
 
   const imageSize = board.getAttribute("spirit-image-scale");
 
@@ -47,6 +49,7 @@ function addImages(board) {
 
   if (spiritBorder) {
     const spiritBorderSize = board.getAttribute("spirit-border-scale");
+    board.removeAttribute("spirit-border-scale");
     const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
     console.log("here");
     console.log(spiritBorderSize);
