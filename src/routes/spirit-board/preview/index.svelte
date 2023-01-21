@@ -54,10 +54,7 @@
   <right>
     <growth>
       <section-title>
-        Growth
-        {#if !spiritBoard.growth.useGrowthSets}
-          ({@html spiritBoard.growth.directions})
-        {/if}
+        Growth {#if !spiritBoard.growth.useGrowthSets}({@html spiritBoard.growth.directions}){/if}
       </section-title>
       <growth-table>
         {#each spiritBoard.growth.growthSets as growthSet, setIndex}
@@ -93,7 +90,7 @@
             style={spiritBoard.nameAndArt.energyBannerPath
               ? `background-image: url("${spiritBoard.nameAndArt.energyBannerPath}"); ` +
                 `background-size: ${spiritBoard.presenceTrack.energyNodes.length * 130 + 15}px ${
-                  spiritBoard.nameAndArt.energyBannerScale
+                  spiritBoard.nameAndArt.energyBannerScale || "100px"
                 }; ` +
                 `background-repeat: no-repeat; background-position: left 0px top 20px;`
               : null}>
@@ -113,7 +110,7 @@
             style={spiritBoard.nameAndArt.playsBannerPath
               ? `background-image: url("${spiritBoard.nameAndArt.playsBannerPath}"); ` +
                 `background-size: ${spiritBoard.presenceTrack.playsNodes.length * 130 + 15}px ${
-                  spiritBoard.nameAndArt.playsBannerScale
+                  spiritBoard.nameAndArt.playsBannerScale || "100px"
                 }; ` +
                 `background-repeat: no-repeat; background-position: left 0px top 20px;`
               : null}>

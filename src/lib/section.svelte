@@ -19,9 +19,11 @@
       {/if}
     </button>
   </h3>
-  <div style:display={isVisible ? null : "none"} class="mt-1">
-    <slot />
-  </div>
+  {#if isVisible}
+    <div class="mt-1">
+      <slot />
+    </div>
+  {/if}
 </section>
 
 <style>

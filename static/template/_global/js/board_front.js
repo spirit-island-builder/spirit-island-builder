@@ -36,8 +36,8 @@ function addImages(board) {
   const artistCredit = board.getElementsByTagName("artist-name");
   const spiritBorder = board.getAttribute("spirit-border");
   board.removeAttribute("spirit-image");
-  board.removeAttribute("spirit-border")
-  
+  board.removeAttribute("spirit-border");
+
   const imageSize = board.getAttribute("spirit-image-scale");
   board.removeAttribute("spirit-image-scale");
 

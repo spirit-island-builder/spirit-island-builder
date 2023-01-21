@@ -121,7 +121,7 @@
   import { downloadData } from "$lib/download";
 
   const whitespaceRE = /[ \n]+/g;
-  const dataURLRE = /data:image\/png;base64,([a-zA-Z0-9+/=]+)/
+  const dataURLRE = /data:image\/png;base64,([a-zA-Z0-9+/=]+)/g;
   const updateDiff = () => {
     let s = new XMLSerializer();
     let oldBody = previewIframe.contentDocument.body.cloneNode(true);
@@ -139,7 +139,7 @@
     const patch = createPatch(
       "html",
       format(oldBody.innerHTML.replace(dataURLRE, "data:...")),
-      format(newBody.innerHTML.replace(whitespaceRE, " ").replace(dataURLRE, "data:...")),
+      format(newBody.innerHTML.replace(dataURLRE, "data:..."))
     );
     downloadData.set({ fileContent: patch, fileName: "html.diff" });
   };
