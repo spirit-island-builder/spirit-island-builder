@@ -37,8 +37,9 @@ function addImages(board) {
   const spiritBorder = board.getAttribute("spirit-border");
   board.removeAttribute("spirit-image");
   board.removeAttribute("spirit-border")
-
+  
   const imageSize = board.getAttribute("spirit-image-scale");
+  board.removeAttribute("spirit-image-scale");
 
   const specialRules = board.querySelectorAll("special-rules-container")[0];
   let height = specialRules.getAttribute("height");

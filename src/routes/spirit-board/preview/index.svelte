@@ -41,7 +41,7 @@
     <section-title>SPECIAL RULES</section-title>
     {#each spiritBoard.specialRules.rules as rule}
       <special-rules-subtitle>{rule.name}</special-rules-subtitle>
-      <special-rule><div><ParseIcons text={rule.effect} /></div></special-rule>
+      <special-rule><ParseIcons text={rule.effect} /></special-rule>
     {/each}
   </special-rules-container>
 
@@ -182,7 +182,7 @@
                     {/each}
                   </threshold>
                   <div class="description" class:long={level.isLong}>
-                    <div><ParseIcons text={level.effect} /></div>
+                    <ParseIcons text={level.effect} />
                   </div>
                 </level>
               {/each}
