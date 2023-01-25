@@ -46,16 +46,19 @@
 
     const inputValue = event.target.value;
     const currentCursorPostion = event.target.selectionStart;
-    if (
-      event.data === startCharacter ||
-      (showListImmediately === true && (inputValue.length <= 1 || event.type === "focus"))
-    ) {
-      openAutoComplete(currentCursorPostion, inputValue);
-    } else if (
+    const shouldAutoCompleteOpen =
+      !isAutoCompleteListOpen() &&
+      (event.data === startCharacter ||
+        (showListImmediately === true && (inputValue.length <= 1 || event.type === "focus")));
+    const shouldAutoCompleteClose =
+      isAutoCompleteListOpen() &&
+      !showListImmediately &&
       (endCharacters.includes(event.data) ||
-        hasCursorMovedOutsideOfCurrentAutoCompleteTerm(inputValue, currentCursorPostion)) &&
-      !showListImmediately
-    ) {
+        hasCursorMovedOutsideOfCurrentAutoCompleteTerm(inputValue, currentCursorPostion));
+
+    if (shouldAutoCompleteOpen) {
+      openAutoComplete(currentCursorPostion, inputValue);
+    } else if (shouldAutoCompleteClose) {
       closeAutoComplete();
     } else if (isAutoCompleteListOpen()) {
       currentAutoCompleteTermLength++;
