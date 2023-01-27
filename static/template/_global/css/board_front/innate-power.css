@@ -639,26 +639,6 @@ cost-energy {
   margin-bottom: -15px;
 }
 
-.cost-custom {
-  width: 45px;
-  height: 45px;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  display: inline-block;
-  z-index: 1;
-  position: relative;
-  top: -34px;
-  left: -33px;
-  margin-bottom: -15px;
-  margin-left: 1px;
-}
-
-.cost-custom > value {
-  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px 0px 0 #fff,
-    0px 1px 0 #fff, 1px 0px 0 #fff, 0px -1px 0 #fff;
-}
-
 cost-energy value,
 cost-threshold value {
   font-family: "Energy Font";
@@ -740,6 +720,26 @@ threshold icon.star {
   margin-top: -9px;
   margin-left: 1px;
   margin-right: 1px;
+}
+
+cost-threshold icon.cost-custom {
+  width: 45px;
+  height: 45px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: inline-block;
+  z-index: 1;
+  position: relative;
+  top: -34px;
+  left: -33px;
+  margin-bottom: -15px;
+  margin-left: 1px;
+}
+
+.cost-custom > value {
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px 0px 0 #fff,
+    0px 1px 0 #fff, 1px 0px 0 #fff, 0px -1px 0 #fff;
 }
 
 threshold-or {
