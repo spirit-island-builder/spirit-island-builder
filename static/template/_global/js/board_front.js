@@ -45,11 +45,8 @@ function addImages(board) {
   if (spiritBorder) {
     const spiritBorderSize = board.getAttribute("spirit-border-scale");
     const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
-    console.log("here");
-    console.log(spiritBorderSize);
     spiritNamePanel.style.backgroundImage = `url(${spiritBorder})`;
     const borderHeight = spiritBorderSize !== null ? spiritBorderSize : "100px";
-    console.log("here too");
     spiritNamePanel.style.backgroundSize = `705px ${borderHeight}`;
   }
   if (spiritImage) {
@@ -203,8 +200,14 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   const growthActions = growthGroup.getAttribute("values").split(";");
   console.log(growthActions);
 
+  let nextGrowthAction;
   for (let j = 0; j < growthActions.length; j++) {
-    growthGroupHTML += writeGrowthAction(growthActions[j], setIndex, groupIndex, j, tint_text);
+    try {
+      nextGrowthAction = writeGrowthAction(growthActions[j], setIndex, groupIndex, j, tint_text);
+    } catch (e) {
+      nextGrowthAction = writeGrowthAction("custom(error! check syntax)");
+    }
+    growthGroupHTML += nextGrowthAction;
   }
 
   growthGroupHTML += "</growth-group>";
@@ -236,11 +239,14 @@ function writeGrowthAction(
   let isPresenceNode = false;
 
   let orGrowthActions;
+  let numActions = 1;
   if (growthActionType === "or") {
-    console.log("or detected");
+    console.log("'or' growth detected");
     isOr = true;
     const matches = regExpOuterParentheses.exec(growthAction)[1];
     orGrowthActions = matches.split(regExpCommaNoParentheses);
+    growthAction = orGrowthActions[0];
+    numActions = orGrowthActions.length;
   }
 
   // Check for Presence Node in Growth
@@ -263,16 +269,14 @@ function writeGrowthAction(
   let growthText = "";
 
   // Get the Text and Icons for the Growth Action
-  let firstAction, secondAction;
-  if (isOr) {
-    firstAction = getGrowthActionTextAndIcons(orGrowthActions[0]);
-    secondAction = getGrowthActionTextAndIcons(orGrowthActions[1]);
-    growthIcons = firstAction[0];
-    growthText = firstAction[1];
-  } else {
-    let actionIconsAndText = getGrowthActionTextAndIcons(growthAction);
-    growthIcons = actionIconsAndText[0];
-    growthText = actionIconsAndText[1];
+  let actionIconsAndText = getGrowthActionTextAndIcons(growthAction);
+  growthIcons = actionIconsAndText[0];
+  growthText = actionIconsAndText[1];
+  for (let a = 1; a < numActions; a++) {
+    // For an 'or' growth, loop through the additional actions
+    actionIconsAndText = getGrowthActionTextAndIcons(orGrowthActions[a]);
+    growthText += " or " + actionIconsAndText[1];
+    growthIcons += "or" + actionIconsAndText[0];
   }
 
   //Handle Presence Node
@@ -284,10 +288,7 @@ function writeGrowthAction(
 
   //Handle Ors
   if (isOr) {
-    growthText += " or " + secondAction[1];
-    growthIcons += "or" + secondAction[0];
     growthIcons = "<growth-cell-double>" + growthIcons + "</growth-cell-double>";
-    isOr = false;
   }
 
   growthActionHTML = growthOpen + growthIcons + growthTextOpen + growthText + growthTextClose;
@@ -2141,7 +2142,7 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
 
 function growthHeadersAndTitles() {
   // Create Headers (if using Subsets)
-  let debug = true;
+  let debug = false;
   const board = document.querySelectorAll("board")[0];
   const growthTable = board.getElementsByTagName("growth-table")[0];
   const headerWidth = {};

@@ -32,7 +32,11 @@
       // In textarea/input with multiple autocompletes set cursor position the end of the autocomplete term that was inserted. Without this the cursor goes to the end of the input.
       if (!showListImmediately) {
         inputElementThatWasCompleted.selectionEnd = startOfWordPosition + selectedWord.length + 1;
+      } else if (selectedWord.endsWith(")")) {
+        // If its the 'growth' autocomplete, move cursor to between the ()
+        inputElementThatWasCompleted.selectionEnd = startOfWordPosition + selectedWord.length - 1;
       }
+
       // Prevent further refocus and cursor positioning
       inputElementThatWasCompleted = undefined;
     }
@@ -244,7 +248,10 @@
   }
 
   function nextNode(event) {
-    Lib.nextNode(event);
+    if (!isAutoCompleteListOpen()) {
+      // This isn't currently behaving as expected. Intent: if autocomplete is open, don't jump to the next node when user presses 'enter'
+      Lib.nextNode(event);
+    }
   }
 </script>
 
