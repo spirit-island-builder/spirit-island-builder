@@ -156,7 +156,6 @@ export const addLevel = (
     powerIndex +
     "levelThreshold" +
     spiritBoard.innatePowers.powers[powerIndex].levels.length;
-  console.log(focusId);
   spiritBoard.innatePowers.powers[powerIndex].levels.push({
     id: spiritBoard.innatePowers.powers[powerIndex].levels.length,
     threshold: levelThreshold,
