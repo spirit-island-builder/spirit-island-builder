@@ -11,7 +11,6 @@
   export let id;
   export let classNames = "";
   export let showListImmediately;
-  export let additionalOnKeyDownFunction = () => {};
   export let additionalOnBlurFunction = () => {};
 
   let showAutoCompleteList = false;
@@ -51,16 +50,19 @@
 
     const inputValue = event.target.value;
     const currentCursorPostion = event.target.selectionStart;
-    if (
-      event.data === startCharacter ||
-      (showListImmediately === true && (inputValue.length === 0 || event.type === "focus"))
-    ) {
-      openAutoComplete(currentCursorPostion, inputValue);
-    } else if (
+    const shouldAutoCompleteOpen =
+      !isAutoCompleteListOpen() &&
+      (event.data === startCharacter ||
+        (showListImmediately === true && (inputValue.length <= 1 || event.type === "focus")));
+    const shouldAutoCompleteClose =
+      isAutoCompleteListOpen() &&
+      !showListImmediately &&
       (endCharacters.includes(event.data) ||
-        hasCursorMovedOutsideOfCurrentAutoCompleteTerm(inputValue, currentCursorPostion)) &&
-      !showListImmediately
-    ) {
+        hasCursorMovedOutsideOfCurrentAutoCompleteTerm(inputValue, currentCursorPostion));
+
+    if (shouldAutoCompleteOpen) {
+      openAutoComplete(currentCursorPostion, inputValue);
+    } else if (shouldAutoCompleteClose) {
       closeAutoComplete();
     } else if (isAutoCompleteListOpen()) {
       currentAutoCompleteTermLength++;
@@ -283,6 +285,7 @@
   {#if showAutoCompleteList === true}
     <div id={`${id}AutoCompleteList`} class="autocomplete-items">
       {#each valuesToShow as autoCompleteItem, j}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
           id={`item${j}`}
           autoCompleteForId={id}
@@ -315,7 +318,6 @@
     right: 0;
     max-height: 210px;
     overflow: auto;
-    scroll-behavior: smooth;
     overflow-y: scroll;
   }
   .autocomplete-items div:hover {
