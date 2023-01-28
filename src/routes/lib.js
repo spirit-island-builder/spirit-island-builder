@@ -156,7 +156,6 @@ export const addLevel = (
     powerIndex +
     "levelThreshold" +
     spiritBoard.innatePowers.powers[powerIndex].levels.length;
-  console.log(focusId);
   spiritBoard.innatePowers.powers[powerIndex].levels.push({
     id: spiritBoard.innatePowers.powers[powerIndex].levels.length,
     threshold: levelThreshold,
@@ -252,14 +251,14 @@ export const nextNode = (event) => {
           break;
         }
         currentID = focusID;
-      // eslint-disable-next-line no-fallthrough
+      // Intentionally fallthrough.
       case "setgrouptint":
         focusID = currentID.replace("tint", "title");
         if (document.getElementById(focusID) !== null) {
           break;
         }
         currentID = focusID;
-      // eslint-disable-next-line no-fallthrough
+      // Intentionally fallthrough.
       case "setgrouptitle":
         focusID = "growthSet" + numMatches[0] + "Group" + numMatches[1] + "Action0";
         break;
@@ -312,3 +311,22 @@ export async function loadHTML(url) {
   let parser = new DOMParser();
   return parser.parseFromString(await response.text(), "text/html");
 }
+
+/**
+ * If url is provided, resolve it relative to baseURI.
+ * Otherwise, return null.
+ *
+ * This is meant to be used when reading a possibly relative URL
+ * that may be missing from a document.
+ *
+ * @param {?(string|URL)} url
+ * @param {(string|URL)} baseURI
+ * @returns
+ */
+export const maybeResolveURL = (url, baseURI) => {
+  if (url) {
+    return new URL(url, baseURI);
+  } else {
+    return null;
+  }
+};

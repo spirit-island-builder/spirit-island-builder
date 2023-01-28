@@ -273,6 +273,7 @@ aspect special-rule {
   font-size: 15.5pt;
   line-height: 26px;
   padding-bottom: 21px;
+  white-space: pre-line;
 }
 
 aspect special-rules-subtitle {

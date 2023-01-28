@@ -3,6 +3,7 @@
 
   import * as Lib from "../lib";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
+  import LoadButton from "$lib/load-button.svelte";
 
   import NameArtLore from "./name-art-lore.svelte";
   import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";
@@ -14,11 +15,11 @@
   export let instructionsSource;
 
   let previewFrame;
-  let previewDoc;
 
   async function loadHTMLFromURL(url) {
+    url = new URL(url, document.baseURI);
     let loadedDocument = await Lib.loadHTML(url);
-    readHTML(loadedDocument);
+    readHTML(loadedDocument, url);
     reloadPreview();
   }
 
@@ -131,7 +132,7 @@
     return fragment;
   }
 
-  function readHTML(htmlElement) {
+  function readHTML(htmlElement, baseURI) {
     console.log("Loading spirit lore board into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     const loreBoardHTML = htmlElement.querySelectorAll("board")[0];
@@ -144,7 +145,7 @@
     //Set Spirit Image
     const loreImage = loreBoardHTML.querySelectorAll("img")[0];
     if (loreImage) {
-      spiritBoardBack.nameImage.img = loreImage.getAttribute("src");
+      spiritBoardBack.nameImage.img = Lib.maybeResolveURL(loreImage.getAttribute("src"), baseURI);
       let imgScale = loreImage.getAttribute("scale");
       console.log(imgScale);
       if (imgScale) {
@@ -189,6 +190,7 @@
         let iconList = spiritStyle.textContent.match(regExp);
         if (iconList) {
           iconList.forEach((customIcon) => {
+            customIcon = Lib.maybeResolveURL(customIcon, baseURI);
             customIcons = Lib.addCustomIcon(customIcons, customIcon);
             console.log(customIcon);
           });
@@ -202,16 +204,6 @@
   function exportSpiritBoardBack() {
     const htmlFileName = spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritLore.html";
     Lib.downloadHTML(generateHTML(spiritBoardBack), htmlFileName);
-  }
-
-  function handleTextFileInput(event) {
-    const file = event.target.files.item(0);
-    if (file) {
-      let url = URL.createObjectURL(file);
-      loadHTMLFromURL(url).finally(() => {
-        URL.revokeObjectURL(url);
-      });
-    }
   }
 
   function clearAllFields() {
@@ -276,11 +268,7 @@
   }
 </script>
 
-<PreviewFrame
-  id="lore-preview"
-  baseURI="/template/MyCustomContent/MySpirit/"
-  bind:this={previewFrame}
-  bind:document={previewDoc}>
+<PreviewFrame id="lore-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/board_lore.css" rel="stylesheet" />
@@ -289,20 +277,9 @@
   </svelte:fragment>
 </PreviewFrame>
 <div class="field has-addons mb-2">
-  <div class="file is-success mr-1">
-    <label class="file-label">
-      <input
-        class="file-input"
-        id="userHTMLInput"
-        type="file"
-        name="userHTMLInput"
-        accept=".html"
-        on:change={handleTextFileInput} />
-      <span class="file-cta">
-        <span class="file-label"> Load </span>
-      </span>
-    </label>
-  </div>
+  <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+    Load
+  </LoadButton>
   <button class="button is-success  mr-1" on:click={exportSpiritBoardBack}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>

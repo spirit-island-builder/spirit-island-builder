@@ -1,5 +1,6 @@
 <script>
   import Section from "$lib/section.svelte";
+  import LoadButton from "$lib/load-button.svelte";
   export let customIcons;
 
   function addCustomIcon() {
@@ -16,20 +17,6 @@
       icon.id = i;
     });
     customIcons = customIcons;
-  }
-
-  function handleImageFileInput(event, i) {
-    const file = event.target.files.item(0);
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const imageURL = data.target.result;
-        customIcons.icons[i].name = imageURL;
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsDataURL(file);
-    }
   }
 </script>
 
@@ -54,22 +41,13 @@
           src={icon.name}
           alt={`custom${i + 1}`} />
       {/if}
-      <div class="file is-warning is-small">
-        <label class="file-label">
-          <input
-            class="file-input"
-            id={`customIconInput${i}`}
-            type="file"
-            name={`customIconInput${i}`}
-            accept="image/png, image/jpeg"
-            on:change={(e) => {
-              handleImageFileInput(e, i);
-            }} />
-          <span class="file-cta">
-            <span class="file-label"> Load </span>
-          </span>
-        </label>
-      </div>
+      <LoadButton
+        accept="image/png, image/jpeg"
+        class="button is-file-load is-small"
+        loadDataURL={(url) => {
+          icon.name = url;
+        }}>Load</LoadButton>
+
       <button class="button is-warning is-light is-small row-button" on:click={removeCustomIcon(i)}
         >Remove</button>
     </div>

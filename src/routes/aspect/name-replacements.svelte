@@ -1,21 +1,8 @@
 <script>
   import Section from "$lib/section.svelte";
+  import ImageInput from "$lib/image-input.svelte";
 
   export let aspect;
-
-  function handleImageFileInput(event) {
-    const file = event.target.files.item(0);
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const imageURL = data.target.result;
-        aspect.nameReplacements.spiritImage = imageURL;
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsDataURL(file);
-    }
-  }
 
   function setComplexity(val, aspectHolder) {
     aspectHolder.complexity = val;
@@ -128,20 +115,7 @@
             bind:value={aspect.nameReplacements.spiritName} />
         </div>
       </div>
-      <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-0">
-        <div class="field has-addons mr-2 ml-1">
-          <label class="label is-unselectable mr-1" for="">Art: </label>
-          <div class="control">
-            <input
-              accept="image/png, image/jpeg"
-              on:change={handleImageFileInput}
-              id={`backArt`}
-              name="cardArt"
-              type="file"
-              class="input is-small" />
-          </div>
-        </div>
-      </div>
+      <ImageInput id="backArt" title="Art" bind:imageURL={aspect.nameReplacements.spiritImage} />
     {:else}
       <button class="button is-warning is-light is-small row-button" on:click={setBack}
         >Add Card Back</button>

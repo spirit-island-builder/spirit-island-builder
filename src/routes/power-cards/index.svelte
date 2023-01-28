@@ -3,6 +3,7 @@
 
   import * as Lib from "../lib";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
+  import LoadButton from "$lib/load-button.svelte";
 
   import PowerCard from "./power-card.svelte";
   import CustomIcons from "../custom-icons.svelte";
@@ -13,11 +14,11 @@
   export let instructionsSource;
 
   let previewFrame;
-  let previewDoc;
 
   async function loadHTMLFromURL(url) {
+    url = new URL(url, document.baseURI);
     let loadedDocument = await Lib.loadHTML(url);
-    readHTML(loadedDocument);
+    readHTML(loadedDocument, url);
     reloadPreview();
   }
 
@@ -90,7 +91,7 @@
     return fragment;
   }
 
-  function readHTML(htmlElement) {
+  function readHTML(htmlElement, baseURI) {
     console.log("Loading power cards into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     const powerCardsHTML = htmlElement.querySelectorAll("quick-card");
@@ -101,7 +102,7 @@
 
     //Iterate through the cards
     powerCardsHTML.forEach((powerCardHTML) => {
-      addPowerCard(powerCards, powerCardHTML);
+      addPowerCard(powerCards, powerCardHTML, baseURI);
     });
 
     //Custom Icons
@@ -123,7 +124,7 @@
     }
   }
 
-  function addPowerCard(powerCards, powerCardHTML) {
+  function addPowerCard(powerCards, powerCardHTML, baseURI) {
     let rulesHTML = powerCardHTML.querySelectorAll("rules")[0];
     let rulesPush = "";
     if (rulesHTML) {
@@ -169,7 +170,7 @@
       name: powerCardHTML.getAttribute("name"),
       speed: powerCardHTML.getAttribute("speed"),
       cost: powerCardHTML.getAttribute("cost"),
-      cardImage: powerCardHTML.getAttribute("image"),
+      cardImage: Lib.maybeResolveURL(powerCardHTML.getAttribute("image"), baseURI),
       powerElements: elementsForm,
       range: powerCardHTML.getAttribute("range"),
       target: powerCardHTML.getAttribute("target"),
@@ -188,16 +189,6 @@
   function exportPowerCards() {
     const htmlFileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
     Lib.downloadHTML(generateHTML(powerCards), htmlFileName);
-  }
-
-  function handleTextFileInput(event) {
-    const file = event.target.files.item(0);
-    if (file) {
-      let url = URL.createObjectURL(file);
-      loadHTMLFromURL(url).finally(() => {
-        URL.revokeObjectURL(url);
-      });
-    }
   }
 
   function clearAllFields() {
@@ -262,11 +253,7 @@
   }
 </script>
 
-<PreviewFrame
-  id="power-cards-preview"
-  baseURI="/template/MyCustomContent/MySpirit/"
-  bind:this={previewFrame}
-  bind:document={previewDoc}>
+<PreviewFrame id="power-cards-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/card.css" rel="stylesheet" />
@@ -275,20 +262,9 @@
   </svelte:fragment>
 </PreviewFrame>
 <div class="field has-addons mt-2 mb-2">
-  <div class="file is-success mr-1">
-    <label class="file-label">
-      <input
-        class="file-input"
-        id="userHTMLInput"
-        type="file"
-        name="userHTMLInput"
-        accept=".html"
-        on:change={handleTextFileInput} />
-      <span class="file-cta">
-        <span class="file-label"> Load </span>
-      </span>
-    </label>
-  </div>
+  <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+    Load
+  </LoadButton>
   <button class="button is-success  mr-1" on:click={exportPowerCards}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
