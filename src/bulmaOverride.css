@@ -88,3 +88,8 @@ h6 {
 .subtitle.is-6 {
   margin-bottom: 0.25rem;
 }
+
+/* Hide default ion-icon tooltips because they are confusing */
+ion-icon {
+  pointer-events: none;
+}
