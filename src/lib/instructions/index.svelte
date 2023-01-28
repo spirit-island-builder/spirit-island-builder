@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { chevronDownOutline, chevronUpOutline, close as closeIcon } from "ionicons/icons";
+  import { removeOutline, expandOutline, close as closeIcon } from "ionicons/icons";
 
   let isMinimized = false;
   export let isShowingInstructions;
@@ -87,15 +87,15 @@
     class="movableDialog-header is-flex is-justify-content-space-between">
     <div>Instructions</div>
     <div class="is-flex">
-      <button on:click={minimizeWindow} class="headerButtons">
+      <button on:click={minimizeWindow} class="headerButtons mr-1">
         {#if isMinimized === false}
-          <ion-icon icon={chevronDownOutline} />
+          <span title="Minimize"><ion-icon icon={removeOutline} /></span>
         {:else}
-          <ion-icon icon={chevronUpOutline} />
+          <span title="Expand"><ion-icon icon={expandOutline} /></span>
         {/if}
       </button>
       <button on:click={closeWindow} class="headerButtons">
-        <ion-icon icon={closeIcon} />
+        <span title="Close"><ion-icon icon={closeIcon} /></span>
       </button>
     </div>
   </div>
