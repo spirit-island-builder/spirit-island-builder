@@ -1,4 +1,5 @@
 <script>
+  import { chevronDownOutline, chevronUpOutline } from "ionicons/icons";
   export let isVisible = false;
   export let title;
 </script>
@@ -10,12 +11,12 @@
       on:click={() => {
         isVisible = !isVisible;
       }}
-      class="is-flex is-justify-content-space-between pl-1 mt-1">
+      class="is-flex is-justify-content-space-between is-align-items-center pl-1 mt-1">
       <span>{title}</span>
       {#if isVisible}
-        <ion-icon name="chevron-down-outline" aria-hidden="true" />
+        <ion-icon icon={chevronDownOutline} aria-hidden="true" />
       {:else}
-        <ion-icon name="chevron-up-outline" aria-hidden="true" />
+        <ion-icon icon={chevronUpOutline} aria-hidden="true" />
       {/if}
     </button>
   </h3>
