@@ -11,7 +11,6 @@
   export let id;
   export let classNames = "";
   export let showListImmediately;
-  export let additionalOnKeyDownFunction = () => {};
   export let additionalOnBlurFunction = () => {};
 
   let showAutoCompleteList = false;
@@ -33,7 +32,11 @@
       // In textarea/input with multiple autocompletes set cursor position the end of the autocomplete term that was inserted. Without this the cursor goes to the end of the input.
       if (!showListImmediately) {
         inputElementThatWasCompleted.selectionEnd = startOfWordPosition + selectedWord.length + 1;
+      } else if (selectedWord.endsWith(")")) {
+        // If its the 'growth' autocomplete, move cursor to between the ()
+        inputElementThatWasCompleted.selectionEnd = startOfWordPosition + selectedWord.length - 1;
       }
+
       // Prevent further refocus and cursor positioning
       inputElementThatWasCompleted = undefined;
     }
@@ -47,16 +50,19 @@
 
     const inputValue = event.target.value;
     const currentCursorPostion = event.target.selectionStart;
-    if (
-      event.data === startCharacter ||
-      (showListImmediately === true && (inputValue.length === 0 || event.type === "focus"))
-    ) {
-      openAutoComplete(currentCursorPostion, inputValue);
-    } else if (
+    const shouldAutoCompleteOpen =
+      !isAutoCompleteListOpen() &&
+      (event.data === startCharacter ||
+        (showListImmediately === true && (inputValue.length <= 1 || event.type === "focus")));
+    const shouldAutoCompleteClose =
+      isAutoCompleteListOpen() &&
+      !showListImmediately &&
       (endCharacters.includes(event.data) ||
-        hasCursorMovedOutsideOfCurrentAutoCompleteTerm(inputValue, currentCursorPostion)) &&
-      !showListImmediately
-    ) {
+        hasCursorMovedOutsideOfCurrentAutoCompleteTerm(inputValue, currentCursorPostion));
+
+    if (shouldAutoCompleteOpen) {
+      openAutoComplete(currentCursorPostion, inputValue);
+    } else if (shouldAutoCompleteClose) {
       closeAutoComplete();
     } else if (isAutoCompleteListOpen()) {
       currentAutoCompleteTermLength++;
@@ -242,7 +248,10 @@
   }
 
   function nextNode(event) {
-    Lib.nextNode(event);
+    if (!isAutoCompleteListOpen()) {
+      // This isn't currently behaving as expected. Intent: if autocomplete is open, don't jump to the next node when user presses 'enter'
+      Lib.nextNode(event);
+    }
   }
 </script>
 
@@ -276,6 +285,7 @@
   {#if showAutoCompleteList === true}
     <div id={`${id}AutoCompleteList`} class="autocomplete-items">
       {#each valuesToShow as autoCompleteItem, j}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
           id={`item${j}`}
           autoCompleteForId={id}
@@ -308,7 +318,6 @@
     right: 0;
     max-height: 210px;
     overflow: auto;
-    scroll-behavior: smooth;
     overflow-y: scroll;
   }
   .autocomplete-items div:hover {

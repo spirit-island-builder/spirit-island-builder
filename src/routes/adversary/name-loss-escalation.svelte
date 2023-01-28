@@ -3,20 +3,7 @@
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
-
-  function handleImageFileInput(event) {
-    const file = event.target.files.item(0);
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const imageURL = data.target.result;
-        adversary.nameLossEscalation.flagImg = imageURL;
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsDataURL(file);
-    }
-  }
+  import ImageInput from "$lib/image-input.svelte";
 </script>
 
 <Section
@@ -54,26 +41,10 @@
       </div>
     </div>
     <!-- FLAG ART -->
-    <div class="field has-addons is-horizontal is-justify-content-left mb-0">
-      <div class="field-label is-small">
-        <label class="label" for="adversaryFlagArt">Flag Art</label>
-      </div>
-      <div class="control">
-        <input
-          accept="image/png, image/jpeg"
-          on:change={handleImageFileInput}
-          id="adversaryFlagArt"
-          name="adversaryFlagArt"
-          type="file"
-          class="input" />
-        {#if adversary.nameLossEscalation.flagImg}
-          <img
-            id="adversaryFlagArtImage"
-            src={adversary.nameLossEscalation.flagImg}
-            alt="flag art" />
-        {/if}
-      </div>
-    </div>
+    <ImageInput
+      id="adversaryFlag"
+      title="Flag Art"
+      bind:imageURL={adversary.nameLossEscalation.flagImg} />
   </div>
   <!-- Loss Condition -->
   <div class="field">
