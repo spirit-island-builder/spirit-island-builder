@@ -7,6 +7,12 @@
   import "../previewBoard.css";
   import "../specialRules.css";
   import "../innatePowers.css";
+
+  import { browser } from "$app/environment";
+  import { defineCustomElement } from "ionicons/components/ion-icon.js";
+  if (browser) {
+    defineCustomElement(window);
+  }
 </script>
 
 <slot />

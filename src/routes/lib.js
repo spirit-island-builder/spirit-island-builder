@@ -311,3 +311,22 @@ export async function loadHTML(url) {
   let parser = new DOMParser();
   return parser.parseFromString(await response.text(), "text/html");
 }
+
+/**
+ * If url is provided, resolve it relative to baseURI.
+ * Otherwise, return null.
+ *
+ * This is meant to be used when reading a possibly relative URL
+ * that may be missing from a document.
+ *
+ * @param {?(string|URL)} url
+ * @param {(string|URL)} baseURI
+ * @returns
+ */
+export const maybeResolveURL = (url, baseURI) => {
+  if (url) {
+    return new URL(url, baseURI);
+  } else {
+    return null;
+  }
+};

@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { removeOutline, expandOutline, close as closeIcon } from "ionicons/icons";
 
   let isMinimized = false;
   export let isShowingInstructions;
@@ -85,21 +86,17 @@
     id="movableDialog-header"
     class="movableDialog-header is-flex is-justify-content-space-between">
     <div>Instructions</div>
-    <div>
-      {#if isMinimized === false}
-        <ion-icon
-          id="windowtoggle"
-          class="headerButtons"
-          on:click={minimizeWindow}
-          name="chevron-down-outline" />
-      {:else}
-        <ion-icon
-          id="windowtoggle"
-          class="headerButtons"
-          on:click={minimizeWindow}
-          name="chevron-up-outline" />
-      {/if}
-      <span id="window-close" class="headerButtons" on:click={closeWindow}>X</span>
+    <div class="is-flex">
+      <button on:click={minimizeWindow} class="headerButtons mr-1">
+        {#if isMinimized === false}
+          <span title="Minimize"><ion-icon icon={removeOutline} /></span>
+        {:else}
+          <span title="Expand"><ion-icon icon={expandOutline} /></span>
+        {/if}
+      </button>
+      <button on:click={closeWindow} class="headerButtons">
+        <span title="Close"><ion-icon icon={closeIcon} /></span>
+      </button>
     </div>
   </div>
   <div class={`${isMinimized ? "iframeClosed" : "iframeOpen"}`}>
@@ -149,15 +146,25 @@
   }
 
   .movableDialog-header {
-    padding: 10px;
+    padding-inline: 0.75rem;
+    padding-block: 0.25rem;
     cursor: move;
     background-color: #0072bd;
     color: #fff;
-    height: 45px;
   }
 
   .headerButtons {
-    padding: 0px;
+    display: block;
     cursor: pointer;
+    /* reset */
+    padding: unset;
+    border: unset;
+    outline: unset;
+    font: unset;
+    color: unset;
+    background: unset;
+  }
+  .headerButtons ion-icon {
+    display: block;
   }
 </style>
