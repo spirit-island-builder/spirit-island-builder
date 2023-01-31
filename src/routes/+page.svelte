@@ -384,9 +384,7 @@
     {/if}
   </nav>
 </header>
-{#if isShowingInstructions === true}
-  <Instructions bind:isShowingInstructions bind:instructionsSource />
-{/if}
+<Instructions bind:isShowingInstructions bind:instructionsSource />
 <div class="container">
   {#if currentPage === "spiritBoardFront"}
     <SpiritBoard
