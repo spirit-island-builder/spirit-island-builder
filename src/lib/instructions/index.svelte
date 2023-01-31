@@ -6,19 +6,32 @@
   export let instructionsSource;
 
   let popup;
+  let dragBar;
 
-  function dragMouseDown(e) {
+  function dragPointerDown(e) {
+    if (!e.isPrimary || e.button !== 0) {
+      return;
+    }
+    e.preventDefault();
+    const pointerId = e.pointerId;
     // get the mouse cursor position at startup:
     let lastMouseX = e.clientX;
     let lastMouseY = e.clientY;
     // Set the desired position to the actual position.
     popup.style.setProperty("--top", popup.offsetTop);
     popup.style.setProperty("--left", popup.offsetLeft);
-    document.addEventListener("mouseup", closeDragElement);
+    // Capture pointer events for this pointer to detect dragging.
+    dragBar.setPointerCapture(e.pointerId);
     // call a function whenever the cursor moves:
-    document.addEventListener("mousemove", elementDrag);
+    dragBar.addEventListener("pointermove", elementDrag);
+    // Stop dragging, when we lose the pointer capture.
+    // This happens automatically when the pointer is released.
+    dragBar.addEventListener("lostpointercapture", closeDragElement);
 
     function elementDrag(e) {
+      if (e.pointerId !== pointerId) {
+        return;
+      }
       // calculate the new cursor position:
       let changeX = lastMouseX - e.clientX;
       let changeY = lastMouseY - e.clientY;
@@ -29,10 +42,14 @@
       popup.style.setProperty("--left", popup.style.getPropertyValue("--left") - changeX);
     }
 
-    function closeDragElement() {
-      /* stop moving when mouse button is released:*/
-      document.removeEventListener("mouseup", closeDragElement);
-      document.removeEventListener("mousemove", elementDrag);
+    function closeDragElement(e) {
+      if (e.pointerId !== pointerId) {
+        return;
+      }
+      // document.body.style.pointerEvents = null;
+      /* stop moving when mouse button is released: */
+      dragBar.removeEventListener("pointerup", closeDragElement);
+      dragBar.removeEventListener("pointermove", elementDrag);
     }
   }
 
@@ -50,9 +67,9 @@
   data-minimized={isMinimized}
   style="height: 20rem; width: 50ch; --top: 32; --left: 32"
   style:display={isShowingInstructions ? null : "none"}>
-  <header class="is-flex is-justify-content-space-between" on:mousedown={dragMouseDown}>
-    <div>Instructions</div>
-    <div class="is-flex">
+  <header class="is-flex is-justify-content-space-between">
+    <div class="drag-bar" bind:this={dragBar} on:pointerdown={dragPointerDown}>Instructions</div>
+    <div class="is-flex px-2">
       <a
         href={instructionsSource}
         on:click={closeWindow}
@@ -109,11 +126,16 @@
   }
 
   header {
-    padding-inline: 0.75rem;
-    padding-block: 0.25rem;
-    cursor: move;
     background-color: #0072bd;
     color: #fff;
+  }
+  header .drag-bar {
+    cursor: move;
+    padding-inline-start: 0.75rem;
+    padding-block: 0.25rem;
+    flex-grow: 1;
+    border-inline-end: 1px solid #b2b2b2;
+    touch-action: none;
   }
 
   header button {
