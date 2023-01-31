@@ -1,5 +1,5 @@
 <script>
-  import { removeOutline, expandOutline, close as closeIcon } from "ionicons/icons";
+  import { removeOutline, expandOutline, exitOutline, close as closeIcon } from "ionicons/icons";
 
   let isMinimized = false;
   export let isShowingInstructions;
@@ -50,6 +50,14 @@
   <header class="is-flex is-justify-content-space-between" on:mousedown={dragMouseDown}>
     <div>Instructions</div>
     <div class="is-flex">
+      <a
+        href={instructionsSource}
+        on:click={closeWindow}
+        class="mr-1"
+        target="_blank"
+        rel="noreferrer">
+        <span title="Open in new tab"><ion-icon icon={exitOutline} /></span>
+      </a>
       <button on:click={minimizeWindow} class="mr-1">
         {#if isMinimized === false}
           <span title="Minimize"><ion-icon icon={removeOutline} /></span>
@@ -112,8 +120,14 @@
     color: unset;
     background: unset;
   }
-  header button ion-icon {
+  header :is(button, a) ion-icon {
     display: block;
+  }
+
+  header a {
+    display: flex;
+    place-items: center;
+    color: unset;
   }
 
   iframe {
