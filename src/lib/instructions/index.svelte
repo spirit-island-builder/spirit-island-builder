@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from "svelte";
   import { removeOutline, expandOutline, close as closeIcon } from "ionicons/icons";
 
   let isMinimized = false;
@@ -7,52 +6,31 @@
   export let instructionsSource;
   let iframeHeight = "250px";
 
-  function initDragElement() {
-    let pos1 = 0,
-      pos2 = 0,
-      pos3 = 0,
-      pos4 = 0;
-    let popup = document.getElementById("movableDialog");
-    let elmnt = null;
-    let headerItem = document.getElementById("movableDialog-header");
+  let popup;
 
-    if (headerItem) {
-      headerItem.parentPopup = popup;
-      headerItem.onmousedown = dragMouseDown;
-    }
-
-    function dragMouseDown(e) {
-      elmnt = this.parentPopup;
-
-      e = e || window.event;
-      // get the mouse cursor position at startup:
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      document.onmouseup = closeDragElement;
-      // call a function whenever the cursor moves:
-      document.onmousemove = elementDrag;
-    }
+  function dragMouseDown(e) {
+    // get the mouse cursor position at startup:
+    let lastMouseX = e.clientX;
+    let lastMouseY = e.clientY;
+    document.addEventListener("mouseup", closeDragElement);
+    // call a function whenever the cursor moves:
+    document.addEventListener("mousemove", elementDrag);
 
     function elementDrag(e) {
-      if (!elmnt) {
-        return;
-      }
-
-      e = e || window.event;
       // calculate the new cursor position:
-      pos1 = pos3 - e.clientX;
-      pos2 = pos4 - e.clientY;
-      pos3 = e.clientX;
-      pos4 = e.clientY;
+      let changeX = lastMouseX - e.clientX;
+      let changeY = lastMouseY - e.clientY;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
       // set the element's new position:
-      elmnt.style.top = elmnt.offsetTop - pos2 + "px";
-      elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
+      popup.style.top = `${popup.offsetTop - changeY}px`;
+      popup.style.left = `${popup.offsetLeft - changeX}px`;
     }
 
     function closeDragElement() {
       /* stop moving when mouse button is released:*/
-      document.onmouseup = null;
-      document.onmousemove = null;
+      document.removeEventListener("mouseup", closeDragElement);
+      document.removeEventListener("mousemove", elementDrag);
     }
   }
 
@@ -67,10 +45,6 @@
     isShowingInstructions = !isShowingInstructions;
   }
 
-  onMount(() => {
-    initDragElement();
-  });
-
   function onMouseMove(event) {
     if (event.target.id === "movableDialog") {
       iframeHeight = `${event.target.clientHeight - 50}px`;
@@ -80,11 +54,12 @@
 
 <div
   id="movableDialog"
-  class={`movableDialog ${isMinimized ? "closed" : "open"}`}
-  on:mousemove={onMouseMove}>
+  bind:this={popup}
+  class={`movableDialog ${isMinimized ? "closed" : "open"}`}>
   <div
     id="movableDialog-header"
-    class="movableDialog-header is-flex is-justify-content-space-between">
+    class="movableDialog-header is-flex is-justify-content-space-between"
+    on:mousedown={dragMouseDown}>
     <div>Instructions</div>
     <div class="is-flex">
       <button on:click={minimizeWindow} class="headerButtons mr-1">
