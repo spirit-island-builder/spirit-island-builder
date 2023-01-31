@@ -260,7 +260,7 @@
     let previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
 
     const cardsTemplate = previewFrameDoc.querySelectorAll("card");
-
+    let powerCardsJson = [];
     powerCards.cards.forEach((card, index) => {
       let cardTemplate = cardsTemplate[index];
       let cardRect = cardTemplate.getBoundingClientRect();
@@ -279,7 +279,7 @@
       energy = card.cost;
 
       let tags = [];
-      tags.push(card.speed);
+      tags.push(card.speed.charAt(0).toUpperCase() + card.speed.slice(1));
       tags.push("Unique");
 
       let thresholdText;
@@ -288,14 +288,15 @@
         thresholdText =
           'function onLoad(saved_data)\n    if saved_data ~= "" then\n        local loaded_data = JSON.decode(saved_data)\n        self.setTable("thresholds", loaded_data.thresholds)\n    end\nend\n-- card loading end';
         //"{\"thresholds\": [{\"elements\": \"00030000\", \"position\": {\"x\": 0.07, \"y\": 0, \"z\": 1.09}}]}"
-        const thresholdNode = cardTemplate.getElementsByTagName("threshold-condition")[0];
-        console.log(card.name);
-        console.log(thresholdNode.innerHTML);
+        const thresholdNode = cardTemplate
+          .getElementsByTagName("threshold-condition")[0]
+          .getElementsByTagName("span")[0];
+
         let icons = Array.from(thresholdNode.getElementsByTagName("icon"));
         let elementNums = thresholdNode.innerHTML
           .split("<icon")
           .map((x) => (isNaN(x) ? x.split("icon>")[1] : x));
-        console.log(thresholdNode.innerHTML.split("<icon"));
+
         let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
         icons.forEach((icon, i) => {
           if (icon.classList.contains("sun")) {
@@ -317,19 +318,22 @@
           }
         });
         console.log(elementCounts);
-        let rect = thresholdNode.getBoundingClientRect();
+        let thresholdSpan = thresholdNode.getBoundingClientRect();
         thresholds.push({
           elements: elementCounts.join(""),
           position: {
             x: toFixedNumber(
               (-(cardRect.width / cardRect.height) *
-                (-23 + rect.left - cardRect.x - cardRect.width / 2)) /
+                (-43 + thresholdSpan.left - cardRect.x - cardRect.width / 2)) /
                 (cardRect.width / 2),
               4
             ),
             y: 0,
             z: toFixedNumber(
-              (rect.y + rect.height / 2 - cardRect.y - cardRect.height / 2) / (cardRect.height / 2),
+              ((cardRect.height / cardRect.width) *
+                (thresholdSpan.y + thresholdSpan.height - cardRect.y - cardRect.height / 2)) /
+                (cardRect.height / 2),
+              // (thresholdSpan.y + thresholdSpan.height / 2 - cardRect.y - cardRect.height / 2) / (cardRect.height / 2),
               4
             ),
           },
@@ -339,18 +343,26 @@
         thresholdText = "";
       }
 
+      thresholds = JSON.stringify({ thresholds: thresholds });
+
       let powerCardJson = jsone(powerCardsJsonTemplate, {
         guid: card.name.replaceAll(" ", "_"),
         cardName: card.name,
         elements,
         energy,
+        tags,
         thresholdText,
+        thresholds,
       });
-      let ttsSave = createTTSSave([powerCardJson]);
-
-      const jsonFileName = card.name.replaceAll(" ", "_") + "_TTS.json";
-      Lib.downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
+      powerCardsJson.push(powerCardJson);
     });
+    let ttsSave = createTTSSave(powerCardsJson);
+    let saveName = "export";
+    if (powerCards.spiritName) {
+      saveName = powerCards.spiritName;
+    }
+    const jsonFileName = saveName.replaceAll(" ", "_") + "_cards_TTS.json";
+    Lib.downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
 </script>
 

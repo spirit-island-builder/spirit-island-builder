@@ -119,9 +119,9 @@ function setThreshold(card) {
     //set elemental thresholds
     var conditions = threshold.getAttribute("condition");
     if (conditions) {
-      threshold.innerHTML = `<threshold-condition>${getThresholdElements(
+      threshold.innerHTML = `<threshold-condition><span>${getThresholdElements(
         threshold
-      )}:</threshold-condition>${threshold.innerHTML}`;
+      )}:</span></threshold-condition>${threshold.innerHTML}`;
     }
   }
 }
