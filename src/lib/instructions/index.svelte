@@ -11,6 +11,9 @@
     // get the mouse cursor position at startup:
     let lastMouseX = e.clientX;
     let lastMouseY = e.clientY;
+    // Set the desired position to the actual position.
+    popup.style.setProperty("--top", popup.offsetTop);
+    popup.style.setProperty("--left", popup.offsetLeft);
     document.addEventListener("mouseup", closeDragElement);
     // call a function whenever the cursor moves:
     document.addEventListener("mousemove", elementDrag);
@@ -22,8 +25,8 @@
       lastMouseX = e.clientX;
       lastMouseY = e.clientY;
       // set the element's new position:
-      popup.style.top = `${popup.offsetTop - changeY}px`;
-      popup.style.left = `${popup.offsetLeft - changeX}px`;
+      popup.style.setProperty("--top", popup.style.getPropertyValue("--top") - changeY);
+      popup.style.setProperty("--left", popup.style.getPropertyValue("--left") - changeX);
     }
 
     function closeDragElement() {
@@ -45,7 +48,7 @@
 <popup
   bind:this={popup}
   data-minimized={isMinimized}
-  style="height: 20rem; width: 50ch; top: 1rem; left: 1rem"
+  style="height: 20rem; width: 50ch; --top: 32; --left: 32"
   style:display={isShowingInstructions ? null : "none"}>
   <header class="is-flex is-justify-content-space-between" on:mousedown={dragMouseDown}>
     <div>Instructions</div>
@@ -87,6 +90,9 @@
     display: flex;
     flex-direction: column;
     box-sizing: content-box;
+    /* We use clamp to keep the position of the popup inside the viewport. */
+    top: clamp(0px, var(--top) * 1px, 100vh - 2rem);
+    left: clamp(-30ch, var(--left) * 1px, 100vw - 12ch);
   }
 
   popup[data-minimized="false"] {
