@@ -45,7 +45,7 @@
 <popup
   bind:this={popup}
   data-minimized={isMinimized}
-  style="height: 20rem; width: 50ch"
+  style="height: 20rem; width: 50ch; top: 1rem; left: 1rem"
   style:display={isShowingInstructions ? null : "none"}>
   <header class="is-flex is-justify-content-space-between" on:mousedown={dragMouseDown}>
     <div>Instructions</div>
@@ -71,7 +71,7 @@
 
 <style>
   popup {
-    position: absolute;
+    position: fixed;
     z-index: 999;
     border: 2px solid #b2b2b2;
     background-color: #e1e1e1;
