@@ -90,6 +90,7 @@
     display: flex;
     flex-direction: column;
     box-sizing: content-box;
+    user-select: none;
     /* We use clamp to keep the position of the popup inside the viewport. */
     top: clamp(0px, var(--top) * 1px, 100vh - 2rem);
     left: clamp(-30ch, var(--left) * 1px, 100vw - 12ch);
