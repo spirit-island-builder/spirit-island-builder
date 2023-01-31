@@ -38,7 +38,7 @@
       "eslint",
       "prettier --write --plugin-search-dir=."
     ],
-    "*.{css}": [
+    "*.{css,json,html}": [
       "prettier --write --plugin-search-dir=."
     ]
   },
