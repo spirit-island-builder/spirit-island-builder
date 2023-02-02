@@ -2,6 +2,17 @@
   import Section from "$lib/section.svelte";
   import ImageInput from "$lib/image-input.svelte";
 
+  import Banners from "$lib/banners-modal.svelte";
+  import banners from "./examples.json";
+
+  let bannersModal;
+
+  async function loadBanner(banner) {
+    console.log(banner);
+    // await loadHTMLFromURL(banner.url);
+    // hideAll();
+  }
+
   // exports allow for properties to be passed into this component. So the value of spiritBoard can be set by whatever component is the parent of this one. See https://svelte.dev/tutorial/declaring-props
   export let spiritBoard;
 </script>
@@ -56,3 +67,4 @@
     </div>
   </div>
 </Section>
+<Banners bind:this={bannersModal} {loadBanner} title="Load Examples & Official Spirits" {banners} />
