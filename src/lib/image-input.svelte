@@ -4,6 +4,18 @@
   export let imageURL;
   export let imageScale;
   export let includeScale = false;
+  export let includeOptions = false;
+
+  import Banners from "$lib/banners-modal.svelte";
+  import banners from "$lib/banners.json";
+  let bannersModal;
+
+  async function loadBanner(banner) {
+    console.log(banner);
+    imageURL = banner.url;
+    // await loadHTMLFromURL(banner.url);
+    // hideAll();
+  }
 
   let files;
 
@@ -21,20 +33,35 @@
   };
 </script>
 
+<div class="field">
+  <label class="label" for="{id}-input">{title}</label>
+</div>
 <div class="field has-addons is-horizontal is-justify-content-left" class:mb-0={includeScale}>
-  <div class="field-label is-small">
-    <label class="label" for="{id}-input">{title}</label>
-  </div>
-  <div class="control">
-    <!-- Can use CSS to change how this looks. Maybe we could use a toggle to switch between file input and URL input -->
-    <input
-      id="{id}-file-input"
-      accept="image/png, image/jpeg"
-      bind:files
-      on:change={handleInput}
-      type="file"
-      class="input" />
-    <!-- Showing that the image is available -->
+  <div class="control" style="width: 100%;">
+    <div class="field  is-horizontal is-justify-content-left mb-1">
+      <!-- Can use CSS to change how this looks. Maybe we could use a toggle to switch between file input and URL input -->
+      <input
+        id="{id}-file-input"
+        accept="image/png, image/jpeg"
+        bind:files
+        on:change={handleInput}
+        type="file"
+        class="input is-small" />
+      <!-- Showing that the image is available -->
+      {#if includeOptions}
+        <div class="field  is-horizontal is-justify-content-left">
+          <button
+            class="button js-modal-trigger is-small"
+            style="background-color: rgb(239 239 239);"
+            data-toggle="modal"
+            data-target="modal-js-example"
+            on:click={bannersModal.open}>
+            Or Use Example Banners
+          </button>
+          <Banners bind:this={bannersModal} {loadBanner} title="Load Pre-Made Banners" {banners} />
+        </div>
+      {/if}
+    </div>
     {#if imageURL}
       <img src={imageURL} alt={title} />
     {/if}

@@ -297,7 +297,7 @@
       aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_AspectBack.png",
     ];
     const elementNamesInIframe = ["aspect", "aspect-back"];
-    PreviewFrame.takeScreenshot(fileNames, elementNamesInIframe);
+    previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 </script>
 
@@ -322,7 +322,7 @@
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
-<div class="columns mt-0">
+<div class="columns mt-0 mb-1">
   <div class="column pt-0">
     <NameReplacements bind:aspect />
     <!-- <CustomIcons bind:customIcons /> -->
