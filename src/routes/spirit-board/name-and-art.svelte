@@ -28,12 +28,14 @@
   <ImageInput
     id="spiritBanner"
     title="Banner Art"
+    includeOptions
     bind:imageURL={spiritBoard.nameAndArt.bannerPath} />
   <!-- Energy Track Banner -->
   <ImageInput
     id="energyBanner"
     title="Energy Track Banner"
     includeScale
+    includeOptions
     bind:imageURL={spiritBoard.nameAndArt.energyBannerPath}
     bind:imageScale={spiritBoard.nameAndArt.energyBannerScale} />
   <!-- Plays Track Banner -->
@@ -41,6 +43,7 @@
     id="playsBanner"
     title="Plays Track Banner"
     includeScale
+    includeOptions
     bind:imageURL={spiritBoard.nameAndArt.playsBannerPath}
     bind:imageScale={spiritBoard.nameAndArt.playsBannerScale} />
   <!-- Artist Credits -->
