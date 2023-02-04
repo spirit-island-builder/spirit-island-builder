@@ -16,7 +16,7 @@ export const ttsSaveMIMEType = "text/json;charset=utf-8";
  * @returns string
  */
 export const createTTSSave = (objects) => {
-  return JSON.stringify(jsone(ttsSaveTemplate, { objects }));
+  return JSON.stringify(jsone(ttsSaveTemplate, { objects }), null, 2);
 };
 
 /**

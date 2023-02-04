@@ -572,8 +572,12 @@ threshold icon.any {
   width: 32px;
   height: 32px;
   margin-bottom: -5px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 1px;
+  margin-right: 5px;
+}
+
+threshold icon.last {
+  margin-right: 1px;
 }
 
 @media print {
