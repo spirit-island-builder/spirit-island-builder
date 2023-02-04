@@ -297,7 +297,7 @@
       aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_AspectBack.png",
     ];
     const elementNamesInIframe = ["aspect", "aspect-back"];
-    PreviewFrame.takeScreenshot(fileNames, elementNamesInIframe);
+    previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 </script>
 
