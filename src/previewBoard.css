@@ -33,10 +33,10 @@
   --preview-frame-width: 1800px;
   --preview-frame-height: 1210px;
 
-  --preview-large-wrap-height: 915px;
+  --preview-large-wrap-height: 890px;
   --preview-large-frame-transform: scale(0.745);
 
-  --preview-small-wrap-height: 679px;
+  --preview-small-wrap-height: 660px;
   --preview-small-frame-transform: scale(0.55);
 }
 
@@ -83,9 +83,9 @@
   --preview-frame-width: 1800px;
   --preview-frame-height: 1210px;
 
-  --preview-large-wrap-height: 915px;
+  --preview-large-wrap-height: 890px;
   --preview-large-frame-transform: scale(0.745);
 
-  --preview-small-wrap-height: 679px;
+  --preview-small-wrap-height: 660px;
   --preview-small-frame-transform: scale(0.55);
 }
