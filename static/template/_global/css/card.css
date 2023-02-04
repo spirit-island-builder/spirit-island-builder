@@ -416,7 +416,8 @@ info-range icon {
 
 info-range range {
   width: 60px;
-  font-size: 38px;
+  font-size: 34px;
+  line-height: 22px;
 }
 
 info-target icon {
