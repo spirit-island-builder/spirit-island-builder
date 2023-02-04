@@ -1,12 +1,12 @@
 <script>
   export let title;
   export let banners;
-  export let loadExample;
+  export let loadBanner;
 
   let modal;
 
   const load = (banner) => {
-    loadExample(banner).finally(() => {
+    loadBanner(banner).finally(() => {
       close();
     });
   };
@@ -27,9 +27,9 @@
       <h1><b>{title}</b></h1>
       <p><em>warning: will replace existing content</em></p>
       {#each banners as section}
-        <p>{section.title}:</p>
         {#each section.banners as banner}
           <button class="button" on:click={() => load(banner)}>{banner.name}</button>
+          <img src={banner.url} alt={banner.name} />
         {/each}
       {/each}
     </div>
