@@ -119,12 +119,9 @@ function setThreshold(card) {
     //set elemental thresholds
     var conditions = threshold.getAttribute("condition");
     if (conditions) {
-      threshold.innerHTML = `
-		<threshold-condition>
-		  ${getThresholdElements(threshold)}:
-		</threshold-condition>
-		${threshold.innerHTML}
-		`;
+      threshold.innerHTML = `<threshold-condition><span>${getThresholdElements(
+        threshold
+      )}:</span></threshold-condition>${threshold.innerHTML}`;
     }
   }
 }
@@ -138,9 +135,11 @@ function getThresholdElements(threshold) {
     for (let i = 0; i < condition.length; i++) {
       var number = condition[i].split("-")[0];
       var element = condition[i].split("-")[1];
-      result += `${number}<icon class="${element}"></icon>`;
-      if (i < condition.length - 1) {
-        result += "<div style='width:10px; height:1px; display:inline-block'></div>";
+      // result += `${number}<icon class="${element}"></icon>`;
+      if (i === condition.length - 1) {
+        result += `${number}<icon class="${element} last"></icon>`;
+      } else {
+        result += `${number}<icon class="${element}"></icon>`;
       }
     }
     /* for(var condition of conditions.split(','))
