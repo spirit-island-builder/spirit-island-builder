@@ -12,32 +12,55 @@
   };
 
   export const open = () => {
-    modal.classList.add("is-active");
+    modal.showModal();
   };
 
   const close = () => {
-    modal.classList.remove("is-active");
+    modal.close();
+  };
+
+  const clickBackdrop = (event) => {
+    if (event.target === modal) {
+      close();
+    }
   };
 </script>
 
-<div bind:this={modal} class="modal">
-  <div class="modal-background" />
-  <div class="modal-content">
-    <div class="box">
-      <h1><b>{title}</b></h1>
-      <p><em>warning: will replace existing content</em></p>
-      {#each examples as section}
-        {#if section.title}
-          <p>{section.title}:</p>
+<dialog bind:this={modal} style:overflow="none" on:click={clickBackdrop}>
+  <div class="box">
+    <h1><b>{title}</b></h1>
+    <p><em>warning: will replace existing content</em></p>
+    {#each examples as section}
+      {#if section.title}
+        <p>{section.title}:</p>
+      {/if}
+      {#each section.examples as example}
+        <button class="button" on:click={() => load(example)}>{example.name}</button>
+        {#if example.imageURL}
+          <img src={example.imageURL} alt={example.name} />
         {/if}
-        {#each section.examples as example}
-          <button class="button" on:click={() => load(example)}>{example.name}</button>
-          {#if example.imageURL}
-            <img src={example.imageURL} alt={example.name} />
-          {/if}
-        {/each}
       {/each}
-    </div>
+    {/each}
   </div>
   <button class="modal-close is-large" aria-label="close" on:click={close} />
-</div>
+</dialog>
+
+<style>
+  .box {
+    overflow-y: auto;
+    max-height: calc(100vh - 40px);
+    max-width: 65ch;
+  }
+  dialog {
+    /* reset */
+    background-color: transparent;
+    width: max-content;
+    height: max-content;
+    overflow: hidden;
+    border: 0;
+    padding: 0;
+  }
+  dialog::backdrop {
+    background-color: rgba(10, 10, 10, 0.86);
+  }
+</style>
