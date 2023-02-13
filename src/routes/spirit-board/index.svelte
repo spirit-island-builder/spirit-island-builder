@@ -774,11 +774,7 @@
 </PreviewFrame>
 
 <div class="field has-addons mb-2">
-  <button
-    class="button is-info js-modal-trigger mr-1"
-    data-toggle="modal"
-    data-target="modal-js-example"
-    on:click={exampleModal.open}>
+  <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
     Examples
   </button>
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
