@@ -11,7 +11,7 @@
   // preview frame.
   import takeScreenshotURL from "./take-screenshot?worker&url";
 
-  import { downloadFile } from "../../routes/lib.js";
+  import { downloadImage } from "$lib/download";
 
   let previewIframe;
   let wrapper;
@@ -39,7 +39,7 @@
     elementNamesInIframe.forEach((elementNameInIframe, index) => {
       previewIframe.contentWindow
         .takeScreenshot(elementNameInIframe)
-        .then((imageURL) => downloadFile(imageURL, fileNames[index]));
+        .then((imageURL) => downloadImage(imageURL, fileNames[index]));
     });
   };
 
