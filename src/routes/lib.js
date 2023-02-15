@@ -291,14 +291,21 @@ export async function loadHTML(url) {
  * This is meant to be used when reading a possibly relative URL
  * that may be missing from a document.
  *
- * @param {?(string|URL)} url
- * @param {(string|URL)} baseURI
- * @returns
+ * @param {string|URL|null} url
+ * @param {URL} baseURI
+ * @returns {string|URL|null}
  */
 export const maybeResolveURL = (url, baseURI) => {
-  if (url) {
-    return new URL(url, baseURI);
+  // We can't resolve paths relative to `blob:` or `data:` URLs,
+  // so we just return the given URL in that case, or if there is
+  // no base URI.
+  if (!baseURI || !["blob:", "data:"].includes(baseURI.protocol)) {
+    return url;
   } else {
-    return null;
+    if (url) {
+      return new URL(url, baseURI);
+    } else {
+      return null;
+    }
   }
 };
