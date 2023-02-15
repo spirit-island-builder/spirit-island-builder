@@ -31,9 +31,14 @@
     <h1><b>{title}</b></h1>
     <p><em>warning: will replace existing content</em></p>
     {#each examples as section}
-      <p>{section.title}:</p>
+      {#if section.title}
+        <p>{section.title}:</p>
+      {/if}
       {#each section.examples as example}
         <button class="button" on:click={() => load(example)}>{example.name}</button>
+        {#if example.imageURL}
+          <img src={example.imageURL} alt={example.name} />
+        {/if}
       {/each}
     {/each}
   </div>
