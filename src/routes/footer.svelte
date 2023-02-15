@@ -1,13 +1,16 @@
 <footer>
-  See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
-    >Instructions</a>
+  See <a
+    href="https://neubee.github.io/spirit-island-builder/instructions"
+    target="_blank"
+    rel="noreferrer">Instructions</a>
   for details on how to use the form. For custom art,
-  <a href="https://www.wombo.art/" target="_blank">Wombo</a>
+  <a href="https://www.wombo.art/" target="_blank" rel="noreferrer">Wombo</a>
   (unaffiliated) is a popular art generator.
   <span class="is-pulled-right"
     >Code for this project is hosted <a
       href="https://github.com/neubee/spirit-island-builder"
-      target="_blank">here</a
+      target="_blank"
+      rel="noreferrer">here</a
     >{#if import.meta.env.VITE_COMMIT_SHA !== undefined}
       &nbsp;(built from
       <a
