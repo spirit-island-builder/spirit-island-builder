@@ -2,11 +2,17 @@
   import { removeOutline, expandOutline, exitOutline, close as closeIcon } from "ionicons/icons";
 
   let isMinimized = false;
-  export let isShowingInstructions;
-  export let instructionsSource;
 
   let popup;
   let dragBar;
+
+  const source = new URL("https://neubee.github.io/spirit-island-builder/instructions");
+  export const open = (fragement) => {
+    if (fragement) {
+      source.hash = fragement;
+    }
+    popup.show();
+  };
 
   function dragPointerDown(e) {
     if (!e.isPrimary || e.button !== 0) {
@@ -58,24 +64,18 @@
   }
 
   function closeWindow() {
-    isShowingInstructions = !isShowingInstructions;
+    popup.close();
   }
 </script>
 
-<popup
+<dialog
   bind:this={popup}
   data-minimized={isMinimized}
-  style="height: 20rem; width: 50ch; --top: 32; --left: 32"
-  style:display={isShowingInstructions ? null : "none"}>
+  style="height: 20rem; width: 50ch; --top: 32; --left: 32">
   <header class="is-flex is-justify-content-space-between">
     <div class="drag-bar" bind:this={dragBar} on:pointerdown={dragPointerDown}>Instructions</div>
     <div class="is-flex px-2">
-      <a
-        href={instructionsSource}
-        on:click={closeWindow}
-        class="mr-1"
-        target="_blank"
-        rel="noreferrer">
+      <a href={source} on:click={closeWindow} class="mr-1" target="_blank" rel="noreferrer">
         <span title="Open in new tab"><ion-icon icon={exitOutline} /></span>
       </a>
       <button on:click={minimizeWindow} class="mr-1">
@@ -90,39 +90,40 @@
       </button>
     </div>
   </header>
-  <iframe
-    src={instructionsSource}
-    title="instructions"
-    id="instructionsFrame"
-    hidden={isMinimized} />
-</popup>
+  <iframe src={source} title="instructions" id="instructionsFrame" hidden={isMinimized} />
+</dialog>
 
 <style>
-  popup {
+  dialog {
     position: fixed;
     z-index: 999;
     border: 2px solid #b2b2b2;
     background-color: #e1e1e1;
     overflow-y: hidden;
-    display: flex;
     flex-direction: column;
     box-sizing: content-box;
     user-select: none;
     /* We use clamp to keep the position of the popup inside the viewport. */
     top: clamp(0px, var(--top) * 1px, 100vh - 2rem);
     left: clamp(-30ch, var(--left) * 1px, 100vw - 12ch);
+    /* reset */
+    padding: 0;
+    margin: 0;
+  }
+  dialog[open] {
+    display: flex;
   }
 
-  popup[data-minimized="false"] {
+  dialog[data-minimized="false"] {
     resize: both;
     min-width: 40ch;
     min-height: 8rem;
   }
 
-  popup[data-minimized="true"] {
+  dialog[data-minimized="true"] {
     resize: none;
-    min-height: 2rem;
-    max-height: 2rem;
+    min-height: 0;
+    max-height: 0;
   }
 
   header {

@@ -342,8 +342,7 @@
     },
   };
 
-  let isShowingInstructions = false;
-  let instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions";
+  let instructions;
 
   let pages = [
     ["spiritBoardFront", "Spirit Board Play Side"],
@@ -384,30 +383,18 @@
     {/if}
   </nav>
 </header>
-<Instructions bind:isShowingInstructions bind:instructionsSource />
+<Instructions bind:this={instructions} />
 <div class="container">
   {#if currentPage === "spiritBoardFront"}
-    <SpiritBoard
-      bind:spiritBoard
-      bind:isShowingInstructions
-      bind:instructionsSource
-      bind:customIcons />
+    <SpiritBoard bind:spiritBoard bind:customIcons bind:instructions />
   {:else if currentPage === "spiritBoardBack"}
-    <SpiritBoardBack
-      bind:spiritBoardBack
-      bind:isShowingInstructions
-      bind:instructionsSource
-      bind:customIcons />
+    <SpiritBoardBack bind:spiritBoardBack bind:customIcons bind:instructions />
   {:else if currentPage === "powerCards"}
-    <PowerCards
-      bind:powerCards
-      bind:isShowingInstructions
-      bind:instructionsSource
-      bind:customIcons />
+    <PowerCards bind:powerCards bind:customIcons bind:instructions />
   {:else if currentPage === "aspect"}
-    <Aspect bind:aspect bind:isShowingInstructions bind:instructionsSource />
+    <Aspect bind:aspect bind:instructions />
   {:else if currentPage === "adversary"}
-    <Adversary bind:adversary bind:isShowingInstructions bind:instructionsSource />
+    <Adversary bind:adversary bind:instructions />
   {/if}
 </div>
 

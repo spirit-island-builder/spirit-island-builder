@@ -10,8 +10,7 @@
   import AdversaryLevels from "./adversary-levels.svelte";
 
   export let adversary;
-  export let isShowingInstructions;
-  export let instructionsSource;
+  export let instructions;
 
   let previewFrame;
 
@@ -188,8 +187,7 @@
   }
 
   function showInstructions() {
-    isShowingInstructions = true;
-    instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions#adversary";
+    instructions.open("adversary");
   }
 
   function screenshotSetUp() {

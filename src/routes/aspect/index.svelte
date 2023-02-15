@@ -10,8 +10,7 @@
   import { downloadHTML } from "$lib/download";
 
   export let aspect;
-  export let isShowingInstructions;
-  export let instructionsSource;
+  export let instructions;
 
   let previewFrame;
 
@@ -288,8 +287,7 @@
   }
 
   function showInstructions() {
-    isShowingInstructions = true;
-    instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions#power-cards";
+    instructions.open("power-cards");
   }
 
   function screenshotSetUp() {
