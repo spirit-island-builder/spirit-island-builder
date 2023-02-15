@@ -299,7 +299,7 @@ export const maybeResolveURL = (url, baseURI) => {
   // We can't resolve paths relative to `blob:` or `data:` URLs,
   // so we just return the given URL in that case, or if there is
   // no base URI.
-  if (!baseURI || !["blob:", "data:"].includes(baseURI.protocol)) {
+  if (!baseURI || ["blob:", "data:"].includes(baseURI.protocol)) {
     return url;
   } else {
     if (url) {
