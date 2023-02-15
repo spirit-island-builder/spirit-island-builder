@@ -9,6 +9,19 @@
     aspect = aspect;
     console.log(aspect);
     console.log(aspect.nameReplacements.complexity);
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let findComplexity = previewFrame.document.getElementsByTagName("complexity")[0];
+    findComplexity.removeAttribute("class");
+    findComplexity.setAttribute("class", val);
+    let findAspectName = previewFrame.document.getElementsByTagName("aspect-name")[0];
+    let findAspectSubtext = previewFrame.document.getElementsByTagName("aspect-subtext")[0];
+    if (val === "") {
+      findAspectName.classList.remove("has-complexity");
+      findAspectSubtext.classList.remove("has-complexity");
+    } else {
+      findAspectName.classList.add("has-complexity");
+      findAspectSubtext.classList.add("has-complexity");
+    }
   }
 
   function setBack() {

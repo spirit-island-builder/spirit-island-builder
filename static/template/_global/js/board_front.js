@@ -2807,29 +2807,13 @@ function parseInnatePower(innatePowerHTML, index) {
   currentPowerHTML += "<innate-info-speed></innate-info-speed>";
 
   //Innate Power Range value
-  currentPowerHTML += `<innate-info-range>${getRangeModel(
+  currentPowerHTML += `<innate-info-range id="${innatePowerID}range">${getRangeModel(
     innatePowerHTML.getAttribute("range")
   )}</innate-info-range>`;
 
-  function getRangeModel(rangeString) {
-    if (rangeString === "none" || rangeString === "") {
-      return "<no-range></no-range>";
-    } else {
-      let result = "";
-      for (const item of rangeString.split(",")) {
-        if (!isNaN(item)) {
-          result += `<range>${item}</range>`;
-        } else {
-          result += `<icon class="${item}"></icon>`;
-        }
-      }
-      return result;
-    }
-  }
-
   //Innate Power Target value
   const targetValue = innatePowerHTML.getAttribute("target");
-  currentPowerHTML += `<innate-info-target>${replaceIcon(
+  currentPowerHTML += `<innate-info-target id="${innatePowerID}target">${replaceIcon(
     targetValue
   )}</innate-info-target></innate-info></info-container>`;
 
@@ -2854,8 +2838,24 @@ function parseInnatePower(innatePowerHTML, index) {
   return currentPowerHTML;
 }
 
+function getRangeModel(rangeString) {
+  if (rangeString === "none" || rangeString === "") {
+    return "<no-range></no-range>";
+  } else {
+    let result = "";
+    for (const item of rangeString.split(",")) {
+      if (!isNaN(item)) {
+        result += `<range>${item}</range>`;
+      } else {
+        result += `<icon class="${item}"></icon>`;
+      }
+    }
+    return result;
+  }
+}
+
 function writeInnateLevel(currentLevel, levelID) {
-  let debug = false;
+  let debug = true;
   if (debug) {
     console.log("writing level");
   }
@@ -2886,6 +2886,7 @@ function writeInnateLevel(currentLevel, levelID) {
     const currentDescription = currentLevel.innerHTML;
     levelHTML += currentDescription + "</div></level>";
   }
+  console.log(levelHTML);
   return levelHTML;
 }
 
