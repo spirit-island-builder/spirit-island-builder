@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
+  import { downloadHTML } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
 
@@ -203,7 +204,7 @@
 
   function exportSpiritBoardBack() {
     const htmlFileName = spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritLore.html";
-    Lib.downloadHTML(generateHTML(spiritBoardBack), htmlFileName);
+    downloadHTML(generateHTML(spiritBoardBack), htmlFileName);
   }
 
   function clearAllFields() {
