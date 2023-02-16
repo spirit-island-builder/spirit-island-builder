@@ -30,8 +30,9 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
 - Load: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage.
 - Save: Click this button to immediately download save file for your Spirit
 - Download Image: Click this button to download a PNG of your Spirit Board or other content.
+- Export TTS file: Click this button to download an object file for the popular Spirit Island Tabletop Simulator mod.
 - Update Preview: Click this button to load a new preview board and see your changes.
-- Toggle Board Size: Click this to change the size of the preview. NOTE: There is no way to export the image of your board, so use a screen capture tool such as the snipping tool on Windows.
+- Toggle Board Size: Click this to change the size of the preview. NOTE: While you can download images of Spirit Boards, you can also use a screen capture to get a higher resolution.
 - Clear All Fields: Click this to delete everything in the Builder form. It will ask for confirmation.
 - Instructions: Pulls up an instructions overlay.
 
@@ -39,10 +40,11 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
 
 ### Spirit Name and Art
 
-- Spirit Name: The name of your spirit. Will automatically be displayed in all capitals.
-- Spirit Art: The main Spirit image. Press 'Load' to select an image.
-  - Scale (optional): Used to scale the image. Include the percentage sign in your input. Will default to 100%
-- Banner Art: The image that sits behind the Spirit name.
+- Spirit Name: The name of your spirit.
+- Spirit Art: The main Spirit image. Press 'Choose File' to select an image.
+  - Scale (optional): Used to scale the image. Include the percentage sign in your input. An empty field will default to 100%.
+- Banner Art: The image that sits behind the Spirit name.  
+  - Press 'Choose File' to select an image or press 'Or Use Example Banners' to use some examples our team generated.
 - Energy Track Banner & Plays Track Banner: The banners behind the presence tracks.
   - Scale (optional): Stretches the vertical dimension of the banner (horizontal is automatically set based on the number of nodes).
 
@@ -56,16 +58,20 @@ Use these fields to modify your spirit's special rules. You can and should use t
 - Effect: The special rule effect. Use icon shortcuts here.
 - Remove: Button to **permanently** delete the special rule.
 - Add Another Rule: Adds an additional special rule.
+- General Advice: Look at example spirits to see how some features are used.
+  - Serpent-style presence nodes: you can create presence nodes in the special rule using the following format:
+    - Example: <special-rules-track values="5,7,8,10,11,12,13"></special-rules-track>
+    - You should be able to use most of the options from [presence tracks](#presence-tracks) here.
 
 [Home](#index)
 
 ### Custom Icons
 
-This field allows you to upload and use your own custom icons. Reference these icons using {custom1}, {custom2}, etc.
+This field allows you to upload and use your own custom icons. Reference these icons using {custom1}, {custom2}, etc. Custom icons are usable across all components (ie. spirit board, cards, aspects, etc)
 
 - Add Custom Icon: Adds an additional custom icon field.
 - Load: Allows you to chose a file from your computer to be a custom icon.
-- Remove: Removes the custom icon. WARNING: deleting a custom icon might re-number the remaining ones, so be careful.
+- Remove: Removes the custom icon. WARNING: deleting a custom icon will re-number the remaining ones, so be careful.
 
 [Home](#index)
 
@@ -74,12 +80,13 @@ This field allows you to upload and use your own custom icons. Reference these i
 Growth is broken into Growth Sets, Groups, and Actions.
 
 - Growth Directions: When NOT using sets, the Growth Directions tell the player how many growth groups to pick (usually, Pick One or Pick Two). When using Sets, these instructions are instead added to the set.
-- **Growth Sets** are used for Growth on spirits such as Lure and Spread of Rampant Green, where the player has two sets to choose from.
+- "Use Growth Sets"/"Stop Using Growth Sets" button:
   - "Use Growth Sets" button: Adds Growth Sets to the interface. All current Growth Groups are automatically added to the first Set.
+  - "Stop Using Growth Sets" button: Switches back to not using Growth Sets. All Growth Groups & Actions are preserved.
+- **Growth Sets** are *optional* and used for Growth on spirits such as Lure and Spread of Rampant Green, where the player has two sets to choose from.
   - Growth Set Choice: This field contains instructions for the Growth Set, such as 'Pick one of' or 'Always'.
   - "Add Growth Set" button: Adds additional Growth Sets.
   - **X** button: Deletes the current Growth Set and all of its Growth Groups and Actions
-  - "Stop Using Growth Sets" button: Switches back to not using Growth Sets. All Growth Groups & Actions are preserved.
 - **Growth Groups** are clusters of Growth Actions. During Growth, the player typically chooses a Growth Group and then does the Growth Actions in that Group.
   - Add Cost: Optional. Allows for an energy cost associated with this group (as seen on Keeper).
     - Non-Energy Scaling Costs: Optional. Try '1,dahan' or '1,custom1' or other icon names
@@ -90,6 +97,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
   - **X**: Deletes the current Growth Group & all of its Growth Actions
 - **Growth Actions** are the individual growth actions, such as gaining energy or adding a presence. How to write these actions are detailed below.
   - Add Growth Action: Adds an additional Growth Action to the Group.
+  - ↻: Refreshes the current growth set on the preview (without updating the whole preview).
   - Remove: Deletes the Growth Action.
 
 #### Supported Growth Actions
@@ -175,9 +183,10 @@ Growth is broken into Growth Sets, Groups, and Actions.
 
 ### Presence Tracks
 
-The two presence tracks (energy & plays) are filled out here. To accomplish middle nodes (such as Serpent or Finder), wrap the energy node in 'middle()'.
+The two presence tracks (energy & plays) are filled out here. To accomplish middle nodes (such as Serpent or Finder), wrap the **energy** node in 'middle()'.
 
 - Node boxes: Each text box represents the effect of one node. See 'Supported Presence Track Options'. In most cases, icon brackets {} are NOT needed in Presence Track nodes (custom is the exception).
+  - Node boxes automatically update when you click/tab/enter away from the node.
 - + Button: Adds a node between the two nodes.
 - x Button: Removes the node.
 - Note: This will appear at the top of the Presence track box, as seen on Finder. Use [{icon shortcuts}](#general-icons) here.
@@ -223,7 +232,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 - Remove Innate Power: Permanently deletes the Innate Power
 - Fast/Slow: Toggles the Speed of the Power
 - Range: The range of the innate. Uses special syntax:
-  - For no range (such as Spirit targeting powers), type "none".
+  - For a power without range (such as Spirit targeting powers), type "none" or leave the range blank.
   - For range, use an icon (if needed) + an integer separated by a comma. Examples:
     - 0
     - 1
@@ -242,6 +251,8 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
       - Example: Spreading Rot: 2-moon,3-water,2-animal,2-cost(custom1)
     - Or: As seen on Trickster
       - Example: Trickster: 3-sun,OR,3-fire
+    - Custom Text: You can use text in place of an icon in a threshold
+      - Example: 2-water,2-text(X)
 - Long: Allows the level text to spill into the second column (like Volcano's first Innate Power, last threshold). Use only when appropriate.
 - Effect: The effect of the power at that threshold level. Use {icons} freely here.
   - To achieve 'for each element' effects, use the notation {element, #}.
@@ -268,9 +279,10 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
   - Complexity Description appears inside the red complexity bar. Official complexity descriptors: Low, Moderate, High, Very High
   - Complexity Value is between 1 to 10
 - Summary of Powers:
-
   - Assign values 1 to 10 for Offense, Defense, Fear, Control and Utility
-  - Uses indicates what game pieces the Spirit interacts with. Do not use icon shortcuts, just list the pieces with comma separation (ie. badlands,wilds)
+  - 'Uses' indicates what game pieces the Spirit interacts with. Do not use icon shortcuts, just list the pieces with comma separation (ie. badlands,wilds)
+
+[Home](#index)
 
 ## Power Cards
 
@@ -308,6 +320,8 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
   - Artist Name: The name of the artist. Please attribute your artists.
   - Choose File: Choose the art file from your computer. Will be embedded in the HTML.
 - Add Power Card botton: Adds another power card.
+
+[Home](#index)
 
 ## Adversary
 
