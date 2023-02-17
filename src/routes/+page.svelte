@@ -413,7 +413,12 @@
       bind:instructionsSource
       bind:customIcons />
   {:else if currentPage === "aspect"}
-    <Aspect bind:aspect bind:emptyAspect bind:isShowingInstructions bind:instructionsSource />
+    <Aspect
+      bind:aspect
+      bind:emptyAspect
+      bind:isShowingInstructions
+      bind:customIcons
+      bind:instructionsSource />
   {:else if currentPage === "adversary"}
     <Adversary bind:adversary bind:isShowingInstructions bind:instructionsSource />
   {/if}
