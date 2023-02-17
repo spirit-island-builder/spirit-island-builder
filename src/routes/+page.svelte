@@ -218,7 +218,7 @@
     ],
   };
 
-  let aspect = {
+  let emptyAspect = {
     prop: "value",
     demoBoardWasLoaded: false,
     profile: false,
@@ -228,8 +228,13 @@
     nameReplacements: {
       isVisible: false,
       aspectName: "",
-      aspectRelacement: "",
-      rulesReplaced: "",
+      replacements: [
+        {
+          id: 0,
+          aspectRelacement: "",
+          rulesReplaced: "",
+        },
+      ],
       complexity: "",
       spiritName: "",
       spiritImage: "",
@@ -272,6 +277,7 @@
       },
     },
   };
+  let aspect = JSON.parse(JSON.stringify(emptyAspect));
 
   let adversary = {
     prop: "value",
@@ -407,7 +413,7 @@
       bind:instructionsSource
       bind:customIcons />
   {:else if currentPage === "aspect"}
-    <Aspect bind:aspect bind:isShowingInstructions bind:instructionsSource />
+    <Aspect bind:aspect bind:emptyAspect bind:isShowingInstructions bind:instructionsSource />
   {:else if currentPage === "adversary"}
     <Adversary bind:adversary bind:isShowingInstructions bind:instructionsSource />
   {/if}
