@@ -420,7 +420,7 @@
       bind:customIcons
       bind:instructionsSource />
   {:else if currentPage === "adversary"}
-    <Adversary bind:adversary bind:isShowingInstructions bind:instructionsSource />
+    <Adversary bind:adversary bind:isShowingInstructions bind:customIcons bind:instructionsSource />
   {/if}
 </div>
 
