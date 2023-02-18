@@ -3,6 +3,7 @@
   import jsone from "json-e";
 
   import * as Lib from "../lib";
+  import { downloadHTML, downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import Examples from "$lib/example-modal.svelte";
   import LoadButton from "$lib/load-button.svelte";
@@ -499,7 +500,7 @@
 
   function exportSpiritBoard() {
     const htmlFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html";
-    Lib.downloadHTML(generateHTML(spiritBoard), htmlFileName);
+    downloadHTML(generateHTML(spiritBoard), htmlFileName);
   }
 
   function showInstructions() {
@@ -754,7 +755,7 @@
     let ttsSave = createTTSSave([spiritBoardJson]);
 
     const jsonFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json";
-    Lib.downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
+    downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
 
   function screenshotSetUp() {

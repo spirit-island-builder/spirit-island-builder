@@ -7,10 +7,14 @@
 
   import NameReplacements from "./name-replacements.svelte";
   import AspectEffects from "./aspect-effects.svelte";
+  import CustomIcons from "../custom-icons.svelte";
+  import { downloadHTML } from "$lib/download";
 
   export let aspect;
+  export let emptyAspect;
   export let isShowingInstructions;
   export let instructionsSource;
+  export let customIcons;
 
   let previewFrame;
 
@@ -26,6 +30,7 @@
     if (aspect.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
         aspect.demoBoardWasLoaded = true;
+        emptyAspect.demoBoardWasLoaded = true;
       });
     } else {
       reloadPreview();
@@ -57,24 +62,24 @@
     }
 
     //Set Replacement
-    let aspectReplacementHTML = document.createElement("aspect-subtext");
-    aspectHTML.appendChild(aspectReplacementHTML);
-    let replacementFullText = aspect.nameReplacements.aspectRelacement;
-    if (aspect.nameReplacements.rulesReplaced) {
-      replacementFullText += ": <i>" + aspect.nameReplacements.rulesReplaced + "</i>";
-    }
-    if (aspectReplacementHTML) {
-      aspectReplacementHTML.innerHTML = replacementFullText;
-    }
+    aspect.nameReplacements.replacements.forEach((replacement) => {
+      let aspectReplacementHTML = document.createElement("aspect-subtext");
+      aspectHTML.appendChild(aspectReplacementHTML);
+      let replacementFullText = replacement.aspectRelacement;
+      if (replacement.rulesReplaced) {
+        replacementFullText += ": <i>" + replacement.rulesReplaced + "</i>";
+      }
+      if (aspectReplacementHTML) {
+        aspectReplacementHTML.innerHTML = replacementFullText;
+      }
+    });
 
     //Set Complexity
     if (aspect.nameReplacements.complexity) {
       const complexityHTML = document.createElement("complexity");
       aspectHTML.appendChild(complexityHTML);
       if (complexityHTML) {
-        console.log("complexity found reseting value");
         complexityHTML.setAttribute("value", aspect.nameReplacements.complexity);
-        console.log(aspect.nameReplacements.complexity);
       } else {
         const newComplexityHTML = document.createElement("complexity");
         newComplexityHTML.setAttribute("value", aspect.nameReplacements.complexity);
@@ -126,6 +131,16 @@
       aspectRulesContainer.appendChild(newInnatePower);
     });
 
+    //Set Custom Icons
+    const spiritStyle = document.createElement("style");
+    fragment.prepend(spiritStyle);
+    let customIconText = "";
+    customIcons.icons.forEach((icon) => {
+      customIconText +=
+        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
+    });
+    spiritStyle.textContent = customIconText;
+
     return fragment;
   }
 
@@ -143,11 +158,18 @@
     const aspectName = aspectHTML.querySelectorAll("aspect-name")[0];
     aspect.nameReplacements.aspectName = aspectName.innerHTML.trim();
 
-    //Read Replacement
-    const aspectReplacementHTML = aspectHTML.querySelectorAll("aspect-subtext")[0];
-    if (aspectReplacementHTML) {
-      aspect.nameReplacements.aspectRelacement = aspectReplacementHTML.textContent.split(":")[0];
-      aspect.nameReplacements.rulesReplaced = aspectHTML.querySelectorAll("i")[0].textContent;
+    //Read Replacement(s)
+    aspect.nameReplacements.replacements.splice(0, aspect.nameReplacements.replacements.length); //Clear the Form first
+    const aspectReplacementsHTML = aspectHTML.querySelectorAll("aspect-subtext");
+    if (aspectReplacementsHTML) {
+      aspectReplacementsHTML.forEach((replacement) => {
+        aspect.nameReplacements.replacements.push({
+          id: aspect.nameReplacements.replacements.length,
+          aspectRelacement: replacement.textContent.split(":")[0],
+          rulesReplaced: replacement.querySelectorAll("i")[0].textContent,
+        });
+        aspect = aspect;
+      });
     }
 
     //Read Complexity
@@ -158,8 +180,6 @@
 
     //Read Aspect Back
     const aspectBackHTML = htmlElement.querySelectorAll("aspect-back")[0];
-    console.log(aspectBackHTML);
-    console.log("^^^^");
     if (aspectBackHTML) {
       aspect.nameReplacements.spiritName = aspectBackHTML.getAttribute("spirit-name");
       aspect.nameReplacements.spiritImage = Lib.maybeResolveURL(
@@ -217,71 +237,36 @@
       });
     }
 
+    //Custom Icons
+    if (aspect.demoBoardWasLoaded) {
+      const aspectStyle = htmlElement.querySelectorAll("style")[0];
+      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+      if (aspectStyle) {
+        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+        let iconList = aspectStyle.textContent.match(regExp);
+        if (iconList) {
+          iconList.forEach((customIcon) => {
+            customIcons = Lib.addCustomIcon(customIcons, customIcon);
+            console.log(customIcon);
+          });
+        }
+      }
+    } else {
+      console.log("SKIPPING ICON LOAD");
+    }
+
     console.log("aspect loaded");
     console.log(aspect);
   }
 
   function exportAspect() {
     const htmlFileName = aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.html";
-    Lib.downloadHTML(generateHTML(aspect), htmlFileName);
+    downloadHTML(generateHTML(aspect), htmlFileName);
   }
 
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Aspect.")) {
-      aspect = {
-        prop: "value",
-        demoBoardWasLoaded: true,
-        profile: false,
-        previewBoard: {
-          isVisible: false,
-        },
-        nameReplacements: {
-          isVisible: false,
-          aspectName: "",
-          aspectRelacement: "",
-          rulesReplaced: "",
-          complexity: "",
-          spiritName: "",
-          spiritImage: "",
-          hasBack: true,
-        },
-        aspectEffects: {
-          isVisible: false,
-          specialRules: {
-            isVisible: false,
-            rules: [
-              {
-                id: 0,
-                name: "",
-                effect: "",
-              },
-            ],
-          },
-          innatePowers: {
-            isVisible: false,
-            powers: [
-              {
-                id: 0,
-                name: "",
-                speed: "",
-                range: "",
-                target: "",
-                targetTitle: "",
-                effect: "",
-                note: "",
-                noteShow: true,
-                levels: [
-                  {
-                    id: 0,
-                    threshold: "",
-                    effect: "",
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      };
+      aspect = JSON.parse(JSON.stringify(emptyAspect));
       reloadPreview();
     }
   }
@@ -325,6 +310,7 @@
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">
     <NameReplacements bind:aspect />
+    <CustomIcons bind:customIcons />
     <!-- <CustomIcons bind:customIcons /> -->
   </div>
   <div class="column pt-0">
