@@ -377,7 +377,6 @@
           </button>
         {/each}
       </div>
-
       {#if dev}
         <div class="navbar-menu">
           <div class="navbar-end">
@@ -395,41 +394,40 @@
   </header>
   {#if isShowingInstructions === true}
     <Instructions bind:isShowingInstructions bind:instructionsSource />
-    {/if}
-  </nav>
-</header>
-{#if isShowingInstructions === true}
-  <Instructions bind:isShowingInstructions bind:instructionsSource />
-{/if}
-<div class="container">
-  {#if currentPage === "spiritBoardFront"}
-    <SpiritBoard
-      bind:spiritBoard
-      bind:isShowingInstructions
-      bind:instructionsSource
-      bind:customIcons />
-  {:else if currentPage === "spiritBoardBack"}
-    <SpiritBoardBack
-      bind:spiritBoardBack
-      bind:isShowingInstructions
-      bind:instructionsSource
-      bind:customIcons />
-  {:else if currentPage === "powerCards"}
-    <PowerCards
-      bind:powerCards
-      bind:isShowingInstructions
-      bind:instructionsSource
-      bind:customIcons />
-  {:else if currentPage === "aspect"}
-    <Aspect
-      bind:aspect
-      bind:emptyAspect
-      bind:isShowingInstructions
-      bind:customIcons
-      bind:instructionsSource />
-  {:else if currentPage === "adversary"}
-    <Adversary bind:adversary bind:isShowingInstructions bind:customIcons bind:instructionsSource />
   {/if}
+  <div class="container">
+    {#if currentPage === "spiritBoardFront"}
+      <SpiritBoard
+        bind:spiritBoard
+        bind:isShowingInstructions
+        bind:instructionsSource
+        bind:customIcons />
+    {:else if currentPage === "spiritBoardBack"}
+      <SpiritBoardBack
+        bind:spiritBoardBack
+        bind:isShowingInstructions
+        bind:instructionsSource
+        bind:customIcons />
+    {:else if currentPage === "powerCards"}
+      <PowerCards
+        bind:powerCards
+        bind:isShowingInstructions
+        bind:instructionsSource
+        bind:customIcons />
+    {:else if currentPage === "aspect"}
+      <Aspect
+        bind:aspect
+        bind:emptyAspect
+        bind:isShowingInstructions
+        bind:customIcons
+        bind:instructionsSource />
+    {:else if currentPage === "adversary"}
+      <Adversary
+        bind:adversary
+        bind:isShowingInstructions
+        bind:customIcons
+        bind:instructionsSource />
+    {/if}
   </div>
 
   {#if dev}
