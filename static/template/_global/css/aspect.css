@@ -130,6 +130,7 @@ aspect aspect-subtext {
   justify-content: center;
   text-align: center;
   white-space: normal;
+  flex-shrink: 0;
 
   background-image: url(../images/aspect-subtitle.png);
   background-size: 100% 100%;
