@@ -187,12 +187,12 @@
   {/if}
   {#if !spiritBoard.growth.useGrowthSets}
     <div class="control">
-      <button class="button is-primary is-light row-button" on:click={useGrowthSets}
+      <button class="button is-primary is-light is-small row-button" on:click={useGrowthSets}
         >Use Growth Sets</button>
     </div>
   {:else}
     <div class="control">
-      <button class="button is-danger is-light row-button" on:click={removeAllGrowthSets}
+      <button class="button is-danger is-light is-small row-button" on:click={removeAllGrowthSets}
         >Stop Using Growth Sets</button>
     </div>
   {/if}
