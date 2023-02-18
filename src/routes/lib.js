@@ -180,34 +180,6 @@ export const addCustomIcon = (customIcons, iconName = "") => {
   return customIcons;
 };
 
-export const downloadFile = (fileURL, fileName) => {
-  let element = document.createElement("a");
-  element.setAttribute("href", fileURL);
-  element.setAttribute("download", fileName);
-  element.style.display = "none";
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element);
-};
-
-export const downloadString = (mimeType, fileContent, fileName) => {
-  downloadFile(`data:${mimeType},${encodeURIComponent(fileContent)}`, fileName);
-};
-
-export const downloadHTML = (fragment, fileName) => {
-  const helper = document.createElement("helper");
-  helper.append(fragment);
-  downloadString("text/html;charset=utf-8", helper.innerHTML, fileName);
-};
-
-export const takeScreenshot = (frame, fileNames, elementNamesInIframe) => {
-  elementNamesInIframe.forEach((elementNameInIframe, index) => {
-    frame.contentWindow
-      .takeScreenshot(elementNameInIframe)
-      .then((imageURL) => downloadFile(imageURL, fileNames[index]));
-  });
-};
-
 export const selectNode = (event) => {
   let nodeID = event.target.id;
   document.getElementById(nodeID).select();
@@ -319,14 +291,21 @@ export async function loadHTML(url) {
  * This is meant to be used when reading a possibly relative URL
  * that may be missing from a document.
  *
- * @param {?(string|URL)} url
- * @param {(string|URL)} baseURI
- * @returns
+ * @param {string|URL|null} url
+ * @param {URL} baseURI
+ * @returns {string|URL|null}
  */
 export const maybeResolveURL = (url, baseURI) => {
-  if (url) {
-    return new URL(url, baseURI);
+  // We can't resolve paths relative to `blob:` or `data:` URLs,
+  // so we just return the given URL in that case, or if there is
+  // no base URI.
+  if (!baseURI || ["blob:", "data:"].includes(baseURI.protocol)) {
+    return url;
   } else {
-    return null;
+    if (url) {
+      return new URL(url, baseURI);
+    } else {
+      return null;
+    }
   }
 };
