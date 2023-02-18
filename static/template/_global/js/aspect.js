@@ -6,8 +6,9 @@ function startMain() {
       aspects[i].classList.add("profile");
       aspects[i].removeAttribute("profile");
     }
-    parseSubNodes(aspects[i]);
     parseComplexity(aspects[i]);
+    parseSubtexts(aspects[i]);
+    parseSubNodes(aspects[i]);
     parseSpecialRules();
     aspects[i].innerHTML = replaceIcon(aspects[i].innerHTML);
   }
@@ -29,6 +30,22 @@ function parseSubNodes(aspect) {
       container.childNodes[i].nodeName === "QUICK-INNATE-POWER"
     ) {
       container.childNodes[i].outerHTML = parseInnatePowerAspect(container.childNodes[i]);
+    }
+  }
+}
+
+function parseSubtexts(aspect) {
+  var subtexts = aspect.getElementsByTagName("aspect-subtext");
+  if (subtexts) {
+    if (subtexts.length > 1) {
+      var finalsubtext = subtexts[0];
+      for (var i = 1; i < subtexts.length; i++) {
+        finalsubtext.innerHTML += "<br>" + subtexts[i].innerHTML;
+        //console.log(subtexts[i].remove());
+      }
+      for (var i = subtexts.length - 1; i > 0; i--) {
+        subtexts[i].remove();
+      }
     }
   }
 }
@@ -251,9 +268,6 @@ function resizeInnatePowersAspect() {
     // Scale the text width to the threshold size...
     /* description[i].style.paddingLeft = outerThresholdWidth[i]+"px"; */
     var textHeight = description[i].offsetHeight;
-    console.log(description[i]);
-    console.log("text height = " + textHeight);
-    console.log("text width = " + description[i].offsetWidth);
     if (textHeight < 40) {
       description[i].id = "single-line";
       // Align-middle the text if its a single line
