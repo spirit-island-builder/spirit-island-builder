@@ -8,9 +8,11 @@
 
   import NameLossAndEscalation from "./name-loss-escalation.svelte";
   import AdversaryLevels from "./adversary-levels.svelte";
+  import CustomIcons from "../custom-icons.svelte";
 
   export let adversary;
   export let instructions;
+  export let customIcons;
 
   let previewFrame;
 
@@ -72,6 +74,16 @@
       adversaryHeader.append(HTMLlevel);
     });
 
+    //Set Custom Icons
+    const spiritStyle = document.createElement("style");
+    fragment.prepend(spiritStyle);
+    let customIconText = "";
+    customIcons.icons.forEach((icon) => {
+      customIconText +=
+        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
+    });
+    spiritStyle.textContent = customIconText;
+
     return fragment;
   }
 
@@ -104,6 +116,24 @@
       adversary.levelSummary.levels[i].difficulty = HTMLLevel.getAttribute("difficulty");
       adversary.levelSummary.levels[i].fearCards = HTMLLevel.getAttribute("fear-cards");
       adversary.levelSummary.levels[i].effect = HTMLLevel.getAttribute("rules");
+    }
+
+    //Custom Icons
+    if (adversary.demoBoardWasLoaded) {
+      const adversaryStyle = htmlElement.querySelectorAll("style")[0];
+      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+      if (adversaryStyle) {
+        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+        let iconList = adversaryStyle.textContent.match(regExp);
+        if (iconList) {
+          iconList.forEach((customIcon) => {
+            customIcons = Lib.addCustomIcon(customIcons, customIcon);
+            console.log(customIcon);
+          });
+        }
+      }
+    } else {
+      console.log("SKIPPING ICON LOAD");
     }
   }
 
@@ -221,6 +251,7 @@
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">
     <NameLossAndEscalation bind:adversary />
+    <CustomIcons bind:customIcons />
   </div>
   <div class="column pt-0">
     <AdversaryLevels bind:adversary />
