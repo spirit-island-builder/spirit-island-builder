@@ -35,9 +35,13 @@
         <p>{section.title}:</p>
       {/if}
       {#each section.examples as example}
-        <button class="button" on:click={() => load(example)}>{example.name}</button>
         {#if example.imageURL}
-          <img src={example.imageURL} alt={example.name} />
+          <button
+            class="button"
+            style="width: 95%; background-image: url('{example.imageURL}'); background-repeat: no-repeat; background-position: left center; background-size: contain; height: 60px;"
+            on:click={() => load(example)} />
+        {:else}
+          <button class="button" on:click={() => load(example)}>{example.name}</button>
         {/if}
       {/each}
     {/each}
