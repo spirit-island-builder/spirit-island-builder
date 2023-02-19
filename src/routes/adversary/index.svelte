@@ -11,8 +11,7 @@
   import CustomIcons from "../custom-icons.svelte";
 
   export let adversary;
-  export let isShowingInstructions;
-  export let instructionsSource;
+  export let instructions;
   export let customIcons;
 
   let previewFrame;
@@ -218,8 +217,7 @@
   }
 
   function showInstructions() {
-    isShowingInstructions = true;
-    instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions#adversary";
+    instructions.open("adversary");
   }
 
   function screenshotSetUp() {
