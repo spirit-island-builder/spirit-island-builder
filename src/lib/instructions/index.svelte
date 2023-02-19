@@ -109,7 +109,7 @@
     /* reset */
     padding: 0;
     margin: 0;
-    padding-bottom: 4px;
+    padding-bottom: 10px;
   }
   dialog[open] {
     display: flex;
