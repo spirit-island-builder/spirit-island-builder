@@ -23,10 +23,12 @@
     document.getElementById(nodeID).select();
   }
 
-  function updateSpecialRule(rule, ID) {
-    let newSpecialRuleText = rule.effect;
+  function updateSpecialRule(rule, ID, type) {
+    //effect
+    let newSpecialRuleText = rule[type];
     if (newSpecialRuleText) {
-      let templateSpecialRuleID = "sr" + ID + "effect";
+      let templateSpecialRuleID = "sr" + ID + type;
+      console.log(newSpecialRuleText);
       let previewFrame = document.getElementById("preview-iframe").contentWindow;
 
       // Find node in Template
@@ -68,6 +70,7 @@
             placeholder="Name"
             on:focus={selectNode}
             on:keyup={nextNode}
+            on:blur={() => updateSpecialRule(rule, i, "name")}
             bind:value={spiritBoard.specialRules.rules[i].name} />
         </div>
         <button class="button is-warning is-light" on:click={removeSpecialRule(i)}>Remove</button>
@@ -77,7 +80,7 @@
         elementType="textarea"
         placeholder="Effect"
         validAutoCompleteValues={iconValuesSorted}
-        additionalOnBlurFunction={() => updateSpecialRule(rule, i)}
+        additionalOnBlurFunction={() => updateSpecialRule(rule, i, "effect")}
         bind:value={rule.effect} />
     </div>
   {/each}

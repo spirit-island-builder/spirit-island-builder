@@ -222,7 +222,7 @@ export const nextNode = (event) => {
     let numMatches = currentID.match(regFindNumbers);
 
     switch (numlessID) {
-      //Special Rule
+      //Board - Special Rule
       case "ruleNameInput":
         focusID = currentID.replace("Name", "Effect");
         break;
@@ -235,7 +235,7 @@ export const nextNode = (event) => {
           focusID = "addSpecialRule";
         }
         break;
-      //Growth
+      //Board - Growth
       case "growthSetGroupAction":
         focusID = currentID.replace(/\d+$/, function (m) {
           return parseInt(m) + 1;
@@ -262,7 +262,7 @@ export const nextNode = (event) => {
       case "setgrouptitle":
         focusID = "growthSet" + numMatches[0] + "Group" + numMatches[1] + "Action0";
         break;
-      //Presence Tracks
+      //Board - Presence Tracks
       case "energybuilder":
       case "playsbuilder":
         focusID = currentID.replace(/(\d+)+/g, function (match, number) {
@@ -272,7 +272,7 @@ export const nextNode = (event) => {
           focusID = currentID + "add";
         }
         break;
-      //Innate Powers
+      //Board - Innate Powers
       case "powerlevelThreshold":
         focusID = currentID.replace("Threshold", "Effect");
         break;
@@ -299,6 +299,19 @@ export const nextNode = (event) => {
         if (document.getElementById(focusID) === null) {
           focusID = "power" + numMatches[0] + "addLevel";
         }
+        break;
+      // Card
+      case "cardName":
+        focusID = "cardCost" + numMatches[0];
+        break;
+      case "cardCost":
+        focusID = "cardRange" + numMatches[0];
+        break;
+      case "cardRange":
+        focusID = "cardTarget" + numMatches[0];
+        break;
+      case "cardTarget":
+        focusID = "cardRules" + numMatches[0];
         break;
     }
 

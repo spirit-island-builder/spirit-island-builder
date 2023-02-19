@@ -29,8 +29,8 @@ function constructCard(data, cardIndex) {
   card.className = data.speed;
   card.innerHTML = `
   <img class="image" src=${data.image} />
-  <cost>${data.cost}</cost>
-  <name>${data.name}</name>
+  <cost id='${card.id}cost'>${data.cost}</cost>
+  <name id='${card.id}name'>${data.name}</name>
   
   ${data.printFriendly ? "<element-background></element-background>" : ""}
 
@@ -39,20 +39,20 @@ function constructCard(data, cardIndex) {
   <info-title>
     <info-title-speed>SPEED</info-title-speed>
     <info-title-range>RANGE</info-title-range>
-    <info-title-target>${data.targetTitle}</info-title-target>
+    <info-title-target id='${card.id}targettitle'>${data.targetTitle}</info-title-target>
   </info-title>
 
   <info>
     <info-speed></info-speed>
-    <info-range>
+    <info-range id='${card.id}range'>
       ${data.range}
     </info-range>
-    <info-target>
+    <info-target id='${card.id}target'>
       ${data.target}
     </info-target>
   </info>
 
-  <rules-container>
+  <rules-container id='${card.id}rules'>
     ${data.innerHTML}
   </rules-container>
 
@@ -214,6 +214,7 @@ function getRulesNew(quickCard) {
     threshold.innerHTML = thresholdInner;
     rulesHTML += threshold.outerHTML;
   }
+  console.log("rulesHTML=" + rulesHTML);
   return rulesHTML;
 }
 

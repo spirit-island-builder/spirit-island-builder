@@ -4,15 +4,27 @@
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
   import ImageInput from "$lib/image-input.svelte";
+  import * as Lib from "../lib";
 
   function setSpeedTextbox(powerSpeed, card) {
     card.speed = powerSpeed;
     powerCards = powerCards;
+
+    //update tempalte
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let templateCard = previewFrame.document.getElementById("card" + card.id);
+    templateCard.removeAttribute("class");
+    templateCard.setAttribute("class", powerSpeed.toLowerCase());
   }
 
   function setTargetTextbox(targetTitle, card) {
     card.targetTitle = targetTitle;
     powerCards = powerCards;
+
+    //update tempalte
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let templateCard = previewFrame.document.getElementById("card" + card.id + "targettitle");
+    templateCard.innerHTML = targetTitle;
   }
 
   function clearThreshold(card) {
@@ -34,6 +46,25 @@
       power.id = i;
     });
     powerCards = powerCards;
+  }
+
+  function toggleElement(card, element) {
+    //modify form
+    card.powerElements[element] = !card.powerElements[element];
+    powerCards = powerCards;
+
+    //modify template
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let templateCard = previewFrame.document.getElementById("card" + card.id);
+    let elementsTemplate = templateCard.getElementsByClassName(element);
+
+    if (card.powerElements[element]) {
+      let newElement = previewFrame.document.createElement("element");
+      newElement.classList.add(element);
+      templateCard.append(newElement);
+    } else {
+      elementsTemplate[0].remove();
+    }
   }
 
   function addEmptyPowerCard() {
@@ -66,6 +97,36 @@
     powerCards = powerCards;
   }
 
+  function updatePowerName(card, ID, type) {
+    //effect
+    let updatePowerCardData = card[type];
+    if (updatePowerCardData) {
+      let templatePowerCardData = "card" + ID + type;
+      console.log(updatePowerCardData);
+      let previewFrame = document.getElementById("preview-iframe").contentWindow;
+
+      // Find node in Template
+      let findPowerCardTemplate = previewFrame.document.getElementById(templatePowerCardData);
+      if (findPowerCardTemplate) {
+        console.log("Rewriting " + templatePowerCardData + " with " + updatePowerCardData);
+
+        // update node
+        if (type === "range") {
+          let rangeOutput = previewFrame.getRangeModel(updatePowerCardData);
+          findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(rangeOutput);
+        } else if (type === "rules") {
+          //let rangeOutput = previewFrame.getRangeModel(updatePowerCardData)
+        } else {
+          findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(updatePowerCardData);
+        }
+      }
+    }
+  }
+
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
+
   const elements = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
 </script>
 
@@ -91,10 +152,12 @@
       <div class="is-flex is-flex-direction-row">
         <div class="control" style="width:100%">
           <input
-            id={`powerName${i}`}
+            id={`cardName${i}`}
             class="input"
             type="text"
             placeholder="Power Name"
+            on:blur={updatePowerName(card, i, "name")}
+            on:keyup={nextNode}
             bind:value={card.name} />
         </div>
         <button class="button is-primary is-light is-warning" on:click={removePowerCard(i)}
@@ -106,11 +169,13 @@
         <label class="label is-unselectable mr-1 mt-1" for="">Cost: </label>
         <div class="control">
           <input
-            id={`powerCost${i}`}
+            id={`cardCost${i}`}
             class="input"
             style="width:3rem; text-align:center;"
             type="text"
             placeholder="Cost"
+            on:blur={updatePowerName(card, i, "cost")}
+            on:keyup={nextNode}
             bind:value={card.cost} />
         </div>
       </div>
@@ -120,9 +185,7 @@
           <button
             class="element-toggle"
             aria-pressed={card.powerElements[element]}
-            on:click={() => {
-              card.powerElements[element] = !card.powerElements[element];
-            }}>
+            on:click={toggleElement(card, element)}>
             <img src="/template/_global/images/board/element_simple_{element}.png" alt={element} />
           </button>
         {/each}
@@ -165,10 +228,12 @@
       <div class="is-flex is-flex-direction-column-reverse">
         <div class="control">
           <input
-            id={`powerRange${i}`}
+            id={`cardRange${i}`}
             class="input"
             type="text"
             placeholder="Range"
+            on:keyup={nextNode}
+            on:blur={updatePowerName(card, i, "range")}
             bind:value={card.range} />
         </div>
         <label class="label is-unselectable" for="">Range</label>
@@ -177,10 +242,11 @@
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
           <div class="control">
             <AutoComplete
-              id={`powerTarget${i}`}
+              id={`cardTarget${i}`}
               elementType="input"
               placeholder="Target"
               validAutoCompleteValues={iconValuesSorted}
+              additionalOnBlurFunction={() => updatePowerName(card, i, "target")}
               bind:value={card.target} />
           </div>
         </div>
