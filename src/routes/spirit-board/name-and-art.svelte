@@ -2,6 +2,8 @@
   import Section from "$lib/section.svelte";
   import ImageInput from "$lib/image-input.svelte";
 
+  import banners from "./banners.json";
+
   // exports allow for properties to be passed into this component. So the value of spiritBoard can be set by whatever component is the parent of this one. See https://svelte.dev/tutorial/declaring-props
   export let spiritBoard;
 </script>
@@ -28,14 +30,16 @@
   <ImageInput
     id="spiritBanner"
     title="Banner Art"
-    includeOptions
+    examples={banners}
+    exampleDescription="Pre-Made Banners"
     bind:imageURL={spiritBoard.nameAndArt.bannerPath} />
   <!-- Energy Track Banner -->
   <ImageInput
     id="energyBanner"
     title="Energy Track Banner"
     includeScale
-    includeOptions
+    examples={banners}
+    exampleDescription="Pre-Made Banners"
     bind:imageURL={spiritBoard.nameAndArt.energyBannerPath}
     bind:imageScale={spiritBoard.nameAndArt.energyBannerScale} />
   <!-- Plays Track Banner -->
@@ -43,7 +47,8 @@
     id="playsBanner"
     title="Plays Track Banner"
     includeScale
-    includeOptions
+    examples={banners}
+    exampleDescription="Pre-Made Banners"
     bind:imageURL={spiritBoard.nameAndArt.playsBannerPath}
     bind:imageScale={spiritBoard.nameAndArt.playsBannerScale} />
   <!-- Artist Credits -->

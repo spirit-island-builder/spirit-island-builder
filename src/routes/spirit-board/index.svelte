@@ -22,8 +22,7 @@
 
   export let spiritBoard;
   export let customIcons;
-  export let isShowingInstructions;
-  export let instructionsSource;
+  export let instructions;
 
   function clearAllFields() {
     if (
@@ -504,9 +503,7 @@
   }
 
   function showInstructions() {
-    isShowingInstructions = true;
-    instructionsSource =
-      "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-play-side";
+    instructions.open("spirit-board-play-side");
   }
 
   async function loadExample(example) {
@@ -775,11 +772,7 @@
 </PreviewFrame>
 
 <div class="field has-addons mb-2">
-  <button
-    class="button is-info js-modal-trigger mr-1"
-    data-toggle="modal"
-    data-target="modal-js-example"
-    on:click={exampleModal.open}>
+  <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
     Examples
   </button>
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
