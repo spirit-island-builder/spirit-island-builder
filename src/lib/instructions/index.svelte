@@ -98,7 +98,7 @@
     position: fixed;
     z-index: 999;
     border: 2px solid #b2b2b2;
-    background-color: #e1e1e1;
+    background-color: #ffffff;
     overflow-y: hidden;
     flex-direction: column;
     box-sizing: content-box;
@@ -109,6 +109,7 @@
     /* reset */
     padding: 0;
     margin: 0;
+    padding-bottom: 4px;
   }
   dialog[open] {
     display: flex;
