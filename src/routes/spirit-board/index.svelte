@@ -22,8 +22,7 @@
 
   export let spiritBoard;
   export let customIcons;
-  export let isShowingInstructions;
-  export let instructionsSource;
+  export let instructions;
 
   function clearAllFields() {
     if (
@@ -504,9 +503,7 @@
   }
 
   function showInstructions() {
-    isShowingInstructions = true;
-    instructionsSource =
-      "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-play-side";
+    instructions.open("spirit-board-play-side");
   }
 
   async function loadExample(example) {
