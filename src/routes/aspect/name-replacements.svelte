@@ -9,6 +9,19 @@
     aspect = aspect;
     console.log(aspect);
     console.log(aspect.nameReplacements.complexity);
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let findComplexity = previewFrame.document.getElementsByTagName("complexity")[0];
+    findComplexity.removeAttribute("class");
+    findComplexity.setAttribute("class", val);
+    let findAspectName = previewFrame.document.getElementsByTagName("aspect-name")[0];
+    let findAspectSubtext = previewFrame.document.getElementsByTagName("aspect-subtext")[0];
+    if (val === "") {
+      findAspectName.classList.remove("has-complexity");
+      findAspectSubtext.classList.remove("has-complexity");
+    } else {
+      findAspectName.classList.add("has-complexity");
+      findAspectSubtext.classList.add("has-complexity");
+    }
   }
 
   function setBack() {
@@ -18,6 +31,30 @@
 
   function toggleProfile() {
     aspect.profile = !aspect.profile;
+    aspect = aspect;
+  }
+
+  function addReplacement() {
+    let focusId = "replacesInput" + aspect.nameReplacements.replacements.length;
+    aspect.nameReplacements.replacements.push({
+      id: aspect.nameReplacements.replacements.length,
+      aspectRelacement: "",
+      rulesReplaced: "",
+    });
+    //Set the focus to the Special Rule if it is visible.
+    if (aspect.nameReplacements.isVisible) {
+      setTimeout(() => {
+        document.getElementById(focusId).focus();
+      }, 100);
+    }
+    aspect = aspect;
+  }
+
+  function removeReplacement(index) {
+    aspect.nameReplacements.replacements.splice(index, 1);
+    aspect.nameReplacements.replacements.forEach((replacement, i) => {
+      replacement.id = i;
+    });
     aspect = aspect;
   }
 </script>
@@ -48,31 +85,48 @@
         </div>
       </div>
     </div>
-    <label class="label is-flex is-justify-content-space-between" for="replacesInput"
-      >Replaces Text (ie. text before the colon)
-    </label>
-    <div class="field is-flex is-small mb-0">
-      <div class="control" style="width:100%">
-        <input
-          id="replacesInput"
-          class="input"
-          type="text"
-          placeholder="ie. Replaces Special Rule"
-          bind:value={aspect.nameReplacements.aspectRelacement} />
-      </div>
-    </div>
-    <label class="label is-flex is-justify-content-space-between" for="rulesReplacedInput"
-      >Rules Replaced (ie. italicized text after the colon)
-    </label>
-    <div class="field is-flex is-small mb-0">
-      <div class="control" style="width:100%">
-        <input
-          id="rulesReplacedInput"
-          class="input"
-          type="text"
-          placeholder="ie. The Name of a Spirit's Special Rule"
-          bind:value={aspect.nameReplacements.rulesReplaced} />
-      </div>
+    <div class="field mb-3">
+      {#each aspect.nameReplacements.replacements as replacement, i (replacement.id)}
+        <div class="field is-flex is-small is-flex-direction-row mb-1">
+          <div class="field is-flex is-small is-flex-direction-column mb-0" style="width:30%">
+            <label class="label is-flex is-justify-content-space-between mb-0" for="replacesInput"
+              >Replacement #{i + 1}
+            </label>
+            <div class="field is-flex is-small mb-0">
+              <div class="control" style="width:100%">
+                <input
+                  id="replacesInput{i}"
+                  class="input is-small"
+                  type="text"
+                  placeholder="ie. Replaces Special Rule"
+                  bind:value={replacement.aspectRelacement} />
+              </div>
+            </div>
+          </div>
+          <div class="field is-flex is-small is-flex-direction-column mb-0" style="width:70%">
+            <label
+              class="label is-flex is-justify-content-space-between mb-0"
+              for="rulesReplacedInput"
+              >Rule/Power Name
+            </label>
+            <div class="field is-flex is-small mb-0">
+              <div class="control" style="width:100%">
+                <input
+                  id="rulesReplacedInput"
+                  class="input is-small"
+                  type="text"
+                  placeholder="ie. The Name of a Spirit's Special Rule"
+                  bind:value={replacement.rulesReplaced} />
+              </div>
+            </div>
+          </div>
+          <button
+            class="button is-primary is-light is-warning is-small row-button is-align-self-flex-end"
+            on:click={removeReplacement(i)}>Remove</button>
+        </div>
+      {/each}
+      <button class="button is-primary is-light is-small" on:click={addReplacement}
+        >Add Replacement</button>
     </div>
     <div class="field has-addons">
       <label class="label is-unselectable mr-1 mt-1" for="">Complexity: </label>
@@ -99,6 +153,28 @@
           on:click={setComplexity("", aspect.nameReplacements)}>None</button>
       </div>
     </div>
+    <div class="field is-flex is-flex-direction-row has-addons">
+      <label class="label is-flex is-justify-content-space-between" for="aspectInput"
+        >Format:
+      </label>
+      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 ml-2">
+        {#if aspect.profile}
+          <button class="button is-success is-small button-hold mb-0" id="fast-button"
+            >Portrait</button>
+          <button
+            class="button is-success is-light is-small button-hold mb-0"
+            id="slow-button"
+            on:click={toggleProfile}>Landscape</button>
+        {:else}
+          <button
+            class="button is-success is-light is-small button-hold mb-0"
+            id="fast-button"
+            on:click={toggleProfile}>Portrait</button>
+          <button class="button is-success is-small button-hold mb-0" id="slow-button"
+            >Landscape</button>
+        {/if}
+      </div>
+    </div>
     {#if aspect.nameReplacements.hasBack}
       <button class="button is-warning is-light is-small row-button" on:click={setBack}
         >Remove Card Back</button>
@@ -120,25 +196,5 @@
       <button class="button is-warning is-light is-small row-button" on:click={setBack}
         >Add Card Back</button>
     {/if}
-  </div>
-  <div class="field is-flex is-flex-direction-row has-addons">
-    <label class="label is-flex is-justify-content-space-between" for="aspectInput">Format: </label>
-    <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 ml-2">
-      {#if aspect.profile}
-        <button class="button is-success is-small button-hold mb-0" id="fast-button"
-          >Portrait</button>
-        <button
-          class="button is-success is-light is-small button-hold mb-0"
-          id="slow-button"
-          on:click={toggleProfile}>Landscape</button>
-      {:else}
-        <button
-          class="button is-success is-light is-small button-hold mb-0"
-          id="fast-button"
-          on:click={toggleProfile}>Portrait</button>
-        <button class="button is-success is-small button-hold mb-0" id="slow-button"
-          >Landscape</button>
-      {/if}
-    </div>
   </div>
 </Section>

@@ -4,17 +4,15 @@
   export let imageURL;
   export let imageScale;
   export let includeScale = false;
-  export let includeOptions = false;
+  export let examples = null;
+  export let exampleDescription = "Example";
 
-  import Banners from "$lib/banners-modal.svelte";
-  import banners from "$lib/banners.json";
-  let bannersModal;
+  import ExampleModal from "./example-modal.svelte";
+  let examplesModal;
 
-  async function loadBanner(banner) {
+  async function loadExample(banner) {
     console.log(banner);
-    imageURL = banner.url;
-    // await loadHTMLFromURL(banner.url);
-    // hideAll();
+    imageURL = banner.imageURL;
   }
 
   let files;
@@ -48,17 +46,19 @@
         type="file"
         class="input is-small" />
       <!-- Showing that the image is available -->
-      {#if includeOptions}
+      {#if examples}
         <div class="field  is-horizontal is-justify-content-left">
           <button
             class="button js-modal-trigger is-small"
             style="background-color: rgb(239 239 239);"
-            data-toggle="modal"
-            data-target="modal-js-example"
-            on:click={bannersModal.open}>
-            Or Use Example Banners
+            on:click={examplesModal.open}>
+            or use {exampleDescription}
           </button>
-          <Banners bind:this={bannersModal} {loadBanner} title="Load Pre-Made Banners" {banners} />
+          <ExampleModal
+            bind:this={examplesModal}
+            {loadExample}
+            title="Load {exampleDescription}"
+            {examples} />
         </div>
       {/if}
     </div>
@@ -102,7 +102,7 @@
 <style>
   img {
     width: 100%;
-    max-height: 400px;
+    max-height: 200px;
     object-fit: contain;
     object-position: center center;
   }

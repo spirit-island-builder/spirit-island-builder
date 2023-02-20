@@ -5,7 +5,7 @@ function startMain() {
 
   let cardIndex = 0;
   for (var quickCard of quickCards) {
-    var data = getData(quickCard);
+    var data = getData(quickCard, cardIndex);
     var card = constructCard(data, cardIndex);
     insertAfter(card, quickCard);
     quickCard.remove();
@@ -29,8 +29,8 @@ function constructCard(data, cardIndex) {
   card.className = data.speed;
   card.innerHTML = `
   <img class="image" src=${data.image} />
-  <cost>${data.cost}</cost>
-  <name>${data.name}</name>
+  <cost id='${card.id}cost'>${data.cost}</cost>
+  <name id='${card.id}name'>${data.name}</name>
   
   ${data.printFriendly ? "<element-background></element-background>" : ""}
 
@@ -39,15 +39,15 @@ function constructCard(data, cardIndex) {
   <info-title>
     <info-title-speed>SPEED</info-title-speed>
     <info-title-range>RANGE</info-title-range>
-    <info-title-target>${data.targetTitle}</info-title-target>
+    <info-title-target id='${card.id}targettitle'>${data.targetTitle}</info-title-target>
   </info-title>
 
   <info>
     <info-speed></info-speed>
-    <info-range>
+    <info-range id='${card.id}range'>
       ${data.range}
     </info-range>
-    <info-target>
+    <info-target id='${card.id}target'>
       ${data.target}
     </info-target>
   </info>
@@ -59,7 +59,7 @@ function constructCard(data, cardIndex) {
   <artist-name>${data.artistName}</artist-name>
   `;
 
-  setThreshold(card);
+  setThreshold(card, cardIndex);
   return card;
 }
 
@@ -119,29 +119,28 @@ function setThreshold(card) {
     //set elemental thresholds
     var conditions = threshold.getAttribute("condition");
     if (conditions) {
-      threshold.innerHTML = `<threshold-condition><span>${getThresholdElements(
-        threshold
-      )}:</span></threshold-condition>${threshold.innerHTML}`;
+      threshold.innerHTML = `<threshold-condition id="${
+        card.id
+      }thresholdCondition"><span>${getThresholdElements(conditions)}:</span></threshold-condition>${
+        threshold.innerHTML
+      }`;
     }
   }
 }
 
-function getThresholdElements(threshold) {
+function getThresholdElements(conditions) {
   var result = "";
-
-  var conditions = threshold.getAttribute("condition");
-  if (conditions) {
-    var condition = conditions.split(",");
-    for (let i = 0; i < condition.length; i++) {
-      var number = condition[i].split("-")[0];
-      var element = condition[i].split("-")[1];
-      // result += `${number}<icon class="${element}"></icon>`;
-      if (i === condition.length - 1) {
-        result += `${number}<icon class="${element} last"></icon>`;
-      } else {
-        result += `${number}<icon class="${element}"></icon>`;
-      }
+  var condition = conditions.split(",");
+  for (let i = 0; i < condition.length; i++) {
+    var number = condition[i].split("-")[0];
+    var element = condition[i].split("-")[1];
+    // result += `${number}<icon class="${element}"></icon>`;
+    if (i === condition.length - 1) {
+      result += `${number}<icon class="${element} last"></icon>`;
+    } else {
+      result += `${number}<icon class="${element}"></icon>`;
     }
+
     /* for(var condition of conditions.split(','))
 	  {
 		var number = condition.split('-')[0];
@@ -149,7 +148,6 @@ function getThresholdElements(threshold) {
 		result += `${number}<icon class="${element}"></icon>`;
 	  } */
   }
-
   return result;
 }
 
@@ -162,8 +160,9 @@ function getElementHtml(elements) {
   return result;
 }
 
-function getData(quickCard) {
+function getData(quickCard, cardIndex) {
   return {
+    // cardId: cardIndex,
     speed: quickCard.getAttribute("speed"),
     cost: quickCard.getAttribute("cost"),
     name: quickCard.getAttribute("name"),
@@ -174,7 +173,7 @@ function getData(quickCard) {
     targetTitle: quickCard.getAttribute("target-title") || "TARGET LAND",
     artistName: quickCard.getAttribute("artist-name"),
     printFriendly: quickCard.getAttribute("print-friendly") === "yes",
-    innerHTML: getRulesNew(quickCard),
+    innerHTML: getRulesNew(quickCard, cardIndex),
   };
 }
 
@@ -184,37 +183,34 @@ function getData(quickCard) {
   return result;
 } */
 
-function getRulesNew(quickCard) {
+function getRulesNew(quickCard, cardIndex) {
   var rules = quickCard.querySelectorAll("rules")[0];
-  ruleLines = rules.innerHTML.split("\n");
-  rulesHTML = "<rules>";
-  for (let i = 0; i < ruleLines.length; i++) {
-    if (ruleLines[i] && ruleLines[i].trim().length) {
-      rulesHTML += "<div>" + ruleLines[i] + "</div>";
-    } else if (i > 0 && i < ruleLines.length - 1) {
-      rulesHTML += "<br>";
-      // allows user's line breaks to show up on the card
-    }
-  }
-  rulesHTML += "</rules>";
+
+  rulesHTML = "<rules>" + getFormatRulesText(rules.innerHTML) + "</rules>";
+  rulesHTML = `<rules id='card${cardIndex}rules'>${getFormatRulesText(rules.innerHTML)}</rules>`;
 
   var threshold = quickCard.querySelectorAll("threshold")[0];
-  /*   console.log("threshold? ="+threshold)
-  console.log(threshold)
-  console.log(quickCard.querySelectorAll('threshold')) */
-  thresholdInner = "";
   if (threshold) {
-    thresholdLines = threshold.innerHTML.split("\n");
-    // console.log(thresholdLines)
-    for (let i = 0; i < thresholdLines.length; i++) {
-      if (thresholdLines[i]) {
-        thresholdInner += "<div>" + thresholdLines[i] + "</div>";
-      }
-    }
-    threshold.innerHTML = thresholdInner;
+    threshold.innerHTML = getFormatRulesText(threshold.innerHTML);
+    threshold.setAttribute("id", `card${cardIndex}threshold`);
     rulesHTML += threshold.outerHTML;
   }
   return rulesHTML;
+}
+
+function getFormatRulesText(rulesHTML) {
+  ruleLines = rulesHTML.split("\n");
+  let rulesFormatted = "";
+  for (let i = 0; i < ruleLines.length; i++) {
+    if (ruleLines[i] && ruleLines[i].trim().length) {
+      rulesFormatted += "<div>" + ruleLines[i] + "</div>";
+    } else if (i > 0 && i < ruleLines.length - 1) {
+      rulesFormatted += "<br>";
+      // allows user's line breaks to show up on the card
+    }
+  }
+
+  return rulesFormatted;
 }
 
 function getRangeModel(rangeString) {
