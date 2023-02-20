@@ -102,7 +102,7 @@
     let updatePowerCardData = card[type];
     if (updatePowerCardData) {
       let templatePowerCardData = "card" + ID + type;
-      console.log(updatePowerCardData);
+
       let previewFrame = document.getElementById("preview-iframe").contentWindow;
 
       // Find node in Template
@@ -114,12 +114,49 @@
         if (type === "range") {
           let rangeOutput = previewFrame.getRangeModel(updatePowerCardData);
           findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(rangeOutput);
+        } else if (type === "thresholdCondition") {
+          let thresholdConditionOutput = previewFrame.getThresholdElements(updatePowerCardData);
+          findPowerCardTemplate.innerHTML = "<span>" + thresholdConditionOutput + ":</span>";
         } else if (type === "rules") {
-          //let rangeOutput = previewFrame.getRangeModel(updatePowerCardData)
+          findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(
+            previewFrame.getFormatRulesText(updatePowerCardData)
+          );
+          previewFrame.resize();
+        } else if (type === "threshold") {
+          let thresholdCondition =
+            findPowerCardTemplate.getElementsByTagName("threshold-condition")[0];
+          findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(
+            previewFrame.getFormatRulesText(updatePowerCardData)
+          );
+          if (thresholdCondition) {
+            findPowerCardTemplate.insertBefore(
+              thresholdCondition,
+              findPowerCardTemplate.firstChild
+            );
+          }
+          previewFrame.resize();
         } else {
           findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(updatePowerCardData);
         }
       }
+    }
+  }
+
+  function updateCustomThresholdText(card, ID, type) {
+    let updatePowerCardData = card[type];
+    let templatePowerCardData = "card" + ID + "threshold";
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let findPowerCardTemplate = previewFrame.document.getElementById(templatePowerCardData);
+    if (updatePowerCardData) {
+      // Find node in Template
+      if (findPowerCardTemplate) {
+        console.log("Rewriting " + templatePowerCardData + " with " + updatePowerCardData);
+        // update node
+        findPowerCardTemplate.setAttribute("data-before", updatePowerCardData);
+      }
+    } else {
+      findPowerCardTemplate.classList.remove("threshold-custom");
+      findPowerCardTemplate.setAttribute("data-before", "");
     }
   }
 
@@ -286,6 +323,7 @@
         elementType="textarea"
         placeholder="Rules"
         validAutoCompleteValues={iconValuesSorted}
+        additionalOnBlurFunction={() => updatePowerName(card, i, "rules")}
         bind:value={card.rules} />
     </div>
     <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-2">
@@ -298,6 +336,7 @@
             style="width:35%"
             type="text"
             placeholder="Elemental Conditions"
+            on:blur={updatePowerName(card, i, "thresholdCondition")}
             bind:value={card.thresholdCondition} />
           <label class="label is-unselectable mr-2 mb-0 mt-1" style="min-width:7rem" for=""
             >Custom Text:</label>
@@ -306,6 +345,7 @@
             class="input is-small"
             type="text"
             placeholder="use if an alternative to 'IF YOU HAVE' is desired"
+            on:blur={updateCustomThresholdText(card, i, "thresholdText")}
             bind:value={card.thresholdText} />
         </div>
         <AutoComplete
@@ -313,6 +353,7 @@
           elementType="textarea"
           placeholder="Threshold Effect"
           validAutoCompleteValues={iconValuesSorted}
+          additionalOnBlurFunction={() => updatePowerName(card, i, "threshold")}
           bind:value={card.threshold} />
         <button class="button is-warning is-light mb-0" on:click={clearThreshold(card)}
           >Clear Power Threshold</button>
