@@ -64,7 +64,7 @@
       let findIPThreshold = previewFrame.document.getElementById(templateInnatePowerThresholdID);
       if (findIPThreshold) {
         console.log(
-          "Rewriting Innate Power ID: " +
+          "Rewriting Innate Power Threshold ID: " +
             templateInnatePowerThresholdID +
             " with " +
             newIPThresholdText
@@ -75,7 +75,7 @@
         try {
           newIPThreshold = previewFrame.writeInnateThreshold(newIPThresholdText);
         } catch (err) {
-          newIPThreshold = previewFrame.getPresenceNodeHtml("1-water");
+          newIPThreshold = previewFrame.writeInnateThreshold("1-water");
           console.log("Malformed growth option, try again");
         }
         newIPThreshold = previewFrame.replaceIcon(newIPThreshold);
@@ -87,6 +87,87 @@
 
         // update node
         findIPThreshold.innerHTML = newNode.innerHTML;
+      }
+    }
+  }
+
+  function updateInnatePowerRange(innatePower, ID) {
+    let newIPRange = innatePower.range;
+    if (newIPRange) {
+      let templateInnatePowerRangeID = ID;
+      let previewFrame = document.getElementById("preview-iframe").contentWindow;
+
+      // Find node in Template
+      let findIPRange = previewFrame.document.getElementById(templateInnatePowerRangeID);
+      if (findIPRange) {
+        console.log(
+          "Rewriting Innate Power Range ID: " + templateInnatePowerRangeID + " with " + newIPRange
+        );
+
+        // Try to write a new node
+        let newIPRangeText = "";
+        try {
+          newIPRangeText = previewFrame.getRangeModel(newIPRange);
+        } catch (err) {
+          newIPRangeText = previewFrame.getRangeModel("1-water");
+          console.log("Malformed growth option, try again");
+        }
+        newIPRangeText = previewFrame.replaceIcon(newIPRangeText);
+
+        // update node
+        findIPRange.innerHTML = newIPRangeText;
+      }
+    }
+  }
+
+  function updateInnatePowerTarget(innatePower, ID) {
+    let newIPTarget = innatePower.target;
+    if (newIPTarget) {
+      let templateInnatePowerTargetID = ID;
+      let previewFrame = document.getElementById("preview-iframe").contentWindow;
+
+      // Find node in Template
+      let findIPRange = previewFrame.document.getElementById(templateInnatePowerTargetID);
+      if (findIPRange) {
+        console.log(
+          "Rewriting Innate Power Target ID: " +
+            templateInnatePowerTargetID +
+            " with " +
+            newIPTarget
+        );
+
+        // Try to write a new node
+        let newIPTargetText = "";
+        newIPTargetText = previewFrame.replaceIcon(newIPTarget);
+
+        // update node
+        findIPRange.innerHTML = newIPTargetText;
+      }
+    }
+  }
+
+  function updateInnatePowerEffect(level, ID) {
+    let newIPThresholdText = level.effect;
+    if (newIPThresholdText) {
+      let templateInnatePowerThresholdID = ID;
+      let previewFrame = document.getElementById("preview-iframe").contentWindow;
+
+      // Find node in Template
+      let findIPThreshold = previewFrame.document.getElementById(templateInnatePowerThresholdID);
+      if (findIPThreshold) {
+        console.log(
+          "Rewriting Innate Power Effect ID: " +
+            templateInnatePowerThresholdID +
+            " with " +
+            newIPThresholdText
+        );
+
+        // Try to write a new node
+        let newIPThreshold = "";
+        newIPThreshold = previewFrame.replaceIcon(newIPThresholdText);
+        console.log(findIPThreshold);
+        // update node
+        findIPThreshold.innerHTML = newIPThreshold;
       }
     }
   }
@@ -200,6 +281,7 @@
               placeholder="Range"
               on:keyup={nextNode}
               on:focus={selectNode}
+              on:blur={updateInnatePowerRange(innatePower, `ip${i}range`)}
               bind:value={innatePower.range} />
           </div>
           <div class="control">
@@ -208,6 +290,7 @@
               elementType="input"
               placeholder="Target"
               validAutoCompleteValues={iconValuesSorted}
+              additionalOnBlurFunction={() => updateInnatePowerTarget(innatePower, `ip${i}target`)}
               bind:value={innatePower.target} />
           </div>
         </div>
@@ -246,6 +329,7 @@
             placeholder="Effect"
             classNames="is-small"
             validAutoCompleteValues={iconValuesSorted}
+            additionalOnBlurFunction={() => updateInnatePowerEffect(level, `ip${i}L${j}`)}
             bind:value={level.effect} />
         </div>
         {#if !level.isLong}

@@ -4,15 +4,27 @@
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
   import ImageInput from "$lib/image-input.svelte";
+  import * as Lib from "../lib";
 
   function setSpeedTextbox(powerSpeed, card) {
     card.speed = powerSpeed;
     powerCards = powerCards;
+
+    //update tempalte
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let templateCard = previewFrame.document.getElementById("card" + card.id);
+    templateCard.removeAttribute("class");
+    templateCard.setAttribute("class", powerSpeed.toLowerCase());
   }
 
   function setTargetTextbox(targetTitle, card) {
     card.targetTitle = targetTitle;
     powerCards = powerCards;
+
+    //update tempalte
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let templateCard = previewFrame.document.getElementById("card" + card.id + "targettitle");
+    templateCard.innerHTML = targetTitle;
   }
 
   function clearThreshold(card) {
@@ -34,6 +46,25 @@
       power.id = i;
     });
     powerCards = powerCards;
+  }
+
+  function toggleElement(card, element) {
+    //modify form
+    card.powerElements[element] = !card.powerElements[element];
+    powerCards = powerCards;
+
+    //modify template
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let templateCard = previewFrame.document.getElementById("card" + card.id);
+    let elementsTemplate = templateCard.getElementsByClassName(element);
+
+    if (card.powerElements[element]) {
+      let newElement = previewFrame.document.createElement("element");
+      newElement.classList.add(element);
+      templateCard.append(newElement);
+    } else {
+      elementsTemplate[0].remove();
+    }
   }
 
   function addEmptyPowerCard() {
@@ -66,6 +97,73 @@
     powerCards = powerCards;
   }
 
+  function updatePowerName(card, ID, type) {
+    //effect
+    let updatePowerCardData = card[type];
+    if (updatePowerCardData) {
+      let templatePowerCardData = "card" + ID + type;
+
+      let previewFrame = document.getElementById("preview-iframe").contentWindow;
+
+      // Find node in Template
+      let findPowerCardTemplate = previewFrame.document.getElementById(templatePowerCardData);
+      if (findPowerCardTemplate) {
+        console.log("Rewriting " + templatePowerCardData + " with " + updatePowerCardData);
+
+        // update node
+        if (type === "range") {
+          let rangeOutput = previewFrame.getRangeModel(updatePowerCardData);
+          findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(rangeOutput);
+        } else if (type === "thresholdCondition") {
+          let thresholdConditionOutput = previewFrame.getThresholdElements(updatePowerCardData);
+          findPowerCardTemplate.innerHTML = "<span>" + thresholdConditionOutput + ":</span>";
+        } else if (type === "rules") {
+          findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(
+            previewFrame.getFormatRulesText(updatePowerCardData)
+          );
+          previewFrame.resize();
+        } else if (type === "threshold") {
+          let thresholdCondition =
+            findPowerCardTemplate.getElementsByTagName("threshold-condition")[0];
+          findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(
+            previewFrame.getFormatRulesText(updatePowerCardData)
+          );
+          if (thresholdCondition) {
+            findPowerCardTemplate.insertBefore(
+              thresholdCondition,
+              findPowerCardTemplate.firstChild
+            );
+          }
+          previewFrame.resize();
+        } else {
+          findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(updatePowerCardData);
+        }
+      }
+    }
+  }
+
+  function updateCustomThresholdText(card, ID, type) {
+    let updatePowerCardData = card[type];
+    let templatePowerCardData = "card" + ID + "threshold";
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let findPowerCardTemplate = previewFrame.document.getElementById(templatePowerCardData);
+    if (updatePowerCardData) {
+      // Find node in Template
+      if (findPowerCardTemplate) {
+        console.log("Rewriting " + templatePowerCardData + " with " + updatePowerCardData);
+        // update node
+        findPowerCardTemplate.setAttribute("data-before", updatePowerCardData);
+      }
+    } else {
+      findPowerCardTemplate.classList.remove("threshold-custom");
+      findPowerCardTemplate.setAttribute("data-before", "");
+    }
+  }
+
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
+
   const elements = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
 </script>
 
@@ -91,10 +189,12 @@
       <div class="is-flex is-flex-direction-row">
         <div class="control" style="width:100%">
           <input
-            id={`powerName${i}`}
+            id={`cardName${i}`}
             class="input"
             type="text"
             placeholder="Power Name"
+            on:blur={updatePowerName(card, i, "name")}
+            on:keyup={nextNode}
             bind:value={card.name} />
         </div>
         <button class="button is-primary is-light is-warning" on:click={removePowerCard(i)}
@@ -106,11 +206,13 @@
         <label class="label is-unselectable mr-1 mt-1" for="">Cost: </label>
         <div class="control">
           <input
-            id={`powerCost${i}`}
+            id={`cardCost${i}`}
             class="input"
             style="width:3rem; text-align:center;"
             type="text"
             placeholder="Cost"
+            on:blur={updatePowerName(card, i, "cost")}
+            on:keyup={nextNode}
             bind:value={card.cost} />
         </div>
       </div>
@@ -120,9 +222,7 @@
           <button
             class="element-toggle"
             aria-pressed={card.powerElements[element]}
-            on:click={() => {
-              card.powerElements[element] = !card.powerElements[element];
-            }}>
+            on:click={toggleElement(card, element)}>
             <img src="/template/_global/images/board/element_simple_{element}.png" alt={element} />
           </button>
         {/each}
@@ -165,10 +265,12 @@
       <div class="is-flex is-flex-direction-column-reverse">
         <div class="control">
           <input
-            id={`powerRange${i}`}
+            id={`cardRange${i}`}
             class="input"
             type="text"
             placeholder="Range"
+            on:keyup={nextNode}
+            on:blur={updatePowerName(card, i, "range")}
             bind:value={card.range} />
         </div>
         <label class="label is-unselectable" for="">Range</label>
@@ -177,10 +279,11 @@
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
           <div class="control">
             <AutoComplete
-              id={`powerTarget${i}`}
+              id={`cardTarget${i}`}
               elementType="input"
               placeholder="Target"
               validAutoCompleteValues={iconValuesSorted}
+              additionalOnBlurFunction={() => updatePowerName(card, i, "target")}
               bind:value={card.target} />
           </div>
         </div>
@@ -220,6 +323,7 @@
         elementType="textarea"
         placeholder="Rules"
         validAutoCompleteValues={iconValuesSorted}
+        additionalOnBlurFunction={() => updatePowerName(card, i, "rules")}
         bind:value={card.rules} />
     </div>
     <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-2">
@@ -232,6 +336,7 @@
             style="width:35%"
             type="text"
             placeholder="Elemental Conditions"
+            on:blur={updatePowerName(card, i, "thresholdCondition")}
             bind:value={card.thresholdCondition} />
           <label class="label is-unselectable mr-2 mb-0 mt-1" style="min-width:7rem" for=""
             >Custom Text:</label>
@@ -240,6 +345,7 @@
             class="input is-small"
             type="text"
             placeholder="use if an alternative to 'IF YOU HAVE' is desired"
+            on:blur={updateCustomThresholdText(card, i, "thresholdText")}
             bind:value={card.thresholdText} />
         </div>
         <AutoComplete
@@ -247,6 +353,7 @@
           elementType="textarea"
           placeholder="Threshold Effect"
           validAutoCompleteValues={iconValuesSorted}
+          additionalOnBlurFunction={() => updatePowerName(card, i, "threshold")}
           bind:value={card.threshold} />
         <button class="button is-warning is-light mb-0" on:click={clearThreshold(card)}
           >Clear Power Threshold</button>
