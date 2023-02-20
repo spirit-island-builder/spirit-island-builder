@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
+  import { downloadHTML } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
 
@@ -14,8 +15,7 @@
 
   export let powerCards;
   export let customIcons;
-  export let isShowingInstructions;
-  export let instructionsSource;
+  export let instructions;
 
   let previewFrame;
 
@@ -192,7 +192,7 @@
 
   function exportPowerCards() {
     const htmlFileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
-    Lib.downloadHTML(generateHTML(powerCards), htmlFileName);
+    downloadHTML(generateHTML(powerCards), htmlFileName);
   }
 
   function clearAllFields() {
@@ -242,8 +242,7 @@
   }
 
   function showInstructions() {
-    isShowingInstructions = true;
-    instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions#power-cards";
+    instructions.open("power-cards");
   }
 
   function screenshotSetUp() {

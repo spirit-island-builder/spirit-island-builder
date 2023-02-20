@@ -3,6 +3,7 @@
   import jsone from "json-e";
 
   import * as Lib from "../lib";
+  import { downloadHTML, downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import Examples from "$lib/example-modal.svelte";
   import LoadButton from "$lib/load-button.svelte";
@@ -21,8 +22,7 @@
 
   export let spiritBoard;
   export let customIcons;
-  export let isShowingInstructions;
-  export let instructionsSource;
+  export let instructions;
 
   function clearAllFields() {
     if (
@@ -499,13 +499,11 @@
 
   function exportSpiritBoard() {
     const htmlFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html";
-    Lib.downloadHTML(generateHTML(spiritBoard), htmlFileName);
+    downloadHTML(generateHTML(spiritBoard), htmlFileName);
   }
 
   function showInstructions() {
-    isShowingInstructions = true;
-    instructionsSource =
-      "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-play-side";
+    instructions.open("spirit-board-play-side");
   }
 
   async function loadExample(example) {
@@ -754,7 +752,7 @@
     let ttsSave = createTTSSave([spiritBoardJson]);
 
     const jsonFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json";
-    Lib.downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
+    downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
 
   function screenshotSetUp() {
@@ -774,11 +772,7 @@
 </PreviewFrame>
 
 <div class="field has-addons mb-2">
-  <button
-    class="button is-info js-modal-trigger mr-1"
-    data-toggle="modal"
-    data-target="modal-js-example"
-    on:click={exampleModal.open}>
+  <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
     Examples
   </button>
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>

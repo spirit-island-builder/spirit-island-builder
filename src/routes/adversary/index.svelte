@@ -2,15 +2,17 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
+  import { downloadHTML } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
 
   import NameLossAndEscalation from "./name-loss-escalation.svelte";
   import AdversaryLevels from "./adversary-levels.svelte";
+  import CustomIcons from "../custom-icons.svelte";
 
   export let adversary;
-  export let isShowingInstructions;
-  export let instructionsSource;
+  export let instructions;
+  export let customIcons;
 
   let previewFrame;
 
@@ -72,6 +74,16 @@
       adversaryHeader.append(HTMLlevel);
     });
 
+    //Set Custom Icons
+    const spiritStyle = document.createElement("style");
+    fragment.prepend(spiritStyle);
+    let customIconText = "";
+    customIcons.icons.forEach((icon) => {
+      customIconText +=
+        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
+    });
+    spiritStyle.textContent = customIconText;
+
     return fragment;
   }
 
@@ -105,11 +117,29 @@
       adversary.levelSummary.levels[i].fearCards = HTMLLevel.getAttribute("fear-cards");
       adversary.levelSummary.levels[i].effect = HTMLLevel.getAttribute("rules");
     }
+
+    //Custom Icons
+    if (adversary.demoBoardWasLoaded) {
+      const adversaryStyle = htmlElement.querySelectorAll("style")[0];
+      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+      if (adversaryStyle) {
+        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+        let iconList = adversaryStyle.textContent.match(regExp);
+        if (iconList) {
+          iconList.forEach((customIcon) => {
+            customIcons = Lib.addCustomIcon(customIcons, customIcon);
+            console.log(customIcon);
+          });
+        }
+      }
+    } else {
+      console.log("SKIPPING ICON LOAD");
+    }
   }
 
   function exportAdversary() {
     const htmlFileName = adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.html";
-    Lib.downloadHTML(generateHTML(adversary), htmlFileName);
+    downloadHTML(generateHTML(adversary), htmlFileName);
   }
 
   function clearAllFields() {
@@ -187,8 +217,7 @@
   }
 
   function showInstructions() {
-    isShowingInstructions = true;
-    instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions#adversary";
+    instructions.open("adversary");
   }
 
   function screenshotSetUp() {
@@ -222,6 +251,7 @@
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">
     <NameLossAndEscalation bind:adversary />
+    <CustomIcons bind:customIcons />
   </div>
   <div class="column pt-0">
     <AdversaryLevels bind:adversary />

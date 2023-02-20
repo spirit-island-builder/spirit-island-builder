@@ -1,0 +1,34 @@
+[
+  {
+    "examples": [
+      {
+        "name": "Blue Lightning",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-bluelightning.png"
+      },
+      {
+        "name": "Blue Sparkles",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-bluesparkles.png"
+      },
+      {
+        "name": "Brown Earth",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-brownearth.png"
+      },
+      {
+        "name": "Green Grass",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-greengrass.png"
+      },
+      {
+        "name": "Red Lava",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-redlava.png"
+      },
+      {
+        "name": "Red Mist",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-redmist.png"
+      },
+      {
+        "name": "Purple Fractal Mist",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-fractalmist.png"
+      }
+    ]
+  }
+]

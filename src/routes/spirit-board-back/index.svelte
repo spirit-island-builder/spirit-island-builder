@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
+  import { downloadHTML } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
 
@@ -11,8 +12,7 @@
 
   export let spiritBoardBack;
   export let customIcons;
-  export let isShowingInstructions;
-  export let instructionsSource;
+  export let instructions;
 
   let previewFrame;
 
@@ -203,7 +203,7 @@
 
   function exportSpiritBoardBack() {
     const htmlFileName = spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritLore.html";
-    Lib.downloadHTML(generateHTML(spiritBoardBack), htmlFileName);
+    downloadHTML(generateHTML(spiritBoardBack), htmlFileName);
   }
 
   function clearAllFields() {
@@ -254,9 +254,7 @@
   }
 
   function showInstructions() {
-    isShowingInstructions = true;
-    instructionsSource =
-      "https://neubee.github.io/spirit-island-builder/instructions#spirit-board-lore-side";
+    instructions.open("spirit-board-lore-side");
   }
 
   function screenshotSetUp() {
