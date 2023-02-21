@@ -1374,7 +1374,7 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
     if (combinedBannerScaleH.at(-1) !== "%") {
       combinedBannerScaleH = combinedBannerScaleH + "%";
     }
-    let tbody = presenceTable.getElementsByTagName("tbody")[0];
+    let tbody = presenceTable.getElementsByTagName("table")[0];
     tbody.style.backgroundImage = "url(" + combinedBanner + ")";
     tbody.style.backgroundSize = combinedBannerScaleH + " " + combinedBannerScaleV;
     console.log(combinedBannerScaleH + " " + combinedBannerScaleV);
