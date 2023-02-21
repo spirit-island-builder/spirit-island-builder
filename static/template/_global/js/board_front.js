@@ -1342,6 +1342,69 @@ function getGrowthActionTextAndIcons(growthAction) {
   return [growthIcons, growthText];
 }
 
+function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
+  console.log("BUILDING PRESENCE TRACK PANEL");
+  const board = document.querySelectorAll("board")[0];
+  const presenceTable = board.getElementsByTagName("presence-tracks")[0];
+
+  presenceTable.innerHTML =
+    "<presence-title><section-title>Presence</section-title></presence-title>" +
+    "<table id='presence-table'><tbody>" +
+    energyHTML +
+    cardPlayHTML +
+    "</tbody></table>";
+
+  //Allow combined-banners
+  const combinedBanner = presenceTable.getAttribute("banner");
+  console.log(presenceTable);
+  if (combinedBanner !== null && combinedBanner !== "null") {
+    console.log("combined banner detected. recommend turning off individual banners");
+    let combinedBannerScaleV = presenceTable.getAttribute("banner-v-scale");
+    if (combinedBannerScaleV === null || combinedBannerScaleV === "null") {
+      combinedBannerScaleV = "100%";
+    }
+    if (combinedBannerScaleV.at(-1) !== "%") {
+      combinedBannerScaleV = combinedBannerScaleV + "%";
+    }
+    let combinedBannerScaleH = presenceTable.getAttribute("banner-h-scale");
+    if (combinedBannerScaleH === null || combinedBannerScaleH === "null") {
+      combinedBannerScaleH = "100%";
+    }
+    console.log(combinedBannerScaleH);
+    if (combinedBannerScaleH.at(-1) !== "%") {
+      combinedBannerScaleH = combinedBannerScaleH + "%";
+    }
+    let tbody = presenceTable.getElementsByTagName("tbody")[0];
+    tbody.style.backgroundImage = "url(" + combinedBanner + ")";
+    tbody.style.backgroundSize = combinedBannerScaleH + " " + combinedBannerScaleV;
+    console.log(combinedBannerScaleH + " " + combinedBannerScaleV);
+    tbody.style.backgroundRepeat = "no-repeat";
+  }
+
+  //Allow for Notes
+  const presenceNote = presenceTable.getAttribute("note");
+  presenceTable.removeAttribute("note");
+  if (presenceNote) {
+    const note = document.createElement("presence-note");
+    const title = presenceTable.querySelectorAll("section-title")[0];
+    title.classList.add("has-note");
+    note.innerHTML = presenceNote;
+    title.after(note);
+  }
+  //should add some kind of first check here
+
+  //detect & correct first circles when using middle
+  const energyTrack = presenceTable.getElementsByClassName("energy-track")[0];
+  const energyNodes = energyTrack.getElementsByTagName("td");
+  const playsTrack = presenceTable.getElementsByClassName("plays-track")[0];
+  const playsNodes = playsTrack.getElementsByTagName("td");
+  if (energyNodes[1].classList.contains("middle")) {
+    if (energyNodes[2].classList.contains("middle")) {
+      playsNodes[1].getElementsByTagName("presence-node")[0].classList.remove("first");
+    }
+  }
+}
+
 function parseEnergyTrackTags() {
   const board = document.querySelectorAll("board")[0];
   const energyValues = board.getElementsByTagName("energy-track")[0].getAttribute("values");
@@ -2107,39 +2170,6 @@ function makePlural(str) {
   return "";
 }
 
-function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
-  console.log("BUILDING PRESENCE TRACK PANEL");
-  const board = document.querySelectorAll("board")[0];
-  const presenceTable = board.getElementsByTagName("presence-tracks")[0];
-  presenceTable.innerHTML =
-    "<presence-title><section-title>Presence</section-title></presence-title>" +
-    "<table id='presence-table'>" +
-    energyHTML +
-    cardPlayHTML +
-    "</table>";
-  const presenceNote = presenceTable.getAttribute("note");
-  presenceTable.removeAttribute("note");
-  if (presenceNote) {
-    const note = document.createElement("presence-note");
-    const title = presenceTable.querySelectorAll("section-title")[0];
-    title.classList.add("has-note");
-    note.innerHTML = presenceNote;
-    title.after(note);
-  }
-  //should add some kind of first check here
-
-  //detect & correct first circles when using middle
-  const energyTrack = presenceTable.getElementsByClassName("energy-track")[0];
-  const energyNodes = energyTrack.getElementsByTagName("td");
-  const playsTrack = presenceTable.getElementsByClassName("plays-track")[0];
-  const playsNodes = playsTrack.getElementsByTagName("td");
-  if (energyNodes[1].classList.contains("middle")) {
-    if (energyNodes[2].classList.contains("middle")) {
-      playsNodes[1].getElementsByTagName("presence-node")[0].classList.remove("first");
-    }
-  }
-}
-
 function growthHeadersAndTitles() {
   // Create Headers (if using Subsets)
   let debug = false;
@@ -2855,7 +2885,7 @@ function getRangeModel(rangeString) {
 }
 
 function writeInnateLevel(currentLevel, levelID) {
-  let debug = true;
+  let debug = false;
   if (debug) {
     console.log("writing level");
   }
@@ -2886,7 +2916,7 @@ function writeInnateLevel(currentLevel, levelID) {
     const currentDescription = currentLevel.innerHTML;
     levelHTML += currentDescription + "</div></level>";
   }
-  console.log(levelHTML);
+
   return levelHTML;
 }
 
