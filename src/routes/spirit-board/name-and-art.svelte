@@ -51,6 +51,13 @@
     exampleDescription="Pre-Made Banners"
     bind:imageURL={spiritBoard.nameAndArt.playsBannerPath}
     bind:imageScale={spiritBoard.nameAndArt.playsBannerScale} />
+  <!-- Combined Track Banner -->
+  <ImageInput
+    id="combinedBanner"
+    title="Combined Track Banner (ie. Finder/Snake)"
+    includeScale
+    bind:imageURL={spiritBoard.nameAndArt.combinedBannerPath}
+    bind:imageScale={spiritBoard.nameAndArt.combinedBannerScaleV} />
   <!-- Artist Credits -->
   <div class="field">
     <label class="label" for="spiritArtistCreditInput">Artist Credit(s)</label>

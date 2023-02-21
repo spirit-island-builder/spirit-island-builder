@@ -21,6 +21,7 @@
   import spiritBoardJsonTemplate from "./tts-spirit-board.json";
 
   export let spiritBoard;
+  export let emptySpiritBoard;
   export let customIcons;
   export let instructions;
 
@@ -28,111 +29,7 @@
     if (
       window.confirm("Are you sure? This permanently clears all fields in Spirit Board Play Side.")
     ) {
-      spiritBoard = {
-        demoBoardWasLoaded: true,
-        previewBoard: {
-          isVisible: false,
-        },
-        nameAndArt: {
-          isVisible: false,
-          name: "",
-          artPath: "",
-          artScale: "",
-          bannerPath: "",
-          energyBannerPath: "",
-          energyBannerScale: "",
-          playsBannerPath: "",
-          playsBannerScale: "",
-          artistCredit: "",
-        },
-        specialRules: {
-          isVisible: false,
-          rules: [
-            {
-              id: 0,
-              name: "",
-              effect: "",
-            },
-          ],
-        },
-        growth: {
-          isVisible: false,
-          useGrowthSets: false,
-          directions: "",
-          growthSets: [
-            {
-              id: 0,
-              choiceText: "",
-              growthGroups: [
-                {
-                  id: 0,
-                  cost: "",
-                  tint: "",
-                  title: "",
-                  hasCost: false,
-                  hasTint: false,
-                  hasTitle: false,
-                  growthActions: [
-                    {
-                      id: 0,
-                      effect: "",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        presenceTrack: {
-          isVisible: false,
-          useMiddleNodes: false,
-          note: "",
-          energyNodes: [
-            {
-              id: 0,
-              effect: "",
-            },
-          ],
-          playsNodes: [
-            {
-              id: 0,
-              effect: "",
-            },
-          ],
-        },
-        innatePowers: {
-          isVisible: false,
-          powers: [
-            {
-              id: 0,
-              name: "",
-              speed: "fast",
-              range: "",
-              target: "",
-              targetTitle: "target land",
-              effect: "",
-              note: "",
-              noteShow: true,
-              levels: [
-                {
-                  id: 0,
-                  threshold: "",
-                  effect: "",
-                },
-              ],
-            },
-          ],
-        },
-        customIcons: {
-          isVisible: false,
-          icons: [
-            {
-              id: 0,
-              name: "",
-            },
-          ],
-        },
-      };
+      spiritBoard = JSON.parse(JSON.stringify(emptySpiritBoard));
       reloadPreview();
     }
   }
@@ -161,6 +58,7 @@
     if (spiritBoard.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
         spiritBoard.demoBoardWasLoaded = true;
+        emptySpiritBoard.demoBoardWasLoaded = true;
       });
     } else {
       reloadPreview();
@@ -271,6 +169,17 @@
       }
     }
     checkTracksForCommas(); //swap commas for semicolons
+
+    presenceTrackContainer.setAttribute("banner", spiritBoard.nameAndArt.combinedBannerPath);
+    presenceTrackContainer.setAttribute(
+      "banner-v-scale",
+      spiritBoard.nameAndArt.combinedBannerScaleV
+    );
+    presenceTrackContainer.setAttribute(
+      "banner-h-scale",
+      spiritBoard.nameAndArt.combinedBannerScaleH
+    );
+
     let energyTrack = document.createElement("energy-track");
     energyTrack.setAttribute("banner", spiritBoard.nameAndArt.energyBannerPath);
     energyTrack.setAttribute("banner-v-scale", spiritBoard.nameAndArt.energyBannerScale);
@@ -419,6 +328,12 @@
     //Load Presence Tracks
 
     let presenceTracks = htmlElement.querySelectorAll("presence-tracks")[0];
+    spiritBoard.nameAndArt.combinedBannerPath = Lib.maybeResolveURL(
+      presenceTracks.getAttribute("banner"),
+      baseURI
+    );
+    spiritBoard.nameAndArt.combinedBannerScaleV = presenceTracks.getAttribute("banner-v-scale");
+    spiritBoard.nameAndArt.combinedBannerScaleH = presenceTracks.getAttribute("banner-h-scale");
     let presenceNote = presenceTracks.getAttribute("note");
     if (presenceNote) {
       spiritBoard.presenceTrack.note = presenceNote;
@@ -487,6 +402,7 @@
         });
       }
     }
+    console.log(spiritBoard);
   }
 
   function reloadPreview() {
@@ -495,6 +411,7 @@
       previewFrame.startMain();
     });
     document.getElementById("updateButton").classList.remove("is-flashy");
+    console.log(spiritBoard);
   }
 
   function exportSpiritBoard() {
