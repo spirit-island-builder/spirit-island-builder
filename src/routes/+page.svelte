@@ -406,7 +406,7 @@
     {:else if currentPage === "powerCards"}
       <PowerCards bind:powerCards bind:customIcons bind:instructions />
     {:else if currentPage === "aspect"}
-      <Aspect bind:aspect bind:emptyAspect bind:customIcons bind:instructions />
+      <Aspect bind:aspect bind:emptyAspect bind:customIcons />
     {:else if currentPage === "adversary"}
       <Adversary bind:adversary bind:instructions bind:customIcons />
     {/if}
