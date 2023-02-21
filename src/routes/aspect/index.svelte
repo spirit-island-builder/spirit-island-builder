@@ -11,7 +11,6 @@
   import { downloadHTML } from "$lib/download";
 
   export let aspect;
-  export let instructions;
   export let emptyAspect;
   export let customIcons;
 
@@ -270,10 +269,6 @@
     }
   }
 
-  function showInstructions() {
-    instructions.open("power-cards");
-  }
-
   function screenshotSetUp() {
     const fileNames = [
       aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.png",
@@ -303,7 +298,6 @@
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">
