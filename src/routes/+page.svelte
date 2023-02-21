@@ -21,7 +21,7 @@
     console.log(">--|--< Switching to " + page + " >--|--<");
   }
 
-  let spiritBoard = {
+  let emptySpiritBoard = {
     demoBoardWasLoaded: false,
     previewBoard: {
       isVisible: false,
@@ -32,6 +32,9 @@
       artPath: "",
       artScale: "",
       bannerPath: "",
+      combinedBannerPath: "",
+      combinedBannerScaleH: "",
+      combinedBannerScaleV: "",
       energyBannerPath: "",
       energyBannerScale: "",
       playsBannerPath: "",
@@ -126,6 +129,7 @@
       ],
     },
   };
+  let spiritBoard = JSON.parse(JSON.stringify(emptySpiritBoard));
 
   let customIcons = {
     prop: "value",
@@ -394,7 +398,7 @@
   <Instructions bind:this={instructions} />
   <div class="container">
     {#if currentPage === "spiritBoardFront"}
-      <SpiritBoard bind:spiritBoard bind:customIcons bind:instructions />
+      <SpiritBoard bind:spiritBoard bind:emptySpiritBoard bind:customIcons bind:instructions />
     {:else if currentPage === "spiritBoardBack"}
       <SpiritBoardBack bind:spiritBoardBack bind:customIcons bind:instructions />
     {:else if currentPage === "powerCards"}
