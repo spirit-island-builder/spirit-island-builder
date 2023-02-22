@@ -353,8 +353,6 @@
     },
   };
 
-  let instructions;
-
   let pages = [
     ["spiritBoardFront", "Spirit Board Play Side"],
     ["spiritBoardBack", "Spirit Board Lore Side"],
@@ -395,18 +393,18 @@
       {/if}
     </nav>
   </header>
-  <Instructions bind:this={instructions} />
+  <Instructions />
   <div class="container">
     {#if currentPage === "spiritBoardFront"}
-      <SpiritBoard bind:spiritBoard bind:emptySpiritBoard bind:customIcons bind:instructions />
+      <SpiritBoard bind:spiritBoard bind:emptySpiritBoard bind:customIcons />
     {:else if currentPage === "spiritBoardBack"}
-      <SpiritBoardBack bind:spiritBoardBack bind:customIcons bind:instructions />
+      <SpiritBoardBack bind:spiritBoardBack bind:customIcons />
     {:else if currentPage === "powerCards"}
-      <PowerCards bind:powerCards bind:customIcons bind:instructions />
+      <PowerCards bind:powerCards bind:customIcons />
     {:else if currentPage === "aspect"}
       <Aspect bind:aspect bind:emptyAspect bind:customIcons />
     {:else if currentPage === "adversary"}
-      <Adversary bind:adversary bind:instructions bind:customIcons />
+      <Adversary bind:adversary bind:customIcons />
     {/if}
   </div>
 
