@@ -9,15 +9,11 @@
 <Section
   title="Name, Loss Condition, and Escalation"
   bind:isVisible={adversary.nameLossEscalation.isVisible}>
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#adversary-name"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
+  <div class="mb-1 p-1 note">
+    <a
+      href="https://neubee.github.io/spirit-island-builder/instructions#adversary-name"
+      target="_blank">Instructions</a>
+  </div>
   <div class="field">
     <label class="label is-flex is-justify-content-space-between" for="adversaryNameInput"
       >Adversary Name & Diffuclty
