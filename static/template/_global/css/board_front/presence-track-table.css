@@ -42,6 +42,7 @@ presence-tracks table {
   height: 273px;
   margin-left: -50px; /* adding a blank row for an image. This gives us some space. */
   border-collapse: collapse;
+  position: relative;
 }
 
 presence-tracks table td {
@@ -165,7 +166,8 @@ card-icon.small {
   z-index: 2;
 }
 
-.gain-card-play.small {
+.gain-card-play.small,
+.gain-power-card.small {
   height: 80px;
   width: 80px;
   margin-left: -7px;
