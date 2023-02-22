@@ -8,7 +8,7 @@
 
 <Section title="Levels" bind:isVisible={adversary.levelSummary.isVisible}>
   <div class="mb-1 p-1 note">
-    <InstructionsLink anchor="a-nameadversary-levelaadversary-levels" />
+    <InstructionsLink anchor="adversary-levels" />
   </div>
 
   <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
