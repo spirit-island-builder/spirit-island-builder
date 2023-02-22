@@ -102,5 +102,8 @@ ion-icon {
 }
 
 .note a {
-  text-decoration: underline;
+  text-decoration: underline dotted;
+}
+.note a:hover {
+  text-decoration-style: solid;
 }

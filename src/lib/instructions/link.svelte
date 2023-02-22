@@ -26,3 +26,9 @@
   on:click={open}
   rel="noreferrer"
   target="_blank">Instructions</a>
+
+<style>
+  a {
+    cursor: help;
+  }
+</style>
