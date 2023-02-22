@@ -46,15 +46,11 @@
 </script>
 
 <Section title="Special Rules" bind:isVisible={spiritBoard.specialRules.isVisible}>
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#special-rules"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
+  <div class="mb-1 p-1 note">
+    <a
+      href="https://neubee.github.io/spirit-island-builder/instructions#special-rules"
+      target="_blank">Instructions</a>
+  </div>
   <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
   {#each spiritBoard.specialRules.rules as rule, i (rule.id)}
     <div class="field">

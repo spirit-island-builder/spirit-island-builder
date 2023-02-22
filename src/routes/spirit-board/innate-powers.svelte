@@ -184,15 +184,11 @@
 </script>
 
 <Section title="Innate Powers" bind:isVisible={spiritBoard.innatePowers.isVisible}>
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#innate-powers"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
+  <div class="mb-1 p-1 note">
+    <a
+      href="https://neubee.github.io/spirit-island-builder/instructions#innate-powers"
+      target="_blank">Instructions</a>
+  </div>
   {#each spiritBoard.innatePowers.powers as innatePower, i (innatePower.id)}
     <div class="field mt-2">
       <label class="label mb-1 is-unselectable" for="spiritGrowthInput"

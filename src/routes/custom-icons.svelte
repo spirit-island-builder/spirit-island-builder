@@ -21,13 +21,12 @@
 </script>
 
 <Section title="Custom Icons (optional)" bind:isVisible={customIcons.isVisible}>
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      Custom Icons allow you to load and then use icons that aren't pre-built into the template. <a
-        href="https://neubee.github.io/spirit-island-builder/instructions#custom-icons"
-        target="_blank">Instructions</a>
-    </div>
-  </article>
+  <div class="mb-1 p-1 note">
+    Custom Icons allow you to load and then use icons that aren't pre-built into the template.
+    <a
+      href="https://neubee.github.io/spirit-island-builder/instructions#custom-icons"
+      target="_blank">Instructions</a>
+  </div>
   {#each customIcons.icons as icon, i (icon.id)}
     <div class="field has-addons is-horizontal is-justify-content-left mb-0">
       <div class="field-label is-small">
