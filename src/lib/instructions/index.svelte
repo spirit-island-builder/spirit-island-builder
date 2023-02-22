@@ -2,10 +2,12 @@
   export const instructionsURL = new URL(
     "https://neubee.github.io/spirit-island-builder/instructions"
   );
+  export let instructions;
 </script>
 
 <script>
   import { removeOutline, expandOutline, exitOutline, close as closeIcon } from "ionicons/icons";
+  import { onMount } from "svelte";
 
   let isMinimized = false;
 
@@ -19,6 +21,10 @@
     }
     popup.show();
   };
+
+  onMount(() => {
+    instructions = { open };
+  });
 
   function dragPointerDown(e) {
     if (!e.isPrimary || e.button !== 0) {
