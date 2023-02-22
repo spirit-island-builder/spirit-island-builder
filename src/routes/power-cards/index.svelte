@@ -12,10 +12,10 @@
   import powerCardsJsonTemplate from "./tts-power-card.json";
   import jsone from "json-e";
   import { createTTSSave, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 
   export let powerCards;
   export let customIcons;
-  export let instructions;
 
   let previewFrame;
 
@@ -258,10 +258,6 @@
     }
   }
 
-  function showInstructions() {
-    instructions.open("power-cards");
-  }
-
   function screenshotSetUp() {
     const fileNames = [];
     const elementNamesInIframe = [];
@@ -406,7 +402,7 @@
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Preview Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
+  <InstructionsLink class="button is-info mr-1" anchor="power-cards" />
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">

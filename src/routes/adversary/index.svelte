@@ -9,9 +9,9 @@
   import NameLossAndEscalation from "./name-loss-escalation.svelte";
   import AdversaryLevels from "./adversary-levels.svelte";
   import CustomIcons from "../custom-icons.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 
   export let adversary;
-  export let instructions;
   export let customIcons;
 
   let previewFrame;
@@ -216,10 +216,6 @@
     }
   }
 
-  function showInstructions() {
-    instructions.open("adversary");
-  }
-
   function screenshotSetUp() {
     const fileNames = [adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.png"];
     const elementNamesInIframe = ["adversary"];
@@ -246,7 +242,7 @@
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
+  <InstructionsLink class="button is-info mr-1" anchor="adversary" />
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">

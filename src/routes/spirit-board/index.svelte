@@ -19,11 +19,11 @@
 
   import examples from "./examples.json";
   import spiritBoardJsonTemplate from "./tts-spirit-board.json";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 
   export let spiritBoard;
   export let emptySpiritBoard;
   export let customIcons;
-  export let instructions;
 
   function clearAllFields() {
     if (
@@ -415,10 +415,6 @@
     downloadHTML(generateHTML(spiritBoard), htmlFileName);
   }
 
-  function showInstructions() {
-    instructions.open("spirit-board-play-side");
-  }
-
   async function loadExample(example) {
     await loadHTMLFromURL(example.url);
     hideAll();
@@ -699,7 +695,7 @@
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
+  <InstructionsLink class="button is-info mr-1" anchor="spirit-board-play-side" />
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">
