@@ -4,6 +4,7 @@
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 
   function insertEnergyTrackNode(index) {
     let focusId = "energy" + (index + 1) + "builder";
@@ -178,9 +179,7 @@
 
 <Section title="Presence Tracks" bind:isVisible={spiritBoard.presenceTrack.isVisible}>
   <div class="mb-1 p-1 note">
-    <a
-      href="https://neubee.github.io/spirit-island-builder/instructions#presence-tracks"
-      target="_blank">Instructions</a>
+    <InstructionsLink anchor="presence-tracks" />
   </div>
   <div class="field">
     <label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput"

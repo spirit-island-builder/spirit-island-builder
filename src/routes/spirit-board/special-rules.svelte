@@ -3,6 +3,7 @@
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 
   export let spiritBoard;
 
@@ -47,9 +48,7 @@
 
 <Section title="Special Rules" bind:isVisible={spiritBoard.specialRules.isVisible}>
   <div class="mb-1 p-1 note">
-    <a
-      href="https://neubee.github.io/spirit-island-builder/instructions#special-rules"
-      target="_blank">Instructions</a>
+    <InstructionsLink anchor="special-rules" />
   </div>
   <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
   {#each spiritBoard.specialRules.rules as rule, i (rule.id)}
