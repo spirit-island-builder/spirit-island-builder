@@ -1377,7 +1377,6 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
     let tbody = presenceTable.getElementsByTagName("table")[0];
     tbody.style.backgroundImage = "url(" + combinedBanner + ")";
     tbody.style.backgroundSize = combinedBannerScaleH + " " + combinedBannerScaleV;
-    console.log(combinedBannerScaleH + " " + combinedBannerScaleV);
     tbody.style.backgroundRepeat = "no-repeat";
   }
 
@@ -1812,6 +1811,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
         }
       }
     } else {
+      //It's multiple items
       subText = "";
 
       // Find unique names and report multiples
@@ -1883,6 +1883,13 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
             num +
             "</value></card-icon></icon-multi-element>";
         } else if (splitOptions[i].startsWith("gain-card-play")) {
+          trackIcons +=
+            "<icon-multi-element><icon class='" +
+            splitOptions[i] +
+            " small'" +
+            track_icon_loc +
+            "></icon></icon-multi-element>";
+        } else if (splitOptions[i].startsWith("gain-power-card")) {
           trackIcons +=
             "<icon-multi-element><icon class='" +
             splitOptions[i] +
