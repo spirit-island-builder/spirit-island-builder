@@ -1,3 +1,9 @@
+<script context="module">
+  export const instructionsURL = new URL(
+    "https://neubee.github.io/spirit-island-builder/instructions"
+  );
+</script>
+
 <script>
   import { removeOutline, expandOutline, exitOutline, close as closeIcon } from "ionicons/icons";
 
@@ -6,7 +12,7 @@
   let popup;
   let dragBar;
 
-  const source = new URL("https://neubee.github.io/spirit-island-builder/instructions");
+  const source = new URL(instructionsURL);
   export const open = (fragement) => {
     if (fragement) {
       source.hash = fragement;
