@@ -1,6 +1,7 @@
 <script>
   import Section from "$lib/section.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
   export let customIcons;
 
   function addCustomIcon() {
@@ -23,9 +24,7 @@
 <Section title="Custom Icons (optional)" bind:isVisible={customIcons.isVisible}>
   <div class="mb-1 p-1 note">
     Custom Icons allow you to load and then use icons that aren't pre-built into the template.
-    <a
-      href="https://neubee.github.io/spirit-island-builder/instructions#custom-icons"
-      target="_blank">Instructions</a>
+    <InstructionsLink anchor="custom-icons" />
   </div>
   {#each customIcons.icons as icon, i (icon.id)}
     <div class="field has-addons is-horizontal is-justify-content-left mb-0">

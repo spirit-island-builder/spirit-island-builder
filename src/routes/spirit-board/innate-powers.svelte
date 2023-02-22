@@ -4,6 +4,7 @@
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 
   function setSpeedTextbox(powerSpeed, innatePower) {
     innatePower.speed = powerSpeed;
@@ -185,9 +186,7 @@
 
 <Section title="Innate Powers" bind:isVisible={spiritBoard.innatePowers.isVisible}>
   <div class="mb-1 p-1 note">
-    <a
-      href="https://neubee.github.io/spirit-island-builder/instructions#innate-powers"
-      target="_blank">Instructions</a>
+    <InstructionsLink anchor="innate-powers" />
   </div>
   {#each spiritBoard.innatePowers.powers as innatePower, i (innatePower.id)}
     <div class="field mt-2">

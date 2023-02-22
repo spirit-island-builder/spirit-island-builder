@@ -3,15 +3,14 @@
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 </script>
 
 <Section
   title="Setup, Play Style, Complexity and Summary of Powers"
   bind:isVisible={spiritBoardBack.setupPlaystyleComplexityPowers.isVisible}>
   <div class="mb-1 p-1 note">
-    <a
-      href="https://neubee.github.io/spirit-island-builder/instructions#spirit-lore-setup"
-      target="_blank">Instructions</a>
+    <InstructionsLink anchor="spirit-lore-setup" />
   </div>
   <!-- Setup -->
   <div class="field">
