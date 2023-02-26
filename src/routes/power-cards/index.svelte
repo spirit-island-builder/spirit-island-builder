@@ -92,6 +92,17 @@
     });
     spiritStyle.textContent = customIconText;
 
+    // Card Back
+    if (powerCards.cardBackImage) {
+      const cardBack = document.createElement("card-back");
+      const cardBackArt = document.createElement("img");
+      fragment.append(cardBack);
+      cardBack.append(cardBackArt);
+      cardBack.setAttribute("id", "cardBack");
+      cardBackArt.classList.add("image-back");
+      cardBackArt.setAttribute("src", powerCards.cardBackImage);
+    }
+
     return fragment;
   }
 
@@ -125,6 +136,12 @@
       }
     } else {
       console.log("SKIPPING ICON LOAD");
+    }
+
+    const cardBack = htmlElement.querySelectorAll("card-back")[0];
+    if (cardBack) {
+      let cardBackImage = cardBack.querySelectorAll("img")[0];
+      powerCards.cardBackImage = Lib.maybeResolveURL(cardBackImage.getAttribute("src"), baseURI);
     }
   }
 
@@ -252,6 +269,11 @@
       elementNamesInIframe.push(`#card${index}`);
       fileNames.push(card.name.replaceAll(" ", "_") + "_PowerCard.png");
     });
+    console.log(powerCards.cardBackImage);
+    if (powerCards.cardBackImage) {
+      elementNamesInIframe.push(`#cardBack`);
+      fileNames.push("BackImage.png");
+    }
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 
