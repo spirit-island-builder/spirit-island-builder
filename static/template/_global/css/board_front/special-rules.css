@@ -354,10 +354,14 @@ special-rule range {
   margin-bottom: -20px;
   margin-top: -7px;
   height: 30px;
-  background-position-y: 22px;
   font-family: "Antropos";
   font-size: 20px;
   vertical-align: top;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-position: bottom;
 }
 
 special-rule range.gain-range {
@@ -365,7 +369,8 @@ special-rule range.gain-range {
 }
 
 special-rule icon.range-small-icon {
-  width: 30px;
-  height: 17px;
-  margin-bottom: 0px;
+  width: 33px;
+  height: 22px;
+  position: relative;
+  top: -4px;
 }

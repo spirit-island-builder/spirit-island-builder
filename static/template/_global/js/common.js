@@ -62,6 +62,8 @@ function replaceIcon(html) {
       range_num = iconName.substring(6);
       if (isNaN(range_num)) {
         range_num = '<icon class="range-small-icon ' + range_num + '"></icon>';
+      } else {
+        range_num = "<range-value>" + range_num + "</range-value>";
       }
       iconName = "range";
     } else if (iconName.startsWith("gain-range-")) {

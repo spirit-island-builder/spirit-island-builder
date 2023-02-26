@@ -245,7 +245,7 @@ presence-node value {
 }
 
 energy-icon.small value {
-  font-size: 23pt;
+  font-size: 26pt;
 }
 
 card-icon.small value {
@@ -339,6 +339,7 @@ deep-layers {
   top: -3px;
   transform: translateX(50%);
   position: relative;
+  z-index: 2;
 }
 
 deep-layers > icon.energy-deep-layers,

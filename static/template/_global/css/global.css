@@ -453,6 +453,9 @@ icon.your-land {
 icon.empower-incarna {
   background-image: url("../images/board/NewIcons/empower-incarna.png");
 }
+icon.incarna {
+  background-image: url("../images/board/NewIcons/incarna-unempower.png");
+}
 icon.incarna-ember {
   background-image: url("../images/board/NewIcons/incarna-ember.png");
 }
@@ -481,6 +484,12 @@ range {
   background-size: contain;
   font-family: "Antropos";
   font-size: 40px;
+}
+
+range-value {
+  position: relative;
+  top: -2px;
+  font-size: 24px;
 }
 
 no-range {

@@ -142,6 +142,7 @@ innate-power range {
 
 innate-power range.gain-range {
   padding-right: 5px;
+  padding-bottom: 5px;
 }
 
 no-range {
@@ -321,9 +322,15 @@ div.description {
 }
 
 .description icon.slow,
-.description icon.fast {
-  width: 35px;
+.description icon.fast,
+.description icon.fear {
+  width: 45px;
   height: 35px;
+  margin-bottom: -9px;
+}
+
+.description icon.fear {
+  width: 35px;
 }
 
 .description icon.explorer {
@@ -428,9 +435,10 @@ div.description {
 }
 
 .description icon.range-small-icon {
-  width: 30px;
-  height: 17px;
-  margin-bottom: 0px;
+  width: 33px;
+  height: 22px;
+  position: relative;
+  top: -4px;
 }
 
 description-container range {
@@ -444,14 +452,20 @@ description-container range {
 }
 
 level range {
-  width: 45px;
-  margin-bottom: -20px;
-  margin-top: -7px;
-  height: 30px;
-  background-position-y: 19px;
+  width: 48px;
+  height: 28px;
   font-family: "Antropos";
   font-size: 20px;
-  vertical-align: top;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-position: bottom;
+}
+
+innate-power range-value {
+  top: -4px;
+  font-size: 20pt;
 }
 
 .element-for-each {
