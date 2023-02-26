@@ -382,6 +382,12 @@
 <div class="pt-1 pb-2">
   <button class="button is-primary is-light" on:click={addEmptyPowerCard}>Add Power Card</button>
 </div>
+<Section title={`Card Back`} bind:isVisible={powerCards.cardBackImageIsVisible}>
+  <ImageInput
+    id="powerCardBack"
+    title="Power Card Back Art"
+    bind:imageURL={powerCards.cardBackImage} />
+</Section>
 
 <style>
   .element-toggle {
