@@ -87,6 +87,7 @@ presence-node ring-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 presence-node.first ring-icon {
@@ -187,8 +188,8 @@ presence-node energy-icon {
 }
 
 energy-icon.small {
-  height: 80px;
-  width: 80px;
+  height: 90px;
+  width: 90px;
   margin-left: -10px;
   margin-top: -20px;
 }
@@ -207,7 +208,7 @@ presence-node icon-shadow {
 icon-shadow.small {
   height: 94px;
   width: 94px;
-  margin-left: -20px;
+  margin-left: -5px;
   margin-top: -16px;
   z-index: 0;
   position: absolute;
@@ -244,7 +245,7 @@ presence-node value {
 }
 
 energy-icon.small value {
-  font-size: 26pt;
+  font-size: 23pt;
 }
 
 card-icon.small value {
@@ -252,8 +253,8 @@ card-icon.small value {
 }
 
 presence-node icon {
-  width: 65px;
-  height: 65px;
+  width: 70px;
+  height: 70px;
 }
 
 presence-node icon.isolate,
@@ -265,9 +266,9 @@ presence-node icon.custom3 {
   margin-top: -3px;
 }
 
-icon-multi-element icon.custom1,
-icon-multi-element icon.custom2,
-icon-multi-element icon.custom3 {
+presence-node-multi icon.custom1,
+presence-node-multi icon.custom2,
+presence-node-multi icon.custom3 {
   height: 65px;
   width: 65px;
   margin-top: -3px;
@@ -327,6 +328,85 @@ presence-node > icon.card-deep-layers {
   top: -4px;
   margin-bottom: -90px;
   transform: translateX(50%);
+}
+
+ring-icon.deep-layers {
+  background-image: url("../../images/board/CardPlayRing_DeepLayers.png");
+}
+
+deep-layers {
+  left: -40px;
+  top: -3px;
+  transform: translateX(50%);
+  position: relative;
+}
+
+deep-layers > icon.energy-deep-layers,
+deep-layers > icon.card-deep-layers {
+  position: absolute;
+  height: 37px;
+  width: 60px;
+  background-position: center;
+  left: 26px;
+  margin: 0px;
+}
+
+deep-layers > icon.energy-blank {
+  height: 55px;
+  margin-top: -10px;
+}
+
+track-move-presence {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  font-family: "Antropos";
+  line-height: 0.6;
+  margin-bottom: 5px;
+}
+
+track-move-presence.small {
+  scale: 0.9;
+  position: absolute;
+}
+
+track-move-presence.shadow {
+  background-image: url("../../images/customIcons/Presence Track Back.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 130px;
+  width: 130px;
+}
+
+track-move-presence icon {
+  width: 40px;
+  height: 30px;
+  margin: 0px;
+  position: relative;
+}
+
+track-move-presence icon.move-arrow {
+  width: 80px;
+}
+
+track-move-presence move-value {
+  position: relative;
+  left: -1px;
+  position: relative;
+}
+
+presence-node-multi {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-49%, -46%);
+  height: inherit;
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 icon.push {
@@ -476,37 +556,6 @@ element-or-wrap icon.backslash.small {
   width: 20px;
   height: 55px;
 }
-
-/* element-or-wrap.small{
-  position: absolute;
-  display: inline-block;
-  margin-left: 17px;
-  margin-top: -10px;
-}
-
-element-or-wrap icon.presence-or-first.small, element-or-wrap icon.presence-or-second.small{
-  width:40px;
-  height:40px;
-  margin:0px;
-}
-
-element-or-wrap icon.presence-or-first.small{
-    margin-left: -21px;
-    margin-top: 33px;
-}
-
-element-or-wrap icon.presence-or-second.small { 
-    margin-left: 6px;
-    margin-top: -10px;
-}
-
-element-or-wrap icon.backslash.small{
-    margin-top: 12px;
-    margin-left: 8px;
-    width: 20px;
-    height: 48px;
-    transform: rotate(289deg);
-} */
 
 element-or-wrap icon.backslash {
   width: 35px;
