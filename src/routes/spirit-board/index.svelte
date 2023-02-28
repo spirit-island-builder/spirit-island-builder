@@ -253,8 +253,6 @@
   }
 
   function readHTML(htmlElement, baseURI) {
-    console.log("Loading Spirit Board from HTML into form (f=readHTML)");
-    console.log(htmlElement);
     //Reads the Template HTML file into the Form
     //Load Spirit Name and Image
     const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
@@ -293,6 +291,7 @@
     const growthContainer = htmlElement.querySelectorAll("growth");
     let htmlGrowthSets = growthContainer[0].querySelectorAll("sub-growth");
     let containerLayer;
+    spiritBoard.growth.useGrowthSets = false;
     if (htmlGrowthSets[0]) {
       // if the HTML file isn't using subgroups (Growth Sets), then there's a whole layer that's missing... this gynamstics accounts for it.
       spiritBoard.growth.useGrowthSets = true;
@@ -382,7 +381,7 @@
           spiritBoard,
           k,
           htmlLevel.getAttribute("threshold"),
-          htmlLevel.textContent.trim(),
+          htmlLevel.innerHTML.trim(),
           htmlLevel.hasAttribute("long")
         );
       });
@@ -398,20 +397,17 @@
         iconList.forEach((customIcon) => {
           customIcon = Lib.maybeResolveURL(customIcon, baseURI);
           customIcons = Lib.addCustomIcon(customIcons, customIcon);
-          console.log(customIcon);
         });
       }
     }
-    console.log(spiritBoard);
   }
 
   function reloadPreview() {
-    console.log("Updating Preview Board (f=setBoardValues)");
+    console.log("Updating Preview Board (f=generateHTML)");
     previewFrame.copyHTMLFrom(generateHTML(spiritBoard)).then(() => {
       previewFrame.startMain();
     });
     document.getElementById("updateButton").classList.remove("is-flashy");
-    console.log(spiritBoard);
   }
 
   function exportSpiritBoard() {

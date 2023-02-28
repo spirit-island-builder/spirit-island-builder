@@ -1852,7 +1852,6 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           console.log("Multinode: " + splitOptions[i]);
         }
         // deal with cards and energy
-        console.log("before:" + trackIcons);
         if (!isNaN(splitOptions[i])) {
           trackIcons +=
             "<" +
@@ -1930,12 +1929,9 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
         } else {
           trackIcons += "<icon class='" + splitOptions[i] + "'" + "></icon>";
         }
-        console.log("after:" + trackIcons);
         trackIcons =
           "<presence-node-multi " + track_icon_loc + ">" + trackIcons + "</presence-node-multi>";
-        console.log("afterer:" + trackIcons);
         inner += trackIcons;
-        console.log("inner:" + inner);
       }
       // inner = trackIcons;
     }
@@ -2188,7 +2184,6 @@ function growthHeadersAndTitles() {
         headerWidth[header] = addWidth;
       }
     } else if (maxIndex !== undefined) {
-      console.log("maxIndex is defined");
       const addWidth =
         parseFloat(window.getComputedStyle(c).getPropertyValue("margin-right").replace(/px/, "")) +
         parseFloat(window.getComputedStyle(c).getPropertyValue("margin-left").replace(/px/, "")) +
