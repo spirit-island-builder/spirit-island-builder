@@ -882,14 +882,19 @@ function getGrowthActionTextAndIcons(growthAction) {
       let moveText = "";
       let moveIcons = "";
       if (!moveOptions[1]) {
-        moveIcons = "<custom-icon>{presence}{move-range-" + moveRange + "}</custom-icon>";
+        // moveIcons = "<custom-icon>{presence}{move-range-" + moveRange + "}</custom-icon>";
+        moveIcons =
+          "<custom-icon>{presence}<move-growth><value>" +
+          moveRange +
+          "</value></move-growth></custom-icon>";
         moveText = "Move a Presence";
       } else if (!isNaN(moveOptions[1])) {
         moveIcons = "<custom-icon><token-wrap>";
         for (let i = 0; i < moveOptions[1]; i++) {
           moveIcons += "{presence}";
         }
-        moveIcons += "</token-wrap>{move-range-" + moveRange + "}</custom-icon>";
+        moveIcons +=
+          "</token-wrap><move-growth><value>" + moveRange + "</value></move-growth></custom-icon>";
         moveText = "Move up to " + moveOptions[1] + " Presence together";
       }
 
@@ -1377,7 +1382,6 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
     let tbody = presenceTable.getElementsByTagName("table")[0];
     tbody.style.backgroundImage = "url(" + combinedBanner + ")";
     tbody.style.backgroundSize = combinedBannerScaleH + " " + combinedBannerScaleV;
-    console.log(combinedBannerScaleH + " " + combinedBannerScaleV);
     tbody.style.backgroundRepeat = "no-repeat";
   }
 
@@ -1589,6 +1593,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
   let iconDeepLayers;
   if (nodeText.split("^")[1]) {
     iconDeepLayers = nodeText.split("^")[1];
+    console.log(iconDeepLayers);
     addDeepLayers = true;
     nodeText = nodeText.split("^")[0];
   }
@@ -1748,7 +1753,10 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
         case "move-presence": {
           const matches = regExp.exec(splitOptions[0]);
           const moveRange = matches[1];
-          inner = "{move-presence-" + moveRange + "}";
+          inner =
+            "<track-move-presence>{presence}<move-value>" +
+            moveRange +
+            "</move-value>{move-arrow}</track-move-presence>";
           subText = "Move a Presence " + moveRange;
           addIconShadow = true;
           if (addEnergyRing) {
@@ -1802,6 +1810,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
             inner = "<icon class='" + cardplay_text + "'></icon>";
           }
           subText = "+1 Card Play/Turn";
+          addEnergyRing = false;
           break;
         }
         default: {
@@ -1812,6 +1821,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
         }
       }
     } else {
+      //It's multiple items
       subText = "";
 
       // Find unique names and report multiples
@@ -1829,75 +1839,57 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
       }
 
       const numLocs = splitOptions.length;
-      const rad_size = 22 + 1 * numLocs; // this expands slightly as more icons are used
-      let trackIcons = "";
+
       for (let i = 0; i < numLocs; i++) {
-        const pos_angle = (i * 2 * Math.PI) / numLocs - Math.PI * (1 - 1 / 6);
-        const x_loc = rad_size * Math.cos(pos_angle) - 31;
-        const y_loc = rad_size * Math.sin(pos_angle) - 25;
+        let trackIcons = "";
+        const pos_angle = (i * 2 * Math.PI) / numLocs - Math.PI * (4.5 / 6);
+        const x_loc = 0.4 * Math.cos(pos_angle) * 50 + 50;
+        const y_loc = 0.4 * Math.sin(pos_angle) * 50 + 50;
         const track_icon_loc =
-          "style='transform: translateY(" + y_loc + "px) translateX(" + x_loc + "px)'";
+          // "style='transform: translateY(" + y_loc + "px) translateX(" + x_loc + "px)'";
+          "style='top: " + y_loc.toPrecision(2) + "%; left:" + x_loc.toPrecision(2) + "%;'";
         if (pnDebug) {
           console.log("Multinode: " + splitOptions[i]);
         }
         // deal with cards and energy
+        console.log("before:" + trackIcons);
         if (!isNaN(splitOptions[i])) {
           trackIcons +=
-            "<icon-multi-element><" +
+            "<" +
             nodeClass +
             "-icon class='small'" +
-            track_icon_loc +
             "><value>" +
             splitOptions[i] +
             "</value></" +
             nodeClass +
-            "-icon></icon-multi-element>";
+            "-icon>";
           if (nodeClass === "energy") {
             addEnergyRing = false;
           }
         } else if (splitOptions[i].startsWith("reclaim")) {
-          trackIcons +=
-            "<icon-multi-element><icon class='" +
-            splitOptions[i] +
-            " small-reclaim'" +
-            track_icon_loc +
-            "></icon></icon-multi-element>";
+          trackIcons += "<icon class='" + splitOptions[i] + " small-reclaim'" + "></icon>";
         } else if (splitOptions[i].startsWith("energy")) {
           const matches = regExp.exec(splitOptions[i]);
           const num = matches[1];
-          trackIcons +=
-            "<icon-multi-element><energy-icon class='small'" +
-            track_icon_loc +
-            "><value>" +
-            num +
-            "</value></energy-icon></icon-multi-element>";
+          trackIcons += "<energy-icon class='small'" + "><value>" + num + "</value></energy-icon>";
           addEnergyRing = false;
         } else if (splitOptions[i].startsWith("plays")) {
           const matches = regExp.exec(splitOptions[i]);
           const num = matches[1];
           addEnergyRing = false;
-          trackIcons +=
-            "<icon-multi-element><card-icon class='small'" +
-            track_icon_loc +
-            "><value>" +
-            num +
-            "</value></card-icon></icon-multi-element>";
+          trackIcons += "<card-icon class='small'" + "><value>" + num + "</value></card-icon>";
         } else if (splitOptions[i].startsWith("gain-card-play")) {
-          trackIcons +=
-            "<icon-multi-element><icon class='" +
-            splitOptions[i] +
-            " small'" +
-            track_icon_loc +
-            "></icon></icon-multi-element>";
+          trackIcons += "<icon class='" + splitOptions[i] + " small'" + "></icon>";
+          addEnergyRing = false;
+        } else if (splitOptions[i].startsWith("gain-power-card")) {
+          trackIcons += "<icon class='" + splitOptions[i] + " small'" + "></icon>";
         } else if (splitOptions[i].startsWith("move-presence")) {
           const matches = regExp.exec(splitOptions[i]);
           const moveRange = matches[1];
           trackIcons +=
-            "<icon-multi-element><icon-shadow class = 'small'" +
-            track_icon_loc +
-            "><icon class='move-presence-" +
+            "<track-move-presence class='small shadow'>{presence}<move-value>" +
             moveRange +
-            " small'></icon></icon-shadow></icon-multi-element>";
+            "</move-value>{move-arrow}</track-move-presence>";
           addEnergyRing = false;
           addIconShadow = false;
         } else if (splitOptions[i].startsWith("gain-range")) {
@@ -1905,11 +1897,10 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           let gainRange = matches[1];
           gainRange = gainRange.split(";")[0];
           trackIcons +=
-            "<icon-multi-element><icon-shadow class = 'small'" +
-            track_icon_loc +
+            "<icon-shadow class = 'small'" +
             "><range class='small'>+" +
             gainRange +
-            "</range></icon-shadow></icon-multi-element>";
+            "</range></icon-shadow>";
           addEnergyRing = false;
           addIconShadow = false;
         } else if (splitOptions[i].startsWith("custom")) {
@@ -1918,20 +1909,14 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           if (pnDebug) {
             console.log("Multinode custom: " + custom);
           }
-          trackIcons +=
-            "<icon-multi-element><icon class='" +
-            custom +
-            " small'" +
-            track_icon_loc +
-            "></icon></icon-multi-element>";
+          trackIcons += "<icon class='" + custom + " small'" + "></icon>";
         } else if (splitOptions[i].startsWith("elements")) {
           const matches = regExp.exec(splitOptions[i]);
           const elementList = matches[1].split(";");
           let elementIcons = "";
           if (elementList.length === 2) {
             elementIcons +=
-              "<icon-multi-element><element-or-wrap class='small'" +
-              track_icon_loc +
+              "<element-or-wrap class='small'" +
               "><icon class='" +
               elementList[0] +
               " presence-or-first small'></icon>";
@@ -1939,19 +1924,20 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
             elementIcons +=
               "<icon class='" +
               elementList[1] +
-              " presence-or-second small'></icon></element-or-wrap></icon-multi-element>";
+              " presence-or-second small'></icon></element-or-wrap>";
           }
           trackIcons += elementIcons;
         } else {
-          trackIcons +=
-            "<icon-multi-element><icon class='" +
-            splitOptions[i] +
-            "'" +
-            track_icon_loc +
-            "></icon></icon-multi-element>";
+          trackIcons += "<icon class='" + splitOptions[i] + "'" + "></icon>";
         }
+        console.log("after:" + trackIcons);
+        trackIcons =
+          "<presence-node-multi " + track_icon_loc + ">" + trackIcons + "</presence-node-multi>";
+        console.log("afterer:" + trackIcons);
+        inner += trackIcons;
+        console.log("inner:" + inner);
       }
-      inner = trackIcons;
+      // inner = trackIcons;
     }
   }
 
@@ -1972,14 +1958,17 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
       iconDeepLayers = "energy-blank";
     }
     presenceNode.innerHTML =
+      "<deep-layers>" +
       "<icon class='" +
       iconDeepLayers +
       " " +
       nodeClass +
       "-deep-layers'>" +
       valueText +
-      "</icon>" +
+      "</icon></deep-layers>" +
       presenceNode.innerHTML;
+    presenceNode.getElementsByTagName("ring-icon")[0].classList.add("deep-layers");
+    ring.classList.add("deep-layers");
   }
 
   return presenceNode.outerHTML;
@@ -2491,6 +2480,7 @@ function dynamicResizing() {
     const thresholdHeight = thresholds[i].offsetHeight;
     if (thresholdHeight > 60) {
       thresholds[i].style.width = "auto";
+      // I suspect this is no longer doing anything 2/25
     }
     outerThresholdWidth[i] =
       thresholds[i].clientWidth +
@@ -2504,13 +2494,17 @@ function dynamicResizing() {
   for (let i = 0; i < description.length; i++) {
     // Scale the text width to the threshold size...
     description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
+    // description[i].style.position = "relative";
     const textHeight = description[i].clientHeight;
 
     if (textHeight < 40) {
       description[i].classList.add("single-line");
       // Align-middle the text if its a single line
-    } else if (textHeight > 75) {
+    } else if (textHeight > 86) {
       description[i].style.paddingLeft = "0px";
+      thresholds[i].style.position = "relative";
+      thresholds[i].style.top = "unset";
+      thresholds[i].style.transform = "unset";
       // Spill over below the threshold if its greater than three lines
     }
   }
@@ -2629,6 +2623,23 @@ function dynamicResizing() {
   innatePowerBox.style.height =
     right.clientHeight - presenceTracks.clientHeight - growth.clientHeight + "px";
   let k = 0;
+  // First tighten up the power levels
+
+  if (checkOverflowHeight(innatePowerBox)) {
+    console.log("Innate Powers overflowing, shrinking space between levels");
+    let levels = Array.from(board.getElementsByTagName("level"));
+    levels.forEach((level) => {
+      level.style.marginBottom = "2px";
+    });
+  }
+  // Then tighten up the power level font spacing
+  if (checkOverflowHeight(innatePowerBox)) {
+    console.log("Innate Powers overflowing, shrinking level description line height");
+    let descriptions = Array.from(board.getElementsByClassName("description"));
+    descriptions.forEach((description) => {
+      description.style.lineHeight = "1";
+    });
+  }
   if (checkOverflowHeight(innatePowerBox)) {
     console.log("Innate Powers overflowing, shrinking notes (if applicable)...");
 
@@ -2945,11 +2956,11 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
     let currentNumeral = 0;
     let currentElement = "";
     if (isNaN(numeralPieces[k])) {
-      currentNumeral = elementPieces[k];
+      currentNumeral = elementPieces[k].trim();
       currentElement = numeralPieces[k];
     } else {
       currentElement = elementPieces[k];
-      currentNumeral = numeralPieces[k];
+      currentNumeral = numeralPieces[k].trim();
     }
 
     if (currentElement.toUpperCase() === "OR") {

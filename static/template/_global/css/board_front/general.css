@@ -59,7 +59,7 @@ spirit-name {
   margin-left: 0px;
   height: 100px;
   width: 666.25px;
-  font-size: 40px;
+  font-size: 44px;
   font-family: "Name Headings";
   text-transform: uppercase;
   color: white;
@@ -71,7 +71,7 @@ spirit-name {
   position: relative;
   background-repeat: no-repeat;
   background-position: left center;
-  text-indent: 29px;
+  text-indent: 20px;
   margin-bottom: -50px;
   margin-top: -50px;
 }

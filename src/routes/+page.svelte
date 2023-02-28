@@ -221,6 +221,8 @@
         thresholdText: "",
       },
     ],
+    cardBackImage: "",
+    cardBackImageIsVisible: false,
   };
 
   let emptyAspect = {

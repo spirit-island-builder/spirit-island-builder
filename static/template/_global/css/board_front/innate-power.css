@@ -142,6 +142,7 @@ innate-power range {
 
 innate-power range.gain-range {
   padding-right: 5px;
+  padding-bottom: 5px;
 }
 
 no-range {
@@ -180,7 +181,7 @@ description-container {
   width: 465px;
   height: auto;
   display: block;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .long {
@@ -188,19 +189,18 @@ description-container {
 }
 
 level .single-line {
-  padding-top: 12px;
-  padding-bottom: 4px;
+  padding-top: 14px;
+  padding-bottom: 9px;
 }
 
 note {
   display: inline-block;
   height: auto;
-  width: 487px;
+  width: 495px;
   font-family: "JosefinSans-Regular";
   font-size: 17pt;
   letter-spacing: -0.5px;
-  margin-bottom: 8px;
-  margin-top: -4px;
+  margin-top: 0px;
   line-height: 1;
 }
 
@@ -216,6 +216,7 @@ note.single-squish {
 
 note icon {
   width: 24px;
+  margin-top: -5px;
 }
 
 note icon.town,
@@ -284,8 +285,8 @@ note icon.presence {
 }
 
 div.description {
-  margin-bottom: -5px;
   white-space: pre-line;
+  line-height: 1.15;
 }
 
 .description icon.city {
@@ -321,9 +322,15 @@ div.description {
 }
 
 .description icon.slow,
-.description icon.fast {
-  width: 35px;
+.description icon.fast,
+.description icon.fear {
+  width: 45px;
   height: 35px;
+  margin-bottom: -9px;
+}
+
+.description icon.fear {
+  width: 35px;
 }
 
 .description icon.explorer {
@@ -428,9 +435,10 @@ div.description {
 }
 
 .description icon.range-small-icon {
-  width: 30px;
-  height: 17px;
-  margin-bottom: 0px;
+  width: 33px;
+  height: 22px;
+  position: relative;
+  top: -4px;
 }
 
 description-container range {
@@ -444,14 +452,20 @@ description-container range {
 }
 
 level range {
-  width: 45px;
-  margin-bottom: -20px;
-  margin-top: -7px;
-  height: 30px;
-  background-position-y: 19px;
+  width: 48px;
+  height: 28px;
   font-family: "Antropos";
   font-size: 20px;
-  vertical-align: top;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-position: bottom;
+}
+
+innate-power range-value {
+  top: -4px;
+  font-size: 20pt;
 }
 
 .element-for-each {
@@ -497,8 +511,10 @@ level {
   width: 487px;
   font-family: "JosefinSans-Regular";
   font-size: 17pt;
-  padding-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 9px;
   letter-spacing: -0.5px;
+  position: relative;
 }
 
 threshold {
@@ -507,6 +523,9 @@ threshold {
   color: #431e0aff;
   float: left;
   margin-right: 6px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 innate-info icon.range-0,
@@ -610,11 +629,12 @@ innate-info icon.spirit {
 }
 
 cost-threshold {
-  font-family: "JosefinSans-Regular";
+  font-family: "Lato SemiBold";
   font-weight: bold;
   font-style: italic;
-  font-size: 10pt;
-  margin-left: 7px;
+  font-size: 15pt;
+  color: black;
+  margin-left: 0px;
   margin-bottom: -36px;
   top: 12px;
   text-transform: capitalize;
@@ -634,8 +654,8 @@ cost-energy {
   display: inline-block;
   z-index: 1;
   position: relative;
-  top: -34px;
-  left: -33px;
+  top: -40px;
+  left: -39px;
   margin-bottom: -15px;
 }
 
@@ -644,11 +664,11 @@ cost-threshold value {
   font-family: "Energy Font";
   font-weight: normal;
   font-style: normal;
-  color: #431e0a;
-  font-size: 16pt;
+  color: #000000;
+  font-size: 13pt;
   position: relative;
-  top: 8px;
-  left: 11px;
+  top: 10px;
+  left: 13px;
 }
 
 threshold icon {
@@ -731,8 +751,8 @@ cost-threshold icon.cost-custom {
   display: inline-block;
   z-index: 1;
   position: relative;
-  top: -34px;
-  left: -33px;
+  top: -41px;
+  left: -38px;
   margin-bottom: -15px;
   margin-left: 1px;
 }
@@ -740,6 +760,10 @@ cost-threshold icon.cost-custom {
 .cost-custom > value {
   text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px 0px 0 #fff,
     0px 1px 0 #fff, 1px 0px 0 #fff, 0px -1px 0 #fff;
+  font-size: 16pt;
+  line-height: 0.5;
+  top: 13px;
+  left: 11px;
 }
 
 threshold-or {

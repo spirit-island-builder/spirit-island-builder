@@ -425,6 +425,21 @@ range-growth {
   display: inline-block;
 }
 
+move-growth {
+  background-image: url("../../images/board/move_arrow.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  font-size: 40px;
+  line-height: 28px;
+  font-family: "Antropos";
+  height: 62px;
+  width: 106px;
+  margin-top: 9px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
 growth-cell range {
   background-image: url("../../images/board/range_arrow.png");
   background-repeat: no-repeat;
@@ -676,7 +691,6 @@ token-wrap {
   flex-wrap: wrap;
   vertical-align: bottom;
   align-content: flex-end;
-  height: 69px;
   padding-bottom: 2px;
   justify-content: center;
 }
