@@ -3,6 +3,7 @@
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { growthValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
@@ -166,15 +167,9 @@
 </script>
 
 <Section title="Growth" bind:isVisible={spiritBoard.growth.isVisible}>
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#growth"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
+  <div class="mb-1 p-1 note">
+    <InstructionsLink anchor="growth" />
+  </div>
   {#if !spiritBoard.growth.useGrowthSets}
     <div class="control">
       <input

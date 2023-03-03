@@ -1,20 +1,15 @@
 <script>
   import Section from "$lib/section.svelte";
   import ImageInput from "$lib/image-input.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 
   export let spiritBoardBack;
 </script>
 
 <Section title="Name, Art and Lore" bind:isVisible={spiritBoardBack.nameArtLore.isVisible}>
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#spirit-board-lore-side"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
+  <div class="mb-1 p-1 note">
+    <InstructionsLink anchor="spirit-board-lore-side" />
+  </div>
   <div class="field">
     <label class="label is-flex is-justify-content-space-between" for="spiritLoreNameInput"
       >Spirit Name

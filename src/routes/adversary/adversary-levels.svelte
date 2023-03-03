@@ -3,18 +3,13 @@
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 </script>
 
 <Section title="Levels" bind:isVisible={adversary.levelSummary.isVisible}>
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#a-nameadversary-levelaadversary-levels"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
+  <div class="mb-1 p-1 note">
+    <InstructionsLink anchor="adversary-levels" />
+  </div>
 
   <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
   {#each adversary.levelSummary.levels as level, i (level.id)}

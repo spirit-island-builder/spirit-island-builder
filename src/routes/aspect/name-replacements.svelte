@@ -60,15 +60,6 @@
 </script>
 
 <Section title="Name & Rules Replacements" bind:isVisible={aspect.nameReplacements.isVisible}>
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#spirit-board-lore-side"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
   <div class="field">
     <div class="field">
       <label class="label is-flex is-justify-content-space-between" for="aspectInput"
