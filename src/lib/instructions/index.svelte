@@ -109,7 +109,6 @@
     /* reset */
     padding: 0;
     margin: 0;
-    padding-bottom: 10px;
   }
   dialog[open] {
     display: flex;
@@ -119,12 +118,13 @@
     resize: both;
     min-width: 40ch;
     min-height: 8rem;
+    padding-bottom: 10px;
   }
 
   dialog[data-minimized="true"] {
     resize: none;
-    min-height: 0;
-    max-height: 0;
+    min-height: 2rem;
+    max-height: 2rem;
   }
 
   header {
