@@ -17,7 +17,6 @@ innate-powers section-title {
 innate-power-container {
   display: flex;
   position: relative;
-  margin-left: 25px;
   margin-top: 8px;
 }
 
@@ -25,6 +24,7 @@ innate-power {
   display: inline-block;
   flex-shrink: 1;
   flex-grow: 1;
+  margin-left: 25px;
 }
 
 innate-power:only-child level {
@@ -40,10 +40,10 @@ innate-power-title {
   font-family: "JosefinSans";
   font-weight: bold;
   font-style: italic;
-  font-size: 14pt;
+  font-size: 17pt;
   text-transform: uppercase;
-  letter-spacing: -0.5px;
-  word-spacing: 0.5px;
+  letter-spacing: -2px;
+  word-spacing: 1px;
 }
 
 info-container {
@@ -196,10 +196,11 @@ level .single-line {
 note {
   display: inline-block;
   height: auto;
-  width: 495px;
+  width: 505px;
   font-family: "JosefinSans-Regular";
   font-size: 17pt;
-  letter-spacing: -0.5px;
+  letter-spacing: -1.5px;
+  word-spacing: 0px;
   margin-top: 0px;
   line-height: 1;
 }
@@ -316,8 +317,8 @@ div.description {
   height: 27px;
   margin-bottom: -5px;
   margin-top: -10px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: -1px;
+  margin-right: -1px;
   background-position: bottom;
 }
 
@@ -508,24 +509,39 @@ note icon.destroyed-presence {
 level {
   display: inline-block;
   height: auto;
-  width: 487px;
+  width: 507px;
   font-family: "JosefinSans-Regular";
   font-size: 17pt;
   margin-top: 10px;
   margin-bottom: 9px;
-  letter-spacing: -0.5px;
+  letter-spacing: -1.5px;
+  word-spacing: 0px;
   position: relative;
 }
 
 threshold {
   font-family: "Energy Font";
-  font-size: 24pt;
+  font-size: 36px;
   color: #431e0aff;
   float: left;
   margin-right: 6px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+}
+
+threshold.description-wrap {
+  position: relative;
+  top: unset;
+  transform: unset;
+}
+
+level.description-wrap {
+  margin-bottom: 0px;
+}
+
+innate-power:last-of-type level {
+  width: 500px;
 }
 
 innate-info icon.range-0,
@@ -672,12 +688,16 @@ cost-threshold value {
 }
 
 threshold icon {
-  width: 45px;
-  height: 45px;
-  margin-bottom: -5px;
+  width: 50px;
+  height: 50px;
+  margin-bottom: -8px;
   margin-left: 5px;
   margin-right: 5px;
   background-position: bottom;
+}
+
+threshold-num {
+  width: 27px;
 }
 
 threshold icon.wilds,
