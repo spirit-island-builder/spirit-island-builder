@@ -61,6 +61,7 @@ function addImages(board) {
   //Add Meeple
   const spiritName = board.getElementsByTagName("spirit-name");
   spiritName[0].outerHTML += "<custom-meeple></custom-meeple>";
+  spiritName[0].outerHTML += "<created-with>SpiritIslandBuilder.com</created-with>";
 }
 
 function buildGrowthPanel() {
