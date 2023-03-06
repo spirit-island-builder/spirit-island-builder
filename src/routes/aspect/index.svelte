@@ -162,10 +162,11 @@
     const aspectReplacementsHTML = aspectHTML.querySelectorAll("aspect-subtext");
     if (aspectReplacementsHTML) {
       aspectReplacementsHTML.forEach((replacement) => {
+        console.log(replacement);
         aspect.nameReplacements.replacements.push({
           id: aspect.nameReplacements.replacements.length,
-          aspectRelacement: replacement.textContent.split(":")[0],
-          rulesReplaced: replacement.querySelectorAll("i")[0].textContent,
+          aspectRelacement: replacement.innerHTML.split(":")[0],
+          rulesReplaced: replacement.querySelectorAll("i")[0]?.innerHTML ?? "",
         });
         aspect = aspect;
       });
@@ -200,7 +201,7 @@
     specialRulesNames.forEach((specialRulesName, j) => {
       aspect.aspectEffects = Lib.addSpecialRule(
         aspect.aspectEffects,
-        specialRulesName.textContent,
+        specialRulesName.innerHTML,
         specialRulesEffects[j].innerHTML.trim()
       );
       aspect = aspect;
