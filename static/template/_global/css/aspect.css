@@ -259,6 +259,7 @@ aspect-back img {
 aspect innate-power {
   scale: 0.9;
   transform-origin: left top;
+  margin-left: 0px;
 }
 
 aspect innate-power-title {

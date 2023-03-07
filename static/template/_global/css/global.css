@@ -66,6 +66,12 @@ icon.no {
   align-items: center;
 }
 
+icon[class="no"] {
+  position: absolute;
+  width: 43px;
+  height: 43px;
+}
+
 icon.no::before {
   content: "";
   background-image: url("../images/board/no.png");
@@ -74,10 +80,10 @@ icon.no::before {
   background-repeat: no-repeat;
   display: block;
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 105%;
+  height: 105%;
   margin: auto;
-  opacity: 0.8;
+  opacity: 1;
 }
 
 icon.range {
