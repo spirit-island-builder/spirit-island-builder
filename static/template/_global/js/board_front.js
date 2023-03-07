@@ -1348,7 +1348,7 @@ function getGrowthActionTextAndIcons(growthAction) {
 }
 
 function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
-  console.log("BUILDING PRESENCE TRACK PANEL");
+  console.log("BUILDING PRESENCE TRACKS");
   const board = document.querySelectorAll("board")[0];
   const presenceTable = board.getElementsByTagName("presence-tracks")[0];
 
@@ -1361,7 +1361,6 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
 
   //Allow combined-banners
   const combinedBanner = presenceTable.getAttribute("banner");
-  console.log(presenceTable);
   if (combinedBanner !== null && combinedBanner !== "null") {
     console.log("combined banner detected. recommend turning off individual banners");
     let combinedBannerScaleV = presenceTable.getAttribute("banner-v-scale");
@@ -2356,10 +2355,10 @@ function dynamicResizing() {
       (partialSum, a) => partialSum + a,
       0
     );
-    console.log(textSizeNeedsTightening);
-    console.log(growthTextWidths);
-    console.log(growthWidthByIcons);
-    console.log(growthTextWidths.map((gt, i) => (growthWidthByIcons[i] / gt).toPrecision(3)));
+    // console.log(textSizeNeedsTightening);
+    // console.log(growthTextWidths);
+    // console.log(growthWidthByIcons);
+    // console.log(growthTextWidths.map((gt, i) => (growthWidthByIcons[i] / gt).toPrecision(3)));
 
     const averageWidth = totalCellWidth / growthCells.length;
     if (debug) {
@@ -2492,14 +2491,14 @@ function dynamicResizing() {
     spacers.forEach((spacer) => {
       spacer.classList.add("tight");
     });
-    console.log("presence nodes overflowing");
+    console.log(">Compressing Nodes Horizontally; smaller spacer");
   }
   if (checkOverflowWidth(presenceTrack, 20)) {
     let tdNodes = Array.from(presenceTrack.getElementsByTagName("td"));
     tdNodes.forEach((tdNode) => {
       tdNode.classList.add("tight");
     });
-    console.log("still overflowing");
+    console.log(">Compressing Nodes Horizontally; less space between nodes");
   }
 
   //Update Presence Track banners
@@ -2561,7 +2560,7 @@ function dynamicResizing() {
           subtext[i].classList.add("adjust-subtext");
           textHeight = subtext[i].offsetHeight;
           last_node_adjusted = true;
-          console.log("adjusting node: " + subtext[i].innerHTML);
+          console.log("adjusting node text: " + subtext[i].innerHTML);
         } else {
           console.log(
             "rejected text adjstment for: " +
@@ -2585,7 +2584,7 @@ function dynamicResizing() {
       //should replace this with css
       node.style.marginBottom = "5px";
     });
-    console.log("shrinking table vert");
+    console.log(">Compressing Presence Tracks Vertically");
   }
 
   // Place middle presence nodes
@@ -2614,7 +2613,7 @@ function dynamicResizing() {
 
   // First tighten up the power levels
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log("Innate Powers overflowing, shrinking space between levels");
+    console.log(">Innate Powers overflowing, shrinking space between levels");
     let levels = Array.from(board.getElementsByTagName("level"));
     levels.forEach((level) => {
       level.style.marginBottom = "2px";
@@ -2622,7 +2621,7 @@ function dynamicResizing() {
   }
   // Then tighten up the power level font spacing
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log("Innate Powers overflowing, shrinking level description line height");
+    console.log(">Innate Powers overflowing, shrinking level description line height");
     let descriptions = Array.from(board.getElementsByClassName("description"));
     descriptions.forEach((description) => {
       description.style.lineHeight = "1";
@@ -2695,7 +2694,6 @@ function getGrowthTableWidth(growthTable) {
 }
 
 function getGrowthActionIconWidth(growthCell) {
-  console.log(growthCell);
   let growthChildren = Array.from(growthCell.children);
   let rect = growthChildren[0].getBoundingClientRect();
   return rect.width;

@@ -113,7 +113,8 @@ function setThreshold(card) {
 
     if (customThresholdText) {
       threshold.className = "threshold-custom";
-      threshold.setAttribute("data-before", customThresholdText);
+      // threshold.setAttribute("data-before", customThresholdText);
+      threshold.innerHTML += `<custom-threshold-flex><arrow-left></arrow-left><custom-threshold-text>${customThresholdText}</custom-threshold-text><arrow-right></arrow-right></custom-threshold-text>`;
     }
 
     //set elemental thresholds
