@@ -240,6 +240,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
     - sacred-site,2
     - wetland-presence,1
 - Target: The target of the innate. Unlike Range, this uses the same HTML code as the rest of the template, so you can use any icons and the shorthand syntax (ie. {dahan}).
+  - "No" target: You can add {no-} before any icon to put a red X over it ({no-blight}). For text, use {no} (ie. {no}Invaders).
 - Target Land/Target: Toggle between Target Land (for land targetting powers) and Target (for Powers that target spirits, etc).
 - Note (optional): Allows adding notes to the top of the innate (See Volcano Looming High or Lure of the Deep Wilderness as an example). Use [{icon shortcuts}](#general-icons) here (such as {dahan}).
 - Add Level: Adds a Thershold Level to the Innate Power.
@@ -351,7 +352,7 @@ For now, your adversary must have 6 levels. If you want to do less, you'll have 
 
 [Home](#index)
 
-### General Icons
+## <a name="general-icons"></a>General Icons
 
 Icons for invaders, elements, dahan, etc can be used by enclosing its name with "{}". For example, {dahan} or {fire}. Here is a list of what is available:
 
@@ -370,6 +371,8 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - Power effect icon (isolate, gain-range-1, gain-range-2, gain-range-3, gain-range-x)
 - Growth icons (see [Growth](#growth) section and [Supported Growth Actions](#supported-growth-actions) for examples)
 - Presence track icons (see [Presence Track](#presence-tracks) section for examples)
+
+Nearly every icon can have a red X over it by adding 'no-' such as {no-blight}.
 
 [Home](#index)
 

@@ -28,6 +28,10 @@
       {
         "name": "Purple Fractal Mist",
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-fractalmist.png"
+      },
+      {
+        "name": "Smoke",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-smoke.png"
       }
     ]
   }

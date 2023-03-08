@@ -92,6 +92,20 @@ artist-name {
   white-space: normal;
 }
 
+created-with {
+  position: absolute;
+  left: 1636px;
+  top: 1162px;
+  font-size: 11px;
+  font-family: "Lato SemiBold";
+  color: #d1c5a6;
+  text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+  text-align: left;
+  z-index: 1;
+  display: block;
+  white-space: normal;
+}
+
 custom-meeple {
   background-image: url(../../images/customIcons/Meeple.png);
   background-size: contain;

@@ -1,7 +1,6 @@
 presence-tracks section-title {
-  /*   margin-left: 2px;
-  margin-bottom: 12px; */
   padding-top: 0px;
+  margin-top: -3px;
 }
 
 presence-tracks section-title.has-note {
@@ -30,16 +29,19 @@ presence-tracks {
 }
 
 presence-tracks presence-title {
-  margin-left: 2px;
+  margin-left: -11px;
   margin-bottom: 12px;
   padding-top: 0px;
   display: flex;
   align-items: flex-end;
 }
 
+presence-tracks presence-title.tight {
+  margin-bottom: 0px;
+}
+
 presence-tracks table {
   display: inline-block;
-  height: 273px;
   margin-left: -50px; /* adding a blank row for an image. This gives us some space. */
   border-collapse: collapse;
   position: relative;
@@ -48,6 +50,7 @@ presence-tracks table {
 presence-tracks table td {
   padding: 0px;
   vertical-align: top;
+  padding-right: 4px;
 }
 
 presence-tracks table td[rowspan="2"] {
@@ -59,23 +62,57 @@ td.middle > presence-node {
   position: relative;
 }
 
+td.spacer {
+  width: 42px;
+  display: block;
+}
+
+td.spacer.tight {
+  width: 10px;
+}
+
 presence-node {
   display: inline-table;
   max-width: 130px;
 }
 
+tr.energy-track presence-node {
+  margin-bottom: 43px;
+}
+
+tr.plays-track presence-node {
+  margin-bottom: 5px;
+}
+
+presence-node.tight {
+  margin-bottom: 20px;
+}
+
+tr > td:last-of-type {
+  padding-right: 0px;
+}
+
+td.tight {
+  padding-right: 0px;
+}
+
+tr.plays-track {
+  height: 174px;
+}
+
 subtext {
   font-family: "Lato SemiBold";
-  font-size: 15pt;
+  font-size: 14pt;
   font-style: italic;
   text-align: center;
-  display: table-row;
+  display: block;
+  margin-top: -1px;
+  letter-spacing: 0.5px;
 }
 
 .adjust-subtext {
-  width: 166px;
-  position: absolute;
-  transform: translateX(-18px);
+  margin-left: -20px;
+  margin-right: -20px;
 }
 
 presence-node ring-icon {
@@ -253,8 +290,8 @@ card-icon.small value {
 }
 
 presence-node icon {
-  width: 70px;
-  height: 70px;
+  width: 68px;
+  height: 68px;
 }
 
 presence-node icon.isolate,

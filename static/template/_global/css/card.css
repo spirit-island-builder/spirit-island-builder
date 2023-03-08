@@ -363,6 +363,7 @@ threshold {
 
 .threshold-custom {
   background-image: url("../images/threshold-back-custom.png");
+  padding-top: 38px;
 }
 
 threshold.threshold-custom::before {
@@ -377,6 +378,43 @@ threshold.threshold-custom::before {
   margin-bottom: -18px;
   font-size: 16px;
   line-height: 18px;
+}
+
+custom-threshold-flex {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  justify-content: center;
+}
+
+custom-threshold-text {
+  flex-shrink: 0;
+  margin-left: 2px;
+  margin-right: 2px;
+  word-spacing: -2px;
+  font-size: 16px;
+  line-height: 16px;
+  font-family: "Name Headings";
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #220f00;
+}
+
+arrow-left,
+arrow-right {
+  background-image: url("../images/board/card_threshold_arrow.png");
+  display: inline;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 14px;
+  margin-top: 2px;
+  opacity: 0.1;
+}
+
+arrow-right {
+  transform: scaleX(-1);
 }
 
 threshold-condition {

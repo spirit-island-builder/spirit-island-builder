@@ -61,6 +61,7 @@ function addImages(board) {
   //Add Meeple
   const spiritName = board.getElementsByTagName("spirit-name");
   spiritName[0].outerHTML += "<custom-meeple></custom-meeple>";
+  spiritName[0].outerHTML += "<created-with>SpiritIslandBuilder.com</created-with>";
 }
 
 function buildGrowthPanel() {
@@ -423,7 +424,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         let isolateRange = isolateOptions[0];
         isolateReqOpen = "<custom-icon>";
         isolateReqClose = "</custom-icon>";
-        isolateIcons += "<range-growth>" + isolateRange + "</range-growth>";
+        isolateIcons += "<range-growth><value>" + isolateRange + "</value></range-growth>";
         isolateText = "Isolate a Land";
       }
       growthIcons = isolateReqOpen + isolateIcons + isolateReqClose;
@@ -439,9 +440,9 @@ function getGrowthActionTextAndIcons(growthAction) {
         "<custom-icon><growth-damage><value>" +
         damage +
         "</value></growth-damage>" +
-        "<range-growth>" +
+        "<range-growth><value>" +
         range +
-        "</range-growth></custom-icon>";
+        "</value></range-growth></custom-icon>";
       growthText = "Deal " + damage + " Damage at Range " + range;
       break;
     }
@@ -524,8 +525,8 @@ function getGrowthActionTextAndIcons(growthAction) {
       let presenceIcon = "";
       let presenceTextLead = "";
       let presenceTextEnd = "";
-      let presenceRangeOpen = "<range-growth>";
-      let presenceRangeClose = "</range-growth>";
+      let presenceRangeOpen = "<range-growth><value>";
+      let presenceRangeClose = "</value></range-growth>";
 
       if (presenceRange === "any" && presenceOptions.length === 1) {
         presenceReqOpen = "<custom-presence-no-range>";
@@ -555,7 +556,7 @@ function getGrowthActionTextAndIcons(growthAction) {
             presenceIcon += "</display-custom>";
           } else {
             presenceIcon +=
-              "<span style='font-family: DK Snemand; font-size: 24pt; font-style: normal;'>!!!</span>";
+              "<span style='font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;'>!!!</span>";
           }
         } else if (presenceOptions[1] === "token") {
           // User wants to add a token in growth
@@ -563,7 +564,7 @@ function getGrowthActionTextAndIcons(growthAction) {
             case "and":
               //add presence and token
               presenceIcon += "<span class='plus-text'>+ </span>";
-              presenceIcon += "{" + presenceOptions[2] + "}";
+              presenceIcon += "<icon class='" + presenceOptions[2] + " add-token'></icon>";
               presenceText += " and a " + Capitalise(presenceOptions[2]);
               break;
             case "or":
@@ -839,9 +840,9 @@ function getGrowthActionTextAndIcons(growthAction) {
             "'>{" +
             moveTarget +
             "}</icon>" +
-            "<range-growth>" +
+            "<range-growth><value>" +
             moveRange +
-            "</range-growth></push-gather-range-req>";
+            "</value></range-growth></push-gather-range-req>";
           moveText +=
             Capitalise(growthActionType) +
             " up to 1 " +
@@ -961,8 +962,8 @@ function getGrowthActionTextAndIcons(growthAction) {
           let elementIcons = "";
           for (let i = 0; i < numLocs; i++) {
             const pos_angle = (i * 2 * Math.PI) / numLocs - Math.PI * (1 - 1 / 6);
-            const x_loc = 1.3 * rad_size * Math.cos(pos_angle) - 30;
-            const y_loc = rad_size * Math.sin(pos_angle) - 20;
+            const x_loc = 1.3 * rad_size * Math.cos(pos_angle);
+            const y_loc = 0.8 * rad_size * Math.sin(pos_angle);
             const theta = -Math.PI / 12;
             const x_loc_prime = Math.cos(theta) * x_loc + Math.sin(theta) * y_loc;
             const y_loc_prime = -Math.sin(theta) * x_loc + Math.cos(theta) * y_loc;
@@ -981,7 +982,6 @@ function getGrowthActionTextAndIcons(growthAction) {
               element_loc +
               "></icon></icon-multi-element>";
           }
-          elementIcons += "<icon style='width:0px;height:99px'></icon>"; // This is a filler icon to make sure the spacing is right. Any idea for a better solution?
 
           growthIcons = "<gain>" + elementIcons + "</gain>";
           growthText = "Gain " + elementText;
@@ -1141,8 +1141,8 @@ function getGrowthActionTextAndIcons(growthAction) {
         let markerIcons = "";
         for (let i = 0; i < numLocs; i++) {
           const pos_angle = (i * 2 * Math.PI) / numLocs - Math.PI * (1 - 1 / 6);
-          const x_loc = rad_size * Math.cos(pos_angle) - 30;
-          const y_loc = rad_size * Math.sin(pos_angle) - 20;
+          const x_loc = rad_size * Math.cos(pos_angle);
+          const y_loc = rad_size * Math.sin(pos_angle);
           const marker_loc =
             "style='transform: translateY(" + y_loc + "px) translateX(" + x_loc + "px)'";
           markerIcons +=
@@ -1239,7 +1239,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       const matches = regExp.exec(growthAction);
       let tokenOptions = matches[1].split(",");
       let range = tokenOptions[0];
-      let tokenRange = "<range-growth>" + range + "</range-growth>";
+      let tokenRange = "<range-growth><value>" + range + "</value></range-growth>";
       let token = tokenOptions[1];
       let tokenNum = tokenOptions[2];
       let tokenReqOpen = "<custom-icon>";
@@ -1303,9 +1303,9 @@ function getGrowthActionTextAndIcons(growthAction) {
           replaceOptions[shift] +
           '"></icon>+<icon class="replace-with ' +
           replaceOptions[shift + 1] +
-          '"></icon></replace-wrap><range-growth>' +
+          '"></icon></replace-wrap><range-growth><value>' +
           range +
-          "</range-growth></custom-icon>";
+          "</value></range-growth></custom-icon>";
         console.log(replaceIcons);
         replaceText =
           "You may Replace " +
@@ -1348,7 +1348,7 @@ function getGrowthActionTextAndIcons(growthAction) {
 }
 
 function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
-  console.log("BUILDING PRESENCE TRACK PANEL");
+  console.log("BUILDING PRESENCE TRACKS");
   const board = document.querySelectorAll("board")[0];
   const presenceTable = board.getElementsByTagName("presence-tracks")[0];
 
@@ -1361,7 +1361,6 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
 
   //Allow combined-banners
   const combinedBanner = presenceTable.getAttribute("banner");
-  console.log(presenceTable);
   if (combinedBanner !== null && combinedBanner !== "null") {
     console.log("combined banner detected. recommend turning off individual banners");
     let combinedBannerScaleV = presenceTable.getAttribute("banner-v-scale");
@@ -1429,14 +1428,11 @@ function parseEnergyTrackTags() {
 
   //Determine the length of the energy track
   //If for some reason the width of a presence track spot changes, this needs to be updated. Ideas for automating?
-  let energyLength = energyOptions.length * 130 + 15;
   if (energyBanner) {
     energyHTML =
       "<tr class='energy-track' style='background-image:  url(" +
       energyBanner +
-      "); background-size: " +
-      energyLength +
-      "px " +
+      "); background-size: 100% " +
       energyBannerScale +
       "; background-repeat: no-repeat; background-position: left 0px top 20px;'>";
   } else {
@@ -1444,7 +1440,7 @@ function parseEnergyTrackTags() {
   }
 
   // This can be scaled to move the first presence icon.
-  energyHTML += "<td style='width:10px'></td>";
+  energyHTML += "<td class='spacer'></td>";
   let firstIsMiddle = false;
   let isFirst = false;
   for (let i = 0; i < energyOptions.length; i++) {
@@ -1513,7 +1509,7 @@ function parseCardPlayTrackTags() {
   }
 
   // This can be scaled to move the first presence icon.
-  cardPlayHTML += "<td style='width:10px'></td>";
+  cardPlayHTML += "<td class='spacer'></td>";
 
   for (let i = 0; i < cardPlayOptions.length; i++) {
     cardPlayHTML +=
@@ -1554,6 +1550,7 @@ function enhancePresenceTracksTable() {
   const firstRow = table.getElementsByTagName("tr")[0];
   const firstCell = firstRow.getElementsByTagName("td")[0];
   const spacerRow = document.createElement("td");
+  spacerRow.classList.add("spacer");
   spacerRow.style.width = "10px";
   spacerRow.rowSpan = "2";
   firstRow.insertBefore(spacerRow, firstCell);
@@ -2242,7 +2239,6 @@ function dynamicResizing() {
 
   console.log("RESIZING: Growth");
   // Growth Sizing
-  // const allGrowthCells = board.getElementsByTagName("growth-cell");
   let growthTable = board.getElementsByTagName("growth-table")[0];
 
   // Add additional Growth Row if necessary
@@ -2256,7 +2252,7 @@ function dynamicResizing() {
   function hasTallGrowthText(texts) {
     let hasTall = false;
     for (let i = 0; i < texts.length; i++) {
-      hasTall = texts[i].offsetHeight > 90 ? true : hasTall;
+      hasTall = texts[i].offsetHeight > 57 ? true : hasTall;
       // true if any growth-text is more than 3 lines
     }
     return hasTall;
@@ -2300,13 +2296,11 @@ function dynamicResizing() {
   //   // console.log('^--RESULT--^')
   //   cellWidthV2.push(cellRect.width);
   // }
-  /* console.log('total icon width = '+totalIconWidths) */
+  /* console.log('total icon width = '+totalInitialIconWidth) */
   // console.log('old way = '+totalWidth)
   // console.log(cellWidthV2)
 
   //Iterate through growth table(s) to resize
-  const largeCellScale = 1.5;
-  const extraLargeCellScale = 1.8;
   const growthTables = board.getElementsByTagName("growth-table");
 
   let tightFlag = false; // flag for tightening presence tracks later
@@ -2319,8 +2313,7 @@ function dynamicResizing() {
     }
 
     const growthCells = growthTable.getElementsByTagName("growth-cell");
-    let widthArray = [];
-
+    const growthTexts = growthTable.getElementsByTagName("growth-text");
     const growthCosts = growthTable.getElementsByTagName("growth-cost");
     let growthCostsPixels = 0;
     for (let j = 0; j < growthCosts.length; j++) {
@@ -2338,36 +2331,43 @@ function dynamicResizing() {
       console.log("width for growth actions = " + growthPanelWidth);
     }
     let totalCellWidth = 0;
+    let growthWidthByIcons = [];
+    let growthTextHeights = [];
+    let growthTextWidths = [];
     for (let j = 0; j < growthCells.length; j++) {
       totalCellWidth += growthCells[j].offsetWidth;
-      widthArray[j] = growthCells[j].offsetWidth;
+      growthWidthByIcons[j] = getGrowthActionIconWidth(growthCells[j]);
+      growthTextHeights[j] = growthTexts[j].getBoundingClientRect().height;
+      growthTextWidths[j] = growthTexts[j].getBoundingClientRect().width;
     }
+
+    const textSizeNeedsTightening = growthTextWidths.map(
+      (tw, i) => tw < growthWidthByIcons[i] || growthWidthByIcons[i] > 200
+    );
+    const textSizeHuge = growthTextWidths.map((tw, i) => tw > 2.5 * growthWidthByIcons[i]);
+    const totalInitialIconWidth = growthWidthByIcons.reduce((partialSum, a) => partialSum + a, 0);
+    const shrink = totalInitialIconWidth / growthPanelWidth;
+    let adjustedGrowthWidths = growthWidthByIcons.map((gw, i) => (textSizeHuge[i] ? gw * 1.3 : gw));
+    adjustedGrowthWidths = adjustedGrowthWidths.map((gw, i) =>
+      textSizeNeedsTightening[i] ? gw * shrink : gw
+    );
+    const totalAdjustedIconWidth = adjustedGrowthWidths.reduce(
+      (partialSum, a) => partialSum + a,
+      0
+    );
+    // console.log(textSizeNeedsTightening);
+    // console.log(growthTextWidths);
+    // console.log(growthWidthByIcons);
+    // console.log(growthTextWidths.map((gt, i) => (growthWidthByIcons[i] / gt).toPrecision(3)));
 
     const averageWidth = totalCellWidth / growthCells.length;
     if (debug) {
       console.log("aveage width = " + averageWidth);
     }
     if (totalCellWidth > 1000 || i === 0) {
-      let smallCellFinder = widthArray.map((x) => x <= averageWidth * 1.35);
-      let largeCellFinder = widthArray.map((x) => x > averageWidth * 1.35);
-      let extraLargeCellFinder = widthArray.map((x) => x > averageWidth * 2);
-      largeCellFinder = largeCellFinder.map((x, index) => x && !extraLargeCellFinder[index]);
-      const largeCell = largeCellFinder.filter(Boolean).length;
-      const smallCell = smallCellFinder.filter(Boolean).length;
-      const extraLargeCell = extraLargeCellFinder.filter(Boolean).length;
-      const weightedSmallCellWidth =
-        growthPanelWidth /
-        (smallCell + largeCellScale * largeCell + extraLargeCellScale * extraLargeCell);
-      const weightedLargeCellWidth = weightedSmallCellWidth * largeCellScale;
-      const weightedExtraLargeCellWidth = weightedSmallCellWidth * extraLargeCellScale;
       for (let j = 0; j < growthCells.length; j++) {
-        if (extraLargeCellFinder[j]) {
-          growthCells[j].style.width = weightedExtraLargeCellWidth + "px";
-        } else if (largeCellFinder[j]) {
-          growthCells[j].style.width = weightedLargeCellWidth + "px";
-        } else {
-          growthCells[j].style.width = weightedSmallCellWidth + "px";
-        }
+        growthCells[j].style.width =
+          adjustedGrowthWidths[j] * (growthPanelWidth / totalAdjustedIconWidth) + "px";
       }
     } else if (i > 0) {
       growthTable.style.maxWidth = growthCells.length * averageWidth + "px";
@@ -2390,28 +2390,10 @@ function dynamicResizing() {
 
   growthHeadersAndTitles();
 
-  // Final resize (catches really big things that were missed)
-  let growthItems = board.getElementsByTagName("growth-cell");
-  for (let i = 0; i < growthItems.length; i++) {
-    if (checkOverflowWidth(growthItems[i])) {
-      const children = growthItems[i].children;
-      if (debug) {
-        console.log("scroll width is larger for");
-        console.log(growthItems[i]);
-        console.log(children);
-      }
-      let childrenWidth = 0;
-      for (let j = 0; j < children.length; j++) {
-        childrenWidth = Math.max(children[j].offsetWidth, childrenWidth);
-      }
-      growthItems[i].style.width = childrenWidth + "px";
-    }
-  }
-
   // Balance Growth Text
-  const maxGrowthTextHeight = newGrowthTable !== undefined ? 50 : 100;
+  const maxGrowthTextHeight = newGrowthTable !== undefined ? 50 : 80;
   for (let i = 0; i < growthTexts.length; i++) {
-    if (growthTexts[i].offsetHeight < 50) {
+    if (growthTexts[i].offsetHeight < 70) {
       balanceText(growthTexts[i]);
       if (debug) {
         console.log(
@@ -2457,7 +2439,6 @@ function dynamicResizing() {
       const fontSize = parseFloat(style);
       noteBlocks[i].style.fontSize = fontSize - 1 + "px";
       noteHeight = noteBlocks[i].offsetHeight;
-
       // safety valve
       j += 1;
       if (j > 5) {
@@ -2466,62 +2447,86 @@ function dynamicResizing() {
     }
   }
 
-  // Innate Power Thresholds
-  const thresholds = board.getElementsByTagName("threshold");
-  const thresholdsCount = thresholds.length;
-  let outerThresholdWidth = [];
-  for (let i = 0; i < thresholdsCount; i++) {
-    // Check if the threshold width is overflowing. If so, just let it size itself...
-    const thresholdHeight = thresholds[i].offsetHeight;
-    if (thresholdHeight > 60) {
-      thresholds[i].style.width = "auto";
-      // I suspect this is no longer doing anything 2/25
-    }
-    outerThresholdWidth[i] =
-      thresholds[i].clientWidth +
-      parseFloat(
-        window.getComputedStyle(thresholds[i]).getPropertyValue("margin-right").replace(/px/, "")
-      );
-  }
-
-  // Innate Power Descriptions
+  // Innate Power Levels
   const description = board.getElementsByClassName("description");
+  const thresholds = Array.from(board.getElementsByTagName("threshold"));
+  const levels = board.getElementsByTagName("level");
+
+  let outerThresholdWidth = thresholds.map(
+    (threshold) =>
+      threshold.clientWidth +
+      parseFloat(
+        window.getComputedStyle(threshold).getPropertyValue("margin-right").replace(/px/, "")
+      )
+  );
+
   for (let i = 0; i < description.length; i++) {
     // Scale the text width to the threshold size...
     description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
     // description[i].style.position = "relative";
     const textHeight = description[i].clientHeight;
-
     if (textHeight < 40) {
       description[i].classList.add("single-line");
       // Align-middle the text if its a single line
     } else if (textHeight > 86) {
+      // Wrap description below the threshold if its greater than three lines
       description[i].style.paddingLeft = "0px";
-      thresholds[i].style.position = "relative";
-      thresholds[i].style.top = "unset";
-      thresholds[i].style.transform = "unset";
-      // Spill over below the threshold if its greater than three lines
+      thresholds[i].classList.add("description-wrap");
+      levels[i].classList.add("description-wrap");
     }
   }
 
   console.log("RESIZING: Presence Tracks");
-  // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
+  //Load tracks
   const presenceTrack = board.getElementsByTagName("presence-tracks")[0];
   const energyTrack = board.getElementsByClassName("energy-track")[0];
   const playsTrack = board.getElementsByClassName("plays-track")[0];
+  //Load board ojects
+  const growth = board.getElementsByTagName("growth")[0];
+  const right = board.getElementsByTagName("right")[0];
+
+  //Check horizontal overflow
+  if (checkOverflowWidth(presenceTrack, 0)) {
+    let spacers = Array.from(presenceTrack.getElementsByClassName("spacer"));
+    spacers.forEach((spacer) => {
+      spacer.classList.add("tight");
+    });
+    console.log(">Compressing Nodes Horizontally; smaller spacer");
+  }
+  if (checkOverflowWidth(presenceTrack, 20)) {
+    let tdNodes = Array.from(presenceTrack.getElementsByTagName("td"));
+    tdNodes.forEach((tdNode) => {
+      tdNode.classList.add("tight");
+    });
+    console.log(">Compressing Nodes Horizontally; less space between nodes");
+  }
+
+  //Update Presence Track banners
+  let presenceTableRows = Array.from(presenceTrack.getElementsByTagName("tr"));
+  presenceTableRows.forEach((row) => {
+    let rowTDs = Array.from(row.getElementsByTagName("td"));
+    let backgroundSizeEnergy = 0;
+    rowTDs.forEach((td) => {
+      backgroundSizeEnergy += td.offsetWidth;
+    });
+    let curBackgroundSize = row.style.backgroundSize ? row.style.backgroundSize : "100% 100%";
+    let newBackgroundSize = backgroundSizeEnergy + "px " + curBackgroundSize.split(" ")[1];
+    row.style.backgroundSize = newBackgroundSize;
+  });
+
+  // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
   let currentTrack;
   debug = false;
-  let adjustment_flag = 0;
-  let default_row_height = 48 * (3 / 4);
+  let last_node_adjusted = false;
   if (tightFlag) {
-    default_row_height = 0;
     console.log("tightening presence tracks");
-    board.getElementsByTagName("presence-title")[0].style.marginBottom = "0px";
+    board.getElementsByTagName("presence-title")[0].classList.add("tight");
   }
-  let row_max_height = default_row_height;
-  let first_row_max = 0;
-  let height_adjust = 0;
+
+  const allEnergyNodes = Array.from(energyTrack.getElementsByTagName("presence-node"));
+
   for (let j = 0; j < 2; j++) {
+    // Do Energy Track then Plays Track
     if (j === 0) {
       currentTrack = energyTrack;
       if (debug) {
@@ -2544,54 +2549,43 @@ function dynamicResizing() {
     }
 
     for (let i = 0; i < subtext.length; i++) {
-      // Only read/apply to non-middle nodes
       let textHeight = subtext[i].offsetHeight;
       if (track_tds[1].classList.contains("middle")) {
+        // Only read/apply to non-middle nodes
         textHeight = 0;
-        adjustment_flag = 0;
-        //This solution is really jank, but it works for now
+        last_node_adjusted = false;
       } else if (textHeight > 55) {
-        if (!adjustment_flag) {
-          subtext[i].className = "adjust-subtext";
+        // Only adjust if its >2 lines (~50px is 2 lines)
+        if (!last_node_adjusted) {
+          subtext[i].classList.add("adjust-subtext");
           textHeight = subtext[i].offsetHeight;
-          adjustment_flag = 1;
-          console.log("adjusting node: " + subtext[i].innerHTML);
+          last_node_adjusted = true;
+          console.log("adjusting node text: " + subtext[i].innerHTML);
         } else {
           console.log(
             "rejected text adjstment for: " +
               subtext[i].innerHTML +
               " :Reason: neighbor already adjusted: "
           );
-          adjustment_flag = 0;
+          last_node_adjusted = false;
         }
       } else {
-        adjustment_flag = 0;
+        last_node_adjusted = false;
       }
-      row_max_height = textHeight > row_max_height ? textHeight : row_max_height;
-    }
-
-    // Prepare for second row
-    height_adjust += row_max_height;
-    if (j === 0) {
-      first_row_max = row_max_height;
-    }
-    row_max_height = default_row_height;
-
-    // Find first non-middle and set subtext height
-    if (
-      presence_nodes[0].classList.contains("first") &&
-      track_tds[1].classList.contains("middle")
-    ) {
-      presence_nodes[1].style.marginBottom = first_row_max + 2 - 24 + "px";
-      if (debug) {
-        console.log("found middle & first node");
-      }
-    } else {
-      presence_nodes[0].style.marginBottom = first_row_max + 2 - 24 + "px";
     }
   }
-  const presence_table = document.getElementById("presence-table");
-  presence_table.style.height = presence_table.offsetHeight + height_adjust + "px";
+
+  // Adjust table
+  const innatePowerBoxCheck = board.getElementsByTagName("innate-powers")[0];
+  innatePowerBoxCheck.style.height =
+    right.clientHeight - presenceTrack.clientHeight - growth.clientHeight + "px";
+  if (checkOverflowHeight(innatePowerBoxCheck)) {
+    allEnergyNodes.forEach((node) => {
+      //should replace this with css
+      node.style.marginBottom = "5px";
+    });
+    console.log(">Compressing Presence Tracks Vertically");
+  }
 
   // Place middle presence nodes
   const firstRow = energyTrack;
@@ -2607,21 +2601,19 @@ function dynamicResizing() {
 
   console.log("RESIZING: INNATE NOTES (IF NEEDED)");
   // Size Innate Power box
-  const growth = board.getElementsByTagName("growth")[0];
   const presenceTracks = board.getElementsByTagName("presence-tracks")[0];
-  const right = board.getElementsByTagName("right")[0];
   const innatePowers = board.getElementsByTagName("innate-power");
 
   // Shrink Innate Power notes if needed for space
   const innatePowerBox = board.getElementsByTagName("innate-powers")[0];
-  let moveFlag = false;
   innatePowerBox.style.height =
     right.clientHeight - presenceTracks.clientHeight - growth.clientHeight + "px";
+  let moveFlag = false;
   let k = 0;
-  // First tighten up the power levels
 
+  // First tighten up the power levels
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log("Innate Powers overflowing, shrinking space between levels");
+    console.log(">Innate Powers overflowing, shrinking space between levels");
     let levels = Array.from(board.getElementsByTagName("level"));
     levels.forEach((level) => {
       level.style.marginBottom = "2px";
@@ -2629,7 +2621,7 @@ function dynamicResizing() {
   }
   // Then tighten up the power level font spacing
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log("Innate Powers overflowing, shrinking level description line height");
+    console.log(">Innate Powers overflowing, shrinking level description line height");
     let descriptions = Array.from(board.getElementsByClassName("description"));
     descriptions.forEach((description) => {
       description.style.lineHeight = "1";
@@ -2701,18 +2693,24 @@ function getGrowthTableWidth(growthTable) {
   return totalWidth;
 }
 
+function getGrowthActionIconWidth(growthCell) {
+  let growthChildren = Array.from(growthCell.children);
+  let rect = growthChildren[0].getBoundingClientRect();
+  return rect.width;
+}
+
 function balanceText(el) {
   let debug = false;
   const initialHeight = el.offsetHeight;
   let currentHeight = initialHeight;
   let j = 0;
   let k = 100;
-  while (currentHeight <= initialHeight) {
-    k = k - 3;
+  while (currentHeight <= initialHeight && !checkOverflowWidth(el, 0)) {
+    k = k - 1;
     el.style.width = k + "%";
     currentHeight = el.offsetHeight;
     j += 1;
-    if (j > 10) {
+    if (j > 30) {
       if (debug) {
         console.log("Max text reduction reached for");
         console.log(el);
@@ -2720,7 +2718,7 @@ function balanceText(el) {
       break;
     }
   }
-  k = k + 3;
+  k = k + 1;
   el.style.width = k + "%";
 }
 
@@ -2735,7 +2733,7 @@ function reduceLines(el) {
     currentHeight = el.offsetHeight;
     j += 1;
     if (j > 10) {
-      console.log("Max text reduction reached for");
+      console.log("Max line reduction reached for");
       console.log(el);
       break;
     }
@@ -2743,13 +2741,13 @@ function reduceLines(el) {
   el.style.width = k + "%";
 }
 
-function checkOverflowWidth(el) {
-  let curOverflow = el.style.overflow;
+function checkOverflowWidth(el, slack = 30) {
+  let curOverflow = el.style.overflowX;
   if (!curOverflow || curOverflow === "visible") {
-    el.style.overflow = "auto";
+    el.style.overflowX = "auto";
   }
-  let isOverflowing = el.clientWidth + 30 < el.scrollWidth ? el.scrollWidth : false;
-  el.style.overflow = curOverflow;
+  let isOverflowing = el.clientWidth + slack < el.scrollWidth ? el.scrollWidth : false;
+  el.style.overflowX = curOverflow;
 
   return isOverflowing;
 }
@@ -2957,15 +2955,15 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
       currentElement = elementPieces[k];
       currentNumeral = numeralPieces[k].trim();
     }
-
+    let currentNumeralHTML = "<threshold-num>" + currentNumeral + "</threshold-num>";
     if (currentElement.toUpperCase() === "OR") {
       currentThresholdPieces[k] = "<threshold-or>or</threshold-or>";
     } else if (currentElement.toUpperCase().startsWith("TEXT")) {
       if (currentElement.split("(")[1]) {
         const customText = regExp.exec(currentElement)[1];
-        currentThresholdPieces[k] = currentNumeral + " " + customText;
+        currentThresholdPieces[k] = currentNumeralHTML + " " + customText;
       } else {
-        currentThresholdPieces[k] = currentNumeral + " " + "X";
+        currentThresholdPieces[k] = currentNumeralHTML + " " + "X";
       }
     } else if (currentElement.toUpperCase().startsWith("COST")) {
       if (currentElement.split("(")[1]) {
@@ -2983,7 +2981,7 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
           "</value></cost-energy></cost-threshold>";
       }
     } else {
-      currentThresholdPieces[k] = currentNumeral + "{" + currentElement + "}";
+      currentThresholdPieces[k] = currentNumeralHTML + "{" + currentElement + "}";
     }
     thresholdHTML += currentThresholdPieces[k];
   }
