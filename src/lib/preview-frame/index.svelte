@@ -53,10 +53,15 @@
 
   export const toggleSize = () => {
     large = !large;
-    if (large) {
-      const scrollAmount = getComputedStyle(wrapper).getPropertyValue("--scroll-amount");
-      tick().then(() => window.scrollBy(0, scrollAmount));
-    }
+    // We save the current scroll position here, and use it to calculate the desired
+    // scroll position using that, since we want the position relative to the current
+    // scroll offset, not the one after it may have been adjusted by the size change.
+    const currentScroll = window.scrollY;
+    const currentHeight = wrapper.clientHeight;
+    tick().then(() => {
+      const newHeight = wrapper.clientHeight;
+      window.scrollTo(window.scrollX, currentScroll + (newHeight - currentHeight));
+    });
   };
 
   /** Holds a promise that will fire when the frame has finished loading.
