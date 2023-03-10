@@ -286,7 +286,7 @@
   };
   let aspect = JSON.parse(JSON.stringify(emptyAspect));
 
-  let adversary = {
+  let emptyAdversary = {
     prop: "value",
     demoBoardWasLoaded: false,
     previewBoard: {
@@ -315,6 +315,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 2,
@@ -322,6 +325,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 3,
@@ -329,6 +335,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 4,
@@ -336,6 +345,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 5,
@@ -343,6 +355,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 6,
@@ -350,10 +365,14 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
       ],
     },
   };
+  let adversary = JSON.parse(JSON.stringify(emptyAdversary));
 
   let instructions;
 
@@ -408,7 +427,7 @@
     {:else if currentPage === "aspect"}
       <Aspect bind:aspect bind:emptyAspect bind:customIcons bind:instructions />
     {:else if currentPage === "adversary"}
-      <Adversary bind:adversary bind:instructions bind:customIcons />
+      <Adversary bind:adversary bind:emptyAdversary bind:instructions bind:customIcons />
     {/if}
   </div>
 
