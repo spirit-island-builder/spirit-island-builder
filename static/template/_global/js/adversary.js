@@ -1,3 +1,5 @@
+// const { base } = require("$app/paths");
+
 function startMain() {
   quickAdversary = document.querySelectorAll("quick-adversary")[0];
 
@@ -23,6 +25,10 @@ function buildAdversary(quickAdversary) {
   adversaryName = quickAdversary.getAttribute("name");
   flagImage = quickAdversary.getAttribute("flag-image");
   baseDifficulty = quickAdversary.getAttribute("base-difficulty");
+  let baseDifficultyText = "";
+  if (baseDifficulty) {
+    baseDifficultyText = `<adversary-base-dif>BASE DIFFICULTY ${baseDifficulty}</adversary-base-dif>`;
+  }
 
   lossCondition = quickAdversary.querySelectorAll("loss-condition")[0];
   var lossConditionTitle = lossCondition.getAttribute("name");
@@ -36,7 +42,7 @@ function buildAdversary(quickAdversary) {
   html = `
     <adversary-title>${adversaryName}</adversary-title>
     <img class="flag" src="${flagImage}" />
-    <adversary-base-dif>BASE DIFFICULTY ${baseDifficulty}</adversary-base-dif>
+    ${baseDifficultyText}
     <top-info>
       <loss-condition>
         <section-title>Additional Loss Condition</section-title>
@@ -86,6 +92,20 @@ function buildLevel(quickLevel) {
     fearCardNum += parseInt(fearCardList[i]);
   }
   fearCards = fearCardList.join("/");
+
+  let name2 = quickLevel.getAttribute("name2");
+  let rules2 = quickLevel.getAttribute("rules2");
+  console.log(quickLevel);
+  console.log(name2);
+  console.log(rules2);
+  let rule2HTML = "";
+  if (name2 && rules2) {
+    console.log("second rule detected");
+    rule2HTML = `<rule>
+    <strong>${quickLevel.getAttribute("name2")}:</strong> ${quickLevel.getAttribute("rules2")}
+    </rule>`;
+  }
+
   levelHTML = `<level>
         <div>${quickLevel.tagName.at(
           -1
@@ -94,7 +114,10 @@ function buildLevel(quickLevel) {
   )})</level-difficulty></div>
         <div>${fearCardNum} (${fearCards})</div>
         <div>
-          <strong>${quickLevel.getAttribute("name")}:</strong> ${quickLevel.getAttribute("rules")}
+          <rule>
+            <strong>${quickLevel.getAttribute("name")}:</strong> ${quickLevel.getAttribute("rules")}
+          </rule>
+          ${rule2HTML}
         </div>
       </level>`;
   return levelHTML;

@@ -11,6 +11,7 @@
   import CustomIcons from "../custom-icons.svelte";
 
   export let adversary;
+  export let emptyAdversary;
   export let instructions;
   export let customIcons;
 
@@ -28,6 +29,7 @@
     if (adversary.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
         adversary.demoBoardWasLoaded = true;
+        emptyAdversary.demoBoardWasLoaded = true;
       });
     } else {
       reloadPreview();
@@ -36,7 +38,7 @@
   onMount(onLoad);
 
   function reloadPreview() {
-    console.log("Updating Preview Adversary (f=setBoardValues)");
+    console.log("Updating Preview Adversary (f=generateHTML)");
     previewFrame.copyHTMLFrom(generateHTML(adversary)).then(() => {
       previewFrame.startMain();
     });
@@ -71,6 +73,10 @@
       HTMLlevel.setAttribute("difficulty", level.difficulty);
       HTMLlevel.setAttribute("fear-cards", level.fearCards);
       HTMLlevel.setAttribute("rules", level.effect);
+      if (level.hasRule2) {
+        HTMLlevel.setAttribute("name2", level.name2);
+        HTMLlevel.setAttribute("rules2", level.effect2);
+      }
       adversaryHeader.append(HTMLlevel);
     });
 
@@ -91,6 +97,8 @@
     console.log("Loading adversary into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     //Load Adversary Name, Base Difficulty and Flag Image
+    adversary = JSON.parse(JSON.stringify(emptyAdversary));
+
     const adversaryHeader = htmlElement.querySelectorAll("quick-adversary")[0];
     adversary.nameLossEscalation.name = adversaryHeader.getAttribute("name");
     adversary.nameLossEscalation.baseDif = adversaryHeader.getAttribute("base-difficulty");
@@ -116,6 +124,11 @@
       adversary.levelSummary.levels[i].difficulty = HTMLLevel.getAttribute("difficulty");
       adversary.levelSummary.levels[i].fearCards = HTMLLevel.getAttribute("fear-cards");
       adversary.levelSummary.levels[i].effect = HTMLLevel.getAttribute("rules");
+      adversary.levelSummary.levels[i].name2 = HTMLLevel.getAttribute("name2");
+      adversary.levelSummary.levels[i].effect2 = HTMLLevel.getAttribute("rules2");
+      if (HTMLLevel.getAttribute("name2")) {
+        adversary.levelSummary.levels[i].hasRule2 = true;
+      }
     }
 
     //Custom Icons
@@ -144,74 +157,7 @@
 
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Adversary.")) {
-      adversary = {
-        prop: "value",
-        demoBoardWasLoaded: true,
-        previewBoard: {
-          isVisible: false,
-        },
-        nameLossEscalation: {
-          isVisible: false,
-          name: "",
-          baseDif: "",
-          flagImg: "",
-          lossCondition: {
-            name: "",
-            effect: "",
-          },
-          escalation: {
-            name: "",
-            effect: "",
-          },
-        },
-        levelSummary: {
-          isVisible: false,
-          levels: [
-            {
-              id: 1,
-              name: "",
-              difficulty: "",
-              fearCards: "",
-              effect: "",
-            },
-            {
-              id: 2,
-              name: "",
-              difficulty: "",
-              fearCards: "",
-              effect: "",
-            },
-            {
-              id: 3,
-              name: "",
-              difficulty: "",
-              fearCards: "",
-              effect: "",
-            },
-            {
-              id: 4,
-              name: "",
-              difficulty: "",
-              fearCards: "",
-              effect: "",
-            },
-            {
-              id: 5,
-              name: "",
-              difficulty: "",
-              fearCards: "",
-              effect: "",
-            },
-            {
-              id: 6,
-              name: "",
-              difficulty: "",
-              fearCards: "",
-              effect: "",
-            },
-          ],
-        },
-      };
+      adversary = JSON.parse(JSON.stringify(emptyAdversary));
       reloadPreview();
     }
   }
