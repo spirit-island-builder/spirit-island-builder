@@ -370,7 +370,7 @@
   <header>
     <h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
     <nav class="navbar ml-5 mr-5">
-      <div class="navbar-brand">
+      <div class="navbar-brand is-flex-wrap-wrap">
         {#each pages as [page, title]}
           {@const isCurrent = currentPage === page}
           <button

@@ -28,6 +28,12 @@
   width: var(--preview-small-frame-width, var(--preview-frame-width));
 }
 
+@media (max-width: 1000px) {
+  .preview-wrap {
+    overflow-x: auto;
+  }
+}
+
 #spirit-preview {
   --scroll-amount: 245;
   --preview-frame-width: 1800px;
