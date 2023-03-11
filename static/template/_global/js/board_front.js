@@ -32,7 +32,7 @@ function addImages(board) {
   const spiritImage = board.getAttribute("spirit-image");
   const artistCredit = board.getElementsByTagName("artist-name");
   const spiritBorder = board.getAttribute("spirit-border");
-
+  const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
   const imageSize = board.getAttribute("spirit-image-scale");
 
   const specialRules = board.querySelectorAll("special-rules-container")[0];
@@ -42,9 +42,21 @@ function addImages(board) {
     height = computedStyle.getPropertyValue("height");
   }
 
+  //Scale Spirit Name if too large
+  let nameFontSize = parseFloat(
+    window.getComputedStyle(spiritNamePanel, null).getPropertyValue("font-size")
+  );
+  while (checkOverflowHeight(spiritNamePanel)) {
+    nameFontSize -= 1;
+    spiritNamePanel.style.fontSize = nameFontSize + "px";
+    if (nameFontSize < 35) {
+      console.log("too small, break");
+      break;
+    }
+  }
+
   if (spiritBorder) {
     const spiritBorderSize = board.getAttribute("spirit-border-scale");
-    const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
     spiritNamePanel.style.backgroundImage = `url(${spiritBorder})`;
     const borderHeight = spiritBorderSize !== null ? spiritBorderSize : "100px";
     spiritNamePanel.style.backgroundSize = `705px ${borderHeight}`;
@@ -2759,7 +2771,9 @@ function checkOverflowHeight(el) {
   }
   let isOverflowing = el.clientHeight < el.scrollHeight;
   el.style.overflow = curOverflow;
-
+  console.log(el);
+  console.log(el.clientHeight);
+  console.log(el.scrollHeight);
   return isOverflowing;
 }
 
