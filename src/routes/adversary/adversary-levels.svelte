@@ -3,10 +3,20 @@
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
+  import * as Lib from "../lib";
 
   function toggleHasRule2(i) {
     adversary.levelSummary.levels[i].hasRule2 = !adversary.levelSummary.levels[i].hasRule2;
     console.log("test");
+  }
+
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
+
+  function selectNode(event) {
+    let nodeID = event.target.id;
+    document.getElementById(nodeID).select();
   }
 </script>
 
@@ -34,6 +44,8 @@
             class="input is-small"
             type="text"
             placeholder="Name"
+            on:keyup={nextNode}
+            on:focus={selectNode}
             bind:value={level.name} />
         </div>
         <div class="control" style="width:15%; min-width:2rem;">
@@ -42,6 +54,8 @@
             class="input is-small"
             type="text"
             placeholder="Difficulty"
+            on:keyup={nextNode}
+            on:focus={selectNode}
             bind:value={level.difficulty} />
         </div>
         <div class="control" style="width:15%; min-width:2rem;">
@@ -50,6 +64,8 @@
             class="input is-small"
             type="text"
             placeholder="Fear Cards"
+            on:keyup={nextNode}
+            on:focus={selectNode}
             bind:value={level.fearCards} />
         </div>
       </div>
@@ -66,9 +82,11 @@
         <div class="field is-flex is-small mb-0">
           <div class="control" style="width:100%;">
             <input
-              id={`levelNameInput${i}`}
+              id={`levelSecondNameInput${i}`}
               class="input is-small"
               type="text"
+              on:keyup={nextNode}
+              on:focus={selectNode}
               placeholder="2nd Rule Name"
               bind:value={level.name2} />
           </div>
@@ -79,7 +97,7 @@
         </div>
         <div class="control">
           <AutoComplete
-            id={`levelEffectInput${i}`}
+            id={`levelSecondEffectInput${i}`}
             elementType="textarea"
             classNames="is-small"
             placeholder="2nd Rule Effect"
