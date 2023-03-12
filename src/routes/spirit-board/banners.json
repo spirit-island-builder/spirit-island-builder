@@ -32,6 +32,10 @@
       {
         "name": "Smoke",
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-smoke.png"
+      },
+      {
+        "name": "Lightning & Clouds",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-thundercloud.png"
       }
     ]
   }

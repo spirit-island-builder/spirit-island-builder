@@ -509,7 +509,8 @@ note icon.destroyed-presence {
 level {
   display: inline-block;
   height: auto;
-  width: 507px;
+  width: 500px;
+  /* width: 507px; */
   font-family: "JosefinSans-Regular";
   font-size: 17pt;
   margin-top: 10px;
