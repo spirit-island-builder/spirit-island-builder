@@ -40,6 +40,10 @@
       {
         "name": "Stonetile",
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-stonetile.png"
+      },
+      {
+        "name": "Lightning & Clouds",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-thundercloud.png"
       }
     ]
   }
