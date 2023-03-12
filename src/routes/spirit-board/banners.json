@@ -32,6 +32,14 @@
       {
         "name": "Smoke",
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-smoke.png"
+      },
+      {
+        "name": "Blue Metal",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-bluemetal.png"
+      },
+      {
+        "name": "Stonetile",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-stonetile.png"
       }
     ]
   }
