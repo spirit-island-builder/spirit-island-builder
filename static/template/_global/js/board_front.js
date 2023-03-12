@@ -2623,7 +2623,15 @@ function dynamicResizing() {
   let moveFlag = false;
   let k = 0;
 
-  // First tighten up the power levels
+  // First give left innate more horizontal room
+  if (checkOverflowHeight(innatePowerBox)) {
+    console.log(">Innate Power 1 overflowing, giving more room to IP1");
+    let levels = Array.from(innatePowers[0].getElementsByTagName("level"));
+    levels.forEach((level) => {
+      level.style.width = "507px";
+    });
+  }
+  // Then tighten up the power levels
   if (checkOverflowHeight(innatePowerBox)) {
     console.log(">Innate Powers overflowing, shrinking space between levels");
     let levels = Array.from(board.getElementsByTagName("level"));
@@ -2771,9 +2779,6 @@ function checkOverflowHeight(el) {
   }
   let isOverflowing = el.clientHeight < el.scrollHeight;
   el.style.overflow = curOverflow;
-  console.log(el);
-  console.log(el.clientHeight);
-  console.log(el.scrollHeight);
   return isOverflowing;
 }
 
