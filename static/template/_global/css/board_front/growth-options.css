@@ -42,11 +42,11 @@ growth special-section-title {
   z-index: 0;
   transform: translateX(-50%);
   left: 50%;
-  top: -60px;
+  top: -53px;
 }
 
 growth-table.has-special-title {
-  padding-top: 26px;
+  padding-top: 28px;
 }
 
 growth .tint {
@@ -103,6 +103,15 @@ growth-table {
   box-sizing: border-box;
 }
 
+growth-table.two-table-top {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+growth-table.two-table-bottom {
+  justify-content: flex-start;
+}
+
 sub-section-title + growth-table {
   margin-top: 40px;
 }
@@ -129,6 +138,19 @@ growth-border {
 
 growth-border[double] {
   background-image: url("../../images/board/Growthborder_double.png");
+}
+
+growth-row-line {
+  background-image: url(../../images/board/growth_underline.png);
+  height: 5px;
+  width: 133px;
+  display: block;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  margin-left: 21px;
+  margin-right: 8px;
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
 
 growth-cell {
@@ -318,6 +340,10 @@ repeat-growth value {
   margin-top: 4px;
   margin-left: 10px;
   color: #52301e;
+}
+
+repeat-wrapper {
+  height: 90px;
 }
 
 /* Gaining Flat Energy */
@@ -1576,17 +1602,4 @@ gain-per-fear icon.animal {
 }
 gain-per-fear icon.water {
   background-image: url(../../images/board/element_simple_water.png);
-}
-
-growth-row-line {
-  background-image: url(../../images/board/growth_underline.png);
-  height: 5px;
-  width: 133px;
-  display: block;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  margin-left: 21px;
-  margin-right: 8px;
-  margin-bottom: 21px;
-  margin-top: -17px;
 }
