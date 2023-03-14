@@ -40,7 +40,9 @@ adversary {
   width: 800px;
   height: 534px;
   border-radius: 15.1px;
-  position: relative;
+  position: absolute;
+  top: 0px;
+  left: 10px;
 }
 
 adversary-title {
@@ -68,13 +70,10 @@ adversary-title {
 }
 
 adversary-base-dif {
-  display: block;
-  position: absolute;
-  right: 207px;
+  display: inline;
+  position: relative;
+  left: 495px;
   top: 45px;
-  height: 44px;
-  width: 600px;
-
   text-align: right;
   line-height: 36px;
   font-size: 16px;

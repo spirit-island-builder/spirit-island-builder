@@ -686,7 +686,7 @@
   </svelte:fragment>
 </PreviewFrame>
 
-<div class="field has-addons mb-2">
+<div class="field has-addons mb-2 is-flex-wrap-wrap">
   <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
     Examples
   </button>
