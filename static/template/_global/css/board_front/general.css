@@ -72,6 +72,8 @@ spirit-name {
   background-repeat: no-repeat;
   background-position: left center;
   text-indent: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   margin-bottom: -50px;
   margin-top: -50px;
 }
