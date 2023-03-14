@@ -3,12 +3,24 @@
     "title": "Core and Branch & Claw Spirits",
     "examples": [
       {
+        "name": "Green",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_A Spread of Rampant Green.html"
+      },
+      {
         "name": "Ocean",
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Ocean's Hungry Grasp.html"
       },
       {
         "name": "Snek",
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Serpent Slumbering Beneath the Island.html"
+      },
+      {
+        "name": "Thunderspeaker",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Thunderspeaker.html"
+      },
+      {
+        "name": "Wildfire",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Heart of the Wildfire.html"
       }
     ]
   },
@@ -71,6 +83,10 @@
       {
         "name": "Ember-Eyed Behemoth",
         "url": "/template/MyCustomContent/MySpirit/Ember-Eyed_Behemoth_spiritBoard.html"
+      },
+      {
+        "name": "Hearth-Vigil",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Hearth Vigil.html"
       }
     ]
   },
