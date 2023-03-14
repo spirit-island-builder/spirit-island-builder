@@ -14,6 +14,7 @@ const iconValues = [
   { label: "destroyed-presence", value: "destroyed-presence" },
   { label: "disease", value: "disease" },
   { label: "earth", value: "earth" },
+  { label: "escalation", value: "escalation" },
   { label: "explorer", value: "explorer" },
   { label: "fast", value: "fast" },
   { label: "fear", value: "fear" },

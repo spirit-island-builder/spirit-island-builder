@@ -279,8 +279,8 @@
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
-      on:keyup={nextNode}
       bind:value />
+    <!-- removing       on:keyup={nextNode} for now -->
   {/if}
   {#if showAutoCompleteList === true}
     <div id={`${id}AutoCompleteList`} class="autocomplete-items">

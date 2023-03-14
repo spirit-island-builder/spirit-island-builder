@@ -274,7 +274,7 @@
     <script type="text/javascript" src="/template/_global/js/board_lore.js"></script>
   </svelte:fragment>
 </PreviewFrame>
-<div class="field has-addons mb-2">
+<div class="field has-addons mb-2 is-flex-wrap-wrap">
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
     Load
   </LoadButton>

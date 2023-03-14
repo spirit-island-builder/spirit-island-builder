@@ -146,6 +146,8 @@
   function readHTML(htmlElement, baseURI) {
     console.log("Loading aspect into form (f=readHTML)");
     //Reads the Template HTML file into the Form
+    aspect = JSON.parse(JSON.stringify(emptyAspect));
+
     const aspectHTML = htmlElement.querySelectorAll("aspect")[0];
 
     //Profile or Landscape
@@ -294,7 +296,7 @@
   </svelte:fragment>
 </PreviewFrame>
 
-<div class="field has-addons mb-2">
+<div class="field has-addons mb-2 is-flex-wrap-wrap">
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
     Load
   </LoadButton>

@@ -255,6 +255,8 @@
   function readHTML(htmlElement, baseURI) {
     //Reads the Template HTML file into the Form
     //Load Spirit Name and Image
+    spiritBoard = JSON.parse(JSON.stringify(emptySpiritBoard));
+
     const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
     if (spiritName) {
       spiritBoard.nameAndArt.name = spiritName.textContent.trim();
@@ -684,7 +686,7 @@
   </svelte:fragment>
 </PreviewFrame>
 
-<div class="field has-addons mb-2">
+<div class="field has-addons mb-2 is-flex-wrap-wrap">
   <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
     Examples
   </button>

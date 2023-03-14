@@ -32,7 +32,7 @@ function addImages(board) {
   const spiritImage = board.getAttribute("spirit-image");
   const artistCredit = board.getElementsByTagName("artist-name");
   const spiritBorder = board.getAttribute("spirit-border");
-
+  const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
   const imageSize = board.getAttribute("spirit-image-scale");
 
   const specialRules = board.querySelectorAll("special-rules-container")[0];
@@ -42,9 +42,21 @@ function addImages(board) {
     height = computedStyle.getPropertyValue("height");
   }
 
+  //Scale Spirit Name if too large
+  let nameFontSize = parseFloat(
+    window.getComputedStyle(spiritNamePanel, null).getPropertyValue("font-size")
+  );
+  while (checkOverflowHeight(spiritNamePanel)) {
+    nameFontSize -= 1;
+    spiritNamePanel.style.fontSize = nameFontSize + "px";
+    if (nameFontSize < 35) {
+      console.log("too small, break");
+      break;
+    }
+  }
+
   if (spiritBorder) {
     const spiritBorderSize = board.getAttribute("spirit-border-scale");
-    const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
     spiritNamePanel.style.backgroundImage = `url(${spiritBorder})`;
     const borderHeight = spiritBorderSize !== null ? spiritBorderSize : "100px";
     spiritNamePanel.style.backgroundSize = `705px ${borderHeight}`;
@@ -2306,8 +2318,8 @@ function dynamicResizing() {
   let tightFlag = false; // flag for tightening presence tracks later
   for (let i = 0; i < growthTables.length; i++) {
     growthTable = growthTables[i];
-    if (growthTables.length > 1) {
-      growthTable.style.marginTop = "10px";
+    if (i === 0 && growthTables.length > 1) {
+      growthTable.classList.add("two-table-top");
       tightFlag = true;
       console.log("will tighten presence tracks");
     }
@@ -2340,14 +2352,15 @@ function dynamicResizing() {
       growthTextHeights[j] = growthTexts[j].getBoundingClientRect().height;
       growthTextWidths[j] = growthTexts[j].getBoundingClientRect().width;
     }
-
     const textSizeNeedsTightening = growthTextWidths.map(
       (tw, i) => tw < growthWidthByIcons[i] || growthWidthByIcons[i] > 200
     );
     const textSizeHuge = growthTextWidths.map((tw, i) => tw > 2.5 * growthWidthByIcons[i]);
     const totalInitialIconWidth = growthWidthByIcons.reduce((partialSum, a) => partialSum + a, 0);
     const shrink = totalInitialIconWidth / growthPanelWidth;
-    let adjustedGrowthWidths = growthWidthByIcons.map((gw, i) => (textSizeHuge[i] ? gw * 1.3 : gw));
+    let adjustedGrowthWidths = growthWidthByIcons.map((gw, i) =>
+      textSizeHuge[i] ? Math.max(gw * 1.3, 106) : gw
+    );
     adjustedGrowthWidths = adjustedGrowthWidths.map((gw, i) =>
       textSizeNeedsTightening[i] ? gw * shrink : gw
     );
@@ -2355,10 +2368,14 @@ function dynamicResizing() {
       (partialSum, a) => partialSum + a,
       0
     );
-    // console.log(textSizeNeedsTightening);
-    // console.log(growthTextWidths);
-    // console.log(growthWidthByIcons);
-    // console.log(growthTextWidths.map((gt, i) => (growthWidthByIcons[i] / gt).toPrecision(3)));
+
+    if (debug) {
+      console.log(growthTextHeights);
+      console.log(growthTextWidths);
+      console.log(textSizeHuge);
+      console.log(growthWidthByIcons);
+      console.log(adjustedGrowthWidths);
+    }
 
     const averageWidth = totalCellWidth / growthCells.length;
     if (debug) {
@@ -2370,8 +2387,8 @@ function dynamicResizing() {
           adjustedGrowthWidths[j] * (growthPanelWidth / totalAdjustedIconWidth) + "px";
       }
     } else if (i > 0) {
+      growthTable.classList.add("two-table-bottom");
       growthTable.style.maxWidth = growthCells.length * averageWidth + "px";
-      growthTable.style.justifyContent = "flex-start";
       for (let j = 0; j < growthCells.length; j++) {
         growthCells[j].style.maxWidth = averageWidth + "px";
         growthCells[j].style.minWidth = "100px";
@@ -2391,7 +2408,7 @@ function dynamicResizing() {
   growthHeadersAndTitles();
 
   // Balance Growth Text
-  const maxGrowthTextHeight = newGrowthTable !== undefined ? 50 : 80;
+  const maxGrowthTextHeight = newGrowthTable !== undefined ? 50 : 75;
   for (let i = 0; i < growthTexts.length; i++) {
     if (growthTexts[i].offsetHeight < 70) {
       balanceText(growthTexts[i]);
@@ -2611,7 +2628,15 @@ function dynamicResizing() {
   let moveFlag = false;
   let k = 0;
 
-  // First tighten up the power levels
+  // First give left innate more horizontal room
+  if (checkOverflowHeight(innatePowerBox)) {
+    console.log(">Innate Power 1 overflowing, giving more room to IP1");
+    let levels = Array.from(innatePowers[0].getElementsByTagName("level"));
+    levels.forEach((level) => {
+      level.style.width = "507px";
+    });
+  }
+  // Then tighten up the power levels
   if (checkOverflowHeight(innatePowerBox)) {
     console.log(">Innate Powers overflowing, shrinking space between levels");
     let levels = Array.from(board.getElementsByTagName("level"));
@@ -2759,7 +2784,6 @@ function checkOverflowHeight(el) {
   }
   let isOverflowing = el.clientHeight < el.scrollHeight;
   el.style.overflow = curOverflow;
-
   return isOverflowing;
 }
 

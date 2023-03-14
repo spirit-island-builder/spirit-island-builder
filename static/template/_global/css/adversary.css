@@ -23,6 +23,15 @@ body {
   align-items: center;
 }
 
+ul {
+  margin: 0px;
+  padding-inline-start: 27px;
+}
+
+li {
+  padding-left: 3px;
+}
+
 adversary {
   display: block;
   background-image: url(../images/adversary-frame.jpg);
@@ -31,7 +40,9 @@ adversary {
   width: 800px;
   height: 534px;
   border-radius: 15.1px;
-  position: relative;
+  position: absolute;
+  top: 0px;
+  left: 10px;
 }
 
 adversary-title {
@@ -59,13 +70,10 @@ adversary-title {
 }
 
 adversary-base-dif {
-  display: block;
-  position: absolute;
-  right: 207px;
+  display: inline;
+  position: relative;
+  left: 495px;
   top: 45px;
-  height: 44px;
-  width: 600px;
-
   text-align: right;
   line-height: 36px;
   font-size: 16px;
@@ -185,6 +193,11 @@ adversary-levels level div:nth-child(2) {
 }
 
 adversary-levels level div:last-child {
+  display: flex;
+  flex-direction: column;
+}
+
+adversary-levels level rule {
   line-height: 17px;
   padding-top: 2px;
 }
@@ -221,6 +234,13 @@ icon {
   margin-top: -4px;
 }
 
+icon.fast {
+  background-image: url("../images/board/fast_power.png");
+}
+icon.slow {
+  background-image: url("../images/board/slow_power.png");
+}
+
 adversary-levels icon {
   margin-top: -2px;
 }
@@ -234,10 +254,14 @@ icon.city {
 
 icon.escalation {
   height: 17px;
-  width: 15px;
+  width: 10px;
   margin-bottom: -2px;
   margin-top: -10px;
   background-image: url("../images/25px-Stage_II_Escalation.png");
+}
+
+escalation icon.escalation {
+  width: 15px;
 }
 
 icon.presence {
