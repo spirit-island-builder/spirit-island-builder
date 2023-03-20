@@ -37,8 +37,10 @@ adversary {
   background-image: url(../images/adversary-frame.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  width: 800px;
-  height: 534px;
+  /* width: 800px;
+  height: 534px; */
+  width: 1177px;
+  height: 786px;
   border-radius: 15.1px;
   position: absolute;
   top: 0px;
@@ -49,13 +51,12 @@ adversary-title {
   display: block;
   position: absolute;
   left: 0px;
-  top: 16px;
-  height: 44px;
-  width: 603px;
-
+  top: 0px;
+  height: 108px;
+  width: 888px;
   text-align: center;
-  line-height: 36px;
-  font-size: 36px;
+  line-height: 108px;
+  font-size: 44px;
   font-family: "Name Headings";
   text-transform: uppercase;
 }
@@ -63,20 +64,21 @@ adversary-title {
 .flag {
   display: block;
   position: absolute;
-  left: 604px;
-  top: 28px;
-  height: 100px;
-  width: 143px;
+  left: 888px;
+  top: 41px;
+  height: 148px;
+  width: 212px;
 }
 
 adversary-base-dif {
   display: inline;
   position: relative;
-  left: 495px;
-  top: 45px;
+  left: 742px;
+  top: 71px;
   text-align: right;
   line-height: 36px;
-  font-size: 16px;
+  font-size: 21px;
+  width: 140px;
   font-family: "Name Headings";
   text-transform: uppercase;
 }
@@ -84,26 +86,32 @@ adversary-base-dif {
 top-info {
   display: block;
   position: absolute;
-  left: 35px;
-  top: 76px;
-  height: 78px;
-  width: 566px;
+  left: 48px;
+  top: 111px;
+  height: 115px;
+  width: 839px;
 
   display: flex;
   flex-wrap: nowrap;
   font-family: "JosefinSans-Regular";
-  font-size: 12px;
-  line-height: 17px;
+  font-size: 16pt;
+  text-align: left;
+  letter-spacing: -1px;
+  word-spacing: 0px;
 
-  padding-top: 6px;
+  padding-top: 7px;
   padding-left: 20px;
   padding-right: 2px;
 }
 
 section-title {
+  font-family: "JosefinSans";
+  font-size: 17pt;
   font-weight: bold;
   font-style: italic;
-  font-size: 14px;
+  text-align: left;
+  letter-spacing: -2px;
+  word-spacing: 1px;
 }
 
 loss-condition {
@@ -127,48 +135,56 @@ header-level {
 adversary-levels {
   display: block;
   position: absolute;
-  left: 35px;
-  top: 157px;
-  height: 360px;
-  width: 726px;
+  left: 49px;
+  top: 231px;
+  height: 528px;
+  width: 1078px;
 
   font-family: "JosefinSans-Regular";
-  font-size: 12px;
+  font-size: 16pt;
+  text-align: left;
+  letter-spacing: -1px;
+  word-spacing: 0px;
 
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 29px;
+  padding-right: 29px;
   padding-top: 7px;
   padding-bottom: 20px;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 }
 
 adversary-levels header {
+  font-family: "JosefinSans";
+  font-size: 17pt;
   font-weight: bold;
   font-style: italic;
-  font-size: 13px;
   text-align: left;
+  letter-spacing: -2px;
+  word-spacing: 1px;
 
   display: flex;
+  align-items: flex-end;
   flex-wrap: nowrap;
 }
 
-adversary-levels header div:not(:last-child) {
+adversary-levels level:not(:last-child) {
+  border-bottom: 1px solid rgb(0 0 0);
 }
 
 adversary-levels header div:nth-child(1),
 adversary-levels header header-level:nth-child(1),
 adversary-levels level div:nth-child(1) {
-  flex: 0 0 50px;
-  width: 50px;
+  flex: 0 0 74px;
+  width: 74px;
 }
 
 adversary-levels header div:nth-child(2),
 adversary-levels level div:nth-child(2) {
   white-space: nowrap;
-  flex: 0 0 90px;
+  flex: 0 0 140px;
   text-align: center;
 }
 
@@ -181,12 +197,13 @@ adversary-levels level {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+  flex-grow: 1;
 }
 
 adversary-levels level div:first-child {
-  font-size: 23px;
+  font-size: 34px;
   font-family: "Gobold Extra2";
-  padding-left: 10px;
+  padding-left: 25px;
 }
 
 adversary-levels level div:nth-child(2) {
@@ -198,12 +215,12 @@ adversary-levels level div:last-child {
 }
 
 adversary-levels level rule {
-  line-height: 17px;
+  line-height: 25px;
   padding-top: 2px;
 }
 
 adversary-levels line {
-  height: 0.5px; /* half pixel is intentional - when it is scaled it, it will still be one pixel wide. Was having issues with some lines being two pixels wide and some just one */
+  height: 0px; /* half pixel is intentional - when it is scaled it, it will still be one pixel wide. Was having issues with some lines being two pixels wide and some just one */
   background-color: black;
 }
 
@@ -213,25 +230,27 @@ level-info {
 
 .cumulative {
   font-weight: normal;
-  color: rgb(100, 100, 100);
+  color: rgb(154 154 154);
+  font-size: 20px;
 }
 
 div.level-difficulty {
-  font-size: 8px;
+  font-size: 13px;
 }
 
 level-difficulty {
-  font-size: 9px;
+  font-size: 14px;
   position: relative;
   top: 2px;
-  font-family: "Lato SemiBold";
+  font-family: "Gobold Extra2";
 }
 
 icon {
-  height: 17px;
-  width: 17px;
-  margin-bottom: -3px;
-  margin-top: -4px;
+  height: 25px;
+  width: 25px;
+  margin-bottom: -6px;
+  margin-top: -20px;
+  background-position: center;
 }
 
 icon.fast {
@@ -241,47 +260,58 @@ icon.slow {
   background-image: url("../images/board/slow_power.png");
 }
 
-adversary-levels icon {
-  margin-top: -2px;
-}
-
 icon.city {
-  height: 19px;
-  width: 19px;
+  height: 30px;
+  width: 30px;
   margin-top: -5px;
-  background-image: url("../images/50px-Citiyicon.png");
 }
 
 icon.escalation {
-  height: 17px;
-  width: 10px;
+  height: 23px;
+  width: 15px;
   margin-bottom: -2px;
   margin-top: -10px;
-  background-image: url("../images/25px-Stage_II_Escalation.png");
 }
 
 escalation icon.escalation {
-  width: 15px;
+  height: 23px;
+  margin-bottom: -2px;
+  margin-top: -10px;
 }
 
 icon.presence {
-  background-image: url("../images/board/50px_presence.png");
   margin-bottom: -5px;
 }
 
-adversary-levels icon.city {
-  margin-top: -4px;
-  margin-bottom: -4px;
-}
-
 icon.town {
-  height: 15px;
-  width: 15px;
+  height: 25px;
+  width: 25px;
 }
 
-icon.range-1,
-icon.range-2,
-icon.range-3 {
-  height: 15px;
-  width: 28px;
+icon.sun {
+  background-image: url(../images/board/element_simple_sun.png);
+}
+icon.earth {
+  background-image: url(../images/board/element_simple_earth.png);
+}
+icon.plant {
+  background-image: url(../images/board/element_simple_plant.png);
+}
+icon.fire {
+  background-image: url(../images/board/element_simple_fire.png);
+}
+icon.air {
+  background-image: url(../images/board/element_simple_air.png);
+}
+icon.moon {
+  background-image: url(../images/board/element_simple_moon.png);
+}
+icon.animal {
+  background-image: url(../images/board/element_simple_animal.png);
+}
+icon.water {
+  background-image: url(../images/board/element_simple_water.png);
+}
+icon.any {
+  background-image: url(../images/board/element_simple_any.png);
 }
