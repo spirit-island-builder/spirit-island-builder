@@ -8,7 +8,7 @@ function startMain() {
     }
     parseComplexity(aspects[i]);
     parseSubtexts(aspects[i]);
-    parseSubNodes(aspects[i]);
+    parseInnatePowersOrPresenceNodes(aspects[i]);
     parseSpecialRules();
     aspects[i].innerHTML = replaceIcon(aspects[i].innerHTML);
     resizeAspect(aspects[i]);
@@ -23,15 +23,30 @@ function startMain() {
   }, 200);
 }
 
-function parseSubNodes(aspect) {
-  var container = aspect.querySelector("aspect-container");
-  for (var i = 0; i < container.childNodes.length; i++) {
-    if (
-      container.childNodes[i].nodeType === 1 &&
-      container.childNodes[i].nodeName === "QUICK-INNATE-POWER"
-    ) {
-      container.childNodes[i].outerHTML = parseInnatePowerAspect(container.childNodes[i]);
+function parseInnatePowersOrPresenceNodes(aspect) {
+  let container = aspect.querySelector("aspect-container");
+  let innatePowers = container.querySelectorAll("quick-innate-power");
+  if (innatePowers[0]) {
+    console.log(container.querySelectorAll("quick-innate-power"));
+
+    for (var i = 0; i < innatePowers.length; i++) {
+      innatePowers[i].outerHTML = parseInnatePowerAspect(innatePowers[i]);
     }
+
+    // for (var i = 0; i < container.childNodes.length; i++) {
+    //   if (
+    //     container.childNodes[i].nodeType === 1 &&
+    //     container.childNodes[i].nodeName === "QUICK-INNATE-POWER"
+    //   ) {
+    //     console.log(container.childNodes[i])
+    //     console.log(innatePowers[i])
+    //     console.log(i)
+    //     container.childNodes[i].outerHTML = parseInnatePowerAspect(container.childNodes[i]);
+    //   }
+    // }
+  } else {
+    // we're doing presence nodes
+    container.classList.add("nodes");
   }
 }
 

@@ -153,6 +153,9 @@ aspect-container {
   flex-direction: column;
 }
 
+aspect-container.nodes {
+}
+
 /* aspect-container innate-power {
   width: 100%;
 } */
