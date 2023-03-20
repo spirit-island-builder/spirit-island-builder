@@ -5,16 +5,18 @@
   import { downloadHTML } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
-
+  import examples from "./examples.json";
   import NameLossAndEscalation from "./name-loss-escalation.svelte";
   import AdversaryLevels from "./adversary-levels.svelte";
   import CustomIcons from "../custom-icons.svelte";
+  import Examples from "$lib/example-modal.svelte";
 
   export let adversary;
   export let emptyAdversary;
   export let instructions;
   export let customIcons;
 
+  let exampleModal;
   let previewFrame;
 
   async function loadHTMLFromURL(url) {
@@ -22,6 +24,12 @@
     let loadedDocument = await Lib.loadHTML(url);
     readHTML(loadedDocument, url);
     reloadPreview();
+  }
+
+  function hideAll() {
+    adversary.nameLossEscalation.isVisible = false;
+    adversary.levelSummary.isVisible = false;
+    customIcons.isVisible = false;
   }
 
   const demoURL = "/template/MyCustomContent/MyAdversary/adversary_noJS.html";
@@ -171,6 +179,11 @@
     const elementNamesInIframe = ["adversary"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
+
+  async function loadExample(example) {
+    await loadHTMLFromURL(example.url);
+    hideAll();
+  }
 </script>
 
 <PreviewFrame id="adversary-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
@@ -182,6 +195,9 @@
   </svelte:fragment>
 </PreviewFrame>
 <div class="field has-addons mb-2 is-flex-wrap-wrap">
+  <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
+    Examples
+  </button>
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
     Load
   </LoadButton>
@@ -203,3 +219,8 @@
     <AdversaryLevels bind:adversary />
   </div>
 </div>
+<Examples
+  bind:this={exampleModal}
+  {loadExample}
+  title="Load Examples & Official Spirits"
+  {examples} />

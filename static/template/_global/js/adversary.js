@@ -98,7 +98,7 @@ function buildLevel(quickLevel) {
     console.log("second rule detected");
     rule2HTML = `<rule><strong>${quickLevel.getAttribute(
       "name2"
-    )}:</strong>${quickLevel.getAttribute("rules2")}</rule>`;
+    )}:</strong> ${quickLevel.getAttribute("rules2")}</rule>`;
   }
 
   levelHTML = `<level>
