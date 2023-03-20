@@ -56,9 +56,13 @@ adversary-title {
   width: 888px;
   text-align: center;
   line-height: 108px;
-  font-size: 44px;
+  font-size: 46px;
   font-family: "Name Headings";
   text-transform: uppercase;
+}
+
+adversary rule {
+  white-space: pre-line;
 }
 
 .flag {
@@ -141,7 +145,7 @@ adversary-levels {
   width: 1078px;
 
   font-family: "JosefinSans-Regular";
-  font-size: 16pt;
+  font-size: 15pt;
   text-align: left;
   letter-spacing: -1px;
   word-spacing: 0px;
@@ -198,6 +202,8 @@ adversary-levels level {
   flex-wrap: nowrap;
   align-items: center;
   flex-grow: 1;
+  padding-top: 1px;
+  padding-bottom: 1px;
 }
 
 adversary-levels level div:first-child {
@@ -216,7 +222,7 @@ adversary-levels level div:last-child {
 
 adversary-levels level rule {
   line-height: 25px;
-  padding-top: 2px;
+  padding-top: 3px;
 }
 
 adversary-levels line {
@@ -241,8 +247,11 @@ div.level-difficulty {
 level-difficulty {
   font-size: 14px;
   position: relative;
-  top: 2px;
+  top: 5px;
+  left: 3px;
   font-family: "Gobold Extra2";
+  display: inline-block;
+  letter-spacing: 0px;
 }
 
 icon {
@@ -263,7 +272,7 @@ icon.slow {
 icon.city {
   height: 30px;
   width: 30px;
-  margin-top: -5px;
+  margin-top: -8px;
 }
 
 icon.escalation {
