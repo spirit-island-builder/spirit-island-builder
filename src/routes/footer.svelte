@@ -1,8 +1,9 @@
+<script>
+  import { instructionsURL } from "$lib/instructions/index.svelte";
+</script>
+
 <footer>
-  See <a
-    href="https://neubee.github.io/spirit-island-builder/instructions"
-    target="_blank"
-    rel="noreferrer">Instructions</a>
+  See <a href={instructionsURL} target="_blank" rel="noreferrer">Instructions</a>
   for details on how to use the form. For custom art,
   <a href="https://www.wombo.art/" target="_blank" rel="noreferrer">Wombo</a>
   (unaffiliated) is a popular art generator.

@@ -3,12 +3,16 @@
   import ImageInput from "$lib/image-input.svelte";
 
   import banners from "./banners.json";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 
   // exports allow for properties to be passed into this component. So the value of spiritBoard can be set by whatever component is the parent of this one. See https://svelte.dev/tutorial/declaring-props
   export let spiritBoard;
 </script>
 
 <Section title="Spirit Name & Art" bind:isVisible={spiritBoard.nameAndArt.isVisible}>
+  <div class="mb-1 p-1 note">
+    <InstructionsLink anchor="spirit-name-and-art" />
+  </div>
   <div class="field">
     <label class="label" for="spiritNameInput">Spirit Name</label>
     <div class="control">

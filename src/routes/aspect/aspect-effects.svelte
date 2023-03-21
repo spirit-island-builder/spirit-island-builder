@@ -57,15 +57,6 @@
 </script>
 
 <Section title="Aspect Effects" bind:isVisible={aspect.aspectEffects.isVisible}>
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#spirit-board-lore-side"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
   {#each aspect.aspectEffects.specialRules.rules as rule, i (rule.id)}
     <div class="field">
       <label class="label is-flex is-justify-content-space-between" for={`ruleNameInput${i}`}
