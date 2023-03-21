@@ -1,18 +1,29 @@
+<script context="module">
+  export const instructionsURL = "/instructions";
+  export let instructions;
+</script>
+
 <script>
   import { removeOutline, expandOutline, exitOutline, close as closeIcon } from "ionicons/icons";
+  import { onMount } from "svelte";
 
   let isMinimized = false;
 
   let popup;
   let dragBar;
 
-  const source = new URL("https://neubee.github.io/spirit-island-builder/instructions");
+  let source = instructionsURL;
   export const open = (fragement) => {
     if (fragement) {
-      source.hash = fragement;
+      source = `${instructionsURL}#${encodeURIComponent(fragement)}`;
     }
+    console.log("source: ", source);
     popup.show();
   };
+
+  onMount(() => {
+    instructions = { open };
+  });
 
   function dragPointerDown(e) {
     if (!e.isPrimary || e.button !== 0) {

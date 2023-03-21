@@ -4,6 +4,7 @@
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
   import ImageInput from "$lib/image-input.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
   import * as Lib from "../lib";
 
   function nextNode(event) {
@@ -19,15 +20,9 @@
 <Section
   title="Name, Loss Condition, and Escalation"
   bind:isVisible={adversary.nameLossEscalation.isVisible}>
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#adversary-name"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
+  <div class="mb-1 p-1 note">
+    <InstructionsLink anchor="adversary-name" />
+  </div>
   <div class="field">
     <label class="label is-flex is-justify-content-space-between" for="adversaryNameInput"
       >Adversary Name & Diffuclty

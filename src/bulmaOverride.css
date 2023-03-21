@@ -93,3 +93,19 @@ h6 {
 ion-icon {
   pointer-events: none;
 }
+
+.note {
+  display: block;
+  font-size: 0.75rem;
+  background-color: whitesmoke;
+  border-left: 4px #dbdbdb solid;
+}
+
+.note a {
+  color: unset;
+  text-underline-offset: 2px;
+  text-decoration: underline dotted;
+}
+.note a:hover {
+  text-decoration-style: solid;
+}

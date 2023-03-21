@@ -65,15 +65,10 @@ function buildAdversary(quickAdversary) {
       </header>`;
 
   html += buildLevel(quickAdversary.querySelectorAll("level-1")[0]);
-  html += `<line></line>`;
   html += buildLevel(quickAdversary.querySelectorAll("level-2")[0]);
-  html += `<line></line>`;
   html += buildLevel(quickAdversary.querySelectorAll("level-3")[0]);
-  html += `<line></line>`;
   html += buildLevel(quickAdversary.querySelectorAll("level-4")[0]);
-  html += `<line></line>`;
   html += buildLevel(quickAdversary.querySelectorAll("level-5")[0]);
-  html += `<line></line>`;
   html += buildLevel(quickAdversary.querySelectorAll("level-6")[0]);
 
   html += `</adversary-levels>`;
@@ -101,9 +96,9 @@ function buildLevel(quickLevel) {
   let rule2HTML = "";
   if (name2 && rules2) {
     console.log("second rule detected");
-    rule2HTML = `<rule>
-    <strong>${quickLevel.getAttribute("name2")}:</strong> ${quickLevel.getAttribute("rules2")}
-    </rule>`;
+    rule2HTML = `<rule><strong>${quickLevel.getAttribute(
+      "name2"
+    )}:</strong> ${quickLevel.getAttribute("rules2")}</rule>`;
   }
 
   levelHTML = `<level>
@@ -114,9 +109,9 @@ function buildLevel(quickLevel) {
   )})</level-difficulty></div>
         <div>${fearCardNum} (${fearCards})</div>
         <div>
-          <rule>
-            <strong>${quickLevel.getAttribute("name")}:</strong> ${quickLevel.getAttribute("rules")}
-          </rule>
+          <rule><strong>${quickLevel.getAttribute("name")}:</strong> ${quickLevel.getAttribute(
+    "rules"
+  )}</rule>
           ${rule2HTML}
         </div>
       </level>`;
