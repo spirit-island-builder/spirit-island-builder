@@ -5,15 +5,18 @@
   import { downloadHTML } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
-
+  import examples from "./examples.json";
   import NameLossAndEscalation from "./name-loss-escalation.svelte";
   import AdversaryLevels from "./adversary-levels.svelte";
   import CustomIcons from "../custom-icons.svelte";
   import InstructionsLink from "$lib/instructions/link.svelte";
+  import Examples from "$lib/example-modal.svelte";
 
   export let adversary;
+  export let emptyAdversary;
   export let customIcons;
 
+  let exampleModal;
   let previewFrame;
 
   async function loadHTMLFromURL(url) {
@@ -23,11 +26,18 @@
     reloadPreview();
   }
 
+  function hideAll() {
+    adversary.nameLossEscalation.isVisible = false;
+    adversary.levelSummary.isVisible = false;
+    customIcons.isVisible = false;
+  }
+
   const demoURL = "/template/MyCustomContent/MyAdversary/adversary_noJS.html";
   function onLoad() {
     if (adversary.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
         adversary.demoBoardWasLoaded = true;
+        emptyAdversary.demoBoardWasLoaded = true;
       });
     } else {
       reloadPreview();
@@ -36,7 +46,7 @@
   onMount(onLoad);
 
   function reloadPreview() {
-    console.log("Updating Preview Adversary (f=setBoardValues)");
+    console.log("Updating Preview Adversary (f=generateHTML)");
     previewFrame.copyHTMLFrom(generateHTML(adversary)).then(() => {
       previewFrame.startMain();
     });
@@ -71,6 +81,10 @@
       HTMLlevel.setAttribute("difficulty", level.difficulty);
       HTMLlevel.setAttribute("fear-cards", level.fearCards);
       HTMLlevel.setAttribute("rules", level.effect);
+      if (level.hasRule2) {
+        HTMLlevel.setAttribute("name2", level.name2);
+        HTMLlevel.setAttribute("rules2", level.effect2);
+      }
       adversaryHeader.append(HTMLlevel);
     });
 
@@ -91,6 +105,8 @@
     console.log("Loading adversary into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     //Load Adversary Name, Base Difficulty and Flag Image
+    adversary = JSON.parse(JSON.stringify(emptyAdversary));
+
     const adversaryHeader = htmlElement.querySelectorAll("quick-adversary")[0];
     adversary.nameLossEscalation.name = adversaryHeader.getAttribute("name");
     adversary.nameLossEscalation.baseDif = adversaryHeader.getAttribute("base-difficulty");
@@ -116,6 +132,11 @@
       adversary.levelSummary.levels[i].difficulty = HTMLLevel.getAttribute("difficulty");
       adversary.levelSummary.levels[i].fearCards = HTMLLevel.getAttribute("fear-cards");
       adversary.levelSummary.levels[i].effect = HTMLLevel.getAttribute("rules");
+      adversary.levelSummary.levels[i].name2 = HTMLLevel.getAttribute("name2");
+      adversary.levelSummary.levels[i].effect2 = HTMLLevel.getAttribute("rules2");
+      if (HTMLLevel.getAttribute("name2")) {
+        adversary.levelSummary.levels[i].hasRule2 = true;
+      }
     }
 
     //Custom Icons
@@ -144,74 +165,7 @@
 
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Adversary.")) {
-      adversary = {
-        prop: "value",
-        demoBoardWasLoaded: true,
-        previewBoard: {
-          isVisible: false,
-        },
-        nameLossEscalation: {
-          isVisible: false,
-          name: "",
-          baseDif: "",
-          flagImg: "",
-          lossCondition: {
-            name: "",
-            effect: "",
-          },
-          escalation: {
-            name: "",
-            effect: "",
-          },
-        },
-        levelSummary: {
-          isVisible: false,
-          levels: [
-            {
-              id: 1,
-              name: "",
-              difficulty: "",
-              fearCards: "",
-              effect: "",
-            },
-            {
-              id: 2,
-              name: "",
-              difficulty: "",
-              fearCards: "",
-              effect: "",
-            },
-            {
-              id: 3,
-              name: "",
-              difficulty: "",
-              fearCards: "",
-              effect: "",
-            },
-            {
-              id: 4,
-              name: "",
-              difficulty: "",
-              fearCards: "",
-              effect: "",
-            },
-            {
-              id: 5,
-              name: "",
-              difficulty: "",
-              fearCards: "",
-              effect: "",
-            },
-            {
-              id: 6,
-              name: "",
-              difficulty: "",
-              fearCards: "",
-              effect: "",
-            },
-          ],
-        },
-      };
+      adversary = JSON.parse(JSON.stringify(emptyAdversary));
       reloadPreview();
     }
   }
@@ -220,6 +174,11 @@
     const fileNames = [adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.png"];
     const elementNamesInIframe = ["adversary"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
+  }
+
+  async function loadExample(example) {
+    await loadHTMLFromURL(example.url);
+    hideAll();
   }
 </script>
 
@@ -231,7 +190,10 @@
     <script type="text/javascript" src="/template/_global/js/adversary.js"></script>
   </svelte:fragment>
 </PreviewFrame>
-<div class="field has-addons mb-2">
+<div class="field has-addons mb-2 is-flex-wrap-wrap">
+  <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
+    Examples
+  </button>
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
     Load
   </LoadButton>
@@ -253,3 +215,8 @@
     <AdversaryLevels bind:adversary />
   </div>
 </div>
+<Examples
+  bind:this={exampleModal}
+  {loadExample}
+  title="Load Examples & Official Spirits"
+  {examples} />

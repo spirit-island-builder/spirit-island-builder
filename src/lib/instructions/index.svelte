@@ -82,21 +82,26 @@
   bind:this={popup}
   data-minimized={isMinimized}
   style="height: 20rem; width: 50ch; --top: 32; --left: 32">
-  <header class="is-flex is-justify-content-space-between">
+  <header>
     <div class="drag-bar" bind:this={dragBar} on:pointerdown={dragPointerDown}>Instructions</div>
-    <div class="is-flex px-2">
-      <a href={source} on:click={closeWindow} class="mr-1" target="_blank" rel="noreferrer">
-        <span title="Open in new tab"><ion-icon icon={exitOutline} /></span>
+    <div class="controls">
+      <a
+        href={source}
+        on:click={closeWindow}
+        title="Open in new tab"
+        target="_blank"
+        rel="noreferrer">
+        <ion-icon icon={exitOutline} />
       </a>
-      <button on:click={minimizeWindow} class="mr-1">
-        {#if isMinimized === false}
-          <span title="Minimize"><ion-icon icon={removeOutline} /></span>
+      <button title={isMinimized ? "Expand" : "Minimize"} on:click={minimizeWindow}>
+        {#if isMinimized}
+          <ion-icon icon={expandOutline} />
         {:else}
-          <span title="Expand"><ion-icon icon={expandOutline} /></span>
+          <ion-icon icon={removeOutline} />
         {/if}
       </button>
-      <button on:click={closeWindow}>
-        <span title="Close"><ion-icon icon={closeIcon} /></span>
+      <button title="Close" on:click={closeWindow}>
+        <ion-icon icon={closeIcon} />
       </button>
     </div>
   </header>
@@ -119,7 +124,6 @@
     /* reset */
     padding: 0;
     margin: 0;
-    padding-bottom: 10px;
   }
   dialog[open] {
     display: flex;
@@ -129,15 +133,17 @@
     resize: both;
     min-width: 40ch;
     min-height: 8rem;
+    padding-bottom: 10px;
   }
 
   dialog[data-minimized="true"] {
     resize: none;
-    min-height: 0;
-    max-height: 0;
+    min-height: 2rem;
+    max-height: 2rem;
   }
 
   header {
+    display: flex;
     background-color: #0072bd;
     color: #fff;
   }
@@ -149,26 +155,35 @@
     border-inline-end: 1px solid #b2b2b2;
     touch-action: none;
   }
+  header .controls {
+    display: flex;
+    padding-inline: 0.25rem;
+    align-items: center;
+  }
 
-  header button {
+  header :is(button, a) {
     display: block;
+    padding: 0.125rem;
     cursor: pointer;
+  }
+  header :is(button, a):focus-visible {
+    outline: 1px auto;
+  }
+  header button {
     /* reset */
-    padding: unset;
+    /* padding is set above */
     border: unset;
     outline: unset;
     font: unset;
     color: unset;
     background: unset;
   }
-  header :is(button, a) ion-icon {
-    display: block;
+  header a {
+    color: unset;
   }
 
-  header a {
-    display: flex;
-    place-items: center;
-    color: unset;
+  ion-icon {
+    display: block;
   }
 
   iframe {

@@ -391,7 +391,7 @@
     <script type="text/javascript" src="/template/_global/js/card.js"></script>
   </svelte:fragment>
 </PreviewFrame>
-<div class="field has-addons mt-2 mb-2">
+<div class="field has-addons mt-2 mb-2 is-flex-wrap-wrap">
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
     Load
   </LoadButton>

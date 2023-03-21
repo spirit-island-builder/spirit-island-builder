@@ -38,7 +38,7 @@
   export const takeScreenshot = (fileNames, elementNamesInIframe) => {
     elementNamesInIframe.forEach((elementNameInIframe, index) => {
       previewIframe.contentWindow
-        .takeScreenshot(elementNameInIframe)
+        .takeScreenshot(elementNameInIframe, large ? 1.5 : 1)
         .then((imageURL) => downloadImage(imageURL, fileNames[index]));
     });
   };

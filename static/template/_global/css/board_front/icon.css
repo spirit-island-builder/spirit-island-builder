@@ -194,7 +194,7 @@ icon.gather {
   height: 62px;
   width: 100px;
   margin-right: 20px;
-  margin-bottom: 7px;
+  margin-bottom: 0px;
 }
 
 icon.gather > icon {

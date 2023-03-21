@@ -297,7 +297,7 @@
   };
   let aspect = JSON.parse(JSON.stringify(emptyAspect));
 
-  let adversary = {
+  let emptyAdversary = {
     prop: "value",
     demoBoardWasLoaded: false,
     previewBoard: {
@@ -326,6 +326,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 2,
@@ -333,6 +336,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 3,
@@ -340,6 +346,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 4,
@@ -347,6 +356,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 5,
@@ -354,6 +366,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 6,
@@ -361,10 +376,14 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
       ],
     },
   };
+  let adversary = JSON.parse(JSON.stringify(emptyAdversary));
 
   let pages = [
     ["spiritBoardFront", "Spirit Board Play Side"],
@@ -379,7 +398,7 @@
   <header>
     <h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
     <nav class="navbar ml-5 mr-5">
-      <div class="navbar-brand">
+      <div class="navbar-brand is-flex-wrap-wrap">
         {#each pages as [page, title]}
           {@const isCurrent = currentPage === page}
           <button
@@ -417,7 +436,7 @@
     {:else if currentPage === "aspect"}
       <Aspect bind:aspect bind:emptyAspect bind:customIcons />
     {:else if currentPage === "adversary"}
-      <Adversary bind:adversary bind:customIcons />
+      <Adversary bind:adversary bind:emptyAdversary bind:customIcons />
     {/if}
   </div>
 

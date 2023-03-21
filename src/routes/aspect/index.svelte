@@ -145,6 +145,8 @@
   function readHTML(htmlElement, baseURI) {
     console.log("Loading aspect into form (f=readHTML)");
     //Reads the Template HTML file into the Form
+    aspect = JSON.parse(JSON.stringify(emptyAspect));
+
     const aspectHTML = htmlElement.querySelectorAll("aspect")[0];
 
     //Profile or Landscape
@@ -161,10 +163,11 @@
     const aspectReplacementsHTML = aspectHTML.querySelectorAll("aspect-subtext");
     if (aspectReplacementsHTML) {
       aspectReplacementsHTML.forEach((replacement) => {
+        console.log(replacement);
         aspect.nameReplacements.replacements.push({
           id: aspect.nameReplacements.replacements.length,
-          aspectRelacement: replacement.textContent.split(":")[0],
-          rulesReplaced: replacement.querySelectorAll("i")[0].textContent,
+          aspectRelacement: replacement.innerHTML.split(":")[0],
+          rulesReplaced: replacement.querySelectorAll("i")[0]?.innerHTML ?? "",
         });
         aspect = aspect;
       });
@@ -199,7 +202,7 @@
     specialRulesNames.forEach((specialRulesName, j) => {
       aspect.aspectEffects = Lib.addSpecialRule(
         aspect.aspectEffects,
-        specialRulesName.textContent,
+        specialRulesName.innerHTML,
         specialRulesEffects[j].innerHTML.trim()
       );
       aspect = aspect;
@@ -288,7 +291,7 @@
   </svelte:fragment>
 </PreviewFrame>
 
-<div class="field has-addons mb-2">
+<div class="field has-addons mb-2 is-flex-wrap-wrap">
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
     Load
   </LoadButton>
