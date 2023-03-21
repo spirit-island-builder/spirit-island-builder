@@ -1,5 +1,5 @@
 .preview-wrap {
-  width: 100%;
+  width: var(--preview-wrap-width);
   padding: 0;
   overflow: hidden;
 }
@@ -20,36 +20,48 @@
 
 .preview-wrap.large .preview-frame {
   transform: var(--preview-large-frame-transform);
-  width: var(--preview-large-frame-width, var(--preview-frame-width));
+  /* width: var(--preview-large-frame-width, var(--preview-frame-width)); */
 }
 
 .preview-wrap:not(.large) .preview-frame {
   transform: var(--preview-small-frame-transform);
-  width: var(--preview-small-frame-width, var(--preview-frame-width));
+  /* width: var(--preview-small-frame-width, var(--preview-frame-width)); */
+}
+
+@media (max-width: 1000px) {
+  .preview-wrap {
+    overflow-x: auto;
+  }
+}
+
+.preview-frame {
+  width: 100%;
 }
 
 #spirit-preview {
   --scroll-amount: 245;
   --preview-frame-width: 1800px;
-  --preview-frame-height: 1210px;
+  --preview-frame-height: 1195px;
 
   --preview-large-wrap-height: 890px;
   --preview-large-frame-transform: scale(0.745);
 
   --preview-small-wrap-height: 660px;
+  --preview-wrap-width: 155%;
   --preview-small-frame-transform: scale(0.55);
 }
 
 #adversary-preview {
   --scroll-amount: 295;
   --preview-frame-width: 860px;
-  --preview-frame-height: 540px;
+  --preview-frame-height: 792px;
 
-  --preview-large-wrap-height: 845px;
-  --preview-large-frame-transform: scale(1.55);
+  --preview-large-wrap-height: 792px;
+  --preview-large-frame-transform: scale(1);
 
-  --preview-small-wrap-height: 550px;
-  --preview-small-frame-transform: scale(1);
+  --preview-wrap-width: 100%;
+  --preview-small-wrap-height: 595px;
+  --preview-small-frame-transform: scale(0.75);
 }
 
 #aspect-preview {
@@ -63,6 +75,8 @@
   --preview-small-wrap-height: 340px;
   --preview-small-frame-transform: scale(0.67);
   --preview-small-frame-width: 149%;
+
+  --preview-wrap-width: 150%;
 }
 
 #power-cards-preview {
@@ -76,15 +90,18 @@
   --preview-small-wrap-height: 460px;
   --preview-small-frame-transform: scale(0.67);
   --preview-small-frame-width: 149%;
+
+  --preview-wrap-width: 150%;
 }
 
 #lore-preview {
   --scroll-amount: 245;
   --preview-frame-width: 1800px;
-  --preview-frame-height: 1210px;
+  --preview-frame-height: 1197px;
 
   --preview-large-wrap-height: 890px;
   --preview-large-frame-transform: scale(0.745);
+  --preview-wrap-width: 155%;
 
   --preview-small-wrap-height: 660px;
   --preview-small-frame-transform: scale(0.55);
