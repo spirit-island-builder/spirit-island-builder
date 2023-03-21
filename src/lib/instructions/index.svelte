@@ -17,6 +17,7 @@
     if (fragement) {
       source = `${instructionsURL}#${encodeURIComponent(fragement)}`;
     }
+    console.log("source: ", source);
     popup.show();
   };
 
