@@ -28,6 +28,9 @@
   </div>
   {#each customIcons.icons as icon, i (icon.id)}
     <div class="field has-addons is-horizontal is-justify-content-left mb-0">
+      <div class="field-label is-small">
+        <label class="label">Display Name:</label>
+      </div>
       <div class="control">
         <input
           id={`customIconDisplayName${i}`}
