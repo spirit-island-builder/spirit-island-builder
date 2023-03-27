@@ -1914,7 +1914,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
             "</range></icon-shadow>";
           addEnergyRing = false;
           addIconShadow = false;
-        } else if (splitOptions[i].startsWith("custom")) {
+        } else if (splitOptions[i].startsWith("custom(")) {
           const matches = regExp.exec(splitOptions[i]);
           const custom = matches[1].split(";")[1];
           if (pnDebug) {
