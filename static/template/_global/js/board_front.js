@@ -5,6 +5,9 @@
 /* exported startMain */
 function startMain() {
   console.log("CREATING SPIRIT BOARD");
+
+  setupCustomIcons();
+
   buildGrowthPanel();
 
   if (document.getElementById("presence-table")) {
@@ -1201,7 +1204,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       let incarnaOptions = matches[1].split(",");
       let incarnaAction = incarnaOptions[0];
       let incarnaRangeOrToken = incarnaOptions[1] !== undefined ? incarnaOptions[1] : 0;
-      let customIncarnaIcon = incarnaOptions[2] !== undefined ? incarnaOptions[2] : "incarna-ember";
+      let customIncarnaIcon = incarnaOptions[2] !== undefined ? incarnaOptions[2] : "incarna";
       switch (incarnaAction) {
         case "move":
           growthIcons =
@@ -2136,6 +2139,12 @@ function IconName(str, iconNum = 1) {
 
 function Capitalise(str, plural = 0) {
   str = str.trim();
+  //check if custom icon
+  if (str.startsWith("custom")) {
+    str = getCustomIconName(str);
+  }
+
+  //others
   const hyphenCheck = str.split("-");
   const terrains = new Set(["wetland", "mountain", "sand", "sands", "jungle"]);
   let return_str = hyphenCheck[0].charAt(0).toUpperCase() + hyphenCheck[0].slice(1);
@@ -2155,6 +2164,39 @@ function Capitalise(str, plural = 0) {
   }
 
   return return_str;
+}
+
+function setupCustomIcons() {
+  const spiritStyle = document.querySelectorAll("style")[0];
+  let styleText = spiritStyle.textContent;
+  if (styleText) {
+    console.log("CREATING CUSTOM ICONS");
+    let customIconHolder = document.createElement("custom-icons");
+    const body = document.querySelectorAll("board")[0];
+    body.appendChild(customIconHolder);
+
+    let icons = styleText.split(/icon.custom[1-9]{/);
+    icons.shift();
+    let backgroundImages = [];
+    let iconNames = [];
+    icons.forEach((value, i) => {
+      iconNames = value.split("data-iconname:")[1].trim().split(";")[0].replaceAll("'", "");
+      backgroundImages.push(value.split("background-image:")[1].trim().split(";")[0]);
+      let customIconHTML = document.createElement("icon");
+      customIconHTML.setAttribute("data-iconname", iconNames);
+      customIconHTML.classList.add("custom" + (i + 1));
+      customIconHolder.appendChild(customIconHTML);
+    });
+  }
+}
+
+function getCustomIconName(iconName) {
+  //Getting an icon's custom name
+  const customIconHolder = document.querySelectorAll("custom-icons")[0];
+  let customIcon = customIconHolder.getElementsByClassName(iconName)[0];
+  let returnName = customIcon.getAttribute("data-iconname") ?? iconName;
+  console.log("Retrieving Custom Icon Name for " + iconName + ": " + returnName);
+  return returnName;
 }
 
 function makePlural(str) {

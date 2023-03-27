@@ -172,10 +172,11 @@ export const addLevel = (
   return spiritBoard;
 };
 
-export const addCustomIcon = (customIcons, iconName = "") => {
+export const addCustomIcon = (customIcons, iconName = "", customIconName = "") => {
   customIcons.icons.push({
     id: customIcons.icons.length,
     name: iconName,
+    displayName: customIconName ?? "custom" + customIcons.icons.length,
   });
   return customIcons;
 };
