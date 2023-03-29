@@ -511,3 +511,8 @@ no-range {
   padding-top: 12px;
   padding-bottom: 4px;
 }
+
+custom-icons {
+  display: none;
+  position: absolute;
+}

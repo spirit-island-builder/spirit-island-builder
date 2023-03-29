@@ -4,11 +4,12 @@
 
 import html2canvas from "html2canvas";
 
-window.takeScreenshot = async (elementName) => {
+window.takeScreenshot = async (elementName, scale = 1) => {
   let element = document.querySelector(elementName);
+  console.log("scale=" + scale);
   let canvas = await html2canvas(element, {
     allowTaint: true,
-    scale: 1,
+    scale: scale,
   });
   return canvas.toDataURL();
 };

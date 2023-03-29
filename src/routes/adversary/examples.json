@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Official Adversaries",
+    "examples": [
+      {
+        "name": "The Kingdom of England",
+        "url": "/template/MyCustomContent/MyAdversary/The_Kingdom_of_England_Adversary.html"
+      },
+      {
+        "name": "The Kingdom of France",
+        "url": "/template/MyCustomContent/MyAdversary/The_Kingdom_of_France_(Plantation_Colony)_Adversary.html"
+      },
+      {
+        "name": "The Kingdom of Scotland",
+        "url": "/template/MyCustomContent/MyAdversary/The_Kingdom_of_Scotland_Adversary.html"
+      },
+      {
+        "name": "The Tsardom of Russia",
+        "url": "/template/MyCustomContent/MyAdversary/The_Tsardom_of_Russia_Adversary.html"
+      }
+    ]
+  }
+]

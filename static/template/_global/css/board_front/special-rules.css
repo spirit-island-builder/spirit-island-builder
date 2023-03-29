@@ -306,6 +306,7 @@ presence-node special-ring-icon {
 special-rule ul {
   margin-block-end: 0px;
   margin-block-start: 0px;
+  padding-inline-start: 30px;
 }
 
 special-rules-track icon.sun {

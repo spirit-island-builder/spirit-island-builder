@@ -11,7 +11,6 @@
   import { downloadHTML } from "$lib/download";
 
   export let aspect;
-  export let instructions;
   export let emptyAspect;
   export let customIcons;
 
@@ -146,6 +145,8 @@
   function readHTML(htmlElement, baseURI) {
     console.log("Loading aspect into form (f=readHTML)");
     //Reads the Template HTML file into the Form
+    aspect = JSON.parse(JSON.stringify(emptyAspect));
+
     const aspectHTML = htmlElement.querySelectorAll("aspect")[0];
 
     //Profile or Landscape
@@ -271,10 +272,6 @@
     }
   }
 
-  function showInstructions() {
-    instructions.open("power-cards");
-  }
-
   function screenshotSetUp() {
     const fileNames = [
       aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.png",
@@ -294,7 +291,7 @@
   </svelte:fragment>
 </PreviewFrame>
 
-<div class="field has-addons mb-2">
+<div class="field has-addons mb-2 is-flex-wrap-wrap">
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
     Load
   </LoadButton>
@@ -304,7 +301,6 @@
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">

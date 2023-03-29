@@ -9,10 +9,10 @@
   import NameArtLore from "./name-art-lore.svelte";
   import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";
   import CustomIcons from "../custom-icons.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 
   export let spiritBoardBack;
   export let customIcons;
-  export let instructions;
 
   let previewFrame;
 
@@ -253,10 +253,6 @@
     }
   }
 
-  function showInstructions() {
-    instructions.open("spirit-board-lore-side");
-  }
-
   function screenshotSetUp() {
     const fileNames = [
       spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritBoardBack.png",
@@ -274,7 +270,7 @@
     <script type="text/javascript" src="/template/_global/js/board_lore.js"></script>
   </svelte:fragment>
 </PreviewFrame>
-<div class="field has-addons mb-2">
+<div class="field has-addons mb-2 is-flex-wrap-wrap">
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
     Load
   </LoadButton>
@@ -284,7 +280,7 @@
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
+  <InstructionsLink class="button is-info mr-1" anchor="spirit-board-lore-side" />
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">

@@ -72,6 +72,8 @@ spirit-name {
   background-repeat: no-repeat;
   background-position: left center;
   text-indent: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   margin-bottom: -50px;
   margin-top: -50px;
 }
@@ -94,16 +96,16 @@ artist-name {
 
 created-with {
   position: absolute;
-  left: 1636px;
+  left: 1600px;
   top: 1162px;
-  font-size: 11px;
+  font-size: 11.5px;
   font-family: "Lato SemiBold";
   color: #d1c5a6;
-  text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
   text-align: left;
   z-index: 1;
   display: block;
   white-space: normal;
+  letter-spacing: 1.5px;
 }
 
 custom-meeple {

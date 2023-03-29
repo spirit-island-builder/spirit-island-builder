@@ -172,10 +172,11 @@ export const addLevel = (
   return spiritBoard;
 };
 
-export const addCustomIcon = (customIcons, iconName = "") => {
+export const addCustomIcon = (customIcons, iconName = "", customIconName = "") => {
   customIcons.icons.push({
     id: customIcons.icons.length,
     name: iconName,
+    displayName: customIconName ?? "custom" + customIcons.icons.length,
   });
   return customIcons;
 };
@@ -284,6 +285,31 @@ export const nextNode = (event) => {
         break;
       case "cardTarget":
         focusID = "cardRules" + numMatches[0];
+        break;
+      // Adversary
+      case "adversaryNameInput":
+        focusID = "baseDifficulty";
+        break;
+      case "baseDifficulty":
+        focusID = "LossConditionInput";
+        break;
+      case "LossConditionInput":
+        focusID = "lossConditionEffectInput";
+        break;
+      case "EscalationInput":
+        focusID = "escalationEffectInput";
+        break;
+      case "levelNameInput":
+        focusID = "levelDifficultyInput" + numMatches[0];
+        break;
+      case "levelDifficultyInput":
+        focusID = "levelFearInput" + numMatches[0];
+        break;
+      case "levelFearInput":
+        focusID = "levelEffectInput" + numMatches[0];
+        break;
+      case "levelSecondNameInput":
+        focusID = "levelSecondEffectInput" + numMatches[0];
         break;
     }
 

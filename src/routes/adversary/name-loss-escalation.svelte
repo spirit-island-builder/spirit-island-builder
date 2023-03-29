@@ -4,20 +4,25 @@
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
   import ImageInput from "$lib/image-input.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
+  import * as Lib from "../lib";
+
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
+
+  function selectNode(event) {
+    let nodeID = event.target.id;
+    document.getElementById(nodeID).select();
+  }
 </script>
 
 <Section
   title="Name, Loss Condition, and Escalation"
   bind:isVisible={adversary.nameLossEscalation.isVisible}>
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#adversary-name"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
+  <div class="mb-1 p-1 note">
+    <InstructionsLink anchor="adversary-name" />
+  </div>
   <div class="field">
     <label class="label is-flex is-justify-content-space-between" for="adversaryNameInput"
       >Adversary Name & Diffuclty
@@ -29,6 +34,8 @@
           class="input"
           type="text"
           placeholder="Name"
+          on:keyup={nextNode}
+          on:focus={selectNode}
           bind:value={adversary.nameLossEscalation.name} />
       </div>
       <div class="control" style="width:20%; min-width:2rem;">
@@ -37,14 +44,11 @@
           class="input"
           type="text"
           placeholder="Difficulty"
+          on:keyup={nextNode}
+          on:focus={selectNode}
           bind:value={adversary.nameLossEscalation.baseDif} />
       </div>
     </div>
-    <!-- FLAG ART -->
-    <ImageInput
-      id="adversaryFlag"
-      title="Flag Art"
-      bind:imageURL={adversary.nameLossEscalation.flagImg} />
   </div>
   <!-- Loss Condition -->
   <div class="field">
@@ -58,6 +62,8 @@
           class="input"
           type="text"
           placeholder="Name"
+          on:keyup={nextNode}
+          on:focus={selectNode}
           bind:value={adversary.nameLossEscalation.lossCondition.name} />
       </div>
     </div>
@@ -83,6 +89,8 @@
           class="input"
           type="text"
           placeholder="Name"
+          on:keyup={nextNode}
+          on:focus={selectNode}
           bind:value={adversary.nameLossEscalation.escalation.name} />
       </div>
     </div>
@@ -95,5 +103,12 @@
         validAutoCompleteValues={iconValuesSorted}
         bind:value={adversary.nameLossEscalation.escalation.effect} />
     </div>
+  </div>
+  <div class="field">
+    <!-- FLAG ART -->
+    <ImageInput
+      id="adversaryFlag"
+      title="Flag Art"
+      bind:imageURL={adversary.nameLossEscalation.flagImg} />
   </div>
 </Section>

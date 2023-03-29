@@ -19,11 +19,11 @@
 
   import examples from "./examples.json";
   import spiritBoardJsonTemplate from "./tts-spirit-board.json";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 
   export let spiritBoard;
   export let emptySpiritBoard;
   export let customIcons;
-  export let instructions;
 
   function clearAllFields() {
     if (
@@ -232,7 +232,9 @@
     let customIconText = "";
     customIcons.icons.forEach((icon) => {
       customIconText +=
-        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
+        "icon.custom" +
+        (icon.id + 1) +
+        `{data-iconname:'${icon.displayName}'; background-image: url('${icon.name}'); }\n`;
     });
     spiritStyle.textContent = customIconText;
 
@@ -255,6 +257,8 @@
   function readHTML(htmlElement, baseURI) {
     //Reads the Template HTML file into the Form
     //Load Spirit Name and Image
+    spiritBoard = JSON.parse(JSON.stringify(emptySpiritBoard));
+
     const spiritName = htmlElement.querySelectorAll("spirit-name")[0];
     if (spiritName) {
       spiritBoard.nameAndArt.name = spiritName.textContent.trim();
@@ -391,12 +395,29 @@
     const spiritStyle = htmlElement.querySelectorAll("style")[0];
     customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
     if (spiritStyle) {
-      const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-      let iconList = spiritStyle.textContent.match(regExp);
+      const regExp = new RegExp(/(["'])(?:(?=(\\?))\2.)*?\1/, "g");
+      // let iconList = spiritStyle.textContent.match(regExp);
+      let iconList = spiritStyle.textContent.split("icon.custom");
+      iconList.shift();
+
       if (iconList) {
-        iconList.forEach((customIcon) => {
-          customIcon = Lib.maybeResolveURL(customIcon, baseURI);
-          customIcons = Lib.addCustomIcon(customIcons, customIcon);
+        iconList.forEach((customIcon, i) => {
+          let iconProperties = customIcon.match(regExp);
+          let customIconName = "";
+          let customIconURI = "";
+          if (customIcon.includes("data-iconname")) {
+            customIconName = iconProperties[0].replaceAll("'", "").replaceAll('"', "");
+            if (!customIconName) {
+              customIconName = "custom" + (i + 1);
+            }
+            console.log(customIconName);
+            customIconURI = iconProperties[1].replaceAll("'", "").replaceAll('"', "");
+          } else {
+            customIconName = "custom" + (i + 1);
+            customIconURI = iconProperties[0].replaceAll("'", "").replaceAll('"', "");
+          }
+          customIcon = Lib.maybeResolveURL(customIconURI, baseURI);
+          customIcons = Lib.addCustomIcon(customIcons, customIcon, customIconName);
         });
       }
     }
@@ -413,10 +434,6 @@
   function exportSpiritBoard() {
     const htmlFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.html";
     downloadHTML(generateHTML(spiritBoard), htmlFileName);
-  }
-
-  function showInstructions() {
-    instructions.open("spirit-board-play-side");
   }
 
   async function loadExample(example) {
@@ -684,7 +701,7 @@
   </svelte:fragment>
 </PreviewFrame>
 
-<div class="field has-addons mb-2">
+<div class="field has-addons mb-2 is-flex-wrap-wrap">
   <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
     Examples
   </button>
@@ -699,7 +716,7 @@
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  <button class="button is-info  mr-1" on:click={showInstructions}>Instructions</button>
+  <InstructionsLink class="button is-info mr-1" anchor="spirit-board-play-side" />
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">
