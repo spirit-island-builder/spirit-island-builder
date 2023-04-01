@@ -1,6 +1,7 @@
 <script>
   import Section from "$lib/section.svelte";
   import ImageInput from "$lib/image-input.svelte";
+  import * as Lib from "../lib";
 
   export let aspect;
 
@@ -57,6 +58,15 @@
     });
     aspect = aspect;
   }
+
+  function selectNode(event) {
+    let nodeID = event.target.id;
+    document.getElementById(nodeID).select();
+  }
+
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
 </script>
 
 <Section title="Name & Rules Replacements" bind:isVisible={aspect.nameReplacements.isVisible}>
@@ -72,6 +82,8 @@
             class="input"
             type="text"
             placeholder="Name"
+            on:keyup={nextNode}
+            on:focus={selectNode}
             bind:value={aspect.nameReplacements.aspectName} />
         </div>
       </div>
@@ -90,6 +102,8 @@
                   class="input is-small"
                   type="text"
                   placeholder="ie. Replaces Special Rule"
+                  on:keyup={nextNode}
+                  on:focus={selectNode}
                   bind:value={replacement.aspectRelacement} />
               </div>
             </div>
@@ -97,16 +111,18 @@
           <div class="field is-flex is-small is-flex-direction-column mb-0" style="width:70%">
             <label
               class="label is-flex is-justify-content-space-between mb-0"
-              for="rulesReplacedInput"
+              for="rulesReplacedInput{i}"
               >Rule/Power Name
             </label>
             <div class="field is-flex is-small mb-0">
               <div class="control" style="width:100%">
                 <input
-                  id="rulesReplacedInput"
+                  id="rulesReplacedInput{i}"
                   class="input is-small"
                   type="text"
                   placeholder="ie. The Name of a Spirit's Special Rule"
+                  on:keyup={nextNode}
+                  on:focus={selectNode}
                   bind:value={replacement.rulesReplaced} />
               </div>
             </div>
@@ -179,6 +195,8 @@
             class="input"
             type="text"
             placeholder="The Name of a Spirit"
+            on:keyup={nextNode}
+            on:focus={selectNode}
             bind:value={aspect.nameReplacements.spiritName} />
         </div>
       </div>
