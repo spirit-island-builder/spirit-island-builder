@@ -54,12 +54,21 @@
     aspect.aspectEffects.innatePowers.powers[powerIndex].levels[levelIndex].isLong =
       !aspect.aspectEffects.innatePowers.powers[powerIndex].levels[levelIndex].isLong;
   }
+
+  function selectNode(event) {
+    let nodeID = event.target.id;
+    document.getElementById(nodeID).select();
+  }
+
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
 </script>
 
 <Section title="Aspect Effects" bind:isVisible={aspect.aspectEffects.isVisible}>
   {#each aspect.aspectEffects.specialRules.rules as rule, i (rule.id)}
     <div class="field">
-      <label class="label is-flex is-justify-content-space-between" for={`ruleNameInput${i}`}
+      <label class="label is-flex is-justify-content-space-between" for={`ruleNameInputAspect${i}`}
         >Special Rule {i + 1}
       </label>
       <div class="growth-action-container">
@@ -69,6 +78,8 @@
             class="input"
             type="text"
             placeholder="Name"
+            on:keyup={nextNode}
+            on:focus={selectNode}
             bind:value={rule.name} />
         </div>
         <button class="button is-warning is-light" on:click={removeSpecialRule(i)}>Remove</button>
@@ -97,6 +108,8 @@
             class="input"
             type="text"
             placeholder="Power Name"
+            on:keyup={nextNode}
+            on:focus={selectNode}
             bind:value={power.name} />
         </div>
         <button class="button is-primary is-light is-warning" on:click={removeInnatePower(i)}
@@ -170,6 +183,8 @@
               class="input"
               type="text"
               placeholder="Range"
+              on:keyup={nextNode}
+              on:focus={selectNode}
               bind:value={power.range} />
           </div>
           <div class="control">
@@ -192,7 +207,10 @@
         validAutoCompleteValues={iconValuesSorted}
         bind:value={power.note} />
     </div>
-    <button class="button is-primary is-light is-small" on:click={addLevel(i)}>Add Level</button>
+    <button
+      class="button is-primary is-light is-small"
+      id={`power${i}addLevel`}
+      on:click={addLevel(i)}>Add Level</button>
     {#each power.levels as level, j (level.id)}
       <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
         <div class="control">
@@ -201,6 +219,8 @@
             class="input is-small"
             type="text"
             placeholder="Threshold"
+            on:keyup={nextNode}
+            on:focus={selectNode}
             bind:value={level.threshold} />
         </div>
         <div class="control" style="width:100%">
