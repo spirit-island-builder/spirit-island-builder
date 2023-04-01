@@ -163,11 +163,11 @@ export const addLevel = (
     isLong: levelLong,
   });
 
-  if (spiritBoard.innatePowers.isVisible) {
-    setTimeout(() => {
+  setTimeout(() => {
+    if (document.getElementById(focusId) !== null) {
       document.getElementById(focusId).focus();
-    }, 100);
-  }
+    }
+  }, 100);
 
   return spiritBoard;
 };
@@ -310,6 +310,25 @@ export const nextNode = (event) => {
         break;
       case "levelSecondNameInput":
         focusID = "levelSecondEffectInput" + numMatches[0];
+        break;
+      // Aspect
+      case "aspectInput":
+        focusID = "replacesInput0";
+        if (document.getElementById(focusID) === null) {
+          focusID = "aspectSpiritName";
+        }
+        break;
+      case "replacesInput":
+        focusID = "rulesReplacedInput" + numMatches[0];
+        break;
+      case "rulesReplacedInput":
+        focusID = "replacesInput" + numMatches[0];
+        focusID = focusID.replace(/\d+$/, function (m) {
+          return parseInt(m) + 1;
+        });
+        if (document.getElementById(focusID) === null) {
+          focusID = "aspectSpiritName";
+        }
         break;
     }
 
