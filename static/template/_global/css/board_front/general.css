@@ -196,6 +196,7 @@ section-title {
   text-transform: uppercase;
   font-size: 25pt;
   padding-top: 10px;
+  line-height: 40px;
 }
 
 right {
