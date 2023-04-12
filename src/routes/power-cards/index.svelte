@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
-  import { downloadHTML } from "$lib/download";
+  import { downloadHTML, downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
 
@@ -379,7 +379,7 @@
       saveName = powerCards.spiritName;
     }
     const jsonFileName = saveName.replaceAll(" ", "_") + "_cards_TTS.json";
-    Lib.downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
+    downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
 </script>
 
