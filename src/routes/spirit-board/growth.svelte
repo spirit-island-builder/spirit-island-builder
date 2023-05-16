@@ -260,7 +260,7 @@
                       id={`set${i}group${j}tint`}
                       class="input  is-small"
                       type="text"
-                      placeholder="Try &quot;blue&quot;"
+                      placeholder="Try &quot;blue&quot; or &quot;#ff0058&quot;"
                       on:keyup={nextNode}
                       bind:value={growthGroup.tint} />
                   </div>
