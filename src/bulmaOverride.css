@@ -54,6 +54,11 @@ h6 {
 }
 
 @font-face {
+  font-family: "Lato Regular";
+  src: url("/template/_global/fonts/lato/Lato-Regular.ttf");
+}
+
+@font-face {
   font-family: "Lato Semibold";
   src: local("Lato Semibold") url("/template/_global/fonts/lato/Lato-Semibold.ttf");
 }
