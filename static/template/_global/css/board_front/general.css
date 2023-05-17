@@ -59,7 +59,6 @@ spirit-name {
   margin-left: 0px;
   height: 100px;
   width: 666.25px;
-  font-size: 44px;
   font-family: "Name Headings";
   text-transform: uppercase;
   color: white;
@@ -76,6 +75,10 @@ spirit-name {
   padding-bottom: 20px;
   margin-bottom: -50px;
   margin-top: -50px;
+
+  letter-spacing: 3px;
+  word-spacing: -10px;
+  font-size: 45px;
 }
 
 artist-name {
