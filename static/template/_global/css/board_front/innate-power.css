@@ -27,6 +27,12 @@ innate-power {
   margin-left: 25px;
 }
 
+innate-power ul {
+  margin-block-end: 0px;
+  margin-block-start: 0px;
+  padding-inline-start: 30px;
+}
+
 innate-power:only-child level {
   width: 1000px !important;
 }
