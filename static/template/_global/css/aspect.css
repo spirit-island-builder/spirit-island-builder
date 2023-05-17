@@ -1,4 +1,4 @@
-@import "board_front/global.css";
+@import "global.css";
 @import "board_front/special-rules.css";
 @import "board_front/innate-power.css";
 @import "board_front/icon.css";
@@ -130,6 +130,7 @@ aspect aspect-subtext {
   justify-content: center;
   text-align: center;
   white-space: normal;
+  flex-shrink: 0;
 
   background-image: url(../images/aspect-subtitle.png);
   background-size: 100% 100%;
@@ -258,6 +259,7 @@ aspect-back img {
 aspect innate-power {
   scale: 0.9;
   transform-origin: left top;
+  margin-left: 0px;
 }
 
 aspect innate-power-title {
@@ -273,6 +275,7 @@ aspect special-rule {
   font-size: 15.5pt;
   line-height: 26px;
   padding-bottom: 21px;
+  white-space: pre-line;
 }
 
 aspect special-rules-subtitle {

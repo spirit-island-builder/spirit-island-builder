@@ -2,25 +2,7 @@
 
 Welcome to the Spirit Island Spirit Board Builder! This document will help you use the Spirit Board builder.
 
-## Index
-
-- [Spirit Board Play Side](#spirit-board-play-side):
-  - [Preview Board and Builder Interface](#preview-board-and-interface)
-  - [Spirit Name & Art](#spirit-name-and-art)
-  - [Special Rules](#special-rules)
-  - [Custom Icons](#custom-icons)
-  - [Growth](#growth)
-  - [Presence Tracks](#presence-tracks)
-  - [Innate Powers](#innate-powers)
-- [Spirit Board Lore Side](#spirit-board-lore-side):
-  - [Name, Art, Lore](#spirit-lore-name)
-  - [Setup, Play Style, Complexity, Summary of Powers](#spirit-lore-setup)
-- [Power Cards](#power-cards)
-- [Adversary](#adversary):
-  - [Name, Loss Condition, Escalation](#adversary-name)
-  - [Levels](#adversary-levels)
-- [How to Use {Icons}](#general-icons)
-- [Fonts](#fonts)
+## Table of Contents {#index}
 
 ## Spirit Board Play Side
 
@@ -30,8 +12,9 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
 - Load: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage.
 - Save: Click this button to immediately download save file for your Spirit
 - Download Image: Click this button to download a PNG of your Spirit Board or other content.
+- Export TTS file: Click this button to download an object file for the popular Spirit Island Tabletop Simulator mod.
 - Update Preview: Click this button to load a new preview board and see your changes.
-- Toggle Board Size: Click this to change the size of the preview. NOTE: There is no way to export the image of your board, so use a screen capture tool such as the snipping tool on Windows.
+- Toggle Board Size: Click this to change the size of the preview. NOTE: While you can download images of Spirit Boards, you can also use a screen capture to get a higher resolution.
 - Clear All Fields: Click this to delete everything in the Builder form. It will ask for confirmation.
 - Instructions: Pulls up an instructions overlay.
 
@@ -39,10 +22,11 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
 
 ### Spirit Name and Art
 
-- Spirit Name: The name of your spirit. Will automatically be displayed in all capitals.
-- Spirit Art: The main Spirit image. Press 'Load' to select an image.
-  - Scale (optional): Used to scale the image. Include the percentage sign in your input. Will default to 100%
-- Banner Art: The image that sits behind the Spirit name.
+- Spirit Name: The name of your spirit.
+- Spirit Art: The main Spirit image. Press 'Choose File' to select an image.
+  - Scale (optional): Used to scale the image. Include the percentage sign in your input. An empty field will default to 100%.
+- Banner Art: The image that sits behind the Spirit name.  
+  - Press 'Choose File' to select an image or press 'Or Use Example Banners' to use some examples our team generated.
 - Energy Track Banner & Plays Track Banner: The banners behind the presence tracks.
   - Scale (optional): Stretches the vertical dimension of the banner (horizontal is automatically set based on the number of nodes).
 
@@ -56,16 +40,20 @@ Use these fields to modify your spirit's special rules. You can and should use t
 - Effect: The special rule effect. Use icon shortcuts here.
 - Remove: Button to **permanently** delete the special rule.
 - Add Another Rule: Adds an additional special rule.
+- General Advice: Look at example spirits to see how some features are used.
+  - Serpent-style presence nodes: you can create presence nodes in the special rule using the following format:
+    - Example: <special-rules-track values="5,7,8,10,11,12,13"></special-rules-track>
+    - You should be able to use most of the options from [presence tracks](#presence-tracks) here.
 
 [Home](#index)
 
 ### Custom Icons
 
-This field allows you to upload and use your own custom icons. Reference these icons using {custom1}, {custom2}, etc.
+This field allows you to upload and use your own custom icons. Reference these icons using {custom1}, {custom2}, etc. Custom icons are usable across all components (ie. spirit board, cards, aspects, etc)
 
 - Add Custom Icon: Adds an additional custom icon field.
 - Load: Allows you to chose a file from your computer to be a custom icon.
-- Remove: Removes the custom icon. WARNING: deleting a custom icon might re-number the remaining ones, so be careful.
+- Remove: Removes the custom icon. WARNING: deleting a custom icon will re-number the remaining ones, so be careful.
 
 [Home](#index)
 
@@ -74,12 +62,13 @@ This field allows you to upload and use your own custom icons. Reference these i
 Growth is broken into Growth Sets, Groups, and Actions.
 
 - Growth Directions: When NOT using sets, the Growth Directions tell the player how many growth groups to pick (usually, Pick One or Pick Two). When using Sets, these instructions are instead added to the set.
-- **Growth Sets** are used for Growth on spirits such as Lure and Spread of Rampant Green, where the player has two sets to choose from.
+- "Use Growth Sets"/"Stop Using Growth Sets" button:
   - "Use Growth Sets" button: Adds Growth Sets to the interface. All current Growth Groups are automatically added to the first Set.
+  - "Stop Using Growth Sets" button: Switches back to not using Growth Sets. All Growth Groups & Actions are preserved.
+- **Growth Sets** are *optional* and used for Growth on spirits such as Lure and Spread of Rampant Green, where the player has two sets to choose from.
   - Growth Set Choice: This field contains instructions for the Growth Set, such as 'Pick one of' or 'Always'.
   - "Add Growth Set" button: Adds additional Growth Sets.
   - **X** button: Deletes the current Growth Set and all of its Growth Groups and Actions
-  - "Stop Using Growth Sets" button: Switches back to not using Growth Sets. All Growth Groups & Actions are preserved.
 - **Growth Groups** are clusters of Growth Actions. During Growth, the player typically chooses a Growth Group and then does the Growth Actions in that Group.
   - Add Cost: Optional. Allows for an energy cost associated with this group (as seen on Keeper).
     - Non-Energy Scaling Costs: Optional. Try '1,dahan' or '1,custom1' or other icon names
@@ -90,6 +79,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
   - **X**: Deletes the current Growth Group & all of its Growth Actions
 - **Growth Actions** are the individual growth actions, such as gaining energy or adding a presence. How to write these actions are detailed below.
   - Add Growth Action: Adds an additional Growth Action to the Group.
+  - ↻: Refreshes the current growth set on the preview (without updating the whole preview).
   - Remove: Deletes the Growth Action.
 
 #### Supported Growth Actions
@@ -175,9 +165,10 @@ Growth is broken into Growth Sets, Groups, and Actions.
 
 ### Presence Tracks
 
-The two presence tracks (energy & plays) are filled out here. To accomplish middle nodes (such as Serpent or Finder), wrap the energy node in 'middle()'.
+The two presence tracks (energy & plays) are filled out here. To accomplish middle nodes (such as Serpent or Finder), wrap the **energy** node in 'middle()'.
 
 - Node boxes: Each text box represents the effect of one node. See 'Supported Presence Track Options'. In most cases, icon brackets {} are NOT needed in Presence Track nodes (custom is the exception).
+  - Node boxes automatically update when you click/tab/enter away from the node.
 - + Button: Adds a node between the two nodes.
 - x Button: Removes the node.
 - Note: This will appear at the top of the Presence track box, as seen on Finder. Use [{icon shortcuts}](#general-icons) here.
@@ -193,7 +184,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 | Forced Energy / Card Plays          | energy(x) or plays(x)                      | Allows for energy in plays track or plays in the energy track. Best used in combinations                                         | Wounded Waters track: energy(0)+plays(1)                                                                                                                     |
 | Elements                            | sun,moon,fire,air,water,earth,plant,animal | Can be used in combinations                                                                                                      | Thunderspeaker energy track: 1,air,2,fire,sun,3                                                                                                              |
 |                                     | any, star                                  | 'any' is any element, 'star' is the Element icon from Starlight                                                                  |                                                                                                                                                              |
-|                                     | elements(x;y)                              | Gain element x or y. Can be used in combinations.                                                                                | Wounded Waters track: elements(water;animal)                                                                                                                 |
+|                                     | elements(x;y)                              | Gain element x OR y. Can be used in combinations.                                                                                | Wounded Waters track: elements(water;animal)                                                                                                                 |
 | Element Markers                     | markerplus, markerminus                    | Gain or pay element markers                                                                                                      | Shifting Memory energy track: 0,1,2,3+markerplus,4,reclaim-one,5,6+markerplus<br>Shifting Memory plays track: 1,2,2,markerminus+markerminus+gain-card-play,3 |
 | Reclaim One                         | reclaim-one                                | Reclaim one card, can be used in combinations                                                                                    | River cardplay track: 1,2,2,3,reclaim-one,4,5                                                                                                                |
 | Combinations                        | separate with a '+'                        | Can include energy, cardplays, elements, markers, move-presence, gain-range, reclaim one, and custom. Can be more than 2 things. | Stone's cardplay track: 1,earth,earth,earth+reclaim-one,earth+any,2+earth                                                                                    |
@@ -208,10 +199,11 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 | Add Token                           | token(x)                                   | Adds a token x to 1 of your lands                                                                                                |                                                                                                                                                              |
 | Notate with Icon (like Stone)       | ^x                                         | Puts icon x in top left corner of presence node                                                                                  | Stone top row: 2,3,gain-card-play^minor,4,gain-card-play^minor,6,gain-card-play^minor                                                                        |
 | Notate with Energy (like Starlight) | ^energy(x)                                 | Puts an energy icon in the top left with value x (can be negative, use + to show +). Recommended to use with custom              | custom(Pay 2 Energy to Gain a Card Play,gain-card-play)^energy(-2)                                                                                           |
+| Damage                              | damage-1, damage-2                         | Deal 1,2 Damage in one of your Lands                                                                                             | Custom energy track: 1,3+forget-power-card,5+forget-power-card,7+forget-power-card                                                                           |
 | Forget Power                        | forget-power-card                          | Forget a power card. Unlikely to be useful because presence track actions are optional                                           | Custom energy track: 1,3+forget-power-card,5+forget-power-card,7+forget-power-card                                                                           |
 | Custom                              | custom(_your_text_)                        | Add custom text to the presence node. Image will be !!!.                                                                         | Custom energy track: 1,2,custom(Draw 1 Minor Power),3,water,4                                                                                                |
-|                                     | custom(_your_text_;x)                      | Can be used in combinations. x is an icon(s) and/or text. Note the semicolon.                                                    | Spreading Rot top row: 2,custom(Gain 1 Rot;custom1)+water,3,custom(Gain 1 Rot;custom1)+plant,custom(Gain 1 Rot;custom1)+earth,4                                                                              |
-|                                     | custom(_your_text_;{x}/{y})                | Cannot be used in combinations. Can have icons (x and y, for example) and text                                                   | Custom energy track: 1,2,custom(Destroy 1 Town or City;{town}/{city}),3,water,4                                                                              |
+|                                     | custom(_your_text_;x)                      | Can be used in combinations. x is an icon(s) and/or text. Note the semicolon.                                                    | Spreading Rot top row: 2,custom(Gain 1 Rot;custom1)+water,3,custom(Gain 1 Rot;custom1)+plant,custom(Gain 1 Rot;custom1)+earth,4                              |
+|                                     | custom(_your_text_;{x}/{y})                | Cannot be used in combinations. Can have icons (x and y, for example) and text                                                   | custom(Destroy 1 Town or City;{town}/{city})<br>custom(Pay 2 Disease to Gain Power Card;{disease}{disease}{gain-power-card})                                 |
 | Middle Nodes                        | middle(wrap other node options)            | Wrap your presence node options in middle() to have them appear in the middle of the tracks. Only do this to energy track nodes. | Serpent energy track: 1,fire,any,reclaim-one,**middle(earth)**,6,any,12                                                                                      |
 
 
@@ -223,13 +215,14 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 - Remove Innate Power: Permanently deletes the Innate Power
 - Fast/Slow: Toggles the Speed of the Power
 - Range: The range of the innate. Uses special syntax:
-  - For no range (such as Spirit targeting powers), type "none".
+  - For a power without range (such as Spirit targeting powers), type "none" or leave the range blank.
   - For range, use an icon (if needed) + an integer separated by a comma. Examples:
     - 0
     - 1
     - sacred-site,2
     - wetland-presence,1
 - Target: The target of the innate. Unlike Range, this uses the same HTML code as the rest of the template, so you can use any icons and the shorthand syntax (ie. {dahan}).
+  - "No" target: You can add {no-} before any icon to put a red X over it ({no-blight}). For text, use {no} (ie. {no}Invaders).
 - Target Land/Target: Toggle between Target Land (for land targetting powers) and Target (for Powers that target spirits, etc).
 - Note (optional): Allows adding notes to the top of the innate (See Volcano Looming High or Lure of the Deep Wilderness as an example). Use [{icon shortcuts}](#general-icons) here (such as {dahan}).
 - Add Level: Adds a Thershold Level to the Innate Power.
@@ -242,6 +235,8 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
       - Example: Spreading Rot: 2-moon,3-water,2-animal,2-cost(custom1)
     - Or: As seen on Trickster
       - Example: Trickster: 3-sun,OR,3-fire
+    - Custom Text: You can use text in place of an icon in a threshold
+      - Example: 2-water,2-text(X)
 - Long: Allows the level text to spill into the second column (like Volcano's first Innate Power, last threshold). Use only when appropriate.
 - Effect: The effect of the power at that threshold level. Use {icons} freely here.
   - To achieve 'for each element' effects, use the notation {element, #}.
@@ -252,7 +247,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 
 ## Spirit Board Lore Side
 
-### <a name="spirit-lore-name"></a>Spirit Name, Art and Lore
+### Spirit Name, Art and Lore {#spirit-lore-name}
 
 - Name: The name of your Spirit
 - Spirit Art: The art for your spirit. Press 'Choose File' to select an image.
@@ -260,7 +255,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 
 [Home](#index)
 
-### <a name="spirit-lore-setup"></a>Spirit Setup, Play Style, Complexity and Summary of Powers
+### Spirit Setup, Play Style, Complexity and Summary of Powers {#spirit-lore-setup}
 
 - Setup: How to setup your spirit for play. You can use the [{icon shortcuts}](#general-icons) here.
 - Play Style: How to play your spirit. You can use the [{icon shortcuts}](#general-icons) here.
@@ -268,9 +263,10 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
   - Complexity Description appears inside the red complexity bar. Official complexity descriptors: Low, Moderate, High, Very High
   - Complexity Value is between 1 to 10
 - Summary of Powers:
-
   - Assign values 1 to 10 for Offense, Defense, Fear, Control and Utility
-  - Uses indicates what game pieces the Spirit interacts with. Do not use icon shortcuts, just list the pieces with comma separation (ie. badlands,wilds)
+  - 'Uses' indicates what game pieces the Spirit interacts with. Do not use icon shortcuts, just list the pieces with comma separation (ie. badlands,wilds)
+
+[Home](#index)
 
 ## Power Cards
 
@@ -309,9 +305,11 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
   - Choose File: Choose the art file from your computer. Will be embedded in the HTML.
 - Add Power Card botton: Adds another power card.
 
+[Home](#index)
+
 ## Adversary
 
-### <a name="adversary-name"></a>Adversary Name, Loss Condition and Escalation
+### Adversary Name, Loss Condition and Escalation {#adversary-name}
 
 - Name: The name of your adversary. Will automatically be displayed in all capitals.
 - Flag Art: The flag art that appears on the adversary. Press 'Load' to select an image.
@@ -325,7 +323,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 
 [Home](#index)
 
-### <a name="adversary-levels"></a>Adversary Levels
+### Adversary Levels {#adversary-levels}
 
 For now, your adversary must have 6 levels. If you want to do less, you'll have to leave the later ones blank.
 
@@ -336,7 +334,7 @@ For now, your adversary must have 6 levels. If you want to do less, you'll have 
 
 [Home](#index)
 
-### General Icons
+## <a name="general-icons"></a>General Icons
 
 Icons for invaders, elements, dahan, etc can be used by enclosing its name with "{}". For example, {dahan} or {fire}. Here is a list of what is available:
 
@@ -355,6 +353,8 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - Power effect icon (isolate, gain-range-1, gain-range-2, gain-range-3, gain-range-x)
 - Growth icons (see [Growth](#growth) section and [Supported Growth Actions](#supported-growth-actions) for examples)
 - Presence track icons (see [Presence Track](#presence-tracks) section for examples)
+
+Nearly every icon can have a red X over it by adding 'no-' such as {no-blight}.
 
 [Home](#index)
 

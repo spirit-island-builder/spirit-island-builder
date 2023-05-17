@@ -39,9 +39,8 @@
   font-family: "JosefinSans-Regular";
 }
 
-.file.is-success .file-cta {
-  background-color: #0ba14a;
-  font-family: "JosefinSans-Regular";
+.button.is-file-load {
+  background-color: #ffe08a;
 }
 
 h1,
@@ -52,4 +51,61 @@ h6 {
 
 .button.navbar-item {
   font-family: "Lato Regular";
+}
+
+@font-face {
+  font-family: "Lato Semibold";
+  src: local("Lato Semibold") url("/template/_global/fonts/lato/Lato-Semibold.ttf");
+}
+
+.button.is-flashy {
+  -webkit-animation: is-flashy 1s step-end infinite;
+  animation: is-flashy 1s step-end infinite;
+}
+
+@-webkit-keyframes is-flashy {
+  from,
+  to {
+    border-color: transparent;
+  }
+
+  50% {
+    border-color: black;
+  }
+}
+
+@keyframes is-flashy {
+  from,
+  to {
+    border-color: transparent;
+  }
+
+  50% {
+    border-color: black;
+  }
+}
+
+.subtitle.is-6 {
+  margin-bottom: 0.25rem;
+}
+
+/* Hide default ion-icon tooltips because they are confusing */
+ion-icon {
+  pointer-events: none;
+}
+
+.note {
+  display: block;
+  font-size: 0.75rem;
+  background-color: whitesmoke;
+  border-left: 4px #dbdbdb solid;
+}
+
+.note a {
+  color: unset;
+  text-underline-offset: 2px;
+  text-decoration: underline dotted;
+}
+.note a:hover {
+  text-decoration-style: solid;
 }

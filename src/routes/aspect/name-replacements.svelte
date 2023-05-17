@@ -1,26 +1,28 @@
 <script>
+  import Section from "$lib/section.svelte";
+  import ImageInput from "$lib/image-input.svelte";
+  import * as Lib from "../lib";
+
   export let aspect;
-  export let showOrHideSection;
-
-  function handleImageFileInput(event) {
-    const file = event.target.files.item(0);
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const imageURL = data.target.result;
-        aspect.nameReplacements.spiritImage = imageURL;
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsDataURL(file);
-    }
-  }
 
   function setComplexity(val, aspectHolder) {
     aspectHolder.complexity = val;
     aspect = aspect;
     console.log(aspect);
     console.log(aspect.nameReplacements.complexity);
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let findComplexity = previewFrame.document.getElementsByTagName("complexity")[0];
+    findComplexity.removeAttribute("class");
+    findComplexity.setAttribute("class", val);
+    let findAspectName = previewFrame.document.getElementsByTagName("aspect-name")[0];
+    let findAspectSubtext = previewFrame.document.getElementsByTagName("aspect-subtext")[0];
+    if (val === "") {
+      findAspectName.classList.remove("has-complexity");
+      findAspectSubtext.classList.remove("has-complexity");
+    } else {
+      findAspectName.classList.add("has-complexity");
+      findAspectSubtext.classList.add("has-complexity");
+    }
   }
 
   function setBack() {
@@ -32,32 +34,42 @@
     aspect.profile = !aspect.profile;
     aspect = aspect;
   }
+
+  function addReplacement() {
+    let focusId = "replacesInput" + aspect.nameReplacements.replacements.length;
+    aspect.nameReplacements.replacements.push({
+      id: aspect.nameReplacements.replacements.length,
+      aspectRelacement: "",
+      rulesReplaced: "",
+    });
+    //Set the focus to the Special Rule if it is visible.
+    if (aspect.nameReplacements.isVisible) {
+      setTimeout(() => {
+        document.getElementById(focusId).focus();
+      }, 100);
+    }
+    aspect = aspect;
+  }
+
+  function removeReplacement(index) {
+    aspect.nameReplacements.replacements.splice(index, 1);
+    aspect.nameReplacements.replacements.forEach((replacement, i) => {
+      replacement.id = i;
+    });
+    aspect = aspect;
+  }
+
+  function selectNode(event) {
+    let nodeID = event.target.id;
+    document.getElementById(nodeID).select();
+  }
+
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="nameReplacements">
-  Name & Rules Replacements
-  <span on:click={showOrHideSection}>
-    {#if aspect.nameReplacements.isVisible}
-      <ion-icon id="nameReplacements" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="nameReplacements" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if aspect.nameReplacements.isVisible}
-  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#spirit-board-lore-side"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
+<Section title="Name & Rules Replacements" bind:isVisible={aspect.nameReplacements.isVisible}>
   <div class="field">
     <div class="field">
       <label class="label is-flex is-justify-content-space-between" for="aspectInput"
@@ -70,38 +82,58 @@
             class="input"
             type="text"
             placeholder="Name"
-            tabindex="1"
+            on:keyup={nextNode}
+            on:focus={selectNode}
             bind:value={aspect.nameReplacements.aspectName} />
         </div>
       </div>
     </div>
-    <label class="label is-flex is-justify-content-space-between" for="replacesInput"
-      >Replaces Text (ie. text before the colon)
-    </label>
-    <div class="field is-flex is-small mb-0">
-      <div class="control" style="width:100%">
-        <input
-          id="replacesInput"
-          class="input"
-          type="text"
-          placeholder="ie. Replaces Special Rule"
-          tabindex="1"
-          bind:value={aspect.nameReplacements.aspectRelacement} />
-      </div>
-    </div>
-    <label class="label is-flex is-justify-content-space-between" for="rulesReplacedInput"
-      >Rules Replaced (ie. italicized text after the colon)
-    </label>
-    <div class="field is-flex is-small mb-0">
-      <div class="control" style="width:100%">
-        <input
-          id="rulesReplacedInput"
-          class="input"
-          type="text"
-          placeholder="ie. The Name of a Spirit's Special Rule"
-          tabindex="1"
-          bind:value={aspect.nameReplacements.rulesReplaced} />
-      </div>
+    <div class="field mb-3">
+      {#each aspect.nameReplacements.replacements as replacement, i (replacement.id)}
+        <div class="field is-flex is-small is-flex-direction-row mb-1">
+          <div class="field is-flex is-small is-flex-direction-column mb-0" style="width:30%">
+            <label class="label is-flex is-justify-content-space-between mb-0" for="replacesInput"
+              >Replacement #{i + 1}
+            </label>
+            <div class="field is-flex is-small mb-0">
+              <div class="control" style="width:100%">
+                <input
+                  id="replacesInput{i}"
+                  class="input is-small"
+                  type="text"
+                  placeholder="ie. Replaces Special Rule"
+                  on:keyup={nextNode}
+                  on:focus={selectNode}
+                  bind:value={replacement.aspectRelacement} />
+              </div>
+            </div>
+          </div>
+          <div class="field is-flex is-small is-flex-direction-column mb-0" style="width:70%">
+            <label
+              class="label is-flex is-justify-content-space-between mb-0"
+              for="rulesReplacedInput{i}"
+              >Rule/Power Name
+            </label>
+            <div class="field is-flex is-small mb-0">
+              <div class="control" style="width:100%">
+                <input
+                  id="rulesReplacedInput{i}"
+                  class="input is-small"
+                  type="text"
+                  placeholder="ie. The Name of a Spirit's Special Rule"
+                  on:keyup={nextNode}
+                  on:focus={selectNode}
+                  bind:value={replacement.rulesReplaced} />
+              </div>
+            </div>
+          </div>
+          <button
+            class="button is-primary is-light is-warning is-small row-button is-align-self-flex-end"
+            on:click={removeReplacement(i)}>Remove</button>
+        </div>
+      {/each}
+      <button class="button is-primary is-light is-small" on:click={addReplacement}
+        >Add Replacement</button>
     </div>
     <div class="field has-addons">
       <label class="label is-unselectable mr-1 mt-1" for="">Complexity: </label>
@@ -128,6 +160,28 @@
           on:click={setComplexity("", aspect.nameReplacements)}>None</button>
       </div>
     </div>
+    <div class="field is-flex is-flex-direction-row has-addons">
+      <label class="label is-flex is-justify-content-space-between" for="aspectInput"
+        >Format:
+      </label>
+      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 ml-2">
+        {#if aspect.profile}
+          <button class="button is-success is-small button-hold mb-0" id="fast-button"
+            >Portrait</button>
+          <button
+            class="button is-success is-light is-small button-hold mb-0"
+            id="slow-button"
+            on:click={toggleProfile}>Landscape</button>
+        {:else}
+          <button
+            class="button is-success is-light is-small button-hold mb-0"
+            id="fast-button"
+            on:click={toggleProfile}>Portrait</button>
+          <button class="button is-success is-small button-hold mb-0" id="slow-button"
+            >Landscape</button>
+        {/if}
+      </div>
+    </div>
     {#if aspect.nameReplacements.hasBack}
       <button class="button is-warning is-light is-small row-button" on:click={setBack}
         >Remove Card Back</button>
@@ -141,47 +195,15 @@
             class="input"
             type="text"
             placeholder="The Name of a Spirit"
-            tabindex="1"
+            on:keyup={nextNode}
+            on:focus={selectNode}
             bind:value={aspect.nameReplacements.spiritName} />
         </div>
       </div>
-      <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-0">
-        <div class="field has-addons mr-2 ml-1">
-          <label class="label is-unselectable mr-1" for="">Art: </label>
-          <div class="control">
-            <input
-              accept="image/png, image/jpeg"
-              on:change={handleImageFileInput}
-              id={`backArt`}
-              name="cardArt"
-              type="file"
-              class="input is-small" />
-          </div>
-        </div>
-      </div>
+      <ImageInput id="backArt" title="Art" bind:imageURL={aspect.nameReplacements.spiritImage} />
     {:else}
       <button class="button is-warning is-light is-small row-button" on:click={setBack}
         >Add Card Back</button>
     {/if}
   </div>
-  <div class="field is-flex is-flex-direction-row has-addons">
-    <label class="label is-flex is-justify-content-space-between" for="aspectInput">Format: </label>
-    <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 ml-2">
-      {#if aspect.profile}
-        <button class="button is-success is-small button-hold mb-0" id="fast-button"
-          >Portrait</button>
-        <button
-          class="button is-success is-light is-small button-hold mb-0"
-          id="slow-button"
-          on:click={toggleProfile}>Landscape</button>
-      {:else}
-        <button
-          class="button is-success is-light is-small button-hold mb-0"
-          id="fast-button"
-          on:click={toggleProfile}>Portrait</button>
-        <button class="button is-success is-small button-hold mb-0" id="slow-button"
-          >Landscape</button>
-      {/if}
-    </div>
-  </div>
-{/if}
+</Section>

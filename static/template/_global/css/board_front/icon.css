@@ -149,7 +149,7 @@ icon.energy-blank {
 }
 
 .energy-blank value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 16pt;
   display: inline-block;
 }
@@ -194,7 +194,7 @@ icon.gather {
   height: 62px;
   width: 100px;
   margin-right: 20px;
-  margin-bottom: 7px;
+  margin-bottom: 0px;
 }
 
 icon.gather > icon {

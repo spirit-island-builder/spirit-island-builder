@@ -25,11 +25,6 @@ body {
   align-content: center;
   width: 1766px;
   height: 1177px;
-  margin: auto;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  margin-left: 30px;
-  margin-right: 30px;
 }
 
 board {
@@ -77,6 +72,7 @@ lore-description {
   font-size: 25px;
   font-weight: bold;
   font-style: italic;
+  white-space: pre-line;
 }
 
 second-section-container {
@@ -124,6 +120,7 @@ play-style-description {
   margin-top: 6px;
   letter-spacing: -0.5px;
   width: 800px;
+  white-space: pre-line;
 }
 
 setup-description {

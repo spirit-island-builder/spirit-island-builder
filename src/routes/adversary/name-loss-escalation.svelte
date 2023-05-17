@@ -2,47 +2,27 @@
   export let adversary;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
-  export let showOrHideSection;
+  import Section from "$lib/section.svelte";
+  import ImageInput from "$lib/image-input.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
+  import * as Lib from "../lib";
 
-  function handleImageFileInput(event) {
-    const file = event.target.files.item(0);
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const imageURL = data.target.result;
-        adversary.nameLossEscalation.flagImg = imageURL;
-      };
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
 
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsDataURL(file);
-    }
+  function selectNode(event) {
+    let nodeID = event.target.id;
+    document.getElementById(nodeID).select();
   }
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="nameLossEscalation">
-  Name, Loss Condition, and Escalation
-  <span on:click={showOrHideSection}>
-    {#if adversary.nameLossEscalation.isVisible}
-      <ion-icon id="nameLossEscalation" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="nameLossEscalation" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if adversary.nameLossEscalation.isVisible}
-  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#adversary-name"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
+<Section
+  title="Name, Loss Condition, and Escalation"
+  bind:isVisible={adversary.nameLossEscalation.isVisible}>
+  <div class="mb-1 p-1 note">
+    <InstructionsLink anchor="adversary-name" />
+  </div>
   <div class="field">
     <label class="label is-flex is-justify-content-space-between" for="adversaryNameInput"
       >Adversary Name & Diffuclty
@@ -54,7 +34,8 @@
           class="input"
           type="text"
           placeholder="Name"
-          tabindex="1"
+          on:keyup={nextNode}
+          on:focus={selectNode}
           bind:value={adversary.nameLossEscalation.name} />
       </div>
       <div class="control" style="width:20%; min-width:2rem;">
@@ -63,29 +44,9 @@
           class="input"
           type="text"
           placeholder="Difficulty"
-          tabindex="1"
+          on:keyup={nextNode}
+          on:focus={selectNode}
           bind:value={adversary.nameLossEscalation.baseDif} />
-      </div>
-    </div>
-    <!-- FLAG ART -->
-    <div class="field has-addons is-horizontal is-justify-content-left mb-0">
-      <div class="field-label is-small">
-        <label class="label" for="adversaryFlagArt">Flag Art</label>
-      </div>
-      <div class="control">
-        <input
-          accept="image/png, image/jpeg"
-          on:change={handleImageFileInput}
-          id="adversaryFlagArt"
-          name="adversaryFlagArt"
-          type="file"
-          class="input" />
-        {#if adversary.nameLossEscalation.flagImg}
-          <img
-            id="adversaryFlagArtImage"
-            src={adversary.nameLossEscalation.flagImg}
-            alt="flag art" />
-        {/if}
       </div>
     </div>
   </div>
@@ -101,7 +62,8 @@
           class="input"
           type="text"
           placeholder="Name"
-          tabindex="1"
+          on:keyup={nextNode}
+          on:focus={selectNode}
           bind:value={adversary.nameLossEscalation.lossCondition.name} />
       </div>
     </div>
@@ -111,7 +73,6 @@
         elementType="textarea"
         placeholder="Effect"
         classNames="is-small"
-        tabindex="1"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={adversary.nameLossEscalation.lossCondition.effect} />
     </div>
@@ -128,7 +89,8 @@
           class="input"
           type="text"
           placeholder="Name"
-          tabindex="1"
+          on:keyup={nextNode}
+          on:focus={selectNode}
           bind:value={adversary.nameLossEscalation.escalation.name} />
       </div>
     </div>
@@ -138,9 +100,15 @@
         elementType="textarea"
         classNames="is-small"
         placeholder="Effect"
-        tabindex="1"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={adversary.nameLossEscalation.escalation.effect} />
     </div>
   </div>
-{/if}
+  <div class="field">
+    <!-- FLAG ART -->
+    <ImageInput
+      id="adversaryFlag"
+      title="Flag Art"
+      bind:imageURL={adversary.nameLossEscalation.flagImg} />
+  </div>
+</Section>

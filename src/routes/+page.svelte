@@ -1,10 +1,29 @@
 <script>
+  import "bulma/css/bulma.css";
+  import "../bulmaOverride.css";
+  import "../growth.css";
+  import "../presenceTracks.css";
+  import "../previewBoard.css";
+  import "../innatePowers.css";
+
+  import { browser, dev } from "$app/environment";
+  import { defineCustomElement } from "ionicons/components/ion-icon.js";
+  if (browser) {
+    defineCustomElement(window);
+  }
+
   import SpiritBoard from "./spirit-board/index.svelte";
   import SpiritBoardBack from "./spirit-board-back/index.svelte";
   import PowerCards from "./power-cards/index.svelte";
   import Aspect from "./aspect/index.svelte";
   import Adversary from "./adversary/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
+  import Footer from "./footer.svelte";
+
+  import { divertDownload, downloadData } from "$lib/download";
+
+  let debugDownloads = false;
+  $: divertDownload(debugDownloads);
 
   let currentPage = "spiritBoardFront";
 
@@ -13,7 +32,7 @@
     console.log(">--|--< Switching to " + page + " >--|--<");
   }
 
-  let spiritBoard = {
+  let emptySpiritBoard = {
     demoBoardWasLoaded: false,
     previewBoard: {
       isVisible: false,
@@ -24,6 +43,9 @@
       artPath: "",
       artScale: "",
       bannerPath: "",
+      combinedBannerPath: "",
+      combinedBannerScaleH: "",
+      combinedBannerScaleV: "",
       energyBannerPath: "",
       energyBannerScale: "",
       playsBannerPath: "",
@@ -118,6 +140,7 @@
       ],
     },
   };
+  let spiritBoard = JSON.parse(JSON.stringify(emptySpiritBoard));
 
   let customIcons = {
     prop: "value",
@@ -126,6 +149,7 @@
       {
         id: 0,
         name: "",
+        displayName: "",
       },
     ],
   };
@@ -209,9 +233,11 @@
         thresholdText: "",
       },
     ],
+    cardBackImage: "",
+    cardBackImageIsVisible: false,
   };
 
-  let aspect = {
+  let emptyAspect = {
     prop: "value",
     demoBoardWasLoaded: false,
     profile: false,
@@ -221,8 +247,13 @@
     nameReplacements: {
       isVisible: false,
       aspectName: "",
-      aspectRelacement: "",
-      rulesReplaced: "",
+      replacements: [
+        {
+          id: 0,
+          aspectRelacement: "",
+          rulesReplaced: "",
+        },
+      ],
       complexity: "",
       spiritName: "",
       spiritImage: "",
@@ -265,8 +296,9 @@
       },
     },
   };
+  let aspect = JSON.parse(JSON.stringify(emptyAspect));
 
-  let adversary = {
+  let emptyAdversary = {
     prop: "value",
     demoBoardWasLoaded: false,
     previewBoard: {
@@ -295,6 +327,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 2,
@@ -302,6 +337,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 3,
@@ -309,6 +347,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 4,
@@ -316,6 +357,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 5,
@@ -323,6 +367,9 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
         {
           id: 6,
@@ -330,109 +377,94 @@
           difficulty: "",
           fearCards: "",
           effect: "",
+          name2: "",
+          effect2: "",
+          hasRule2: false,
         },
       ],
     },
   };
+  let adversary = JSON.parse(JSON.stringify(emptyAdversary));
 
-  let isShowingInstructions = false;
-  let instructionsSource = "https://neubee.github.io/spirit-island-builder/instructions";
+  let pages = [
+    ["spiritBoardFront", "Spirit Board Play Side"],
+    ["spiritBoardBack", "Spirit Board Lore Side"],
+    ["powerCards", "Power Cards"],
+    ["aspect", "Aspect / Special Cards"],
+    ["adversary", "Adversary"],
+  ];
 </script>
 
-<h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
-<nav class="navbar ml-5">
-  <div class="navbar-brand">
-    <button
-      class={`button navbar-item ${
-        currentPage === "spiritBoardFront" ? "is-primary" : "is-link is-light"
-      }`}
-      on:click={() => {
-        setCurrentPage("spiritBoardFront");
-      }}>
-      Spirit Board Play Side
-    </button>
-    <button
-      style=""
-      class={`button navbar-item ${
-        currentPage === "spiritBoardBack" ? "is-primary" : "is-link is-light"
-      }`}
-      on:click={() => {
-        setCurrentPage("spiritBoardBack");
-      }}>
-      Spirit Board Lore Side
-    </button>
-    <button
-      style=""
-      class={`button navbar-item ${
-        currentPage === "powerCards" ? "is-primary" : "is-link is-light"
-      }`}
-      on:click={() => {
-        setCurrentPage("powerCards");
-      }}>
-      Power Cards
-    </button>
-    <button
-      style=""
-      class={`button navbar-item ${currentPage === "aspect" ? "is-primary" : "is-link is-light"}`}
-      on:click={() => {
-        setCurrentPage("aspect");
-      }}>
-      Aspect / Special Cards
-    </button>
-    <button
-      class={`button navbar-item ${
-        currentPage === "adversary" ? "is-primary" : "is-link is-light"
-      }`}
-      on:click={() => {
-        setCurrentPage("adversary");
-      }}>
-      Adversary
-    </button>
+<div class="body">
+  <header>
+    <h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
+    <nav class="navbar ml-5 mr-5">
+      <div class="navbar-brand is-flex-wrap-wrap">
+        {#each pages as [page, title]}
+          {@const isCurrent = currentPage === page}
+          <button
+            class={`button navbar-item ${isCurrent ? "is-primary" : "is-link is-light"}`}
+            on:click={() => {
+              setCurrentPage(page);
+            }}>
+            {title}
+          </button>
+        {/each}
+      </div>
+      {#if dev}
+        <div class="navbar-menu">
+          <div class="navbar-end">
+            <button
+              class={`button navbar-item ${debugDownloads ? "is-primary is-selected" : ""}`}
+              on:click={() => {
+                debugDownloads = !debugDownloads;
+              }}>
+              Debug Downloads
+            </button>
+          </div>
+        </div>
+      {/if}
+    </nav>
+  </header>
+  <Instructions />
+  <div class="container">
+    {#if currentPage === "spiritBoardFront"}
+      <SpiritBoard bind:spiritBoard bind:emptySpiritBoard bind:customIcons />
+    {:else if currentPage === "spiritBoardBack"}
+      <SpiritBoardBack bind:spiritBoardBack bind:customIcons />
+    {:else if currentPage === "powerCards"}
+      <PowerCards bind:powerCards bind:customIcons />
+    {:else if currentPage === "aspect"}
+      <Aspect bind:aspect bind:emptyAspect bind:customIcons />
+    {:else if currentPage === "adversary"}
+      <Adversary bind:adversary bind:emptyAdversary bind:customIcons />
+    {/if}
   </div>
-</nav>
-{#if isShowingInstructions === true}
-  <Instructions bind:isShowingInstructions bind:instructionsSource />
-{/if}
-<div class="container">
-  {#if currentPage === "spiritBoardFront"}
-    <SpiritBoard
-      bind:spiritBoard
-      bind:isShowingInstructions
-      bind:instructionsSource
-      bind:customIcons />
-  {:else if currentPage === "spiritBoardBack"}
-    <SpiritBoardBack
-      bind:spiritBoardBack
-      bind:isShowingInstructions
-      bind:instructionsSource
-      bind:customIcons />
-  {:else if currentPage === "powerCards"}
-    <PowerCards
-      bind:powerCards
-      bind:isShowingInstructions
-      bind:instructionsSource
-      bind:customIcons />
-  {:else if currentPage === "aspect"}
-    <Aspect bind:aspect bind:isShowingInstructions bind:instructionsSource />
-  {:else if currentPage === "adversary"}
-    <Adversary bind:adversary bind:isShowingInstructions bind:instructionsSource />
+
+  {#if dev}
+    <!--
+    We import the debug view dynamically here, so that we only pay the cost
+    of loading the pretty-printing and code-highlighting code if we can actually
+    enable debugging.
+    -->
+    {#await import("$lib/debug-file-view.svelte") then { default: DebugFileView }}
+      {#if debugDownloads}
+        <DebugFileView {...$downloadData} />
+      {/if}
+    {/await}
   {/if}
+
+  <Footer />
 </div>
-<article class="message is-small mb-1">
-  <div class="message-body p-1">
-    See <a href="https://neubee.github.io/spirit-island-builder/instructions" target="_blank"
-      >Instructions</a>
-    for details on how to use the form. For custom art,
-    <a href="https://www.wombo.art/" target="_blank">Wombo</a>
-    (unaffiliated) is a popular art generator.
-    <span class="is-pulled-right"
-      >Code for this project is hosted <a
-        href="https://github.com/neubee/spirit-island-builder"
-        target="_blank">here</a
-      >.</span>
-    <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island
-    Builder is adapted from
-    <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
-    developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
-  </div>
-</article>
+
+<style>
+  .body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .container {
+    /* this is constrained by the max-width set by bulma */
+    width: 100vw;
+  }
+</style>

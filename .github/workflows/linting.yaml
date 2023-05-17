@@ -1,11 +1,11 @@
-name: Linting
+name: Check Linting And Formatting
 
 on:
   push:
   pull_request:
 
 jobs:
-  prettier:
+  linting_and_formatting:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
@@ -20,6 +20,6 @@ jobs:
       - name: Install dependencies
         run: |-
           npm install
-      - name: Linting
+      - name: Lint And Format
         run: |-
-          npm run lint
+          npm run checkFormatAndLint

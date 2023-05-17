@@ -24,7 +24,6 @@ body {
   align-items: center;
   justify-content: center;
   align-content: center;
-  margin: auto;
 }
 
 card {
@@ -66,8 +65,34 @@ card.slow info-speed {
   background-size: 40px 30px;
 }
 
+card-back {
+  width: 488px;
+  height: 682px;
+  position: relative;
+}
+
+card-back::after {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 488px;
+  height: 682px;
+  background-image: url("../images/Unique-Power-Back.png");
+  background-size: cover;
+  content: "";
+}
+
+.image-back {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+}
+
 cost {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 34px;
   color: white;
   text-align: center;
@@ -338,6 +363,7 @@ threshold {
 
 .threshold-custom {
   background-image: url("../images/threshold-back-custom.png");
+  padding-top: 38px;
 }
 
 threshold.threshold-custom::before {
@@ -354,10 +380,47 @@ threshold.threshold-custom::before {
   line-height: 18px;
 }
 
+custom-threshold-flex {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  justify-content: center;
+}
+
+custom-threshold-text {
+  flex-shrink: 0;
+  margin-left: 2px;
+  margin-right: 2px;
+  word-spacing: -2px;
+  font-size: 16px;
+  line-height: 16px;
+  font-family: "Name Headings";
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #220f00;
+}
+
+arrow-left,
+arrow-right {
+  background-image: url("../images/board/card_threshold_arrow.png");
+  display: inline;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 14px;
+  margin-top: 2px;
+  opacity: 0.1;
+}
+
+arrow-right {
+  transform: scaleX(-1);
+}
+
 threshold-condition {
   display: block;
   font-size: 27px;
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   margin-bottom: 5px;
 }
 
@@ -417,7 +480,8 @@ info-range icon {
 
 info-range range {
   width: 60px;
-  font-size: 38px;
+  font-size: 34px;
+  line-height: 22px;
 }
 
 info-target icon {
@@ -573,8 +637,12 @@ threshold icon.any {
   width: 32px;
   height: 32px;
   margin-bottom: -5px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 1px;
+  margin-right: 5px;
+}
+
+threshold icon.last {
+  margin-right: 1px;
 }
 
 @media print {

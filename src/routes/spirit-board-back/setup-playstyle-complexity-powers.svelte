@@ -2,39 +2,16 @@
   export let spiritBoardBack;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
-  export let showOrHideSection;
+  import Section from "$lib/section.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="setupPlaystyleComplexityPowers">
-  Setup, Play Style, Complexity and Summary of Powers
-  <span on:click={showOrHideSection}>
-    {#if spiritBoardBack.setupPlaystyleComplexityPowers.isVisible}
-      <ion-icon
-        id="setupPlaystyleComplexityPowers"
-        on:click={showOrHideSection}
-        name="chevron-down-outline" />
-    {:else}
-      <ion-icon
-        id="setupPlaystyleComplexityPowers"
-        on:click={showOrHideSection}
-        name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if spiritBoardBack.setupPlaystyleComplexityPowers.isVisible}
-  <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      <span
-        ><a
-          href="https://neubee.github.io/spirit-island-builder/instructions#spirit-lore-setup"
-          target="_blank">Instructions</a
-        ></span>
-    </div>
-  </article>
+<Section
+  title="Setup, Play Style, Complexity and Summary of Powers"
+  bind:isVisible={spiritBoardBack.setupPlaystyleComplexityPowers.isVisible}>
+  <div class="mb-1 p-1 note">
+    <InstructionsLink anchor="spirit-lore-setup" />
+  </div>
   <!-- Setup -->
   <div class="field">
     <label class="label is-flex is-justify-content-space-between" for="spiritLoreSetup"
@@ -46,7 +23,6 @@
         elementType="textarea"
         classNames="is-small"
         placeholder="Effect"
-        tabindex="1"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={spiritBoardBack.setup.setupText} />
     </div>
@@ -62,7 +38,6 @@
         elementType="textarea"
         classNames="is-small"
         placeholder="Effect"
-        tabindex="1"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={spiritBoardBack.playStyle.playStyleText} />
     </div>
@@ -79,7 +54,6 @@
           class="input"
           type="text"
           placeholder="Complexity Description"
-          tabindex="1"
           bind:value={spiritBoardBack.complexity.complexityDescriptor} />
       </div>
       <div class="control" style="width:30%; min-width:2rem;">
@@ -88,7 +62,6 @@
           class="input"
           type="text"
           placeholder="Complexity Value (1-10)"
-          tabindex="1"
           bind:value={spiritBoardBack.complexity.complexityValue} />
       </div>
     </div>
@@ -110,7 +83,6 @@
             class="input"
             type="text"
             placeholder="Offense Value (1-10)"
-            tabindex="1"
             bind:value={spiritBoardBack.summary.offenseValue} />
         </div>
       </div>
@@ -127,7 +99,6 @@
             class="input"
             type="text"
             placeholder="Control Value (1-10)"
-            tabindex="1"
             bind:value={spiritBoardBack.summary.controlValue} />
         </div>
       </div>
@@ -144,7 +115,6 @@
             class="input"
             type="text"
             placeholder="Fear Value (1-10)"
-            tabindex="1"
             bind:value={spiritBoardBack.summary.fearValue} />
         </div>
       </div>
@@ -161,7 +131,6 @@
             class="input"
             type="text"
             placeholder="Defense Value (1-10)"
-            tabindex="1"
             bind:value={spiritBoardBack.summary.defenseValue} />
         </div>
       </div>
@@ -178,7 +147,6 @@
             class="input"
             type="text"
             placeholder="Utility Value (1-10)"
-            tabindex="1"
             bind:value={spiritBoardBack.summary.utilityValue} />
         </div>
       </div>
@@ -196,10 +164,9 @@
             style="width:100%; min-width:20rem;"
             type="text"
             placeholder="Uses tokens/icons ie. 'badlands,wilds'"
-            tabindex="1"
             bind:value={spiritBoardBack.summary.usesTokens} />
         </div>
       </div>
     </div>
   </div>
-{/if}
+</Section>

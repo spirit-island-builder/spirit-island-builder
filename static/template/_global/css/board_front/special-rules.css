@@ -8,37 +8,42 @@ special-rules-container {
   display: flex;
   flex-direction: column;
   font-family: "JosefinSans-Regular";
-  padding-left: 15px;
+  padding-top: 50px;
+  padding-left: 14px;
   padding-right: 8px;
   z-index: 1;
+  position: relative;
 }
 
 special-rules-subtitle {
-  padding-top: 15px;
-  padding-bottom: 3px;
+  padding-top: 21px;
+  padding-bottom: 0px;
   font-family: "JosefinSans";
-  font-size: 14pt;
+  font-size: 17pt;
   font-weight: bold;
   font-style: italic;
   text-transform: uppercase;
   text-align: left;
-  letter-spacing: -0.5px;
-  word-spacing: 0.5px;
+  letter-spacing: -2px;
+  word-spacing: 1px;
 }
 
 special-rule {
   font-family: "JosefinSans-Regular";
-  font-size: 17pt;
+  font-size: 18pt;
   text-align: left;
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
   word-spacing: 0px;
   line-height: 29px;
   padding-bottom: 6px;
+  white-space: pre-line;
 }
 
 special-rule icon {
   width: 30px;
   height: 30px;
+  margin-top: -7px;
+  margin-bottom: -7px;
 }
 
 special-rule icon.fire,
@@ -59,7 +64,6 @@ special-rule icon.blight,
 special-rule icon.dahan,
 special-rule icon.presence,
 special-rule icon.wilds,
-special-rule icon.beasts,
 special-rule icon.disease,
 special-rule icon.strife,
 special-rule icon.explorer,
@@ -80,8 +84,8 @@ special-rule icon.isolate {
 
 special-rule icon.presence {
   margin-bottom: -8px;
-  margin-left: -2px;
-  margin-right: -2px;
+  margin-left: 1px;
+  margin-right: 1px;
 }
 
 special-rule icon.terrain-single {
@@ -188,7 +192,9 @@ special-rule icon.dahan {
 special-rule icon.sacred-site {
   width: 50px;
   height: 30px;
-  margin-bottom: -8px;
+  margin-bottom: -11px;
+  margin-left: 1px;
+  margin-right: -1px;
 }
 
 special-rule icon.city {
@@ -300,6 +306,7 @@ presence-node special-ring-icon {
 special-rule ul {
   margin-block-end: 0px;
   margin-block-start: 0px;
+  padding-inline-start: 30px;
 }
 
 special-rules-track icon.sun {
@@ -351,10 +358,14 @@ special-rule range {
   margin-bottom: -20px;
   margin-top: -7px;
   height: 30px;
-  background-position-y: 22px;
   font-family: "Antropos";
   font-size: 20px;
   vertical-align: top;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-position: bottom;
 }
 
 special-rule range.gain-range {
@@ -362,7 +373,8 @@ special-rule range.gain-range {
 }
 
 special-rule icon.range-small-icon {
-  width: 30px;
-  height: 17px;
-  margin-bottom: 0px;
+  width: 33px;
+  height: 22px;
+  position: relative;
+  top: -4px;
 }

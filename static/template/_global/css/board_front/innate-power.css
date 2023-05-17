@@ -17,7 +17,6 @@ innate-powers section-title {
 innate-power-container {
   display: flex;
   position: relative;
-  margin-left: 25px;
   margin-top: 8px;
 }
 
@@ -25,6 +24,13 @@ innate-power {
   display: inline-block;
   flex-shrink: 1;
   flex-grow: 1;
+  margin-left: 25px;
+}
+
+innate-power ul {
+  margin-block-end: 0px;
+  margin-block-start: 0px;
+  padding-inline-start: 30px;
 }
 
 innate-power:only-child level {
@@ -40,10 +46,10 @@ innate-power-title {
   font-family: "JosefinSans";
   font-weight: bold;
   font-style: italic;
-  font-size: 14pt;
+  font-size: 17pt;
   text-transform: uppercase;
-  letter-spacing: -0.5px;
-  word-spacing: 0.5px;
+  letter-spacing: -2px;
+  word-spacing: 1px;
 }
 
 info-container {
@@ -142,6 +148,7 @@ innate-power range {
 
 innate-power range.gain-range {
   padding-right: 5px;
+  padding-bottom: 5px;
 }
 
 no-range {
@@ -180,22 +187,27 @@ description-container {
   width: 465px;
   height: auto;
   display: block;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .long {
   width: 900px;
 }
 
+level .single-line {
+  padding-top: 14px;
+  padding-bottom: 9px;
+}
+
 note {
   display: inline-block;
   height: auto;
-  width: 487px;
+  width: 505px;
   font-family: "JosefinSans-Regular";
   font-size: 17pt;
-  letter-spacing: -0.5px;
-  margin-bottom: 8px;
-  margin-top: -4px;
+  letter-spacing: -1.5px;
+  word-spacing: 0px;
+  margin-top: 0px;
   line-height: 1;
 }
 
@@ -211,6 +223,7 @@ note.single-squish {
 
 note icon {
   width: 24px;
+  margin-top: -5px;
 }
 
 note icon.town,
@@ -279,7 +292,8 @@ note icon.presence {
 }
 
 div.description {
-  margin-bottom: -5px;
+  white-space: pre-line;
+  line-height: 1.15;
 }
 
 .description icon.city {
@@ -309,15 +323,21 @@ div.description {
   height: 27px;
   margin-bottom: -5px;
   margin-top: -10px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: -1px;
+  margin-right: -1px;
   background-position: bottom;
 }
 
 .description icon.slow,
-.description icon.fast {
-  width: 35px;
+.description icon.fast,
+.description icon.fear {
+  width: 45px;
   height: 35px;
+  margin-bottom: -9px;
+}
+
+.description icon.fear {
+  width: 35px;
 }
 
 .description icon.explorer {
@@ -422,9 +442,10 @@ div.description {
 }
 
 .description icon.range-small-icon {
-  width: 30px;
-  height: 17px;
-  margin-bottom: 0px;
+  width: 33px;
+  height: 22px;
+  position: relative;
+  top: -4px;
 }
 
 description-container range {
@@ -438,18 +459,24 @@ description-container range {
 }
 
 level range {
-  width: 45px;
-  margin-bottom: -20px;
-  margin-top: -7px;
-  height: 30px;
-  background-position-y: 19px;
+  width: 48px;
+  height: 28px;
   font-family: "Antropos";
   font-size: 20px;
-  vertical-align: top;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-position: bottom;
+}
+
+innate-power range-value {
+  top: -4px;
+  font-size: 20pt;
 }
 
 .element-for-each {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 17pt;
   color: #431e0aff;
   margin-top: -13px;
@@ -488,19 +515,40 @@ note icon.destroyed-presence {
 level {
   display: inline-block;
   height: auto;
-  width: 487px;
+  width: 500px;
+  /* width: 507px; */
   font-family: "JosefinSans-Regular";
   font-size: 17pt;
-  padding-bottom: 15px;
-  letter-spacing: -0.5px;
+  margin-top: 10px;
+  margin-bottom: 9px;
+  letter-spacing: -1.5px;
+  word-spacing: 0px;
+  position: relative;
 }
 
 threshold {
-  font-family: "Gobold Extra2", "Noto Sans";
-  font-size: 24pt;
+  font-family: "Energy Font";
+  font-size: 36px;
   color: #431e0aff;
   float: left;
   margin-right: 6px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+threshold.description-wrap {
+  position: relative;
+  top: unset;
+  transform: unset;
+}
+
+level.description-wrap {
+  margin-bottom: 0px;
+}
+
+innate-power:last-of-type level {
+  width: 500px;
 }
 
 innate-info icon.range-0,
@@ -604,18 +652,16 @@ innate-info icon.spirit {
 }
 
 cost-threshold {
-  font-family: "JosefinSans-Regular";
+  font-family: "Lato SemiBold";
   font-weight: bold;
   font-style: italic;
-  font-size: 10pt;
-  margin-left: 7px;
-  margin-bottom: -36px;
+  font-size: 15pt;
+  color: black;
   top: 12px;
+  left: 6px;
   text-transform: capitalize;
   position: relative;
-  margin-right: -34px;
-  height: 50px;
-  width: 1px;
+  margin-right: -30px;
 }
 
 cost-energy {
@@ -628,49 +674,34 @@ cost-energy {
   display: inline-block;
   z-index: 1;
   position: relative;
-  top: -34px;
-  left: -33px;
+  top: -40px;
+  left: -36px;
   margin-bottom: -15px;
-}
-
-.cost-custom {
-  width: 45px;
-  height: 45px;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  display: inline-block;
-  z-index: 1;
-  position: relative;
-  top: -34px;
-  left: -33px;
-  margin-bottom: -15px;
-  margin-left: 1px;
-}
-
-.cost-custom > value {
-  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px 0px 0 #fff, 0px 1px 0 #fff, 1px 0px 0 #fff, 0px -1px 0 #fff;
 }
 
 cost-energy value,
 cost-threshold value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-weight: normal;
   font-style: normal;
-  color: #431e0a;
-  font-size: 16pt;
+  color: #000000;
+  font-size: 13pt;
   position: relative;
-  top: 8px;
-  left: 11px;
+  top: 10px;
+  left: 13px;
 }
 
 threshold icon {
-  width: 45px;
-  height: 45px;
-  margin-bottom: -5px;
+  width: 50px;
+  height: 50px;
+  margin-bottom: -8px;
   margin-left: 5px;
   margin-right: 5px;
   background-position: bottom;
+}
+
+threshold-num {
+  width: 27px;
 }
 
 threshold icon.wilds,
@@ -733,6 +764,30 @@ threshold icon.star {
   margin-top: -9px;
   margin-left: 1px;
   margin-right: 1px;
+}
+
+cost-threshold icon.cost-custom {
+  width: 45px;
+  height: 45px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: inline-block;
+  z-index: 1;
+  position: relative;
+  top: -41px;
+  left: -38px;
+  margin-bottom: -15px;
+  margin-left: 1px;
+}
+
+.cost-custom > value {
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px 0px 0 #fff,
+    0px 1px 0 #fff, 1px 0px 0 #fff, 0px -1px 0 #fff;
+  font-size: 16pt;
+  line-height: 0.5;
+  top: 13px;
+  left: 11px;
 }
 
 threshold-or {

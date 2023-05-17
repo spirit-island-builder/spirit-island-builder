@@ -11,7 +11,7 @@ growth {
 }
 
 growth section-title {
-  margin-left: 40px;
+  margin-left: 47px;
   margin-top: -12px;
 }
 
@@ -20,15 +20,17 @@ sub-growth {
 }
 
 growth sub-section-title {
-  margin-top: -4px;
+  margin-top: -2px;
   position: absolute;
-
   display: flex;
-  font-family: "Name Headings";
-  text-transform: uppercase;
-  font-size: 18pt;
-  font-weight: bold;
   z-index: 0;
+  font-family: "JosefinSans";
+  font-weight: bold;
+  font-style: italic;
+  font-size: 17pt;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  word-spacing: 1px;
 }
 
 growth special-section-title {
@@ -40,11 +42,11 @@ growth special-section-title {
   z-index: 0;
   transform: translateX(-50%);
   left: 50%;
-  top: -60px;
+  top: -53px;
 }
 
 growth-table.has-special-title {
-  padding-top: 26px;
+  padding-top: 28px;
 }
 
 growth .tint {
@@ -92,7 +94,7 @@ growth-table {
   display: inline-flex;
   width: 1090px;
   text-align: center;
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 10px;
   margin-left: 0px;
   justify-content: flex-start;
@@ -101,8 +103,17 @@ growth-table {
   box-sizing: border-box;
 }
 
+growth-table.two-table-top {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+growth-table.two-table-bottom {
+  justify-content: flex-start;
+}
+
 sub-section-title + growth-table {
-  margin-top: 55px;
+  margin-top: 40px;
 }
 
 growth-group {
@@ -129,6 +140,19 @@ growth-border[double] {
   background-image: url("../../images/board/Growthborder_double.png");
 }
 
+growth-row-line {
+  background-image: url(../../images/board/growth_underline.png);
+  height: 5px;
+  width: 133px;
+  display: block;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  margin-left: 21px;
+  margin-right: 8px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
 growth-cell {
   position: relative;
   display: flex;
@@ -153,11 +177,10 @@ growth-cell icon {
 }
 
 growth-cell icon.presence {
-  margin-left: 5px;
-  width: 35px;
-  height: 35px;
-  margin-bottom: -8px;
-  margin-right: -2px;
+  margin-left: 8px;
+  width: 43px;
+  height: 26px;
+  margin-bottom: 0px;
 }
 
 growth-cell icon.reclaim-all,
@@ -167,7 +190,7 @@ growth-cell icon.reclaim-custom,
 growth-cell icon.reclaim-half {
   display: block;
   height: 90px;
-  width: 70px;
+  width: 90px;
 }
 
 growth-cell icon.empower-incarna {
@@ -280,11 +303,13 @@ presence-node.growth {
 
 plus-presence {
   display: block;
+  line-height: 20px;
+  margin-bottom: 1px;
 }
 
 custom-presence plus-presence {
-  margin-top: -10px;
-  margin-bottom: 10px;
+  margin-top: 0px;
+  margin-bottom: 5px;
 }
 
 custom-presence-or plus-presence {
@@ -308,13 +333,17 @@ repeat-growth {
 }
 
 repeat-growth value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 18pt;
   display: inline-block;
   font-style: normal;
   margin-top: 4px;
   margin-left: 10px;
   color: #52301e;
+}
+
+repeat-wrapper {
+  height: 90px;
 }
 
 /* Gaining Flat Energy */
@@ -324,52 +353,52 @@ growth-energy {
   background-size: contain;
   background-position: center;
   display: block;
-  height: 110px;
-  width: 110px;
-  margin-top: -20px;
+  height: 100px;
+  width: 100px;
+  margin-top: -10px;
 }
 
 growth-energy value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 24pt;
   font-style: normal;
   display: inline-block;
-  margin-top: 35px;
-  margin-left: 25px;
+  margin-top: 31px;
+  margin-left: 19px;
 }
 
 /* Complex add presence options */
 custom-presence-req {
   font-size: 20pt;
   font-weight: bold;
-  margin-top: -34px;
+  margin-top: -24px;
   margin-bottom: 0px;
   width: auto;
-  height: 125px;
+  height: 115px;
   display: inline-flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 custom-presence {
   font-size: 20pt;
   font-weight: bold;
-  display: block;
-  margin-top: 5px;
+  display: flex;
   width: auto;
-  height: 110px;
-  margin-bottom: -30px;
-  margin-top: 11px;
+  height: 88px;
+  margin-bottom: 2px;
+  margin-top: 0px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 custom-presence-or {
-  font-size: 20pt;
-  font-weight: bold;
   display: block;
-  margin-top: 5px;
-  width: auto;
   height: 40px;
   margin-bottom: 0px;
-  margin-top: 36px;
+  margin-top: 0px;
 }
 
 custom-presence-or icon.backslash {
@@ -415,12 +444,32 @@ range-growth {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: bottom;
+  height: 50px;
+  width: 106px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+range-growth > value {
+  font-size: 40px;
+  font-family: "Antropos";
+  bottom: 8px;
+  left: 2px;
+  position: relative;
+}
+
+move-growth {
+  background-image: url("../../images/board/move_arrow.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
   font-size: 40px;
   line-height: 28px;
   font-family: "Antropos";
-  height: 45px;
+  height: 62px;
   width: 106px;
-  margin-top: 0px;
+  margin-top: 9px;
   margin-bottom: 0px;
   display: inline-block;
 }
@@ -457,7 +506,7 @@ custom-presence-req icon.dahan {
   height: 37px;
   width: 37px;
   margin-top: 0px;
-  margin-bottom: -9px;
+  margin-bottom: -2px;
 }
 
 presence-req icon.presence {
@@ -471,10 +520,23 @@ presence-req icon.presence {
 presence-req icon {
   height: 37px;
   width: 37px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 3px;
+  margin-right: 3px;
   margin-top: 0px;
-  margin-bottom: -10px;
+  margin-bottom: 0px;
+}
+
+presence-req icon.add-token {
+  height: 30px;
+  width: 30px;
+  margin-left: 3px;
+  margin-right: auto;
+  margin-top: -1px;
+  margin-bottom: 0px;
+}
+
+presence-req icon.wilds {
+  width: 45px;
 }
 
 presence-req icon.town,
@@ -504,13 +566,14 @@ presence-req icon.terrain-double {
   height: 37px;
   width: 37px;
   margin-top: -1px;
-  margin-bottom: -12px;
-  margin-right: -3px;
-  margin-left: -3px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
 }
 
 presence-req icon.terrain-double {
   width: 80px;
+  height: 41px;
   transform: translateY(0px) translateX(6px);
 }
 
@@ -524,9 +587,13 @@ presence-req icon.ocean {
 presence-req {
   font-family: "Lato SemiBold";
   font-size: 14pt;
+  line-height: 26px;
   font-style: italic;
-  display: block;
-  height: 45px;
+  display: flex;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  flex-direction: row;
+  align-items: center;
 }
 
 display-custom {
@@ -676,7 +743,6 @@ token-wrap {
   flex-wrap: wrap;
   vertical-align: bottom;
   align-content: flex-end;
-  height: 69px;
   padding-bottom: 2px;
   justify-content: center;
 }
@@ -751,10 +817,13 @@ growth-text {
   font-style: italic;
   margin-top: 0px;
   text-align: center;
-  width: 100%;
-  padding-left: 5px;
-  padding-right: 5px;
+  width: 105%;
   box-sizing: border-box;
+  letter-spacing: 1px;
+  line-height: 19px;
+  min-width: 50px;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 growth-text icon.explorer,
@@ -797,7 +866,8 @@ plus-text::after {
 }
 
 .non-icon.small {
-  font-size: 14pt;
+  font-size: 16pt;
+  margin: auto 3px auto 3px;
 }
 
 growth-cell icon.gather-arrow {
@@ -901,7 +971,7 @@ growth-cell icon.gather-into > icon.explorer {
 
 growth-cost {
   background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 16pt;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -915,25 +985,6 @@ growth-cost {
   padding-top: 9px;
   transform: translateX(100%);
 }
-
-/* growth-cost {
-  font-family: 'Gobold Extra2', 'Noto Sans';
-  font-size: 16pt;
-  background-image: url('../../images/board/NewIcons/Energy Blank Small.png');
-    background-repeat: no-repeat;
-    background-size: 100%;
-    margin-right: -50px;
-    background-position: center;
-    height: 45px;
-    width: 45px;
-    top: -35px;
-    position: relative;
-    margin-right: -10px;
-    margin-left: -10px;
-    padding-top: 9px;
-    float: left;
-    transform: translateX(75%);
-} */
 
 growth-cost::after {
   content: "Cost";
@@ -975,40 +1026,6 @@ growth-cost.custom::after {
   top: 44px;
 }
 
-/* growth-cost-custom {
-  font-family: 'Gobold Extra2', 'Noto Sans';
-  font-size: 20pt;
-  top: -35px;
-  position: relative;
-  margin-right: -10px;
-  margin-left: -10px;
-  padding-top: 1px;
-  float: left;
-  transform: translateX(55%);
-}
-
-growth-cost-custom > icon {
-    height: 45px;
-    width: 45px;
-}
-
-growth-cost-custom value {
-  text-shadow: -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px -1.5px 0 #fff;
-  position: relative;
-  top: 4px;
-  left: -2px;
-}
-
-growth-cost-custom::after {
-  content: 'Cost';
-  font-family: 'Lato SemiBold';
-  font-size: 14pt;
-  font-style: italic;
-  position: absolute;
-  left: 3px;
-  top: 44px;
-} */
-
 growth-cost.nonscaling {
   top: -42px;
   position: relative;
@@ -1018,16 +1035,6 @@ growth-cost.nonscaling {
 growth-cost.nonscaling::after {
   content: none;
 }
-
-/* growth-cost-custom-nonscaling {
-  top: -42px;
-  position: relative;
-  margin-right: -165px;
-  float: left;
-  display: flex;
-  transform: translateX(0%);
-  text-align: left;
-} */
 
 growth-cost.nonscaling > icon {
   height: 45px;
@@ -1080,7 +1087,7 @@ growth-damage {
 }
 
 growth-damage value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 22pt;
   display: inline-block;
   margin-top: 36px;
@@ -1100,18 +1107,19 @@ card-play-num {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  height: 90px;
-  width: 90px;
+  height: 80px;
+  width: 80px;
   display: block;
   z-index: 1;
   position: relative;
-  margin-left: 0;
-  margin-bottom: 7px;
-  margin-top: -7px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  margin-top: 0px;
+  margin-right: -4px;
 }
 
 card-play-num value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 24pt;
   font-style: normal;
   display: inline-block;
@@ -1257,11 +1265,14 @@ push-gather icon.terrain-push.ocean > icon.push-arrow {
 push-gather-range-req {
   font-size: 20pt;
   font-weight: bold;
-  margin-top: -27px;
-  margin-bottom: 8px;
+  margin-top: -19px;
+  margin-bottom: 0px;
   width: auto;
   height: 110px;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 /* Element Icons */
@@ -1277,13 +1288,9 @@ growth-cell gain icon.moon,
 growth-cell gain icon.star,
 growth-cell gain icon.markerminus,
 growth-cell gain icon.markerplus {
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: inline-block;
   height: 60px;
   width: 60px;
-  margin-top: 21px;
-  margin-bottom: 7px;
+  margin: -30px;
 }
 
 growth-cell gain icon.star {
@@ -1298,24 +1305,24 @@ growth-cell gain icon.star {
 
 /* Enables growth option - OR multiple different elements */
 growth-cell gain icon.orelement {
-  background-size: 70%;
-  transform: translateY(0px);
-  margin-right: -7px;
-  margin-left: -7px;
+  margin-right: 1px;
+  margin-left: 1px;
+  margin-top: -15px;
+  height: 42px;
+  min-width: 42px;
+}
+
+gain.or icon.backslash {
+  min-width: 8px;
 }
 
 gain.or {
   display: flex;
   flex-direction: row;
+  height: 90px;
+  margin-top: 0px;
+  /* width: 140px; */
 }
-
-/* growth-cell icon.presence{
-  margin-left: 5px;
-  width: 35px;
-  height: 35px;
-  margin-bottom: -8px;
-  margin-right: -2px;
-} */
 
 growth-cell div.custom-scaling {
   font-family: "Name Headings";
@@ -1325,14 +1332,27 @@ growth-cell div.custom-scaling {
 
 gain {
   height: 90px;
+  width: 95px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Enables growth option - 2 of same element */
+icon-multi-element {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
 icon-multi-element icon,
 icon-multi-element energy-icon,
 icon-multi-element card-icon {
   display: inline-block;
-  position: absolute;
+  position: relative;
+  margin: -30px;
 }
 
 icon-multi-element icon.star {
@@ -1358,7 +1378,7 @@ gain-per {
 }
 
 gain-per value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 16pt;
   font-style: normal;
   display: inline-block;
@@ -1484,7 +1504,7 @@ growth-fear {
 }
 
 growth-fear value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 20pt;
   display: inline-block;
   font-style: normal;
@@ -1508,7 +1528,7 @@ fear-per {
 }
 
 fear-per value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 14pt;
   display: inline-block;
   font-style: normal;
@@ -1582,17 +1602,4 @@ gain-per-fear icon.animal {
 }
 gain-per-fear icon.water {
   background-image: url(../../images/board/element_simple_water.png);
-}
-
-growth-row-line {
-  background-image: url(../../images/board/growth_underline.png);
-  height: 5px;
-  width: 133px;
-  display: block;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  margin-left: 21px;
-  margin-right: 8px;
-  margin-bottom: 21px;
-  margin-top: -17px;
 }

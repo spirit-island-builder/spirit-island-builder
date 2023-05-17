@@ -1,5 +1,6 @@
 <script>
   import { afterUpdate } from "svelte";
+  import * as Lib from "../../routes/lib";
 
   export let elementType;
   export let placeholder;
@@ -8,9 +9,9 @@
   export let startCharacter = "{";
   export let value;
   export let id;
-  export let tabindex = "1";
   export let classNames = "";
   export let showListImmediately;
+  export let additionalOnBlurFunction = () => {};
 
   let showAutoCompleteList = false;
   let valuesToShow;
@@ -31,25 +32,37 @@
       // In textarea/input with multiple autocompletes set cursor position the end of the autocomplete term that was inserted. Without this the cursor goes to the end of the input.
       if (!showListImmediately) {
         inputElementThatWasCompleted.selectionEnd = startOfWordPosition + selectedWord.length + 1;
+      } else if (selectedWord.endsWith(")")) {
+        // If its the 'growth' autocomplete, move cursor to between the ()
+        inputElementThatWasCompleted.selectionEnd = startOfWordPosition + selectedWord.length - 1;
       }
+
       // Prevent further refocus and cursor positioning
       inputElementThatWasCompleted = undefined;
     }
   });
 
   function handleInputAndFocus(event) {
+    // select all for 'input' type fields
+    if (event.target.tagName === "INPUT" && event.type === "focus") {
+      document.getElementById(event.target.id).select();
+    }
+
     const inputValue = event.target.value;
     const currentCursorPostion = event.target.selectionStart;
-    if (
-      event.data === startCharacter ||
-      (showListImmediately === true && (inputValue.length === 0 || event.type === "focus"))
-    ) {
-      openAutoComplete(currentCursorPostion, inputValue);
-    } else if (
+    const shouldAutoCompleteOpen =
+      !isAutoCompleteListOpen() &&
+      (event.data === startCharacter ||
+        (showListImmediately === true && (inputValue.length <= 1 || event.type === "focus")));
+    const shouldAutoCompleteClose =
+      isAutoCompleteListOpen() &&
+      !showListImmediately &&
       (endCharacters.includes(event.data) ||
-        hasCursorMovedOutsideOfCurrentAutoCompleteTerm(inputValue, currentCursorPostion)) &&
-      !showListImmediately
-    ) {
+        hasCursorMovedOutsideOfCurrentAutoCompleteTerm(inputValue, currentCursorPostion));
+
+    if (shouldAutoCompleteOpen) {
+      openAutoComplete(currentCursorPostion, inputValue);
+    } else if (shouldAutoCompleteClose) {
       closeAutoComplete();
     } else if (isAutoCompleteListOpen()) {
       currentAutoCompleteTermLength++;
@@ -182,7 +195,7 @@
     handleAutoCompleteSelectionFromList(event);
   }
 
-  function closeAutoComplete() {
+  function closeAutoComplete(event) {
     // selectedWord, startOfWordPosition, and inputElementThatWasCompleted are intentionally not reset here so that cursor repositioning in afterUpdate() works
     showAutoCompleteList = false;
     showActiveSelection = true;
@@ -191,6 +204,11 @@
     currentKeyBoardFocus = 0;
     startingCharacterPosition = 0;
     currentAutoCompleteTermLength = 0;
+
+    // since closeAutoComplete can be called from events other than "blur", we check to make sure this is a "blur" event before calling the function that might have been passed in from the parent
+    if (event?.type === "blur") {
+      additionalOnBlurFunction();
+    }
   }
 
   function openAutoComplete(currentCursorPostion, inputValue) {
@@ -228,6 +246,13 @@
       boldEndIndex
     )}</strong>${autoCompleteItem.label.substring(boldEndIndex)}`;
   }
+
+  function nextNode(event) {
+    if (!isAutoCompleteListOpen()) {
+      // This isn't currently behaving as expected. Intent: if autocomplete is open, don't jump to the next node when user presses 'enter'
+      Lib.nextNode(event);
+    }
+  }
 </script>
 
 <div class="control autocomplete">
@@ -237,12 +262,12 @@
       class={`input ${classNames}`}
       type="text"
       {placeholder}
-      {tabindex}
       autocomplete="off"
       on:input={handleInputAndFocus}
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
+      on:keyup={nextNode}
       bind:value />
   {:else if elementType === "textarea"}
     <textarea
@@ -254,12 +279,13 @@
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
-      {tabindex}
       bind:value />
+    <!-- removing       on:keyup={nextNode} for now -->
   {/if}
   {#if showAutoCompleteList === true}
     <div id={`${id}AutoCompleteList`} class="autocomplete-items">
       {#each valuesToShow as autoCompleteItem, j}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
           id={`item${j}`}
           autoCompleteForId={id}
@@ -292,7 +318,6 @@
     right: 0;
     max-height: 210px;
     overflow: auto;
-    scroll-behavior: smooth;
     overflow-y: scroll;
   }
   .autocomplete-items div:hover {

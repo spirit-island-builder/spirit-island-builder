@@ -2,29 +2,29 @@
   export let powerCards;
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
-
-  function handleImageFileInput(event, card) {
-    const file = event.target.files.item(0);
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const imageURL = data.target.result;
-        card.cardImage = imageURL;
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsDataURL(file);
-    }
-  }
+  import Section from "$lib/section.svelte";
+  import ImageInput from "$lib/image-input.svelte";
+  import * as Lib from "../lib";
 
   function setSpeedTextbox(powerSpeed, card) {
     card.speed = powerSpeed;
     powerCards = powerCards;
+
+    //update tempalte
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let templateCard = previewFrame.document.getElementById("card" + card.id);
+    templateCard.removeAttribute("class");
+    templateCard.setAttribute("class", powerSpeed.toLowerCase());
   }
 
   function setTargetTextbox(targetTitle, card) {
     card.targetTitle = targetTitle;
     powerCards = powerCards;
+
+    //update tempalte
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let templateCard = previewFrame.document.getElementById("card" + card.id + "targettitle");
+    templateCard.innerHTML = targetTitle;
   }
 
   function clearThreshold(card) {
@@ -46,6 +46,25 @@
       power.id = i;
     });
     powerCards = powerCards;
+  }
+
+  function toggleElement(card, element) {
+    //modify form
+    card.powerElements[element] = !card.powerElements[element];
+    powerCards = powerCards;
+
+    //modify template
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let templateCard = previewFrame.document.getElementById("card" + card.id);
+    let elementsTemplate = templateCard.getElementsByClassName(element);
+
+    if (card.powerElements[element]) {
+      let newElement = previewFrame.document.createElement("element");
+      newElement.classList.add(element);
+      templateCard.append(newElement);
+    } else {
+      elementsTemplate[0].remove();
+    }
   }
 
   function addEmptyPowerCard() {
@@ -78,19 +97,74 @@
     powerCards = powerCards;
   }
 
-  function activateElement(event, card) {
-    card.powerElements[event.target.id] = !card.powerElements[event.target.id];
-    if (!event.target.classList.contains("is-active")) {
-      event.target.classList.add("is-active");
-    } else {
-      event.target.classList.remove("is-active");
+  function updatePowerName(card, ID, type) {
+    //effect
+    let updatePowerCardData = card[type];
+    if (updatePowerCardData) {
+      let templatePowerCardData = "card" + ID + type;
+
+      let previewFrame = document.getElementById("preview-iframe").contentWindow;
+
+      // Find node in Template
+      let findPowerCardTemplate = previewFrame.document.getElementById(templatePowerCardData);
+      if (findPowerCardTemplate) {
+        console.log("Rewriting " + templatePowerCardData + " with " + updatePowerCardData);
+
+        // update node
+        if (type === "range") {
+          let rangeOutput = previewFrame.getRangeModel(updatePowerCardData);
+          findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(rangeOutput);
+        } else if (type === "thresholdCondition") {
+          let thresholdConditionOutput = previewFrame.getThresholdElements(updatePowerCardData);
+          findPowerCardTemplate.innerHTML = "<span>" + thresholdConditionOutput + ":</span>";
+        } else if (type === "rules") {
+          findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(
+            previewFrame.getFormatRulesText(updatePowerCardData)
+          );
+          previewFrame.resize();
+        } else if (type === "threshold") {
+          let thresholdCondition =
+            findPowerCardTemplate.getElementsByTagName("threshold-condition")[0];
+          findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(
+            previewFrame.getFormatRulesText(updatePowerCardData)
+          );
+          if (thresholdCondition) {
+            findPowerCardTemplate.insertBefore(
+              thresholdCondition,
+              findPowerCardTemplate.firstChild
+            );
+          }
+          previewFrame.resize();
+        } else {
+          findPowerCardTemplate.innerHTML = previewFrame.replaceIcon(updatePowerCardData);
+        }
+      }
     }
   }
 
-  function showOrHideSectionSubsection(card) {
-    card.isVisible = !card.isVisible;
-    powerCards = powerCards;
+  function updateCustomThresholdText(card, ID, type) {
+    let updatePowerCardData = card[type];
+    let templatePowerCardData = "card" + ID + "threshold";
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let findPowerCardTemplate = previewFrame.document.getElementById(templatePowerCardData);
+    if (updatePowerCardData) {
+      // Find node in Template
+      if (findPowerCardTemplate) {
+        console.log("Rewriting " + templatePowerCardData + " with " + updatePowerCardData);
+        // update node
+        findPowerCardTemplate.setAttribute("data-before", updatePowerCardData);
+      }
+    } else {
+      findPowerCardTemplate.classList.remove("threshold-custom");
+      findPowerCardTemplate.setAttribute("data-before", "");
+    }
   }
+
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
+
+  const elements = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
 </script>
 
 <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap mb-0">
@@ -108,30 +182,19 @@
   </div>
 </div>
 {#each powerCards.cards as card, i (card.id)}
-  <h6
-    on:click={showOrHideSectionSubsection(card)}
-    class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1">
-    {`Power Card ${i + 1}: ${card.name}`}
-    <span on:click={showOrHideSectionSubsection(card)}>
-      {#if card.isVisible}
-        <ion-icon on:click={showOrHideSectionSubsection(card)} name="chevron-down-outline" />
-      {:else}
-        <ion-icon on:click={showOrHideSectionSubsection(card)} name="chevron-up-outline" />
-      {/if}
-    </span>
-  </h6>
-  {#if card.isVisible}
+  <Section title={`Power Card ${i + 1}: ${card.name}`} bind:isVisible={card.isVisible}>
     <div class="field mt-2">
       <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
         >{`Power Card ${i + 1}`}</label>
       <div class="is-flex is-flex-direction-row">
         <div class="control" style="width:100%">
           <input
-            id={`powerName${i}`}
+            id={`cardName${i}`}
             class="input"
             type="text"
-            tabindex="1"
             placeholder="Power Name"
+            on:blur={updatePowerName(card, i, "name")}
+            on:keyup={nextNode}
             bind:value={card.name} />
         </div>
         <button class="button is-primary is-light is-warning" on:click={removePowerCard(i)}
@@ -143,71 +206,32 @@
         <label class="label is-unselectable mr-1 mt-1" for="">Cost: </label>
         <div class="control">
           <input
-            id={`powerCost${i}`}
+            id={`cardCost${i}`}
             class="input"
             style="width:3rem; text-align:center;"
             type="text"
-            tabindex="1"
             placeholder="Cost"
+            on:blur={updatePowerName(card, i, "cost")}
+            on:keyup={nextNode}
             bind:value={card.cost} />
         </div>
       </div>
       <div class="field has-addons">
         <label class="label is-unselectable mr-1 mt-1" for="">Elements: </label>
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.sun}
-          id="sun"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_sun.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.moon}
-          id="moon"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_moon.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.fire}
-          id="fire"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_fire.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.air}
-          id="air"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_air.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.water}
-          id="water"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_water.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.earth}
-          id="earth"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_earth.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.plant}
-          id="plant"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_plant.png')" />
-        <div
-          class="img-elements"
-          class:is-active={card.powerElements.animal}
-          id="animal"
-          on:click={(e) => activateElement(e, card)}
-          style="background-image: url('/template/_global/images/board/element_simple_animal.png')" />
+        {#each elements as element}
+          <button
+            class="element-toggle"
+            aria-pressed={card.powerElements[element]}
+            on:click={toggleElement(card, element)}>
+            <img src="/template/_global/images/board/element_simple_{element}.png" alt={element} />
+          </button>
+        {/each}
       </div>
     </div>
     <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
       <div class="is-flex is-flex-direction-column-reverse">
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-          {#if card.speed == ""}
+          {#if card.speed === ""}
             <button
               class="button is-danger is-light button-hold mb-0"
               id="fast-button"
@@ -216,7 +240,7 @@
               class="button is-info is-light button-hold mb-0"
               id="slow-button"
               on:click={setSpeedTextbox("Slow", card)}>Slow</button>
-          {:else if card.speed == "Fast" || card.speed == "fast"}
+          {:else if card.speed === "Fast" || card.speed === "fast"}
             <button
               class="button is-danger button-hold mb-0"
               id="fast-button"
@@ -241,11 +265,12 @@
       <div class="is-flex is-flex-direction-column-reverse">
         <div class="control">
           <input
-            id={`powerRange${i}`}
+            id={`cardRange${i}`}
             class="input"
             type="text"
-            tabindex="1"
             placeholder="Range"
+            on:keyup={nextNode}
+            on:blur={updatePowerName(card, i, "range")}
             bind:value={card.range} />
         </div>
         <label class="label is-unselectable" for="">Range</label>
@@ -254,10 +279,11 @@
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
           <div class="control">
             <AutoComplete
-              id={`powerTarget${i}`}
+              id={`cardTarget${i}`}
               elementType="input"
               placeholder="Target"
               validAutoCompleteValues={iconValuesSorted}
+              additionalOnBlurFunction={() => updatePowerName(card, i, "target")}
               bind:value={card.target} />
           </div>
         </div>
@@ -265,14 +291,14 @@
           <label class="label is-unselectable mr-1 mb-0 pt-2" for="">Target</label>
           <div
             class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 is-align-items-flex-end">
-            {#if card.targetTitle == ""}
+            {#if card.targetTitle === ""}
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target", card)}>Target</button>
-            {:else if card.targetTitle == "target" || card.targetTitle == "Target"}
+            {:else if card.targetTitle === "target" || card.targetTitle === "Target"}
               <button
                 class="button is-success is-light is-small mb-0"
                 on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
@@ -297,6 +323,7 @@
         elementType="textarea"
         placeholder="Rules"
         validAutoCompleteValues={iconValuesSorted}
+        additionalOnBlurFunction={() => updatePowerName(card, i, "rules")}
         bind:value={card.rules} />
     </div>
     <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-2">
@@ -308,8 +335,8 @@
             class="input is-small mr-3"
             style="width:35%"
             type="text"
-            tabindex="1"
             placeholder="Elemental Conditions"
+            on:blur={updatePowerName(card, i, "thresholdCondition")}
             bind:value={card.thresholdCondition} />
           <label class="label is-unselectable mr-2 mb-0 mt-1" style="min-width:7rem" for=""
             >Custom Text:</label>
@@ -317,8 +344,8 @@
             id={`powerCustomText${i}`}
             class="input is-small"
             type="text"
-            tabindex="1"
             placeholder="use if an alternative to 'IF YOU HAVE' is desired"
+            on:blur={updateCustomThresholdText(card, i, "thresholdText")}
             bind:value={card.thresholdText} />
         </div>
         <AutoComplete
@@ -326,6 +353,7 @@
           elementType="textarea"
           placeholder="Threshold Effect"
           validAutoCompleteValues={iconValuesSorted}
+          additionalOnBlurFunction={() => updatePowerName(card, i, "threshold")}
           bind:value={card.threshold} />
         <button class="button is-warning is-light mb-0" on:click={clearThreshold(card)}
           >Clear Power Threshold</button>
@@ -337,32 +365,44 @@
     <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-4">
       <div class="field has-addons mr-2 ml-1">
         <label class="label is-unselectable mr-1" for="">Artist: </label>
-        <div class="control">
+        <div class="control mr-2">
           <input
             id={`cardArtist${i}`}
             class="input is-small"
             type="text"
-            tabindex="1"
             placeholder="Artist"
             bind:value={card.cardArtist} />
         </div>
-        <div class="control">
-          <input
-            accept="image/png, image/jpeg"
-            on:change={(e) => handleImageFileInput(e, card)}
-            id={`cardArt${i}`}
-            name="cardArt"
-            type="file"
-            class="input is-small" />
-          {#if card.cardImage == ""}
-            <img id="cardArtImage" src={card.cardImage} alt="power card art" />
-          {/if}
-        </div>
+        <ImageInput id="cardArt{i}" title="Card Art" bind:imageURL={card.cardImage} />
       </div>
     </div>
     <hr />
-  {/if}
+  </Section>
 {/each}
 <div class="pt-1 pb-2">
   <button class="button is-primary is-light" on:click={addEmptyPowerCard}>Add Power Card</button>
 </div>
+<Section title={`Card Back`} bind:isVisible={powerCards.cardBackImageIsVisible}>
+  <ImageInput
+    id="powerCardBack"
+    title="Power Card Back Art"
+    bind:imageURL={powerCards.cardBackImage} />
+</Section>
+
+<style>
+  .element-toggle {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+  }
+  .element-toggle img {
+    display: block;
+    margin: auto;
+    width: 35px;
+  }
+  .element-toggle[aria-pressed="false"] img {
+    filter: opacity(0.2);
+  }
+</style>

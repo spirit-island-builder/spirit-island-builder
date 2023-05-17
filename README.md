@@ -4,7 +4,7 @@ This is the code home for https://spiritislandbuilder.com/, a web app for buildi
 
 ## Develop
 
-Install the latest version of Node 16 or 17. Other Node major versions might work but have not been tested.
+Install the latest version of Node 16.
 
 Install dependencies by running:
 

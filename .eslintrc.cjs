@@ -2,7 +2,14 @@ module.exports = {
   root: true,
   extends: ["eslint:recommended"],
   plugins: ["svelte3"],
-  overrides: [{ files: ["*.svelte"], processor: "svelte3/svelte3" }],
+  overrides: [
+    { files: ["*.svelte"], processor: "svelte3/svelte3" },
+    {
+      files: ["static/template/_global/js/*.js"],
+      env: { node: false },
+      parserOptions: { sourceType: "script" },
+    },
+  ],
   parserOptions: {
     sourceType: "module",
     ecmaVersion: 2020,
@@ -12,12 +19,9 @@ module.exports = {
     es6: true,
     node: true,
   },
-  settings: {
-    "svelte3/ignore-warnings": (object) => {
-      if (object.code === "a11y-positive-tabindex") {
-        return true;
-      }
-      return false;
-    },
+  rules: {
+    "no-var": "error",
+    "eqeqeq": "error",
   },
+  reportUnusedDisableDirectives: true,
 };

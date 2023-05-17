@@ -62,6 +62,8 @@ function replaceIcon(html) {
       range_num = iconName.substring(6);
       if (isNaN(range_num)) {
         range_num = '<icon class="range-small-icon ' + range_num + '"></icon>';
+      } else {
+        range_num = "<range-value>" + range_num + "</range-value>";
       }
       iconName = "range";
     } else if (iconName.startsWith("gain-range-")) {
@@ -91,20 +93,4 @@ function replaceIcon(html) {
   }
 
   return result;
-}
-
-async function takeScreenshot(elementName, useElementId) {
-  let { default: html2canvas } = await import(
-    "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.js"
-  );
-  let element;
-  if (useElementId) {
-    element = document.getElementById(elementName);
-  } else {
-    element = document.querySelector(elementName);
-  }
-  let canvas = await html2canvas(element, {
-    scale: 1,
-  });
-  return canvas.toDataURL();
 }

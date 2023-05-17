@@ -1,7 +1,6 @@
 presence-tracks section-title {
-  /*   margin-left: 2px;
-  margin-bottom: 12px; */
   padding-top: 0px;
+  margin-top: -3px;
 }
 
 presence-tracks section-title.has-note {
@@ -30,23 +29,28 @@ presence-tracks {
 }
 
 presence-tracks presence-title {
-  margin-left: 2px;
+  margin-left: -11px;
   margin-bottom: 12px;
   padding-top: 0px;
   display: flex;
   align-items: flex-end;
 }
 
+presence-tracks presence-title.tight {
+  margin-bottom: 0px;
+}
+
 presence-tracks table {
   display: inline-block;
-  height: 273px;
   margin-left: -50px; /* adding a blank row for an image. This gives us some space. */
   border-collapse: collapse;
+  position: relative;
 }
 
 presence-tracks table td {
   padding: 0px;
   vertical-align: top;
+  padding-right: 4px;
 }
 
 presence-tracks table td[rowspan="2"] {
@@ -58,23 +62,57 @@ td.middle > presence-node {
   position: relative;
 }
 
+td.spacer {
+  width: 42px;
+  display: block;
+}
+
+td.spacer.tight {
+  width: 10px;
+}
+
 presence-node {
   display: inline-table;
   max-width: 130px;
 }
 
+tr.energy-track presence-node {
+  margin-bottom: 43px;
+}
+
+tr.plays-track presence-node {
+  margin-bottom: 5px;
+}
+
+presence-node.tight {
+  margin-bottom: 20px;
+}
+
+tr > td:last-of-type {
+  padding-right: 0px;
+}
+
+td.tight {
+  padding-right: 0px;
+}
+
+tr.plays-track {
+  height: 174px;
+}
+
 subtext {
   font-family: "Lato SemiBold";
-  font-size: 15pt;
+  font-size: 14pt;
   font-style: italic;
   text-align: center;
-  display: table-row;
+  display: block;
+  margin-top: -1px;
+  letter-spacing: 0.5px;
 }
 
 .adjust-subtext {
-  width: 166px;
-  position: absolute;
-  transform: translateX(-18px);
+  margin-left: -20px;
+  margin-right: -20px;
 }
 
 presence-node ring-icon {
@@ -86,6 +124,7 @@ presence-node ring-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 presence-node.first ring-icon {
@@ -165,7 +204,8 @@ card-icon.small {
   z-index: 2;
 }
 
-.gain-card-play.small {
+.gain-card-play.small,
+.gain-power-card.small {
   height: 80px;
   width: 80px;
   margin-left: -7px;
@@ -185,8 +225,8 @@ presence-node energy-icon {
 }
 
 energy-icon.small {
-  height: 80px;
-  width: 80px;
+  height: 90px;
+  width: 90px;
   margin-left: -10px;
   margin-top: -20px;
 }
@@ -205,7 +245,7 @@ presence-node icon-shadow {
 icon-shadow.small {
   height: 94px;
   width: 94px;
-  margin-left: -20px;
+  margin-left: -5px;
   margin-top: -16px;
   z-index: 0;
   position: absolute;
@@ -236,7 +276,7 @@ icon.energy-blank {
 }
 
 presence-node value {
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 36pt;
   display: inline-block;
 }
@@ -250,8 +290,8 @@ card-icon.small value {
 }
 
 presence-node icon {
-  width: 65px;
-  height: 65px;
+  width: 68px;
+  height: 68px;
 }
 
 presence-node icon.isolate,
@@ -263,9 +303,9 @@ presence-node icon.custom3 {
   margin-top: -3px;
 }
 
-icon-multi-element icon.custom1,
-icon-multi-element icon.custom2,
-icon-multi-element icon.custom3 {
+presence-node-multi icon.custom1,
+presence-node-multi icon.custom2,
+presence-node-multi icon.custom3 {
   height: 65px;
   width: 65px;
   margin-top: -3px;
@@ -327,6 +367,86 @@ presence-node > icon.card-deep-layers {
   transform: translateX(50%);
 }
 
+ring-icon.deep-layers {
+  background-image: url("../../images/board/CardPlayRing_DeepLayers.png");
+}
+
+deep-layers {
+  left: -40px;
+  top: -3px;
+  transform: translateX(50%);
+  position: relative;
+  z-index: 2;
+}
+
+deep-layers > icon.energy-deep-layers,
+deep-layers > icon.card-deep-layers {
+  position: absolute;
+  height: 37px;
+  width: 60px;
+  background-position: center;
+  left: 26px;
+  margin: 0px;
+}
+
+deep-layers > icon.energy-blank {
+  height: 55px;
+  margin-top: -10px;
+}
+
+track-move-presence {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  font-family: "Antropos";
+  line-height: 0.6;
+  margin-bottom: 5px;
+}
+
+track-move-presence.small {
+  scale: 0.9;
+  position: absolute;
+}
+
+track-move-presence.shadow {
+  background-image: url("../../images/customIcons/Presence Track Back.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 130px;
+  width: 130px;
+}
+
+track-move-presence icon {
+  width: 40px;
+  height: 30px;
+  margin: 0px;
+  position: relative;
+}
+
+track-move-presence icon.move-arrow {
+  width: 80px;
+}
+
+track-move-presence move-value {
+  position: relative;
+  left: -1px;
+  position: relative;
+}
+
+presence-node-multi {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-49%, -46%);
+  height: inherit;
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 icon.push {
   height: 68px;
   width: 110px;
@@ -350,7 +470,7 @@ custom-presence-track-icon {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-family: "Gobold Extra2", "Noto Sans";
+  font-family: "Energy Font";
   font-size: 24pt;
   color: #431e0aff;
 }
@@ -474,37 +594,6 @@ element-or-wrap icon.backslash.small {
   width: 20px;
   height: 55px;
 }
-
-/* element-or-wrap.small{
-  position: absolute;
-  display: inline-block;
-  margin-left: 17px;
-  margin-top: -10px;
-}
-
-element-or-wrap icon.presence-or-first.small, element-or-wrap icon.presence-or-second.small{
-  width:40px;
-  height:40px;
-  margin:0px;
-}
-
-element-or-wrap icon.presence-or-first.small{
-    margin-left: -21px;
-    margin-top: 33px;
-}
-
-element-or-wrap icon.presence-or-second.small { 
-    margin-left: 6px;
-    margin-top: -10px;
-}
-
-element-or-wrap icon.backslash.small{
-    margin-top: 12px;
-    margin-left: 8px;
-    width: 20px;
-    height: 48px;
-    transform: rotate(289deg);
-} */
 
 element-or-wrap icon.backslash {
   width: 35px;

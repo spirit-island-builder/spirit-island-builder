@@ -1,8 +1,3 @@
-window.onload = (event) => {
-  startMain();
-  console.log("Page Loaded");
-};
-
 function startMain() {
   console.log("aspect startMain");
   var aspects = document.querySelectorAll("aspect");
@@ -11,10 +6,12 @@ function startMain() {
       aspects[i].classList.add("profile");
       aspects[i].removeAttribute("profile");
     }
-    parseSubNodes(aspects[i]);
     parseComplexity(aspects[i]);
+    parseSubtexts(aspects[i]);
+    parseSubNodes(aspects[i]);
     parseSpecialRules();
     aspects[i].innerHTML = replaceIcon(aspects[i].innerHTML);
+    resizeAspect(aspects[i]);
   }
   var backs = document.querySelectorAll("aspect-back");
   for (var i = 0; i < backs.length; i++) {
@@ -34,6 +31,22 @@ function parseSubNodes(aspect) {
       container.childNodes[i].nodeName === "QUICK-INNATE-POWER"
     ) {
       container.childNodes[i].outerHTML = parseInnatePowerAspect(container.childNodes[i]);
+    }
+  }
+}
+
+function parseSubtexts(aspect) {
+  var subtexts = aspect.getElementsByTagName("aspect-subtext");
+  if (subtexts) {
+    if (subtexts.length > 1) {
+      var finalsubtext = subtexts[0];
+      for (var i = 1; i < subtexts.length; i++) {
+        finalsubtext.innerHTML += "<br>" + subtexts[i].innerHTML;
+        //console.log(subtexts[i].remove());
+      }
+      for (var i = subtexts.length - 1; i > 0; i--) {
+        subtexts[i].remove();
+      }
     }
   }
 }
@@ -209,6 +222,7 @@ function resizeInnatePowersAspect() {
   // copied 12/6/22
   // Innate Power Sizing
   console.log("RESIZING: Innate Powers for Aspects");
+
   // Innate Power Notes (scale font size)
   noteBlocks = document.getElementsByTagName("note");
   for (let i = 0; i < noteBlocks.length; i++) {
@@ -229,19 +243,15 @@ function resizeInnatePowersAspect() {
   }
 
   // Innate Power Thresholds
-  thresholds = document.getElementsByTagName("threshold");
-  thresholdsCount = thresholds.length;
-  ICONWIDTH = 60;
-  let dynamicThresholdWidth = [];
+  const thresholds = document.getElementsByTagName("threshold");
+  const thresholdsCount = thresholds.length;
   let outerThresholdWidth = [];
-  for (i = 0; i < thresholdsCount; i++) {
-    icon = thresholds[i].getElementsByTagName("icon");
-    iconCount = icon.length;
-    dynamicThresholdWidth = iconCount * ICONWIDTH + iconCount * 12;
+  for (let i = 0; i < thresholdsCount; i++) {
     // Check if the threshold width is overflowing. If so, just let it size itself...
-    var thresholdHeight = thresholds[i].offsetHeight;
+    const thresholdHeight = thresholds[i].offsetHeight;
     if (thresholdHeight > 60) {
       thresholds[i].style.width = "auto";
+      // I suspect this is no longer doing anything 2/25
     }
     outerThresholdWidth[i] =
       thresholds[i].clientWidth +
@@ -252,18 +262,20 @@ function resizeInnatePowersAspect() {
 
   // Innate Power Descriptions
   var description = document.getElementsByClassName("description");
-  for (i = 0; i < description.length; i++) {
+  for (let i = 0; i < description.length; i++) {
     // Scale the text width to the threshold size...
-    /* description[i].style.paddingLeft = outerThresholdWidth[i]+"px"; */
-    var textHeight = description[i].offsetHeight;
-    console.log(description[i]);
-    console.log("text height = " + textHeight);
-    console.log("text width = " + description[i].offsetWidth);
+    description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
+    // description[i].style.position = "relative";
+    const textHeight = description[i].clientHeight;
+
     if (textHeight < 40) {
-      description[i].id = "single-line";
+      description[i].classList.add("single-line");
       // Align-middle the text if its a single line
-    } else if (textHeight > 75) {
+    } else if (textHeight > 86) {
       description[i].style.paddingLeft = "0px";
+      thresholds[i].style.position = "relative";
+      thresholds[i].style.top = "unset";
+      thresholds[i].style.transform = "unset";
       // Spill over below the threshold if its greater than three lines
     }
   }
@@ -294,20 +306,49 @@ function parseSpecialRules() {
     }
   }
 
-  // Enable user's own line breaks to show up in code
-  var specialRuleList = aspectContainer.getElementsByTagName("special-rule");
-  for (let j = 0; j < specialRuleList.length; j++) {
-    ruleLines = specialRuleList[j].innerHTML.split("\n");
-    rulesHTML = "";
-    for (let i = 0; i < ruleLines.length; i++) {
-      if (ruleLines[i] && ruleLines[i].trim().length) {
-        rulesHTML += "<div>" + ruleLines[i] + "</div>";
-      } else if (i > 0 && i < ruleLines.length - 1) {
-        rulesHTML += "<br>";
-        // allows user's line breaks to show up on the card
+  // <special-rules-track values="2,3,4"></special-rules-track>
+}
+
+function resizeAspect(aspect) {
+  const aspectContainer = aspect.getElementsByTagName("aspect-container")[0];
+  const aspectName = aspect.getElementsByTagName("aspect-name")[0];
+  const aspectSubtext = aspect.getElementsByTagName("aspect-subtext")[0];
+  if (checkOverflowHeight(aspectContainer)) {
+    console.log("its overflowing");
+    console.log(aspectContainer);
+    aspectContainer.style.height =
+      aspect.clientHeight - aspectName.clientHeight - aspectSubtext.clientHeight + "px";
+
+    const lastRuleType = aspectContainer.lastChild;
+    console.log(lastRuleType);
+    if (lastRuleType.tagName.toUpperCase() === "INNATE-POWER") {
+      console.log("here");
+      if (checkOverflowHeight(lastRuleType)) {
+        console.log("Innate Powers overflowing, shrinking space between levels");
+        let levels = Array.from(aspect.getElementsByTagName("level"));
+        levels.forEach((level) => {
+          level.style.marginBottom = "2px";
+        });
+      }
+      // Then tighten up the power level font spacing
+      if (checkOverflowHeight(lastRuleType)) {
+        console.log("Innate Powers overflowing, shrinking level description line height");
+        let descriptions = Array.from(aspect.getElementsByClassName("description"));
+        descriptions.forEach((description) => {
+          description.style.lineHeight = "1";
+        });
       }
     }
-    specialRuleList[j].innerHTML = rulesHTML;
   }
-  // <special-rules-track values="2,3,4"></special-rules-track>
+}
+
+function checkOverflowHeight(el) {
+  let curOverflow = el.style.overflow;
+  if (!curOverflow || curOverflow === "visible") {
+    el.style.overflow = "auto";
+  }
+  let isOverflowing = el.clientHeight < el.scrollHeight;
+  el.style.overflow = curOverflow;
+
+  return isOverflowing;
 }

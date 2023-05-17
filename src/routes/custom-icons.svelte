@@ -1,4 +1,7 @@
 <script>
+  import Section from "$lib/section.svelte";
+  import LoadButton from "$lib/load-button.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
   export let customIcons;
 
   function addCustomIcon() {
@@ -16,49 +19,26 @@
     });
     customIcons = customIcons;
   }
-
-  function showOrHideSection() {
-    customIcons.isVisible = !customIcons.isVisible;
-  }
-
-  function handleImageFileInput(event, i) {
-    const file = event.target.files.item(0);
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.onload = (data) => {
-        const imageURL = data.target.result;
-        customIcons.icons[i].name = imageURL;
-      };
-
-      // This reads the file and then triggers the onload function above once it finishes
-      fileReader.readAsDataURL(file);
-    }
-  }
 </script>
 
-<h6
-  on:click={showOrHideSection}
-  class="subtitle is-6 is-flex is-justify-content-space-between has-background-link-light is-unselectable pl-1"
-  id="customIcons">
-  Custom Icons (optional)
-  <span on:click={showOrHideSection}>
-    {#if customIcons.isVisible}
-      <ion-icon id="customIcons" on:click={showOrHideSection} name="chevron-down-outline" />
-    {:else}
-      <ion-icon id="customIcons" on:click={showOrHideSection} name="chevron-up-outline" />
-    {/if}
-  </span>
-</h6>
-{#if customIcons.isVisible}
-  <article class="message is-small mb-1">
-    <div class="message-body p-1">
-      Custom Icons allow you to load and then use icons that aren't pre-built into the template. <a
-        href="https://neubee.github.io/spirit-island-builder/instructions#custom-icons"
-        target="_blank">Instructions</a>
-    </div>
-  </article>
+<Section title="Custom Icons (optional)" bind:isVisible={customIcons.isVisible}>
+  <div class="mb-1 p-1 note">
+    Custom Icons allow you to load and then use icons that aren't pre-built into the template.
+    <InstructionsLink anchor="custom-icons" />
+  </div>
   {#each customIcons.icons as icon, i (icon.id)}
     <div class="field has-addons is-horizontal is-justify-content-left mb-0">
+      <div class="field-label is-small">
+        <label class="label">Display Name:</label>
+      </div>
+      <div class="control">
+        <input
+          id={`customIconDisplayName${i}`}
+          class="input is-small"
+          type="text"
+          placeholder="Name"
+          bind:value={icon.displayName} />
+      </div>
       <div class="field-label is-small">
         <label class="label" for={`customIconInput${i}`}>Use: &lbrace;custom{i + 1}&rbrace;</label>
       </div>
@@ -70,30 +50,21 @@
           src={icon.name}
           alt={`custom${i + 1}`} />
       {/if}
-      <div class="file is-warning is-small">
-        <label class="file-label">
-          <input
-            class="file-input"
-            id={`customIconInput${i}`}
-            type="file"
-            name={`customIconInput${i}`}
-            accept="image/png, image/jpeg"
-            on:change={(e) => {
-              handleImageFileInput(e, i);
-            }} />
-          <span class="file-cta">
-            <span class="file-label"> Load </span>
-          </span>
-        </label>
-      </div>
+      <LoadButton
+        accept="image/png, image/jpeg"
+        class="button is-file-load is-small"
+        loadDataURL={(url) => {
+          icon.name = url;
+        }}>Load</LoadButton>
+
       <button class="button is-warning is-light is-small row-button" on:click={removeCustomIcon(i)}
         >Remove</button>
     </div>
   {/each}
   <div class="field is-flex is-justify-content-right">
     <div class="control">
-      <button class="button is-primary is-light is-small" tabindex="1" on:click={addCustomIcon}
+      <button class="button is-primary is-light is-small" on:click={addCustomIcon}
         >Add Custom Icon</button>
     </div>
   </div>
-{/if}
+</Section>
