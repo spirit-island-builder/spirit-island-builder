@@ -480,10 +480,8 @@
     thresholdsNodes.forEach((threshold) => {
       console.log(threshold);
       let icons = Array.from(threshold.getElementsByTagName("icon"));
-
-      let elementNums = threshold.innerHTML
-        .split("<icon")
-        .map((x) => (isNaN(x) ? x.split("icon>")[1] : x));
+      let thresholdNums = Array.from(threshold.getElementsByTagName("threshold-num"));
+      let elementNums = thresholdNums.map((x) => x.innerHTML);
 
       let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
       icons.forEach((icon, i) => {
@@ -505,6 +503,7 @@
           elementCounts[7] = elementNums[i];
         }
       });
+
       let rect = threshold.getBoundingClientRect();
       thresholds.push({
         elements: elementCounts.join(""),
