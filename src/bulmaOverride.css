@@ -46,11 +46,16 @@
 h1,
 h5,
 h6 {
-  font-family: "Lato Semibold";
+  font-family: "Lato Regular";
 }
 
 .button.navbar-item {
-  font-family: "Lato Semibold";
+  font-family: "Lato Regular";
+}
+
+@font-face {
+  font-family: "Lato Regular";
+  src: url("/template/_global/fonts/lato/Lato-Regular.ttf");
 }
 
 @font-face {
