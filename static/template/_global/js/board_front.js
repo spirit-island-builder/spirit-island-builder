@@ -1598,7 +1598,16 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
   // Will be populated with the raw HTML that will go inside the ring-icon element.
   let inner = "";
   if (pnDebug) {
-    console.log("Node Text:" + nodeText + ", is first?:" + first);
+    console.log(
+      "--Presence Node-- Text:" +
+        nodeText +
+        ", First?:" +
+        first +
+        ", nodeIndex:" +
+        nodeIndex +
+        " trackType: " +
+        trackType
+    );
   }
   //Allows adding an icon top-left of the node using ^ (as with Stone)
   let addDeepLayers = false;
@@ -1657,9 +1666,9 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
       presenceNode.classList.add("first");
     }
 
-    const splitOptions = nodeText.split("+");
+    let splitOptions = nodeText.split("+");
 
-    //This code allows user to include +energy in addition to just energy
+    //This code allows user to include +energy such as: +1
     const plus_check = splitOptions.indexOf("");
     if (plus_check !== -1) {
       splitOptions.splice(plus_check, 1);
@@ -1667,9 +1676,31 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
       nodeClass = "energy";
     }
 
+    //This code allows the user to include +energy in this way too: energy(+1)
+    if (nodeText.includes("energy(+")) {
+      let findInd = splitOptions.indexOf("energy(");
+      if (splitOptions.length > 2) {
+        // Multioption
+        splitOptions[findInd] = "+" + splitOptions[findInd + 1];
+        splitOptions[findInd] = splitOptions[findInd].substring(
+          0,
+          splitOptions[findInd].length - 1
+        );
+      } else {
+        // Single Option
+        splitOptions[findInd] = "bonus" + splitOptions[findInd] + splitOptions[findInd + 1];
+      }
+      splitOptions.splice(findInd + 1, 1);
+    }
+
     if (splitOptions.length === 1) {
       //It's just a single item
       const option = splitOptions[0].split("(")[0];
+
+      if (pnDebug) {
+        console.log("Single Option: " + option + " with " + splitOptions[0]);
+      }
+
       switch (option) {
         case "push": {
           const matches = regExp.exec(splitOptions[0]);
@@ -1700,8 +1731,17 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
         case "energy": {
           const matches = regExp.exec(splitOptions[0]);
           const num = matches[1];
-          inner = inner = "<energy-icon><value>" + num + "</value></energy-icon>";
+          inner = "<energy-icon><value>" + num + "</value></energy-icon>";
           subText = num;
+          addEnergyRing = true;
+          addIconShadow = false;
+          break;
+        }
+        case "bonusenergy": {
+          const matches = regExp.exec(splitOptions[0]);
+          const num = matches[1];
+          inner = "<energy-icon><value>+" + num + "</value></energy-icon>";
+          subText = "+" + num + " Energy";
           addEnergyRing = true;
           addIconShadow = false;
           break;
@@ -1709,7 +1749,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
         case "plays": {
           const matches = regExp.exec(splitOptions[0]);
           const num = matches[1];
-          inner = inner = "<card-icon><value>" + num + "</value></card-icon>";
+          inner = "<card-icon><value>" + num + "</value></card-icon>";
           subText = num;
           addEnergyRing = false;
           addIconShadow = false;
@@ -1834,6 +1874,10 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
       }
     } else {
       //It's multiple items
+      if (pnDebug) {
+        console.log("Multiple Items: ");
+        console.log(splitOptions);
+      }
       subText = "";
 
       // Find unique names and report multiples
@@ -2021,10 +2065,10 @@ function IconName(str, iconNum = 1) {
       subText = "Your Presence";
       break;
     case "energy":
-      subText = iconNum + " Energy";
+      subText = num + " Energy";
       break;
     case "plays":
-      subText = iconNum + " Card Play" + plural;
+      subText = num + " Card Play" + plural;
       break;
     case "elements":
       subText = Capitalise(num) + " OR " + Capitalise(txt);
@@ -2033,7 +2077,7 @@ function IconName(str, iconNum = 1) {
       subText = "Gain Power Card";
       break;
     case "gain-card-play":
-      subText = "Gain a Card Play";
+      subText = "+1 Card Play/Turn";
       break;
     case "reclaim-all":
       subText = "Reclaim Cards";
