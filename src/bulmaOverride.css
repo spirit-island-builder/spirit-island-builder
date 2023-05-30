@@ -124,4 +124,5 @@ ion-icon {
 .is-power-cards > section {
   flex: 50%;
   flex-grow: 0;
+  padding-right: 5px;
 }
