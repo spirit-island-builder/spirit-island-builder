@@ -396,31 +396,31 @@ div.description {
   margin-bottom: -7px;
 }
 
-.description icon.sun {
+innate-power icon.sun {
   background-image: url(../../images/board/element_simple_sun.png);
 }
-.description icon.earth {
+innate-power icon.earth {
   background-image: url(../../images/board/element_simple_earth.png);
 }
-.description icon.plant {
+innate-power icon.plant {
   background-image: url(../../images/board/element_simple_plant.png);
 }
-.description icon.fire {
+innate-power icon.fire {
   background-image: url(../../images/board/element_simple_fire.png);
 }
-.description icon.air {
+innate-power icon.air {
   background-image: url(../../images/board/element_simple_air.png);
 }
-.description icon.moon {
+innate-power icon.moon {
   background-image: url(../../images/board/element_simple_moon.png);
 }
-.description icon.animal {
+innate-power icon.animal {
   background-image: url(../../images/board/element_simple_animal.png);
 }
-.description icon.water {
+innate-power icon.water {
   background-image: url(../../images/board/element_simple_water.png);
 }
-.description icon.any {
+innate-power icon.any {
   background-image: url(../../images/board/element_simple_any.png);
 }
 

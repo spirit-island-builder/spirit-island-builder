@@ -164,9 +164,224 @@
     Lib.nextNode(event);
   }
 
+  function selectNode(event) {
+    Lib.selectNode(event);
+  }
+
   const elements = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
 </script>
 
+<div class="is-power-cards">
+  {#each powerCards.cards as card, i (card.id)}
+    <Section
+      title={`Power Card ${i + 1}: ${card.name}`}
+      bind:isVisible={card.isVisible}
+      style="width:50%">
+      <div class="field mt-2">
+        <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
+          >{`Power Card ${i + 1}`}</label>
+        <div class="is-flex is-flex-direction-row">
+          <div class="control" style="width:100%">
+            <input
+              id={`cardName${i}`}
+              class="input"
+              type="text"
+              placeholder="Power Name"
+              on:blur={updatePowerName(card, i, "name")}
+              on:keyup={nextNode}
+              on:focus={selectNode}
+              bind:value={card.name} />
+          </div>
+          <button class="button is-primary is-light is-warning" on:click={removePowerCard(i)}
+            >Remove Power Card</button>
+        </div>
+      </div>
+      <div class="field has-addons mt-2 mb-0">
+        <div class="field has-addons mr-2">
+          <label class="label is-unselectable mr-1 mt-1" for="">Cost: </label>
+          <div class="control">
+            <input
+              id={`cardCost${i}`}
+              class="input"
+              style="width:3rem; text-align:center;"
+              type="text"
+              placeholder="Cost"
+              on:blur={updatePowerName(card, i, "cost")}
+              on:keyup={nextNode}
+              on:focus={selectNode}
+              bind:value={card.cost} />
+          </div>
+        </div>
+        <div class="field has-addons">
+          <label class="label is-unselectable mr-1 mt-1" for="">Elements: </label>
+          {#each elements as element}
+            <button
+              class="element-toggle"
+              aria-pressed={card.powerElements[element]}
+              on:click={toggleElement(card, element)}>
+              <img
+                src="/template/_global/images/board/element_simple_{element}.png"
+                alt={element} />
+            </button>
+          {/each}
+        </div>
+      </div>
+      <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
+        <div class="is-flex is-flex-direction-column-reverse">
+          <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+            {#if card.speed === ""}
+              <button
+                class="button is-danger is-light button-hold mb-0"
+                id="fast-button"
+                on:click={setSpeedTextbox("Fast", card)}>Fast</button>
+              <button
+                class="button is-info is-light button-hold mb-0"
+                id="slow-button"
+                on:click={setSpeedTextbox("Slow", card)}>Slow</button>
+            {:else if card.speed === "Fast" || card.speed === "fast"}
+              <button
+                class="button is-danger button-hold mb-0"
+                id="fast-button"
+                on:click={setSpeedTextbox("Fast", card)}>Fast</button>
+              <button
+                class="button is-info is-light button-hold mb-0"
+                id="slow-button"
+                on:click={setSpeedTextbox("Slow", card)}>Slow</button>
+            {:else}
+              <button
+                class="button is-danger is-light button-hold mb-0"
+                id="fast-button"
+                on:click={setSpeedTextbox("Fast", card)}>Fast</button>
+              <button
+                class="button is-info button-hold mb-0"
+                id="slow-button"
+                on:click={setSpeedTextbox("Slow", card)}>Slow</button>
+            {/if}
+          </div>
+          <label class="label is-unselectable" for="">Speed</label>
+        </div>
+        <div class="is-flex is-flex-direction-column-reverse">
+          <div class="control">
+            <input
+              id={`cardRange${i}`}
+              class="input"
+              type="text"
+              placeholder="Range"
+              on:keyup={nextNode}
+              on:blur={updatePowerName(card, i, "range")}
+              on:focus={selectNode}
+              bind:value={card.range} />
+          </div>
+          <label class="label is-unselectable" for="">Range</label>
+        </div>
+        <div class="is-flex is-flex-direction-column-reverse is-flex-wrap-nowrap">
+          <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+            <div class="control">
+              <AutoComplete
+                id={`cardTarget${i}`}
+                elementType="input"
+                placeholder="Target"
+                validAutoCompleteValues={iconValuesSorted}
+                additionalOnBlurFunction={() => updatePowerName(card, i, "target")}
+                bind:value={card.target} />
+            </div>
+          </div>
+          <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
+            <label class="label is-unselectable mr-1 mb-0 pt-2" for="">Target</label>
+            <div
+              class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 is-align-items-flex-end">
+              {#if card.targetTitle === ""}
+                <button
+                  class="button is-success is-light is-small mb-0"
+                  on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
+                <button
+                  class="button is-success is-light is-small mb-0"
+                  on:click={setTargetTextbox("Target", card)}>Target</button>
+              {:else if card.targetTitle === "target" || card.targetTitle === "Target"}
+                <button
+                  class="button is-success is-light is-small mb-0"
+                  on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
+                <button
+                  class="button is-success is-small mb-0"
+                  on:click={setTargetTextbox("Target", card)}>Target</button>
+              {:else}
+                <button
+                  class="button is-success is-small mb-0"
+                  on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
+                <button
+                  class="button is-success is-light is-small mb-0"
+                  on:click={setTargetTextbox("Target", card)}>Target</button>
+              {/if}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="control">
+        <AutoComplete
+          id={`cardRules${i}`}
+          elementType="textarea"
+          placeholder="Rules"
+          validAutoCompleteValues={iconValuesSorted}
+          additionalOnBlurFunction={() => updatePowerName(card, i, "rules")}
+          bind:value={card.rules} />
+      </div>
+      <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-2">
+        {#if card.hasThreshold}
+          <div class="field has-addons mr-2 mb-0">
+            <label class="label is-unselectable mr-2 mb-0 mt-1" for="">Threshold:</label>
+            <input
+              id={`powerThresholdCondition${i}`}
+              class="input is-small mr-3"
+              style="width:35%"
+              type="text"
+              placeholder="Elemental Conditions"
+              on:blur={updatePowerName(card, i, "thresholdCondition")}
+              bind:value={card.thresholdCondition} />
+            <label class="label is-unselectable mr-2 mb-0 mt-1" style="min-width:7rem" for=""
+              >Custom Text:</label>
+            <input
+              id={`powerCustomText${i}`}
+              class="input is-small"
+              type="text"
+              placeholder="use if an alternative to 'IF YOU HAVE' is desired"
+              on:blur={updateCustomThresholdText(card, i, "thresholdText")}
+              bind:value={card.thresholdText} />
+          </div>
+          <AutoComplete
+            id={`cardRules${i}`}
+            elementType="textarea"
+            placeholder="Threshold Effect"
+            validAutoCompleteValues={iconValuesSorted}
+            additionalOnBlurFunction={() => updatePowerName(card, i, "threshold")}
+            bind:value={card.threshold} />
+          <button class="button is-warning is-light mb-0" on:click={clearThreshold(card)}
+            >Clear Power Threshold</button>
+        {:else}
+          <button class="button is-success is-light mb-0" on:click={addThreshold(card)}
+            >Add Power Threshold</button>
+        {/if}
+      </div>
+      <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-4">
+        <div class="field has-addons mr-2 ml-1">
+          <ImageInput id="cardArt{i}" title="Card Art:&nbsp;" bind:imageURL={card.cardImage} />
+          <label class="label is-unselectable mr-1" for="">Artist: </label>
+          <div class="control mr-2">
+            <input
+              id={`cardArtist${i}`}
+              class="input is-small"
+              type="text"
+              placeholder="Artist"
+              bind:value={card.cardArtist} />
+          </div>
+        </div>
+      </div>
+      <hr />
+    </Section>
+  {/each}
+</div>
+<div class="pt-1 pb-2">
+  <button class="button is-primary is-light" on:click={addEmptyPowerCard}>Add Power Card</button>
+</div>
 <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap mb-0">
   <div class="field has-addons mr-3 ml-1">
     <label class="label is-unselectable mr-1" for="">Spirit or Card Set Name: </label>
@@ -180,207 +395,6 @@
         bind:value={powerCards.spiritName} />
     </div>
   </div>
-</div>
-{#each powerCards.cards as card, i (card.id)}
-  <Section title={`Power Card ${i + 1}: ${card.name}`} bind:isVisible={card.isVisible}>
-    <div class="field mt-2">
-      <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
-        >{`Power Card ${i + 1}`}</label>
-      <div class="is-flex is-flex-direction-row">
-        <div class="control" style="width:100%">
-          <input
-            id={`cardName${i}`}
-            class="input"
-            type="text"
-            placeholder="Power Name"
-            on:blur={updatePowerName(card, i, "name")}
-            on:keyup={nextNode}
-            bind:value={card.name} />
-        </div>
-        <button class="button is-primary is-light is-warning" on:click={removePowerCard(i)}
-          >Remove Power Card</button>
-      </div>
-    </div>
-    <div class="field has-addons mt-2 mb-0">
-      <div class="field has-addons mr-2">
-        <label class="label is-unselectable mr-1 mt-1" for="">Cost: </label>
-        <div class="control">
-          <input
-            id={`cardCost${i}`}
-            class="input"
-            style="width:3rem; text-align:center;"
-            type="text"
-            placeholder="Cost"
-            on:blur={updatePowerName(card, i, "cost")}
-            on:keyup={nextNode}
-            bind:value={card.cost} />
-        </div>
-      </div>
-      <div class="field has-addons">
-        <label class="label is-unselectable mr-1 mt-1" for="">Elements: </label>
-        {#each elements as element}
-          <button
-            class="element-toggle"
-            aria-pressed={card.powerElements[element]}
-            on:click={toggleElement(card, element)}>
-            <img src="/template/_global/images/board/element_simple_{element}.png" alt={element} />
-          </button>
-        {/each}
-      </div>
-    </div>
-    <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
-      <div class="is-flex is-flex-direction-column-reverse">
-        <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-          {#if card.speed === ""}
-            <button
-              class="button is-danger is-light button-hold mb-0"
-              id="fast-button"
-              on:click={setSpeedTextbox("Fast", card)}>Fast</button>
-            <button
-              class="button is-info is-light button-hold mb-0"
-              id="slow-button"
-              on:click={setSpeedTextbox("Slow", card)}>Slow</button>
-          {:else if card.speed === "Fast" || card.speed === "fast"}
-            <button
-              class="button is-danger button-hold mb-0"
-              id="fast-button"
-              on:click={setSpeedTextbox("Fast", card)}>Fast</button>
-            <button
-              class="button is-info is-light button-hold mb-0"
-              id="slow-button"
-              on:click={setSpeedTextbox("Slow", card)}>Slow</button>
-          {:else}
-            <button
-              class="button is-danger is-light button-hold mb-0"
-              id="fast-button"
-              on:click={setSpeedTextbox("Fast", card)}>Fast</button>
-            <button
-              class="button is-info button-hold mb-0"
-              id="slow-button"
-              on:click={setSpeedTextbox("Slow", card)}>Slow</button>
-          {/if}
-        </div>
-        <label class="label is-unselectable" for="">Speed</label>
-      </div>
-      <div class="is-flex is-flex-direction-column-reverse">
-        <div class="control">
-          <input
-            id={`cardRange${i}`}
-            class="input"
-            type="text"
-            placeholder="Range"
-            on:keyup={nextNode}
-            on:blur={updatePowerName(card, i, "range")}
-            bind:value={card.range} />
-        </div>
-        <label class="label is-unselectable" for="">Range</label>
-      </div>
-      <div class="is-flex is-flex-direction-column-reverse is-flex-wrap-nowrap">
-        <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-          <div class="control">
-            <AutoComplete
-              id={`cardTarget${i}`}
-              elementType="input"
-              placeholder="Target"
-              validAutoCompleteValues={iconValuesSorted}
-              additionalOnBlurFunction={() => updatePowerName(card, i, "target")}
-              bind:value={card.target} />
-          </div>
-        </div>
-        <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
-          <label class="label is-unselectable mr-1 mb-0 pt-2" for="">Target</label>
-          <div
-            class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 is-align-items-flex-end">
-            {#if card.targetTitle === ""}
-              <button
-                class="button is-success is-light is-small mb-0"
-                on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
-              <button
-                class="button is-success is-light is-small mb-0"
-                on:click={setTargetTextbox("Target", card)}>Target</button>
-            {:else if card.targetTitle === "target" || card.targetTitle === "Target"}
-              <button
-                class="button is-success is-light is-small mb-0"
-                on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
-              <button
-                class="button is-success is-small mb-0"
-                on:click={setTargetTextbox("Target", card)}>Target</button>
-            {:else}
-              <button
-                class="button is-success is-small mb-0"
-                on:click={setTargetTextbox("Target Land", card)}>Target Land</button>
-              <button
-                class="button is-success is-light is-small mb-0"
-                on:click={setTargetTextbox("Target", card)}>Target</button>
-            {/if}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="control">
-      <AutoComplete
-        id={`cardRules${i}`}
-        elementType="textarea"
-        placeholder="Rules"
-        validAutoCompleteValues={iconValuesSorted}
-        additionalOnBlurFunction={() => updatePowerName(card, i, "rules")}
-        bind:value={card.rules} />
-    </div>
-    <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-2">
-      {#if card.hasThreshold}
-        <div class="field has-addons mr-2 mb-0">
-          <label class="label is-unselectable mr-2 mb-0 mt-1" for="">Threshold:</label>
-          <input
-            id={`powerThresholdCondition${i}`}
-            class="input is-small mr-3"
-            style="width:35%"
-            type="text"
-            placeholder="Elemental Conditions"
-            on:blur={updatePowerName(card, i, "thresholdCondition")}
-            bind:value={card.thresholdCondition} />
-          <label class="label is-unselectable mr-2 mb-0 mt-1" style="min-width:7rem" for=""
-            >Custom Text:</label>
-          <input
-            id={`powerCustomText${i}`}
-            class="input is-small"
-            type="text"
-            placeholder="use if an alternative to 'IF YOU HAVE' is desired"
-            on:blur={updateCustomThresholdText(card, i, "thresholdText")}
-            bind:value={card.thresholdText} />
-        </div>
-        <AutoComplete
-          id={`cardRules${i}`}
-          elementType="textarea"
-          placeholder="Threshold Effect"
-          validAutoCompleteValues={iconValuesSorted}
-          additionalOnBlurFunction={() => updatePowerName(card, i, "threshold")}
-          bind:value={card.threshold} />
-        <button class="button is-warning is-light mb-0" on:click={clearThreshold(card)}
-          >Clear Power Threshold</button>
-      {:else}
-        <button class="button is-success is-light mb-0" on:click={addThreshold(card)}
-          >Add Power Threshold</button>
-      {/if}
-    </div>
-    <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-4">
-      <div class="field has-addons mr-2 ml-1">
-        <label class="label is-unselectable mr-1" for="">Artist: </label>
-        <div class="control mr-2">
-          <input
-            id={`cardArtist${i}`}
-            class="input is-small"
-            type="text"
-            placeholder="Artist"
-            bind:value={card.cardArtist} />
-        </div>
-        <ImageInput id="cardArt{i}" title="Card Art" bind:imageURL={card.cardImage} />
-      </div>
-    </div>
-    <hr />
-  </Section>
-{/each}
-<div class="pt-1 pb-2">
-  <button class="button is-primary is-light" on:click={addEmptyPowerCard}>Add Power Card</button>
 </div>
 <Section title={`Card Back`} bind:isVisible={powerCards.cardBackImageIsVisible}>
   <ImageInput
