@@ -3,11 +3,12 @@
 </script>
 
 <footer>
-  See <a href={instructionsURL} target="_blank" rel="noreferrer">Instructions</a>
-  for details on how to use the form. For custom art,
-  <a href="https://www.wombo.art/" target="_blank" rel="noreferrer">Wombo</a>
-  (unaffiliated) is a popular art generator.
-  <span class="is-pulled-right"
+  Welcome to the Spirit Island Builder! See <a
+    href={instructionsURL}
+    target="_blank"
+    rel="noreferrer">Instructions</a>
+  for details on how to use the application. The Examples (blue button above) are helpful.
+  <span class="is-pulled-right has-text-right"
     >Code for this project is hosted <a
       href="https://github.com/neubee/spirit-island-builder"
       target="_blank"
@@ -19,11 +20,11 @@
           .VITE_COMMIT_SHA}"
         target="_blank"
         rel="noreferrer">{import.meta.env.VITE_COMMIT_SHA.substring(0, 8)}</a
-      >){/if}.</span>
-  <br />This is an unofficial website. Interface created by Neubee & Resonant. The Spirit Island
-  Builder is adapted from
-  <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
-  developed by Spirit Island fanbase. All materials belong to Greater Than Games, LLC.
+      >){/if}.<br />Developed by Resonant, Neubee, and Tom. The Spirit Island Builder is adapted
+    from
+    <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
+    created by Spirit Island fanbase.</span>
+  <br />This is an unofficial website. All materials belong to Greater Than Games, LLC.
 </footer>
 
 <style>

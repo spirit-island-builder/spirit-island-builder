@@ -114,3 +114,15 @@ ion-icon {
 .note a:hover {
   text-decoration-style: solid;
 }
+
+.is-power-cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.is-power-cards > section {
+  flex: 50%;
+  flex-grow: 0;
+  padding-right: 5px;
+}
