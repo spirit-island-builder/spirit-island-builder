@@ -10,6 +10,7 @@ window.takeScreenshot = async (elementName, scale = 1) => {
   let canvas = await html2canvas(element, {
     allowTaint: true,
     scale: scale,
+    backgroundColor: null,
   });
   return canvas.toDataURL();
 };
