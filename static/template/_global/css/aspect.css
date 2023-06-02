@@ -203,6 +203,7 @@ aspect-container level .description {
 aspect-back {
   width: 786px;
   height: 567px;
+  border-radius: 22px;
   display: flex;
   position: relative;
 }
@@ -211,6 +212,7 @@ aspect-overlay {
   width: 786px;
   height: 567px;
   display: flex;
+  border-radius: 22px;
   position: relative;
 
   background-image: url("../images/aspect-back.png");
