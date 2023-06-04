@@ -34,12 +34,12 @@ body {
 
 aspect {
   overflow: hidden;
-  width: 682px;
-  height: 488px;
-  padding: 22px 22px 22px 22px;
+  width: 786px;
+  height: 567px;
+  padding: 27px 25px 23px 27px;
   border-radius: 22px;
   background-image: url("../images/aspect.png");
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: top left;
   background-repeat: no-repeat;
   display: flex;
@@ -48,9 +48,9 @@ aspect {
 }
 
 aspect.profile {
-  width: 488px;
-  height: 682px;
-  padding: 16px 15px 20px 15px;
+  width: 567px;
+  height: 786px;
+  padding: 19px 16px 24px 19px;
   background-image: url("../images/aspect-profile.png");
 }
 
@@ -59,27 +59,31 @@ aspect.round-border {
 }
 
 aspect aspect-name {
-  font-size: 30px;
+  font-size: 34px;
   font-family: "Name Headings";
   text-transform: uppercase;
   color: white;
   padding-bottom: 8px;
-  align-items: center;
-  justify-content: center;
+  padding-top: 0px;
   text-align: center;
   white-space: normal;
+  letter-spacing: 1px;
 }
 
 aspect aspect-name.has-complexity,
 aspect aspect-subtext.has-complexity {
-  padding-right: 25%;
-  padding-left: 3.5%;
+  padding-right: 107px;
 }
 
 aspect.profile aspect-name.has-complexity,
 aspect.profile aspect-subtext.has-complexity {
-  padding-right: 25%;
-  padding-left: 3%;
+  padding-right: 109px;
+}
+
+aspect.profile aspect-name.has-complexity,
+aspect.profile aspect-subtext.has-complexity {
+  /* padding-right: 91px;
+  padding-left: 28px; */
 }
 
 aspect complexity {
@@ -87,17 +91,17 @@ aspect complexity {
   background-position: center;
   background-size: contain;
   width: 122px;
-  height: 76px;
-  top: 32px;
+  height: 87px;
+  top: 33px;
   position: absolute;
-  right: 8px;
+  right: 17px;
   display: flex;
   filter: drop-shadow(2px 2px 5px);
 }
 
 aspect.profile complexity {
-  top: 26px;
-  right: -1px;
+  top: 24px;
+  right: 10px;
 }
 
 aspect-subtext icon {
@@ -116,15 +120,15 @@ complexity.down {
 
 aspect aspect-subtext {
   padding-top: 7px;
-  padding-left: 21px;
-  padding-right: 21px;
+  padding-left: 26px;
+  padding-right: 22px;
   font-size: 20px;
   font-family: JosefinSans-Regular;
   color: white;
 
-  width: 106.3%;
-  margin-left: -20px;
-  margin-right: -3px;
+  width: 782px;
+  margin-left: -25px;
+  margin-right: 19px;
 
   align-items: center;
   justify-content: center;
@@ -141,13 +145,22 @@ aspect aspect-subtext {
 }
 
 aspect.profile aspect-subtext {
-  width: 106.7%;
-  margin-left: -15px;
+  width: 567px;
+  margin-left: -19px;
   padding-top: 3px;
 }
 
+aspect aspect-subtext.has-complexity {
+  padding-right: 133px;
+}
+
+aspect.profile aspect-subtext.has-complexity {
+  padding-left: 22px;
+  padding-right: 131px;
+}
+
 aspect-container {
-  padding: 15px 10px 10px 10px;
+  padding: 18px 10px 10px 15px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -188,16 +201,18 @@ aspect-container level .description {
 }
 
 aspect-back {
-  width: 682px;
-  height: 488px;
+  width: 786px;
+  height: 567px;
+  border-radius: 22px;
   display: flex;
   position: relative;
 }
 
 aspect-overlay {
-  width: 682px;
-  height: 488px;
+  width: 786px;
+  height: 567px;
   display: flex;
+  border-radius: 22px;
   position: relative;
 
   background-image: url("../images/aspect-back.png");
@@ -213,8 +228,8 @@ aspect-back .overlay {
 
 aspect-back img {
   position: absolute;
-  width: 682px;
-  height: 488px;
+  width: 786px;
+  height: 567px;
   left: 0px;
   top: 0px;
   border-radius: 22px;
@@ -223,9 +238,9 @@ aspect-back img {
 .aspect-back-title {
   position: absolute;
   left: 35px;
-  top: 28px;
-  width: 280px;
-  font-size: 30px;
+  top: 34px;
+  width: 332px;
+  font-size: 35px;
   font-family: "Name Headings";
   color: white;
   text-align: center;
@@ -233,10 +248,10 @@ aspect-back img {
 
 .aspect-back-name {
   position: absolute;
-  left: 32px;
-  top: 70px;
-  width: 290px;
-  font-size: 20px;
+  top: 77px;
+  left: 35px;
+  width: 332px;
+  font-size: 26px;
   font-family: "Name Headings";
   text-transform: uppercase;
   color: black;
@@ -257,13 +272,9 @@ aspect-back img {
 }
 
 aspect innate-power {
-  scale: 0.9;
-  transform-origin: left top;
+  /* scale: 0.9;
+  transform-origin: left top; */
   margin-left: 0px;
-}
-
-aspect innate-power-title {
-  font-size: 15pt;
 }
 
 /* aspect innate-power info-container, aspect innate-power description-container{
@@ -272,13 +283,17 @@ aspect innate-power-title {
 } */
 
 aspect special-rule {
-  font-size: 15.5pt;
+  /* font-size: 15.5pt; */
   line-height: 26px;
   padding-bottom: 21px;
   white-space: pre-line;
 }
 
 aspect special-rules-subtitle {
-  font-size: 13pt;
+  font-size: 16pt;
   padding-top: 0px;
+}
+
+aspect innate-power-title {
+  font-size: 16pt;
 }
