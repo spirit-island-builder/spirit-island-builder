@@ -1007,6 +1007,10 @@ function getGrowthActionTextAndIcons(growthAction) {
       }
       break;
     }
+    case "blank": {
+      growthAction = "custom(,text,)";
+      // intentional fallthrough
+    }
     case "custom": {
       const matches = regExpOuterParentheses.exec(growthAction);
       let customOptions = matches[1].split(",");

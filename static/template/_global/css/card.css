@@ -32,7 +32,7 @@ card {
   background: gray;
   width: 488px;
   height: 682px;
-  border-radius: 0px;
+  border-radius: 22px;
 }
 
 card.round-border {
