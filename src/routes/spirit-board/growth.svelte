@@ -217,6 +217,7 @@
     resetGroupIDs(setIndex, groupIndex);
 
     hoveringOverAction = null;
+    document.getElementById("updateButton").classList.add("is-flashy");
   }
 
   function resetGroupIDs(setIndex, groupIndex) {
