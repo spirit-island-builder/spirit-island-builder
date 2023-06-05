@@ -55,8 +55,10 @@
   background-size: contain;
   width: 12px;
   margin-right: -15px;
+  margin-left: 3px;
   background-position: center;
   z-index: 5;
+  opacity: 0.4;
 }
 
 .growth-group-handle {
@@ -70,6 +72,7 @@
   z-index: 5;
   transform: rotate(90deg);
   align-self: center;
+  margin-top: -10px;
 }
 
 .growth-group-button,
