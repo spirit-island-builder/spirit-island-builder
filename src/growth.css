@@ -15,7 +15,7 @@
   width: 1.8em;
   flex-wrap: wrap;
   align-content: center;
-  justify-content: center;
+  justify-content: space-between;
   min-height: 10rem;
   margin: 1px;
 }
@@ -48,6 +48,33 @@
   flex-direction: row;
 }
 
+.growth-action-handle {
+  cursor: move;
+  background-image: url("/template/_global/images/dragdots.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 12px;
+  margin-right: -15px;
+  margin-left: 3px;
+  background-position: center;
+  z-index: 5;
+  opacity: 0.4;
+}
+
+.growth-group-handle {
+  cursor: move;
+  background-image: url("/template/_global/images/dragdots.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 10px;
+  height: 24px;
+  background-position: center;
+  z-index: 5;
+  transform: rotate(90deg);
+  align-self: center;
+  margin-top: -10px;
+}
+
 .growth-group-button,
 .growth-set-button {
   align-self: center;
@@ -58,4 +85,13 @@
   height: 2rem;
   width: 1.5rem;
   z-index: 5;
+  margin-top: 5px;
+}
+
+.hovering {
+  border-top: rgb(0, 0, 0) 2px solid;
+}
+
+div.growth-action-container input {
+  padding-left: calc(0.75em + 8px);
 }

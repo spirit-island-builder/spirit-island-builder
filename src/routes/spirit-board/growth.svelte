@@ -5,13 +5,15 @@
   import Section from "$lib/section.svelte";
   import InstructionsLink from "$lib/instructions/link.svelte";
 
+  let hoveringOverAction;
+
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
   }
 
-  function easyReport() {
-    console.log("it ran");
-  }
+  // function easyReport() {
+  //   console.log("it ran");
+  // }
 
   function removeAllGrowthSets() {
     // "Turns off" Growth Sets, collapsing all growth groups into the first Set
@@ -163,6 +165,66 @@
     Lib.nextNode(event);
   }
 
+  function handleon(e) {
+    e.target.parentNode.setAttribute("draggable", "true");
+  }
+
+  function handleoff(e) {
+    e.target.parentNode.setAttribute("draggable", "false");
+  }
+
+  function handleoffdraggable(e) {
+    e.target.setAttribute("draggable", "false");
+  }
+
+  function dragStart(event, setIndex, groupIndex, actionIndex) {
+    // The data we want to make available when the element is dropped
+    // is the index of the action being dragged, and the index of the
+    // group and set from which it is leaving.
+    const data = { setIndex, groupIndex, actionIndex };
+    event.dataTransfer.setData("text/plain", JSON.stringify(data));
+    console.log("drag started with " + event.target.outerHTML);
+  }
+
+  function drop(event, setIndex, groupIndex, actionIndex) {
+    event.preventDefault();
+    console.log("dropping on " + event.target.outerHTML);
+    const json = event.dataTransfer.getData("text/plain");
+    const data = JSON.parse(json);
+    let dragSet = data.setIndex;
+    let dragGroup = data.groupIndex;
+    let dragAction = data.actionIndex;
+
+    // Effect is all that matters for Actions
+    let dragEffect =
+      spiritBoard.growth.growthSets[dragSet].growthGroups[dragGroup].growthActions[dragAction]
+        .effect;
+
+    // Remove the item
+    removeGrowthAction(data.setIndex, data.groupIndex, data.actionIndex);
+
+    // Splice it into its new place
+    spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.splice(
+      actionIndex,
+      0,
+      {
+        id: 999,
+        effect: dragEffect,
+      }
+    );
+
+    // Need to fix the IDs we just messed up.
+    resetGroupIDs(setIndex, groupIndex);
+
+    hoveringOverAction = null;
+  }
+
+  function resetGroupIDs(setIndex, groupIndex) {
+    // Resets IDs in a growth group
+    let resetGroup = spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions;
+    Object.keys(resetGroup).forEach((k) => (resetGroup[k].id = k));
+  }
+
   export let spiritBoard;
 </script>
 
@@ -213,6 +275,7 @@
         {#each growthSet.growthGroups as growthGroup, j (growthGroup.id)}
           <div class="growth-group">
             <div class="growth-group-title">
+              <div class="growth-group-handle" />
               <div class="label is-unselectable">Growth Group</div>
               <button class="button growth-group-button" on:click={removeGrowthGroup(i, j)}
                 >&#10006;</button>
@@ -287,8 +350,20 @@
                 </div>
               {/if}
               {#each growthGroup.growthActions as growthAction, k (growthAction.id)}
-                <div class="growth-action-container">
-                  <div class="control" on:blur={easyReport}>
+                <div
+                  class="growth-action-container"
+                  on:dragstart={(event) => dragStart(event, i, j, k)}
+                  on:dragend={handleoffdraggable}
+                  on:drop|preventDefault={(event) => drop(event, i, j, k)}
+                  on:dragover={(event) => event.preventDefault()}
+                  on:dragenter={() => (hoveringOverAction = i + "" + j + "" + k)}
+                  class:hovering={hoveringOverAction === i + "" + j + "" + k}>
+                  <div
+                    class="growth-action-handle"
+                    on:mousedown={handleon}
+                    on:mouseup={handleoff}
+                    on:dragover={(event) => event.preventDefault()} />
+                  <div class="control">
                     <AutoComplete
                       id={`growthSet${i}Group${j}Action${k}`}
                       elementType="input"
@@ -300,16 +375,28 @@
                   </div>
                   <button
                     class="button is-warning is-light row-button"
-                    on:click={updateGrowthActionLocal(i, j, k)}>&#x21bb;</button>
-                  <button class="button is-light row-button" on:click={removeGrowthAction(i, j, k)}
-                    >Remove</button>
+                    on:click={updateGrowthActionLocal(i, j, k)}
+                    on:dragover={(event) => event.preventDefault()}>&#x21bb;</button>
+                  <button
+                    class="button is-light row-button"
+                    on:click={removeGrowthAction(i, j, k)}
+                    on:dragover={(event) => event.preventDefault()}>Remove</button>
                 </div>
               {/each}
-              <div class="control">
+              <div
+                class="control"
+                class:hovering={hoveringOverAction ===
+                  i + "" + j + "" + growthGroup.growthActions.length}>
                 <button
                   id={`growthSet${i}Group${j}AddAction`}
                   class="button is-primary is-light is-small row-button"
-                  on:click={addGrowthAction(i, j)}>Add Growth Action</button>
+                  on:click={addGrowthAction(i, j)}
+                  on:drop|preventDefault={(event) =>
+                    drop(event, i, j, growthGroup.growthActions.length)}
+                  on:dragover={(event) => event.preventDefault()}
+                  on:dragenter={() =>
+                    (hoveringOverAction = i + "" + j + "" + growthGroup.growthActions.length)}
+                  >Add Growth Action</button>
               </div>
             </div>
           </div>
