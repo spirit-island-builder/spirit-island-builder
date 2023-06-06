@@ -6,6 +6,9 @@
   import InstructionsLink from "$lib/instructions/link.svelte";
 
   let hoveringOverAction;
+  let hoveringOverGroup;
+  let draggingGroup = false;
+  let draggingAction = false;
 
   function useGrowthSets() {
     spiritBoard.growth.useGrowthSets = true;
@@ -167,61 +170,132 @@
 
   function handleon(e) {
     e.target.parentNode.setAttribute("draggable", "true");
+    draggingAction = true;
+    draggingGroup = false;
   }
 
   function handleoff(e) {
     e.target.parentNode.setAttribute("draggable", "false");
+    draggingAction = false;
+    draggingGroup = false;
+  }
+
+  function handleongroup(e) {
+    e.target.parentNode.parentNode.setAttribute("draggable", "true");
+    draggingAction = false;
+    draggingGroup = true;
+    // add listener for drop event to parent
+  }
+
+  function handleoffgroup(e) {
+    e.target.parentNode.parentNode.setAttribute("draggable", "false");
+    draggingAction = false;
+    draggingGroup = false;
+    // remove listener for drop event to parent
   }
 
   function handleoffdraggable(e) {
     e.target.setAttribute("draggable", "false");
+    draggingAction = false;
+    draggingGroup = false;
   }
 
   function dragStart(event, setIndex, groupIndex, actionIndex) {
-    // The data we want to make available when the element is dropped
-    // is the index of the action being dragged, and the index of the
-    // group and set from which it is leaving.
-    const data = { setIndex, groupIndex, actionIndex };
-    event.dataTransfer.setData("text/plain", JSON.stringify(data));
-    console.log("drag started with " + event.target.outerHTML);
+    if (draggingAction) {
+      const data = { setIndex, groupIndex, actionIndex };
+      event.dataTransfer.setData("text/plain", JSON.stringify(data));
+    }
   }
 
-  function drop(event, setIndex, groupIndex, actionIndex) {
-    event.preventDefault();
-    console.log("dropping on " + event.target.outerHTML);
-    const json = event.dataTransfer.getData("text/plain");
-    const data = JSON.parse(json);
-    let dragSet = data.setIndex;
-    let dragGroup = data.groupIndex;
-    let dragAction = data.actionIndex;
+  function dropAction(event, setIndex, groupIndex, actionIndex) {
+    if (draggingAction) {
+      event.preventDefault();
+      console.log("dropping on " + event.target.outerHTML);
+      const json = event.dataTransfer.getData("text/plain");
+      const data = JSON.parse(json);
+      let dragSetIndex = data.setIndex;
+      let dragGroupIndex = data.groupIndex;
+      let dragActionIndex = data.actionIndex;
 
-    // Effect is all that matters for Actions
-    let dragEffect =
-      spiritBoard.growth.growthSets[dragSet].growthGroups[dragGroup].growthActions[dragAction]
-        .effect;
+      // Effect is all that matters for Actions
+      let dragAction =
+        spiritBoard.growth.growthSets[dragSetIndex].growthGroups[dragGroupIndex].growthActions[
+          dragActionIndex
+        ];
+      let actionClone = JSON.parse(JSON.stringify(dragAction));
 
-    // Remove the item
-    removeGrowthAction(data.setIndex, data.groupIndex, data.actionIndex);
+      // Remove the item
+      removeGrowthAction(data.setIndex, data.groupIndex, data.actionIndex);
 
-    // Splice it into its new place
-    spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.splice(
-      actionIndex,
-      0,
-      {
-        id: 999,
-        effect: dragEffect,
+      // Splice it into its new place
+      let spliceIndex = actionIndex;
+      if (
+        setIndex === dragSetIndex &&
+        groupIndex === dragGroupIndex &&
+        dragActionIndex < actionIndex
+      ) {
+        console.log("moving up within the same group, adjust the index");
+        spliceIndex--;
       }
-    );
+      spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions.splice(
+        spliceIndex,
+        0,
+        actionClone
+      );
 
-    // Need to fix the IDs we just messed up.
-    resetGroupIDs(setIndex, groupIndex);
+      // Need to fix the IDs we just messed up.
+      resetIDs(spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions);
+      // simulate a click (which is super nasty but YOLO)
+      document.getElementById("updateButton").click();
 
-    hoveringOverAction = null;
+      hoveringOverAction = null;
+    }
   }
 
-  function resetGroupIDs(setIndex, groupIndex) {
+  function dragStartGroup(event, setIndex, groupIndex) {
+    if (draggingGroup) {
+      const data = { setIndex, groupIndex };
+      event.dataTransfer.setData("text/plain", JSON.stringify(data));
+      console.log("group drag started: " + groupIndex);
+    }
+  }
+
+  function dropGroup(event, setIndex, groupIndex) {
+    if (draggingGroup) {
+      event.preventDefault();
+
+      console.log("dropping on " + groupIndex);
+      const json = event.dataTransfer.getData("text/plain");
+      const data = JSON.parse(json);
+      let dragSetIndex = data.setIndex;
+      let dragGroupIndex = data.groupIndex;
+
+      // Isolate and clone the drag group
+      let dragGroup = spiritBoard.growth.growthSets[dragSetIndex].growthGroups[dragGroupIndex];
+      let groupClone = JSON.parse(JSON.stringify(dragGroup));
+
+      // Remove the item
+      removeGrowthGroup(data.setIndex, data.groupIndex);
+
+      // Splice it into its new place
+      let spliceIndex = groupIndex;
+      if (setIndex === dragSetIndex && dragGroupIndex < groupIndex) {
+        console.log("moving up within the same set, adjust the index");
+        spliceIndex--;
+      }
+      spiritBoard.growth.growthSets[setIndex].growthGroups.splice(spliceIndex, 0, groupClone);
+
+      // Need to fix the IDs we just messed up.
+      resetIDs(spiritBoard.growth.growthSets[setIndex].growthGroups);
+      // simulate a click (which is super nasty but YOLO)
+      document.getElementById("updateButton").click();
+
+      hoveringOverGroup = null;
+    }
+  }
+
+  function resetIDs(resetGroup) {
     // Resets IDs in a growth group
-    let resetGroup = spiritBoard.growth.growthSets[setIndex].growthGroups[groupIndex].growthActions;
     Object.keys(resetGroup).forEach((k) => (resetGroup[k].id = k));
   }
 
@@ -273,9 +347,19 @@
           </div>
         {/if}
         {#each growthSet.growthGroups as growthGroup, j (growthGroup.id)}
-          <div class="growth-group">
+          <div
+            class="growth-group"
+            on:dragstart={(event) => dragStartGroup(event, i, j)}
+            on:dragend={handleoffdraggable}
+            on:drop={(event) => dropGroup(event, i, j)}
+            on:dragover={(event) => event.preventDefault()}
+            on:dragenter={() => (hoveringOverGroup = draggingGroup ? i + "" + j : null)}
+            class:hovering={hoveringOverGroup === i + "" + j}>
             <div class="growth-group-title">
-              <div class="growth-group-handle" />
+              <div
+                class="growth-group-handle"
+                on:mousedown={handleongroup}
+                on:mouseup={handleoffgroup} />
               <div class="label is-unselectable">Growth Group</div>
               <button class="button growth-group-button" on:click={removeGrowthGroup(i, j)}
                 >&#10006;</button>
@@ -354,9 +438,10 @@
                   class="growth-action-container"
                   on:dragstart={(event) => dragStart(event, i, j, k)}
                   on:dragend={handleoffdraggable}
-                  on:drop|preventDefault={(event) => drop(event, i, j, k)}
+                  on:drop|preventDefault={(event) => dropAction(event, i, j, k)}
                   on:dragover={(event) => event.preventDefault()}
-                  on:dragenter={() => (hoveringOverAction = i + "" + j + "" + k)}
+                  on:dragenter={() =>
+                    (hoveringOverAction = draggingAction ? i + "" + j + "" + k : null)}
                   class:hovering={hoveringOverAction === i + "" + j + "" + k}>
                   <div
                     class="growth-action-handle"
@@ -392,20 +477,28 @@
                   class="button is-primary is-light is-small row-button"
                   on:click={addGrowthAction(i, j)}
                   on:drop|preventDefault={(event) =>
-                    drop(event, i, j, growthGroup.growthActions.length)}
+                    dropAction(event, i, j, growthGroup.growthActions.length)}
                   on:dragover={(event) => event.preventDefault()}
                   on:dragenter={() =>
-                    (hoveringOverAction = i + "" + j + "" + growthGroup.growthActions.length)}
-                  >Add Growth Action</button>
+                    (hoveringOverAction = draggingAction
+                      ? i + "" + j + "" + growthGroup.growthActions.length
+                      : null)}>Add Growth Action</button>
               </div>
             </div>
           </div>
         {/each}
         <div class="field">
-          <div class="control">
+          <div
+            class="control"
+            class:hovering={hoveringOverGroup === i + "" + growthSet.growthGroups.length}>
             <button
               class="button is-primary is-light is-small row-button"
-              on:click={addGrowthGroup(i)}>Add Growth Group</button>
+              on:click={addGrowthGroup(i)}
+              on:drop={(event) => dropGroup(event, i, growthSet.growthGroups.length)}
+              on:dragover={(event) => event.preventDefault()}
+              on:dragenter={() =>
+                (hoveringOverGroup = draggingGroup ? i + "" + growthSet.growthGroups.length : null)}
+              >Add Growth Group</button>
           </div>
         </div>
       </div>

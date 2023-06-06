@@ -71,22 +71,26 @@ h6 {
 @-webkit-keyframes is-flashy {
   from,
   to {
-    border-color: transparent;
+    outline-color: transparent;
   }
 
   50% {
-    border-color: black;
+    outline-color: black;
+    outline-width: 2px;
+    outline-style: groove;
   }
 }
 
 @keyframes is-flashy {
   from,
   to {
-    border-color: transparent;
+    outline-color: transparent;
   }
 
   50% {
-    border-color: black;
+    outline-color: black;
+    outline-width: 2px;
+    outline-style: groove;
   }
 }
 
