@@ -1,13 +1,6 @@
-<script>
-  import { instructionsURL } from "$lib/instructions/index.svelte";
-</script>
-
 <footer>
-  Welcome to the Spirit Island Builder! See <a
-    href={instructionsURL}
-    target="_blank"
-    rel="noreferrer">Instructions</a>
-  for details on how to use the application. The Examples (blue button above) are helpful.
+  Developed by Resonant, Neubee, and Tom. Email resonant@spiritislandbuilder.com with questions,
+  comments or feedback.
   <span class="is-pulled-right has-text-right"
     >Code for this project is hosted <a
       href="https://github.com/neubee/spirit-island-builder"
@@ -20,10 +13,7 @@
           .VITE_COMMIT_SHA}"
         target="_blank"
         rel="noreferrer">{import.meta.env.VITE_COMMIT_SHA.substring(0, 8)}</a
-      >){/if}.<br />Developed by Resonant, Neubee, and Tom. The Spirit Island Builder is adapted
-    from
-    <a href="https://github.com/Gudradain/spirit-island-template" target="_blank">HTML template</a>
-    created by Spirit Island fanbase.</span>
+      >){/if}.<br /></span>
   <br />This is an unofficial website. All materials belong to Greater Than Games, LLC.
 </footer>
 

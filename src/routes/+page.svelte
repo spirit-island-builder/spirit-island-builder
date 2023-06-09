@@ -397,7 +397,12 @@
 
 <div class="body">
   <header>
-    <h1 class="title is-1 ml-5">The Spirit Island Builder</h1>
+    <div style="display:flex;align-items: baseline;flex-wrap: wrap;">
+      <h1 class="title is-1 ml-5">Spirit Island Builder</h1>
+      <h2 class="subtitle is-6 ml-5">
+        The unofficial tool for creating custom content for Spirit Island by Greater Than Games.
+      </h2>
+    </div>
     <nav class="navbar ml-5 mr-5">
       <div class="navbar-brand is-flex-wrap-wrap">
         {#each pages as [page, title]}
