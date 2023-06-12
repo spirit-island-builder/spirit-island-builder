@@ -1869,6 +1869,16 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           addEnergyRing = false;
           break;
         }
+        case "blank": {
+          const matches = regExp.exec(splitOptions[0]);
+          const numSpace = matches !== null ? matches[1] : 1;
+          ring.classList.add("blank-ring");
+          subText = "<br>";
+          subText = subText.repeat(numSpace);
+          addEnergyRing = false;
+          addIconShadow = false;
+          break;
+        }
         default: {
           const iconText = splitOptions[0];
           inner = "{" + iconText + "}";
