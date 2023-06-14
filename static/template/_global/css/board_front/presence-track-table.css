@@ -367,6 +367,10 @@ presence-node > icon.card-deep-layers {
   transform: translateX(50%);
 }
 
+ring-icon.blank-ring {
+  background-image: none;
+}
+
 ring-icon.deep-layers {
   background-image: url("../../images/board/CardPlayRing_DeepLayers.png");
 }
