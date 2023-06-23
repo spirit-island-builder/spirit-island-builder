@@ -203,6 +203,10 @@ section-title {
   line-height: 40px;
 }
 
+section-title:hover {
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
+}
+
 right {
   position: absolute;
   display: flex;
