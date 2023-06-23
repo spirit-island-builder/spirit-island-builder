@@ -53,7 +53,7 @@
       "Type": 0
     }
   },
-  "LuaScript": "elements=${elements}\nenergy=${energy}\n${thresholdText}",
+  "LuaScript": "elements=\"${elements}\"\nenergy=${energy}\n${thresholdText}",
   "LuaScriptState": { "$if": "len(thresholds)", "then": "${thresholds}", "else": "" },
   "XmlUI": ""
 }
