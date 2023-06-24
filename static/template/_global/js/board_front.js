@@ -3,7 +3,7 @@
 /* global replaceIcon */
 
 /* exported startMain */
-function startMain() {
+async function startMain() {
   console.log("CREATING SPIRIT BOARD");
 
   setupCustomIcons();
@@ -24,10 +24,20 @@ function startMain() {
   const html = board.innerHTML;
   board.innerHTML = replaceIcon(html);
 
-  setTimeout(function () {
-    dynamicResizing();
-    addImages(board);
-  }, 200);
+  // Added this so that the startMain call from preview-frame can await the async part of startMain
+  async function waitPromise(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
+
+  // This needs to be removed at some point, none of the code in here should be asynchronus and both dynamicResizing and addImages should not need to wait before they work properly. We have a race condition that works most of the time but will fail for some people.
+  await waitPromise(200);
+  dynamicResizing();
+  addImages(board);
+
+  // Returning a status so that we know that event listeners can be added
+  return 1;
 }
 
 function addImages(board) {
