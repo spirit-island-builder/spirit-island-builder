@@ -691,42 +691,42 @@
   }
 </script>
 
-<PreviewFrame id="spirit-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
-  <svelte:fragment slot="head">
-    <link href="/template/_global/css/global.css" rel="stylesheet" />
-    <link href="/template/_global/css/board_front.css" rel="stylesheet" />
-    <script type="text/javascript" src="/template/_global/js/common.js"></script>
-    <script type="text/javascript" src="/template/_global/js/board_front.js"></script>
-  </svelte:fragment>
-</PreviewFrame>
-
-<div class="field has-addons mb-2 is-flex-wrap-wrap">
-  <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
-    Examples
-  </button>
-  <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
-    Load
-  </LoadButton>
-  <button class="button is-success  mr-1" on:click={exportSpiritBoard}>Save</button>
-  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
-  <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
-  <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
-    >Update Preview</button>
-  <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
-    >Toggle Board Size</button>
-  <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  <InstructionsLink class="button is-info mr-1" anchor="spirit-board-play-side" />
-</div>
-<div class="columns mt-0 mb-1">
-  <div class="column pt-0">
+<div class="columns ml-4 mt-0 mb-1">
+  <div class="column is-one-third pt-0">
     <NameAndArt bind:spiritBoard />
     <SpecialRules bind:spiritBoard />
     <CustomIcons bind:customIcons />
-  </div>
-  <div class="column pt-0">
     <Growth bind:spiritBoard />
     <PresenceTracks bind:spiritBoard />
     <InnatePowers bind:spiritBoard />
+  </div>
+  <div class="column pt-0">
+    <PreviewFrame id="spirit-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
+      <svelte:fragment slot="head">
+        <link href="/template/_global/css/global.css" rel="stylesheet" />
+        <link href="/template/_global/css/board_front.css" rel="stylesheet" />
+        <script type="text/javascript" src="/template/_global/js/common.js"></script>
+        <script type="text/javascript" src="/template/_global/js/board_front.js"></script>
+      </svelte:fragment>
+    </PreviewFrame>
+
+    <div class="field has-addons mb-2 is-flex-wrap-wrap">
+      <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
+        Examples
+      </button>
+      <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+        Load
+      </LoadButton>
+      <button class="button is-success  mr-1" on:click={exportSpiritBoard}>Save</button>
+      <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
+      <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
+        >Update Preview</button>
+      <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
+        >Toggle Board Size</button>
+      <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+      <InstructionsLink class="button is-info mr-1" anchor="spirit-board-play-side" />
+    </div>
   </div>
 </div>
 <Examples

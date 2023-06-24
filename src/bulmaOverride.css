@@ -130,3 +130,7 @@ ion-icon {
   flex-grow: 0;
   padding-right: 5px;
 }
+
+.is-spiritBoardFront {
+  max-width: none;
+}

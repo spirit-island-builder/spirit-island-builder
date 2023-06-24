@@ -432,7 +432,7 @@
     </nav>
   </header>
   <Instructions />
-  <div class="container">
+  <div class="container" class:is-spiritBoardFront={currentPage === "spiritBoardFront"}>
     {#if currentPage === "spiritBoardFront"}
       <SpiritBoard bind:spiritBoard bind:emptySpiritBoard bind:customIcons />
     {:else if currentPage === "spiritBoardBack"}
@@ -471,5 +471,8 @@
   .container {
     /* this is constrained by the max-width set by bulma */
     width: 100vw;
+  }
+  .is-spiritBoardFront {
+    max-width: none !important;
   }
 </style>
