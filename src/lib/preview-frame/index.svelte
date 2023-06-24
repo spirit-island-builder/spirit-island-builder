@@ -43,8 +43,18 @@
     });
   };
 
-  export const startMain = () => {
-    previewIframe.contentWindow.startMain();
+  const specialRulesClickListener = () => {
+    console.log("wooooooooooooooooooow");
+    alert("special rules heading clicked");
+  };
+
+  export const startMain = async () => {
+    const status = await previewIframe.contentWindow.startMain();
+    if (status === 1) {
+      const a = previewIframe.contentDocument.getElementById("special-rules-id");
+      // A function can be passed from a parent (such as at line 697 of spirir-board/index.svelte) and used instead of specialRulesClickListener
+      a.addEventListener("click", specialRulesClickListener, false);
+    }
   };
 
   export const writeGrowthAction = (action) => {

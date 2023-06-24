@@ -91,6 +91,9 @@
     board.appendChild(specialRulesContainer);
 
     let specialRulesHeader = document.createElement("section-title");
+
+    // id added so that getElementById can be used to find the element
+    specialRulesHeader.id = "special-rules-id";
     specialRulesHeader.textContent = "SPECIAL RULES";
     specialRulesContainer.appendChild(specialRulesHeader);
     spiritBoard.specialRules.rules.forEach((rule) => {
