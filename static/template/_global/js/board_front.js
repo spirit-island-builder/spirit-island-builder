@@ -35,6 +35,7 @@ async function startMain() {
   await waitPromise(200);
   dynamicResizing();
   addImages(board);
+  tagSectionHeadings();
 
   // Returning a status so that we know that event listeners can be added
   return 1;
@@ -3158,4 +3159,20 @@ function parseSpecialRules() {
   }
 
   // <special-rules-track values="2,3,4"></special-rules-track>
+}
+
+function tagSectionHeadings() {
+  const board = document.querySelectorAll("board")[0];
+  let sectionHeadings = board.getElementsByTagName("section-title");
+  for (let j = 0; j < sectionHeadings.length; j++) {
+    let headingName = sectionHeadings[j].textContent.split(" ")[0];
+    sectionHeadings[j].id = "section-title-" + headingName.toLowerCase();
+  }
+  for (let i = 0; i < sectionHeadings.length; i++) {
+    sectionHeadings[i].addEventListener("click", reportConsole);
+  }
+}
+
+function reportConsole() {
+  console.log("report");
 }
