@@ -44,7 +44,7 @@
   }
 
   const openEditorHeading = (e) => {
-    console.log(e.target.tagName);
+    console.log(e.target);
     e.stopPropagation(); // we stop the event from propegating up to 'board', which would cause this to trigger twice
     if (e.target.tagName === "SPECIAL-RULES-CONTAINER") {
       spiritBoard.specialRules.isVisible = !spiritBoard.specialRules.isVisible;

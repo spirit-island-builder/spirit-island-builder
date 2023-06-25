@@ -48,20 +48,23 @@
   export const startMain = async () => {
     const status = await previewIframe.contentWindow.startMain();
     if (status === 1) {
-      const a = previewIframe.contentDocument.getElementsByTagName("special-rules-container")[0];
-      a.addEventListener("click", clickFunction(), false);
+      const specialRulesSectionElement =
+        previewIframe.contentDocument.getElementsByTagName("special-rules-container")[0];
+      specialRulesSectionElement.addEventListener("click", clickFunction());
 
-      const b = previewIframe.contentDocument.getElementsByTagName("growth")[0];
-      b.addEventListener("click", clickFunction(), false);
+      const growthSectionElement = previewIframe.contentDocument.getElementsByTagName("growth")[0];
+      growthSectionElement.addEventListener("click", clickFunction());
 
-      const c = previewIframe.contentDocument.getElementsByTagName("presence-tracks")[0];
-      c.addEventListener("click", clickFunction(), false);
+      const presenceSectionElement =
+        previewIframe.contentDocument.getElementsByTagName("presence-tracks")[0];
+      presenceSectionElement.addEventListener("click", clickFunction());
 
-      const d = previewIframe.contentDocument.getElementsByTagName("innate-powers")[0];
-      d.addEventListener("click", clickFunction(), false);
+      const innatePowersSectionElement =
+        previewIframe.contentDocument.getElementsByTagName("innate-powers")[0];
+      innatePowersSectionElement.addEventListener("click", clickFunction());
 
-      const f = previewIframe.contentDocument.getElementsByTagName("board")[0];
-      f.addEventListener("click", clickFunction(), false);
+      const boardElement = previewIframe.contentDocument.getElementsByTagName("board")[0];
+      boardElement.addEventListener("click", clickFunction());
     }
   };
 
