@@ -201,10 +201,12 @@ section-title {
   font-size: 25pt;
   padding-top: 10px;
   line-height: 40px;
+  pointer-events: none;
 }
 
 section-title:hover {
   text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
+  cursor: pointer;
 }
 
 right {

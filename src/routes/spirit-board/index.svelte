@@ -43,6 +43,21 @@
     customIcons.isVisible = false;
   }
 
+  const openEditorHeading = (e) => {
+    if (e.target.tagName === "SPECIAL-RULES-CONTAINER") {
+      spiritBoard.specialRules.isVisible = !spiritBoard.specialRules.isVisible;
+    }
+    if (e.target.tagName === "PRESENCE-TRACKS") {
+      spiritBoard.presenceTrack.isVisible = !spiritBoard.presenceTrack.isVisible;
+    }
+    if (e.target.tagName === "GROWTH") {
+      spiritBoard.growth.isVisible = !spiritBoard.growth.isVisible;
+    }
+    if (e.target.tagName === "INNATE-POWERS") {
+      spiritBoard.innatePowers.isVisible = !spiritBoard.innatePowers.isVisible;
+    }
+  };
+
   let previewFrame;
   let exampleModal;
 
@@ -92,8 +107,6 @@
 
     let specialRulesHeader = document.createElement("section-title");
 
-    // id added so that getElementById can be used to find the element
-    specialRulesHeader.id = "special-rules-id";
     specialRulesHeader.textContent = "SPECIAL RULES";
     specialRulesContainer.appendChild(specialRulesHeader);
     spiritBoard.specialRules.rules.forEach((rule) => {
@@ -698,13 +711,17 @@
   <div class="column is-one-third pt-0">
     <NameAndArt bind:spiritBoard />
     <SpecialRules bind:spiritBoard />
-    <CustomIcons bind:customIcons />
     <Growth bind:spiritBoard />
     <PresenceTracks bind:spiritBoard />
     <InnatePowers bind:spiritBoard />
+    <CustomIcons bind:customIcons />
   </div>
   <div class="column pt-0">
-    <PreviewFrame id="spirit-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
+    <PreviewFrame
+      id="spirit-preview"
+      bind:this={previewFrame}
+      on:hot-reload={reloadPreview}
+      clickFunction={() => openEditorHeading}>
       <svelte:fragment slot="head">
         <link href="/template/_global/css/global.css" rel="stylesheet" />
         <link href="/template/_global/css/board_front.css" rel="stylesheet" />
@@ -717,6 +734,7 @@
       <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
         Examples
       </button>
+      <InstructionsLink class="button is-info mr-1" anchor="spirit-board-play-side" />
       <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadButton>
@@ -728,7 +746,6 @@
       <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
         >Toggle Board Size</button>
       <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-      <InstructionsLink class="button is-info mr-1" anchor="spirit-board-play-side" />
     </div>
   </div>
 </div>

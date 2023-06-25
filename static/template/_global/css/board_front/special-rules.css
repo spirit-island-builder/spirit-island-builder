@@ -15,6 +15,14 @@ special-rules-container {
   position: relative;
 }
 
+special-rules-container:hover section-title {
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
+}
+
+special-rules-container:hover {
+  cursor: pointer;
+}
+
 special-rules-subtitle {
   padding-top: 21px;
   padding-bottom: 0px;
@@ -26,6 +34,7 @@ special-rules-subtitle {
   text-align: left;
   letter-spacing: -2px;
   word-spacing: 1px;
+  pointer-events: none;
 }
 
 special-rule {
@@ -37,6 +46,7 @@ special-rule {
   line-height: 29px;
   padding-bottom: 6px;
   white-space: pre-line;
+  pointer-events: none;
 }
 
 special-rule icon {

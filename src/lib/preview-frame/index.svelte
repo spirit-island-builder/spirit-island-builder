@@ -13,6 +13,8 @@
 
   import { downloadImage } from "$lib/download";
 
+  export let clickFunction = () => {};
+
   let previewIframe;
   let wrapper;
   let large = false;
@@ -43,17 +45,20 @@
     });
   };
 
-  const specialRulesClickListener = () => {
-    console.log("wooooooooooooooooooow");
-    alert("special rules heading clicked");
-  };
-
   export const startMain = async () => {
     const status = await previewIframe.contentWindow.startMain();
     if (status === 1) {
-      const a = previewIframe.contentDocument.getElementById("special-rules-id");
-      // A function can be passed from a parent (such as at line 697 of spirir-board/index.svelte) and used instead of specialRulesClickListener
-      a.addEventListener("click", specialRulesClickListener, false);
+      const a = previewIframe.contentDocument.getElementsByTagName("special-rules-container")[0];
+      a.addEventListener("click", clickFunction(), false);
+
+      const b = previewIframe.contentDocument.getElementsByTagName("growth")[0];
+      b.addEventListener("click", clickFunction(), false);
+
+      const c = previewIframe.contentDocument.getElementsByTagName("presence-tracks")[0];
+      c.addEventListener("click", clickFunction(), false);
+
+      const d = previewIframe.contentDocument.getElementsByTagName("innate-powers")[0];
+      d.addEventListener("click", clickFunction(), false);
     }
   };
 
