@@ -331,7 +331,8 @@
     <div class="growth-set">
       {#if spiritBoard.growth.useGrowthSets}
         <div class="growth-set-title">
-          <div class="label is-unselectable">Growth Set</div>
+          <div />
+          <div class="label is-unselectable">Set {i + 1}</div>
           <button class="button growth-set-button" on:click={removeGrowthSet(i)}>&#10006;</button>
         </div>
       {/if}
@@ -360,7 +361,7 @@
                 class="growth-group-handle"
                 on:mousedown={handleongroup}
                 on:mouseup={handleoffgroup} />
-              <div class="label is-unselectable">Growth Group</div>
+              <div class="label is-unselectable">Group {j + 1}</div>
               <button class="button growth-group-button" on:click={removeGrowthGroup(i, j)}
                 >&#10006;</button>
             </div>
