@@ -3168,11 +3168,4 @@ function tagSectionHeadings() {
     let headingName = sectionHeadings[j].textContent.split(" ")[0];
     sectionHeadings[j].id = "section-title-" + headingName.toLowerCase();
   }
-  for (let i = 0; i < sectionHeadings.length; i++) {
-    sectionHeadings[i].addEventListener("click", reportConsole);
-  }
-}
-
-function reportConsole() {
-  console.log("report");
 }
