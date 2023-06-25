@@ -59,6 +59,9 @@
 
       const d = previewIframe.contentDocument.getElementsByTagName("innate-powers")[0];
       d.addEventListener("click", clickFunction(), false);
+
+      const f = previewIframe.contentDocument.getElementsByTagName("board")[0];
+      f.addEventListener("click", clickFunction(), false);
     }
   };
 
