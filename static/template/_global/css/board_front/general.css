@@ -48,6 +48,13 @@ board {
   padding-bottom: 15px;
   justify-content: end;
   flex-direction: column;
+  cursor: pointer;
+}
+
+spirit-name:hover {
+  text-shadow: -2px 2px 0 #ffffff, 2px 2px 0 #ffffff, 2px -2px 0 #ffffff, -2px -2px 0 #ffffff;
+  color: #000;
+  cursor: pointer;
 }
 
 board.round-border {
