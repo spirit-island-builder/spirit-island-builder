@@ -48,6 +48,13 @@ board {
   padding-bottom: 15px;
   justify-content: end;
   flex-direction: column;
+  cursor: pointer;
+}
+
+spirit-name:hover {
+  text-shadow: -2px 2px 0 #ffffff, 2px 2px 0 #ffffff, 2px -2px 0 #ffffff, -2px -2px 0 #ffffff;
+  color: #000;
+  cursor: pointer;
 }
 
 board.round-border {
@@ -201,6 +208,12 @@ section-title {
   font-size: 25pt;
   padding-top: 10px;
   line-height: 40px;
+  pointer-events: none;
+}
+
+section-title:hover {
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
+  cursor: pointer;
 }
 
 right {

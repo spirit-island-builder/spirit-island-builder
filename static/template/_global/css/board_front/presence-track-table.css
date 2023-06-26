@@ -28,6 +28,13 @@ presence-tracks {
   background-position: top left;
 }
 
+presence-tracks:hover section-title {
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
+}
+
+presence-tracks:hover {
+  cursor: pointer;
+}
 presence-tracks presence-title {
   margin-left: -11px;
   margin-bottom: 12px;
@@ -45,6 +52,7 @@ presence-tracks table {
   margin-left: -50px; /* adding a blank row for an image. This gives us some space. */
   border-collapse: collapse;
   position: relative;
+  pointer-events: none;
 }
 
 presence-tracks table td {

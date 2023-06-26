@@ -13,6 +13,8 @@
 
   import { downloadImage } from "$lib/download";
 
+  export let clickFunction = () => {};
+
   let previewIframe;
   let wrapper;
   let large = false;
@@ -43,8 +45,27 @@
     });
   };
 
-  export const startMain = () => {
-    previewIframe.contentWindow.startMain();
+  export const startMain = async () => {
+    const status = await previewIframe.contentWindow.startMain();
+    if (status === 1) {
+      const specialRulesSectionElement =
+        previewIframe.contentDocument.getElementsByTagName("special-rules-container")[0];
+      specialRulesSectionElement.addEventListener("click", clickFunction());
+
+      const growthSectionElement = previewIframe.contentDocument.getElementsByTagName("growth")[0];
+      growthSectionElement.addEventListener("click", clickFunction());
+
+      const presenceSectionElement =
+        previewIframe.contentDocument.getElementsByTagName("presence-tracks")[0];
+      presenceSectionElement.addEventListener("click", clickFunction());
+
+      const innatePowersSectionElement =
+        previewIframe.contentDocument.getElementsByTagName("innate-powers")[0];
+      innatePowersSectionElement.addEventListener("click", clickFunction());
+
+      const boardElement = previewIframe.contentDocument.getElementsByTagName("board")[0];
+      boardElement.addEventListener("click", clickFunction());
+    }
   };
 
   export const writeGrowthAction = (action) => {

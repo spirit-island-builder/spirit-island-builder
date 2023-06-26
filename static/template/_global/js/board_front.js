@@ -3,7 +3,7 @@
 /* global replaceIcon */
 
 /* exported startMain */
-function startMain() {
+async function startMain() {
   console.log("CREATING SPIRIT BOARD");
 
   setupCustomIcons();
@@ -24,10 +24,20 @@ function startMain() {
   const html = board.innerHTML;
   board.innerHTML = replaceIcon(html);
 
-  setTimeout(function () {
-    dynamicResizing();
-    addImages(board);
-  }, 200);
+  // Added this so that the startMain call from preview-frame can await the async part of startMain
+  async function waitPromise(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
+
+  // This needs to be removed at some point, none of the code in here should be asynchronus and both dynamicResizing and addImages should not need to wait before they work properly. We have a race condition that works most of the time but will fail for some people.
+  await waitPromise(200);
+  dynamicResizing();
+  addImages(board);
+  tagSectionHeadings();
+
+  return 1;
 }
 
 function addImages(board) {
@@ -3148,4 +3158,13 @@ function parseSpecialRules() {
   }
 
   // <special-rules-track values="2,3,4"></special-rules-track>
+}
+
+function tagSectionHeadings() {
+  const board = document.querySelectorAll("board")[0];
+  let sectionHeadings = board.getElementsByTagName("section-title");
+  for (let j = 0; j < sectionHeadings.length; j++) {
+    let headingName = sectionHeadings[j].textContent.split(" ")[0];
+    sectionHeadings[j].id = "section-title-" + headingName.toLowerCase();
+  }
 }

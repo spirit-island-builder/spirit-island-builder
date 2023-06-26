@@ -10,6 +10,13 @@ growth {
   z-index: 3;
 }
 
+growth:hover section-title {
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
+}
+growth:hover {
+  cursor: pointer;
+}
+
 growth section-title {
   margin-left: 47px;
   margin-top: -12px;
@@ -101,6 +108,7 @@ growth-table {
   padding-left: 5px;
   padding-right: 5px;
   box-sizing: border-box;
+  pointer-events: none;
 }
 
 growth-table.two-table-top {
