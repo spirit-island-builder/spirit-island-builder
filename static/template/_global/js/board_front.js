@@ -37,7 +37,6 @@ async function startMain() {
   addImages(board);
   tagSectionHeadings();
 
-  // Returning a status so that we know that event listeners can be added
   return 1;
 }
 
