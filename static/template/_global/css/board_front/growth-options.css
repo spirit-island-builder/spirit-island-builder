@@ -1499,6 +1499,10 @@ icon.custom-growth-icon {
   background-position: bottom;
 }
 
+icon.custom-growth-icon.wide-growth {
+  width: 200px;
+}
+
 /* Gaining Fear */
 growth-fear {
   background-image: url("../../images/board/fear.png");

@@ -1021,18 +1021,21 @@ function getGrowthActionTextAndIcons(growthAction) {
       growthAction = "custom(,text,)";
       // intentional fallthrough
     }
-    case "custom": {
+    case "custom":
+    case "custom-wide": {
       const matches = regExpOuterParentheses.exec(growthAction);
       let customOptions = matches[1].split(",");
       let customIcon = customOptions[1];
       let customText = customOptions[0];
+      let isWide = growthActionType === "custom-wide" ? " wide-growth" : "";
       let listIcons = "";
       if (customIcon) {
         if (customIcon === "text") {
           customIcon = "<span class='non-icon'>" + customOptions[2] + "</span>";
         } else {
           for (let i = 1; i < customOptions.length; i++) {
-            listIcons += "<icon class='" + customOptions[i] + " custom-growth-icon'></icon>";
+            listIcons +=
+              "<icon class='" + customOptions[i] + isWide + " custom-growth-icon'></icon>";
           }
           customIcon = listIcons;
         }
