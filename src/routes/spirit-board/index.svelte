@@ -44,22 +44,33 @@
   }
 
   const openEditorHeading = (e) => {
-    console.log(e.target);
+    console.log(e.target.tagName);
+    let outcome;
     e.stopPropagation(); // we stop the event from propegating up to 'board', which would cause this to trigger twice
     if (e.target.tagName === "SPECIAL-RULES-CONTAINER") {
-      spiritBoard.specialRules.isVisible = !spiritBoard.specialRules.isVisible;
+      outcome = !spiritBoard.specialRules.isVisible;
+      hideAll();
+      spiritBoard.specialRules.isVisible = outcome;
     }
     if (e.target.tagName === "PRESENCE-TRACKS") {
-      spiritBoard.presenceTrack.isVisible = !spiritBoard.presenceTrack.isVisible;
+      outcome = !spiritBoard.presenceTrack.isVisible;
+      hideAll();
+      spiritBoard.presenceTrack.isVisible = outcome;
     }
     if (e.target.tagName === "GROWTH") {
-      spiritBoard.growth.isVisible = !spiritBoard.growth.isVisible;
+      outcome = !spiritBoard.growth.isVisible;
+      hideAll();
+      spiritBoard.growth.isVisible = outcome;
     }
     if (e.target.tagName === "INNATE-POWERS") {
-      spiritBoard.innatePowers.isVisible = !spiritBoard.innatePowers.isVisible;
+      outcome = !spiritBoard.innatePowers.isVisible;
+      hideAll();
+      spiritBoard.innatePowers.isVisible = outcome;
     }
     if (e.target.tagName === "BOARD" || e.target.tagName === "SPIRIT-NAME") {
-      spiritBoard.nameAndArt.isVisible = !spiritBoard.nameAndArt.isVisible;
+      outcome = !spiritBoard.nameAndArt.isVisible;
+      hideAll();
+      spiritBoard.nameAndArt.isVisible = outcome;
     }
   };
 
