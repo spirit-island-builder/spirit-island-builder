@@ -30,6 +30,20 @@
     includeScale
     bind:imageURL={spiritBoard.nameAndArt.artPath}
     bind:imageScale={spiritBoard.nameAndArt.artScale} />
+  <!-- Artist Credits -->
+  <div class="field has-addons is-horizontal is-justify-content-left">
+    <div class="field-label is-small">
+      <label class="label" for="spiritArtistCreditInput">Artist Credit(s): </label>
+    </div>
+    <div class="control">
+      <input
+        id="spiritArtistCreditInput"
+        class="input is-small"
+        type="text"
+        placeholder="Artist credits appear in bottom left of Spirit Board"
+        bind:value={spiritBoard.nameAndArt.artistCredit} />
+    </div>
+  </div>
   <!-- Banner Art -->
   <ImageInput
     id="spiritBanner"
@@ -62,16 +76,4 @@
     includeScale
     bind:imageURL={spiritBoard.nameAndArt.combinedBannerPath}
     bind:imageScale={spiritBoard.nameAndArt.combinedBannerScaleV} />
-  <!-- Artist Credits -->
-  <div class="field">
-    <label class="label" for="spiritArtistCreditInput">Artist Credit(s)</label>
-    <div class="control">
-      <input
-        id="spiritArtistCreditInput"
-        class="input"
-        type="text"
-        placeholder="Artist credits appear in bottom left of Spirit Board"
-        bind:value={spiritBoard.nameAndArt.artistCredit} />
-    </div>
-  </div>
 </Section>
