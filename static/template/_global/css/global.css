@@ -461,9 +461,6 @@ icon.your-land {
   background-image: url("../images/board/NewIcons/Land.png");
 }
 
-icon.empower-incarna {
-  background-image: url("../images/board/NewIcons/empower-incarna.png");
-}
 icon.incarna {
   background-image: url("../images/board/NewIcons/incarna-unempower.png");
 }
@@ -472,6 +469,18 @@ icon.incarna-ember {
 }
 icon.incarna-breath {
   background-image: url("../images/board/NewIcons/incarna-breath.png");
+}
+icon.incarna-roots {
+  background-image: url("../images/board/NewIcons/incarna-roots.png");
+}
+icon.incarna-wvkd {
+  background-image: url("../images/board/NewIcons/incarna-wvkd.png");
+}
+icon.empower-incarna {
+  background-image: url("../images/board/NewIcons/empower-incarna.png");
+}
+icon.unempowered-incarna {
+  background-image: url("../images/board/NewIcons/incarna-unempower.png");
 }
 
 icon.double-gain {
