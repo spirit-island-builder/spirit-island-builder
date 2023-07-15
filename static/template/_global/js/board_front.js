@@ -1224,12 +1224,18 @@ function getGrowthActionTextAndIcons(growthAction) {
       let customIncarnaIcon = incarnaOptions[2] !== undefined ? incarnaOptions[2] : "incarna";
       switch (incarnaAction) {
         case "move":
+          if (incarnaRangeOrToken.toLocaleLowerCase() === "any") {
+            incarnaRangeOrToken = "<textvalue>ANY</textvalue>";
+          } else {
+            incarnaRangeOrToken = "<value>" + incarnaRangeOrToken + "</value>";
+          }
           growthIcons =
             '<custom-icon2><icon class="incarna ' +
             customIncarnaIcon +
-            '"></icon>{move-range-' +
+            '"></icon>' +
+            "<move-growth>" +
             incarnaRangeOrToken +
-            "}</custom-icon2>";
+            "</move-growth></custom-icon2>";
           growthText = "Move Incarna";
           break;
         case "empower":
@@ -1485,9 +1491,15 @@ function parseEnergyTrackTags() {
       isFirst = true;
     }
     firstIsMiddle = false;
-    if (nodeText.startsWith("middle")) {
+    if (nodeText.startsWith("middle") || nodeText.startsWith("bonus")) {
+      console.log("found a middle node: " + nodeText);
+      let nodeClass = "middle";
+      if (nodeText.startsWith("bonus")) {
+        console.log("adding bonus text");
+        nodeClass += " bonus";
+      }
       nodeText = regExpOuterParentheses.exec(nodeText)[1];
-      isMiddle = ' rowspan="2" class="middle"';
+      isMiddle = ' rowspan="2" class="' + nodeClass + '"';
       if (i === 0) {
         firstIsMiddle = true;
       }
@@ -1722,20 +1734,31 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
         case "push": {
           const matches = regExp.exec(splitOptions[0]);
           const moveTarget = matches[1];
+          const preposition = option === "push" ? "from" : "into";
           let moveIcons = "<div class='push'>";
           let moveText = "";
-          for (let i = 0; i < moveTarget.split(";").length; i++) {
-            moveIcons += "{" + moveTarget.split(";")[i] + "}";
-            moveText += Capitalise(moveTarget.split(";")[i]);
-            if (i < moveTarget.split(";").length - 1) {
-              moveIcons += "{backslash}";
-              moveText += "/";
+          if (moveTarget.split(";")[0].toLocaleLowerCase() === "incarna") {
+            if (moveTarget.split(";")[1]) {
+              moveIcons += '<icon class="incarna ' + moveTarget.split(";")[1] + '"></icon>';
+            } else {
+              moveIcons += "{incarna}";
             }
+            subText = Capitalise(option) + " Your Incarna";
+          } else {
+            for (let i = 0; i < moveTarget.split(";").length; i++) {
+              moveIcons += "{" + moveTarget.split(";")[i] + "}";
+              moveText += Capitalise(moveTarget.split(";")[i]);
+              if (i < moveTarget.split(";").length - 1) {
+                moveIcons += "{backslash}";
+                moveText += "/";
+              }
+            }
+            subText =
+              Capitalise(option) + " 1 " + moveText + " " + preposition + " 1 of your Lands";
           }
           moveIcons += "</div>";
-          const preposition = option === "push" ? "from" : "into";
           inner = "<icon class='push'>" + moveIcons + "</icon>";
-          subText = Capitalise(option) + " 1 " + moveText + " " + preposition + " 1 of your Lands";
+
           break;
         }
         case "gather": {
@@ -1846,7 +1869,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
             elementText += " OR ";
             elementText += Capitalise(elementList[1]);
             inner = "<element-or-wrap>" + elementIcons + "</element-or-wrap>";
-            subText = elementText + " (choose each turn)";
+            subText = elementText;
           } else {
             const iconText = matches[1];
             inner = "{" + iconText + "}";
@@ -2090,6 +2113,9 @@ function IconName(str, iconNum = 1) {
   switch (str) {
     case "presence":
       subText = "Your Presence";
+      break;
+    case "incarna":
+      subText = "Your Incarna";
       break;
     case "energy":
       subText = num + " Energy";
