@@ -1224,12 +1224,18 @@ function getGrowthActionTextAndIcons(growthAction) {
       let customIncarnaIcon = incarnaOptions[2] !== undefined ? incarnaOptions[2] : "incarna";
       switch (incarnaAction) {
         case "move":
+          if (incarnaRangeOrToken.toLocaleLowerCase() === "any") {
+            incarnaRangeOrToken = "<textvalue>ANY</textvalue>";
+          } else {
+            incarnaRangeOrToken = "<value>" + incarnaRangeOrToken + "</value>";
+          }
           growthIcons =
             '<custom-icon2><icon class="incarna ' +
             customIncarnaIcon +
-            '"></icon>{move-range-' +
+            '"></icon>' +
+            "<move-growth>" +
             incarnaRangeOrToken +
-            "}</custom-icon2>";
+            "</move-growth></custom-icon2>";
           growthText = "Move Incarna";
           break;
         case "empower":

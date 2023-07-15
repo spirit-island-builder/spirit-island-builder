@@ -221,6 +221,7 @@ growth-cell icon.incarna.add-move {
 
 growth-cell add-move-upper {
   margin-bottom: 35px;
+  width: 120px;
 }
 
 growth-cell add-move-lower {
@@ -481,6 +482,12 @@ move-growth {
   margin-top: 9px;
   margin-bottom: 0px;
   display: inline-block;
+}
+
+move-growth > textvalue {
+  font-size: 28px;
+  line-height: 28px;
+  font-family: "NAME HEADINGS";
 }
 
 growth-cell range {
