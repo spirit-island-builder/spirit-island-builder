@@ -70,6 +70,16 @@ td.middle > presence-node {
   position: relative;
 }
 
+td.middle.bonus::before {
+  content: "BONUS:";
+  font-family: "Name Headings";
+  display: block;
+  position: absolute;
+  left: 23%;
+  top: 38px;
+  font-size: 20pt;
+}
+
 td.spacer {
   width: 42px;
   display: block;

@@ -216,6 +216,7 @@ growth-cell icon.incarna {
 
 growth-cell icon.incarna.add-move {
   margin-bottom: 10px;
+  height: 52px;
 }
 
 growth-cell add-move-upper {
@@ -227,7 +228,7 @@ growth-cell add-move-lower {
   height: 33px;
   flex-direction: row;
   align-items: flex-end;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 growth-cell add-token-upper {
