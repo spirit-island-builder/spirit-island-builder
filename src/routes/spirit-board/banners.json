@@ -34,6 +34,10 @@
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-smoke.png"
       },
       {
+        "name": "Smoke Black",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-smokeblack.png"
+      },
+      {
         "name": "Blue Metal",
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-bluemetal.png"
       },

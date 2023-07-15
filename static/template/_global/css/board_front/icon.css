@@ -92,7 +92,8 @@ icon.gain-range-3 {
   width: 100px;
 }
 
-icon.resilience {
+icon.resilience,
+icon.vitality {
   background-image: url("../../images/board/NewIcons/Resilience.png");
   width: 30px;
   height: 30px;
@@ -241,6 +242,12 @@ div.push > icon {
   height: 25px;
   margin: 0px;
   padding: 0px;
+}
+
+div.push > icon.incarna {
+  height: 40px;
+  width: 50px;
+  margin-top: -10px;
 }
 
 div.push > icon.explorer {
