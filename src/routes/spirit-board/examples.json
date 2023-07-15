@@ -82,11 +82,15 @@
     "examples": [
       {
         "name": "Ember-Eyed Behemoth",
-        "url": "/template/MyCustomContent/MySpirit/Ember-Eyed_Behemoth_spiritBoard.html"
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Ember-Eyed Behemoth.html"
       },
       {
         "name": "Hearth-Vigil",
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Hearth Vigil.html"
+      },
+      {
+        "name": "Relentless Gaze",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Relentless Gaze of the Sun.html"
       }
     ]
   },
