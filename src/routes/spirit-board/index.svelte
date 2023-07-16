@@ -627,13 +627,12 @@
 
     let trackEnergy = [];
     let bonusEnergy = [];
-    let energyNodes = spiritBoard.presenceTrack.energyNodes.slice().reverse();
+    let energyNodes = spiritBoard.presenceTrack.energyNodes.slice();
     let formEnergyNodes = Array.from(
       board.getElementsByClassName("energy-track")[0].getElementsByTagName("presence-node")
-    ).reverse();
-    console.log(energyNodes);
-    console.log(formEnergyNodes);
-    let maxEnergy = 100;
+    );
+
+    let lowestEnergy = -1;
     energyNodes.forEach((node, i) => {
       let nodeEffectText = node.effect;
       let matches = regExpOuterParentheses.exec(nodeEffectText);
@@ -677,10 +676,10 @@
                 ),
               },
             });
-          } else if (namesList[j] < maxEnergy) {
-            maxEnergy = namesList[j];
+          } else if (namesList[j] > lowestEnergy) {
+            lowestEnergy = namesList[j];
             trackEnergy.push({
-              count: Number(maxEnergy),
+              count: Number(lowestEnergy),
               position: {
                 x: toFixedNumber(
                   (-(boardRect.width / boardRect.height) *
@@ -700,6 +699,9 @@
         }
       }
     });
+
+    // trackEnergy needs to be logged in reverse order by convention
+    trackEnergy.reverse();
 
     let spiritBoardJson = jsone(spiritBoardJsonTemplate, {
       guid: spiritBoard.nameAndArt.name.replaceAll(" ", "_"),
