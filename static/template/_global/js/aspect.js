@@ -37,7 +37,9 @@ function parseSubNodes(aspect) {
 
 function parseSubtexts(aspect) {
   var subtexts = aspect.getElementsByTagName("aspect-subtext");
-  if (subtexts) {
+  console.log("prase subtext");
+  console.log(subtexts);
+  if (subtexts && subtexts.length > 0) {
     if (subtexts.length > 1) {
       var finalsubtext = subtexts[0];
       for (var i = 1; i < subtexts.length; i++) {
@@ -48,6 +50,9 @@ function parseSubtexts(aspect) {
         subtexts[i].remove();
       }
     }
+  } else {
+    var title = aspect.getElementsByTagName("aspect-name")[0];
+    title.classList.add("no-subtext");
   }
 }
 
@@ -66,7 +71,9 @@ function parseComplexity(aspect) {
     var aspectNameHTML = aspect.querySelector("aspect-name");
     aspectNameHTML.classList.add("has-complexity");
     var aspectSubtextHTML = aspect.querySelector("aspect-subtext");
-    aspectSubtextHTML.classList.add("has-complexity");
+    if (aspectSubtextHTML) {
+      aspectSubtextHTML.classList.add("has-complexity");
+    }
     var complexityLevel = complexityHolder.getAttribute("value");
     var newComplexityElement = document.createElement("complexity");
     newComplexityElement.classList.add(complexityLevel);
