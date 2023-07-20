@@ -467,6 +467,7 @@ range-growth > value {
   bottom: 8px;
   left: 2px;
   position: relative;
+  text-align: center;
 }
 
 move-growth {
@@ -477,6 +478,7 @@ move-growth {
   font-size: 40px;
   line-height: 28px;
   font-family: "Antropos";
+  text-align: center;
   height: 62px;
   width: 106px;
   margin-top: 9px;
@@ -1095,11 +1097,12 @@ growth-damage {
   font-size: 20pt;
   font-weight: bold;
   display: block;
+  text-align: center;
   margin-top: -11px;
   width: 80px;
   height: 80px;
   margin-bottom: 1px;
-  margin-right: 0px;
+  margin-right: -10px;
 }
 
 growth-damage value {
@@ -1109,6 +1112,7 @@ growth-damage value {
   margin-top: 36px;
   margin-left: 0px;
   font-style: normal;
+  text-align: center;
 }
 
 growth icon.damage-1,

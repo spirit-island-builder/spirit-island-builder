@@ -293,6 +293,10 @@ info-target icon {
   margin-bottom: 0px;
 }
 
+info-target icon.terrain-double {
+  width: 60px;
+}
+
 rules-container {
   position: absolute;
   left: 108px;
