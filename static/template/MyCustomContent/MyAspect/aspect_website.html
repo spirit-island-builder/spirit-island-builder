@@ -6,17 +6,13 @@
 <body>
   <aspect>
     <aspect-name>Example aspect</aspect-name>
-    <complexity value="equal"></complexity>
+    <complexity value="up"></complexity>
     <aspect-subtext>Replaces Special Rule: <i>Some original rule</i></aspect-subtext>
     <aspect-subtext>Replaces Special Rule2: <i>Some original rule</i></aspect-subtext>  
     <aspect-container>
     
-      <special-rules-subtitle>Mountain Tome</special-rules-subtitle>
-      <special-rule>
-        In lands with your {presence}, Defend 1.
-      </special-rule>
 
-      <special-rules-subtitle>Growth</special-rules-subtitle>
+      <special-rules-subtitle>Growth in special rules</special-rules-subtitle>
       <special-rule><growth-group values="reclaim-one;gain-power-card"></growth-group></special-rule>
       
       <quick-innate-power
@@ -25,7 +21,7 @@
         range="wetland-presence,1"
         target="any {spirit}"
         target-title="TARGET LAND"
-        note="Destroy X (1 or more) of your {presence} in target land; {destroyed-presence} checks how many you destroyed. This Power does Damage (separately and equally) to both Invaders and {dahan}. Ranges below can't be increased.">
+        >
         <level threshold="1-plant">
           1 Damage per 2 {fire} you have.
         </level>
