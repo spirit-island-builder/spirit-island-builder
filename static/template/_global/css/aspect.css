@@ -71,7 +71,9 @@ aspect aspect-name {
   white-space: normal;
   letter-spacing: 1px;
 }
-
+aspect aspect-name.no-subtext {
+  padding-bottom: 28px;
+}
 aspect aspect-name.has-complexity,
 aspect aspect-subtext.has-complexity {
   padding-right: 107px;
