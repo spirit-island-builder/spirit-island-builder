@@ -1,6 +1,7 @@
 @import "global.css";
 @import "board_front/special-rules.css";
 @import "board_front/innate-power.css";
+@import "board_front/growth-options.css";
 @import "board_front/icon.css";
 
 @font-face {
@@ -18,6 +19,7 @@ body {
   margin: 0px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 14px;
+  font-variant-ligatures: none;
 }
 
 html {
@@ -298,4 +300,41 @@ aspect special-rules-subtitle {
 
 aspect innate-power-title {
   font-size: 16pt;
+}
+
+aspect growth-cell {
+  margin-right: 10px;
+  line-height: normal;
+  white-space: normal;
+}
+
+aspect growth-group icon.sun {
+  background-image: url("../images/board/Sun.png");
+}
+aspect growth-group icon.moon {
+  background-image: url("../images/board/Moon.png");
+}
+aspect growth-group icon.fire {
+  background-image: url("../images/board/Fire.png");
+}
+aspect growth-group icon.air {
+  background-image: url("../images/board/Air.png");
+}
+aspect growth-group icon.plant {
+  background-image: url("../images/board/Plant.png");
+}
+aspect growth-group icon.water {
+  background-image: url("../images/board/Water.png");
+}
+aspect growth-group icon.earth {
+  background-image: url("../images/board/Earth.png");
+}
+aspect growth-group icon.animal {
+  background-image: url("../images/board/Animal.png");
+}
+aspect growth-group icon.star {
+  background-image: url("../images/board/NewIcons/Element Star.png");
+}
+aspect growth-group icon.any {
+  background-image: url("../images/board/Any.png");
 }

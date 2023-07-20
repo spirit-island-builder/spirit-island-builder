@@ -463,7 +463,9 @@ icon.your-land {
 
 icon.incarna {
   background-image: url("../images/board/NewIcons/incarna-unempower.png");
+  filter: invert(0);
 }
+
 icon.incarna-ember {
   background-image: url("../images/board/NewIcons/incarna-ember.png");
 }

@@ -9,7 +9,7 @@ function startMain() {
     parseComplexity(aspects[i]);
     parseSubtexts(aspects[i]);
     parseSubNodes(aspects[i]);
-    parseSpecialRules();
+    parseSpecialRules(aspects[i]);
     aspects[i].innerHTML = replaceIcon(aspects[i].innerHTML);
     resizeAspect(aspects[i]);
   }
@@ -288,7 +288,27 @@ function resizeInnatePowersAspect() {
   }
 }
 
-function parseSpecialRules() {
+function parseSpecialRules(aspect) {
+  var specialRules = aspect.getElementsByTagName("special-rule");
+  for (var i = 0; i < specialRules.length; i++) {
+    let specialRule = specialRules[i];
+    console.log("special rule = " + specialRule);
+    //Check for growth groups
+    var growthGroups = specialRule.getElementsByTagName("growth-group");
+    if (growthGroups) {
+      for (var j = 0; j < growthGroups.length; j++) {
+        console.log("Writing Growth Group: " + growthGroups[j].outerHTML);
+        let tableHolder = document.createElement("growth-table");
+        tableHolder.innerHTML = writeGrowthGroup(growthGroups[j]);
+        growthGroups[j].outerHTML = tableHolder.outerHTML;
+      }
+    }
+    if (i > 10) {
+      console.log("overflow?");
+      break;
+    }
+  }
+
   // copied 12/6/22
   console.log("BUILDING SPECIAL RULES");
   const aspectContainer = document.querySelectorAll("aspect-container")[0];
