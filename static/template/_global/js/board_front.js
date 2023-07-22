@@ -1860,7 +1860,8 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           }
           break;
         }
-        case "elements": {
+        case "elements":
+        case "or": {
           const matches = regExp.exec(splitOptions[0]);
           const elementList = matches[1].split(";");
           let elementIcons = "";
