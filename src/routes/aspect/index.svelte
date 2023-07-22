@@ -104,6 +104,15 @@
       newRuleEffect.innerHTML = rule.effect;
       aspectRulesContainer.appendChild(newRuleName);
       aspectRulesContainer.appendChild(newRuleEffect);
+      if (rule.hasGrowth) {
+        let growthGroupOutput = document.createElement("growth-group");
+        let values = "";
+        rule.growthActions.forEach((growthAction) => {
+          values += growthAction.effect + ";";
+        });
+        growthGroupOutput.setAttribute("values", values.slice(0, -1));
+        newRuleEffect.appendChild(growthGroupOutput);
+      }
     });
 
     //Set Innate Powers
@@ -200,11 +209,37 @@
       aspect.aspectEffects.specialRules.rules.length
     ); //Clear the Form first
     specialRulesNames.forEach((specialRulesName, j) => {
+      console.log(specialRulesEffects[j]);
+      let ruleGrowthGroup = specialRulesEffects[j].getElementsByTagName("growth-group")[0];
+      if (ruleGrowthGroup) {
+        console.log("removing child");
+        ruleGrowthGroup = specialRulesEffects[j].removeChild(ruleGrowthGroup);
+      }
+
       aspect.aspectEffects = Lib.addSpecialRule(
         aspect.aspectEffects,
         specialRulesName.innerHTML,
         specialRulesEffects[j].innerHTML.trim()
       );
+
+      if (ruleGrowthGroup) {
+        aspect.aspectEffects.specialRules.rules[j].hasGrowth = true;
+        aspect.aspectEffects.specialRules.rules[j].growthActions = [];
+        let values = ruleGrowthGroup.getAttribute("values").split(";");
+        console.log(values);
+        values.forEach((growthValue, k) => {
+          console.log(growthValue);
+          aspect.aspectEffects.specialRules.rules[j].growthActions.push({
+            id: k,
+            effect: growthValue,
+          });
+        });
+
+        console.log(aspect);
+      } else {
+        aspect.aspectEffects.specialRules.rules[j].hasGrowth = false;
+        aspect.aspectEffects.specialRules.rules[j].growthActions = [];
+      }
       aspect = aspect;
     });
 
@@ -287,6 +322,7 @@
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/aspect.css" rel="stylesheet" />
     <script type="text/javascript" src="/template/_global/js/common.js"></script>
+    <script type="text/javascript" src="/template/_global/js/board_front.js"></script>
     <script type="text/javascript" src="/template/_global/js/aspect.js"></script>
   </svelte:fragment>
 </PreviewFrame>
