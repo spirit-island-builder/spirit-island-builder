@@ -18,6 +18,10 @@
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-greengrass.png"
       },
       {
+        "name": "Blue Water",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-bluewater.png"
+      },
+      {
         "name": "Red Lava",
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-redlava.png"
       },
@@ -36,6 +40,10 @@
       {
         "name": "Smoke Black",
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-smokeblack.png"
+      },
+      {
+        "name": "Purple Smoke",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-purplesmoke.png"
       },
       {
         "name": "Blue Metal",
