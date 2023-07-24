@@ -307,10 +307,13 @@
     <InstructionsLink anchor="growth" />
   </div>
   {#if !spiritBoard.growth.useGrowthSets}
-    <div class="control">
+    <div class="control is-flex is-justify-content-space-between">
+      <label class="label is-unselectable mr-1 mt-1 is-small" for="growthDirections"
+        >Directions:
+      </label>
       <input
         id="growthDirections"
-        class="input"
+        class="input is-small"
         type="text"
         placeholder="Growth Directions (ie. &quot;Pick Two&quot;)"
         bind:value={spiritBoard.growth.directions} />
@@ -338,10 +341,14 @@
       {/if}
       <div class="growth-set-info">
         {#if spiritBoard.growth.useGrowthSets}
-          <div class="control">
+          <div class="control is-flex is-justify-content-space-between">
+            <label class="label is-unselectable mr-1 mt-1 is-small" for={`growthSetChoice${i}`}
+              >Set Directions:
+            </label>
             <input
               id={`growthSetChoice${i}`}
-              class="input"
+              class="input is-small"
+              style="width:70%;"
               type="text"
               placeholder="Growth Set Choice ie. (PICK ONE OF)"
               bind:value={growthSet.choiceText} />
