@@ -603,10 +603,11 @@ element-or-wrap icon.presence-or-second.small {
 element-or-wrap icon.presence-or-first.small {
   margin-left: -28px;
   margin-top: 10px;
+  margin-right: -7px;
 }
 
 element-or-wrap icon.presence-or-second.small {
-  margin-left: 15px;
+  margin-left: -2px;
   margin-top: 15px;
 }
 
@@ -615,6 +616,7 @@ element-or-wrap icon.backslash.small {
   margin-left: 4px;
   width: 20px;
   height: 55px;
+  margin-bottom: -8px;
 }
 
 element-or-wrap icon.backslash {
