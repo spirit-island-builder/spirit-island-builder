@@ -263,3 +263,7 @@ div.push > icon.backslash {
 icon.push > icon.backslash {
   width: 10px;
 }
+
+icon.blank75 {
+  width: 75px;
+}
