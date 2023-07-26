@@ -1022,7 +1022,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       break;
     }
     case "blank": {
-      growthAction = "custom(,text,)";
+      growthAction = "custom(,blank75)";
       // intentional fallthrough
     }
     case "custom":
@@ -2390,7 +2390,7 @@ function growthHeadersAndTitles() {
 }
 
 function dynamicResizing() {
-  let debug = false;
+  let debug = true;
   const board = document.querySelectorAll("board")[0];
 
   console.log("RESIZING: Growth");
