@@ -4,25 +4,37 @@
 
 /* exported startMain */
 async function startMain() {
-  console.log("CREATING SPIRIT BOARD");
+  console.log("Spirit Board startMain");
+  if (document.getElementsByTagName("board")[0]) {
+    console.log("CREATING SPIRIT BOARD");
+    setupCustomIcons();
 
-  setupCustomIcons();
+    buildGrowthPanel();
 
-  buildGrowthPanel();
+    if (document.getElementById("presence-table")) {
+      enhancePresenceTracksTable();
+    } else {
+      setNewEnergyCardPlayTracks(parseEnergyTrackTags(), parseCardPlayTrackTags());
+    }
 
-  if (document.getElementById("presence-table")) {
-    enhancePresenceTracksTable();
+    parseInnatePowers();
+
+    parseSpecialRules();
+
+    const board = document.querySelectorAll("board")[0];
+    const html = board.innerHTML;
+    board.innerHTML = replaceIcon(html);
+
+    // This needs to be removed at some point, none of the code in here should be asynchronus and both dynamicResizing and addImages should not need to wait before they work properly. We have a race condition that works most of the time but will fail for some people.
+    await waitPromise(200);
+    dynamicResizing();
+    addImages(board);
+    tagSectionHeadings();
+
+    return 1;
   } else {
-    setNewEnergyCardPlayTracks(parseEnergyTrackTags(), parseCardPlayTrackTags());
+    console.log("nice try, this is not a spirit board!");
   }
-
-  parseInnatePowers();
-
-  parseSpecialRules();
-
-  const board = document.querySelectorAll("board")[0];
-  const html = board.innerHTML;
-  board.innerHTML = replaceIcon(html);
 
   // Added this so that the startMain call from preview-frame can await the async part of startMain
   async function waitPromise(ms) {
@@ -30,14 +42,6 @@ async function startMain() {
       setTimeout(resolve, ms);
     });
   }
-
-  // This needs to be removed at some point, none of the code in here should be asynchronus and both dynamicResizing and addImages should not need to wait before they work properly. We have a race condition that works most of the time but will fail for some people.
-  await waitPromise(200);
-  dynamicResizing();
-  addImages(board);
-  tagSectionHeadings();
-
-  return 1;
 }
 
 function addImages(board) {
@@ -165,7 +169,7 @@ function buildGrowthPanel() {
 }
 
 function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex = NaN) {
-  let debug = false;
+  let debug = true;
 
   console.log("--Growth Group s" + setIndex + "g" + groupIndex + "--");
   if (debug) {
@@ -1018,7 +1022,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       break;
     }
     case "blank": {
-      growthAction = "custom(,text,)";
+      growthAction = "custom(,blank75)";
       // intentional fallthrough
     }
     case "custom":
@@ -1856,7 +1860,8 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           }
           break;
         }
-        case "elements": {
+        case "elements":
+        case "or": {
           const matches = regExp.exec(splitOptions[0]);
           const elementList = matches[1].split(";");
           let elementIcons = "";
@@ -2385,7 +2390,7 @@ function growthHeadersAndTitles() {
 }
 
 function dynamicResizing() {
-  let debug = false;
+  let debug = true;
   const board = document.querySelectorAll("board")[0];
 
   console.log("RESIZING: Growth");

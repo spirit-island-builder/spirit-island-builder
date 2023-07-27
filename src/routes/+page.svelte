@@ -268,6 +268,13 @@
             id: 0,
             name: "",
             effect: "",
+            hasGrowth: false,
+            growthActions: [
+              {
+                id: 0,
+                effect: "",
+              },
+            ],
           },
         ],
       },

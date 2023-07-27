@@ -3,38 +3,50 @@
     "title": "Core and Branch & Claw Spirits",
     "examples": [
       {
+        "name": "Lightning",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Lightning's Swift Strike.html"
+      },
+      {
+        "name": "River",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_River Surges in Sunlight.html"
+      },
+      {
+        "name": "Vital Strength",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Vital Strength of the Earth.html"
+      },
+      {
+        "name": "Shadows",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Shadows Flicker Like Flame.html"
+      },
+      {
         "name": "Green",
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_A Spread of Rampant Green.html"
-      },
-      {
-        "name": "Ocean",
-        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Ocean's Hungry Grasp.html"
-      },
-      {
-        "name": "Snek",
-        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Serpent Slumbering Beneath the Island.html"
       },
       {
         "name": "Thunderspeaker",
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Thunderspeaker.html"
       },
       {
-        "name": "Wildfire",
-        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Heart of the Wildfire.html"
+        "name": "Ocean",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Ocean's Hungry Grasp.html"
+      },
+      {
+        "name": "Bringer",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Bringer of Dreams and Nightmares.html"
+      },
+      {
+        "name": "Keeper",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Keeper of the Forbidden Wilds.html"
+      },
+      {
+        "name": "Sharp Fangs",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Sharp Fangs Behind the Leaves.html"
       }
     ]
   },
   {
     "title": "Jagged Earth Spirits",
     "examples": [
-      {
-        "name": "Downpour",
-        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Downpour Drenches the World.html"
-      },
-      {
-        "name": "Finder",
-        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Finder of Paths Unseen.html"
-      },
       {
         "name": "Fractured Days",
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Fractured Days Split the Sky.html"
@@ -74,6 +86,27 @@
       {
         "name": "Spreading Rot",
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_APOCRYPHA_Spreading Rot Renews the Earth.html"
+      }
+    ]
+  },
+  {
+    "title": "Feather & Flame",
+    "examples": [
+      {
+        "name": "Downpour",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Downpour Drenches the World.html"
+      },
+      {
+        "name": "Finder",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Finder of Paths Unseen.html"
+      },
+      {
+        "name": "Snek",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Serpent Slumbering Beneath the Island.html"
+      },
+      {
+        "name": "Wildfire",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Heart of the Wildfire.html"
       }
     ]
   },

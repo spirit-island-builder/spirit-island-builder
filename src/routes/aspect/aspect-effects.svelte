@@ -1,6 +1,7 @@
 <script>
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
+  import { growthValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
   import * as Lib from "../lib";
 
@@ -50,6 +51,40 @@
     aspect = aspect;
   }
 
+  function toggleHasGrowth(rule) {
+    if (rule.hasGrowth) {
+      rule.hasGrowth = false;
+      rule.growthActions = [];
+    } else {
+      rule.hasGrowth = true;
+    }
+    console.log(rule);
+    aspect = aspect;
+  }
+
+  function addGrowthAction(rule, actionEffect = "") {
+    let focusId = "specialRule" + rule.id + "growthAction" + rule.growthActions.length;
+    rule.growthActions.push({
+      id: rule.growthActions.length,
+      effect: actionEffect,
+    });
+    //Set the focus to the Growth Action if it is visible.
+    if (aspect.aspectEffects.isVisible) {
+      setTimeout(() => {
+        document.getElementById(focusId).focus();
+      }, 100);
+    }
+    aspect = aspect;
+  }
+
+  function removeGrowthAction(rule, actionIndex) {
+    rule.growthActions.splice(actionIndex, 1);
+    rule.growthActions.forEach((growthAction, i) => {
+      growthAction.id = i;
+    });
+    aspect = aspect;
+  }
+
   function switchLong(powerIndex, levelIndex) {
     aspect.aspectEffects.innatePowers.powers[powerIndex].levels[levelIndex].isLong =
       !aspect.aspectEffects.innatePowers.powers[powerIndex].levels[levelIndex].isLong;
@@ -67,7 +102,7 @@
 
 <Section title="Aspect Effects" bind:isVisible={aspect.aspectEffects.isVisible}>
   {#each aspect.aspectEffects.specialRules.rules as rule, i (rule.id)}
-    <div class="field">
+    <div class="field mb-0">
       <label class="label is-flex is-justify-content-space-between" for={`ruleNameInputAspect${i}`}
         >Special Rule {i + 1}
       </label>
@@ -91,8 +126,38 @@
         validAutoCompleteValues={iconValuesSorted}
         bind:value={rule.effect} />
     </div>
+    <div class="control mb-2">
+      {#if rule.hasGrowth}
+        <button class="button is-warning is-small is-light" on:click={toggleHasGrowth(rule)}
+          >Remove Growth Options</button>
+        {#each rule.growthActions as growthAction, k (growthAction.id)}
+          <div class="growth-action-container">
+            <div class="control">
+              <AutoComplete
+                id={`specialRule${i}growthAction${k}`}
+                elementType="input"
+                placeholder="Growth Action"
+                showListImmediately={true}
+                validAutoCompleteValues={growthValuesSorted}
+                bind:value={growthAction.effect} />
+            </div>
+            <button class="button is-light row-button" on:click={removeGrowthAction(rule, k)}
+              >Remove</button>
+          </div>
+        {/each}
+        <div class="control">
+          <button
+            id={`specialRule${i}AddAction`}
+            class="button is-primary is-light is-small row-button"
+            on:click={addGrowthAction(rule)}>Add Growth Action</button>
+        </div>
+      {:else}
+        <button class="button is-primary is-small is-light" on:click={toggleHasGrowth(rule)}
+          >Add Growth Options to Special Rule</button>
+      {/if}
+    </div>
   {/each}
-  <div class="field">
+  <div class="field mt-2">
     <div class="control">
       <button class="button is-primary is-light" on:click={addSpecialRule}>Add Special Rule</button>
     </div>

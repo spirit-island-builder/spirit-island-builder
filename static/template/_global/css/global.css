@@ -463,7 +463,9 @@ icon.your-land {
 
 icon.incarna {
   background-image: url("../images/board/NewIcons/incarna-unempower.png");
+  filter: invert(0);
 }
+
 icon.incarna-ember {
   background-image: url("../images/board/NewIcons/incarna-ember.png");
 }
@@ -491,6 +493,10 @@ icon.double-gain::after {
   background-image: url("../images/board/EnergyBlank.png");
   width: 10px;
   height: 10px;
+}
+
+icon.blank75 {
+  background-image: url("../images/customIcons/blank75.png");
 }
 
 range {

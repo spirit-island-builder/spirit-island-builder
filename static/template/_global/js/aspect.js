@@ -9,7 +9,7 @@ function startMain() {
     parseComplexity(aspects[i]);
     parseSubtexts(aspects[i]);
     parseSubNodes(aspects[i]);
-    parseSpecialRules();
+    parseSpecialRules(aspects[i]);
     aspects[i].innerHTML = replaceIcon(aspects[i].innerHTML);
     resizeAspect(aspects[i]);
   }
@@ -37,7 +37,9 @@ function parseSubNodes(aspect) {
 
 function parseSubtexts(aspect) {
   var subtexts = aspect.getElementsByTagName("aspect-subtext");
-  if (subtexts) {
+  console.log("prase subtext");
+  console.log(subtexts);
+  if (subtexts && subtexts.length > 0) {
     if (subtexts.length > 1) {
       var finalsubtext = subtexts[0];
       for (var i = 1; i < subtexts.length; i++) {
@@ -48,6 +50,9 @@ function parseSubtexts(aspect) {
         subtexts[i].remove();
       }
     }
+  } else {
+    var title = aspect.getElementsByTagName("aspect-name")[0];
+    title.classList.add("no-subtext");
   }
 }
 
@@ -66,7 +71,9 @@ function parseComplexity(aspect) {
     var aspectNameHTML = aspect.querySelector("aspect-name");
     aspectNameHTML.classList.add("has-complexity");
     var aspectSubtextHTML = aspect.querySelector("aspect-subtext");
-    aspectSubtextHTML.classList.add("has-complexity");
+    if (aspectSubtextHTML) {
+      aspectSubtextHTML.classList.add("has-complexity");
+    }
     var complexityLevel = complexityHolder.getAttribute("value");
     var newComplexityElement = document.createElement("complexity");
     newComplexityElement.classList.add(complexityLevel);
@@ -281,7 +288,27 @@ function resizeInnatePowersAspect() {
   }
 }
 
-function parseSpecialRules() {
+function parseSpecialRules(aspect) {
+  var specialRules = aspect.getElementsByTagName("special-rule");
+  for (var i = 0; i < specialRules.length; i++) {
+    let specialRule = specialRules[i];
+    console.log("special rule = " + specialRule);
+    //Check for growth groups
+    var growthGroups = specialRule.getElementsByTagName("growth-group");
+    if (growthGroups) {
+      for (var j = 0; j < growthGroups.length; j++) {
+        console.log("Writing Growth Group: " + growthGroups[j].outerHTML);
+        let tableHolder = document.createElement("growth-table");
+        tableHolder.innerHTML = writeGrowthGroup(growthGroups[j]);
+        growthGroups[j].outerHTML = tableHolder.outerHTML;
+      }
+    }
+    if (i > 10) {
+      console.log("overflow?");
+      break;
+    }
+  }
+
   // copied 12/6/22
   console.log("BUILDING SPECIAL RULES");
   const aspectContainer = document.querySelectorAll("aspect-container")[0];
