@@ -72,6 +72,7 @@ const iconValues = [
   { label: "terror-2", value: "terror-2" },
   { label: "terror-3", value: "terror-3" },
   { label: "town", value: "town" },
+  { label: "vitality", value: "vitality" },
   { label: "water", value: "water" },
   { label: "wetland", value: "wetland" },
   { label: "wetland-presence", value: "wetland-presence" },
@@ -85,6 +86,7 @@ export const iconValuesSorted = iconValues.sort((a, b) => {
 const growthValues = [
   { label: "add-presence", value: "add-presence()" },
   { label: "add-token", value: "add-token()" },
+  { label: "blank", value: "blank()" },
   { label: "custom", value: "custom()" },
   { label: "damage", value: "damage()" },
   { label: "damage-1", value: "damage-1" },
