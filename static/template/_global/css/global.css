@@ -495,6 +495,10 @@ icon.double-gain::after {
   height: 10px;
 }
 
+icon.blank75 {
+  background-image: url("../images/customIcons/blank75.png");
+}
+
 range {
   width: 50px;
   height: 32px;

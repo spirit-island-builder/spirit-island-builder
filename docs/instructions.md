@@ -61,12 +61,12 @@ This field allows you to upload and use your own custom icons. Reference these i
 
 Growth is broken into Growth Sets, Groups, and Actions.
 
-- Growth Directions: When NOT using sets, the Growth Directions tell the player how many growth groups to pick (usually, Pick One or Pick Two). When using Sets, these instructions are instead added to the set.
+- Directions: When NOT using sets, the Growth Directions tell the player how many growth groups to pick (usually, Pick One or Pick Two). When using Sets, these instructions are instead added to the set.
 - "Use Growth Sets"/"Stop Using Growth Sets" button:
   - "Use Growth Sets" button: Adds Growth Sets to the interface. All current Growth Groups are automatically added to the first Set.
   - "Stop Using Growth Sets" button: Switches back to not using Growth Sets. All Growth Groups & Actions are preserved.
 - **Growth Sets** are *optional* and used for Growth on spirits such as Lure and Spread of Rampant Green, where the player has two sets to choose from.
-  - Growth Set Choice: This field contains instructions for the Growth Set, such as 'Pick one of' or 'Always'.
+  - Set Directions: This field contains instructions for the Growth Set, such as 'Pick one of' or 'Always'.
   - "Add Growth Set" button: Adds additional Growth Sets.
   - **X** button: Deletes the current Growth Set and all of its Growth Groups and Actions
 - **Growth Groups** are clusters of Growth Actions. During Growth, the player typically chooses a Growth Group and then does the Growth Actions in that Group.
@@ -351,7 +351,7 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
   - markerplus, markerminus: the Prepare Element Marker and Discard Element Marker (from Shifting Memory)
 - Invaders (explorer, town, city)
 - Presence (presence, sacred-site, no-presence, no-own-presence, destroyed-presence, move-presence-1, move-presence-2, move-presence-3, move-presence-4)
-- Island icons (blight, dahan, beasts, wilds, disease, strife, badlands)
+- Island icons (blight, dahan, beasts, wilds, disease, strife, badlands, vitality)
 - Fear icons (fear, terror1, terror2, terror3)
 - Land icons (sand, mountain, jungle, wetland, ocean, jungle-wetland, jungle-sand, sand-wetland, mountain-jungle, mountain-wetland, mountain-sand)
 - Power icons (fast, slow, minor, major, spirit, or)
