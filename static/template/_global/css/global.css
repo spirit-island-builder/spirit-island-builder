@@ -499,6 +499,11 @@ icon.blank75 {
   background-image: url("../images/customIcons/blank75.png");
 }
 
+icon.resilience,
+icon.vitality {
+  background-image: url("../images/board/NewIcons/Vitality.png");
+}
+
 range {
   width: 50px;
   height: 32px;
