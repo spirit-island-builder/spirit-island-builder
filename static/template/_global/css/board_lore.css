@@ -127,26 +127,7 @@ setup-description {
   margin-bottom: 10px;
 }
 
-play-style icon,
-play-style icon.fire,
-play-style icon.earth,
-play-style icon.animal,
-play-style icon.water,
-play-style icon.air,
-play-style icon.sun,
-play-style icon.plant,
-play-style icon.moon,
-play-style icon.any,
-setup-description icon,
-setup-description icon.fire,
-setup-description icon.earth,
-setup-description icon.animal,
-setup-description icon.water,
-setup-description icon.air,
-setup-description icon.sun,
-setup-description icon.plant,
-setup-description icon.moon,
-setup-description icon.any {
+second-section-container icon {
   width: 32px;
   height: 32px;
   margin-bottom: -9px;
@@ -156,7 +137,8 @@ setup-description icon.any {
   display: inline-block;
 }
 
-play-style {
+second-section-container icon.sacred-site {
+  width: 55px;
 }
 
 complexity {
@@ -286,7 +268,11 @@ td.power-divider {
   filter: brightness(0.4);
 }
 
-.uses-icon {
+icon.uses-icon {
+  display: block;
+  width: 70px;
+  height: 70px;
+  margin: auto;
 }
 
 uses-icon-holder {
@@ -303,112 +289,6 @@ icon {
   width: 70px;
   height: 70px;
   margin: auto;
-}
-
-icon.fire {
-  background-image: url("../images/board/Fire.png");
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-}
-
-icon.water {
-  background-image: url("../images/board/Water.png");
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-}
-
-icon.plant {
-  background-image: url("../images/board/Plant.png");
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-}
-
-icon.earth {
-  background-image: url("../images/board/Earth.png");
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-}
-
-icon.air {
-  background-image: url("../images/board/Air.png");
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-}
-
-icon.moon {
-  background-image: url("../images/board/Moon.png");
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-}
-
-icon.sun {
-  background-image: url("../images/board/Sun.png");
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-}
-
-icon.animal {
-  background-image: url("../images/board/Animal.png");
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-}
-
-icon.any {
-  background-image: url("../images/board/Any.png");
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-}
-
-icon.presence {
-  background-image: url("../images/board/75px_presence.png");
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  height: 30px;
-  width: 30px;
-  margin-bottom: -7px;
-}
-
-icon.strife {
-  background-image: url("../images/board/75px_strife.png");
-}
-icon.disease {
-  background-image: url("../images/board/75px_disease.png");
-}
-icon.wilds {
-  background-image: url("../images/board/wilds.png");
-}
-icon.badlands {
-  background-image: url("../images/board/48px_badlands.png");
-}
-icon.resilience {
-  background-image: url("../images/board/NewIcons/Resilience.png");
-}
-
-icon.fear {
-  background-image: url("../images/board/fear.png");
-}
-icon.blight {
-  background-image: url("../images/board/75px_blight.png");
 }
 
 second-section-container icon.sun {
