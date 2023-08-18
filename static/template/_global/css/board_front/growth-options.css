@@ -1520,9 +1520,25 @@ icon.custom-growth-icon {
   background-position: bottom;
 }
 
+custom-growth-icon > * {
+  width: 80px;
+  height: 90px;
+  margin-top: 0px;
+  margin-bottom: 7px;
+  background-position: bottom;
+}
+
 icon.custom-growth-icon.wide-growth {
   width: 200px;
 }
+
+custom-growth-icon.wide-growth > * {
+  width: 200px;
+}
+
+/* custom-growth-icon.wide-growth {
+  height: 100px;
+} */
 
 /* Gaining Fear */
 growth-fear {

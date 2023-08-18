@@ -1031,22 +1031,24 @@ function getGrowthActionTextAndIcons(growthAction) {
       let customOptions = matches[1].split(",");
       let customIcon = customOptions[1];
       let customText = customOptions[0];
-      let isWide = growthActionType === "custom-wide" ? " wide-growth" : "";
+      let isWide = growthActionType === "custom-wide" ? "wide-growth" : "";
       let listIcons = "";
       if (customIcon) {
         if (customIcon === "text") {
           customIcon = "<span class='non-icon'>" + customOptions[2] + "</span>";
         } else {
           for (let i = 1; i < customOptions.length; i++) {
-            listIcons +=
-              "<icon class='" + customOptions[i] + isWide + " custom-growth-icon'></icon>";
+            // listIcons +=
+            //   "<icon class='" + customOptions[i] + isWide + " custom-growth-icon'></icon>";
+            listIcons += "{" + customOptions[i] + "}";
           }
           customIcon = listIcons;
         }
       } else {
         customIcon = "<div class='custom-scaling'>!!!</div>";
       }
-      growthIcons = "<custom-growth-icon>" + customIcon + "</custom-growth-icon>";
+      growthIcons =
+        "<custom-growth-icon class='" + isWide + "'>" + customIcon + "</custom-growth-icon>";
       growthText = customText;
       break;
     }
