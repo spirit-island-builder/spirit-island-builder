@@ -504,6 +504,10 @@ icon.vitality {
   background-image: url("../images/board/NewIcons/Vitality.png");
 }
 
+icon.no-forget {
+  background-image: url("../images/board/NewIcons/ForgetIcon.png");
+}
+
 range {
   width: 50px;
   height: 32px;

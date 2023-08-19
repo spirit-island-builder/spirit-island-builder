@@ -414,6 +414,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         let gainPowerCardOptions = matches[1].split(",");
         let gainPowerCardType = gainPowerCardOptions[0];
         let gainPCModifiersOrText = gainPowerCardOptions[1];
+        let gainPCModifierIcon = gainPowerCardOptions[2];
         gainPowerCardIcon = "<icon class='gain-power-card'>";
         switch (gainPowerCardType) {
           case "minor":
@@ -427,14 +428,18 @@ function getGrowthActionTextAndIcons(growthAction) {
           case "major":
             gainPowerCardIcon += "<icon class='major gain-card-modifier'></icon>";
             gainPowerCardText = "Gain Major Power Card";
-            if (gainPCModifiersOrText) {
-              gainPowerCardText += gainPCModifiersOrText;
-            }
             break;
           default:
             gainPowerCardIcon +=
               "<icon class='" + gainPowerCardType.toLowerCase() + " gain-card-modifier'></icon>";
             gainPowerCardText = "Gain " + Capitalise(gainPowerCardType) + " Power Card";
+        }
+        if (gainPCModifierIcon) {
+          gainPowerCardIcon +=
+            "<icon class='" + gainPCModifierIcon + " gain-card-second-modifier'></icon>";
+        }
+        if (gainPCModifiersOrText) {
+          gainPowerCardText += gainPCModifiersOrText;
         }
         gainPowerCardIcon += "</icon>";
       }
