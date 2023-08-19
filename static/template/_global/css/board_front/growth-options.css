@@ -394,6 +394,7 @@ custom-presence-req {
 custom-presence {
   font-size: 20pt;
   font-weight: bold;
+  font-style: normal;
   display: flex;
   width: auto;
   height: 88px;
@@ -711,8 +712,8 @@ custom-icon .token {
 }
 
 custom-icon .destroyed-presence {
-  width: 40px;
-  height: 30px;
+  width: 55px;
+  height: 34px;
   margin-bottom: -3px;
   margin-left: 1px;
 }
@@ -754,6 +755,14 @@ icon.gain-card-modifier.any {
 
 icon.gain-card-modifier.minor {
   width: 42px;
+}
+
+icon.gain-card-second-modifier {
+  width: 45px;
+  position: relative;
+  right: -48px;
+  top: -127px;
+  display: block;
 }
 
 token-wrap {
