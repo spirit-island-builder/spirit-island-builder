@@ -42,18 +42,43 @@ growth sub-section-title {
 
 growth special-section-title {
   position: absolute;
-  font-family: "Name Headings";
-  text-transform: uppercase;
-  font-size: 18pt;
+  font-family: "JosefinSans";
+  font-size: 17pt;
   font-weight: bold;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  word-spacing: 1px;
   z-index: 0;
   transform: translateX(-50%);
   left: 50%;
   top: -53px;
 }
 
+/* growth special-section-title.title-left {
+  position: unset;
+  display: inline-block;
+  width: 215px;
+  transform: unset;
+  margin-top: 20px;
+  padding-right:5px;
+} */
+
 growth-table.has-special-title {
   padding-top: 28px;
+}
+
+growth-table.has-special-title.title-left {
+  padding-top: 10px;
+}
+
+growth-table.has-special-title.title-left special-section-title {
+  position: unset;
+  display: inline-block;
+  width: 215px;
+  transform: unset;
+  margin-top: 30px;
+  padding-right: 5px;
 }
 
 growth .tint {
@@ -844,13 +869,16 @@ growth-text {
   font-style: italic;
   margin-top: 0px;
   text-align: center;
-  width: 105%;
+  /* width: 105%; */
   box-sizing: border-box;
   letter-spacing: 1px;
   line-height: 19px;
   min-width: 50px;
+  max-height: 60px;
   overflow-y: hidden;
   overflow-x: hidden;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 growth-text icon.explorer,
