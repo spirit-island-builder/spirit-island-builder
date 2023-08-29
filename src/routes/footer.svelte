@@ -1,6 +1,10 @@
 <footer>
-  Developed by Resonant, Neubee, and Tom. Email resonant@spiritislandbuilder.com with questions,
-  comments or feedback.
+  Developed by Resonant, Neubee, and Tom. Use <a
+    href="https://forms.gle/7EaVLHfAvhmLjEDn8"
+    target="_blank"
+    rel="noreferrer">this form</a>
+  or email <a href="mailto:resonant@spiritislandbuilder.com">resonant@spiritislandbuilder.com</a>
+  with questions, comments or feedback.
   <span class="is-pulled-right has-text-right"
     >Code for this project is hosted <a
       href="https://github.com/neubee/spirit-island-builder"
@@ -14,7 +18,7 @@
         target="_blank"
         rel="noreferrer">{import.meta.env.VITE_COMMIT_SHA.substring(0, 8)}</a
       >){/if}.<br /></span>
-  <br />This is an unofficial website. All materials belong to Greater Than Games, LLC.
+  <br />All materials belong to Greater Than Games, LLC.
 </footer>
 
 <style>
