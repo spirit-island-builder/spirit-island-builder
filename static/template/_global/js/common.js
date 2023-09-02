@@ -56,6 +56,7 @@ function replaceIcon(html) {
     }
 
     let range_num = "";
+    let num_val = "";
     // Check for Range
     if (iconName.startsWith("range-")) {
       HTMLTag = "range";
@@ -66,14 +67,28 @@ function replaceIcon(html) {
         range_num = "<range-value>" + range_num + "</range-value>";
       }
       iconName = "range";
+      num_val = range_num;
     } else if (iconName.startsWith("gain-range-")) {
       HTMLTag = "range";
 
       range_num = "+" + iconName.substring(11);
       iconName = "gain-range";
+      num_val = range_num;
       /*       if(isNaN(range_num)){
         range_num = '<icon class="range-small-icon '+range_num+'"></icon>'
       } */
+    }
+
+    if (iconName.startsWith("energy-")) {
+      energy_num = iconName.substring(7);
+      if (isNaN(energy_num)) {
+      } else {
+        HTMLTag = "growth-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
+        energy_num = "<value>" + energy_num + "</value>";
+        iconName = "";
+        num_val = energy_num;
+      }
+    } else if (iconName.startsWith("gain-energy-")) {
     }
 
     iconHtml +=
@@ -84,7 +99,7 @@ function replaceIcon(html) {
       iconName +
       is_terrain +
       `">` +
-      range_num +
+      num_val +
       `</` +
       HTMLTag +
       `>`;

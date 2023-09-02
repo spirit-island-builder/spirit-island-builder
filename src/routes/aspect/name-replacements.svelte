@@ -33,6 +33,8 @@
   function toggleProfile() {
     aspect.profile = !aspect.profile;
     aspect = aspect;
+
+    document.getElementById("updateButton").click();
   }
 
   function addReplacement() {

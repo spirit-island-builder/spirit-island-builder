@@ -1,5 +1,7 @@
 "use strict";
 
+// const { text } = require("svelte/internal");
+
 /* global replaceIcon */
 
 /* exported startMain */
@@ -188,7 +190,15 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   const specialTitleText = growthGroup.getAttribute("special-title")
     ? ` special-title='${growthGroup.getAttribute("special-title")}'`
     : "";
-  growthGroupHTML += `<growth-group` + headerText + specialTitleText + `>`;
+  const specialTitleTextLeft = growthGroup.getAttribute("special-title-left")
+    ? ` special-title-left='${growthGroup.getAttribute("special-title-left")}'`
+    : "";
+  console.log("handling special text");
+  if (specialTitleTextLeft) {
+    console.log("found that special title");
+    console.log(growthGroup);
+  }
+  growthGroupHTML += `<growth-group` + headerText + specialTitleText + specialTitleTextLeft + `>`;
 
   const cost = growthGroup.getAttribute("cost");
   if (cost) {
@@ -414,6 +424,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         let gainPowerCardOptions = matches[1].split(",");
         let gainPowerCardType = gainPowerCardOptions[0];
         let gainPCModifiersOrText = gainPowerCardOptions[1];
+        let gainPCModifierIcon = gainPowerCardOptions[2];
         gainPowerCardIcon = "<icon class='gain-power-card'>";
         switch (gainPowerCardType) {
           case "minor":
@@ -427,14 +438,18 @@ function getGrowthActionTextAndIcons(growthAction) {
           case "major":
             gainPowerCardIcon += "<icon class='major gain-card-modifier'></icon>";
             gainPowerCardText = "Gain Major Power Card";
-            if (gainPCModifiersOrText) {
-              gainPowerCardText += gainPCModifiersOrText;
-            }
             break;
           default:
             gainPowerCardIcon +=
               "<icon class='" + gainPowerCardType.toLowerCase() + " gain-card-modifier'></icon>";
             gainPowerCardText = "Gain " + Capitalise(gainPowerCardType) + " Power Card";
+        }
+        if (gainPCModifierIcon) {
+          gainPowerCardIcon +=
+            "<icon class='" + gainPCModifierIcon + " gain-card-second-modifier'></icon>";
+        }
+        if (gainPCModifiersOrText) {
+          gainPowerCardText += gainPCModifiersOrText;
         }
         gainPowerCardIcon += "</icon>";
       }
@@ -1031,22 +1046,24 @@ function getGrowthActionTextAndIcons(growthAction) {
       let customOptions = matches[1].split(",");
       let customIcon = customOptions[1];
       let customText = customOptions[0];
-      let isWide = growthActionType === "custom-wide" ? " wide-growth" : "";
+      let isWide = growthActionType === "custom-wide" ? "wide-growth" : "";
       let listIcons = "";
       if (customIcon) {
         if (customIcon === "text") {
           customIcon = "<span class='non-icon'>" + customOptions[2] + "</span>";
         } else {
           for (let i = 1; i < customOptions.length; i++) {
-            listIcons +=
-              "<icon class='" + customOptions[i] + isWide + " custom-growth-icon'></icon>";
+            // listIcons +=
+            //   "<icon class='" + customOptions[i] + isWide + " custom-growth-icon'></icon>";
+            listIcons += "{" + customOptions[i] + "}";
           }
           customIcon = listIcons;
         }
       } else {
         customIcon = "<div class='custom-scaling'>!!!</div>";
       }
-      growthIcons = "<custom-growth-icon>" + customIcon + "</custom-growth-icon>";
+      growthIcons =
+        "<custom-growth-icon class='" + isWide + "'>" + customIcon + "</custom-growth-icon>";
       growthText = customText;
       break;
     }
@@ -2370,6 +2387,7 @@ function growthHeadersAndTitles() {
     const growthGroupsTitles = table.getElementsByTagName("growth-group");
     for (const group of growthGroupsTitles) {
       const specialTitle = group.getAttribute("special-title");
+      const specialTitleLeft = group.getAttribute("special-title-left");
       if (specialTitle) {
         const growthActionsTitles = group.getElementsByTagName("growth-cell");
         let growthGroupWidth = 0;
@@ -2381,9 +2399,15 @@ function growthHeadersAndTitles() {
         group.style.width = growthGroupWidth + "px";
         const specialSectionTitle = document.createElement("special-section-title");
         specialSectionTitle.innerHTML = specialTitle;
-        group.appendChild(specialSectionTitle);
+        // group.appendChild(specialSectionTitle);
+        group.insertBefore(specialSectionTitle, group.firstChild);
         //find the parent, add a class that creates space.
         table.classList.add("has-special-title");
+        if (specialTitleLeft) {
+          specialSectionTitle.classList.add("title-left");
+          group.style.width = growthGroupWidth + 100 + "px";
+          table.classList.add("title-left");
+        }
       }
     }
   }
@@ -2441,6 +2465,84 @@ function dynamicResizing() {
     document.getElementsByTagName("growth")[0].append(newGrowthTable);
   }
 
+  const allGrowthCells = board.getElementsByTagName("growth-cell");
+  let growthWidthByIcons = [];
+  for (let j = 0; j < allGrowthCells.length; j++) {
+    growthWidthByIcons[j] = getGrowthActionIconWidth(allGrowthCells[j]);
+  }
+
+  // Adjust Growth Text
+  if (debug) {
+    console.log("ADJUSTING GROWTH TEXT");
+  }
+  const maxGrowthTextHeight = newGrowthTable !== undefined ? 50 : 75;
+  for (let i = 0; i < growthTexts.length; i++) {
+    // Add lines to very wide text (up to 3 lines total)
+    balanceText(growthTexts[i]); // First balance the text to give an accurate sense of what needs new lines
+    if (
+      growthTexts[i].offsetWidth > growthWidthByIcons[i] * 1.1 &&
+      growthTexts[i].offsetWidth > 135 &&
+      growthTexts[i].offsetHeight < 57
+    ) {
+      addLine(growthTexts[i]);
+      balanceText(growthTexts[i]);
+      if (debug) {
+        console.log(
+          'Added line to:"' +
+            growthTexts[i].textContent +
+            "(" +
+            growthTexts[i].offsetHeight +
+            "," +
+            growthTexts[i].offsetWidth +
+            ")"
+        );
+      }
+
+      if (
+        growthTexts[i].offsetWidth > growthWidthByIcons[i] * 1.1 &&
+        growthTexts[i].offsetWidth > 155 &&
+        growthTexts[i].offsetHeight < 57
+      ) {
+        addLine(growthTexts[i]);
+        balanceText(growthTexts[i]);
+        if (debug) {
+          console.log(
+            'Added second line to:"' +
+              growthTexts[i].textContent +
+              "(" +
+              growthTexts[i].offsetHeight +
+              "," +
+              growthTexts[i].offsetWidth +
+              ")"
+          );
+        }
+      }
+    }
+  }
+  for (let i = 0; i < growthTexts.length; i++) {
+    if (growthTexts[i].offsetHeight < 70) {
+      balanceText(growthTexts[i]);
+      if (debug) {
+        console.log(
+          'Balancing growth text "' +
+            growthTexts[i].textContent +
+            '" to ' +
+            growthTexts[i].style.width +
+            " width."
+        );
+      }
+    }
+  }
+  for (let i = 0; i < growthTexts.length; i++) {
+    if (growthTexts[i].offsetHeight > maxGrowthTextHeight) {
+      reduceLines(growthTexts[i]);
+      balanceText(growthTexts[i]);
+      if (debug) {
+        console.log("Reducing growth text lines for " + growthTexts[i].textContent);
+      }
+    }
+  }
+
   // TEST iterate through growth cells
   // const cellWidthV2 = [];
   // for (const cell of allGrowthCells) {
@@ -2490,33 +2592,34 @@ function dynamicResizing() {
     let growthWidthByIcons = [];
     let growthTextHeights = [];
     let growthTextWidths = [];
+    let growthTextAreas = [];
     for (let j = 0; j < growthCells.length; j++) {
       totalCellWidth += growthCells[j].offsetWidth;
       growthWidthByIcons[j] = getGrowthActionIconWidth(growthCells[j]);
       growthTextHeights[j] = growthTexts[j].getBoundingClientRect().height;
       growthTextWidths[j] = growthTexts[j].getBoundingClientRect().width;
+      console.log(
+        growthTextWidths[j] +
+          " vs " +
+          growthTexts[j].offsetWidth +
+          "vs " +
+          growthCells[j].offsetWidth
+      );
+      growthTextAreas[j] = Math.trunc(growthTextWidths[j] * growthTextHeights[j]);
     }
-    const textSizeNeedsTightening = growthTextWidths.map(
-      (tw, i) => tw < growthWidthByIcons[i] || growthWidthByIcons[i] > 200
-    );
-    const textSizeHuge = growthTextWidths.map((tw, i) => tw > 2.5 * growthWidthByIcons[i]);
-    const totalInitialIconWidth = growthWidthByIcons.reduce((partialSum, a) => partialSum + a, 0);
-    const shrink = totalInitialIconWidth / growthPanelWidth;
-    let adjustedGrowthWidths = growthWidthByIcons.map((gw, i) =>
-      textSizeHuge[i] ? Math.max(gw * 1.3, 106) : gw
-    );
-    adjustedGrowthWidths = adjustedGrowthWidths.map((gw, i) =>
-      textSizeNeedsTightening[i] ? gw * shrink : gw
-    );
+    let adjustedGrowthWidths = growthWidthByIcons.map((gw, i) => Math.max(gw, growthTextWidths[i]));
     const totalAdjustedIconWidth = adjustedGrowthWidths.reduce(
       (partialSum, a) => partialSum + a,
       0
     );
 
     if (debug) {
-      console.log(growthTextHeights);
+      console.log("Height/Width/Area/Huge?/Tighten?/WidthByIcons/AdjustedWidths");
+      // console.log(growthTextHeights);
       console.log(growthTextWidths);
-      console.log(textSizeHuge);
+      // console.log(growthTextAreas);
+      // console.log(textSizeHuge);
+      // console.log(textSizeNeedsTightening)
       console.log(growthWidthByIcons);
       console.log(adjustedGrowthWidths);
     }
@@ -2532,10 +2635,18 @@ function dynamicResizing() {
       }
     } else if (i > 0) {
       growthTable.classList.add("two-table-bottom");
-      growthTable.style.maxWidth = growthCells.length * averageWidth + "px";
+      // growthTable.style.maxWidth = growthCells.length * averageWidth +100 + "px";
       for (let j = 0; j < growthCells.length; j++) {
-        growthCells[j].style.maxWidth = averageWidth + "px";
+        let iconWidth = getGrowthActionIconWidth(growthCells[j]);
+        let textWidth = growthTexts[j].getBoundingClientRect().width;
+        let cellWidth = Math.max(iconWidth, textWidth);
+        console.log("cellwidth = " + cellWidth);
+        growthCells[j].style.width = 1.1 * cellWidth + 20 + "px"; //10 for padding (maybe tweak the 1.15) maybe instead update the width based on text & icons
+        console.log(adjustedGrowthWidths);
         growthCells[j].style.minWidth = "100px";
+        if (j < growthCells.length - 1) {
+          growthCells[j].style.paddingRight = "20px";
+        }
       }
     }
 
@@ -2543,6 +2654,7 @@ function dynamicResizing() {
     for (let j = 0; j < growthCells.length; j++) {
       totalWidth += growthCells[j].offsetWidth;
     }
+
     if (i > 0) {
       const growthLines = board.getElementsByTagName("growth-row-line");
       growthLines[i - 1].style.width = totalWidth + "px";
@@ -2550,28 +2662,6 @@ function dynamicResizing() {
   }
 
   growthHeadersAndTitles();
-
-  // Balance Growth Text
-  const maxGrowthTextHeight = newGrowthTable !== undefined ? 50 : 75;
-  for (let i = 0; i < growthTexts.length; i++) {
-    if (growthTexts[i].offsetHeight < 70) {
-      balanceText(growthTexts[i]);
-      if (debug) {
-        console.log(
-          'Balancing growth text "' +
-            growthTexts[i].textContent +
-            '" to ' +
-            growthTexts[i].style.width +
-            " width."
-        );
-      }
-    } else if (growthTexts[i].offsetHeight > maxGrowthTextHeight) {
-      reduceLines(growthTexts[i]);
-      if (debug) {
-        console.log("Reducing growth text lines for " + growthTexts[i].textContent);
-      }
-    }
-  }
 
   // Handle Tint (corners)
   let growthGroupsTint = board.getElementsByTagName("growth-group");
@@ -2586,6 +2676,14 @@ function dynamicResizing() {
         growthTints[growthTints.length - 1].classList.add("end-tint");
       }
     }
+  }
+
+  // Relax growth text
+  const finalGrowthTexts = board.getElementsByTagName("growth-text");
+  for (let i = 0; i < finalGrowthTexts.length; i++) {
+    finalGrowthTexts[i].style.width = "unset";
+    balanceText(growthTexts[i]);
+    console.log("relaxing growth texts");
   }
 
   // Innate Power Sizing
@@ -2870,44 +2968,87 @@ function getGrowthActionIconWidth(growthCell) {
 
 function balanceText(el) {
   let debug = false;
-  const initialHeight = el.offsetHeight;
-  let currentHeight = initialHeight;
-  let j = 0;
-  let k = 100;
-  while (currentHeight <= initialHeight && !checkOverflowWidth(el, 0)) {
-    k = k - 1;
-    el.style.width = k + "%";
-    currentHeight = el.offsetHeight;
-    j += 1;
-    if (j > 30) {
-      if (debug) {
-        console.log("Max text reduction reached for");
-        console.log(el);
-      }
-      break;
-    }
+  if (debug) {
+    console.log("Balancing Text: " + el.textContent);
   }
-  k = k + 1;
-  el.style.width = k + "%";
+  const initialHeight = el.offsetHeight;
+  if (initialHeight > 20) {
+    // No action needed for 1 liners (19px)
+    let currentHeight = initialHeight;
+    let j = 0;
+    let k = Math.trunc(el.offsetWidth);
+    let overflow = false;
+    while (currentHeight <= initialHeight) {
+      overflow = checkOverflowWidth(el, 0);
+      if (overflow) {
+        console.log("balance overflowing, j=" + j);
+        break;
+      }
+      // tighten until it changes something
+      k = k - 1;
+      el.style.width = k + "px";
+      currentHeight = el.offsetHeight;
+      j += 1;
+      if (j > 200) {
+        if (debug) {
+          console.log("Max text reduction reached for");
+          console.log(el);
+        }
+        break;
+      }
+    }
+    if (debug) {
+      console.log(
+        "reset at w=" + el.offsetWidth + ",h=" + el.offsetHeight + ",overflow=" + overflow
+      );
+    }
+    k = k + 1;
+    el.style.width = k + "px";
+    if (debug) {
+      console.log("reset to w=" + el.offsetWidth + ",h=" + el.offsetHeight);
+    }
+    // el.style.width = el.offsetWidth + "px";
+  }
 }
 
 function reduceLines(el) {
   const initialHeight = el.offsetHeight;
   let currentHeight = initialHeight;
   let j = 0;
-  let k = 100;
+  let k = Math.trunc(el.offsetWidth);
+  console.log(el.textContent + ": starting height = " + initialHeight);
   while (currentHeight >= initialHeight) {
     k = k + 1;
-    el.style.width = k + "%";
+    el.style.width = k + "px";
     currentHeight = el.offsetHeight;
     j += 1;
-    if (j > 10) {
+    if (j > 50) {
       console.log("Max line reduction reached for");
       console.log(el);
       break;
     }
   }
-  el.style.width = k + "%";
+  el.style.width = el.offsetWidth + "px";
+  console.log(el.textContent + ": final height = " + currentHeight);
+}
+
+function addLine(el) {
+  const initialHeight = el.offsetHeight;
+  let currentHeight = initialHeight;
+  let j = 0;
+  let k = Math.trunc(el.offsetWidth);
+  while (currentHeight <= initialHeight) {
+    k = k - 1;
+    el.style.width = k + "px";
+    currentHeight = el.offsetHeight;
+    j += 1;
+    if (j > 80) {
+      console.log("Add line maxed out");
+      console.log(el);
+      break;
+    }
+  }
+  el.style.width = k + "px";
 }
 
 function checkOverflowWidth(el, slack = 30) {
@@ -2921,13 +3062,16 @@ function checkOverflowWidth(el, slack = 30) {
   return isOverflowing;
 }
 
-function checkOverflowHeight(el) {
-  let curOverflow = el.style.overflow;
+function checkOverflowHeight(el, slack = 2) {
+  let curOverflow = el.style.overflowY;
   if (!curOverflow || curOverflow === "visible") {
-    el.style.overflow = "auto";
+    el.style.overflowY = "auto";
   }
-  let isOverflowing = el.clientHeight < el.scrollHeight;
-  el.style.overflow = curOverflow;
+  let isOverflowing = el.clientHeight + slack < el.scrollHeight;
+  console.log(
+    "check overflowY = " + (el.clientHeight + slack) + " " + slack + "," + el.scrollHeight
+  );
+  el.style.overflowY = curOverflow;
   return isOverflowing;
 }
 

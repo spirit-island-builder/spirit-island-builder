@@ -149,7 +149,6 @@ icon.fear {
 }
 icon.escalation {
   background-image: url("../images/25px-Stage_II_Escalation.png");
-  margin-bottom: 0px;
 }
 
 icon.explorer {
@@ -157,6 +156,7 @@ icon.explorer {
   margin-left: -4px;
   margin-right: -7px;
 }
+
 icon.town {
   background-image: url("../images/board/50px_town.png");
 }
@@ -497,6 +497,15 @@ icon.double-gain::after {
 
 icon.blank75 {
   background-image: url("../images/customIcons/blank75.png");
+}
+
+icon.resilience,
+icon.vitality {
+  background-image: url("../images/board/NewIcons/Vitality.png");
+}
+
+icon.no-forget {
+  background-image: url("../images/board/NewIcons/ForgetIcon.png");
 }
 
 range {
