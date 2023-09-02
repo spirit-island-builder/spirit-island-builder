@@ -84,6 +84,12 @@
   /* --preview-small-frame-width: 149%; */
 }
 
+#aspect-preview.portrait {
+  --preview-frame-height: 787px;
+  --preview-large-wrap-height: 580px;
+  --preview-small-wrap-height: 452px;
+}
+
 #power-cards-preview {
   --scroll-amount: 240;
   --preview-frame-height: 682px;

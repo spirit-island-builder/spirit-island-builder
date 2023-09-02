@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Official Aspects",
+    "examples": [
+      {
+        "name": "Lair - Lure",
+        "url": "/template/MyCustomContent/MyAspect/Lair_Aspect.html"
+      },
+      {
+        "name": "Tactician - Thunderspeaker",
+        "url": "/template/MyCustomContent/MyAspect/Tactician_Aspect.html"
+      },
+      {
+        "name": "Stranded - Mist",
+        "url": "/template/MyCustomContent/MyAspect/Stranded_Aspect.html"
+      },
+      {
+        "name": "Mentor - Shifting Memory",
+        "url": "/template/MyCustomContent/MyAspect/Mentor_Aspect.html"
+      }
+    ]
+  }
+]

@@ -1,6 +1,8 @@
 <script>
   export let id;
   export let baseURI = "/";
+  let classList;
+  export { classList as class };
 
   import { tick, onMount } from "svelte";
   import { browser } from "$app/environment";
@@ -103,7 +105,7 @@
   installHotReloadEvent();
 </script>
 
-<div {id} class="preview-wrap" class:large bind:this={wrapper}>
+<div {id} class={"preview-wrap " + classList} class:large bind:this={wrapper}>
   <template bind:this={previewTemplate}>
     <html lang="en">
       <head>
