@@ -218,5 +218,5 @@
 <Examples
   bind:this={exampleModal}
   {loadExample}
-  title="Load Examples & Official Spirits"
+  title="Load Examples & Official Adversaries"
   {examples} />

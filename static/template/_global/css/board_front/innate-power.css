@@ -354,14 +354,15 @@ div.description {
   height: 30px;
   margin-bottom: -6px;
   width: 20px;
-  margin-left: -5px;
+  margin-left: -2px;
   margin-right: -5px;
 }
 
 .description icon.badlands,
 .description icon.wilds {
   width: 33px;
-  margin-left: -2px;
+  margin-left: 0px;
+  margin-right: 2px;
 }
 
 .description icon.range-0,
@@ -438,8 +439,8 @@ innate-power icon.any {
   height: 25px;
   width: 32px;
   margin-bottom: -8px;
-  margin-left: -2px;
-  margin-right: -2px;
+  margin-left: 0px;
+  margin-right: -1px;
 }
 
 .description icon.sacred-site {
