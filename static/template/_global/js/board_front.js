@@ -100,7 +100,12 @@ function buildGrowthPanel() {
   const board = document.querySelectorAll("board")[0];
   const growthHTML = board.getElementsByTagName("growth");
 
-  const growthTitle = "<section-title>" + growthHTML[0].title + "</section-title>";
+  // Allow custom heading name
+  let customNameText = growthHTML[0].getAttribute("customname")
+    ? ` customName="${growthHTML[0].getAttribute("customname")}"`
+    : "";
+
+  const growthTitle = `<section-title${customNameText}>${growthHTML[0].title}</section-title>`;
 
   const subList = Array.from(growthHTML[0].getElementsByTagName("sub-growth"));
   let subTitle = subList
@@ -1411,8 +1416,13 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
   const board = document.querySelectorAll("board")[0];
   const presenceTable = board.getElementsByTagName("presence-tracks")[0];
 
+  // Allow custom heading name
+  let customNameText = presenceTable.getAttribute("customname")
+    ? ` customName="${presenceTable.getAttribute("customname")}"`
+    : "";
+
   presenceTable.innerHTML =
-    "<presence-title><section-title>Presence</section-title></presence-title>" +
+    `<presence-title><section-title${customNameText}>Presence</section-title></presence-title>` +
     "<table id='presence-table'><tbody>" +
     energyHTML +
     cardPlayHTML +
@@ -3114,8 +3124,15 @@ function parseInnatePowers() {
   for (let i = 0; i < innateHTML.length; i++) {
     fullHTML += parseInnatePower(innateHTML[i], i);
   }
-  board.getElementsByTagName("innate-powers")[0].innerHTML =
-    "<section-title>Innate Powers</section-title><innate-power-container>" +
+
+  let innatePowerContainer = board.getElementsByTagName("innate-powers")[0];
+  // Allow custom heading name
+  let customNameText = innatePowerContainer.getAttribute("customname")
+    ? ` customName="${innatePowerContainer.getAttribute("customname")}"`
+    : "";
+
+  innatePowerContainer.innerHTML =
+    `<section-title${customNameText}>Innate Powers</section-title><innate-power-container>` +
     fullHTML +
     "</innate-power-container>";
 }
@@ -3306,6 +3323,7 @@ function parseSpecialRules() {
   const board = document.querySelectorAll("board")[0];
 
   const specialRules = board.getElementsByTagName("special-rules-container")[0];
+  const specialRuleSection = specialRules.getElementsByTagName("section-title")[0];
   const specialRuleList = specialRules.getElementsByTagName("special-rule");
   const specialRuleNameList = specialRules.getElementsByTagName("special-rules-subtitle");
 
@@ -3335,6 +3353,15 @@ function parseSpecialRules() {
     specialRuleNameList[j].id = "sr" + j + "name";
   }
 
+  // Allow custom heading name
+  if (specialRules.getAttribute("customname")) {
+    console.log("special rule heading detected");
+    console.log(specialRuleSection);
+    console.log(specialRules.getAttribute("customname"));
+    console.log(specialRuleSection);
+    specialRuleSection.setAttribute("customname", specialRules.getAttribute("customname"));
+  }
+
   // <special-rules-track values="2,3,4"></special-rules-track>
 }
 
@@ -3344,5 +3371,9 @@ function tagSectionHeadings() {
   for (let j = 0; j < sectionHeadings.length; j++) {
     let headingName = sectionHeadings[j].textContent.split(" ")[0];
     sectionHeadings[j].id = "section-title-" + headingName.toLowerCase();
+    if (sectionHeadings[j].getAttribute("customname")) {
+      sectionHeadings[j].textContent = sectionHeadings[j].getAttribute("customname");
+      console.log("custom heading name detected and assigned");
+    }
   }
 }
