@@ -10,6 +10,11 @@
   import CustomIcons from "../custom-icons.svelte";
   import { downloadHTML } from "$lib/download";
 
+  import examples from "./examples.json";
+  import Examples from "$lib/example-modal.svelte";
+
+  let exampleModal;
+
   export let aspect;
   export let emptyAspect;
   export let customIcons;
@@ -23,7 +28,7 @@
     reloadPreview();
   }
 
-  const demoURL = "/template/MyCustomContent/MyAspect/aspect_website.html";
+  const demoURL = "/template/MyCustomContent/MyAspect/Lair_Aspect.html";
   function onLoad() {
     if (aspect.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
@@ -41,6 +46,11 @@
     previewFrame.copyHTMLFrom(generateHTML(aspect)).then(() => {
       previewFrame.startMain();
     });
+    // if(aspect.profile){
+    //   previewFrame.classList.add('portrait')
+    // }else{
+    //   previewFrame.classList.remove('portrait')
+    // }
   }
 
   function generateHTML(aspect) {
@@ -315,9 +325,24 @@
     const elementNamesInIframe = ["aspect", "aspect-back"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
+
+  async function loadExample(example) {
+    await loadHTMLFromURL(example.url);
+    hideAll();
+  }
+
+  function hideAll() {
+    aspect.nameReplacements.isVisible = false;
+    aspect.aspectEffects.isVisible = false;
+    customIcons.isVisible = false;
+  }
 </script>
 
-<PreviewFrame id="aspect-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
+<PreviewFrame
+  id="aspect-preview"
+  bind:this={previewFrame}
+  on:hot-reload={reloadPreview}
+  class={aspect.profile ? "portrait" : ""}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/aspect.css" rel="stylesheet" />
@@ -328,12 +353,16 @@
 </PreviewFrame>
 
 <div class="field has-addons mb-2 is-flex-wrap-wrap">
+  <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
+    Examples
+  </button>
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
     Load
   </LoadButton>
   <button class="button is-success  mr-1" on:click={exportAspect}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
-  <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
+  <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
+    >Update Preview</button>
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
@@ -348,3 +377,8 @@
     <AspectEffects bind:aspect />
   </div>
 </div>
+<Examples
+  bind:this={exampleModal}
+  {loadExample}
+  title="Load Examples & Official Adversaries"
+  {examples} />

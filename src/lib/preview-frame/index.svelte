@@ -1,6 +1,8 @@
 <script>
   export let id;
   export let baseURI = "/";
+  let classList;
+  export { classList as class };
 
   import { tick, onMount } from "svelte";
   import { browser } from "$app/environment";
@@ -40,7 +42,7 @@
   export const takeScreenshot = (fileNames, elementNamesInIframe) => {
     elementNamesInIframe.forEach((elementNameInIframe, index) => {
       previewIframe.contentWindow
-        .takeScreenshot(elementNameInIframe, large ? 1.5 : 1)
+        .takeScreenshot(elementNameInIframe, large ? 2 : 1.5)
         .then((imageURL) => downloadImage(imageURL, fileNames[index]));
     });
   };
@@ -103,7 +105,7 @@
   installHotReloadEvent();
 </script>
 
-<div {id} class="preview-wrap" class:large bind:this={wrapper}>
+<div {id} class={"preview-wrap " + classList} class:large bind:this={wrapper}>
   <template bind:this={previewTemplate}>
     <html lang="en">
       <head>

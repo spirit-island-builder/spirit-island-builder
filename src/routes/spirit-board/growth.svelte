@@ -299,6 +299,12 @@
     Object.keys(resetGroup).forEach((k) => (resetGroup[k].id = k));
   }
 
+  function switchLeft(growthGroup) {
+    growthGroup.hasTitleLeft = !growthGroup.hasTitleLeft;
+    console.log(growthGroup);
+    spiritBoard = spiritBoard;
+  }
+
   export let spiritBoard;
 </script>
 
@@ -436,6 +442,15 @@
                       on:keyup={nextNode}
                       bind:value={growthGroup.title} />
                   </div>
+                  {#if !growthGroup.hasTitleLeft}
+                    <button
+                      class="button is-warning is-light is-small row-button"
+                      on:click={switchLeft(growthGroup)}>Left</button>
+                  {:else}
+                    <button
+                      class="button is-warning is-small row-button"
+                      on:click={switchLeft(growthGroup)}>Left</button>
+                  {/if}
                   <button
                     class="button is-warning is-light is-small row-button"
                     on:click={setTitle(i, j)}>Remove</button>

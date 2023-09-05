@@ -36,11 +36,13 @@ export const addGrowthGroup = (
   setIndex,
   groupCost = "",
   groupTint = "",
-  groupTitle = ""
+  groupTitle = "",
+  groupTitleLeft = false
 ) => {
   let groupHasCost = false;
   let groupHasTint = false;
   let groupHasTitle = false;
+  let groupHasLeftTitle = false;
   if (groupCost) {
     groupHasCost = true;
   }
@@ -50,6 +52,9 @@ export const addGrowthGroup = (
   if (groupTitle) {
     groupHasTitle = true;
   }
+  if (groupTitleLeft) {
+    groupHasLeftTitle = true;
+  }
   spiritBoard.growth.growthSets[setIndex].growthGroups.push({
     id: spiritBoard.growth.growthSets[setIndex].growthGroups.length,
     cost: groupCost,
@@ -58,6 +63,7 @@ export const addGrowthGroup = (
     hasCost: groupHasCost,
     hasTint: groupHasTint,
     hasTitle: groupHasTitle,
+    hasTitleLeft: groupHasLeftTitle,
     growthActions: [],
   });
   return spiritBoard;

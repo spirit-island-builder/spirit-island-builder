@@ -56,6 +56,7 @@
       rule.hasGrowth = false;
       rule.growthActions = [];
     } else {
+      addGrowthAction(rule);
       rule.hasGrowth = true;
     }
     console.log(rule);
@@ -63,6 +64,11 @@
   }
 
   function addGrowthAction(rule, actionEffect = "") {
+    console.log(rule);
+    if (!rule.growthActions) {
+      rule.growthActions = [];
+      rule.hasGrowth = true;
+    }
     let focusId = "specialRule" + rule.id + "growthAction" + rule.growthActions.length;
     rule.growthActions.push({
       id: rule.growthActions.length,

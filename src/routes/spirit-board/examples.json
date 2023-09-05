@@ -101,7 +101,7 @@
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Finder of Paths Unseen.html"
       },
       {
-        "name": "Snek",
+        "name": "Serpent",
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Serpent Slumbering Beneath the Island.html"
       },
       {
@@ -122,6 +122,10 @@
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Hearth Vigil.html"
       },
       {
+        "name": "Towering Roots",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Towering Roots of the Jungle.html"
+      },
+      {
         "name": "Relentless Gaze",
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Relentless Gaze of the Sun.html"
       },
@@ -132,6 +136,14 @@
       {
         "name": "Breath of Darkness",
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Breath of Darkness Down Your Spine.html"
+      },
+      {
+        "name": "Wounded Waters Bleeding",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Wounded Waters Bleeding.html"
+      },
+      {
+        "name": "Dances Up Earthquakes",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Dances Up Earthquakes.html"
       }
     ]
   },

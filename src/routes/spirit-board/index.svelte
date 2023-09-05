@@ -178,6 +178,10 @@
         if (growthGroup.hasTitle) {
           growthGroupOutput.setAttribute("special-title", growthGroup.title);
         }
+        //Title-left
+        if (growthGroup.hasTitleLeft) {
+          growthGroupOutput.setAttribute("special-title-left", true);
+        }
         //Values
         let values = "";
         growthGroup.growthActions.forEach((growthAction) => {
@@ -373,7 +377,8 @@
           i,
           group.getAttribute("cost"),
           group.getAttribute("tint"),
-          group.getAttribute("special-title")
+          group.getAttribute("special-title"),
+          group.getAttribute("special-title-left")
         );
         let values = group.getAttribute("values").split(";");
         values.forEach((growthValue) => {
@@ -674,7 +679,7 @@
       }
 
       const nameCounts = {};
-      let nodeEffectSplit = nodeEffectText.split("+");
+      let nodeEffectSplit = nodeEffectText.split("+"); //May also need to add something to deal with ^ nodes (like 2^blight)
       let plus_check = nodeEffectSplit.indexOf("");
       if (plus_check !== -1) {
         nodeEffectSplit.splice(plus_check, 1);

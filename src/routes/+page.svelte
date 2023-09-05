@@ -81,6 +81,7 @@
               hasCost: false,
               hasTint: false,
               hasTitle: false,
+              hasTitleLeft: false,
               growthActions: [
                 {
                   id: 0,
