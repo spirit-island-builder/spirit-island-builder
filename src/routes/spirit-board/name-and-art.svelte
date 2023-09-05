@@ -76,4 +76,59 @@
     includeScale
     bind:imageURL={spiritBoard.nameAndArt.combinedBannerPath}
     bind:imageScale={spiritBoard.nameAndArt.combinedBannerScaleV} />
+
+  <label class="label mb-0" for="spiritNameInput">Overwrite Headings</label>
+  <label class="label is-small " for="spiritNameInput">(useful for foreign language)</label>
+  <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap pb-4">
+    <div class="field pr-2" style="width:30%;">
+      <label class="label is-small" for="customHeadingSR">Special Rules: </label>
+    </div>
+    <div class="control" style="width:70%;">
+      <input
+        id="customHeadingSR"
+        class="input is-small"
+        type="text"
+        placeholder="Special Rules"
+        bind:value={spiritBoard.specialRules.customHeading} />
+    </div>
+  </div>
+  <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap pb-4">
+    <div class="field pr-2" style="width:30%;">
+      <label class="label is-small" for="customHeadingSR">Growth: </label>
+    </div>
+    <div class="control" style="width:70%;">
+      <input
+        id="customHeadingSR"
+        class="input is-small"
+        type="text"
+        placeholder="Growth"
+        bind:value={spiritBoard.growth.customHeading} />
+    </div>
+  </div>
+  <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap pb-4">
+    <div class="field pr-2" style="width:30%;">
+      <label class="label is-small" for="customHeadingSR">Presence Tracks: </label>
+    </div>
+    <div class="control" style="width:70%;">
+      <input
+        id="customHeadingSR"
+        class="input is-small"
+        type="text"
+        placeholder="Presence Track"
+        bind:value={spiritBoard.presenceTrack.customHeading} />
+    </div>
+  </div>
+  <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap pb-4">
+    <div class="field pr-2" style="width:30%;">
+      <label class="label is-small" for="customHeadingSR">Innate Powers: </label>
+    </div>
+    <div class="control" style="width:70%;">
+      <input
+        id="customHeadingSR"
+        class="input is-small"
+        type="text"
+        placeholder="Innate Powers"
+        bind:value={spiritBoard.innatePowers.customHeading} />
+    </div>
+  </div>
 </Section>
