@@ -133,6 +133,10 @@
       specialRulesContainer.appendChild(newRuleName);
       specialRulesContainer.appendChild(newRuleEffect);
     });
+    if (spiritBoard.specialRules.customHeading) {
+      console.log("Custom Special Rule Heading detected");
+      specialRulesContainer.setAttribute("customname", spiritBoard.specialRules.customHeading);
+    }
 
     const right = document.createElement("right");
     board.appendChild(right);
@@ -189,6 +193,10 @@
         growthContainer.appendChild(newSubgroup);
       }
     });
+    if (spiritBoard.growth.customHeading) {
+      console.log("Custom Growth Heading detected");
+      growthContainer.setAttribute("customname", spiritBoard.growth.customHeading);
+    }
 
     //Set Presence Tracks
     const presenceTrackContainer = document.createElement("presence-tracks");
@@ -232,6 +240,11 @@
     playsTrack.setAttribute("values", playsValues.slice(0, -1));
     presenceTrackContainer.appendChild(playsTrack);
 
+    if (spiritBoard.presenceTrack.customHeading) {
+      console.log("Custom Presence Track Heading detected");
+      presenceTrackContainer.setAttribute("customname", spiritBoard.presenceTrack.customHeading);
+    }
+
     //Set Innate Powers
     const innatePowerContainer = document.createElement("innate-powers");
     right.appendChild(innatePowerContainer);
@@ -257,6 +270,11 @@
       });
       innatePowerContainer.appendChild(newInnatePower);
     });
+
+    if (spiritBoard.innatePowers.customHeading) {
+      console.log("Custom Innate Power Heading detected");
+      innatePowerContainer.setAttribute("customname", spiritBoard.innatePowers.customHeading);
+    }
 
     //Set Custom Icons
     const spiritStyle = document.createElement("style");
@@ -312,6 +330,7 @@
     }
 
     //Load Special Rules
+    const specialRulesBlock = htmlElement.querySelectorAll("special-rules-container")[0];
     const specialRulesNames = htmlElement.querySelectorAll("special-rules-subtitle");
     const specialRulesEffects = htmlElement.querySelectorAll("special-rule");
     spiritBoard.specialRules.rules.splice(0, spiritBoard.specialRules.rules.length); //Clear the Form first
@@ -322,6 +341,9 @@
         specialRulesEffects[j].innerHTML.trim()
       );
     });
+    spiritBoard.specialRules.customHeading = specialRulesBlock.getAttribute("customname")
+      ? specialRulesBlock.getAttribute("customname")
+      : "";
 
     //Load Growth
     const growthContainer = htmlElement.querySelectorAll("growth");
@@ -359,6 +381,10 @@
         });
       });
     });
+    //Check custom growth heading
+    spiritBoard.growth.customHeading = growthContainer[0].getAttribute("customname")
+      ? growthContainer[0].getAttribute("customname")
+      : "";
 
     //Load Presence Tracks
 
@@ -397,8 +423,12 @@
     playsValues.forEach((value) => {
       spiritBoard = Lib.addPlaysTrackNode(spiritBoard, value);
     });
+    spiritBoard.presenceTrack.customHeading = presenceTracks.getAttribute("customname")
+      ? presenceTracks.getAttribute("customname")
+      : "";
 
     //Load Innate Powers
+    let innatePowerBlock = htmlElement.querySelectorAll("innate-powers")[0];
     let innatePowers = htmlElement.querySelectorAll("quick-innate-power");
     spiritBoard.innatePowers.powers.splice(0, spiritBoard.innatePowers.powers.length); //Clear the Form first
     innatePowers.forEach((innatePower, k) => {
@@ -422,6 +452,9 @@
         );
       });
     });
+    spiritBoard.innatePowers.customHeading = innatePowerBlock.getAttribute("customname")
+      ? innatePowerBlock.getAttribute("customname")
+      : "";
 
     //Load Custom Icons
     const spiritStyle = htmlElement.querySelectorAll("style")[0];

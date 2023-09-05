@@ -54,6 +54,7 @@
     },
     specialRules: {
       isVisible: false,
+      customHeading: "",
       rules: [
         {
           id: 0,
@@ -66,6 +67,7 @@
       isVisible: false,
       useGrowthSets: false,
       directions: "",
+      customHeading: "",
       growthSets: [
         {
           id: 0,
@@ -94,6 +96,7 @@
       isVisible: false,
       useMiddleNodes: false,
       note: "",
+      customHeading: "",
       energyNodes: [
         {
           id: 0,
@@ -109,6 +112,7 @@
     },
     innatePowers: {
       isVisible: false,
+      customHeading: "",
       powers: [
         {
           id: 0,
