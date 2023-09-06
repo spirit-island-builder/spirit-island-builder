@@ -105,33 +105,6 @@ artist-name {
   white-space: normal;
 }
 
-created-with {
-  position: absolute;
-  left: 1565px;
-  top: 1162px;
-  font-size: 12px;
-  font-family: monospace;
-  color: #d1c5a6;
-  text-align: left;
-  z-index: 1;
-  display: block;
-  white-space: normal;
-  letter-spacing: 1.5px;
-}
-
-custom-meeple {
-  background-image: url(../../images/customIcons/Meeple.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  position: absolute;
-  display: block;
-  top: 1135px;
-  left: 1725px;
-  height: 20px;
-  width: 20px;
-  z-index: 4;
-}
-
 .spirit-border {
   margin-left: -15px;
   margin-right: -8px;

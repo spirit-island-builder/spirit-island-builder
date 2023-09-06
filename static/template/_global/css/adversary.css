@@ -65,6 +65,17 @@ adversary rule {
   white-space: pre-line;
 }
 
+created-with {
+  left: 943px;
+  top: 758px;
+}
+
+custom-meeple {
+  left: 1100px;
+  top: 717px;
+  width: 16px;
+}
+
 .flag {
   display: block;
   position: absolute;
