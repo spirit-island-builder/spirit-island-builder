@@ -18,7 +18,7 @@ window.onload = function startMain() {
 };
 
 function resize() {
-  dynamicSizing(document.querySelectorAll("top-info")[0], 55);
+  balanceText(document.querySelectorAll("effect")[0]);
 }
 
 function buildBuildCard(template) {
@@ -32,6 +32,9 @@ function buildBuildCard(template) {
   let headingText = stillHealthy
     ? "Still Healthy Island<br><for-now>(for now)</for-now>"
     : "Blighted Island";
+  let noBlightText = stillHealthy
+    ? "draw a new Blight Card.<br><b>It comes into play already flipped.</b>"
+    : "players lose.";
   if (stillHealthy) {
     blightCard.classList.add("still-healthy"); //this doesn't exist yet so we can't add
   }
@@ -43,7 +46,7 @@ function buildBuildCard(template) {
     ${blightPerPlayer} {blight} per player
     </per-player-text>
     <blight-reminder>
-    Any {blight} removed from<br>the board returns here.<br><br>If there is ever NO {blight} here,<br>players lose.
+    Any {blight} removed from<br>the board returns here.<br><br>If there is ever NO {blight} here,<br>${noBlightText}
     </blight-reminder>`;
 
   blightCard.innerHTML = html;
@@ -51,75 +54,42 @@ function buildBuildCard(template) {
   return blightCard;
 }
 
-function buildLevel(quickLevel) {
-  fearCards = quickLevel.getAttribute("fear-cards");
-  fearCardList = fearCards.split(",");
-  if (!fearCardList[1]) {
-    fearCardList = fearCards.split("/");
+function balanceText(el) {
+  let debug = true;
+  if (debug) {
+    console.log("Balancing Text: " + el.textContent);
   }
-  let fearCardNum = 0;
-  for (var i = 0; i < fearCardList.length; i++) {
-    fearCardNum += parseInt(fearCardList[i]);
-  }
-  fearCards = fearCardList.join("/");
-
-  let name2 = quickLevel.getAttribute("name2");
-  let rules2 = quickLevel.getAttribute("rules2");
-  console.log(quickLevel);
-  console.log(name2);
-  console.log(rules2);
-  let rule2HTML = "";
-  if (name2 && rules2) {
-    console.log("second rule detected");
-    rule2HTML = `<rule><strong>${quickLevel.getAttribute(
-      "name2"
-    )}:</strong> ${quickLevel.getAttribute("rules2")}</rule>`;
-  }
-
-  levelHTML = `<level>
-        <div>${quickLevel.tagName.at(
-          -1
-        )}<level-difficulty class="level-difficulty">(${quickLevel.getAttribute(
-    "difficulty"
-  )})</level-difficulty></div>
-        <div>${fearCardNum} (${fearCards})</div>
-        <div>
-          <rule><strong>${quickLevel.getAttribute("name")}:</strong> ${quickLevel.getAttribute(
-    "rules"
-  )}</rule>
-          ${rule2HTML}
-        </div>
-      </level>`;
-  return levelHTML;
-}
-
-function dynamicSizing(el, maxSize = el.offsetHeight) {
-  let j = 0;
-  while (checkOverflow(el)) {
-    var style = window.getComputedStyle(el, null).getPropertyValue("font-size");
-    var line = window.getComputedStyle(el, null).getPropertyValue("line-height");
-    var fontSize = parseFloat(style);
-    var lineHeight = parseFloat(line);
-    el.style.lineHeight = lineHeight - 1 + "px";
-    if (lineHeight < 15) {
-      // there's more room in line height first
-      el.style.fontSize = fontSize - 1 + "px";
+  const initialHeight = el.offsetHeight;
+  if (initialHeight > 20) {
+    // No action needed for 1 liners (19px)
+    let currentHeight = initialHeight;
+    let j = 0;
+    let k = Math.trunc(el.offsetWidth);
+    let overflow = false;
+    while (currentHeight <= initialHeight) {
+      // tighten until it changes something
+      k = k - 1;
+      el.style.width = k + "px";
+      currentHeight = el.offsetHeight;
+      j += 1;
+      if (j > 200) {
+        if (debug) {
+          console.log("Max text reduction reached for");
+          console.log(el);
+        }
+        break;
+      }
     }
-    // safety valve
-    j += 1;
-    if (j > 8) {
-      console.log("safety");
-      break;
+    if (debug) {
+      console.log(
+        "reset at w=" + el.offsetWidth + ",h=" + el.offsetHeight + ",overflow=" + overflow
+      );
     }
+    k = k + 1;
+    el.style.width = k + "px";
+    if (debug) {
+      console.log("reset to w=" + el.offsetWidth + ",h=" + el.offsetHeight);
+    }
+    // el.style.width = el.offsetWidth + "px";
   }
-}
-
-function checkOverflow(el) {
-  let curOverflow = el.style.overflow;
-  if (!curOverflow || curOverflow === "visible") {
-    el.style.overflow = "hidden";
-  }
-  let isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
-  el.style.overflow = curOverflow;
-  return isOverflowing;
 }
