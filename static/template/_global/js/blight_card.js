@@ -1,4 +1,5 @@
-window.onload = function startMain() {
+async function startMain() {
+  // window.onload = function startMain() {
   //remove the window.onload when transferring over to Builder
   console.log("Start Main: Blight Card");
 
@@ -15,7 +16,7 @@ window.onload = function startMain() {
   setTimeout(() => {
     resize();
   }, 200);
-};
+}
 
 function resize() {
   balanceText(document.querySelectorAll("effect")[0]);
@@ -28,7 +29,11 @@ function buildBuildCard(template) {
   let cardEffect = template.querySelectorAll("effect")[0];
   let effectHTML = cardEffect.innerHTML;
   let blightPerPlayer = template.getAttribute("per-player");
-  let stillHealthy = template.getAttribute("still-healthy") !== "true" ? false : true;
+  let stillHealthy = template.getAttribute("still-healthy");
+  stillHealthy = stillHealthy === "true"; //converts to boolean
+
+  console.log("stillhealthy=" + stillHealthy);
+  //  !== "true" ? false : true;
   let headingText = stillHealthy
     ? "Still Healthy Island<br><for-now>(for now)</for-now>"
     : "Blighted Island";
@@ -36,6 +41,7 @@ function buildBuildCard(template) {
     ? "draw a new Blight Card.<br><b>It comes into play already flipped.</b>"
     : "players lose.";
   if (stillHealthy) {
+    console.log("adding healthy island :" + stillHealthy);
     blightCard.classList.add("still-healthy"); //this doesn't exist yet so we can't add
   }
 

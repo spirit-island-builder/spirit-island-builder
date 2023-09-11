@@ -8,10 +8,22 @@ html,
 body {
   padding: 0px;
   margin: 0px;
-  height: 100%;
-  width: 100%;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 14px;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
 }
 
 * {
@@ -32,7 +44,7 @@ blight-card {
   width: 488px;
   height: 682px;
   border-radius: 22px;
-  position: absolute;
+  position: relative;
   top: 0px;
   left: 0px;
 }

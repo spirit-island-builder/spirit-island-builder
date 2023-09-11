@@ -17,6 +17,7 @@
   import PowerCards from "./power-cards/index.svelte";
   import Aspect from "./aspect/index.svelte";
   import Adversary from "./adversary/index.svelte";
+  import BlightCard from "./blight-card/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
   import Footer from "./footer.svelte";
 
@@ -398,12 +399,29 @@
   };
   let adversary = JSON.parse(JSON.stringify(emptyAdversary));
 
+  let emptyBlightCard = {
+    prop: "value",
+    demoBoardWasLoaded: false,
+    previewBoard: {
+      isVisible: false,
+    },
+    card: {
+      isVisible: false,
+      cardName: "",
+      cardEffect: "",
+      blightPerPlayer: "",
+      isStillHealthy: false,
+    },
+  };
+  let blightCard = JSON.parse(JSON.stringify(emptyBlightCard));
+
   let pages = [
     ["spiritBoardFront", "Spirit Board Play Side"],
     ["spiritBoardBack", "Spirit Board Lore Side"],
     ["powerCards", "Power Cards"],
     ["aspect", "Aspect / Special Cards"],
     ["adversary", "Adversary"],
+    ["blightCard", "Blight Card"],
   ];
 </script>
 
@@ -455,6 +473,8 @@
       <Aspect bind:aspect bind:emptyAspect bind:customIcons />
     {:else if currentPage === "adversary"}
       <Adversary bind:adversary bind:emptyAdversary bind:customIcons />
+    {:else if currentPage === "blightCard"}
+      <BlightCard bind:blightCard bind:emptyBlightCard bind:customIcons />
     {/if}
   </div>
 
