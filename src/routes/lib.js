@@ -336,6 +336,13 @@ export const nextNode = (event) => {
           focusID = "aspectSpiritName";
         }
         break;
+      // Blight Cards
+      case "blightCardName":
+        focusID = "blightCardBlightPerPlayer";
+        break;
+      case "blightCardBlightPerPlayer":
+        focusID = "blightCardEffect";
+        break;
     }
 
     document.getElementById(focusID).focus();
