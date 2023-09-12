@@ -71,7 +71,7 @@ function buildAdversary(quickAdversary) {
   html += buildLevel(quickAdversary.querySelectorAll("level-5")[0]);
   html += buildLevel(quickAdversary.querySelectorAll("level-6")[0]);
 
-  html += `</adversary-levels>`;
+  html += `</adversary-levels><created-with>spiritislandbuilder.com</created-with><custom-meeple></custom-meeple>`;
 
   return html;
 }
