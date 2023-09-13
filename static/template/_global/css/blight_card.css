@@ -132,7 +132,11 @@ blight-banner::after {
 }
 
 blight-card.still-healthy blight-banner {
-  background-image: url(../images/cards/Blight/Still-Healthy_Banner.png);
+  background-image: url(../images/cards/Blight/Still-Healthy_Banner-middle.png);
+}
+
+blight-card.still-healthy blight-banner::after {
+  background-image: url(../images/cards/Blight/Still-Healthy_Banner-bottom.png);
 }
 
 per-player-text {
