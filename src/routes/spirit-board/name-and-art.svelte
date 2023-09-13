@@ -76,9 +76,10 @@
     includeScale
     bind:imageURL={spiritBoard.nameAndArt.combinedBannerPath}
     bind:imageScale={spiritBoard.nameAndArt.combinedBannerScaleV} />
-
+  <!-- Overwriting Headings -->
   <label class="label mb-0" for="spiritNameInput">Overwrite Headings</label>
-  <label class="label is-small " for="spiritNameInput">(useful for foreign language)</label>
+  <label class="label is-small " for="spiritNameInput"
+    >(useful for foreign language adaptations)</label>
   <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap pb-4">
     <div class="field pr-2" style="width:30%;">
       <label class="label is-small" for="customHeadingSR">Special Rules: </label>

@@ -78,7 +78,8 @@ effect {
   display: block;
   text-align: center;
   padding-top: 7px;
-  margin-bottom: 5px;
+  margin-bottom: -10px;
+  z-index: 1;
 }
 
 blight-heading {
@@ -104,9 +105,9 @@ for-now {
 }
 
 blight-banner {
-  background-image: url(../images/cards/Blight/Blighted_Banner.png);
+  background-image: url(../images/cards/Blight/Blighted_Banner_middle.png);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   width: 433px;
   position: absolute;
   top: 128px;
@@ -116,8 +117,18 @@ blight-banner {
   box-shadow: 0 3px 4px 0px gray;
   display: flex;
   flex-direction: column;
-  align-content: center;
   align-items: center;
+}
+
+blight-banner::after {
+  content: "";
+  display: block;
+  width: inherit;
+  height: 45px;
+  background-image: url(../images/cards/Blight/Blighted_Banner_bottom.png);
+  background-repeat: no-repeat;
+  position: absolute;
+  top: calc(100% - 1px);
 }
 
 blight-card.still-healthy blight-banner {
