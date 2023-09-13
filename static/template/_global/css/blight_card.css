@@ -38,7 +38,7 @@ body {
 
 blight-card {
   display: block;
-  background-image: url(../images/cards/Blight/Blighted_Background.png);
+  background-image: url(../images/cards/Blight/Blighted_Background_with_Banner_Trim.png);
   background-repeat: no-repeat;
   background-size: cover;
   width: 488px;
@@ -50,7 +50,7 @@ blight-card {
 }
 
 blight-card.still-healthy {
-  background-image: url(../images/cards/Blight/Healthy_Background.png);
+  background-image: url(../images/cards/Blight/Healthy_Background_with_Banner_Trim.png);
 }
 
 effect-name {
