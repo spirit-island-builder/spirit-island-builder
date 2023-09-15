@@ -32,7 +32,7 @@
     customIcons.isVisible = false;
   }
 
-  const demoURL = "/template/MyCustomContent/MyAdversary/adversary_noJS.html";
+  const demoURL = "/template/MyCustomContent/MyAdversary/THE_IBERIAN_UNION_Adversary.html";
   function onLoad() {
     if (adversary.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
