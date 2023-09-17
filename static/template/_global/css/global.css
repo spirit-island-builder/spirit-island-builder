@@ -572,3 +572,12 @@ custom-meeple {
   width: 20px;
   z-index: 4;
 }
+
+binder {
+  white-space: nowrap;
+}
+
+icon-count {
+  display: inline-block;
+  margin-right: 2px;
+}

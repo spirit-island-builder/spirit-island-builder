@@ -97,6 +97,13 @@
     const thirdSection = document.createElement("third-section-container");
     loreBoardHTML.append(thirdSection);
 
+    //Set Note
+    if (spiritBoardBack.note.noteText) {
+      const noteHTML = document.createElement("note");
+      noteHTML.innerHTML = spiritBoardBack.note.noteText;
+      thirdSection.append(noteHTML);
+    }
+
     //Set Complexity
     const complexityHeader = document.createElement("complexity");
     complexityHeader.setAttribute("value", spiritBoardBack.complexity.complexityValue);
@@ -164,6 +171,13 @@
     //Set Lore Play Style
     const lorePlayStyle = loreBoardHTML.querySelectorAll("play-style-description")[0];
     spiritBoardBack.playStyle.playStyleText = lorePlayStyle.innerHTML.trim();
+
+    //Set Note (if note)
+    const hasNote = loreBoardHTML.querySelectorAll("note")[0];
+    spiritBoardBack.note.noteText = "";
+    if (hasNote) {
+      spiritBoardBack.note.noteText = hasNote.innerHTML;
+    }
 
     //Set Complexity
     const complexityHeader = loreBoardHTML.querySelectorAll("complexity")[0];

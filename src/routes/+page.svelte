@@ -183,6 +183,9 @@
     setup: {
       setupText: "",
     },
+    note: {
+      noteText: "",
+    },
     playStyle: {
       playStyleText: "",
     },
