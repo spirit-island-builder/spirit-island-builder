@@ -1,6 +1,6 @@
-window.onload = function startMain() {
-  // async function startMain() {
-  //remove the window.onload when transferring over to Builder
+async function startMain() {
+  // window.onload = function startMain() {
+  // window.onload is for template mode
   console.log("Start Main: Fear Card");
 
   templateFearCard = document.querySelectorAll("template-fear-card")[0];
@@ -17,7 +17,7 @@ window.onload = function startMain() {
   setTimeout(() => {
     resize(templateFearCard);
   }, 200);
-};
+}
 
 function resize(templateFearCard) {
   let terrorEffects = templateFearCard.querySelectorAll("effect");

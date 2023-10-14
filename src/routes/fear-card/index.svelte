@@ -6,17 +6,11 @@
   import LoadButton from "$lib/load-button.svelte";
 
   import NameEffects from "./name-effects.svelte";
-  // import AspectEffects from "./aspect-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
   import { downloadHTML } from "$lib/download";
 
-  // import examples from "./examples.json";
-  // import Examples from "$lib/example-modal.svelte";
-
-  // let exampleModal;
-
-  export let blightCard;
-  export let emptyBlightCard;
+  export let fearCard;
+  export let emptyFearCard;
   export let customIcons;
 
   let previewFrame;
@@ -28,12 +22,12 @@
     reloadPreview();
   }
 
-  const demoURL = "/template/MyCustomContent/MyBlightCard/blight_card_downward_spiral.html";
+  const demoURL = "/template/MyCustomContent/MyFearCard/fear_card_blank.html";
   function onLoad() {
-    if (blightCard.demoBoardWasLoaded === false) {
+    if (fearCard.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
-        blightCard.demoBoardWasLoaded = true;
-        emptyBlightCard.demoBoardWasLoaded = true;
+        fearCard.demoBoardWasLoaded = true;
+        emptyFearCard.demoBoardWasLoaded = true;
       });
     } else {
       reloadPreview();
@@ -43,30 +37,30 @@
 
   function reloadPreview() {
     console.log("Updating Preview (f=reloadPreview)");
-    previewFrame.copyHTMLFrom(generateHTML(blightCard)).then(() => {
+    previewFrame.copyHTMLFrom(generateHTML(fearCard)).then(() => {
       previewFrame.startMain();
     });
   }
 
-  function generateHTML(blightCard) {
+  function generateHTML(fearCard) {
     const fragment = new DocumentFragment();
 
-    let blightCardHTML = document.createElement("template-blight-card");
-    fragment.append(blightCardHTML);
+    let fearCardHTML = document.createElement("template-fear-card");
+    fragment.append(fearCardHTML);
 
-    //Generate HTML for Blight Card Name
-    blightCardHTML.setAttribute("name", blightCard.card.cardName);
+    //Generate HTML for Fear Card Name
+    let fearCardName = document.createElement("fear-card-name");
+    fearCardHTML.appendChild(fearCardName);
+    fearCardName.innerHTML = fearCard.card.cardName;
 
-    //Generate HTML for Blight Per Player
-    blightCardHTML.setAttribute("per-player", blightCard.card.blightPerPlayer);
-
-    //Generate HTML for Still Healthy?
-    blightCardHTML.setAttribute("still-healthy", blightCard.card.isStillHealthy);
-
-    //Generate HTML for Effect
-    let blightEffect = document.createElement("effect");
-    blightCardHTML.appendChild(blightEffect);
-    blightEffect.innerHTML = blightCard.card.cardEffect;
+    //Generate HTML for Terror Levels
+    for (let i = 1; i < 4; i++) {
+      let terrorLevelHTML = document.createElement("terror-level");
+      fearCardHTML.appendChild(terrorLevelHTML);
+      let curLevel = "level" + i;
+      terrorLevelHTML.innerHTML = fearCard.card[curLevel];
+      terrorLevelHTML.classList.add(curLevel);
+    }
 
     //Set Custom Icons
     const spiritStyle = document.createElement("style");
@@ -78,41 +72,38 @@
     });
     spiritStyle.textContent = customIconText;
 
-    console.log("blightCard HTML generated");
-    console.log(blightCard);
+    console.log("fearCard HTML generated");
+    console.log(fearCard);
 
     return fragment;
   }
 
   function readHTML(htmlElement) {
     //Reads the Template HTML file into the Form
-    console.log("Loading blight card into form (f=readHTML)");
+    console.log("Loading fear card into form (f=readHTML)");
 
     //Create a new blank JSON for the template data
-    blightCard = JSON.parse(JSON.stringify(emptyBlightCard));
+    fearCard = JSON.parse(JSON.stringify(emptyFearCard));
 
-    const blightCardHTML = htmlElement.querySelectorAll("template-blight-card")[0];
+    const fearCardName = htmlElement.querySelectorAll("fear-card-name")[0];
 
-    //Read Blight Card Name
-    blightCard.card.cardName = blightCardHTML.getAttribute("name");
+    //Read Fear Card Name
+    fearCard.card.cardName = fearCardName.innerHTML;
 
-    //Read Blight Per Player
-    blightCard.card.blightPerPlayer = blightCardHTML.getAttribute("per-player");
-
-    //Read HTML for Still Healthy?
-    blightCard.card.isStillHealthy = blightCardHTML.getAttribute("still-healthy");
-    console.log("read stillhealthy=" + blightCard.card.isStillHealthy);
-    //Read Effect
-    let blightEffect = blightCardHTML.querySelectorAll("effect")[0];
-    blightCard.card.cardEffect = blightEffect.innerHTML;
+    //Read Terror Levels
+    const terrorLevels = htmlElement.querySelectorAll("terror-level");
+    terrorLevels.forEach((level, i) => {
+      let levelNum = "level" + (i + 1);
+      fearCard.card[levelNum] = level.innerHTML;
+    });
 
     //Custom Icons
-    if (blightCard.demoBoardWasLoaded) {
-      const blightCardStyle = htmlElement.querySelectorAll("style")[0];
+    if (fearCard.demoBoardWasLoaded) {
+      const fearCardStyle = htmlElement.querySelectorAll("style")[0];
       customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (blightCardStyle) {
+      if (fearCardStyle) {
         const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = blightCardStyle.textContent.match(regExp);
+        let iconList = fearCardStyle.textContent.match(regExp);
         if (iconList) {
           iconList.forEach((customIcon) => {
             customIcons = Lib.addCustomIcon(customIcons, customIcon);
@@ -124,25 +115,25 @@
       console.log("SKIPPING ICON LOAD");
     }
 
-    console.log("blightCard HTML loaded into form");
-    console.log(blightCard);
+    console.log("fearCard HTML loaded into form");
+    console.log(fearCard);
   }
 
-  function exportBlightCard() {
-    const htmlFileName = blightCard.card.cardName.replaceAll(" ", "_") + "_BlightCard.html";
-    downloadHTML(generateHTML(blightCard), htmlFileName);
+  function exportFearCard() {
+    const htmlFileName = fearCard.card.cardName.replaceAll(" ", "_") + "_FearCard.html";
+    downloadHTML(generateHTML(fearCard), htmlFileName);
   }
 
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Aspect.")) {
-      blightCard = JSON.parse(JSON.stringify(emptyBlightCard));
+      fearCard = JSON.parse(JSON.stringify(emptyFearCard));
       reloadPreview();
     }
   }
 
   function screenshotSetUp() {
-    const fileNames = [blightCard.card.cardName.replaceAll(" ", "_") + "_BlightCard.png"];
-    const elementNamesInIframe = ["blight-card"];
+    const fileNames = [fearCard.card.cardName.replaceAll(" ", "_") + "_FearCard.png"];
+    const elementNamesInIframe = ["fear-card"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 
@@ -152,18 +143,18 @@
   // }
 
   // function hideAll() {
-  //   blightCard.card.isVisible = false;
+  //   fearCard.card.isVisible = false;
   //   customIcons.isVisible = false;
   // }
 </script>
 
-<PreviewFrame id="blight-card-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
+<PreviewFrame id="fear-card-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
-    <link href="/template/_global/css/blight_card.css" rel="stylesheet" />
+    <link href="/template/_global/css/fear_card.css" rel="stylesheet" />
     <link href="/template/_global/css/blight_fear_card_icons.css" rel="stylesheet" />
     <script type="text/javascript" src="/template/_global/js/common.js"></script>
-    <script type="text/javascript" src="/template/_global/js/blight_card.js" defer></script>
+    <script type="text/javascript" src="/template/_global/js/fear_card.js" defer></script>
   </svelte:fragment>
 </PreviewFrame>
 
@@ -174,7 +165,7 @@
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
     Load
   </LoadButton>
-  <button class="button is-success  mr-1" on:click={exportBlightCard}> Save </button>
+  <button class="button is-success  mr-1" on:click={exportFearCard}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
     >Update Preview</button>
@@ -184,7 +175,7 @@
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">
-    <NameEffects bind:blightCard />
+    <NameEffects bind:fearCard />
     <CustomIcons bind:customIcons />
   </div>
   <div class="column pt-0">
