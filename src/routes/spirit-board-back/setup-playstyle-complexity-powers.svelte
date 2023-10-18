@@ -168,5 +168,22 @@
         </div>
       </div>
     </div>
+    <div class="field is-flex is-small">
+      <div class="field has-addons is-horizontal is-justify-content-right mb-0">
+        <div class="field-label is-small">
+          <label class="label" style="width:30%; min-width:3rem;" for="adversaryFlagArt"
+            >Note</label>
+        </div>
+        <div class="control">
+          <input
+            id="spiritLoreUses"
+            class="input"
+            style="width:100%; min-width:20rem;"
+            type="text"
+            placeholder="A note, like on Shifting Memory"
+            bind:value={spiritBoardBack.note.noteText} />
+        </div>
+      </div>
+    </div>
   </div>
 </Section>

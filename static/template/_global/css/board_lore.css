@@ -200,14 +200,12 @@ lore-overlay {
 }
 
 div.summary-of-powers-title {
-  display: block;
-  text-align: center;
-  vertical-align: bottom;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 124px;
   padding-left: 40px;
   padding-right: 40px;
-  padding-top: 60px;
-  margin-bottom: -20px;
 }
 
 .powers-summary {
@@ -223,12 +221,55 @@ div.summary-of-powers-title {
   text-align: center;
 }
 
-tr.power-bar td {
+tr.power-bars {
+  height: 157px;
+}
+
+table.has-note tr.power-bars {
+  height: 110px;
+}
+
+table.has-note tr.power-bars td {
+  height: 110px;
+}
+
+tr.power-bars td {
   height: 140px;
 }
 
-tr.power-bar td div {
+tr.power-bars.has-summary td {
+  height: 110px;
+}
+
+tr.power-bars td div {
   height: 115px;
+}
+
+table.powers-summary.has-uses {
+  padding-right: 15px;
+}
+
+table.powers-summary.has-uses power-bar {
+  margin-left: 14px;
+}
+
+table.powers-summary.has-uses td.power-divider {
+  width: 10px;
+}
+
+tr.note-row {
+  height: 32px;
+}
+
+tr.note-row note {
+  position: relative;
+  margin-bottom: 0px;
+  margin-top: -30px;
+  padding-left: 25px;
+  padding-right: 25px;
+  height: 10px;
+  display: block;
+  font-size: 18px;
 }
 
 summary-of-powers .offense,
@@ -236,6 +277,7 @@ summary-of-powers .control,
 summary-of-powers .fear,
 summary-of-powers .defense,
 summary-of-powers .utility {
+  display: block;
   width: 60px;
   margin-left: 27px;
   background-repeat: no-repeat;
@@ -263,9 +305,18 @@ td.power-divider {
   background-repeat: no-repeat;
   width: 5px;
   background-position: center;
+  background-size: cover;
   margin-left: -10px;
   margin-right: -10px;
   filter: brightness(0.4);
+}
+
+table.powers-summary.has-uses td {
+  width: 90px;
+}
+
+td.uses-icon {
+  width: 140px;
 }
 
 icon.uses-icon {
@@ -281,6 +332,10 @@ uses-icon-holder {
   height: 140px;
   flex-wrap: wrap;
   flex-direction: column;
+}
+
+tr.note-row {
+  margin-top: 10px;
 }
 
 /* Icon Stuff */

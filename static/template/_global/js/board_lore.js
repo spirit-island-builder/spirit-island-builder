@@ -82,24 +82,24 @@ function createPowerProperties() {
     var powerTable = document.createElement("table");
     powerTable.className = "powers-summary";
     powerTable.innerHTML = `
-                    <tbody><tr class="power-bar">
+                    <tbody><tr class="power-bars">
                         <td>
                             <div class="summary-of-powers-title">Summary of Powers
                         </div></td>
                         <td valign="bottom">
-                            <div class="offense" value="${offenseValue}"></div>
+                            <power-bar class="offense" value="${offenseValue}"></power-bar>
                         </td>
                         <td valign="bottom">
-                            <div class="control" value="${controlValue}"></div>
+                            <power-bar class="control" value="${controlValue}"></power-bar>
                         </td>
                         <td valign="bottom">
-                            <div class="fear" value="${fearValue}"></div>
+                            <power-bar class="fear" value="${fearValue}"></power-bar>
                         </td>
                         <td valign="bottom">
-                            <div class="defense" value="${defenseValue}"></div>
+                            <power-bar class="defense" value="${defenseValue}"></power-bar>
                         </td>
                         <td valign="bottom">
-                            <div class="utility" value="${utilityValue}"></div>
+                            <power-bar class="utility" value="${utilityValue}"></power-bar>
                         </td>
                     </tr>
                     <tr>
@@ -138,34 +138,46 @@ function createPowerProperties() {
   var defenseValue = defenseTag.getAttribute("value");
   var utilityValue = utilityTag.getAttribute("value");
 
-  offenseTag.style.height = offenseValue * 15 + "px";
-  controlTag.style.height = controlValue * 15 + "px";
-  fearTag.style.height = fearValue * 15 + "px";
-  defenseTag.style.height = defenseValue * 15 + "px";
-  utilityTag.style.height = utilityValue * 15 + "px";
+  offenseTag.style.height = offenseValue * 10 + "%";
+  controlTag.style.height = controlValue * 10 + "%";
+  fearTag.style.height = fearValue * 10 + "%";
+  defenseTag.style.height = defenseValue * 10 + "%";
+  utilityTag.style.height = utilityValue * 10 + "%";
 
   uses = document.getElementsByTagName("summary-of-powers")[0].getAttribute("uses");
+  table = document.getElementsByClassName("powers-summary")[0];
+  topRow = table.getElementsByTagName("tr")[0];
+  note = document.getElementsByTagName("note")[0];
+  if (note) {
+    console.log("found note");
+    table.classList.add("has-note");
+    noteRow = document.createElement("tr");
+    noteRow.className = "note-row";
+    topRow.parentNode.insertBefore(noteRow, topRow);
+    noteRow.appendChild(document.createElement("td"));
+    noteCol = document.createElement("td");
+    noteCol.colSpan = "5";
+    noteCol.classList.add("note");
+    noteRow.appendChild(noteCol);
+    noteWrap = document.createElement("note-wrap");
+    noteCol.appendChild(note);
+    // noteWrap.innerHTML = note.textContent;
+
+    // note.remove();
+  } else {
+    console.log("no note");
+    console.log(note);
+  }
+  countRows = table.querySelectorAll("tr").length;
   if (uses) {
-    table = document.getElementsByClassName("powers-summary")[0];
-    rowElements = table.getElementsByTagName("td");
-    for (let i = 0; i < rowElements.length; i++) {
-      rowElements[i].style.width = 90 + "px";
-    }
-    offenseTag.style.marginLeft = 14 + "px";
-    controlTag.style.marginLeft = 14 + "px";
-    fearTag.style.marginLeft = 14 + "px";
-    defenseTag.style.marginLeft = 14 + "px";
-    utilityTag.style.marginLeft = 14 + "px";
-    table = document.getElementsByClassName("powers-summary")[0];
-    table.paddingRight = 15 + "px";
-    topRow = table.getElementsByTagName("tr")[0];
+    table.classList.add("has-uses");
+    topRow = table.getElementsByTagName("tr")[0]; // reset top row in case note was added
     lineCol = document.createElement("td");
     lineCol.className = "power-divider";
-    lineCol.style.width = "10px";
+    lineCol.rowSpan = countRows - 1;
     usesCol = document.createElement("td");
-    usesCol.rowSpan = "2";
+    usesCol.rowSpan = countRows; //if we added a note, span that column too
     usesCol.className = "uses-icon";
-    usesCol.style.width = "140px";
     usesCol.append("USES");
     usesList = uses.split(",");
     iconHolder = document.createElement("uses-icon-holder");

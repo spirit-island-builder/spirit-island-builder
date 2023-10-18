@@ -1,0 +1,14 @@
+icon {
+  width: 25px;
+  height: 25px;
+  margin-top: -7px;
+  margin-bottom: -4px;
+}
+
+icon.sacred-site {
+  width: 50px;
+  height: 30px;
+  margin-bottom: -11px;
+  margin-left: 1px;
+  margin-right: -1px;
+}

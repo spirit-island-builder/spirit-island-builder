@@ -332,6 +332,12 @@ growth-cell icon.discard-element {
   width: 36px;
 }
 
+growth-cell icon.gain-card-pay-2 {
+  display: block;
+  height: 100px;
+  width: 80px;
+}
+
 presence-node.growth {
   margin-top: -39px;
 }

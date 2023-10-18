@@ -27,17 +27,45 @@ function replaceIcon(html) {
   ]);
 
   for (var match of matchs || []) {
+    iconHtml = getIconHTML(match);
+    result = result.replace(new RegExp(match, "ig"), iconHtml);
+  }
+
+  return result;
+
+  // Function that processes matches into icon HTML
+  function getIconHTML(match) {
     var iconName = match.replace("{", "").replace("}", "");
+    let iconHtml;
+
     var iconNamePieces = iconName.split(",");
     let elementCount = "";
     let elementCountText = "";
     if (iconNamePieces[1]) {
+      console.log("multi-pieces");
       iconName = iconNamePieces[0];
       elementCount = iconNamePieces[1];
-      elementCountText += "<div class='element-for-each'><span>" + elementCount + "</span></div>";
+      elementCountText += "<icon-count>" + elementCount + "</icon-count>";
     }
 
-    let iconHtml = elementCountText;
+    iconHtml = elementCountText;
+
+    // Catch "/" options to merge into single icon
+    var iconSplit = iconName.split("/");
+    if (iconSplit[1]) {
+      console.log("comining a split icon...");
+      let finalIcon = "";
+      iconSplit.forEach((icon, i) => {
+        finalIcon += getIconHTML("{" + icon + "}");
+        if (i < iconSplit.length - 1) {
+          finalIcon += "/";
+        }
+      });
+      iconHtml = "<binder>" + elementCountText + finalIcon + "</binder>";
+      console.log(iconHtml);
+      return iconHtml;
+    }
+
     let HTMLTag = "icon";
 
     // Check for 'no'
@@ -104,8 +132,6 @@ function replaceIcon(html) {
       HTMLTag +
       `>`;
 
-    result = result.replace(new RegExp(match, "ig"), iconHtml);
+    return iconHtml;
   }
-
-  return result;
 }
