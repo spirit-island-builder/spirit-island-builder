@@ -23,7 +23,7 @@
 
 <style>
   footer {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     padding-block-start: 0.25rem;
     padding-block-end: 0.5rem;
     padding-inline-start: 0.5rem;

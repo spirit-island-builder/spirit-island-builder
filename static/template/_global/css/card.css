@@ -203,8 +203,8 @@ element.animal {
   width: 352px;
   height: 262px;
   border-top-left-radius: 10px;
-  object-fit: cover;
-  object-position: 10% 10%;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 info-title {

@@ -82,6 +82,13 @@
       }
     });
 
+    //Add spirit name
+    if (powerCards.spiritName) {
+      let spiritName = document.createElement("spirit-name");
+      fragment.append(spiritName);
+      spiritName.innerHTML = powerCards.spiritName;
+    }
+
     //Set Custom Icons
     const spiritStyle = document.createElement("style");
     fragment.prepend(spiritStyle);
@@ -142,6 +149,12 @@
     if (cardBack) {
       let cardBackImage = cardBack.querySelectorAll("img")[0];
       powerCards.cardBackImage = Lib.maybeResolveURL(cardBackImage.getAttribute("src"), baseURI);
+    }
+
+    //Add spirit name
+    const spiritNameHTML = htmlElement.querySelectorAll("spirit-name")[0];
+    if (spiritNameHTML) {
+      powerCards.spiritName = spiritNameHTML.innerHTML;
     }
   }
 
