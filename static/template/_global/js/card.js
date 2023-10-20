@@ -28,7 +28,7 @@ function constructCard(data, cardIndex) {
   card.id = `card${cardIndex}`;
   card.className = data.speed;
   card.innerHTML = `
-  <img class="image" src=${data.image} />
+  <div class="image" style="background-image:url(${data.image});"></div>
   <cost id='${card.id}cost'>${data.cost}</cost>
   <name id='${card.id}name'>${data.name}</name>
   
