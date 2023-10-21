@@ -35,8 +35,25 @@
     powerCards = powerCards;
   }
 
+  function clearSecondThreshold(card) {
+    card.hasSecondThreshold = false;
+    card.secondThreshold = "";
+    card.secondThresholdCondition = "";
+    powerCards = powerCards;
+  }
+
+  function clearThresholds(card) {
+    clearThreshold(card);
+    clearSecondThreshold(card);
+  }
+
   function addThreshold(card) {
     card.hasThreshold = true;
+    powerCards = powerCards;
+  }
+
+  function add2ndThreshold(card) {
+    card.hasSecondThreshold = true;
     powerCards = powerCards;
   }
 
@@ -321,6 +338,7 @@
           id={`cardRules${i}`}
           elementType="textarea"
           placeholder="Rules"
+          classNames="is-small"
           validAutoCompleteValues={iconValuesSorted}
           additionalOnBlurFunction={() => updatePowerName(card, i, "rules")}
           bind:value={card.rules} />
@@ -351,11 +369,44 @@
             id={`cardRules${i}`}
             elementType="textarea"
             placeholder="Threshold Effect"
+            classNames="is-small"
             validAutoCompleteValues={iconValuesSorted}
             additionalOnBlurFunction={() => updatePowerName(card, i, "threshold")}
             bind:value={card.threshold} />
-          <button class="button is-warning is-light mb-0" on:click={clearThreshold(card)}
-            >Clear Power Threshold</button>
+          {#if card.hasSecondThreshold}
+            <div class="field has-addons is-flex mr-2 mb-0">
+              <label class="label is-unselectable mr-2 mb-0 mt-1" for="">2nd Threshold:</label>
+              <input
+                id={`power2ndThresholdCondition${i}`}
+                class="input is-small mr-3"
+                style="width:35%"
+                type="text"
+                placeholder="Elemental Conditions"
+                on:blur={updatePowerName(card, i, "thresholdCondition")}
+                bind:value={card.secondThresholdCondition} />
+              <button
+                class="button is-warning is-light is-small mb-0"
+                on:click={clearSecondThreshold(card)}>Remove Second Threshold</button>
+            </div>
+            <AutoComplete
+              id={`cardRules${i}`}
+              elementType="textarea"
+              placeholder="Threshold Effect"
+              classNames="is-small"
+              validAutoCompleteValues={iconValuesSorted}
+              additionalOnBlurFunction={() => updatePowerName(card, i, "threshold")}
+              bind:value={card.secondThreshold} />
+            <button
+              class="button is-warning is-light is-small mb-0"
+              on:click={clearThresholds(card)}>Clear Power Thresholds (both)</button>
+          {:else}
+            <div class="is-flex is-justify-content-space-between">
+              <button class="button is-success is-light mb-0" on:click={add2ndThreshold(card)}
+                >Add Second Threshold</button>
+              <button class="button is-warning is-light mb-0" on:click={clearThreshold(card)}
+                >Clear Power Threshold</button>
+            </div>
+          {/if}
         {:else}
           <button class="button is-success is-light mb-0" on:click={addThreshold(card)}
             >Add Power Threshold</button>

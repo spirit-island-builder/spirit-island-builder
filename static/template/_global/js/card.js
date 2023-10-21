@@ -21,6 +21,8 @@ function startMain() {
   setTimeout(() => {
     resize();
   }, 200);
+
+  return 2;
 }
 
 function constructCard(data, cardIndex) {
@@ -105,19 +107,15 @@ function resize() {
 }
 
 function setThreshold(card) {
-  var threshold = card.querySelector("threshold");
-
-  if (threshold) {
+  var thresholds = card.querySelectorAll("threshold");
+  console.log(thresholds);
+  if (thresholds.length) {
     // deal with custom text
+    console.log(thresholds);
+    var threshold = thresholds[0];
     var customThresholdText = threshold.getAttribute("text");
 
-    if (customThresholdText) {
-      threshold.className = "threshold-custom";
-      // threshold.setAttribute("data-before", customThresholdText);
-      threshold.innerHTML += `<custom-threshold-flex><arrow-left></arrow-left><custom-threshold-text>${customThresholdText}</custom-threshold-text><arrow-right></arrow-right></custom-threshold-text>`;
-    }
-
-    //set elemental thresholds
+    //set elemental thresholds got first threshold
     var conditions = threshold.getAttribute("condition");
     if (conditions) {
       threshold.innerHTML = `<threshold-condition id="${
@@ -125,6 +123,29 @@ function setThreshold(card) {
       }thresholdCondition"><span>${getThresholdElements(conditions)}:</span></threshold-condition>${
         threshold.innerHTML
       }`;
+    }
+
+    //add additional thresholds
+    let secondThreshold = thresholds[1];
+    if (secondThreshold) {
+      var addCondition = secondThreshold.getAttribute("condition");
+      var addConditionText = `<threshold-condition id="${
+        card.id
+      }thresholdCondition${i}"><span>${getThresholdElements(
+        addCondition
+      )}:</span></threshold-condition>`;
+      threshold.innerHTML += addConditionText + secondThreshold.innerHTML;
+      secondThreshold.remove();
+    }
+
+    if (customThresholdText) {
+      threshold.className = "threshold-custom";
+      // threshold.setAttribute("data-before", customThresholdText);
+      let customThresholdElement = `<custom-threshold-flex><arrow-left></arrow-left><custom-threshold-text>${customThresholdText}</custom-threshold-text><arrow-right></arrow-right></custom-threshold-flex>`;
+      console.log(customThresholdElement);
+      console.log(threshold.innerHTML);
+      threshold.innerHTML = customThresholdElement + threshold.innerHTML;
+      console.log(threshold.innerHTML);
     }
   }
 }
@@ -190,12 +211,15 @@ function getRulesNew(quickCard, cardIndex) {
   rulesHTML = "<rules>" + getFormatRulesText(rules.innerHTML) + "</rules>";
   rulesHTML = `<rules id='card${cardIndex}rules'>${getFormatRulesText(rules.innerHTML)}</rules>`;
 
-  var threshold = quickCard.querySelectorAll("threshold")[0];
-  if (threshold) {
-    threshold.innerHTML = getFormatRulesText(threshold.innerHTML);
-    threshold.setAttribute("id", `card${cardIndex}threshold`);
-    rulesHTML += threshold.outerHTML;
+  var thresholds = quickCard.querySelectorAll("threshold");
+  if (thresholds.length) {
+    thresholds.forEach((threshold) => {
+      threshold.innerHTML = getFormatRulesText(threshold.innerHTML);
+      threshold.setAttribute("id", `card${cardIndex}threshold`);
+      rulesHTML += threshold.outerHTML;
+    });
   }
+  console.log(rulesHTML);
   return rulesHTML;
 }
 
