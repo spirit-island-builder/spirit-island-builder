@@ -68,6 +68,13 @@
       const boardElement = previewIframe.contentDocument.getElementsByTagName("board")[0];
       boardElement.addEventListener("click", clickFunction());
     }
+    if (status === 2) {
+      const names = Array.from(previewIframe.contentDocument.getElementsByTagName("name"));
+      console.log(names);
+      names.forEach((name) => {
+        name.addEventListener("click", clickFunction());
+      });
+    }
   };
 
   export const writeGrowthAction = (action) => {
