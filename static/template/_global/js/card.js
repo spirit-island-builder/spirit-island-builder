@@ -108,10 +108,9 @@ function resize() {
 
 function setThreshold(card) {
   var thresholds = card.querySelectorAll("threshold");
-  console.log(thresholds);
+
   if (thresholds.length) {
     // deal with custom text
-    console.log(thresholds);
     var threshold = thresholds[0];
     var customThresholdText = threshold.getAttribute("text");
 
@@ -142,10 +141,7 @@ function setThreshold(card) {
       threshold.className = "threshold-custom";
       // threshold.setAttribute("data-before", customThresholdText);
       let customThresholdElement = `<custom-threshold-flex><arrow-left></arrow-left><custom-threshold-text>${customThresholdText}</custom-threshold-text><arrow-right></arrow-right></custom-threshold-flex>`;
-      console.log(customThresholdElement);
-      console.log(threshold.innerHTML);
       threshold.innerHTML = customThresholdElement + threshold.innerHTML;
-      console.log(threshold.innerHTML);
     }
   }
 }
@@ -219,7 +215,7 @@ function getRulesNew(quickCard, cardIndex) {
       rulesHTML += threshold.outerHTML;
     });
   }
-  console.log(rulesHTML);
+
   return rulesHTML;
 }
 
