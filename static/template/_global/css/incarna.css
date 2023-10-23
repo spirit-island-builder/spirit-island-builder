@@ -1,0 +1,333 @@
+@import "global.css";
+@import "board_front/icon.css";
+
+@font-face {
+  font-family: JosefinSans-Regular;
+  src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf) format("truetype");
+  font-weight: normal;
+}
+
+html,
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 14px;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+incarna {
+  display: flex;
+  /* background-image: url(../images/incarna/incarna_unem_background.png);
+  background-repeat: no-repeat;
+  background-size: contain; */
+  width: 101px;
+  height: 118px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+incarna background {
+  display: flex;
+  background-image: url(../images/incarna/background.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 101px;
+  height: 118px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  color: orange;
+  filter: drop-shadow(0px 0px 0px);
+}
+
+incarna swirl {
+  position: absolute;
+  display: flex;
+  background-image: url(../images/incarna/swirl.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 101px;
+  height: 118px;
+  top: 0px;
+  left: 0px;
+  filter: opacity(0.8);
+}
+
+incarna.empowered swirl {
+  background-image: url(../images/incarna/empower_swirl.png);
+}
+
+incarna border {
+  position: absolute;
+  display: flex;
+  background-image: url(../images/incarna/empower_border.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 101px;
+  height: 118px;
+  top: 0px;
+  left: 0px;
+}
+
+/* incarna.empowered background::before {
+  content:"";
+  background-image: url(../images/incarna/incarna_em_background.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  position: absolute;
+  width:inherit;
+  height:inherit;
+} */
+
+incarna background-color {
+  display: flex;
+  background-image: url(../images/incarna/incarna_unem_background.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 101px;
+  height: 118px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+incarna glow {
+  position: absolute;
+  background-image: url(../images/incarna/glow.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  top: 0%;
+  width: inherit;
+  height: inherit;
+}
+
+incarna icon.presence {
+  position: absolute;
+  background-image: url(../images/incarna/presence_unem_background.png);
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+incarna.empowered icon.presence {
+  background-image: url(../images/incarna/presence_em_background.png);
+}
+
+incarna icon.presence::before {
+  content: "";
+  background-image: url(../images/incarna/presence_noglow.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  position: absolute;
+  width: inherit;
+  height: inherit;
+}
+
+incarna icon {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+incarna icon.token {
+  position: absolute;
+  top: 76%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 23px;
+  filter: contrast(0.4);
+}
+
+incarna icon.shadow {
+  color: white;
+  filter: drop-shadow(0.5px 0.5px 0px) drop-shadow(-0.5px 0.5px 0px) drop-shadow(0.5px -0.5px 0px)
+    drop-shadow(-0.5px -0.5px 0px) contrast(1);
+}
+
+incarna icon.shadow {
+  color: #ffd246;
+}
+
+incarna icon.incarna {
+  top: 48%;
+  width: 100px;
+}
+
+blight-card.still-healthy {
+  background-image: url(../images/cards/Blight/Healthy_Background_with_Banner_Trim.png);
+}
+
+effect-name {
+  position: relative;
+  display: block;
+  font-size: 29px;
+  font-family: "Name Headings";
+  white-space: normal;
+  width: inherit;
+  line-height: 32px;
+  text-align: center;
+  text-transform: uppercase;
+  padding-left: 27px;
+  padding-right: 27px;
+}
+
+effect {
+  font-family: "JosefinSans-Regular";
+  font-size: 16pt;
+  line-height: 1.3;
+  letter-spacing: 0px;
+  word-spacing: 0px;
+  white-space: pre-line;
+  position: relative;
+  display: block;
+  text-align: center;
+  padding-top: 7px;
+  margin-bottom: -10px;
+  z-index: 1;
+}
+
+blight-heading {
+  position: absolute;
+  top: 8.5%;
+  width: inherit;
+  font-size: 64px;
+  line-height: 32px;
+  font-family: "Name Headings";
+  color: #57544a;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+blight-card.still-healthy > blight-heading {
+  color: #469238;
+  font-size: 50px;
+  top: 7%;
+}
+
+for-now {
+  font-size: 20pt;
+}
+
+blight-banner {
+  background-image: url(../images/cards/Blight/Blighted_Banner_middle.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 433px;
+  position: absolute;
+  top: 128px;
+  height: auto;
+  margin-left: 27.5px;
+  margin-right: 27px;
+  box-shadow: 0 3px 4px 0px gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+blight-banner::after {
+  content: "";
+  display: block;
+  width: inherit;
+  height: 45px;
+  background-image: url(../images/cards/Blight/Blighted_Banner_bottom.png);
+  background-repeat: no-repeat;
+  position: absolute;
+  top: calc(100% - 1px);
+}
+
+blight-card.still-healthy blight-banner {
+  background-image: url(../images/cards/Blight/Still-Healthy_Banner-middle.png);
+}
+
+blight-card.still-healthy blight-banner::after {
+  background-image: url(../images/cards/Blight/Still-Healthy_Banner-bottom.png);
+}
+
+per-player-text {
+  position: absolute;
+  top: 46%;
+  width: inherit;
+  font-family: "JosefinSans-Regular";
+  font-size: 25pt;
+  letter-spacing: -0.5px;
+  word-spacing: 0px;
+  white-space: pre-line;
+  display: block;
+  text-align: center;
+}
+
+blight-reminder {
+  position: absolute;
+  top: 56%;
+  width: inherit;
+  font-family: "JosefinSans-Regular";
+  font-size: 17pt;
+  letter-spacing: -0.5px;
+  word-spacing: 0px;
+  white-space: pre-line;
+  display: block;
+  text-align: center;
+  line-height: 1.3;
+}
+
+aspect growth-group icon.sun {
+  background-image: url("../images/board/Sun.png");
+}
+aspect growth-group icon.moon {
+  background-image: url("../images/board/Moon.png");
+}
+aspect growth-group icon.fire {
+  background-image: url("../images/board/Fire.png");
+}
+aspect growth-group icon.air {
+  background-image: url("../images/board/Air.png");
+}
+aspect growth-group icon.plant {
+  background-image: url("../images/board/Plant.png");
+}
+aspect growth-group icon.water {
+  background-image: url("../images/board/Water.png");
+}
+aspect growth-group icon.earth {
+  background-image: url("../images/board/Earth.png");
+}
+aspect growth-group icon.animal {
+  background-image: url("../images/board/Animal.png");
+}
+aspect growth-group icon.star {
+  background-image: url("../images/board/NewIcons/Element Star.png");
+}
+aspect growth-group icon.any {
+  background-image: url("../images/board/Any.png");
+}

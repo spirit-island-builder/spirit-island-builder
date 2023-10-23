@@ -1875,12 +1875,20 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
         }
         case "move-presence": {
           const matches = regExp.exec(splitOptions[0]);
-          const moveRange = matches[1];
-          inner =
-            "<track-move-presence>{presence}<move-value>" +
-            moveRange +
-            "</move-value>{move-arrow}</track-move-presence>";
-          subText = "Move a Presence " + moveRange;
+          let moveRange = matches[1];
+          if (isNaN(moveRange)) {
+            inner =
+              "<track-move-presence>{presence}<move-text>" +
+              moveRange +
+              "</move-text>{move-arrow}</track-move-presence>";
+            subText = "Move a Presence to " + moveRange + " land";
+          } else {
+            inner =
+              "<track-move-presence>{presence}<move-value>" +
+              moveRange +
+              "</move-value>{move-arrow}</track-move-presence>";
+            subText = "Move a Presence " + moveRange;
+          }
           addIconShadow = true;
           if (addEnergyRing) {
             addIconShadow = false;
