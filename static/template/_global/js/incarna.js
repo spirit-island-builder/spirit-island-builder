@@ -5,42 +5,55 @@ window.onload = function startMain() {
   let icon = incarna.getAttribute("icon");
   let tokenType = incarna.getAttribute("token");
   let empowered = incarna.getAttribute("empowered") === "true";
-  let color = incarna.getAttribute("color");
+  let backgroundColor = incarna.getAttribute("color");
 
   let background = document.createElement("background");
   incarna.appendChild(background);
-  if (color) {
-    background.style.color = color;
+  if (backgroundColor) {
+    background.style.color = backgroundColor;
   }
 
   let swirl = document.createElement("swirl");
   incarna.appendChild(swirl);
 
+  let glow = document.createElement("glow");
+  incarna.appendChild(glow);
+
+  if (empowered) {
+    incarna.classList.add("empowered");
+  }
+
+  //Add presence icon
   let presence = document.createElement("icon");
   presence.classList.add("presence");
-  incarna.appendChild(presence);
+  let presenceShadow = document.createElement("icon");
+  presenceShadow.classList.add("presence");
+  presenceShadow.classList.add("shadow");
+  let contrastWrapper = document.createElement("contrast-wrapper");
+  contrastWrapper.classList.add("presence");
+  incarna.appendChild(presenceShadow);
+  incarna.appendChild(contrastWrapper);
+  contrastWrapper.appendChild(presence);
 
+  //Add token icon
+  let token = document.createElement("icon");
+  let tokenShadow = document.createElement("icon");
   if (tokenType) {
-    let token = document.createElement("icon");
-    let tokenShadow = document.createElement("icon");
+    // let token = document.createElement("icon");
+    // let tokenShadow = document.createElement("icon");
     token.classList.add(tokenType);
     token.classList.add("token");
     tokenShadow.classList.add(tokenType);
     tokenShadow.classList.add("token");
     tokenShadow.classList.add("shadow");
+    let contrastWrapper = document.createElement("contrast-wrapper");
+    contrastWrapper.classList.add("token");
     incarna.appendChild(tokenShadow);
-    incarna.appendChild(token);
+    incarna.appendChild(contrastWrapper);
+    contrastWrapper.appendChild(token);
   }
 
-  console.log(empowered);
-  if (empowered) {
-    incarna.classList.add("empowered");
-    let glow = document.createElement("glow");
-    incarna.appendChild(glow);
-    let border = document.createElement("border");
-    incarna.appendChild(border);
-  }
-
+  //Add incarna icon
   if (icon) {
     let incarnaIcon = document.createElement("icon");
     let incarnaIconShadow = document.createElement("icon");
@@ -53,381 +66,326 @@ window.onload = function startMain() {
     incarna.appendChild(incarnaIconShadow);
   }
 
-  // for (var i = 0; i < aspects.length; i++) {
-  //   if (aspects[i].hasAttribute("profile")) {
-  //     aspects[i].classList.add("profile");
-  //     aspects[i].removeAttribute("profile");
-  //   }
-  //   parseComplexity(aspects[i]);
-  //   parseSubtexts(aspects[i]);
-  //   parseSubNodes(aspects[i]);
-  //   parseSpecialRules(aspects[i]);
-  //   aspects[i].innerHTML = replaceIcon(aspects[i].innerHTML);
-  //   resizeAspect(aspects[i]);
-  // }
-  // var backs = document.querySelectorAll("aspect-back");
-  // for (var i = 0; i < backs.length; i++) {
-  //   parseAspectBack(backs[i]);
-  // }
+  //Add border (only shows for empowered)
+  let border = document.createElement("border");
+  incarna.appendChild(border);
 
-  setTimeout(function () {
-    resizeInnatePowersAspect();
-  }, 200);
+  //Color the Icons
+  const rgb = hexToRgb(standardize_color(backgroundColor));
+  console.log(rgb);
+  if (rgb.length !== 3) {
+    alert("Invalid format!");
+    return;
+  }
+
+  const color = new Color(rgb[0], rgb[1], rgb[2]);
+  const solver = new Solver(color);
+  const result = solver.solve();
+
+  token.style.filter = result.filter;
+  presence.style.filter = result.filter;
 };
 
-function parseSubNodes(aspect) {
-  var container = aspect.querySelector("aspect-container");
-  for (var i = 0; i < container.childNodes.length; i++) {
-    if (
-      container.childNodes[i].nodeType === 1 &&
-      container.childNodes[i].nodeName === "QUICK-INNATE-POWER"
-    ) {
-      container.childNodes[i].outerHTML = parseInnatePowerAspect(container.childNodes[i]);
-    }
+("use strict");
+
+class Color {
+  constructor(r, g, b) {
+    this.set(r, g, b);
   }
-}
 
-function parseSubtexts(aspect) {
-  var subtexts = aspect.getElementsByTagName("aspect-subtext");
-  console.log("prase subtext");
-  console.log(subtexts);
-  if (subtexts && subtexts.length > 0) {
-    if (subtexts.length > 1) {
-      var finalsubtext = subtexts[0];
-      for (var i = 1; i < subtexts.length; i++) {
-        finalsubtext.innerHTML += "<br>" + subtexts[i].innerHTML;
-        //console.log(subtexts[i].remove());
-      }
-      for (var i = subtexts.length - 1; i > 0; i--) {
-        subtexts[i].remove();
-      }
-    }
-  } else {
-    var title = aspect.getElementsByTagName("aspect-name")[0];
-    title.classList.add("no-subtext");
+  toString() {
+    return `rgb(${Math.round(this.r)}, ${Math.round(this.g)}, ${Math.round(this.b)})`;
   }
-}
 
-function parseAspectBack(back) {
-  var html = '<img src="' + back.getAttribute("src") + '" />';
-  html += "<aspect-overlay/>";
-  html += '<div class="aspect-back-title">ASPECT</div>';
-  html += '<div class="aspect-back-name">' + back.getAttribute("spirit-name") + "</div>";
-  back.innerHTML = html;
-}
-
-function parseComplexity(aspect) {
-  var complexityHolder = aspect.querySelector("complexity");
-  if (complexityHolder) {
-    console.log(aspect);
-    var aspectNameHTML = aspect.querySelector("aspect-name");
-    aspectNameHTML.classList.add("has-complexity");
-    var aspectSubtextHTML = aspect.querySelector("aspect-subtext");
-    if (aspectSubtextHTML) {
-      aspectSubtextHTML.classList.add("has-complexity");
-    }
-    var complexityLevel = complexityHolder.getAttribute("value");
-    var newComplexityElement = document.createElement("complexity");
-    newComplexityElement.classList.add(complexityLevel);
-    aspect.appendChild(newComplexityElement);
-    complexityHolder.remove();
+  set(r, g, b) {
+    this.r = this.clamp(r);
+    this.g = this.clamp(g);
+    this.b = this.clamp(b);
   }
-}
 
-function parseInnatePowerAspect(innatePowerHTML) {
-  var debug = false;
-  var currentPowerHTML = "<innate-power class='" + innatePowerHTML.getAttribute("speed") + "'>";
+  hueRotate(angle = 0) {
+    angle = (angle / 180) * Math.PI;
+    const sin = Math.sin(angle);
+    const cos = Math.cos(angle);
 
-  //Innate Power title
-  currentPowerHTML +=
-    "<innate-power-title>" +
-    innatePowerHTML.getAttribute("name") +
-    "</innate-power-title><info-container><info-title>";
+    this.multiply([
+      0.213 + cos * 0.787 - sin * 0.213,
+      0.715 - cos * 0.715 - sin * 0.715,
+      0.072 - cos * 0.072 + sin * 0.928,
+      0.213 - cos * 0.213 + sin * 0.143,
+      0.715 + cos * 0.285 + sin * 0.14,
+      0.072 - cos * 0.072 - sin * 0.283,
+      0.213 - cos * 0.213 - sin * 0.787,
+      0.715 - cos * 0.715 + sin * 0.715,
+      0.072 + cos * 0.928 + sin * 0.072,
+    ]);
+  }
 
-  //Innate Power Speed and Range Header
-  currentPowerHTML +=
-    "<info-title-speed>SPEED</info-title-speed><info-title-range>RANGE</info-title-range>";
+  grayscale(value = 1) {
+    this.multiply([
+      0.2126 + 0.7874 * (1 - value),
+      0.7152 - 0.7152 * (1 - value),
+      0.0722 - 0.0722 * (1 - value),
+      0.2126 - 0.2126 * (1 - value),
+      0.7152 + 0.2848 * (1 - value),
+      0.0722 - 0.0722 * (1 - value),
+      0.2126 - 0.2126 * (1 - value),
+      0.7152 - 0.7152 * (1 - value),
+      0.0722 + 0.9278 * (1 - value),
+    ]);
+  }
 
-  //Innate Power Target Header
-  currentPowerHTML +=
-    "<info-title-target>" +
-    innatePowerHTML.getAttribute("target-title") +
-    "</info-title-target></info-title><innate-info>";
+  sepia(value = 1) {
+    this.multiply([
+      0.393 + 0.607 * (1 - value),
+      0.769 - 0.769 * (1 - value),
+      0.189 - 0.189 * (1 - value),
+      0.349 - 0.349 * (1 - value),
+      0.686 + 0.314 * (1 - value),
+      0.168 - 0.168 * (1 - value),
+      0.272 - 0.272 * (1 - value),
+      0.534 - 0.534 * (1 - value),
+      0.131 + 0.869 * (1 - value),
+    ]);
+  }
 
-  //Innater Power Speed value
-  currentPowerHTML += "<innate-info-speed></innate-info-speed>";
+  saturate(value = 1) {
+    this.multiply([
+      0.213 + 0.787 * value,
+      0.715 - 0.715 * value,
+      0.072 - 0.072 * value,
+      0.213 - 0.213 * value,
+      0.715 + 0.285 * value,
+      0.072 - 0.072 * value,
+      0.213 - 0.213 * value,
+      0.715 - 0.715 * value,
+      0.072 + 0.928 * value,
+    ]);
+  }
 
-  //Innate Power Range value
-  currentPowerHTML += `<innate-info-range>${getRangeModel(
-    innatePowerHTML.getAttribute("range")
-  )}</innate-info-range>`;
+  multiply(matrix) {
+    const newR = this.clamp(this.r * matrix[0] + this.g * matrix[1] + this.b * matrix[2]);
+    const newG = this.clamp(this.r * matrix[3] + this.g * matrix[4] + this.b * matrix[5]);
+    const newB = this.clamp(this.r * matrix[6] + this.g * matrix[7] + this.b * matrix[8]);
+    this.r = newR;
+    this.g = newG;
+    this.b = newB;
+  }
 
-  function getRangeModel(rangeString) {
-    if (rangeString === "none") {
-      return "<no-range></no-range>";
+  brightness(value = 1) {
+    this.linear(value);
+  }
+  contrast(value = 1) {
+    this.linear(value, -(0.5 * value) + 0.5);
+  }
+
+  linear(slope = 1, intercept = 0) {
+    this.r = this.clamp(this.r * slope + intercept * 255);
+    this.g = this.clamp(this.g * slope + intercept * 255);
+    this.b = this.clamp(this.b * slope + intercept * 255);
+  }
+
+  invert(value = 1) {
+    this.r = this.clamp((value + (this.r / 255) * (1 - 2 * value)) * 255);
+    this.g = this.clamp((value + (this.g / 255) * (1 - 2 * value)) * 255);
+    this.b = this.clamp((value + (this.b / 255) * (1 - 2 * value)) * 255);
+  }
+
+  hsl() {
+    // Code taken from https://stackoverflow.com/a/9493060/2688027, licensed under CC BY-SA.
+    const r = this.r / 255;
+    const g = this.g / 255;
+    const b = this.b / 255;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h,
+      s,
+      l = (max + min) / 2;
+
+    if (max === min) {
+      h = s = 0;
     } else {
-      var result = "";
-      for (var item of rangeString.split(",")) {
-        if (!isNaN(item)) {
-          result += `<range>${item}</range>`;
-        } else {
-          result += `<icon class="${item}"></icon>`;
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r:
+          h = (g - b) / d + (g < b ? 6 : 0);
+          break;
+
+        case g:
+          h = (b - r) / d + 2;
+          break;
+
+        case b:
+          h = (r - g) / d + 4;
+          break;
+      }
+      h /= 6;
+    }
+
+    return {
+      h: h * 100,
+      s: s * 100,
+      l: l * 100,
+    };
+  }
+
+  clamp(value) {
+    if (value > 255) {
+      value = 255;
+    } else if (value < 0) {
+      value = 0;
+    }
+    return value;
+  }
+}
+
+class Solver {
+  constructor(target, baseColor) {
+    this.target = target;
+    this.targetHSL = target.hsl();
+    this.reusedColor = new Color(0, 0, 0);
+  }
+
+  solve() {
+    const result = this.solveNarrow(this.solveWide());
+    return {
+      values: result.values,
+      loss: result.loss,
+      filter: this.css(result.values),
+    };
+  }
+
+  solveWide() {
+    const A = 5;
+    const c = 15;
+    const a = [60, 180, 18000, 600, 1.2, 1.2];
+
+    let best = { loss: Infinity };
+    for (let i = 0; best.loss > 25 && i < 3; i++) {
+      const initial = [50, 20, 3750, 50, 100, 100];
+      const result = this.spsa(A, a, c, initial, 1000);
+      if (result.loss < best.loss) {
+        best = result;
+      }
+    }
+    return best;
+  }
+
+  solveNarrow(wide) {
+    const A = wide.loss;
+    const c = 2;
+    const A1 = A + 1;
+    const a = [0.25 * A1, 0.25 * A1, A1, 0.25 * A1, 0.2 * A1, 0.2 * A1];
+    return this.spsa(A, a, c, wide.values, 500);
+  }
+
+  spsa(A, a, c, values, iters) {
+    const alpha = 1;
+    const gamma = 0.16666666666666666;
+
+    let best = null;
+    let bestLoss = Infinity;
+    const deltas = new Array(6);
+    const highArgs = new Array(6);
+    const lowArgs = new Array(6);
+
+    for (let k = 0; k < iters; k++) {
+      const ck = c / Math.pow(k + 1, gamma);
+      for (let i = 0; i < 6; i++) {
+        deltas[i] = Math.random() > 0.5 ? 1 : -1;
+        highArgs[i] = values[i] + ck * deltas[i];
+        lowArgs[i] = values[i] - ck * deltas[i];
+      }
+
+      const lossDiff = this.loss(highArgs) - this.loss(lowArgs);
+      for (let i = 0; i < 6; i++) {
+        const g = (lossDiff / (2 * ck)) * deltas[i];
+        const ak = a[i] / Math.pow(A + k + 1, alpha);
+        values[i] = fix(values[i] - ak * g, i);
+      }
+
+      const loss = this.loss(values);
+      if (loss < bestLoss) {
+        best = values.slice(0);
+        bestLoss = loss;
+      }
+    }
+    return { values: best, loss: bestLoss };
+
+    function fix(value, idx) {
+      let max = 100;
+      if (idx === 2 /* saturate */) {
+        max = 7500;
+      } else if (idx === 4 /* brightness */ || idx === 5 /* contrast */) {
+        max = 200;
+      }
+
+      if (idx === 3 /* hue-rotate */) {
+        if (value > max) {
+          value %= max;
+        } else if (value < 0) {
+          value = max + (value % max);
         }
+      } else if (value < 0) {
+        value = 0;
+      } else if (value > max) {
+        value = max;
       }
-      return result;
+      return value;
     }
   }
 
-  //Innate Power Target value
-  var targetValue = innatePowerHTML.getAttribute("target");
-  currentPowerHTML += `<innate-info-target>${replaceIcon(
-    targetValue
-  )}</innate-info-target></innate-info></info-container>`;
+  loss(filters) {
+    // Argument is array of percentages.
+    const color = this.reusedColor;
+    color.set(0, 0, 0);
 
-  currentPowerHTML += "<description-container>";
+    color.invert(filters[0] / 100);
+    color.sepia(filters[1] / 100);
+    color.saturate(filters[2] / 100);
+    color.hueRotate(filters[3] * 3.6);
+    color.brightness(filters[4] / 100);
+    color.contrast(filters[5] / 100);
 
-  var noteValue = innatePowerHTML.getAttribute("note");
-
-  //If the note field is blank, don't include it
-  if (noteValue == null || noteValue == "") {
-    noteValue = "";
-  } else {
-    currentPowerHTML += "<note>" + noteValue + "</note>";
+    const colorHSL = color.hsl();
+    return (
+      Math.abs(color.r - this.target.r) +
+      Math.abs(color.g - this.target.g) +
+      Math.abs(color.b - this.target.b) +
+      Math.abs(colorHSL.h - this.targetHSL.h) +
+      Math.abs(colorHSL.s - this.targetHSL.s) +
+      Math.abs(colorHSL.l - this.targetHSL.l)
+    );
   }
 
-  //Innate Power Levels and Thresholds
-  var currentLevels = innatePowerHTML.getElementsByTagName("level");
-  var regExp = /\(([^)]+)\)/;
-  for (j = 0; j < currentLevels.length; j++) {
-    var currentThreshold = currentLevels[j].getAttribute("threshold");
-    var isText = currentLevels[j].getAttribute("text");
-    if (isText != null) {
-      // User wants a special text-only line
-      currentPowerHTML += "<level><level-note>";
-      currentPowerHTML += currentLevels[j].innerHTML + "</level-note></level>";
-    } else {
-      // User wants a normal thershold-level effect
-
-      let isLong = currentLevels[j].getAttribute("long");
-      if (isLong != null) {
-        isLong = " long";
-      } else {
-        isLong = "";
-      }
-
-      // Break the cost into a numeral and element piece (then do error handling to allow switching the order)
-      var currentThresholdPieces = currentThreshold.split(",");
-      var elementPieces = [];
-      var numeralPieces = [];
-      for (k = 0; k < currentThresholdPieces.length; k++) {
-        elementPieces[k] = currentThresholdPieces[k].substring(
-          currentThresholdPieces[k].indexOf("-") + 1
-        );
-        numeralPieces[k] = currentThresholdPieces[k].split("-")[0];
-      }
-
-      currentPowerHTML += "<level><threshold>";
-      for (k = 0; k < currentThresholdPieces.length; k++) {
-        var currentNumeral = 0;
-        var currentElement = "";
-        if (isNaN(numeralPieces[k])) {
-          currentNumeral = elementPieces[k];
-          currentElement = numeralPieces[k];
-        } else {
-          currentElement = elementPieces[k];
-          currentNumeral = numeralPieces[k];
-        }
-
-        if (currentElement.toUpperCase() == "OR") {
-          currentThresholdPieces[k] = "<threshold-or>or</threshold-or>";
-        } else if (currentElement.toUpperCase().startsWith("TEXT")) {
-          if (currentElement.split("(")[1]) {
-            customText = regExp.exec(currentElement)[1];
-            currentThresholdPieces[k] = currentNumeral + " " + customText;
-          } else {
-            currentThresholdPieces[k] = currentNumeral + " " + "X";
-          }
-        } else if (currentElement.toUpperCase().startsWith("COST")) {
-          if (currentElement.split("(")[1]) {
-            customCost = regExp.exec(currentElement)[1];
-            currentThresholdPieces[k] =
-              "<cost-threshold>Cost<icon class='" +
-              customCost +
-              " cost-custom'><value>-" +
-              currentNumeral +
-              "</value></icon></cost-threshold>";
-          } else {
-            currentThresholdPieces[k] =
-              "<cost-threshold>Cost<cost-energy><value>-" +
-              currentNumeral +
-              "</value></cost-energy></cost-threshold>";
-          }
-        } else {
-          currentThresholdPieces[k] = currentNumeral + "{" + currentElement + "}";
-        }
-        currentPowerHTML += currentThresholdPieces[k];
-      }
-      currentPowerHTML += "</threshold><div class='description" + isLong + "'>";
-      var currentDescription = currentLevels[j].innerHTML;
-      currentPowerHTML += currentDescription + "</div></level>";
+  css(filters) {
+    function fmt(idx, multiplier = 1) {
+      return Math.round(filters[idx] * multiplier);
     }
-  }
-
-  currentPowerHTML += "</description-container></innate-power>";
-  return currentPowerHTML;
-}
-
-function resizeInnatePowersAspect() {
-  // copied 12/6/22
-  // Innate Power Sizing
-  console.log("RESIZING: Innate Powers for Aspects");
-
-  // Innate Power Notes (scale font size)
-  noteBlocks = document.getElementsByTagName("note");
-  for (let i = 0; i < noteBlocks.length; i++) {
-    let noteHeight = noteBlocks[i].offsetHeight;
-    let j = 0;
-    while (noteHeight > 92) {
-      var style = window.getComputedStyle(noteBlocks[i], null).getPropertyValue("font-size");
-      var fontSize = parseFloat(style);
-      noteBlocks[i].style.fontSize = fontSize - 1 + "px";
-      noteHeight = noteBlocks[i].offsetHeight;
-
-      // safety valve
-      j += 1;
-      if (j > 5) {
-        break;
-      }
-    }
-  }
-
-  // Innate Power Thresholds
-  const thresholds = document.getElementsByTagName("threshold");
-  const thresholdsCount = thresholds.length;
-  let outerThresholdWidth = [];
-  for (let i = 0; i < thresholdsCount; i++) {
-    // Check if the threshold width is overflowing. If so, just let it size itself...
-    const thresholdHeight = thresholds[i].offsetHeight;
-    if (thresholdHeight > 60) {
-      thresholds[i].style.width = "auto";
-      // I suspect this is no longer doing anything 2/25
-    }
-    outerThresholdWidth[i] =
-      thresholds[i].clientWidth +
-      parseFloat(
-        window.getComputedStyle(thresholds[i]).getPropertyValue("margin-right").replace(/px/, "")
-      );
-  }
-
-  // Innate Power Descriptions
-  var description = document.getElementsByClassName("description");
-  for (let i = 0; i < description.length; i++) {
-    // Scale the text width to the threshold size...
-    description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
-    // description[i].style.position = "relative";
-    const textHeight = description[i].clientHeight;
-
-    if (textHeight < 40) {
-      description[i].classList.add("single-line");
-      // Align-middle the text if its a single line
-    } else if (textHeight > 86) {
-      description[i].style.paddingLeft = "0px";
-      thresholds[i].style.position = "relative";
-      thresholds[i].style.top = "unset";
-      thresholds[i].style.transform = "unset";
-      // Spill over below the threshold if its greater than three lines
-    }
+    return `invert(${fmt(0)}%) sepia(${fmt(1)}%) saturate(${fmt(2)}%) hue-rotate(${fmt(
+      3,
+      3.6
+    )}deg) brightness(${fmt(4)}%) contrast(40%)`;
+    // modified contrast from original: return `invert(${fmt(0)}%) sepia(${fmt(1)}%) saturate(${fmt(2)}%) hue-rotate(${fmt(3, 3.6)}deg) brightness(${fmt(4)}%) contrast(${fmt(5)}%)`;
   }
 }
 
-function parseSpecialRules(aspect) {
-  var specialRules = aspect.getElementsByTagName("special-rule");
-  for (var i = 0; i < specialRules.length; i++) {
-    let specialRule = specialRules[i];
-    console.log("special rule = " + specialRule);
-    //Check for growth groups
-    var growthGroups = specialRule.getElementsByTagName("growth-group");
-    if (growthGroups) {
-      for (var j = 0; j < growthGroups.length; j++) {
-        console.log("Writing Growth Group: " + growthGroups[j].outerHTML);
-        let tableHolder = document.createElement("growth-table");
-        tableHolder.innerHTML = writeGrowthGroup(growthGroups[j]);
-        growthGroups[j].outerHTML = tableHolder.outerHTML;
-      }
-    }
-    if (i > 10) {
-      console.log("overflow?");
-      break;
-    }
-  }
+function hexToRgb(hex) {
+  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+  const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  hex = hex.replace(shorthandRegex, (m, r, g, b) => {
+    return r + r + g + g + b + b;
+  });
 
-  // copied 12/6/22
-  console.log("BUILDING SPECIAL RULES");
-  const aspectContainer = document.querySelectorAll("aspect-container")[0];
-
-  // Enable snake-like presence track in special rules
-  var specialTrack = aspectContainer.getElementsByTagName("special-rules-track")[0];
-  if (specialTrack) {
-    var specialValues = specialTrack.getAttribute("values");
-    var specialOptions = specialValues.split(",");
-    var specialHTML = "";
-
-    for (i = 0; i < specialOptions.length; i++) {
-      let nodeText = specialOptions[i];
-      specialHTML += "<td>" + getPresenceNodeHtml(nodeText, i == 0, "special", true) + "</td>";
-    }
-    specialHTML += "</tr>";
-    aspectContainer.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
-    specialTrack.innerHTML = specialHTML;
-    var subtextList = specialTrack.getElementsByTagName("subtext");
-    for (var i = subtextList.length - 1; i >= 0; --i) {
-      subtextList[i].remove();
-    }
-  }
-
-  // <special-rules-track values="2,3,4"></special-rules-track>
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
+    : null;
 }
 
-function resizeAspect(aspect) {
-  const aspectContainer = aspect.getElementsByTagName("aspect-container")[0];
-  const aspectName = aspect.getElementsByTagName("aspect-name")[0];
-  const aspectSubtext = aspect.getElementsByTagName("aspect-subtext")[0];
-  if (checkOverflowHeight(aspectContainer)) {
-    console.log("its overflowing");
-    console.log(aspectContainer);
-    aspectContainer.style.height =
-      aspect.clientHeight - aspectName.clientHeight - aspectSubtext.clientHeight + "px";
-
-    const lastRuleType = aspectContainer.lastChild;
-    console.log(lastRuleType);
-    if (lastRuleType.tagName.toUpperCase() === "INNATE-POWER") {
-      console.log("here");
-      if (checkOverflowHeight(lastRuleType)) {
-        console.log("Innate Powers overflowing, shrinking space between levels");
-        let levels = Array.from(aspect.getElementsByTagName("level"));
-        levels.forEach((level) => {
-          level.style.marginBottom = "2px";
-        });
-      }
-      // Then tighten up the power level font spacing
-      if (checkOverflowHeight(lastRuleType)) {
-        console.log("Innate Powers overflowing, shrinking level description line height");
-        let descriptions = Array.from(aspect.getElementsByClassName("description"));
-        descriptions.forEach((description) => {
-          description.style.lineHeight = "1";
-        });
-      }
-    }
-  }
-}
-
-function checkOverflowHeight(el) {
-  let curOverflow = el.style.overflow;
-  if (!curOverflow || curOverflow === "visible") {
-    el.style.overflow = "auto";
-  }
-  let isOverflowing = el.clientHeight < el.scrollHeight;
-  el.style.overflow = curOverflow;
-
-  return isOverflowing;
+function standardize_color(str) {
+  var ctx = document.createElement("canvas").getContext("2d");
+  ctx.fillStyle = str;
+  return ctx.fillStyle;
 }
