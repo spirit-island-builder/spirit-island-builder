@@ -19,6 +19,7 @@
   import Adversary from "./adversary/index.svelte";
   import BlightCard from "./blight-card/index.svelte";
   import FearCard from "./fear-card/index.svelte";
+  import IncarnaToken from "./incarna-token/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
   import Footer from "./footer.svelte";
 
@@ -438,6 +439,23 @@
   };
   let fearCard = JSON.parse(JSON.stringify(emptyFearCard));
 
+  let emptyIncarnaToken = {
+    prop: "value",
+    demoBoardWasLoaded: false,
+    previewBoard: {
+      isVisible: false,
+    },
+    incarna: {
+      isVisible: false,
+      name: "",
+      icon: "",
+      token: "",
+      empowered: false,
+      color: "",
+    },
+  };
+  let incarnaToken = JSON.parse(JSON.stringify(emptyIncarnaToken));
+
   let pages = [
     ["spiritBoardFront", "Spirit Board Play Side"],
     ["spiritBoardBack", "Spirit Board Lore Side"],
@@ -446,6 +464,7 @@
     ["adversary", "Adversary"],
     ["blightCard", "Blight Card"],
     ["fearCard", "Fear Card"],
+    ["incarnaToken", "Incarna Token"],
   ];
 </script>
 
@@ -501,6 +520,8 @@
       <BlightCard bind:blightCard bind:emptyBlightCard bind:customIcons />
     {:else if currentPage === "fearCard"}
       <FearCard bind:fearCard bind:emptyFearCard bind:customIcons />
+    {:else if currentPage === "incarnaToken"}
+      <IncarnaToken bind:incarnaToken bind:emptyIncarnaToken bind:customIcons />
     {/if}
   </div>
 

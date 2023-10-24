@@ -1,5 +1,5 @@
-window.onload = function startMain() {
-  // function startMain() {
+function startMain() {
+  // window.onload = function startMain() {
   console.log("incarna startMain");
   var incarna = document.querySelectorAll("incarna")[0];
   let icon = incarna.getAttribute("icon");
@@ -84,7 +84,7 @@ window.onload = function startMain() {
 
   token.style.filter = result.filter;
   presence.style.filter = result.filter;
-};
+}
 
 ("use strict");
 

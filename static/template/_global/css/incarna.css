@@ -24,19 +24,15 @@ html {
 body {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
   align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 25%;
+  margin-top: 10px;
 }
 
 * {
   box-sizing: border-box;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 incarna {
