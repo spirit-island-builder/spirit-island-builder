@@ -436,6 +436,7 @@
       level2: "",
       level3: "",
     },
+    showBack: false,
   };
   let fearCard = JSON.parse(JSON.stringify(emptyFearCard));
 

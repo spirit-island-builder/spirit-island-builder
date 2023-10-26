@@ -62,6 +62,12 @@
       terrorLevelHTML.classList.add(curLevel);
     }
 
+    //Show back?
+    if (fearCard.showBack) {
+      let fearBackHTML = document.createElement("fear-back");
+      fragment.appendChild(fearBackHTML);
+    }
+
     //Set Custom Icons
     const spiritStyle = document.createElement("style");
     fragment.prepend(spiritStyle);
@@ -133,7 +139,11 @@
 
   function screenshotSetUp() {
     const fileNames = [fearCard.card.cardName.replaceAll(" ", "_") + "_FearCard.png"];
-    const elementNamesInIframe = ["fear-card"];
+    const elementNamesInIframe = ["template-fear-card"];
+    if (fearCard.showBack) {
+      fileNames.push(fearCard.card.cardName.replaceAll(" ", "_") + "_FearCardBack.png");
+      elementNamesInIframe.push("fear-back");
+    }
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 
