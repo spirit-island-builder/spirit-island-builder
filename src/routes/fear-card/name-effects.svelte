@@ -14,6 +14,12 @@
   function nextNode(event) {
     Lib.nextNode(event);
   }
+
+  function toggleBack(val) {
+    fearCard.showBack = val;
+    fearCard = fearCard;
+    document.getElementById("updateButton").click();
+  }
 </script>
 
 <Section title="Name & Effects" bind:isVisible={fearCard.card.isVisible}>
@@ -32,6 +38,13 @@
           on:focus={selectNode}
           bind:value={fearCard.card.cardName} />
       </div>
+      {#if fearCard.showBack === true}
+        <button class="button is-warning is-light mb-0" on:click={toggleBack(false, fearCard)}
+          >Hide Back</button>
+      {:else}
+        <button class="button is-success is-light mb-0" on:click={toggleBack(true, fearCard)}
+          >Show Back</button>
+      {/if}
     </div>
     <div class="control">
       <AutoComplete

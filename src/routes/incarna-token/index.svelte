@@ -53,10 +53,16 @@
       incarnaTokenHTML.setAttribute("name", incarnaToken.incarna.name);
     }
     if (incarnaToken.incarna.icon) {
-      incarnaTokenHTML.setAttribute("icon", incarnaToken.incarna.icon);
+      incarnaTokenHTML.setAttribute(
+        "icon",
+        incarnaToken.incarna.icon.replace("{", "").replace("}", "")
+      );
     }
     if (incarnaToken.incarna.token) {
-      incarnaTokenHTML.setAttribute("token", incarnaToken.incarna.token);
+      incarnaTokenHTML.setAttribute(
+        "token",
+        incarnaToken.incarna.token.replace("{", "").replace("}", "")
+      );
     }
     if (incarnaToken.incarna.empowered) {
       incarnaTokenHTML.setAttribute("empowered", incarnaToken.incarna.empowered);
@@ -95,10 +101,18 @@
       incarnaToken.incarna.name = incarnaTokenHTML.getAttribute("name");
     }
     if (incarnaTokenHTML.getAttribute("icon")) {
-      incarnaToken.incarna.icon = incarnaTokenHTML.getAttribute("icon");
+      incarnaToken.incarna.icon = incarnaTokenHTML
+        .getAttribute("icon")
+        .replace("{", "")
+        .replace("}", "");
+      console.log(incarnaToken.incarna.icon);
     }
     if (incarnaTokenHTML.getAttribute("token")) {
-      incarnaToken.incarna.token = incarnaTokenHTML.getAttribute("token");
+      incarnaToken.incarna.token = incarnaTokenHTML
+        .getAttribute("token")
+        .replace("{", "")
+        .replace("}", "");
+      console.log(incarnaToken.incarna.token);
     }
     if (incarnaTokenHTML.getAttribute("empowered")) {
       incarnaToken.incarna.empowered = incarnaTokenHTML.getAttribute("empowered") === "true";
