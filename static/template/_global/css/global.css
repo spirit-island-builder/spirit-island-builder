@@ -452,10 +452,10 @@ icon.push {
   background-image: url("../images/board/NewIcons/Land Push.png");
 }
 icon.gather {
-  background-image: url("../images/board/NewIcons/Land Gather.png");
+  background-image: url("../images/board/NewIcons/Track_Gather.png");
 }
 icon.gather-into {
-  background-image: url("../images/board/NewIcons/Land Gather Into.png");
+  background-image: url("../images/board/NewIcons/Track_Gather.png");
 }
 icon.your-land {
   background-image: url("../images/board/NewIcons/Land.png");

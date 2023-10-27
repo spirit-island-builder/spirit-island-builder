@@ -199,3 +199,26 @@ right {
   width: 1090px;
   overflow: hidden;
 }
+
+custom-energy {
+  background-image: url("../../images/board/EnergyBlank.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: inline-block;
+  height: 100px;
+  width: 100px;
+  margin-top: -10px;
+}
+
+custom-energy.gain {
+  background-image: url("../../images/board/AddEnergyBlank.png");
+}
+
+custom-energy value {
+  font-family: "Energy Font";
+  font-size: 24pt;
+  font-style: normal;
+  display: inline-block;
+  position: relative;
+}

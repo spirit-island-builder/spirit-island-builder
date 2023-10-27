@@ -330,15 +330,19 @@ presence-node-multi icon.custom3 {
 }
 
 presence-node icon.gather {
-  left: 65px;
-  top: 17px;
-  width: 76px;
-  margin-right: 34px;
+  left: -12px;
+  top: 5px;
+  width: 112px;
+  height: 68px;
+  position: relative;
+  margin-right: 0px;
 }
 
 presence-node icon.gather > icon {
-  left: 77px;
-  top: 17px;
+  left: 90px;
+  top: -18px;
+  filter: drop-shadow(0px 0px 1px white);
+  height: 90px;
 }
 
 presence-node icon.gain-card-play > icon {
