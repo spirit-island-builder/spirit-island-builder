@@ -990,8 +990,8 @@ growth-cell icon.push-from > icon {
 }
 
 growth-cell icon.gather > icon {
-  left: 65px;
-  top: 17px;
+  left: 48px;
+  top: 12px;
 }
 
 growth-cell icon.gather-into > icon {
@@ -1010,8 +1010,8 @@ growth-cell icon.gather-into {
 growth-cell icon.gather-into > icon {
   position: relative;
   text-align: unset;
-  left: 79px;
-  top: 23px;
+  left: 70px;
+  top: 15px;
   width: 30px;
   height: 25px;
   margin: 0px;
@@ -1254,7 +1254,7 @@ push-gather {
 push-gather icon.terrain-gather {
   display: inline-block;
   height: 62px;
-  width: 100px;
+  width: 108px;
   margin-right: 20px;
   margin-bottom: 7px;
   margin-top: 0px;
@@ -1264,7 +1264,7 @@ push-gather icon.terrain-gather {
 push-gather icon.terrain-push {
   display: inline-block;
   height: 62px;
-  width: 100px;
+  width: 108px;
   margin-right: 0px;
   margin-bottom: 7px;
   margin-top: 0px;
@@ -1300,10 +1300,10 @@ push-gather icon.terrain-push.ocean > icon.from {
 
 push-gather icon.terrain-gather > icon.gather-arrow {
   left: 60px;
-  top: 17px;
+  top: 33px;
   position: relative;
   text-align: unset;
-  width: 32px;
+  width: 60px;
   height: 25px;
   margin: 0px;
   padding: 0px;

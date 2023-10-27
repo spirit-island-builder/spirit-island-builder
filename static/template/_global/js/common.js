@@ -111,12 +111,22 @@ function replaceIcon(html) {
       energy_num = iconName.substring(7);
       if (isNaN(energy_num)) {
       } else {
-        HTMLTag = "growth-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
+        HTMLTag = "custom-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
         energy_num = "<value>" + energy_num + "</value>";
         iconName = "";
         num_val = energy_num;
+        console.log("energy icon test");
       }
     } else if (iconName.startsWith("gain-energy-")) {
+      energy_num = iconName.substring(12);
+      if (isNaN(energy_num)) {
+      } else {
+        HTMLTag = "custom-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
+        energy_num = "<value>" + energy_num + "</value>";
+        iconName = "gain";
+        num_val = energy_num;
+        console.log("energy gain icon test");
+      }
     }
 
     iconHtml +=
