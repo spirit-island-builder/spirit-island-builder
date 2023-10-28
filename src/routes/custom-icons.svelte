@@ -8,6 +8,8 @@
     customIcons.icons.push({
       id: customIcons.icons.length,
       name: "",
+      displayName: "",
+      incarna: false,
     });
     customIcons = customIcons;
   }
@@ -25,6 +27,8 @@
   <div class="mb-1 p-1 note">
     Custom Icons allow you to load and then use icons that aren't pre-built into the template.
     <InstructionsLink anchor="custom-icons" />
+    <br />Add "incarna-" when using the icon to treat it like an incarna, ie.,
+    &lbrace;incarna-custom1&rbrace;
   </div>
   {#each customIcons.icons as icon, i (icon.id)}
     <div class="field has-addons is-horizontal is-justify-content-left mb-0">

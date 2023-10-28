@@ -620,6 +620,13 @@ innate-info icon {
   margin-top: 0px;
 }
 
+innate-info icon.incarna {
+  width: 40px;
+  height: 40px;
+  margin-top: -13px;
+  margin-bottom: -10px;
+}
+
 innate-info icon.wilds {
   width: 36px;
 }
@@ -842,4 +849,11 @@ note icon.water {
 }
 note icon.any {
   background-image: url(../../images/board/element_simple_any.png);
+}
+
+div.description icon.incarna {
+  width: 40px;
+  height: 40px;
+  margin-top: -13px;
+  margin-bottom: -10px;
 }

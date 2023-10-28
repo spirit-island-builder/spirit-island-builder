@@ -478,6 +478,15 @@ icon.incarna-roots {
 icon.incarna-wvkd {
   background-image: url("../images/board/NewIcons/incarna-wvkd.png");
 }
+icon.incarna-warrior {
+  background-image: url("../images/board/NewIcons/incarna-warrior.png");
+}
+icon.incarna-locus {
+  background-image: url("../images/board/NewIcons/incarna-locus.png");
+}
+icon.incarna-lair {
+  background-image: url("../images/board/NewIcons/incarna-lair.png");
+}
 icon.empower-incarna {
   background-image: url("../images/board/NewIcons/empower-incarna.png");
 }

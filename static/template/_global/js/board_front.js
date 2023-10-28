@@ -531,7 +531,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       const customScalingIcon =
         scaling_entity !== undefined
           ? "{" + scaling_entity + "}"
-          : "<div class='custom-scaling'>!!!</div>";
+          : "<div class='custom-scaling'></div>";
 
       // Flat Energy
       if (x_is_flat) {
@@ -605,7 +605,7 @@ function getGrowthActionTextAndIcons(growthAction) {
             presenceIcon += "</display-custom>";
           } else {
             presenceIcon +=
-              "<span style='font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;'>!!!</span>";
+              "<span style='font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;'></span>";
           }
         } else if (presenceOptions[1] === "token") {
           // User wants to add a token in growth
@@ -1065,7 +1065,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           customIcon = listIcons;
         }
       } else {
-        customIcon = "<div class='custom-scaling'>!!!</div>";
+        customIcon = "<div class='custom-scaling'></div>";
       }
       growthIcons =
         "<custom-growth-icon class='" + isWide + "'>" + customIcon + "</custom-growth-icon>";
@@ -1108,7 +1108,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       const customScalingIcon =
         scaling_entity !== undefined
           ? "{" + scaling_entity + "}"
-          : "<div class='custom-scaling'>!!!</div>";
+          : "<div class='custom-scaling'></div>";
 
       // Flat Fear
       if (x_is_flat) {
@@ -1867,7 +1867,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
               inner = "<icon class='" + custom_node[1] + " custom-presence-track-icon'></icon>";
             }
           } else {
-            inner = "<" + nodeClass + "-icon><value>!!!</value></" + nodeClass + "-icon>";
+            inner = "<" + nodeClass + "-icon><value></value></" + nodeClass + "-icon>";
             addEnergyRing = false;
           }
           subText = custom_text;
