@@ -83,9 +83,14 @@ function replaceIcon(html) {
       is_terrain = " terrain-double";
     }
 
+    // Check for Incarna
+    if (iconName.startsWith("incarna-")) {
+      iconName = "incarna " + iconName.substring(8);
+    }
+
+    // Check for Range
     let range_num = "";
     let num_val = "";
-    // Check for Range
     if (iconName.startsWith("range-")) {
       HTMLTag = "range";
       range_num = iconName.substring(6);

@@ -427,3 +427,10 @@ special-rule custom-energy value {
 special-rule custom-energy.gain value {
   left: 21px;
 }
+
+special-rule icon.incarna {
+  width: 40px;
+  height: 40px;
+  margin-top: -13px;
+  margin-bottom: -10px;
+}
