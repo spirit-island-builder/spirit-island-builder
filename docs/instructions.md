@@ -157,6 +157,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 |                                      | Empower Incarna                                      | incarna(empower)                                     | Empowers Incarna                                                                                                                                                    | Ember-Eyed Behemoth: incarna(empower)                                                                  |
 |                                      | Replace with Incarna                                 | incarna(replace,x,y)                                 | Replaces icon x with incarna. y is the incarna icon                                                                                                                 | Towering Roots: incarna(replace,presence)                                                                  |
 |                                      | Add Token at Incarna                                 | incarna(add-token,x,y)                               | Adds token/icon x at incarna. y is the incarna icon                                                                                                                 | Towering Roots: incarna(add-token,vitality)                                                                  |
+| Growth Action Cost                   | Adds a cost to a specific growth action (vs group)   | ^cost(x)                                             | Adds an energy cost to the growth option                                                                                                                           |  gain-power-card^cost(3)                                                                                                      |
 | Custom                               | Custom Text with !!! Icon                            | custom(_your_text_here_)                             | A custom growth option with the image !!!                                                                                                                           |                                                                                                        |
 |                                      | Custom Text with Any Icon                            | custom(_your_text_here_,x,...)                       | A custom growth option with the x icon of your choice (ie. town, dahan, element, etc). Can use more than 1 icon and they will appear in a row.                      | custom(Deal 1 Damage in each of your Sacred Sites,sacred-site,damage-1)                                |
 |                                      | Custom Text with Text In Place of Icons              | custom(_your_text_here_,text,x)                      | A custom growth option with the your custom text x in place of an icon.                                                                                             |                                                                                                        |
@@ -362,8 +363,8 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - Power effect icon (isolate, gain-range-1, gain-range-2, gain-range-3, gain-range-x)
 - Growth icons (see [Growth](#growth) section and [Supported Growth Actions](#supported-growth-actions) for examples)
 - Presence track icons (see [Presence Track](#presence-tracks) section for examples)
-
-Nearly every icon can have a red X over it by adding 'no-' such as {no-blight}.
+- Incarna icons: add "incarna-" to an icon and it will respond differently when called (typically "{incarna-custom1}")
+- No-: Nearly every icon can have a red X over it by adding 'no-' such as {no-blight}.
 
 [Home](#index)
 
