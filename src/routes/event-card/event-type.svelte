@@ -36,6 +36,37 @@
     console.log(eventCard.card.type);
   }
 
+  // let subheaders = {
+  //   blight: [
+  //       {
+  //         name: "Healthy Island",
+  //       },
+  //       {
+  //         name: "Blighted Island",
+  //       },
+  //     ],
+  //     fear: [
+  //       {
+  //         name: "Terror Level 1",
+  //       },
+  //       {
+  //         name: "Terror Level 2 & 3",
+  //       },
+  //     ],
+  //   stage: {
+  //     heading: [
+  //       {
+  //         id: 0,
+  //         name: "Healthy Island",
+  //       },
+  //       {
+  //         id: 1,
+  //         name: "Blighted Island",
+  //       },
+  //     ],
+  //   },
+  // };
+
   // function selectNode(event) {
   //   let nodeID = event.target.id;
   //   document.getElementById(nodeID).select();
@@ -129,14 +160,14 @@
           <label class="label is-unselectable mr-1 mt-1" for="">Fear Sub-Event Mode:</label>
         </div>
         <button
-          class:is-light={eventCard.subevents.event[0].type !== "tl2"}
+          class:is-light={eventCard.subevents.event[0].type !== "tl1"}
           class="button is-info is-light button-hold mb-0"
-          on:click={setSubeventType("tl2", eventCard.subevents)}
+          on:click={setSubeventType("tl1", eventCard.subevents)}
           >Terror Level I & II / Terror Level III</button>
         <button
-          class:is-light={eventCard.subevents.event[0].type !== "tl3"}
+          class:is-light={eventCard.subevents.event[0].type !== "tl12"}
           class="button is-info is-light button-hold mb-0"
-          on:click={setSubeventType("tl3", eventCard.subevents)}
+          on:click={setSubeventType("tl12", eventCard.subevents)}
           >Terror Level I / Terror Level II & III</button>
       {/if}
       {#if eventCard.card.type === "stage"}
@@ -145,13 +176,14 @@
             >Invader Stage Sub-Event Mode:</label>
         </div>
         <button
-          class:is-light={eventCard.subevents.event[0].type !== "is2"}
+          class:is-light={eventCard.subevents.event[0].type !== "is1"}
           class="button is-info is-light button-hold mb-0"
-          on:click={setSubeventType("is2", eventCard.subevents)}>Invader Stage I & II / III</button>
+          on:click={setSubeventType("is1", eventCard.subevents)}>Invader Stage I & II / III</button>
         <button
-          class:is-light={eventCard.subevents.event[0].type !== "is3"}
+          class:is-light={eventCard.subevents.event[0].type !== "is12"}
           class="button is-info is-light button-hold mb-0"
-          on:click={setSubeventType("is3", eventCard.subevents)}>Invader Stage I / II & III</button>
+          on:click={setSubeventType("is12", eventCard.subevents)}
+          >Invader Stage I / II & III</button>
       {/if}
       {#if eventCard.card.type === "choice"}
         <div class="field has-addons">

@@ -468,7 +468,7 @@
     card: {
       isVisible: false,
       name: "",
-      type: "",
+      type: "blight",
       lore: "",
       hasHeader: false,
       headerColor: "",
@@ -517,11 +517,11 @@
     ["spiritBoardBack", "Spirit Board Lore Side"],
     ["powerCards", "Power Cards"],
     ["aspect", "Aspect / Special Cards"],
+    ["incarnaToken", "Incarna Token"],
     ["adversary", "Adversary"],
     ["blightCard", "Blight Card"],
     ["fearCard", "Fear Card"],
     ["eventCard", "Event Card"],
-    ["incarnaToken", "Incarna Token"],
   ];
 </script>
 
@@ -573,14 +573,14 @@
       <Aspect bind:aspect bind:emptyAspect bind:customIcons />
     {:else if currentPage === "adversary"}
       <Adversary bind:adversary bind:emptyAdversary bind:customIcons />
+    {:else if currentPage === "incarnaToken"}
+      <IncarnaToken bind:incarnaToken bind:emptyIncarnaToken bind:customIcons />
     {:else if currentPage === "blightCard"}
       <BlightCard bind:blightCard bind:emptyBlightCard bind:customIcons />
     {:else if currentPage === "fearCard"}
       <FearCard bind:fearCard bind:emptyFearCard bind:customIcons />
     {:else if currentPage === "eventCard"}
       <EventCard bind:eventCard bind:emptyEventCard bind:customIcons />
-    {:else if currentPage === "incarnaToken"}
-      <IncarnaToken bind:incarnaToken bind:emptyIncarnaToken bind:customIcons />
     {/if}
   </div>
 
