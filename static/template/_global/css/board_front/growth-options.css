@@ -383,6 +383,16 @@ repeat-growth value {
   color: #52301e;
 }
 
+repeat-growth.energy-cost {
+  background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
+}
+
+repeat-growth.energy-cost value {
+  font-size: 17pt;
+  margin-left: 0px;
+  color: #000000;
+}
+
 repeat-wrapper {
   height: 90px;
 }

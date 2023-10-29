@@ -352,8 +352,25 @@ function getGrowthActionTextAndIcons(growthAction) {
   let repeatText = "";
   if (growthAction.split("^")[1]) {
     const repeat = growthAction.split("^")[1];
-    repeatOpen = "<repeat-growth><value>" + repeat + "</value></repeat-growth>";
-    repeatText = "x" + repeat + ": ";
+    if (!isNaN(repeat)) {
+      // Normal repeat
+      repeatOpen = "<repeat-growth><value>" + repeat + "</value></repeat-growth>";
+      repeatText = "x" + repeat + ": ";
+    } else if (repeat.startsWith("cost(")) {
+      // Energy Cost (syntax ^cost(-2) )
+      const matches = regExp.exec(growthAction);
+      if (matches) {
+        let energy_cost = matches[1];
+        repeatOpen = `<repeat-growth class='energy-cost'><value>-${energy_cost}</value></repeat-growth>`;
+        repeatText = `You may pay ${energy_cost} Energy to `;
+      } else {
+        repeatText = "";
+      }
+    } else {
+      // Reject other options
+      repeatText = "";
+    }
+    growthAction = growthAction.split("^")[0];
   }
 
   let growthIcons, growthText;

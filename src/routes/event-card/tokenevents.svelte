@@ -66,7 +66,7 @@
             id="eventCardName"
             class="input  is-small"
             type="text"
-            placeholder="Overall event name"
+            placeholder="Subevent name"
             bind:value={event.name} />
         </div>
       </div>
@@ -79,7 +79,7 @@
             id="eventCardName"
             class="input  is-small"
             type="text"
-            placeholder="Overall event name"
+            placeholder="Tokens, use commas (ie. disease,strife)"
             bind:value={event.tokens} />
         </div>
       </div>
@@ -91,7 +91,7 @@
           id="eventCardLore"
           elementType="textarea"
           classNames="is-small"
-          placeholder="Lore description of the event"
+          placeholder="Effects"
           validAutoCompleteValues={iconValuesSorted}
           bind:value={event.effect} />
       </div>
