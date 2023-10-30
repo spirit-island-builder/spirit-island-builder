@@ -361,6 +361,7 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - Range icons (range, range-0, range-1, range-2, range-3, range-4, jungle-presence, sand-presence, mountain-presence, wetland-presence)
 - Targeting icons (spirit)
 - Power effect icon (isolate, gain-range-1, gain-range-2, gain-range-3, gain-range-x)
+- Energy icons (energy-1, energy-2, energy-x where x is whatever number)
 - Growth icons (see [Growth](#growth) section and [Supported Growth Actions](#supported-growth-actions) for examples)
 - Presence track icons (see [Presence Track](#presence-tracks) section for examples)
 - Incarna icons: add "incarna-" to an icon and it will respond differently when called (typically "{incarna-custom1}")
