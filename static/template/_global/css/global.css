@@ -513,8 +513,12 @@ icon.vitality {
   background-image: url("../images/board/NewIcons/Vitality.png");
 }
 
-icon.no-forget {
+icon.forget {
   background-image: url("../images/board/NewIcons/ForgetIcon.png");
+}
+
+icon.noforget {
+  background-image: url("../images/board/NewIcons/NoForgetIcon.png");
 }
 
 range {
