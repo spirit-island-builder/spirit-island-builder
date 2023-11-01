@@ -63,6 +63,10 @@ special-rule {
   pointer-events: none;
 }
 
+board.devwrap special-rule {
+  pointer-events: all;
+}
+
 special-rule icon {
   width: 30px;
   height: 30px;

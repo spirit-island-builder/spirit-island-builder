@@ -136,6 +136,10 @@ growth-table {
   pointer-events: none;
 }
 
+board.devwrap growth-table {
+  pointer-events: all;
+}
+
 growth-table.two-table-top {
   margin-top: 10px;
   margin-bottom: 0px;

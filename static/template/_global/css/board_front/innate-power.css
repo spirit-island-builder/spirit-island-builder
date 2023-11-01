@@ -30,6 +30,10 @@ innate-power-container {
   pointer-events: none;
 }
 
+board.devwrap innate-power-container {
+  pointer-events: all;
+}
+
 innate-power {
   display: inline-block;
   flex-shrink: 1;

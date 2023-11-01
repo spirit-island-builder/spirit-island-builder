@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import jsone from "json-e";
+  import { dev } from "$app/environment";
 
   import * as Lib from "../lib";
   import { downloadHTML, downloadString } from "$lib/download";
@@ -105,6 +106,7 @@
     board.setAttribute("spirit-image", spiritBoard.nameAndArt.artPath);
     board.setAttribute("spirit-image-scale", spiritBoard.nameAndArt.artScale);
     board.setAttribute("spirit-border", spiritBoard.nameAndArt.bannerPath);
+    board.setAttribute("clickable-GUI", spiritBoard.isClickable);
 
     //Set Spirit Name and Image
     const spiritName = document.createElement("spirit-name");
@@ -761,6 +763,20 @@
     const elementNamesInIframe = ["board"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
+
+  function toggleClickableInterface() {
+    //find the board
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let board = previewFrame.document.getElementsByTagName("board")[0];
+    if (board.getAttribute("clickable-gui") === "true") {
+      board.classList.add("devwrap");
+      board.setAttribute("clickable-gui", "false");
+    } else {
+      board.classList.remove("devwrap");
+      board.setAttribute("clickable-gui", "true");
+    }
+    //check if its clickable
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -806,6 +822,10 @@
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
         >Toggle Board Size</button>
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
+      {#if dev}
+        <button class="button is-danger mt-1 mr-1" on:click={toggleClickableInterface}
+          >Toggle Clickable GUI</button>
+      {/if}
     </div>
   </div>
 </div>
