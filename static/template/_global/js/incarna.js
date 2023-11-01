@@ -84,6 +84,12 @@ function startMain() {
 
   token.style.filter = result.filter;
   presence.style.filter = result.filter;
+
+  // Clone it for export
+  let incarna_clone = incarna.cloneNode(true);
+  incarna_clone.classList.add("clone");
+  incarna_clone.classList.remove("empowered");
+  incarna.parentNode.insertBefore(incarna_clone, incarna);
 }
 
 ("use strict");

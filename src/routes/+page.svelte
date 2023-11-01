@@ -41,6 +41,7 @@
     previewBoard: {
       isVisible: false,
     },
+    isClickable: true,
     nameAndArt: {
       isVisible: false,
       name: "",
@@ -558,6 +559,22 @@
             </button>
           </div>
         </div>
+        <!-- <div class="field has-addons">
+          <button
+            class="button is-info button-hold mb-0"
+            on:click={toggleClickableInterface}>Toggle Clickable GUI</button>
+         </div>
+         <div class="navbar-menu">
+          <div class="navbar-end">
+            <button
+              class={`button navbar-item ${toggleClickableInterface ? "is-primary is-selected" : ""}`}
+              on:click={() => {
+                toggleClickableInterface = !toggleClickableInterface;
+              }}>
+              Toggle Clickable GUI
+            </button>
+          </div>
+        </div> -->
       {/if}
     </nav>
   </header>

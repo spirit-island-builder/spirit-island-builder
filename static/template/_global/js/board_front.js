@@ -49,10 +49,13 @@ async function startMain() {
 function addImages(board) {
   console.log("ADDING IMAGES");
   const spiritImage = board.getAttribute("spirit-image");
+  board.removeAttribute("spirit-image");
   const artistCredit = board.getElementsByTagName("artist-name");
   const spiritBorder = board.getAttribute("spirit-border");
+  board.removeAttribute("spirit-border");
   const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
   const imageSize = board.getAttribute("spirit-image-scale");
+  board.removeAttribute("spirit-image-scale");
 
   const specialRules = board.querySelectorAll("special-rules-container")[0];
   let height = specialRules.getAttribute("height");

@@ -37,14 +37,21 @@ body {
 
 incarna {
   display: flex;
-  /* background-image: url(../images/incarna/incarna_unem_background.png);
-  background-repeat: no-repeat;
-  background-size: contain; */
   width: 101px;
   height: 118px;
   position: relative;
   top: 0px;
   left: 0px;
+}
+
+incarna.clone {
+  display: flex;
+  transform: scaleY(-1);
+  width: 101px;
+  height: 118px;
+  position: absolute;
+  top: -6px;
+  left: -80px;
 }
 
 incarna background {
