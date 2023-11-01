@@ -184,6 +184,10 @@ section-title {
   pointer-events: none;
 }
 
+board.devwrap section-title {
+  pointer-events: all;
+}
+
 section-title:hover {
   text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
   cursor: pointer;
@@ -198,4 +202,27 @@ right {
   top: 18px;
   width: 1090px;
   overflow: hidden;
+}
+
+custom-energy {
+  background-image: url("../../images/board/EnergyBlank.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: inline-block;
+  height: 100px;
+  width: 100px;
+  margin-top: -10px;
+}
+
+custom-energy.gain {
+  background-image: url("../../images/board/AddEnergyBlank.png");
+}
+
+custom-energy value {
+  font-family: "Energy Font";
+  font-size: 24pt;
+  font-style: normal;
+  display: inline-block;
+  position: relative;
 }

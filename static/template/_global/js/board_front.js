@@ -49,10 +49,13 @@ async function startMain() {
 function addImages(board) {
   console.log("ADDING IMAGES");
   const spiritImage = board.getAttribute("spirit-image");
+  board.removeAttribute("spirit-image");
   const artistCredit = board.getElementsByTagName("artist-name");
   const spiritBorder = board.getAttribute("spirit-border");
+  board.removeAttribute("spirit-border");
   const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
   const imageSize = board.getAttribute("spirit-image-scale");
+  board.removeAttribute("spirit-image-scale");
 
   const specialRules = board.querySelectorAll("special-rules-container")[0];
   let height = specialRules.getAttribute("height");
@@ -198,9 +201,9 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   const specialTitleTextLeft = growthGroup.getAttribute("special-title-left")
     ? ` special-title-left='${growthGroup.getAttribute("special-title-left")}'`
     : "";
-  console.log("handling special text");
+
   if (specialTitleTextLeft) {
-    console.log("found that special title");
+    console.log("Found special title");
     console.log(growthGroup);
   }
   growthGroupHTML += `<growth-group` + headerText + specialTitleText + specialTitleTextLeft + `>`;
@@ -352,8 +355,25 @@ function getGrowthActionTextAndIcons(growthAction) {
   let repeatText = "";
   if (growthAction.split("^")[1]) {
     const repeat = growthAction.split("^")[1];
-    repeatOpen = "<repeat-growth><value>" + repeat + "</value></repeat-growth>";
-    repeatText = "x" + repeat + ": ";
+    if (!isNaN(repeat)) {
+      // Normal repeat
+      repeatOpen = "<repeat-growth><value>" + repeat + "</value></repeat-growth>";
+      repeatText = "x" + repeat + ": ";
+    } else if (repeat.startsWith("cost(")) {
+      // Energy Cost (syntax ^cost(-2) )
+      const matches = regExp.exec(growthAction);
+      if (matches) {
+        let energy_cost = matches[1];
+        repeatOpen = `<repeat-growth class='energy-cost'><value>-${energy_cost}</value></repeat-growth>`;
+        repeatText = `You may pay ${energy_cost} Energy to `;
+      } else {
+        repeatText = "";
+      }
+    } else {
+      // Reject other options
+      repeatText = "";
+    }
+    growthAction = growthAction.split("^")[0];
   }
 
   let growthIcons, growthText;
@@ -531,7 +551,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       const customScalingIcon =
         scaling_entity !== undefined
           ? "{" + scaling_entity + "}"
-          : "<div class='custom-scaling'>!!!</div>";
+          : "<div class='custom-scaling'></div>";
 
       // Flat Energy
       if (x_is_flat) {
@@ -605,7 +625,7 @@ function getGrowthActionTextAndIcons(growthAction) {
             presenceIcon += "</display-custom>";
           } else {
             presenceIcon +=
-              "<span style='font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;'>!!!</span>";
+              "<span style='font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;'></span>";
           }
         } else if (presenceOptions[1] === "token") {
           // User wants to add a token in growth
@@ -1065,7 +1085,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           customIcon = listIcons;
         }
       } else {
-        customIcon = "<div class='custom-scaling'>!!!</div>";
+        customIcon = "<div class='custom-scaling'></div>";
       }
       growthIcons =
         "<custom-growth-icon class='" + isWide + "'>" + customIcon + "</custom-growth-icon>";
@@ -1108,7 +1128,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       const customScalingIcon =
         scaling_entity !== undefined
           ? "{" + scaling_entity + "}"
-          : "<div class='custom-scaling'>!!!</div>";
+          : "<div class='custom-scaling'></div>";
 
       // Flat Fear
       if (x_is_flat) {
@@ -1490,7 +1510,6 @@ function parseEnergyTrackTags() {
     energyBannerScale = "100";
   }
   if (energyBannerScale.at(-1) !== "%") {
-    console.log("banner reported in px");
     energyBannerScale = energyBannerScale + "px";
   }
   let energyHTML = "";
@@ -1562,7 +1581,6 @@ function parseCardPlayTrackTags() {
     cardPlayBannerScale = "100";
   }
   if (cardPlayBannerScale.at(-1) !== "%") {
-    console.log("banner reported in px");
     cardPlayBannerScale = cardPlayBannerScale + "px";
   }
   let cardPlayHTML = "";
@@ -1674,7 +1692,9 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
   let iconDeepLayers;
   if (nodeText.split("^")[1]) {
     iconDeepLayers = nodeText.split("^")[1];
-    console.log(iconDeepLayers);
+    if (pnDebug) {
+      console.log(iconDeepLayers);
+    }
     addDeepLayers = true;
     nodeText = nodeText.split("^")[0];
   }
@@ -1867,7 +1887,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
               inner = "<icon class='" + custom_node[1] + " custom-presence-track-icon'></icon>";
             }
           } else {
-            inner = "<" + nodeClass + "-icon><value>!!!</value></" + nodeClass + "-icon>";
+            inner = "<" + nodeClass + "-icon><value></value></" + nodeClass + "-icon>";
             addEnergyRing = false;
           }
           subText = custom_text;
@@ -1875,12 +1895,20 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
         }
         case "move-presence": {
           const matches = regExp.exec(splitOptions[0]);
-          const moveRange = matches[1];
-          inner =
-            "<track-move-presence>{presence}<move-value>" +
-            moveRange +
-            "</move-value>{move-arrow}</track-move-presence>";
-          subText = "Move a Presence " + moveRange;
+          let moveRange = matches[1];
+          if (isNaN(moveRange)) {
+            inner =
+              "<track-move-presence>{presence}<move-text>" +
+              moveRange +
+              "</move-text>{move-arrow}</track-move-presence>";
+            subText = "Move a Presence to " + moveRange + " land";
+          } else {
+            inner =
+              "<track-move-presence>{presence}<move-value>" +
+              moveRange +
+              "</move-value>{move-arrow}</track-move-presence>";
+            subText = "Move a Presence " + moveRange;
+          }
           addIconShadow = true;
           if (addEnergyRing) {
             addIconShadow = false;
@@ -2424,7 +2452,7 @@ function growthHeadersAndTitles() {
 }
 
 function dynamicResizing() {
-  let debug = true;
+  let debug = false;
   const board = document.querySelectorAll("board")[0];
 
   console.log("RESIZING: Growth");
@@ -2608,13 +2636,15 @@ function dynamicResizing() {
       growthWidthByIcons[j] = getGrowthActionIconWidth(growthCells[j]);
       growthTextHeights[j] = growthTexts[j].getBoundingClientRect().height;
       growthTextWidths[j] = growthTexts[j].getBoundingClientRect().width;
-      console.log(
-        growthTextWidths[j] +
-          " vs " +
-          growthTexts[j].offsetWidth +
-          "vs " +
-          growthCells[j].offsetWidth
-      );
+      if (debug) {
+        console.log(
+          growthTextWidths[j] +
+            " vs " +
+            growthTexts[j].offsetWidth +
+            "vs " +
+            growthCells[j].offsetWidth
+        );
+      }
       growthTextAreas[j] = Math.trunc(growthTextWidths[j] * growthTextHeights[j]);
     }
     let adjustedGrowthWidths = growthWidthByIcons.map((gw, i) => Math.max(gw, growthTextWidths[i]));
@@ -2693,7 +2723,9 @@ function dynamicResizing() {
   for (let i = 0; i < finalGrowthTexts.length; i++) {
     finalGrowthTexts[i].style.width = "unset";
     balanceText(growthTexts[i]);
-    console.log("relaxing growth texts");
+    if (debug) {
+      console.log("relaxing growth texts");
+    }
   }
 
   // Innate Power Sizing
@@ -2760,14 +2792,14 @@ function dynamicResizing() {
     spacers.forEach((spacer) => {
       spacer.classList.add("tight");
     });
-    console.log(">Compressing Nodes Horizontally; smaller spacer");
+    console.log("> compressing Tracks horizontally; smaller initial spacer");
   }
   if (checkOverflowWidth(presenceTrack, 20)) {
     let tdNodes = Array.from(presenceTrack.getElementsByTagName("td"));
     tdNodes.forEach((tdNode) => {
       tdNode.classList.add("tight");
     });
-    console.log(">Compressing Nodes Horizontally; less space between nodes");
+    console.log("> compressing Tracks horizontally; less space between nodes");
   }
 
   //Update Presence Track banners
@@ -2785,7 +2817,7 @@ function dynamicResizing() {
 
   // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
   let currentTrack;
-  debug = false;
+  debug = true;
   let last_node_adjusted = false;
   if (tightFlag) {
     console.log("tightening presence tracks");
@@ -2991,7 +3023,9 @@ function balanceText(el) {
     while (currentHeight <= initialHeight) {
       overflow = checkOverflowWidth(el, 0);
       if (overflow) {
-        console.log("balance overflowing, j=" + j);
+        if (debug) {
+          console.log("balance overflowing, j=" + j);
+        }
         break;
       }
       // tighten until it changes something
@@ -3073,14 +3107,17 @@ function checkOverflowWidth(el, slack = 30) {
 }
 
 function checkOverflowHeight(el, slack = 2) {
+  let debug = false;
   let curOverflow = el.style.overflowY;
   if (!curOverflow || curOverflow === "visible") {
     el.style.overflowY = "auto";
   }
   let isOverflowing = el.clientHeight + slack < el.scrollHeight;
-  console.log(
-    "check overflowY = " + (el.clientHeight + slack) + " " + slack + "," + el.scrollHeight
-  );
+  if (debug) {
+    console.log(
+      "check overflowY = " + (el.clientHeight + slack) + " " + slack + "," + el.scrollHeight
+    );
+  }
   el.style.overflowY = curOverflow;
   return isOverflowing;
 }

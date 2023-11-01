@@ -142,3 +142,27 @@
   --preview-small-wrap-height: 470px;
   --preview-frame-small-transform: scale(0.67);
 }
+
+#incarna-preview {
+  --scroll-amount: 295;
+  --preview-frame-width: 650px;
+  --preview-frame-height: 700px;
+  --preview-wrap-width: 100%;
+  --preview-large-wrap-height: 210px;
+  --preview-large-frame-transform: scale(1.5);
+  --preview-large-frame-width: 650px;
+  --preview-small-wrap-height: 155px;
+  --preview-frame-small-transform: scale(1);
+}
+
+#event-card-preview {
+  --scroll-amount: 295;
+  --preview-frame-width: 650px;
+  --preview-frame-height: 700px;
+  --preview-wrap-width: 100%;
+  --preview-large-wrap-height: 710px;
+  --preview-large-frame-transform: scale(1);
+  --preview-large-frame-width: 650px;
+  --preview-small-wrap-height: 470px;
+  --preview-frame-small-transform: scale(0.67);
+}

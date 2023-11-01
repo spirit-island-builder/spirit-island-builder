@@ -19,6 +19,8 @@
   import Adversary from "./adversary/index.svelte";
   import BlightCard from "./blight-card/index.svelte";
   import FearCard from "./fear-card/index.svelte";
+  import IncarnaToken from "./incarna-token/index.svelte";
+  import EventCard from "./event-card/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
   import Footer from "./footer.svelte";
 
@@ -39,6 +41,7 @@
     previewBoard: {
       isVisible: false,
     },
+    isClickable: true,
     nameAndArt: {
       isVisible: false,
       name: "",
@@ -157,6 +160,7 @@
         id: 0,
         name: "",
         displayName: "",
+        incarna: false,
       },
     ],
   };
@@ -241,6 +245,9 @@
         threshold: "",
         thresholdCondition: "",
         thresholdText: "",
+        hasSecondThreshold: false,
+        secondThreshold: "",
+        secondThresholdCondition: "",
       },
     ],
     cardBackImage: "",
@@ -432,17 +439,90 @@
       level2: "",
       level3: "",
     },
+    showBack: false,
   };
   let fearCard = JSON.parse(JSON.stringify(emptyFearCard));
+
+  let emptyIncarnaToken = {
+    prop: "value",
+    demoBoardWasLoaded: false,
+    previewBoard: {
+      isVisible: false,
+    },
+    incarna: {
+      isVisible: false,
+      name: "",
+      icon: "",
+      token: "",
+      empowered: false,
+      color: "",
+    },
+  };
+  let incarnaToken = JSON.parse(JSON.stringify(emptyIncarnaToken));
+
+  let emptyEventCard = {
+    prop: "value",
+    demoBoardWasLoaded: false,
+    previewBoard: {
+      isVisible: false,
+    },
+    card: {
+      isVisible: false,
+      name: "",
+      type: "blight",
+      lore: "",
+      hasHeader: false,
+      headerColor: "",
+      effect: "",
+    },
+    subevents: {
+      isVisible: false,
+      event: [
+        {
+          id: 0,
+          name: "",
+          type: "",
+          effect: "",
+        },
+        {
+          id: 1,
+          name: "",
+          type: "",
+          effect: "",
+        },
+      ],
+    },
+    tokenevents: {
+      isVisible: false,
+      event: [
+        {
+          id: 0,
+          name: "",
+          tokens: "",
+          effect: "",
+        },
+        {
+          id: 1,
+          name: "",
+          tokens: "",
+          effect: "",
+        },
+      ],
+    },
+    showBack: false,
+  };
+  let eventCard = JSON.parse(JSON.stringify(emptyEventCard));
 
   let pages = [
     ["spiritBoardFront", "Spirit Board Play Side"],
     ["spiritBoardBack", "Spirit Board Lore Side"],
     ["powerCards", "Power Cards"],
     ["aspect", "Aspect / Special Cards"],
+    ["incarnaToken", "Incarna Token"],
     ["adversary", "Adversary"],
     ["blightCard", "Blight Card"],
     ["fearCard", "Fear Card"],
+    ["eventCard", "Event Card"],
   ];
 </script>
 
@@ -479,6 +559,22 @@
             </button>
           </div>
         </div>
+        <!-- <div class="field has-addons">
+          <button
+            class="button is-info button-hold mb-0"
+            on:click={toggleClickableInterface}>Toggle Clickable GUI</button>
+         </div>
+         <div class="navbar-menu">
+          <div class="navbar-end">
+            <button
+              class={`button navbar-item ${toggleClickableInterface ? "is-primary is-selected" : ""}`}
+              on:click={() => {
+                toggleClickableInterface = !toggleClickableInterface;
+              }}>
+              Toggle Clickable GUI
+            </button>
+          </div>
+        </div> -->
       {/if}
     </nav>
   </header>
@@ -494,10 +590,14 @@
       <Aspect bind:aspect bind:emptyAspect bind:customIcons />
     {:else if currentPage === "adversary"}
       <Adversary bind:adversary bind:emptyAdversary bind:customIcons />
+    {:else if currentPage === "incarnaToken"}
+      <IncarnaToken bind:incarnaToken bind:emptyIncarnaToken bind:customIcons />
     {:else if currentPage === "blightCard"}
       <BlightCard bind:blightCard bind:emptyBlightCard bind:customIcons />
     {:else if currentPage === "fearCard"}
       <FearCard bind:fearCard bind:emptyFearCard bind:customIcons />
+    {:else if currentPage === "eventCard"}
+      <EventCard bind:eventCard bind:emptyEventCard bind:customIcons />
     {/if}
   </div>
 

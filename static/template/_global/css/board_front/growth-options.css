@@ -136,6 +136,10 @@ growth-table {
   pointer-events: none;
 }
 
+board.devwrap growth-table {
+  pointer-events: all;
+}
+
 growth-table.two-table-top {
   margin-top: 10px;
   margin-bottom: 0px;
@@ -381,6 +385,16 @@ repeat-growth value {
   margin-top: 4px;
   margin-left: 10px;
   color: #52301e;
+}
+
+repeat-growth.energy-cost {
+  background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
+}
+
+repeat-growth.energy-cost value {
+  font-size: 17pt;
+  margin-left: 0px;
+  color: #000000;
 }
 
 repeat-wrapper {
@@ -789,10 +803,10 @@ icon.gain-card-modifier.minor {
 }
 
 icon.gain-card-second-modifier {
-  width: 45px;
+  width: 35px;
   position: relative;
-  right: -48px;
-  top: -127px;
+  right: -53px;
+  top: -129px;
   display: block;
 }
 
@@ -990,8 +1004,8 @@ growth-cell icon.push-from > icon {
 }
 
 growth-cell icon.gather > icon {
-  left: 65px;
-  top: 17px;
+  left: 48px;
+  top: 12px;
 }
 
 growth-cell icon.gather-into > icon {
@@ -1010,8 +1024,8 @@ growth-cell icon.gather-into {
 growth-cell icon.gather-into > icon {
   position: relative;
   text-align: unset;
-  left: 79px;
-  top: 23px;
+  left: 70px;
+  top: 15px;
   width: 30px;
   height: 25px;
   margin: 0px;
@@ -1254,7 +1268,7 @@ push-gather {
 push-gather icon.terrain-gather {
   display: inline-block;
   height: 62px;
-  width: 100px;
+  width: 108px;
   margin-right: 20px;
   margin-bottom: 7px;
   margin-top: 0px;
@@ -1264,7 +1278,7 @@ push-gather icon.terrain-gather {
 push-gather icon.terrain-push {
   display: inline-block;
   height: 62px;
-  width: 100px;
+  width: 108px;
   margin-right: 0px;
   margin-bottom: 7px;
   margin-top: 0px;
@@ -1300,10 +1314,10 @@ push-gather icon.terrain-push.ocean > icon.from {
 
 push-gather icon.terrain-gather > icon.gather-arrow {
   left: 60px;
-  top: 17px;
+  top: 33px;
   position: relative;
   text-align: unset;
-  width: 32px;
+  width: 60px;
   height: 25px;
   margin: 0px;
   padding: 0px;

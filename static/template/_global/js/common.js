@@ -83,9 +83,14 @@ function replaceIcon(html) {
       is_terrain = " terrain-double";
     }
 
+    // Check for Incarna
+    if (iconName.startsWith("incarna-")) {
+      iconName = "incarna " + iconName.substring(8);
+    }
+
+    // Check for Range
     let range_num = "";
     let num_val = "";
-    // Check for Range
     if (iconName.startsWith("range-")) {
       HTMLTag = "range";
       range_num = iconName.substring(6);
@@ -111,12 +116,22 @@ function replaceIcon(html) {
       energy_num = iconName.substring(7);
       if (isNaN(energy_num)) {
       } else {
-        HTMLTag = "growth-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
+        HTMLTag = "custom-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
         energy_num = "<value>" + energy_num + "</value>";
         iconName = "";
         num_val = energy_num;
+        console.log("energy icon test");
       }
     } else if (iconName.startsWith("gain-energy-")) {
+      energy_num = iconName.substring(12);
+      if (isNaN(energy_num)) {
+      } else {
+        HTMLTag = "custom-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
+        energy_num = "<value>" + energy_num + "</value>";
+        iconName = "gain";
+        num_val = energy_num;
+        console.log("energy gain icon test");
+      }
     }
 
     iconHtml +=

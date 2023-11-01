@@ -452,10 +452,10 @@ icon.push {
   background-image: url("../images/board/NewIcons/Land Push.png");
 }
 icon.gather {
-  background-image: url("../images/board/NewIcons/Land Gather.png");
+  background-image: url("../images/board/NewIcons/Track_Gather.png");
 }
 icon.gather-into {
-  background-image: url("../images/board/NewIcons/Land Gather Into.png");
+  background-image: url("../images/board/NewIcons/Track_Gather.png");
 }
 icon.your-land {
   background-image: url("../images/board/NewIcons/Land.png");
@@ -477,6 +477,15 @@ icon.incarna-roots {
 }
 icon.incarna-wvkd {
   background-image: url("../images/board/NewIcons/incarna-wvkd.png");
+}
+icon.incarna-warrior {
+  background-image: url("../images/board/NewIcons/incarna-warrior.png");
+}
+icon.incarna-locus {
+  background-image: url("../images/board/NewIcons/incarna-locus.png");
+}
+icon.incarna-lair {
+  background-image: url("../images/board/NewIcons/incarna-lair.png");
 }
 icon.empower-incarna {
   background-image: url("../images/board/NewIcons/empower-incarna.png");
@@ -504,8 +513,12 @@ icon.vitality {
   background-image: url("../images/board/NewIcons/Vitality.png");
 }
 
-icon.no-forget {
+icon.forget {
   background-image: url("../images/board/NewIcons/ForgetIcon.png");
+}
+
+icon.noforget {
+  background-image: url("../images/board/NewIcons/NoForgetIcon.png");
 }
 
 range {

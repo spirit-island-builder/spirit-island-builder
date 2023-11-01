@@ -79,8 +79,21 @@
           newPowerCardThreshold.setAttribute("text", card.thresholdText);
         }
         newPowerCard.appendChild(newPowerCardThreshold);
+        if (card.hasSecondThreshold) {
+          let newSecondThreshold = document.createElement("threshold");
+          newSecondThreshold.innerHTML = card.secondThreshold;
+          newSecondThreshold.setAttribute("condition", card.secondThresholdCondition);
+          newPowerCard.appendChild(newSecondThreshold);
+        }
       }
     });
+
+    //Add spirit name
+    if (powerCards.spiritName) {
+      let spiritName = document.createElement("spirit-name");
+      fragment.append(spiritName);
+      spiritName.innerHTML = powerCards.spiritName;
+    }
 
     //Set Custom Icons
     const spiritStyle = document.createElement("style");
@@ -143,6 +156,12 @@
       let cardBackImage = cardBack.querySelectorAll("img")[0];
       powerCards.cardBackImage = Lib.maybeResolveURL(cardBackImage.getAttribute("src"), baseURI);
     }
+
+    //Add spirit name
+    const spiritNameHTML = htmlElement.querySelectorAll("spirit-name")[0];
+    if (spiritNameHTML) {
+      powerCards.spiritName = spiritNameHTML.innerHTML;
+    }
   }
 
   function addPowerCard(powerCards, powerCardHTML, baseURI) {
@@ -151,16 +170,24 @@
     if (rulesHTML) {
       rulesPush = rulesHTML.innerHTML.trim();
     }
-    let thresholdHTML = powerCardHTML.querySelectorAll("threshold")[0];
+    let thresholdHTML = powerCardHTML.querySelectorAll("threshold");
     let thresholdPush = "";
     let hasThresholdPush = false;
     let thresholdConditionPush = "";
     let thresholdTextPush = "";
-    if (thresholdHTML) {
+    let hasSecondThresholdPush = false;
+    let thresholdSecondPush = "";
+    let thresholdSecondConditionPush = "";
+    if (thresholdHTML[0]) {
       hasThresholdPush = true;
-      thresholdPush = thresholdHTML.innerHTML.trim();
-      thresholdConditionPush = thresholdHTML.getAttribute("condition");
-      thresholdTextPush = thresholdHTML.getAttribute("text");
+      thresholdPush = thresholdHTML[0].innerHTML.trim();
+      thresholdConditionPush = thresholdHTML[0].getAttribute("condition");
+      thresholdTextPush = thresholdHTML[0].getAttribute("text");
+    }
+    if (thresholdHTML[1]) {
+      hasSecondThresholdPush = true;
+      thresholdSecondPush = thresholdHTML[1].innerHTML.trim();
+      thresholdSecondConditionPush = thresholdHTML[1].getAttribute("condition");
     }
 
     //Parse elements
@@ -202,6 +229,9 @@
       threshold: thresholdPush,
       thresholdCondition: thresholdConditionPush,
       thresholdText: thresholdTextPush,
+      hasSecondThreshold: hasSecondThresholdPush,
+      secondThreshold: thresholdSecondPush,
+      secondThresholdCondition: thresholdSecondConditionPush,
     });
 
     return powerCards;
@@ -381,9 +411,30 @@
     const jsonFileName = saveName.replaceAll(" ", "_") + "_cards_TTS.json";
     downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
+
+  const openEditorHeading = (e) => {
+    console.log(e.target.id);
+    console.log(e.target);
+    console.log(e);
+    let outcome;
+    let regFindNumbers = /^\d+|\d+\b|\d+(?=\w)/g;
+    let numMatches = e.target.id.match(regFindNumbers);
+    // e.stopPropagation(); // we stop the event from propegating up to 'board', which would cause this to trigger twice
+    outcome = !powerCards.cards[numMatches[0]].isVisible;
+    hideAll();
+    powerCards.cards[numMatches[0]].isVisible = outcome;
+  };
+
+  function hideAll() {
+    powerCards.cards.forEach((card) => (card.isVisible = false));
+  }
 </script>
 
-<PreviewFrame id="power-cards-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
+<PreviewFrame
+  id="power-cards-preview"
+  bind:this={previewFrame}
+  on:hot-reload={reloadPreview}
+  clickFunction={() => openEditorHeading}>
   <svelte:fragment slot="head">
     <link href="/template/_global/css/global.css" rel="stylesheet" />
     <link href="/template/_global/css/card.css" rel="stylesheet" />

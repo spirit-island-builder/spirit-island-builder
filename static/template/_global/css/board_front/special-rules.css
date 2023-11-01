@@ -63,6 +63,10 @@ special-rule {
   pointer-events: none;
 }
 
+board.devwrap special-rule {
+  pointer-events: all;
+}
+
 special-rule icon {
   width: 30px;
   height: 30px;
@@ -401,4 +405,36 @@ special-rule icon.range-small-icon {
   height: 22px;
   position: relative;
   top: -4px;
+}
+
+special-rule custom-energy {
+  height: 45px;
+  width: 45px;
+  margin-bottom: -14px;
+  margin-top: -15px;
+  position: relative;
+  margin-left: -4px;
+  margin-right: -4px;
+}
+
+special-rule custom-energy value {
+  font-family: "Energy Font";
+  font-size: 13pt;
+  font-style: normal;
+  display: block;
+  position: absolute;
+  left: 17px;
+  top: 9px;
+  width: 10px;
+}
+
+special-rule custom-energy.gain value {
+  left: 21px;
+}
+
+special-rule icon.incarna {
+  width: 40px;
+  height: 40px;
+  margin-top: -13px;
+  margin-bottom: -10px;
 }

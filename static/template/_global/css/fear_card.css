@@ -49,6 +49,19 @@ template-fear-card {
   left: 0px;
 }
 
+fear-back {
+  display: block;
+  background-image: url(../images/cards/Fear/Fear_Back.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 488px;
+  height: 682px;
+  border-radius: 22px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
 fear-card-name {
   position: relative;
   top: 28px;

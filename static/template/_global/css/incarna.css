@@ -1,0 +1,226 @@
+@import "global.css";
+@import "board_front/icon.css";
+
+@font-face {
+  font-family: JosefinSans-Regular;
+  src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf) format("truetype");
+  font-weight: normal;
+}
+
+html,
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 14px;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 25%;
+  margin-top: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+incarna {
+  display: flex;
+  width: 101px;
+  height: 118px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+incarna.clone {
+  display: flex;
+  transform: scaleY(-1);
+  width: 101px;
+  height: 118px;
+  position: absolute;
+  top: -6px;
+  left: -80px;
+}
+
+incarna background {
+  display: flex;
+  background-image: url(../images/incarna/background.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 101px;
+  height: 118px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  color: orange;
+  filter: drop-shadow(0px 0px 0px) saturate(1.5);
+}
+
+incarna swirl {
+  position: absolute;
+  display: flex;
+  background-image: url(../images/incarna/swirl.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 101px;
+  height: 118px;
+  top: 0px;
+  left: 0px;
+  filter: opacity(0.4);
+}
+
+incarna.empowered swirl {
+  background-image: url(../images/incarna/empower_swirl.png);
+}
+
+incarna border {
+  position: absolute;
+  display: none;
+  background-image: url(../images/incarna/empower_border.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 101px;
+  height: 118px;
+  top: 0px;
+  left: 0px;
+}
+
+incarna.empowered border {
+  display: flex;
+}
+
+incarna background-color {
+  display: flex;
+  background-image: url(../images/incarna/incarna_unem_background.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 101px;
+  height: 118px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+incarna glow {
+  position: absolute;
+  background-image: url(../images/incarna/glow.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: none;
+  top: 0%;
+  width: inherit;
+  height: inherit;
+}
+
+incarna.empowered glow {
+  display: block;
+}
+
+incarna icon.presence {
+  position: absolute;
+  background-image: url(../images/incarna/presence_noglow.png);
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+incarna icon {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+contrast-wrapper {
+  /* filter: contrast(0.4); */
+  position: absolute;
+}
+
+contrast-wrapper.token {
+  top: 76%;
+  left: 50%;
+}
+
+contrast-wrapper.presence {
+  top: 60%;
+  left: 50%;
+}
+
+incarna icon.token {
+  position: absolute;
+  top: 76%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 23px;
+  filter: contrast(0.4);
+}
+
+incarna icon.shadow {
+  color: white;
+  filter: drop-shadow(0.5px 0.5px 0px) drop-shadow(-0.5px 0.5px 0px) drop-shadow(0.5px -0.5px 0px)
+    drop-shadow(-0.5px -0.5px 0px) contrast(1);
+}
+
+incarna.empowered icon.shadow {
+  color: #ffd246;
+}
+
+incarna icon.incarna {
+  top: 48%;
+  width: 48px;
+  height: 41px;
+}
+
+incarna icon.sun {
+  background-image: url("../images/board/element_simple_sun.png");
+  filter: contrast(1) !important;
+}
+
+incarna icon.moon {
+  background-image: url("../images/board/element_simple_moon.png");
+  filter: contrast(1) !important;
+}
+incarna icon.fire {
+  background-image: url("../images/board/element_simple_fire.png");
+  filter: contrast(1) !important;
+}
+incarna icon.air {
+  background-image: url("../images/board/element_simple_air.png");
+  filter: contrast(1) !important;
+}
+incarna icon.plant {
+  background-image: url("../images/board/element_simple_plant.png");
+  filter: contrast(1) !important;
+}
+incarna icon.water {
+  background-image: url("../images/board/element_simple_water.png");
+  filter: contrast(1) !important;
+}
+incarna icon.earth {
+  background-image: url("../images/board/element_simple_earth.png");
+  filter: contrast(1) !important;
+}
+incarna icon.animal {
+  background-image: url("../images/board/element_simple_animal.png");
+  filter: contrast(1) !important;
+}
+incarna icon.star {
+  background-image: url("../images/board/NewIcons/Element Star.png");
+  filter: contrast(1) !important;
+}
+incarna icon.any {
+  background-image: url("../images/board/element_simple_any.png");
+  filter: contrast(1) !important;
+}

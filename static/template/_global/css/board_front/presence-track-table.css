@@ -55,6 +55,10 @@ presence-tracks table {
   pointer-events: none;
 }
 
+board.devwrap presence-tracks table {
+  pointer-events: all;
+}
+
 presence-tracks table td {
   padding: 0px;
   vertical-align: top;
@@ -90,8 +94,10 @@ td.spacer.tight {
 }
 
 presence-node {
-  display: inline-table;
+  display: inline-flex;
   max-width: 130px;
+  flex-direction: column;
+  align-items: center;
 }
 
 tr.energy-track presence-node {
@@ -330,15 +336,19 @@ presence-node-multi icon.custom3 {
 }
 
 presence-node icon.gather {
-  left: 65px;
-  top: 17px;
-  width: 76px;
-  margin-right: 34px;
+  left: -12px;
+  top: 5px;
+  width: 112px;
+  height: 68px;
+  position: relative;
+  margin-right: 0px;
 }
 
 presence-node icon.gather > icon {
-  left: 77px;
-  top: 17px;
+  left: 90px;
+  top: -18px;
+  filter: drop-shadow(0px 0px 1px white);
+  height: 90px;
 }
 
 presence-node icon.gain-card-play > icon {
@@ -455,6 +465,15 @@ track-move-presence move-value {
   position: relative;
   left: -1px;
   position: relative;
+}
+
+track-move-presence move-text {
+  position: relative;
+  left: -1px;
+  position: relative;
+  font-size: 28px;
+  line-height: 28px;
+  font-family: "NAME HEADINGS";
 }
 
 presence-node-multi {
