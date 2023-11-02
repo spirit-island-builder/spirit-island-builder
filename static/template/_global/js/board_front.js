@@ -2818,7 +2818,7 @@ function dynamicResizing() {
   // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
   let currentTrack;
   debug = true;
-  let last_node_adjusted = false;
+  // let last_node_adjusted = false;
   if (tightFlag) {
     console.log("tightening presence tracks");
     board.getElementsByTagName("presence-title")[0].classList.add("tight");
@@ -2849,31 +2849,75 @@ function dynamicResizing() {
       console.log(track_tds);
     }
 
-    for (let i = 0; i < subtext.length; i++) {
-      let textHeight = subtext[i].offsetHeight;
-      if (track_tds[1].classList.contains("middle")) {
-        // Only read/apply to non-middle nodes
-        textHeight = 0;
-        last_node_adjusted = false;
-      } else if (textHeight > 55) {
-        // Only adjust if its >2 lines (~50px is 2 lines)
-        if (!last_node_adjusted) {
-          subtext[i].classList.add("adjust-subtext");
-          textHeight = subtext[i].offsetHeight;
-          last_node_adjusted = true;
-          console.log("adjusting node text: " + subtext[i].innerHTML);
-        } else {
-          console.log(
-            "rejected text adjstment for: " +
-              subtext[i].innerHTML +
-              " :Reason: neighbor already adjusted: "
-          );
-          last_node_adjusted = false;
-        }
-      } else {
-        last_node_adjusted = false;
+    let subtextArray = Array.from(subtext);
+    let textHeightsArray = subtextArray.map((st) => st.offsetHeight);
+    subtextArray.forEach((subtext) => {
+      if (subtext.offsetHeight < 50) {
+        balanceText(subtext);
       }
-    }
+    });
+    subtextArray.forEach((text, i) => {
+      console.log(text);
+      if (i > 0) {
+        if (text.offsetHeight > 50) {
+          // subtext.classList.add("adjust-subtext");
+          let leftTextLocation = subtextArray[i - 1].getBoundingClientRect();
+          let curTextLocation = text.getBoundingClientRect();
+          let rightTextLocation;
+          let rightLeft;
+          if (i + 1 === subtextArray.length) {
+            rightTextLocation = board.getBoundingClientRect();
+            rightLeft = rightTextLocation.right - 16;
+          } else {
+            rightTextLocation = subtextArray[i + 1].getBoundingClientRect();
+            rightLeft = rightTextLocation.left - 10;
+          }
+          console.log(leftTextLocation);
+          console.log(curTextLocation);
+          console.log(rightTextLocation);
+          let deltaL = curTextLocation.left - leftTextLocation.right - 10;
+          let deltaR = rightLeft - curTextLocation.right;
+          let delta = deltaL < deltaR ? deltaL : deltaR;
+          console.log("delta:" + delta);
+          if (delta > 0) {
+            delta = delta > 30 ? 30 : delta;
+            let newWidth = curTextLocation.width + 2 * delta;
+            console.log(curTextLocation.width + " " + newWidth);
+            console.log(text);
+            subtext[i].style.width = newWidth + "px";
+            console.log(subtext[i]);
+            balanceText(subtext[i]);
+          }
+        }
+      }
+    });
+    console.log("textHeightsArray");
+    console.log(textHeightsArray);
+    // for (let i = 0; i < subtext.length; i++) {
+    //   let textHeight = subtext[i].offsetHeight;
+    //   if (track_tds[1].classList.contains("middle")) {
+    //     // Only read/apply to non-middle nodes
+    //     textHeight = 0;
+    //     last_node_adjusted = false;
+    //   } else if (textHeight > 55) {
+    //     // Only adjust if its >2 lines (~50px is 2 lines)
+    //     if (!last_node_adjusted) {
+    //       subtext[i].classList.add("adjust-subtext");
+    //       textHeight = subtext[i].offsetHeight;
+    //       last_node_adjusted = true;
+    //       console.log("adjusting node text: " + subtext[i].innerHTML);
+    //     } else {
+    //       console.log(
+    //         "rejected text adjstment for: " +
+    //           subtext[i].innerHTML +
+    //           " :Reason: neighbor already adjusted: "
+    //       );
+    //       last_node_adjusted = false;
+    //     }
+    //   } else {
+    //     last_node_adjusted = false;
+    //   }
+    // }
   }
 
   // Adjust table
