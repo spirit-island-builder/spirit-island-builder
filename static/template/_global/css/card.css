@@ -656,6 +656,10 @@ threshold icon.last {
   margin-right: 1px;
 }
 
+spirit-name {
+  display: none;
+}
+
 @media print {
   element-background {
     background-color: rgb(220, 220, 220);
