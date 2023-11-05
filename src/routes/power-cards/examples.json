@@ -9,6 +9,10 @@
       {
         "name": "Many Minds",
         "url": "/template/MyCustomContent/MyPowerCard/ManyMinds_PowerCards.html"
+      },
+      {
+        "name": "Shifting Memory",
+        "url": "/template/MyCustomContent/MyPowerCard/ShiftingMemory_PowerCards.html"
       }
     ]
   }
