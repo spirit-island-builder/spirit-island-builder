@@ -26,7 +26,7 @@ function resize(eventType) {
   dynamicSizing(document.getElementsByClassName("title")[0], 55);
 
   // checks for resize on blight, then applies it to both headers if needed
-  if (eventType === "blight") {
+  if (eventType === "blight" || eventType === "stage" || eventType === "terror") {
     let subeventHeaders = document.querySelectorAll("subevent-header");
     subeventHeaders.forEach((header) => {
       let fontUpdate = dynamicSizing(header, 55);
@@ -55,14 +55,17 @@ function buildBuildCard(template) {
   html = `<event-body>         
           `;
 
-  if (!(eventName == "" || eventName == "none")) {
-    html += ` <event-header class = "title" >${eventName}</event-header>
-    `;
-  }
+  if (!(eventType === "blight" || eventType === "stage" || eventType === "terror")) {
+    if (!(eventName == "" || eventName == "none")) {
+      html += ` <event-header class = "title" >${eventName}</event-header>
+      `;
+      console.log(eventType);
+    }
 
-  if (!(eventLore == "" || eventLore == "none")) {
-    html += `<effect class = "title"> ${eventLore} </effect>
-    `;
+    if (!(eventLore == "" || eventLore == "none")) {
+      html += `<effect class = "title"> ${eventLore} </effect>
+      `;
+    }
   }
 
   let eventNumber = subEvents.length;
