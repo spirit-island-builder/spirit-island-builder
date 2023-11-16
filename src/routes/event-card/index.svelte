@@ -29,7 +29,7 @@
     reloadPreview();
   }
 
-  const demoURL = "/template/MyCustomContent/MyEventCard/blight_card_downward_spiral.html";
+  const demoURL = "/template/MyCustomContent/MyEvent/CulturalAssimilation (Terror 1+23).html";
   function onLoad() {
     if (eventCard.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
@@ -52,22 +52,41 @@
   function generateHTML(eventCard) {
     const fragment = new DocumentFragment();
 
-    let eventCardHTML = document.createElement("template-blight-card");
+    //Generate HTML for Event Card Name
+    let eventCardHTML = document.createElement("template-event-card");
     fragment.append(eventCardHTML);
 
-    //Generate HTML for Blight Card Name
-    eventCardHTML.setAttribute("name", eventCard.card.cardName);
+    eventCardHTML.setAttribute("name", eventCard.card.name);
+    eventCardHTML.setAttribute("type", eventCard.card.type);
+    eventCardHTML.setAttribute("subtype", eventCard.card.subtype);
+    eventCardHTML.setAttribute("lore", eventCard.card.lore);
 
-    //Generate HTML for Blight Per Player
-    eventCardHTML.setAttribute("per-player", eventCard.card.blightPerPlayer);
+    //Generate HTML for Event Card Name
+    let eventHeaderHTML = document.createElement("event-header");
+    eventCardHTML.append(eventHeaderHTML);
 
-    //Generate HTML for Still Healthy?
-    eventCardHTML.setAttribute("still-healthy", eventCard.card.isStillHealthy);
+    eventCardHTML.setAttribute("hasHeader", eventCard.card.hasHeader);
+    eventCardHTML.setAttribute("headerColor", eventCard.card.headerColor);
+    eventCardHTML.setAttribute("effect", eventCard.card.effect);
 
-    //Generate HTML for Effect
-    let blightEffect = document.createElement("effect");
-    eventCardHTML.appendChild(blightEffect);
-    blightEffect.innerHTML = eventCard.card.cardEffect;
+    //Generate HTML for subevents
+    eventCard.subevents.event.forEach((subevent) => {
+      let subeventHTML = document.createElement("subevent");
+      eventCardHTML.append(subeventHTML);
+      subeventHTML.setAttribute("name", subevent.name);
+      subeventHTML.setAttribute("type", subevent.type);
+      subeventHTML.setAttribute("bannerText", subevent.customBanner);
+      subeventHTML.setAttribute("effect", subevent.effect);
+    });
+
+    //Generate HTML for tokenevents
+    eventCard.tokenevents.event.forEach((tokenevent) => {
+      let tokeneventHTML = document.createElement("token-event");
+      eventCardHTML.append(tokeneventHTML);
+      tokeneventHTML.setAttribute("name", tokenevent.name);
+      tokeneventHTML.setAttribute("tokens", tokenevent.tokens);
+      tokeneventHTML.setAttribute("effect", tokenevent.effect);
+    });
 
     //Set Custom Icons
     const spiritStyle = document.createElement("style");
@@ -80,7 +99,7 @@
     spiritStyle.textContent = customIconText;
 
     console.log("eventCard HTML generated");
-    console.log(eventCard);
+    console.log(fragment);
 
     return fragment;
   }
@@ -92,20 +111,40 @@
     //Create a new blank JSON for the template data
     eventCard = JSON.parse(JSON.stringify(emptyEventCard));
 
-    const eventCardHTML = htmlElement.querySelectorAll("template-blight-card")[0];
+    const eventCardHTML = htmlElement.querySelectorAll("template-event-card")[0];
+    eventCard.card.name = eventCardHTML.getAttribute("name");
+    eventCard.card.type = eventCardHTML.getAttribute("type");
+    eventCard.card.subtype = eventCardHTML.getAttribute("subtype");
+    eventCard.card.lore = eventCardHTML.getAttribute("lore");
+    const headerHTML = eventCardHTML.querySelectorAll("event-header")[0];
+    if (headerHTML) {
+      eventCard.card.hasHeader = headerHTML.getAttribute("hasHeader");
+      eventCard.card.headerColor = headerHTML.getAttribute("headerColor");
+      eventCard.card.effect = headerHTML.getAttribute("effect");
+    }
 
-    //Read Blight Card Name
-    eventCard.card.cardName = eventCardHTML.getAttribute("name");
+    const subeventHTML = eventCardHTML.querySelectorAll("subevent");
+    eventCard.subevents.event.splice(0, eventCard.subevents.event.length); //Clear the Form first
+    subeventHTML.forEach((subevent) => {
+      eventCard.subevents.event.push({
+        id: eventCard.subevents.event.length,
+        name: subevent.getAttribute("name"),
+        type: subevent.getAttribute("type"),
+        effect: subevent.getAttribute("effect"),
+        customBanner: subevent.getAttribute("bannerText"),
+      });
+    });
 
-    //Read Blight Per Player
-    eventCard.card.blightPerPlayer = eventCardHTML.getAttribute("per-player");
-
-    //Read HTML for Still Healthy?
-    eventCard.card.isStillHealthy = eventCardHTML.getAttribute("still-healthy");
-    console.log("read stillhealthy=" + eventCard.card.isStillHealthy);
-    //Read Effect
-    let blightEffect = eventCardHTML.querySelectorAll("effect")[0];
-    eventCard.card.cardEffect = blightEffect.innerHTML;
+    const tokeneventHTML = eventCardHTML.querySelectorAll("token-event");
+    eventCard.tokenevents.event.splice(0, eventCard.tokenevents.event.length); //Clear the Form first
+    tokeneventHTML.forEach((tokenevent) => {
+      eventCard.tokenevents.event.push({
+        id: eventCard.tokenevents.event.length,
+        name: tokenevent.getAttribute("name"),
+        tokens: tokenevent.getAttribute("tokens"),
+        effect: tokenevent.getAttribute("effect"),
+      });
+    });
 
     //Custom Icons
     if (eventCard.demoBoardWasLoaded) {
