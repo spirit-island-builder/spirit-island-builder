@@ -8,7 +8,7 @@
 <body>
 
   <template-event-card 
-    name="Farmers SEEK Dahan for Aid"
+    name="Farmers SEEK the Dahan for Aid"
     type="choice"
     subtype=""
     lore="The Dahan are uncertain whether to teach the Invaders farming techniques more in tune with the island's life. You recommend they"
@@ -19,23 +19,20 @@ f
     <subevent
     name="Spurn the Invaders"
     type="choice"
-    effect="<b>• On Each Board:</b> 2 Damage to {dahan} in a land with {town} / {city} and {dahan}.
-    <b>• On Each Board:</b> Add 1 {blight} to a land with at least 2 {town} / {city}.
-    • {town} / {city} have -1 Health (min 1) until the end of the turn."
-    >
+    effect="<ul><li><b>On Each Board:</b> 2 Damage to {dahan} in a land with {town/city} and {dahan}.</li><li><b>On Each Board:</b> Add 1 {blight} to a land with at least {town/city,2}.</li><li>{town/city} have -1 Health (min 1) until the end of the turn.</li></ul>"
+    ></subevent>
 
     <subevent
     name="Teach the Invaders"
     type="choice"
-    effect="<b>• On Each Board:</b> add 1 {town} to a land with {dahan}.
-    • The next normal Ravage becomes a Build (This could be on a future turn.)"
-    >
+    effect="<ul><li><b>On Each Board:</b> add 1 {town} to a land with {dahan}.</li><li>The next normal Ravage becomes a Build <i>(This could be on a future turn.)</i></li></ul>"
+    ></subevent>
 
     <token-event
-    name="New Diseases:"
+    name="New Diseases"
     tokens="disease"
-    effect="On half of the boards (rounding up) add 1 {disease} to a land with both {dahan} and Invaders. Do 2 Damage to {dahan} there. "
-    >
+    effect="On half of the boards (rounding up) add 1 {disease} to a land with both {dahan} and Invaders. Do 2 Damage to {dahan} there."
+    ></token-event>
 
 
 

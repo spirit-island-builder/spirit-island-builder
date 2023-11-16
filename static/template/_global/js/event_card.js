@@ -3,7 +3,7 @@ async function startMain() {
   console.log("Start Main: Event Card");
 
   templateEventCard = document.querySelectorAll("template-event-card")[0];
-
+  let eventType = templateEventCard.getAttribute("type");
   if (templateEventCard) {
     let eventCard = buildBuildCard(templateEventCard);
     templateEventCard.parentNode.insertBefore(eventCard, templateEventCard.nextSibling);
@@ -12,13 +12,31 @@ async function startMain() {
 
   var html = document.querySelectorAll("event-card")[0].innerHTML;
   document.querySelectorAll("event-card")[0].innerHTML = replaceIcon(html);
+
   setTimeout(() => {
-    resize();
+    resize(eventType);
   }, 200);
 }
 
-function resize() {
+function resize(eventType) {
+  //not sure we want to resize the whole card? this might be an error?
   dynamicSizing(document.querySelectorAll("event-card")[0], 55);
+
+  // resizes title (for choice events)
+  dynamicSizing(document.getElementsByClassName("title")[0], 55);
+
+  // checks for resize on blight, then applies it to both headers if needed
+  if (eventType === "blight") {
+    let subeventHeaders = document.querySelectorAll("subevent-header");
+    subeventHeaders.forEach((header) => {
+      let fontUpdate = dynamicSizing(header, 55);
+      if (fontUpdate) {
+        subeventHeaders.forEach((header2) => {
+          header2.style.fontSize = fontUpdate;
+        });
+      }
+    });
+  }
 }
 
 function buildBuildCard(template) {
@@ -38,7 +56,7 @@ function buildBuildCard(template) {
           `;
 
   if (!(eventName == "" || eventName == "none")) {
-    html += ` <subevent-header class = "title" >${eventName}</subevent-header>
+    html += ` <event-header class = "title" >${eventName}</event-header>
     `;
   }
 
@@ -269,7 +287,7 @@ function parseTokenEvent(el, bottomOffset) {
   html += `
       </token-event-icon-container>
       <token-event-texture> </token-event-texture>
-      <token-event-effect><span style="font-family: Name Headings; letter-spacing: 0px;">${name}</span> ${effect}</token-event-effect>
+      <token-event-effect><token-event-name>${name}:</token-event-name> ${effect}</token-event-effect>
       
       </token-event class="${tokens}">
       `;
@@ -279,23 +297,29 @@ function parseTokenEvent(el, bottomOffset) {
 
 function dynamicSizing(el, maxSize = el.offsetHeight) {
   let j = 0;
+  let fontSizeFormat;
+  if (!el) {
+    console.log("no element to resize");
+    return;
+  }
+  console.log("resizing ");
+  console.log(el);
   while (checkOverflow(el)) {
+    console.log("thats an overflow");
     var style = window.getComputedStyle(el, null).getPropertyValue("font-size");
-    var line = window.getComputedStyle(el, null).getPropertyValue("line-height");
     var fontSize = parseFloat(style);
-    var lineHeight = parseFloat(line);
-    el.style.lineHeight = lineHeight - 1 + "px";
-    if (lineHeight < 15) {
-      // there's more room in line height first
-      el.style.fontSize = fontSize - 1 + "px";
-    }
+    console.log("fontSize = " + fontSize);
+    fontSizeFormat = fontSize - 1 + "px";
+    el.style.fontSize = fontSizeFormat;
+
     // safety valve
     j += 1;
-    if (j > 8) {
+    if (j > 12) {
       console.log("safety");
       break;
     }
   }
+  return fontSizeFormat;
 }
 
 function checkOverflow(el) {
