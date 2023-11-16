@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+  <link href="../../_global/css/global.css" rel="stylesheet" />
+  <link href="../../_global/css/event.css" rel="stylesheet" />
+  <script type="text/javascript" src="../../_global/js/common.js"></script>
+  <script type="text/javascript" src="../../_global/js/event_card.js" defer></script>
+</head>
+<body>
+
+  <template-event-card 
+    name="none"
+    type="terror"
+    subtype="terror1"
+    lore=""
+    >
+
+
+    <subevent
+    name="CULTURAL ASSIMILATION"
+    type="terror1"
+    bannerText = ""
+    effect="<b>On Each Board:</b> In a land with exactly 1 {dahan} that has or is adjacent to a {city}, replace that {dahan} with 1 Town."
+    >
+    
+    <subevent
+    name="REPRISAL AGAINST THE DAHAN"
+    type="terror23"
+    bannerText = ""
+    
+    effect="<b>On Each Board:</b> Choose a land with {dahan} and {town} / {city}. Invaders do 3 Damage to {dahan} there, ignoring Defend Powers.    "
+    >
+
+    <token-event
+    name="BEASTS ATTACK:"
+    tokens="beasts"
+    effect="Each {beast} deals 2 Damage. Remove any token that destroys {town}/{city}."
+    >
+
+    <token-event
+    name="RECKLESS OFFENSIVE:"
+    tokens="dahan"
+    effect="<b>On Each Board:</b> Choose a land with at least 2 {dahan} and at least 2 {town} / {city}. Each {dahan} destroys 1 {town} / {city}. Add 1 {blight}."
+    >
+
+
+
+    </template-event-card>
+  
+
+
+ 
+</body>
+</html>
