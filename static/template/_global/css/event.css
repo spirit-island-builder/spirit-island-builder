@@ -262,6 +262,7 @@ subevent-header {
   padding-top: 15px;
   padding-left: 7px;
   padding-right: 7px;
+  height: 53px;
 }
 
 subevent-header.choice {
@@ -272,11 +273,11 @@ subevent-header.choice {
   align-self: start;
   font-size: 16pt;
   padding-top: 10px;
+  height: unset;
 }
 
 subevent-header.blighted,
 subevent-header.healthy {
-  height: 53px;
 }
 
 event-header {
