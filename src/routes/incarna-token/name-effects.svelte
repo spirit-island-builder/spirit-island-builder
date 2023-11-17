@@ -7,6 +7,7 @@
   function toggleEmpower(val) {
     incarnaToken.incarna.empowered = val;
     incarnaToken = incarnaToken;
+    document.getElementById("updateButton").click();
   }
 
   function selectNode(event) {
