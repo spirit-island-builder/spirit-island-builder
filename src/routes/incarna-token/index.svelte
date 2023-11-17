@@ -157,7 +157,7 @@
 
   function screenshotSetUp() {
     const fileNames = [incarnaToken.incarna.name.replaceAll(" ", "_") + "_incarnaToken.png"];
-    const elementNamesInIframe = ["incarna"];
+    const elementNamesInIframe = ["incarna-wrapper"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 

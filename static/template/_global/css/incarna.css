@@ -38,9 +38,9 @@ body {
 incarna {
   display: flex;
   width: 101px;
-  height: 118px;
+  height: 120px;
   position: relative;
-  top: 0px;
+  top: 2px;
   left: 0px;
 }
 
@@ -49,23 +49,36 @@ incarna.clone {
   transform: scaleY(-1);
   width: 101px;
   height: 118px;
-  position: absolute;
-  top: -6px;
-  left: -80px;
+  position: relative;
+  left: 0px;
+  top: -4px;
+}
+
+incarna-wrapper {
+  /* background-image: url(../images/incarna-background.png); */
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 176px;
+  height: 176px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  top: -50px;
 }
 
 incarna background {
   display: flex;
-  background-image: url(../images/incarna/background.png);
+  background-image: url(../images/incarna/background_white.png);
   background-repeat: no-repeat;
   background-size: contain;
   width: 101px;
-  height: 118px;
+  height: 113px;
   position: relative;
   top: 0px;
   left: 0px;
   color: orange;
-  filter: drop-shadow(0px 0px 0px) saturate(1.5);
+  justify-content: center;
+  /* filter: drop-shadow(0px 0px 0px) saturate(1.5); */
 }
 
 incarna swirl {
@@ -74,8 +87,8 @@ incarna swirl {
   background-image: url(../images/incarna/swirl.png);
   background-repeat: no-repeat;
   background-size: contain;
-  width: 101px;
-  height: 118px;
+  width: 100%;
+  height: 100%;
   top: 0px;
   left: 0px;
   filter: opacity(0.4);
@@ -131,15 +144,24 @@ incarna.empowered glow {
 incarna icon.presence {
   position: absolute;
   background-image: url(../images/incarna/presence_noglow.png);
-  top: 60%;
-  left: 50%;
   transform: translateX(-50%);
 }
 
 incarna icon {
   position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
+}
+
+incarna-icon-wrapper {
+  position: relative;
+  top: 30%;
+}
+presence-icon-wrapper {
+  position: relative;
+  top: 63%;
+}
+token-wrapper {
+  position: relative;
+  top: 76%;
 }
 
 contrast-wrapper {
@@ -148,22 +170,21 @@ contrast-wrapper {
 }
 
 contrast-wrapper.token {
-  top: 76%;
-  left: 50%;
+  /* top: 76%;
+  left: 50%; */
 }
 
 contrast-wrapper.presence {
-  top: 60%;
-  left: 50%;
+  /* top: 60%;
+  left: 50%; */
 }
 
 incarna icon.token {
   position: absolute;
-  top: 76%;
-  left: 50%;
-  transform: translateX(-50%);
   width: 34px;
   height: 23px;
+  margin: 0px;
+  transform: translateX(-50%);
   filter: contrast(0.4);
 }
 
@@ -178,9 +199,9 @@ incarna.empowered icon.shadow {
 }
 
 incarna icon.incarna {
-  top: 48%;
   width: 48px;
   height: 41px;
+  transform: translateX(-50%);
 }
 
 incarna icon.sun {
