@@ -10,20 +10,22 @@ function startMain() {
   let background = document.createElement("background");
   incarna.appendChild(background);
   if (backgroundColor) {
-    background.style.color = backgroundColor;
+    background.style.backgroundColor = backgroundColor;
   }
 
   let swirl = document.createElement("swirl");
-  incarna.appendChild(swirl);
+  background.appendChild(swirl);
 
   let glow = document.createElement("glow");
-  incarna.appendChild(glow);
+  swirl.appendChild(glow);
 
   if (empowered) {
     incarna.classList.add("empowered");
   }
 
   //Add presence icon
+  let presenceIconWrapper = document.createElement("presence-icon-wrapper");
+  background.appendChild(presenceIconWrapper);
   let presence = document.createElement("icon");
   presence.classList.add("presence");
   let presenceShadow = document.createElement("icon");
@@ -31,11 +33,13 @@ function startMain() {
   presenceShadow.classList.add("shadow");
   let contrastWrapper = document.createElement("contrast-wrapper");
   contrastWrapper.classList.add("presence");
-  incarna.appendChild(presenceShadow);
-  incarna.appendChild(contrastWrapper);
+  presenceIconWrapper.appendChild(presenceShadow);
+  presenceIconWrapper.appendChild(contrastWrapper);
   contrastWrapper.appendChild(presence);
 
   //Add token icon
+  let tokenWrapper = document.createElement("token-wrapper");
+  background.appendChild(tokenWrapper);
   let token = document.createElement("icon");
   let tokenShadow = document.createElement("icon");
   if (tokenType) {
@@ -48,22 +52,24 @@ function startMain() {
     tokenShadow.classList.add("shadow");
     let contrastWrapper = document.createElement("contrast-wrapper");
     contrastWrapper.classList.add("token");
-    incarna.appendChild(tokenShadow);
-    incarna.appendChild(contrastWrapper);
+    tokenWrapper.appendChild(tokenShadow);
+    tokenWrapper.appendChild(contrastWrapper);
     contrastWrapper.appendChild(token);
   }
 
   //Add incarna icon
   if (icon) {
+    let incarnaIconWrapper = document.createElement("incarna-icon-wrapper");
+    background.appendChild(incarnaIconWrapper);
     let incarnaIcon = document.createElement("icon");
     let incarnaIconShadow = document.createElement("icon");
     incarnaIcon.classList.add("incarna");
     incarnaIcon.classList.add(icon);
-    incarna.appendChild(incarnaIcon);
+    incarnaIconWrapper.appendChild(incarnaIcon);
     incarnaIconShadow.classList.add("incarna");
     incarnaIconShadow.classList.add("shadow");
     incarnaIconShadow.classList.add(icon);
-    incarna.appendChild(incarnaIconShadow);
+    incarnaIconWrapper.appendChild(incarnaIconShadow);
   }
 
   //Add border (only shows for empowered)
@@ -74,8 +80,7 @@ function startMain() {
   const rgb = hexToRgb(standardize_color(backgroundColor));
   console.log(rgb);
   if (rgb.length !== 3) {
-    alert("Invalid format!");
-    return;
+    alert("Invalid color format!");
   }
 
   const color = new Color(rgb[0], rgb[1], rgb[2]);
@@ -86,10 +91,13 @@ function startMain() {
   presence.style.filter = result.filter;
 
   // Clone it for export
-  let incarna_clone = incarna.cloneNode(true);
-  incarna_clone.classList.add("clone");
-  incarna_clone.classList.remove("empowered");
-  incarna.parentNode.insertBefore(incarna_clone, incarna);
+  let incarnaWrapper = document.createElement("incarna-wrapper");
+  document.body.appendChild(incarnaWrapper);
+  // let incarna_clone = incarna.cloneNode(true);
+  // incarna_clone.classList.add("clone");
+  // incarna_clone.classList.remove("empowered");
+  // incarnaWrapper.appendChild(incarna_clone)
+  incarnaWrapper.appendChild(incarna);
 }
 
 ("use strict");

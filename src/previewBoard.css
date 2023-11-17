@@ -148,8 +148,8 @@
   --preview-frame-width: 650px;
   --preview-frame-height: 700px;
   --preview-wrap-width: 100%;
-  --preview-large-wrap-height: 210px;
-  --preview-large-frame-transform: scale(1.5);
+  --preview-large-wrap-height: 270px;
+  --preview-large-frame-transform: scale(2);
   --preview-large-frame-width: 650px;
   --preview-small-wrap-height: 155px;
   --preview-frame-small-transform: scale(1);
