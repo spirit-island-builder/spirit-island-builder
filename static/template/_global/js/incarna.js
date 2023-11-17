@@ -31,11 +31,8 @@ function startMain() {
   let presenceShadow = document.createElement("icon");
   presenceShadow.classList.add("presence");
   presenceShadow.classList.add("shadow");
-  let contrastWrapper = document.createElement("contrast-wrapper");
-  contrastWrapper.classList.add("presence");
   presenceIconWrapper.appendChild(presenceShadow);
-  presenceIconWrapper.appendChild(contrastWrapper);
-  contrastWrapper.appendChild(presence);
+  presenceIconWrapper.appendChild(presence);
 
   //Add token icon
   let tokenWrapper = document.createElement("token-wrapper");
@@ -50,11 +47,8 @@ function startMain() {
     tokenShadow.classList.add(tokenType);
     tokenShadow.classList.add("token");
     tokenShadow.classList.add("shadow");
-    let contrastWrapper = document.createElement("contrast-wrapper");
-    contrastWrapper.classList.add("token");
     tokenWrapper.appendChild(tokenShadow);
-    tokenWrapper.appendChild(contrastWrapper);
-    contrastWrapper.appendChild(token);
+    tokenWrapper.appendChild(token);
   }
 
   //Add incarna icon
@@ -74,7 +68,7 @@ function startMain() {
 
   //Add border (only shows for empowered)
   let border = document.createElement("border");
-  incarna.appendChild(border);
+  background.appendChild(border);
 
   //Color the Icons
   const rgb = hexToRgb(standardize_color(backgroundColor));

@@ -37,8 +37,8 @@ body {
 
 incarna {
   display: flex;
-  width: 101px;
-  height: 120px;
+  width: 216px;
+  height: 241px;
   position: relative;
   top: 2px;
   left: 0px;
@@ -47,8 +47,8 @@ incarna {
 incarna.clone {
   display: flex;
   transform: scaleY(-1);
-  width: 101px;
-  height: 118px;
+  /* width: 101px;
+  height: 118px; */
   position: relative;
   left: 0px;
   top: -4px;
@@ -58,12 +58,11 @@ incarna-wrapper {
   /* background-image: url(../images/incarna-background.png); */
   background-repeat: no-repeat;
   background-size: contain;
-  width: 176px;
-  height: 176px;
+  width: 400px;
+  height: 400px;
   position: relative;
   display: flex;
-  align-items: flex-end;
-  top: -50px;
+  align-items: flex-start;
 }
 
 incarna background {
@@ -71,8 +70,8 @@ incarna background {
   background-image: url(../images/incarna/background_white.png);
   background-repeat: no-repeat;
   background-size: contain;
-  width: 101px;
-  height: 113px;
+  width: 100%;
+  height: 100%;
   position: relative;
   top: 0px;
   left: 0px;
@@ -84,18 +83,18 @@ incarna background {
 incarna swirl {
   position: absolute;
   display: flex;
-  background-image: url(../images/incarna/swirl.png);
+  background-image: url(../images/incarna/swirl_op40.png);
   background-repeat: no-repeat;
   background-size: contain;
   width: 100%;
   height: 100%;
   top: 0px;
   left: 0px;
-  filter: opacity(0.4);
+  /* filter: opacity(0.4); */
 }
 
 incarna.empowered swirl {
-  background-image: url(../images/incarna/empower_swirl.png);
+  background-image: url(../images/incarna/empower_swirl_op40.png);
 }
 
 incarna border {
@@ -104,8 +103,8 @@ incarna border {
   background-image: url(../images/incarna/empower_border.png);
   background-repeat: no-repeat;
   background-size: contain;
-  width: 101px;
-  height: 118px;
+  width: 100%;
+  height: 100%;
   top: 0px;
   left: 0px;
 }
@@ -148,6 +147,8 @@ incarna icon.presence {
 }
 
 incarna icon {
+  width: 50px;
+  height: 50px;
   position: absolute;
 }
 
@@ -181,8 +182,8 @@ contrast-wrapper.presence {
 
 incarna icon.token {
   position: absolute;
-  width: 34px;
-  height: 23px;
+  width: 68px;
+  height: 46px;
   margin: 0px;
   transform: translateX(-50%);
   filter: contrast(0.4);
@@ -190,8 +191,8 @@ incarna icon.token {
 
 incarna icon.shadow {
   color: white;
-  filter: drop-shadow(0.5px 0.5px 0px) drop-shadow(-0.5px 0.5px 0px) drop-shadow(0.5px -0.5px 0px)
-    drop-shadow(-0.5px -0.5px 0px) contrast(1);
+  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
+    drop-shadow(0px -1px 0px) contrast(1);
 }
 
 incarna.empowered icon.shadow {
@@ -199,8 +200,8 @@ incarna.empowered icon.shadow {
 }
 
 incarna icon.incarna {
-  width: 48px;
-  height: 41px;
+  width: 96px;
+  height: 82px;
   transform: translateX(-50%);
 }
 
