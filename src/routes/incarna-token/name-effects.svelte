@@ -27,6 +27,7 @@
       >Incarna Token Info
     </label>
     <div class="field is-flex is-small mb-0">
+      <label class="label incarna-label" for={`incarnaTokenToken`}>Name: </label>
       <div class="control">
         <input
           id={`incarnaTokenName`}
@@ -39,6 +40,7 @@
       </div>
     </div>
     <div class="field is-flex is-small mb-0">
+      <label class="label incarna-label" for={`incarnaTokenToken`}>Incarna: </label>
       <div class="control">
         <input
           id={`incarnaTokenIcon`}
@@ -51,6 +53,7 @@
       </div>
     </div>
     <div class="field is-flex is-small mb-0">
+      <label class="label incarna-label" for={`incarnaTokenToken`}>Token: </label>
       <div class="control">
         <input
           id={`incarnaTokenToken`}
@@ -62,8 +65,8 @@
           bind:value={incarnaToken.incarna.token} />
       </div>
     </div>
-    <div class="field is-flex is-small mb-0">
-      <div class="control">
+    <div class="field is-flex is-align-items-center is-small mb-0">
+      <!-- <div class="control">
         <input
           id={`incarnaTokenColor`}
           class="input"
@@ -71,6 +74,15 @@
           placeholder="Color"
           on:keyup={nextNode}
           on:focus={selectNode}
+          bind:value={incarnaToken.incarna.color} />
+      </div> -->
+      <label class="label incarna-label" for="head">Color: </label>
+      <div class="input-color-container">
+        <input
+          type="color"
+          class="input-color"
+          id="head"
+          on:change={() => document.getElementById("updateButton").click()}
           bind:value={incarnaToken.incarna.color} />
       </div>
     </div>
@@ -88,6 +100,27 @@
           >Unempowered</button>
       {/if}
     </div>
-    <!-- <HsvPicker on:colorChange={colorCallback} startColor={"#FBFBFB"}/> -->
   </div>
 </Section>
+
+<style>
+  .input-color {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: 220px;
+    height: 56px;
+    border: none;
+  }
+  .input-color-container {
+    position: relative;
+    overflow: hidden;
+    width: 205px;
+    height: 40px;
+    border: solid 2px #ddd;
+    border-radius: 4px;
+  }
+  .incarna-label {
+    width: 65px;
+  }
+</style>
