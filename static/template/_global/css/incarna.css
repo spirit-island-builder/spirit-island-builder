@@ -44,14 +44,10 @@ incarna {
   left: 0px;
 }
 
-incarna.clone {
-  display: flex;
-  transform: scaleY(-1);
-  /* width: 101px;
-  height: 118px; */
-  position: relative;
-  left: 0px;
-  top: -4px;
+incarna-wrapper.tts-export incarna.clone {
+  position: absolute;
+  top: 38px;
+  left: 204px;
 }
 
 incarna-wrapper {
@@ -63,6 +59,21 @@ incarna-wrapper {
   position: relative;
   display: flex;
   align-items: flex-start;
+}
+
+incarna-wrapper.tts-export {
+  background-image: url(../images/incarna/Incarna_Diffuse_Image_Guideline.png);
+  width: 427px;
+  height: 427px;
+}
+
+incarna-wrapper.tts-export incarna background {
+  background-image: url(../images/incarna/background.png);
+}
+
+incarna-wrapper.tts-export incarna {
+  top: 172px;
+  left: 16px;
 }
 
 incarna background {
@@ -158,11 +169,11 @@ incarna-icon-wrapper {
 }
 presence-icon-wrapper {
   position: relative;
-  top: 63%;
+  top: 61%;
 }
 token-wrapper {
   position: relative;
-  top: 76%;
+  top: 74%;
 }
 
 contrast-wrapper {
@@ -191,8 +202,8 @@ incarna icon.token {
 
 incarna icon.shadow {
   color: white;
-  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
-    drop-shadow(0px -1px 0px) contrast(1);
+  filter: drop-shadow(2px 0px 0px) drop-shadow(-2px 0px 0px) drop-shadow(0px 2px 0px)
+    drop-shadow(0px -2px 0px) contrast(1);
 }
 
 incarna.empowered icon.shadow {

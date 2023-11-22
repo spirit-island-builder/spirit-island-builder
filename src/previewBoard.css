@@ -148,10 +148,10 @@
   --preview-frame-width: 650px;
   --preview-frame-height: 700px;
   --preview-wrap-width: 100%;
-  --preview-large-wrap-height: 510px;
+  --preview-large-wrap-height: 846px;
   --preview-large-frame-transform: scale(2);
   --preview-large-frame-width: 650px;
-  --preview-small-wrap-height: 260px;
+  --preview-small-wrap-height: 428px;
   --preview-frame-small-transform: scale(1);
 }
 

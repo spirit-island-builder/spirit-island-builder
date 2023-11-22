@@ -181,7 +181,7 @@
   }
 
   function screenshotSetUp() {
-    const fileNames = [eventCard.card.cardName.replaceAll(" ", "_") + "_EventCard.png"];
+    const fileNames = [eventCard.card.name.replaceAll(" ", "_") + "_EventCard.png"];
     const elementNamesInIframe = ["event-card"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }

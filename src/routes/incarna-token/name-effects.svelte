@@ -1,6 +1,7 @@
 <script>
   import Section from "$lib/section.svelte";
   import * as Lib from "../lib";
+  // import {HsvPicker} from 'svelte-color-picker';
 
   export let incarnaToken;
 
@@ -87,5 +88,6 @@
           >Unempowered</button>
       {/if}
     </div>
+    <!-- <HsvPicker on:colorChange={colorCallback} startColor={"#FBFBFB"}/> -->
   </div>
 </Section>
