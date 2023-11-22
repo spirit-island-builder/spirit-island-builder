@@ -684,6 +684,7 @@ cost-threshold {
   text-transform: capitalize;
   position: relative;
   margin-right: -30px;
+  display: inline-block;
 }
 
 cost-energy {
