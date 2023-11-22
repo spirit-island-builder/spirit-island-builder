@@ -87,10 +87,17 @@ function startMain() {
   // Clone it for export
   let incarnaWrapper = document.createElement("incarna-wrapper");
   document.body.appendChild(incarnaWrapper);
-  // let incarna_clone = incarna.cloneNode(true);
-  // incarna_clone.classList.add("clone");
-  // incarna_clone.classList.remove("empowered");
-  // incarnaWrapper.appendChild(incarna_clone)
+  let ttsExport = true;
+  if (ttsExport) {
+    incarnaWrapper.classList.add("tts-export");
+    incarnaWrapper.style.backgroundColor = backgroundColor;
+    background.style.backgroundColor = "unset";
+    let incarna_clone = incarna.cloneNode(true);
+    incarna_clone.classList.add("clone");
+    incarna_clone.classList.remove("empowered");
+    incarnaWrapper.appendChild(incarna_clone);
+  }
+
   incarnaWrapper.appendChild(incarna);
 }
 
@@ -375,7 +382,8 @@ class Solver {
       3,
       3.6
     )}deg) brightness(${fmt(4)}%) contrast(40%)`;
-    // modified contrast from original: return `invert(${fmt(0)}%) sepia(${fmt(1)}%) saturate(${fmt(2)}%) hue-rotate(${fmt(3, 3.6)}deg) brightness(${fmt(4)}%) contrast(${fmt(5)}%)`;
+    // modified contrast from original:
+    // return `invert(${fmt(0)}%) sepia(${fmt(1)}%) saturate(${fmt(2)}%) hue-rotate(${fmt(3, 3.6)}deg) brightness(${fmt(4)}%) contrast(${fmt(5)}%)`;
   }
 }
 
