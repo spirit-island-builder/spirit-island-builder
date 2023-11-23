@@ -47,6 +47,7 @@
     ]
   },
   "dependencies": {
+    "dom-to-image-more": "^3.2.0",
     "json-e": "^4.4.3"
   }
 }
