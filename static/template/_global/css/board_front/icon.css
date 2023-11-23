@@ -1,5 +1,7 @@
 icon {
-  display: inline-block;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;

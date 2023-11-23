@@ -66,20 +66,16 @@ icon {
 }
 
 icon.no {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-}
-
-icon[class="no"] {
+  background-image: url("../images/board/no.png");
+  background-position: center center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   position: absolute;
-  width: 43px;
-  height: 43px;
+  width: 65px;
+  height: 35px;
 }
 
-/* TODO: These icons don't work due to the Before property. I think fixing them is a bit more complicated sadly. */
-icon.no::before {
-  content: "";
+no-icon {
   background-image: url("../images/board/no.png");
   background-position: center center;
   background-size: contain;
@@ -493,16 +489,6 @@ icon.empower-incarna {
 }
 icon.unempowered-incarna {
   background-image: url("../images/board/NewIcons/incarna-unempower.png");
-}
-
-icon.double-gain {
-  background-image: url("../images/board/EnergyBlank.png");
-}
-icon.double-gain::after {
-  content: "";
-  background-image: url("../images/board/EnergyBlank.png");
-  width: 10px;
-  height: 10px;
 }
 
 icon.blank75 {
