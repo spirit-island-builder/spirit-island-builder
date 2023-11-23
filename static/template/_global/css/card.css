@@ -224,7 +224,8 @@ info-title {
   display: flex;
   align-items: center;
 
-  color: white;
+  /* This makes the borders also white in Chrome for image download. I put color:white in each of the text boxes. */
+  /* color: white; */
   font-family: "Name Headings";
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -244,23 +245,34 @@ info {
 
   font-family: "Name Headings";
   text-transform: uppercase;
-  mix-blend-mode: multiply;
+  /* This line breaks Firefox image exporting. Also, it made the images the image the wrong color. I don't really get why it was here in the firstr place.
+  I also edited the top pixel of the image because it was weirdly choppy and bugged me. It's smoother now.*/
+  /* mix-blend-mode: multiply; */
   background-image: url("../images/target-background.png");
   background-size: 100%;
 }
 
 info-title-speed,
+info-title-range,
+info-title-target {
+  color:white;
+}
+
+info-title-speed,
 info-speed {
   width: 109px;
+
 }
 info-title-range,
 info-range {
   width: 120px;
   padding-right: 1px;
+
 }
 info-title-target,
 info-target {
   flex-grow: 1;
+
 }
 
 info-range {

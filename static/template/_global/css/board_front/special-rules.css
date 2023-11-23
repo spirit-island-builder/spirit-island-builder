@@ -1,7 +1,10 @@
 special-rules-container {
-  /* background-image: url("../../images/board/Innate__Special_Rules_Without_Text.png");
+/* The next three lines are originally commented out. I uncommented it and it seems to be compatible with the DomToImage feature.
+    It'd be good to know why they were commented out in case this breaks something.
+*/
+  background-image: url("../../images/board/Innate__Special_Rules_Without_Text.png");
   background-repeat: repeat-y;
-  background-position: top; */
+  background-position: top;
   min-height: 250px;
   padding-bottom: 19px;
   width: 667px;
@@ -15,7 +18,8 @@ special-rules-container {
   position: relative;
 }
 
-special-rules-container::before {
+/* This seemed to break the DomToImage for some reason. I don't exactly know why. */
+/* special-rules-container::before {
   content: "";
   background-image: url("../../images/board/Innate__Special_Rules_Without_Text.png");
   background-repeat: repeat-y;
@@ -27,7 +31,7 @@ special-rules-container::before {
   left: 0px;
   opacity: 1;
   z-index: -1;
-}
+} */
 
 special-rules-container:hover section-title {
   text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;

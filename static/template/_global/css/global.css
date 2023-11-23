@@ -77,6 +77,7 @@ icon[class="no"] {
   height: 43px;
 }
 
+/* TODO: These icons don't work due to the Before property. I think fixing them is a bit more complicated sadly. */
 icon.no::before {
   content: "";
   background-image: url("../images/board/no.png");
