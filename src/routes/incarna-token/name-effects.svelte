@@ -64,18 +64,16 @@
           on:focus={selectNode}
           bind:value={incarnaToken.incarna.token} />
       </div>
+      {#if incarnaToken.incarna.empowered === true}
+        <button
+          class:is-light={incarnaToken.incarna.empoweredOnlyToken}
+          class="button is-warning is-light mb-0"
+          on:click={() =>
+            (incarnaToken.incarna.empoweredOnlyToken = !incarnaToken.incarna.empoweredOnlyToken)}
+          >Both</button>
+      {/if}
     </div>
     <div class="field is-flex is-align-items-center is-small mb-0">
-      <!-- <div class="control">
-        <input
-          id={`incarnaTokenColor`}
-          class="input"
-          type="text"
-          placeholder="Color"
-          on:keyup={nextNode}
-          on:focus={selectNode}
-          bind:value={incarnaToken.incarna.color} />
-      </div> -->
       <label class="label incarna-label" for="head">Color: </label>
       <div class="input-color-container">
         <input
