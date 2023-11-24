@@ -5,6 +5,7 @@ function startMain() {
   let icon = incarna.getAttribute("icon");
   let tokenType = incarna.getAttribute("token");
   let empowered = incarna.getAttribute("empowered") === "true";
+  let empoweredTokenBoth = incarna.getAttribute("empowered-only-token") === "true";
   let backgroundColor = incarna.getAttribute("color");
 
   let background = document.createElement("background");
@@ -49,6 +50,10 @@ function startMain() {
     tokenShadow.classList.add("shadow");
     tokenWrapper.appendChild(tokenShadow);
     tokenWrapper.appendChild(token);
+    if (empoweredTokenBoth) {
+      token.classList.add("not-both");
+      tokenShadow.classList.add("not-both");
+    }
   }
 
   //Add incarna icon

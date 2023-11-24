@@ -455,6 +455,7 @@
       icon: "",
       token: "",
       empowered: false,
+      empoweredOnlyToken: false,
       color: "",
     },
   };
