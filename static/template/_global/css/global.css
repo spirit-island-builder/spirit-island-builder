@@ -59,7 +59,9 @@
 }
 
 icon {
-  display: inline-block;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -68,11 +70,11 @@ icon {
 icon.no {
   background-image: url("../images/board/no.png");
   background-position: center center;
-  /* background-size: 100% 100%; */
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
-  /* width: 65px;
-  height: 35px; */
+  width: 65px;
+  height: 35px;
 }
 
 no-icon {

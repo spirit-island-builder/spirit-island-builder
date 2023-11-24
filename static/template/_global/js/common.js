@@ -72,7 +72,7 @@ function replaceIcon(html) {
     let is_no = "";
     let no_icon = "";
     if (iconName.startsWith("no-")) {
-      is_no = "no ";
+      // is_no = "no ";
       no_icon = "<no-icon></no-icon>";
       iconName = iconName.substring(3);
     }
