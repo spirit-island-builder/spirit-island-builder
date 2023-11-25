@@ -210,6 +210,14 @@ incarna.empowered icon.shadow {
   color: #ffd246;
 }
 
+incarna icon.not-both {
+  display: none;
+}
+
+incarna.empowered icon.not-both {
+  display: inline-block;
+}
+
 incarna icon.incarna {
   width: 96px;
   height: 82px;
