@@ -11,6 +11,11 @@
     document.getElementById("updateButton").click();
   }
 
+  function toggleEmpowerToken() {
+    incarnaToken.incarna.empoweredOnlyToken = !incarnaToken.incarna.empoweredOnlyToken;
+    document.getElementById("updateButton").click();
+  }
+
   function selectNode(event) {
     let nodeID = event.target.id;
     document.getElementById(nodeID).select();
@@ -68,9 +73,7 @@
         <button
           class:is-light={incarnaToken.incarna.empoweredOnlyToken}
           class="button is-warning is-light mb-0"
-          on:click={() =>
-            (incarnaToken.incarna.empoweredOnlyToken = !incarnaToken.incarna.empoweredOnlyToken)}
-          >Both</button>
+          on:click={() => toggleEmpowerToken()}>Both</button>
       {/if}
     </div>
     <div class="field is-flex is-align-items-center is-small mb-0">
@@ -86,15 +89,15 @@
     </div>
     <div>
       {#if incarnaToken.incarna.empowered === true}
-        <button class="button is-success mb-0" on:click={toggleEmpower(true, incarnaToken)}
+        <button class="button is-warning mb-0" on:click={toggleEmpower(true, incarnaToken)}
           >Empowered</button>
         <button
-          class="button is-warning is-light mb-0"
+          class="button is-success is-light mb-0"
           on:click={toggleEmpower(false, incarnaToken)}>Unempowered</button>
       {:else}
-        <button class="button is-success is-light mb-0" on:click={toggleEmpower(true, incarnaToken)}
+        <button class="button is-warning is-light mb-0" on:click={toggleEmpower(true, incarnaToken)}
           >Empowered</button>
-        <button class="button is-warning mb-0" on:click={toggleEmpower(false, incarnaToken)}
+        <button class="button is-success mb-0" on:click={toggleEmpower(false, incarnaToken)}
           >Unempowered</button>
       {/if}
     </div>
