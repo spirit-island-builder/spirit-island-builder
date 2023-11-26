@@ -120,7 +120,11 @@ blight-banner {
   align-items: center;
 }
 
-blight-banner::after {
+blight-card.still-healthy blight-banner {
+  background-image: url(../images/cards/Blight/Still-Healthy_Banner-middle.png);
+}
+
+blight-banner-after {
   content: "";
   display: block;
   width: inherit;
@@ -131,11 +135,7 @@ blight-banner::after {
   top: calc(100% - 1px);
 }
 
-blight-card.still-healthy blight-banner {
-  background-image: url(../images/cards/Blight/Still-Healthy_Banner-middle.png);
-}
-
-blight-card.still-healthy blight-banner::after {
+blight-card.still-healthy blight-banner-after {
   background-image: url(../images/cards/Blight/Still-Healthy_Banner-bottom.png);
 }
 
