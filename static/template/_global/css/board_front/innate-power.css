@@ -78,7 +78,8 @@ info-title {
   height: 20px;
   display: flex;
   align-items: center;
-  color: white;
+  /* This makes the borders also white in Chrome for image download. I put color:white in each of the text boxes. */
+  /* color: white; */
   font-family: "Name Headings";
   text-transform: uppercase;
   font-size: 14pt;
@@ -106,6 +107,7 @@ innate-info {
 info-title-speed {
   width: 143px;
   padding-bottom: 4px;
+  color: white;
 }
 
 innate-info-speed {
@@ -117,6 +119,7 @@ innate-info-speed {
 info-title-range {
   width: 155px;
   padding-bottom: 4px;
+  color: white;
 }
 
 innate-info-range {
@@ -126,7 +129,11 @@ innate-info-range {
   border-right: 2px solid #7f5623;
 }
 
-info-title-target,
+info-title-target {
+  width: 165px;
+  padding-bottom: 4px;
+  color: white;
+}
 innate-info-target {
   width: 165px;
   padding-bottom: 4px;

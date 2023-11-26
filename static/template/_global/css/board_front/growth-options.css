@@ -1082,6 +1082,7 @@ growth-cost.custom {
 growth-cost.custom > icon {
   height: 45px;
   width: 45px;
+  display: inline-block;
 }
 
 growth-cost.custom value {
