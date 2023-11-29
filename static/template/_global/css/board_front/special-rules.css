@@ -45,7 +45,7 @@ special-rules-subtitle {
   padding-top: 21px;
   padding-bottom: 0px;
   font-family: "JosefinSans";
-  font-size: 17pt;
+  font-size: 22.66px;
   font-weight: bold;
   font-style: italic;
   text-transform: uppercase;
@@ -57,7 +57,7 @@ special-rules-subtitle {
 
 special-rule {
   font-family: "JosefinSans-Regular";
-  font-size: 18pt;
+  font-size: 24px;
   text-align: left;
   letter-spacing: -1px;
   word-spacing: 0px;
@@ -442,7 +442,7 @@ special-rule custom-energy {
 
 special-rule custom-energy value {
   font-family: "Energy Font";
-  font-size: 13pt;
+  font-size: 17.33px;
   font-style: normal;
   display: block;
   position: absolute;

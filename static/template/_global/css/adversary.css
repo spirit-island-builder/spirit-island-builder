@@ -109,10 +109,11 @@ top-info {
   display: flex;
   flex-wrap: nowrap;
   font-family: "JosefinSans-Regular";
-  font-size: 16pt;
+  font-size: 21px;
   text-align: left;
   letter-spacing: -1px;
   word-spacing: 0px;
+  line-height: 1;
 
   padding-top: 7px;
   padding-left: 20px;
@@ -121,7 +122,7 @@ top-info {
 
 section-title {
   font-family: "JosefinSans";
-  font-size: 17pt;
+  font-size: 22.5px;
   font-weight: bold;
   font-style: italic;
   text-align: left;
@@ -156,7 +157,7 @@ adversary-levels {
   width: 1078px;
 
   font-family: "JosefinSans-Regular";
-  font-size: 15pt;
+  font-size: 20px;
   text-align: left;
   letter-spacing: -1px;
   word-spacing: 0px;
@@ -173,7 +174,7 @@ adversary-levels {
 
 adversary-levels header {
   font-family: "JosefinSans";
-  font-size: 17pt;
+  font-size: 22.5px;
   font-weight: bold;
   font-style: italic;
   text-align: left;
