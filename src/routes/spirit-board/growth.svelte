@@ -305,6 +305,12 @@
     spiritBoard = spiritBoard;
   }
 
+  function hideGrowthTexts() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let growthPanel = previewFrame.document.getElementsByTagName("growth")[0];
+    growthPanel.classList.add("hide-text");
+  }
+
   export let spiritBoard;
 </script>
 
@@ -535,4 +541,9 @@
       </div>
     </div>
   {/if}
+  <label class="label mt-2 mb-0" for="hideGrowthTextButton">Special Options</label>
+  <div class="control">
+    <button class="button is-warning is-light is-small row-button" on:click={hideGrowthTexts}
+      >Hide Growth Texts</button>
+  </div>
 </Section>

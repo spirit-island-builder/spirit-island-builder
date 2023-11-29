@@ -103,6 +103,10 @@ growth .solo-tint {
   border-radius: 8px;
 }
 
+growth.hide-text growth-text {
+  visibility: hidden;
+}
+
 growth sub-section-title > span {
   flex-grow: 0;
   flex-shrink: 0;
