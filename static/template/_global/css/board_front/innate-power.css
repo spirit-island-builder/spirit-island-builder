@@ -60,7 +60,7 @@ innate-power-title {
   font-family: "JosefinSans";
   font-weight: bold;
   font-style: italic;
-  font-size: 17pt;
+  font-size: 22.66px;
   text-transform: uppercase;
   letter-spacing: -2px;
   word-spacing: 1px;
@@ -78,11 +78,12 @@ info-title {
   height: 20px;
   display: flex;
   align-items: center;
-  color: white;
+  /* This makes the borders also white in Chrome for image download. I put color:white in each of the text boxes. */
+  /* color: white; */
   font-family: "Name Headings";
   text-transform: uppercase;
-  font-size: 14pt;
-  letter-spacing: 1.25pt;
+  font-size: 18.66px;
+  letter-spacing: 1.66px;
   text-align: center;
   white-space: normal;
   background-color: #986839;
@@ -106,6 +107,7 @@ innate-info {
 info-title-speed {
   width: 143px;
   padding-bottom: 4px;
+  color: white;
 }
 
 innate-info-speed {
@@ -117,6 +119,7 @@ innate-info-speed {
 info-title-range {
   width: 155px;
   padding-bottom: 4px;
+  color: white;
 }
 
 innate-info-range {
@@ -126,7 +129,11 @@ innate-info-range {
   border-right: 2px solid #7f5623;
 }
 
-info-title-target,
+info-title-target {
+  width: 165px;
+  padding-bottom: 4px;
+  color: white;
+}
 innate-info-target {
   width: 165px;
   padding-bottom: 4px;
@@ -180,7 +187,7 @@ innate-info-target {
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 21pt;
+  font-size: 28px;
 }
 
 innate-power.fast innate-info-speed {
@@ -218,7 +225,7 @@ note {
   height: auto;
   width: 505px;
   font-family: "JosefinSans-Regular";
-  font-size: 17pt;
+  font-size: 22.66px;
   letter-spacing: -1.5px;
   word-spacing: 0px;
   margin-top: 0px;
@@ -487,12 +494,12 @@ level range {
 
 innate-power range-value {
   top: -4px;
-  font-size: 20pt;
+  font-size: 25.33px;
 }
 
 icon-count {
   font-family: "Energy Font";
-  font-size: 17pt;
+  font-size: 21px;
   color: #431e0aff;
   margin-top: -13px;
   margin-right: 0px;
@@ -533,7 +540,7 @@ level {
   width: 500px;
   /* width: 507px; */
   font-family: "JosefinSans-Regular";
-  font-size: 17pt;
+  font-size: 22.66px;
   margin-top: 10px;
   margin-bottom: 9px;
   letter-spacing: -1.5px;
@@ -677,13 +684,14 @@ cost-threshold {
   font-family: "Lato SemiBold";
   font-weight: bold;
   font-style: italic;
-  font-size: 15pt;
+  font-size: 20px;
   color: black;
   top: 12px;
   left: 6px;
   text-transform: capitalize;
   position: relative;
   margin-right: -30px;
+  display: inline-block;
 }
 
 cost-energy {
@@ -707,7 +715,7 @@ cost-threshold value {
   font-weight: normal;
   font-style: normal;
   color: #000000;
-  font-size: 13pt;
+  font-size: 17.66px;
   position: relative;
   top: 10px;
   left: 13px;
@@ -806,7 +814,7 @@ cost-threshold icon.cost-custom {
 .cost-custom > value {
   text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px 0px 0 #fff,
     0px 1px 0 #fff, 1px 0px 0 #fff, 0px -1px 0 #fff;
-  font-size: 16pt;
+  font-size: 22.33px;
   line-height: 0.5;
   top: 13px;
   left: 11px;
@@ -815,7 +823,7 @@ cost-threshold icon.cost-custom {
 threshold-or {
   font-family: "Name Headings";
   text-transform: uppercase;
-  font-size: 18pt;
+  font-size: 24px;
   display: inline-block;
   position: relative;
   top: -8px;

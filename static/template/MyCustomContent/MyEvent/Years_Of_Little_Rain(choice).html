@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+  <link href="../../_global/css/global.css" rel="stylesheet" />
+  <link href="../../_global/css/event.css" rel="stylesheet" />
+  <script type="text/javascript" src="../../_global/js/common.js"></script>
+  <script type="text/javascript" src="../../_global/js/event_card.js" defer></script>
+</head>
+<body>
+
+  <template-event-card 
+    name="Years of Little Rain"
+    type="choice"
+    subtype=""
+    lore="A terrible drought parches the island. You may:"
+    >
+
+
+
+    <subevent
+    name="LET THE PLANTS DIE AND THE LAND WITHER"
+    type="choice"
+    effect="<ul><li>For each board, discard the top Minor Power. If it lacks {water}, add 1 {blight} to a Sands.</li><li>{town}, {city}, and {dahan} have -1 Health (minimum 1) until the end of the turn.</li></ul>"
+    >
+
+    <subevent
+    name="ACT TO EASE THE DROUGHT"
+    type="choice"
+    effect="<b>Cost: 4 Energy per player. Aided by {water}.</b>
+    <ul><li>Each Spirit may add 1 {presence} to one of their lands with {dahan}.</li></ul>"
+    >
+
+    <token-event
+    name="BEASTS ATTACK"
+    tokens="beasts"
+    effect="Each {beast} deals 2 Damage. Remove any token that destroys {town}/{city}."
+    >
+
+    <token-event
+    name="CANNY DEFENSE"
+    tokens="dahan"
+    effect="During Ravage, in every land, Defend 1 per {dahan} in the land."
+    >
+
+
+
+    </template-event-card>
+  
+
+
+ 
+</body>
+</html>

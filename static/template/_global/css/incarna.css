@@ -37,52 +37,75 @@ body {
 
 incarna {
   display: flex;
-  width: 101px;
-  height: 118px;
+  width: 216px;
+  height: 241px;
   position: relative;
-  top: 0px;
+  top: 2px;
   left: 0px;
 }
 
-incarna.clone {
-  display: flex;
-  transform: scaleY(-1);
-  width: 101px;
-  height: 118px;
+incarna-wrapper.tts-export incarna.clone {
   position: absolute;
-  top: -6px;
-  left: -80px;
+  top: 38px;
+  left: 204px;
+}
+
+incarna-wrapper {
+  /* background-image: url(../images/incarna-background.png); */
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 400px;
+  height: 400px;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+incarna-wrapper.tts-export {
+  background-image: url(../images/incarna/Incarna_Diffuse_Image_Guideline.png);
+  width: 427px;
+  height: 427px;
+}
+
+incarna-wrapper.tts-export incarna background {
+  background-image: url(../images/incarna/background.png);
+}
+
+incarna-wrapper.tts-export incarna {
+  top: 172px;
+  left: 16px;
 }
 
 incarna background {
   display: flex;
-  background-image: url(../images/incarna/background.png);
+  background-image: url(../images/incarna/background_white.png);
   background-repeat: no-repeat;
   background-size: contain;
-  width: 101px;
-  height: 118px;
+  width: 100%;
+  height: 100%;
   position: relative;
   top: 0px;
   left: 0px;
   color: orange;
-  filter: drop-shadow(0px 0px 0px) saturate(1.5);
+  justify-content: center;
+  /* filter: drop-shadow(0px 0px 0px) saturate(1.5); */
 }
 
 incarna swirl {
   position: absolute;
   display: flex;
-  background-image: url(../images/incarna/swirl.png);
+  background-image: url(../images/incarna/swirl_op40.png);
   background-repeat: no-repeat;
   background-size: contain;
-  width: 101px;
-  height: 118px;
+  width: 100%;
+  height: 100%;
   top: 0px;
   left: 0px;
-  filter: opacity(0.4);
+  /* filter: opacity(0.4); */
 }
 
 incarna.empowered swirl {
-  background-image: url(../images/incarna/empower_swirl.png);
+  background-image: url(../images/incarna/empower_swirl_op40.png);
 }
 
 incarna border {
@@ -91,8 +114,8 @@ incarna border {
   background-image: url(../images/incarna/empower_border.png);
   background-repeat: no-repeat;
   background-size: contain;
-  width: 101px;
-  height: 118px;
+  width: 100%;
+  height: 100%;
   top: 0px;
   left: 0px;
 }
@@ -131,15 +154,26 @@ incarna.empowered glow {
 incarna icon.presence {
   position: absolute;
   background-image: url(../images/incarna/presence_noglow.png);
-  top: 60%;
-  left: 50%;
   transform: translateX(-50%);
 }
 
 incarna icon {
+  width: 50px;
+  height: 50px;
   position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
+}
+
+incarna-icon-wrapper {
+  position: relative;
+  top: 30%;
+}
+presence-icon-wrapper {
+  position: relative;
+  top: 61%;
+}
+token-wrapper {
+  position: relative;
+  top: 74%;
 }
 
 contrast-wrapper {
@@ -148,39 +182,46 @@ contrast-wrapper {
 }
 
 contrast-wrapper.token {
-  top: 76%;
-  left: 50%;
+  /* top: 76%;
+  left: 50%; */
 }
 
 contrast-wrapper.presence {
-  top: 60%;
-  left: 50%;
+  /* top: 60%;
+  left: 50%; */
 }
 
 incarna icon.token {
   position: absolute;
-  top: 76%;
-  left: 50%;
+  width: 68px;
+  height: 46px;
+  margin: 0px;
   transform: translateX(-50%);
-  width: 34px;
-  height: 23px;
   filter: contrast(0.4);
 }
 
 incarna icon.shadow {
   color: white;
-  filter: drop-shadow(0.5px 0.5px 0px) drop-shadow(-0.5px 0.5px 0px) drop-shadow(0.5px -0.5px 0px)
-    drop-shadow(-0.5px -0.5px 0px) contrast(1);
+  filter: drop-shadow(2px 0px 0px) drop-shadow(-2px 0px 0px) drop-shadow(0px 2px 0px)
+    drop-shadow(0px -2px 0px) contrast(1);
 }
 
 incarna.empowered icon.shadow {
   color: #ffd246;
 }
 
+incarna icon.not-both {
+  display: none;
+}
+
+incarna.empowered icon.not-both {
+  display: inline-block;
+}
+
 incarna icon.incarna {
-  top: 48%;
-  width: 48px;
-  height: 41px;
+  width: 96px;
+  height: 82px;
+  transform: translateX(-50%);
 }
 
 incarna icon.sun {

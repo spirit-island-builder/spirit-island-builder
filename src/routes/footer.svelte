@@ -1,5 +1,5 @@
 <footer>
-  Developed by Resonant, Neubee, and Tom. Use <a
+  Developed by Resonant, Neubee, Tom, and Derrick. Use <a
     href="https://forms.gle/7EaVLHfAvhmLjEDn8"
     target="_blank"
     rel="noreferrer">this form</a>

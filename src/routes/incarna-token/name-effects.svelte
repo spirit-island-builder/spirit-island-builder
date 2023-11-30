@@ -1,12 +1,19 @@
 <script>
   import Section from "$lib/section.svelte";
   import * as Lib from "../lib";
+  // import {HsvPicker} from 'svelte-color-picker';
 
   export let incarnaToken;
 
   function toggleEmpower(val) {
     incarnaToken.incarna.empowered = val;
     incarnaToken = incarnaToken;
+    document.getElementById("updateButton").click();
+  }
+
+  function toggleEmpowerToken() {
+    incarnaToken.incarna.empoweredOnlyToken = !incarnaToken.incarna.empoweredOnlyToken;
+    document.getElementById("updateButton").click();
   }
 
   function selectNode(event) {
@@ -25,6 +32,7 @@
       >Incarna Token Info
     </label>
     <div class="field is-flex is-small mb-0">
+      <label class="label incarna-label" for={`incarnaTokenToken`}>Name: </label>
       <div class="control">
         <input
           id={`incarnaTokenName`}
@@ -37,6 +45,7 @@
       </div>
     </div>
     <div class="field is-flex is-small mb-0">
+      <label class="label incarna-label" for={`incarnaTokenToken`}>Incarna: </label>
       <div class="control">
         <input
           id={`incarnaTokenIcon`}
@@ -49,6 +58,7 @@
       </div>
     </div>
     <div class="field is-flex is-small mb-0">
+      <label class="label incarna-label" for={`incarnaTokenToken`}>Token: </label>
       <div class="control">
         <input
           id={`incarnaTokenToken`}
@@ -59,32 +69,59 @@
           on:focus={selectNode}
           bind:value={incarnaToken.incarna.token} />
       </div>
+      {#if incarnaToken.incarna.empowered === true}
+        <button
+          class:is-light={incarnaToken.incarna.empoweredOnlyToken}
+          class="button is-warning is-light mb-0"
+          on:click={() => toggleEmpowerToken()}>Both</button>
+      {/if}
     </div>
-    <div class="field is-flex is-small mb-0">
-      <div class="control">
+    <div class="field is-flex is-align-items-center is-small mb-0">
+      <label class="label incarna-label" for="head">Color: </label>
+      <div class="input-color-container">
         <input
-          id={`incarnaTokenColor`}
-          class="input"
-          type="text"
-          placeholder="Color"
-          on:keyup={nextNode}
-          on:focus={selectNode}
+          type="color"
+          class="input-color"
+          id="head"
+          on:change={() => document.getElementById("updateButton").click()}
           bind:value={incarnaToken.incarna.color} />
       </div>
     </div>
     <div>
       {#if incarnaToken.incarna.empowered === true}
-        <button class="button is-success mb-0" on:click={toggleEmpower(true, incarnaToken)}
+        <button class="button is-warning mb-0" on:click={toggleEmpower(true, incarnaToken)}
           >Empowered</button>
         <button
-          class="button is-warning is-light mb-0"
+          class="button is-success is-light mb-0"
           on:click={toggleEmpower(false, incarnaToken)}>Unempowered</button>
       {:else}
-        <button class="button is-success is-light mb-0" on:click={toggleEmpower(true, incarnaToken)}
+        <button class="button is-warning is-light mb-0" on:click={toggleEmpower(true, incarnaToken)}
           >Empowered</button>
-        <button class="button is-warning mb-0" on:click={toggleEmpower(false, incarnaToken)}
+        <button class="button is-success mb-0" on:click={toggleEmpower(false, incarnaToken)}
           >Unempowered</button>
       {/if}
     </div>
   </div>
 </Section>
+
+<style>
+  .input-color {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: 220px;
+    height: 56px;
+    border: none;
+  }
+  .input-color-container {
+    position: relative;
+    overflow: hidden;
+    width: 205px;
+    height: 40px;
+    border: solid 2px #ddd;
+    border-radius: 4px;
+  }
+  .incarna-label {
+    width: 65px;
+  }
+</style>

@@ -34,7 +34,7 @@ growth sub-section-title {
   font-family: "JosefinSans";
   font-weight: bold;
   font-style: italic;
-  font-size: 17pt;
+  font-size: 22.66px;
   text-transform: uppercase;
   letter-spacing: -2px;
   word-spacing: 1px;
@@ -43,7 +43,7 @@ growth sub-section-title {
 growth special-section-title {
   position: absolute;
   font-family: "JosefinSans";
-  font-size: 17pt;
+  font-size: 22.66px;
   font-weight: bold;
   font-style: italic;
   text-transform: uppercase;
@@ -101,6 +101,10 @@ growth .end-tint {
 
 growth .solo-tint {
   border-radius: 8px;
+}
+
+growth.hide-text growth-text {
+  visibility: hidden;
 }
 
 growth sub-section-title > span {
@@ -203,7 +207,7 @@ growth-cell-double {
   align-items: center;
   flex-direction: row;
   font-family: "Lato SemiBold";
-  font-size: 14pt;
+  font-size: 18.66px;
   font-style: italic;
   text-align: center;
 }
@@ -379,7 +383,7 @@ repeat-growth {
 
 repeat-growth value {
   font-family: "Energy Font";
-  font-size: 18pt;
+  font-size: 24px;
   display: inline-block;
   font-style: normal;
   margin-top: 4px;
@@ -392,7 +396,7 @@ repeat-growth.energy-cost {
 }
 
 repeat-growth.energy-cost value {
-  font-size: 17pt;
+  font-size: 22.66px;
   margin-left: 0px;
   color: #000000;
 }
@@ -415,7 +419,7 @@ growth-energy {
 
 growth-energy value {
   font-family: "Energy Font";
-  font-size: 24pt;
+  font-size: 32px;
   font-style: normal;
   display: inline-block;
   margin-top: 31px;
@@ -424,7 +428,7 @@ growth-energy value {
 
 /* Complex add presence options */
 custom-presence-req {
-  font-size: 20pt;
+  font-size: 26.66px;
   font-weight: bold;
   margin-top: -24px;
   margin-bottom: 0px;
@@ -437,7 +441,7 @@ custom-presence-req {
 }
 
 custom-presence {
-  font-size: 20pt;
+  font-size: 26.66px;
   font-weight: bold;
   font-style: normal;
   display: flex;
@@ -474,7 +478,7 @@ custom-presence-or icon {
 }
 
 custom-presence-no-range {
-  font-size: 20pt;
+  font-size: 26.66px;
   font-weight: bold;
   display: block;
   width: auto;
@@ -514,6 +518,7 @@ range-growth > value {
   left: 2px;
   position: relative;
   text-align: center;
+  font-weight: normal;
 }
 
 move-growth {
@@ -650,7 +655,7 @@ presence-req icon.ocean {
 
 presence-req {
   font-family: "Lato SemiBold";
-  font-size: 14pt;
+  font-size: 18.66px;
   line-height: 26px;
   font-style: italic;
   display: flex;
@@ -737,7 +742,7 @@ growth-cell icon.make-fast {
 }
 
 custom-icon {
-  font-size: 20pt;
+  font-size: 26.66px;
   font-weight: bold;
   display: flex;
   margin-top: -31px;
@@ -827,7 +832,7 @@ replace-wrap {
   height: 69px;
   padding-bottom: 2px;
   justify-content: center;
-  font-size: 20pt;
+  font-size: 26.66px;
   font-weight: bold;
 }
 
@@ -885,7 +890,7 @@ custom-icon2 icon.move-range-4 {
 
 growth-text {
   font-family: "Lato SemiBold";
-  font-size: 14pt;
+  font-size: 18.66px;
   font-style: italic;
   margin-top: 0px;
   text-align: center;
@@ -917,14 +922,14 @@ growth-text icon.beasts {
 
 .plus-text {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 20pt;
+  font-size: 26.66px;
   font-weight: bold;
   font-style: normal;
 }
 
 plus-text {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 20pt;
+  font-size: 26.66px;
   font-weight: bold;
   font-style: normal;
 }
@@ -935,13 +940,13 @@ plus-text::after {
 
 .non-icon {
   font-family: "Name Headings";
-  font-size: 20pt;
+  font-size: 26.66px;
   font-style: normal;
   margin: auto;
 }
 
 .non-icon.small {
-  font-size: 16pt;
+  font-size: 21.33px;
   margin: auto 3px auto 3px;
 }
 
@@ -1047,7 +1052,7 @@ growth-cell icon.gather-into > icon.explorer {
 growth-cost {
   background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
   font-family: "Energy Font";
-  font-size: 16pt;
+  font-size: 21.33px;
   background-repeat: no-repeat;
   background-size: 100%;
   background-position: center;
@@ -1064,7 +1069,7 @@ growth-cost {
 growth-cost::after {
   content: "Cost";
   font-family: "Lato SemiBold";
-  font-size: 14pt;
+  font-size: 18.66px;
   font-style: italic;
   position: absolute;
   left: 3px;
@@ -1073,7 +1078,7 @@ growth-cost::after {
 
 growth-cost.custom {
   background-image: none;
-  font-size: 20pt;
+  font-size: 26.66px;
   top: -35px;
   padding-top: 1px;
   float: left;
@@ -1082,6 +1087,7 @@ growth-cost.custom {
 growth-cost.custom > icon {
   height: 45px;
   width: 45px;
+  display: inline-block;
 }
 
 growth-cost.custom value {
@@ -1094,7 +1100,7 @@ growth-cost.custom value {
 growth-cost.custom::after {
   content: "Cost";
   font-family: "Lato SemiBold";
-  font-size: 14pt;
+  font-size: 18.66px;
   font-style: italic;
   position: absolute;
   left: 3px;
@@ -1118,12 +1124,12 @@ growth-cost.nonscaling > icon {
 
 growth-cost-custom-nonscaling-description {
   font-family: "Lato SemiBold";
-  font-size: 10.5pt;
+  font-size: 14px;
   font-style: italic;
   width: 120px;
   margin-top: -5px;
   margin-left: 45px;
-  line-height: 12pt;
+  line-height: 16px;
   text-align: center;
   position: absolute;
 }
@@ -1142,7 +1148,7 @@ presence-special-req {
 add-presence-req {
   display: block;
   font-weight: bold;
-  font-size: 18pt;
+  font-size: 24px;
 }
 
 /* Deal Damage in Growth */
@@ -1151,7 +1157,7 @@ growth-damage {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  font-size: 20pt;
+  font-size: 26.66px;
   font-weight: bold;
   display: block;
   text-align: center;
@@ -1164,7 +1170,7 @@ growth-damage {
 
 growth-damage value {
   font-family: "Energy Font";
-  font-size: 22pt;
+  font-size: 29.33px;
   display: inline-block;
   margin-top: 36px;
   margin-left: 0px;
@@ -1197,7 +1203,7 @@ card-play-num {
 
 card-play-num value {
   font-family: "Energy Font";
-  font-size: 24pt;
+  font-size: 32px;
   font-style: normal;
   display: inline-block;
   margin-top: 32px;
@@ -1256,7 +1262,7 @@ gather {
 }
 
 push-gather {
-  font-size: 20pt;
+  font-size: 26.66px;
   font-weight: bold;
   display: block;
   margin-top: 4px;
@@ -1340,7 +1346,7 @@ push-gather icon.terrain-push.ocean > icon.push-arrow {
 }
 
 push-gather-range-req {
-  font-size: 20pt;
+  font-size: 26.66px;
   font-weight: bold;
   margin-top: -19px;
   margin-bottom: 0px;
@@ -1412,7 +1418,7 @@ gain.or {
 
 growth-cell div.custom-scaling {
   font-family: "Name Headings";
-  font-size: 28pt;
+  font-size: 37.33px;
   font-style: normal;
 }
 
@@ -1465,7 +1471,7 @@ gain-per {
 
 gain-per value {
   font-family: "Energy Font";
-  font-size: 16pt;
+  font-size: 21.33px;
   font-style: normal;
   display: inline-block;
   margin-top: 25px;
@@ -1552,7 +1558,7 @@ gain-per-element ring-icon {
 
 /* Totally Custom Growth Options (Icon, text, etc) */
 custom-growth-icon {
-  font-size: 20pt;
+  font-size: 26.66px;
   font-weight: bold;
   margin-top: -10px;
   margin-bottom: 0px;
@@ -1611,7 +1617,7 @@ growth-fear {
 
 growth-fear value {
   font-family: "Energy Font";
-  font-size: 20pt;
+  font-size: 26.66px;
   display: inline-block;
   font-style: normal;
   margin-top: 48px;
@@ -1635,7 +1641,7 @@ fear-per {
 
 fear-per value {
   font-family: "Energy Font";
-  font-size: 14pt;
+  font-size: 18.66px;
   display: inline-block;
   font-style: normal;
   margin-top: 33px;

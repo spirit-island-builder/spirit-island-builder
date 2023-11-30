@@ -223,8 +223,7 @@ info-title {
 
   display: flex;
   align-items: center;
-
-  color: white;
+  /* color: white; */
   font-family: "Name Headings";
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -244,9 +243,14 @@ info {
 
   font-family: "Name Headings";
   text-transform: uppercase;
-  mix-blend-mode: multiply;
   background-image: url("../images/target-background.png");
   background-size: 100%;
+}
+
+info-title-speed,
+info-title-range,
+info-title-target {
+  color: white;
 }
 
 info-title-speed,
@@ -654,6 +658,10 @@ threshold icon.any {
 
 threshold icon.last {
   margin-right: 1px;
+}
+
+spirit-name {
+  display: none;
 }
 
 @media print {

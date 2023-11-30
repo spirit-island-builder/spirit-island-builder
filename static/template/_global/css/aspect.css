@@ -109,7 +109,7 @@ aspect.profile complexity {
 }
 
 aspect-subtext icon {
-  filter: invert(1);
+  /* filter: invert(1); */
 }
 
 complexity.up {
@@ -294,12 +294,12 @@ aspect special-rule {
 }
 
 aspect special-rules-subtitle {
-  font-size: 16pt;
+  font-size: 21.33px;
   padding-top: 0px;
 }
 
 aspect innate-power-title {
-  font-size: 16pt;
+  font-size: 21.33px;
 }
 
 aspect growth-cell {
@@ -337,4 +337,20 @@ aspect growth-group icon.star {
 }
 aspect growth-group icon.any {
   background-image: url("../images/board/Any.png");
+}
+
+aspect-subtext icon.presence {
+  background-image: url("../images/board/aspect-white-icons/50px_presence_white.png");
+}
+
+aspect-subtext icon.blight {
+  background-image: url("../images/board/aspect-white-icons/75px_blight_white.png");
+}
+
+aspect-subtext icon.beasts {
+  background-image: url("../images/board/aspect-white-icons/beast_white.png");
+}
+
+aspect-subtext icon.dahan {
+  background-image: url("../images/board/aspect-white-icons/50px_dahan_white.png");
 }

@@ -67,6 +67,12 @@
     if (incarnaToken.incarna.empowered) {
       incarnaTokenHTML.setAttribute("empowered", incarnaToken.incarna.empowered);
     }
+    if (incarnaToken.incarna.empoweredOnlyToken) {
+      incarnaTokenHTML.setAttribute(
+        "empowered-only-token",
+        incarnaToken.incarna.empoweredOnlyToken
+      );
+    }
     if (incarnaToken.incarna.color) {
       incarnaTokenHTML.setAttribute("color", incarnaToken.incarna.color);
     }
@@ -117,6 +123,10 @@
     if (incarnaTokenHTML.getAttribute("empowered")) {
       incarnaToken.incarna.empowered = incarnaTokenHTML.getAttribute("empowered") === "true";
     }
+    if (incarnaTokenHTML.getAttribute("empowered-only-token")) {
+      incarnaToken.incarna.empoweredOnlyToken =
+        incarnaTokenHTML.getAttribute("empowered-only-token") === "true";
+    }
     if (incarnaTokenHTML.getAttribute("color")) {
       incarnaToken.incarna.color = incarnaTokenHTML.getAttribute("color");
     }
@@ -157,7 +167,7 @@
 
   function screenshotSetUp() {
     const fileNames = [incarnaToken.incarna.name.replaceAll(" ", "_") + "_incarnaToken.png"];
-    const elementNamesInIframe = ["incarna"];
+    const elementNamesInIframe = ["incarna-wrapper"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 

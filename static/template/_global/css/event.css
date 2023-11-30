@@ -1,0 +1,387 @@
+@font-face {
+  font-family: JosefinSans-Regular;
+  src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf) format("truetype");
+  font-weight: normal;
+}
+
+html,
+body {
+  padding: 0px;
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+event-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background-image: url(../images/cards/Event/Event_Background.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 488px;
+  height: 682px;
+  border-radius: 22px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+}
+
+event-card-overlay {
+  display: block;
+  background-image: url(../images/cards/Event/Event_Overlay.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 488px;
+  height: 682px;
+  border-radius: 22px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+  pointer-events: none;
+}
+
+event-body {
+  display: flex;
+
+  flex-direction: column;
+  height: 410px;
+  width: 466px;
+  padding-left: 22px;
+  padding-top: 10px;
+}
+
+token-event {
+  width: 444px;
+  height: 100px;
+  position: absolute;
+  left: 24px;
+  box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+token-event-texture {
+  background-image: url(../images/cards/Event/EventBanners/BannerTexture.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 444px;
+  height: 100px;
+  position: absolute;
+  opacity: 10%;
+}
+
+token-event-icon-container {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  width: 60px;
+  height: 70px;
+  align-content: center;
+  margin-left: 8px;
+  margin-right: 8px;
+  flex-wrap: wrap;
+  max-width: 60px;
+}
+token-event-icon {
+  display: inline;
+  flex-basis: 27px;
+  flex-grow: 5;
+  aspect-ratio: 1 / 1;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  max-width: 60px;
+}
+token-event-icon.dahan {
+  background-image: url(../images/cards/Event/EventBanners/DahanToken.png);
+}
+
+token-event-icon.strife {
+  background-image: url(../images/cards/Event/EventBanners/StrifeToken.png);
+}
+
+token-event-icon.beasts {
+  background-image: url(../images/cards/Event/EventBanners/BeastToken.png);
+}
+
+token-event-icon.disease {
+  background-image: url(../images/cards/Event/EventBanners/DiseaseToken.png);
+}
+
+token-event-icon.wilds {
+  background-image: url(../images/cards/Event/EventBanners/WildsToken.png);
+}
+token-event-icon.vitality {
+  background-image: url(../images/cards/Event/EventBanners/VitalityToken.png);
+}
+token-event-icon.blight {
+  background-image: url(../images/cards/Event/EventBanners/BlightToken.png);
+}
+token-event-icon.fear {
+  background-image: url(../images/cards/Event/EventBanners/FearToken.png);
+}
+token-event-icon.badlands {
+  background-image: url(../images/cards/Event/EventBanners/BadlandsToken.png);
+}
+
+token-event-effect {
+  font-family: "JosefinSans-Regular";
+  font-size: 15pt;
+  letter-spacing: -1px;
+  word-spacing: 0px;
+  white-space: pre-line;
+  position: relative;
+  display: block;
+  text-align: left;
+  padding-top: 10px;
+  padding-right: 30px;
+  margin-bottom: 5px;
+  padding-left: 5px;
+  width: 374px;
+}
+
+subevent-banner {
+  display: flex;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 100%;
+  min-height: 130px;
+  width: 90px;
+  margin-left: -25px;
+  position: relative;
+  box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.4);
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  overflow: hidden;
+}
+
+subevent-banner.healthy {
+  background-image: url(../images/cards/Event/EventBanners/HealthyBanner.png);
+}
+
+subevent-banner.blighted {
+  background-image: url(../images/cards/Event/EventBanners/BlightedBanner.png);
+}
+subevent-banner.stage1 {
+  background-image: url(../images/cards/Event/EventBanners/StageIBanner.png);
+}
+subevent-banner.stage3 {
+  background-image: url(../images/cards/Event/EventBanners/StageIIIBanner.png);
+}
+subevent-banner.terror1 {
+  background-image: url(../images/cards/Event/EventBanners/Terror1Banner.png);
+}
+subevent-banner.terror12 {
+  background-image: url(../images/cards/Event/EventBanners/Terror1Banner.png);
+}
+subevent-banner.terror23 {
+  background-image: url(../images/cards/Event/EventBanners/Terror23Banner.png);
+}
+subevent-banner.terror3 {
+  background-image: url(../images/cards/Event/EventBanners/Terror3Banner.png);
+}
+
+subevent-banner-icon {
+  display: flex;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+subevent-banner-icon.terror1 {
+  background-image: url(../images/cards/Event/EventBanners/Terror1.png);
+}
+subevent-banner-icon.terror12 {
+  background-image: url(../images/cards/Event/EventBanners/Terror12.png);
+}
+subevent-banner-icon.terror23 {
+  background-image: url(../images/cards/Event/EventBanners/Terror23.png);
+}
+subevent-banner-icon.terror3 {
+  background-image: url(../images/cards/Event/EventBanners/Terror3.png);
+}
+
+subevent-banner-text {
+  font-family: "Name Headings";
+  font-size: 18pt;
+  position: relative;
+  display: block;
+  transform-origin: center;
+  transform: rotate(270deg) translateX(0%);
+  width: max-content;
+}
+
+subevent {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
+subevent-body {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+subevent-header {
+  font-family: "Name Headings";
+  color: #3d2919;
+  font-size: 24pt;
+  word-spacing: -2px;
+  letter-spacing: 0.5px;
+  white-space: pre-line;
+  position: relative;
+  display: flex;
+  /* text-align: center; */
+  align-content: center;
+  align-self: center;
+  align-items: center;
+  padding-top: 15px;
+  padding-left: 7px;
+  padding-right: 7px;
+  height: 53px;
+}
+
+subevent-header.choice {
+  color: #000000;
+  padding-left: 13px;
+  text-align: left;
+  align-content: start;
+  align-self: start;
+  font-size: 16pt;
+  padding-top: 10px;
+  height: unset;
+}
+
+subevent-header.blighted,
+subevent-header.healthy {
+}
+
+event-header {
+  font-family: "Name Headings";
+  color: #3f2e24;
+  font-size: 24pt;
+  word-spacing: -2px;
+  letter-spacing: 0.5px;
+  white-space: pre-line;
+  position: relative;
+  display: flex;
+  align-content: center;
+  align-self: center;
+  align-items: center;
+  font-weight: bold;
+  padding-top: 30px;
+  width: 400px;
+  justify-content: center;
+  min-height: 70px;
+}
+
+token-event-name {
+  font-family: Name Headings;
+  letter-spacing: 0px;
+}
+
+effect {
+  font-family: "JosefinSans-Regular";
+  font-size: 15pt;
+  letter-spacing: -1px;
+  word-spacing: 0px;
+  white-space: pre-line;
+  position: relative;
+  display: block;
+  text-align: left;
+  padding-top: 10px;
+  padding-right: 40px;
+  padding-left: 13px;
+}
+
+effect.title {
+  display: flex;
+}
+
+event-line {
+  border-top: 1px solid #ccc;
+  width: 90%;
+  position: absolute;
+  align-self: center;
+  bottom: 0%;
+}
+
+icon.sun,
+icon.moon,
+icon.fire,
+icon.air,
+icon.water,
+icon.earth,
+icon.plant,
+icon.animal,
+icon.any-element {
+  width: 25px;
+  height: 25px;
+  margin-top: -7px;
+  margin-bottom: -4px;
+}
+
+icon.sun {
+  background-image: url("../images/board/element_simple_sun.png");
+}
+icon.earth {
+  background-image: url("../images/board/element_simple_earth.png");
+}
+icon.plant {
+  background-image: url("../images/board/element_simple_plant.png");
+}
+icon.fire {
+  background-image: url("../images/board/element_simple_fire.png");
+}
+icon.air {
+  background-image: url("../images/board/element_simple_air.png");
+}
+icon.moon {
+  background-image: url("../images/board/element_simple_moon.png");
+}
+icon.animal {
+  background-image: url("../images/board/element_simple_animal.png");
+}
+icon.water {
+  background-image: url("../images/board/element_simple_water.png");
+}
+icon.any {
+  background-image: url("../images/board/element_simple_any.png");
+}
+
+event-card ul {
+  margin-block-end: 0px;
+  margin-block-start: 0px;
+  padding-inline-start: 19px;
+}
+
+icon {
+  width: 25px;
+  height: 25px;
+  margin-top: -7px;
+  margin-bottom: -4px;
+}

@@ -8,7 +8,7 @@ presence-tracks section-title.has-note {
 
 presence-tracks presence-note {
   font-family: "JosefinSans-Regular";
-  font-size: 14pt;
+  font-size: 18.66px;
   margin-left: 8px;
   letter-spacing: -0.75px;
 }
@@ -81,7 +81,7 @@ td.middle.bonus::before {
   position: absolute;
   left: 23%;
   top: 38px;
-  font-size: 20pt;
+  font-size: 26.66px;
 }
 
 td.spacer {
@@ -126,7 +126,7 @@ tr.plays-track {
 
 subtext {
   font-family: "Lato SemiBold";
-  font-size: 14pt;
+  font-size: 18.66px;
   font-style: italic;
   text-align: center;
   display: block;
@@ -301,16 +301,16 @@ icon.energy-blank {
 
 presence-node value {
   font-family: "Energy Font";
-  font-size: 36pt;
+  font-size: 48px;
   display: inline-block;
 }
 
 energy-icon.small value {
-  font-size: 26pt;
+  font-size: 34.66px;
 }
 
 card-icon.small value {
-  font-size: 35pt;
+  font-size: 46.66px;
 }
 
 presence-node icon {
@@ -404,11 +404,12 @@ ring-icon.deep-layers {
 }
 
 deep-layers {
-  left: -40px;
+  left: 0px;
   top: -3px;
   transform: translateX(50%);
   position: relative;
   z-index: 2;
+  align-self: flex-start;
 }
 
 deep-layers > icon.energy-deep-layers,
@@ -417,7 +418,7 @@ deep-layers > icon.card-deep-layers {
   height: 37px;
   width: 60px;
   background-position: center;
-  left: 26px;
+  left: -13px;
   margin: 0px;
 }
 
@@ -512,7 +513,7 @@ custom-presence-track-icon {
   align-items: center;
   justify-content: center;
   font-family: "Energy Font";
-  font-size: 24pt;
+  font-size: 32px;
   color: #431e0aff;
 }
 

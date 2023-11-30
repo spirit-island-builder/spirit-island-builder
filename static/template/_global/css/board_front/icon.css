@@ -1,5 +1,7 @@
 icon {
-  display: inline-block;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -150,7 +152,7 @@ icon.energy-blank {
 
 .energy-blank value {
   font-family: "Energy Font";
-  font-size: 16pt;
+  font-size: 21.33px;
   display: inline-block;
 }
 

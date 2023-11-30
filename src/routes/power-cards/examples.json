@@ -1,0 +1,19 @@
+[
+  {
+    "title": "Unique Power Sets",
+    "examples": [
+      {
+        "name": "River",
+        "url": "/template/MyCustomContent/MyPowerCard/River_PowerCards.html"
+      },
+      {
+        "name": "Many Minds",
+        "url": "/template/MyCustomContent/MyPowerCard/ManyMinds_PowerCards.html"
+      },
+      {
+        "name": "Shifting Memory",
+        "url": "/template/MyCustomContent/MyPowerCard/ShiftingMemory_PowerCards.html"
+      }
+    ]
+  }
+]

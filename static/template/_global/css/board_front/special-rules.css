@@ -1,7 +1,10 @@
 special-rules-container {
-  /* background-image: url("../../images/board/Innate__Special_Rules_Without_Text.png");
+  /* The next three lines are originally commented out. I uncommented it and it seems to be compatible with the DomToImage feature.
+    It'd be good to know why they were commented out in case this breaks something.
+*/
+  background-image: url("../../images/board/Innate__Special_Rules_Without_Text.png");
   background-repeat: repeat-y;
-  background-position: top; */
+  background-position: top;
   min-height: 250px;
   padding-bottom: 19px;
   width: 667px;
@@ -15,7 +18,8 @@ special-rules-container {
   position: relative;
 }
 
-special-rules-container::before {
+/* This seemed to break the DomToImage for some reason. I don't exactly know why. */
+/* special-rules-container::before {
   content: "";
   background-image: url("../../images/board/Innate__Special_Rules_Without_Text.png");
   background-repeat: repeat-y;
@@ -27,7 +31,7 @@ special-rules-container::before {
   left: 0px;
   opacity: 1;
   z-index: -1;
-}
+} */
 
 special-rules-container:hover section-title {
   text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
@@ -41,7 +45,7 @@ special-rules-subtitle {
   padding-top: 21px;
   padding-bottom: 0px;
   font-family: "JosefinSans";
-  font-size: 17pt;
+  font-size: 22.66px;
   font-weight: bold;
   font-style: italic;
   text-transform: uppercase;
@@ -53,7 +57,7 @@ special-rules-subtitle {
 
 special-rule {
   font-family: "JosefinSans-Regular";
-  font-size: 18pt;
+  font-size: 24px;
   text-align: left;
   letter-spacing: -1px;
   word-spacing: 0px;
@@ -189,6 +193,7 @@ special-rule icon.slow {
 special-rule icon.fast {
   background-image: url("../../images/board/fast_power.png");
 }
+
 special-rule icon.slow {
   background-image: url("../../images/board/slow_power.png");
 }
@@ -284,27 +289,35 @@ special-rule icon.star {
 special-rule icon.sun {
   background-image: url(../../images/board/element_simple_sun.png);
 }
+
 special-rule icon.earth {
   background-image: url(../../images/board/element_simple_earth.png);
 }
+
 special-rule icon.plant {
   background-image: url(../../images/board/element_simple_plant.png);
 }
+
 special-rule icon.fire {
   background-image: url(../../images/board/element_simple_fire.png);
 }
+
 special-rule icon.air {
   background-image: url(../../images/board/element_simple_air.png);
 }
+
 special-rule icon.moon {
   background-image: url(../../images/board/element_simple_moon.png);
 }
+
 special-rule icon.animal {
   background-image: url(../../images/board/element_simple_animal.png);
 }
+
 special-rule icon.water {
   background-image: url(../../images/board/element_simple_water.png);
 }
+
 special-rule icon.any {
   background-image: url(../../images/board/element_simple_any.png);
 }
@@ -314,6 +327,7 @@ icon.presence-ring {
   height: 130px;
   width: 130px;
 }
+
 special-rules-track {
   display: flex;
   flex-wrap: wrap;
@@ -340,30 +354,39 @@ special-rule ul {
 special-rules-track icon.sun {
   background-image: url("../../images/board/Sun.png");
 }
+
 special-rules-track icon.moon {
   background-image: url("../../images/board/Moon.png");
 }
+
 special-rules-track icon.fire {
   background-image: url("../../images/board/Fire.png");
 }
+
 special-rules-track icon.air {
   background-image: url("../../images/board/Air.png");
 }
+
 special-rules-track icon.plant {
   background-image: url("../../images/board/Plant.png");
 }
+
 special-rules-track icon.water {
   background-image: url("../../images/board/Water.png");
 }
+
 special-rules-track icon.earth {
   background-image: url("../../images/board/Earth.png");
 }
+
 special-rules-track icon.animal {
   background-image: url("../../images/board/Animal.png");
 }
+
 special-rules-track icon.star {
   background-image: url("../../images/board/NewIcons/Element Star.png");
 }
+
 special-rules-track icon.any {
   background-image: url("../../images/board/Any.png");
 }
@@ -419,7 +442,7 @@ special-rule custom-energy {
 
 special-rule custom-energy value {
   font-family: "Energy Font";
-  font-size: 13pt;
+  font-size: 17.33px;
   font-style: normal;
   display: block;
   position: absolute;

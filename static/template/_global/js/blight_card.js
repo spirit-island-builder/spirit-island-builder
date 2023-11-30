@@ -47,7 +47,7 @@ function buildBuildCard(template) {
 
   html = `<blight-heading>${headingText}</blight-heading>
     <blight-banner><effect-name>${effectName}</effect-name>
-    <effect>${effectHTML}</effect></blight-banner>
+    <effect>${effectHTML}</effect><blight-banner-after></blight-banner-after></blight-banner>
     <per-player-text>
     ${blightPerPlayer} {blight} per player
     </per-player-text>

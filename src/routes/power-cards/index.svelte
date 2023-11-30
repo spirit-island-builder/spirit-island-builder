@@ -5,6 +5,8 @@
   import { downloadHTML, downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import Examples from "$lib/example-modal.svelte";
+  import examples from "./examples.json";
 
   import PowerCard from "./power-card.svelte";
   import CustomIcons from "../custom-icons.svelte";
@@ -18,6 +20,7 @@
   export let customIcons;
 
   let previewFrame;
+  let exampleModal;
 
   async function loadHTMLFromURL(url) {
     url = new URL(url, document.baseURI);
@@ -428,6 +431,11 @@
   function hideAll() {
     powerCards.cards.forEach((card) => (card.isVisible = false));
   }
+
+  async function loadExample(example) {
+    await loadHTMLFromURL(example.url);
+    hideAll();
+  }
 </script>
 
 <PreviewFrame
@@ -443,6 +451,9 @@
   </svelte:fragment>
 </PreviewFrame>
 <div class="field has-addons mt-2 mb-2 is-flex-wrap-wrap">
+  <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
+    Examples
+  </button>
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
     Load
   </LoadButton>
@@ -461,3 +472,4 @@
     <CustomIcons bind:customIcons />
   </div>
 </div>
+<Examples bind:this={exampleModal} {loadExample} title="Load Examples" {examples} />

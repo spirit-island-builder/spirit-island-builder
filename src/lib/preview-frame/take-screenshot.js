@@ -2,15 +2,22 @@
 // preview frame. It exports `takeScreenshot` by adding it as an
 // attribute on window, which can be accessed from the main frame.
 
-import html2canvas from "html2canvas";
+/* in ES 6 */
+import domtoimage from "dom-to-image-more";
 
 window.takeScreenshot = async (elementName, scale = 1) => {
   let element = document.querySelector(elementName);
   console.log("scale=" + scale);
-  let canvas = await html2canvas(element, {
+  let height = element.offsetHeight;
+  let width = element.offsetWidth;
+  console.log("Height: " + height);
+  console.log("width: " + width);
+  let canvas = await domtoimage.toCanvas(element, {
     allowTaint: true,
-    scale: scale,
     backgroundColor: null,
+    height: height,
+    width: width,
+    scale: scale,
   });
   return canvas.toDataURL();
 };
