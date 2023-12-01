@@ -134,6 +134,10 @@ subtext {
   letter-spacing: 0.5px;
 }
 
+board.hide-text subtext {
+  visibility: hidden;
+}
+
 .adjust-subtext {
   margin-left: -20px;
   margin-right: -20px;

@@ -7,6 +7,12 @@
 
   // exports allow for properties to be passed into this component. So the value of spiritBoard can be set by whatever component is the parent of this one. See https://svelte.dev/tutorial/declaring-props
   export let spiritBoard;
+
+  function hideAllTexts() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let growthPanel = previewFrame.document.getElementsByTagName("board")[0];
+    growthPanel.classList.add("hide-text");
+  }
 </script>
 
 <Section title="Spirit Name & Art" bind:isVisible={spiritBoard.nameAndArt.isVisible}>
@@ -77,9 +83,9 @@
     bind:imageURL={spiritBoard.nameAndArt.combinedBannerPath}
     bind:imageScale={spiritBoard.nameAndArt.combinedBannerScaleV} />
   <!-- Overwriting Headings -->
-  <label class="label mb-0" for="spiritNameInput">Overwrite Headings</label>
+  <label class="label mb-0" for="spiritNameInput">Translation Support Features</label>
   <label class="label is-small " for="spiritNameInput"
-    >(useful for foreign language adaptations)</label>
+    >(no translations yet, but this can help for creating non-English boards)</label>
   <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap pb-4">
     <div class="field pr-2" style="width:30%;">
       <label class="label is-small" for="customHeadingSR">Special Rules: </label>
@@ -131,5 +137,9 @@
         placeholder="Innate Powers"
         bind:value={spiritBoard.innatePowers.customHeading} />
     </div>
+  </div>
+  <div class="control">
+    <button class="button is-warning is-light is-small row-button" on:click={hideAllTexts}
+      >Click to Remove Unchangeable Text</button>
   </div>
 </Section>
