@@ -139,6 +139,12 @@ innate-info-target {
   padding-bottom: 4px;
 }
 
+board.hide-text info-title-speed,
+board.hide-text info-title-range,
+board.hide-text info-title-target {
+  visibility: hidden;
+}
+
 innate-info-speed,
 innate-info-range,
 innate-info-target {
@@ -694,6 +700,10 @@ cost-threshold {
   display: inline-block;
 }
 
+board.hide-text cost-threshold {
+  visibility: hidden;
+}
+
 cost-energy {
   background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
   width: 45px;
@@ -707,6 +717,10 @@ cost-energy {
   top: -40px;
   left: -36px;
   margin-bottom: -15px;
+}
+
+board.hide-text cost-energy {
+  visibility: visible;
 }
 
 cost-energy value,

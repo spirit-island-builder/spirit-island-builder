@@ -103,7 +103,8 @@ growth .solo-tint {
   border-radius: 8px;
 }
 
-growth.hide-text growth-text {
+growth.hide-text growth-text,
+board.hide-text growth-text {
   visibility: hidden;
 }
 
@@ -1076,6 +1077,10 @@ growth-cost::after {
   top: 44px;
 }
 
+board.hide-text growth-cost::after {
+  visibility: hidden;
+}
+
 growth-cost.custom {
   background-image: none;
   font-size: 26.66px;
@@ -1105,6 +1110,10 @@ growth-cost.custom::after {
   position: absolute;
   left: 3px;
   top: 44px;
+}
+
+board.hide-text growth-cost.custom::after {
+  visibility: hidden;
 }
 
 growth-cost.nonscaling {
