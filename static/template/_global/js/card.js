@@ -31,6 +31,9 @@ function constructCard(data, cardIndex) {
   card.className = data.speed;
   card.innerHTML = `
   <div class="image" style="background-image:url(${data.image});"></div>
+  <card-frame></card-frame>
+  <power-subtitle></power-subtitle>
+  <cost></cost>
   <cost id='${card.id}cost'>${data.cost}</cost>
   <name id='${card.id}name'>${data.name}</name>
   
@@ -192,6 +195,7 @@ function getData(quickCard, cardIndex) {
     artistName: quickCard.getAttribute("artist-name"),
     printFriendly: quickCard.getAttribute("print-friendly") === "yes",
     innerHTML: getRulesNew(quickCard, cardIndex),
+    subtitle: quickCard.getAttribute("subtitle"),
   };
 }
 
