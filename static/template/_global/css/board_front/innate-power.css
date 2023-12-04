@@ -210,6 +210,14 @@ innate-power.slow innate-info-speed {
   background-size: 50px auto;
 }
 
+innate-power innate-info-speed.fast {
+  background-image: url("../../images/50px-Fasticon.png");
+}
+
+innate-power innate-info-speed.slow {
+  background-image: url("../../images/50px-Slowicon.png");
+}
+
 description-container {
   width: 465px;
   height: auto;
@@ -486,7 +494,7 @@ description-container range {
   font-size: 24px;
 }
 
-level range {
+div.description range {
   width: 48px;
   height: 28px;
   font-family: "Antropos";
@@ -496,6 +504,19 @@ level range {
   justify-content: center;
   align-items: center;
   background-position: bottom;
+}
+
+info-container range {
+  width: 70px;
+  height: 40px;
+  margin-top: 5px;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position-y: 27px;
+  font-family: "Antropos";
+  font-size: 40px;
+  margin-bottom: unset;
 }
 
 innate-power range-value {
