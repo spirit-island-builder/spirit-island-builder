@@ -3233,34 +3233,18 @@ function parseInnatePower(innatePowerHTML, index) {
     innatePowerID +
     "title'>" +
     innatePowerHTML.getAttribute("name") +
-    "</innate-power-title><info-container><info-title>";
+    "</innate-power-title>";
 
-  //Innate Power Speed and Range Header
-  currentPowerHTML +=
-    "<info-title-speed>SPEED</info-title-speed><info-title-range>RANGE</info-title-range>";
+  //Innate Power info block
+  currentPowerHTML += writeInnatePowerInfoBlock(
+    innatePowerID,
+    innatePowerHTML.getAttribute("speed"),
+    innatePowerHTML.getAttribute("range"),
+    innatePowerHTML.getAttribute("target"),
+    innatePowerHTML.getAttribute("target-title")
+  );
 
-  //Innate Power Target Header
-  currentPowerHTML +=
-    "<info-title-target id='" +
-    innatePowerID +
-    "targettitle'>" +
-    innatePowerHTML.getAttribute("target-title") +
-    "</info-title-target></info-title><innate-info>";
-
-  //Innater Power Speed value
-  currentPowerHTML += "<innate-info-speed></innate-info-speed>";
-
-  //Innate Power Range value
-  currentPowerHTML += `<innate-info-range id="${innatePowerID}range">${getRangeModel(
-    innatePowerHTML.getAttribute("range")
-  )}</innate-info-range>`;
-
-  //Innate Power Target value
-  const targetValue = innatePowerHTML.getAttribute("target");
-  currentPowerHTML += `<innate-info-target id="${innatePowerID}target">${replaceIcon(
-    targetValue
-  )}</innate-info-target></innate-info></info-container>`;
-
+  //Innate Power effect
   currentPowerHTML += "<description-container>";
 
   let noteValue = innatePowerHTML.getAttribute("note");
@@ -3308,11 +3292,30 @@ function writeInnateLevel(currentLevel, levelID) {
   }
   let levelHTML = "";
   const currentThreshold = currentLevel.getAttribute("threshold");
-  const isText = currentLevel.getAttribute("text");
-  if (isText !== null) {
+  if (currentThreshold === "text") {
     // User wants a special text-only line
     levelHTML += "<level><level-note>";
     levelHTML += currentLevel.innerHTML + "</level-note></level>";
+  } else if (currentThreshold === "new-power") {
+    console.log(currentLevel.innerHTML);
+    const subpowerOptions = currentLevel.innerHTML.split(";");
+    const subpowerName = subpowerOptions[0];
+    const subpowerSpeed = subpowerOptions[1];
+    const subpowerRange = subpowerOptions[2];
+    const subpowerTarget = subpowerOptions[3];
+    const subpowerTargetType = subpowerOptions[4] ? subpowerOptions[4] : "Target Land";
+    const subID = levelID + "-2";
+    //Innate Power title
+    levelHTML +=
+      "<innate-power-title id='" + subID + "title'>" + subpowerName + "</innate-power-title>";
+    //Info Block
+    levelHTML += writeInnatePowerInfoBlock(
+      subID,
+      subpowerSpeed,
+      subpowerRange,
+      subpowerTarget,
+      subpowerTargetType
+    );
   } else {
     // User wants a normal thershold-level effect
 
@@ -3397,6 +3400,44 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
   }
   thresholdHTML += "</threshold>";
   return thresholdHTML;
+}
+
+function writeInnatePowerInfoBlock(
+  innatePowerID,
+  powerSpeed,
+  powerRange,
+  powerTarget,
+  targetTitle = "TARGET LAND"
+) {
+  let newPowerHTML = "";
+
+  //Innate Power Speed and Range Header
+  newPowerHTML +=
+    "<info-container><info-title><info-title-speed>SPEED</info-title-speed><info-title-range>RANGE</info-title-range>";
+
+  //Innate Power Target Header
+  newPowerHTML +=
+    "<info-title-target id='" +
+    innatePowerID +
+    "targettitle'>" +
+    targetTitle +
+    "</info-title-target></info-title><innate-info>";
+
+  //Innater Power Speed value
+  newPowerHTML += `<innate-info-speed class="${powerSpeed.toLowerCase()}"></innate-info-speed>`;
+
+  //Innate Power Range value
+  newPowerHTML += `<innate-info-range id="${innatePowerID}range">${getRangeModel(
+    powerRange
+  )}</innate-info-range>`;
+
+  //Innate Power Target value
+  const targetValue = powerTarget;
+  newPowerHTML += `<innate-info-target id="${innatePowerID}target">${replaceIcon(
+    targetValue
+  )}</innate-info-target></innate-info></info-container>`;
+
+  return newPowerHTML;
 }
 
 function parseSpecialRules() {
