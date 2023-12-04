@@ -51,6 +51,14 @@ card-frame {
   display: block;
 }
 
+card.major card-frame {
+  background-image: url("../images/power-card-assets/Major_Background.png");
+}
+
+card.minor card-frame {
+  background-image: url("../images/power-card-assets/Minor_Background.png");
+}
+
 card.round-border {
   border-radius: 22px;
 }
@@ -141,6 +149,26 @@ card.fast cost {
 
 card.slow cost {
   background-image: url("../images/power-card-assets/CostSlow.png");
+}
+
+type-watermark {
+  position: absolute;
+  display: block;
+  width: 67px;
+  aspect-ratio: 1;
+  top: 26px;
+  left: 392px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+card.major type-watermark {
+  background-image: url("../images/power-card-assets/MajorTitleSymbol.png");
+}
+
+card.minor type-watermark {
+  background-image: url("../images/power-card-assets/MinorTitleSymbol.png");
 }
 
 name {

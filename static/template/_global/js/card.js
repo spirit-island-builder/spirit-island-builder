@@ -29,11 +29,16 @@ function constructCard(data, cardIndex) {
   var card = document.createElement("card");
   card.id = `card${cardIndex}`;
   card.className = data.speed;
+  if (data.type) {
+    card.classList.add(data.type);
+    console.log(data);
+  }
   card.innerHTML = `
   <div class="image" style="background-image:url(${data.image});"></div>
   <card-frame></card-frame>
   <power-subtitle></power-subtitle>
   <cost></cost>
+  <type-watermark></type-watermark>
   <cost id='${card.id}cost'>${data.cost}</cost>
   <name id='${card.id}name'>${data.name}</name>
   
@@ -187,6 +192,7 @@ function getData(quickCard, cardIndex) {
     speed: quickCard.getAttribute("speed"),
     cost: quickCard.getAttribute("cost"),
     name: quickCard.getAttribute("name"),
+    type: quickCard.getAttribute("type"),
     image: quickCard.getAttribute("image"),
     elements: (quickCard.getAttribute("elements") || "").split(","),
     range: getRangeModel(quickCard.getAttribute("range")),
