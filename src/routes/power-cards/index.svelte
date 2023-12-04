@@ -57,6 +57,7 @@
       newPowerCard.setAttribute("name", card.name);
       newPowerCard.setAttribute("speed", card.speed.toLowerCase());
       newPowerCard.setAttribute("cost", card.cost);
+      newPowerCard.setAttribute("type", card.type);
       newPowerCard.setAttribute("image", card.cardImage);
       newPowerCard.setAttribute("range", card.range);
       newPowerCard.setAttribute("target", card.target);
@@ -221,6 +222,7 @@
       name: powerCardHTML.getAttribute("name"),
       speed: powerCardHTML.getAttribute("speed"),
       cost: powerCardHTML.getAttribute("cost"),
+      type: powerCardHTML.getAttribute("type") || "",
       cardImage: Lib.maybeResolveURL(powerCardHTML.getAttribute("image"), baseURI),
       powerElements: elementsForm,
       range: powerCardHTML.getAttribute("range"),
@@ -460,7 +462,8 @@
   <button class="button is-success  mr-1" on:click={exportPowerCards}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
-  <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
+  <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
+    >Update Preview</button>
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Preview Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>

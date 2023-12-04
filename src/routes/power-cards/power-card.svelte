@@ -185,6 +185,12 @@
     Lib.selectNode(event);
   }
 
+  function setType(type, card) {
+    card.type = type;
+    powerCards = powerCards;
+    document.getElementById("updateButton").click();
+  }
+
   const elements = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
 </script>
 
@@ -213,6 +219,24 @@
             >Remove Power Card</button>
         </div>
       </div>
+
+      <div class="field has-addons">
+        <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+          <button
+            class:is-light={card.type !== "unique"}
+            class="button is-danger is-small is-light button-hold mb-0"
+            on:click={setType("unique", card)}>Unique</button>
+          <button
+            class:is-light={card.type !== "minor"}
+            class="button is-warning is-small is-light button-hold mb-0"
+            on:click={setType("minor", card)}>Minor</button>
+          <button
+            class:is-light={card.type !== "major"}
+            class="button is-info is-small is-light button-hold mb-0"
+            on:click={setType("major", card)}>Major</button>
+        </div>
+      </div>
+
       <div class="field has-addons mt-2 mb-0">
         <div class="field has-addons mr-2">
           <label class="label is-unselectable mr-1 mt-1" for="">Cost: </label>

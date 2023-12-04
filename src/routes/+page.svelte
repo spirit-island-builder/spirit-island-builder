@@ -225,6 +225,7 @@
         name: "",
         speed: "",
         cost: "",
+        type: "",
         cardImage: "",
         cardArtist: "",
         powerElements: {
