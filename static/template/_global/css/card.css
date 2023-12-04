@@ -382,7 +382,9 @@ threshold {
   position: relative;
   display: inline-flex;
   flex-direction: column;
-  width: 356px;
+  width: 346px;
+  padding-left: 5px;
+  padding-right: 5px;
 
   background-image: url("../images/threshold-back.png");
   background-position: center top;
