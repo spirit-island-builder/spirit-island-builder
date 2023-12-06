@@ -84,13 +84,25 @@ card-back {
   position: relative;
 }
 
-card-back::after {
+/* card-back::after {
   display: block;
   position: absolute;
   top: 0px;
   left: 0px;
   width: 488px;
   height: 682px;
+  background-image: url("../images/Unique-Power-Back.png");
+  background-size: cover;
+  content: "";
+} */
+
+card-back-overlay {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
   background-image: url("../images/Unique-Power-Back.png");
   background-size: cover;
   content: "";

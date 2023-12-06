@@ -113,8 +113,10 @@
     if (powerCards.cardBackImage) {
       const cardBack = document.createElement("card-back");
       const cardBackArt = document.createElement("img");
+      const cardBackOverlay = document.createElement("card-back-overlay");
       fragment.append(cardBack);
       cardBack.append(cardBackArt);
+      cardBack.append(cardBackOverlay);
       cardBack.setAttribute("id", "cardBack");
       cardBackArt.classList.add("image-back");
       cardBackArt.setAttribute("src", powerCards.cardBackImage);
