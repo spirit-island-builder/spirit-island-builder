@@ -47,14 +47,6 @@ innate-power ul {
   padding-inline-start: 30px;
 }
 
-innate-power:only-child level {
-  width: 1000px !important;
-}
-
-innate-power:only-child note {
-  width: 1000px;
-}
-
 innate-power-title {
   width: 420px;
   font-family: "JosefinSans";
@@ -223,6 +215,14 @@ description-container {
   height: auto;
   display: block;
   margin-top: 5px;
+}
+
+innate-powers.tight-levels level {
+  margin-bottom: 2px;
+}
+
+innate-power.ip1-wide level {
+  width: 507px;
 }
 
 .long {
@@ -596,6 +596,10 @@ level.description-wrap {
   margin-bottom: 0px;
 }
 
+div.description.description-wrap {
+  padding-left: 0px;
+}
+
 innate-power:last-of-type level {
   width: 500px;
 }
@@ -903,4 +907,12 @@ div.description icon.incarna {
   height: 40px;
   margin-top: -13px;
   margin-bottom: -10px;
+}
+
+innate-power:only-child level {
+  width: 1000px;
+}
+
+innate-power:only-child note {
+  width: 1000px;
 }

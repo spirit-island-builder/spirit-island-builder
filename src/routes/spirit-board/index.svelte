@@ -119,6 +119,10 @@
     artistName.textContent = spiritBoard.nameAndArt.artistCredit;
     board.appendChild(artistName);
 
+    if (spiritBoard.nameAndArt.starlight) {
+      board.setAttribute("starlight", spiritBoard.nameAndArt.starlight);
+    }
+
     //Set Special Rules
     const specialRulesContainer = document.createElement("special-rules-container");
     board.appendChild(specialRulesContainer);
@@ -184,6 +188,10 @@
         if (growthGroup.hasTitleLeft) {
           growthGroupOutput.setAttribute("special-title-left", true);
         }
+        //New Row
+        if (growthGroup.newRow) {
+          growthGroupOutput.setAttribute("new-row", true);
+        }
         //Values
         let values = "";
         growthGroup.growthActions.forEach((growthAction) => {
@@ -216,15 +224,17 @@
     }
     checkTracksForCommas(); //swap commas for semicolons
 
-    presenceTrackContainer.setAttribute("banner", spiritBoard.nameAndArt.combinedBannerPath);
-    presenceTrackContainer.setAttribute(
-      "banner-v-scale",
-      spiritBoard.nameAndArt.combinedBannerScaleV
-    );
-    presenceTrackContainer.setAttribute(
-      "banner-h-scale",
-      spiritBoard.nameAndArt.combinedBannerScaleH
-    );
+    if (spiritBoard.nameAndArt.combinedBannerPath) {
+      presenceTrackContainer.setAttribute("banner", spiritBoard.nameAndArt.combinedBannerPath);
+      presenceTrackContainer.setAttribute(
+        "banner-v-scale",
+        spiritBoard.nameAndArt.combinedBannerScaleV
+      );
+      presenceTrackContainer.setAttribute(
+        "banner-h-scale",
+        spiritBoard.nameAndArt.combinedBannerScaleH
+      );
+    }
 
     let energyTrack = document.createElement("energy-track");
     energyTrack.setAttribute("banner", spiritBoard.nameAndArt.energyBannerPath);
@@ -330,6 +340,11 @@
       baseURI
     );
 
+    spiritBoard.nameAndArt.starlight = false;
+    if (board.getAttribute("starlight")) {
+      spiritBoard.nameAndArt.starlight = board.getAttribute("starlight");
+    }
+
     const artistName = htmlElement.querySelectorAll("artist-name")[0];
     if (artistName) {
       spiritBoard.nameAndArt.artistCredit = artistName.textContent.trim();
@@ -380,7 +395,8 @@
           group.getAttribute("cost"),
           group.getAttribute("tint"),
           group.getAttribute("special-title"),
-          group.getAttribute("special-title-left")
+          group.getAttribute("special-title-left"),
+          group.getAttribute("new-row")
         );
         let values = group.getAttribute("values").split(";");
         values.forEach((growthValue) => {
@@ -396,12 +412,14 @@
     //Load Presence Tracks
 
     let presenceTracks = htmlElement.querySelectorAll("presence-tracks")[0];
-    spiritBoard.nameAndArt.combinedBannerPath = Lib.maybeResolveURL(
-      presenceTracks.getAttribute("banner"),
-      baseURI
-    );
-    spiritBoard.nameAndArt.combinedBannerScaleV = presenceTracks.getAttribute("banner-v-scale");
-    spiritBoard.nameAndArt.combinedBannerScaleH = presenceTracks.getAttribute("banner-h-scale");
+    if (presenceTracks.getAttribute("banner")) {
+      spiritBoard.nameAndArt.combinedBannerPath = Lib.maybeResolveURL(
+        presenceTracks.getAttribute("banner"),
+        baseURI
+      );
+      spiritBoard.nameAndArt.combinedBannerScaleV = presenceTracks.getAttribute("banner-v-scale");
+      spiritBoard.nameAndArt.combinedBannerScaleH = presenceTracks.getAttribute("banner-h-scale");
+    }
     let presenceNote = presenceTracks.getAttribute("note");
     if (presenceNote) {
       spiritBoard.presenceTrack.note = presenceNote;
