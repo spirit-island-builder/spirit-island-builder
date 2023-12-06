@@ -371,8 +371,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       repeatText = "x" + repeat + ": ";
     } else if (repeat.startsWith("cost(")) {
       // Energy Cost (syntax ^cost(-2) )
-      console.log("");
-      const matches = regExp.exec(growthAction);
+      const matches = regExp.exec(repeat);
       if (matches) {
         let energy_cost = matches[1];
         repeatOpen = `<repeat-growth class='energy-cost'><value>-${energy_cost}</value></repeat-growth>`;
@@ -2463,7 +2462,7 @@ function growthHeadersAndTitles() {
 }
 
 function dynamicResizing() {
-  let debug = true;
+  let debug = false;
   const board = document.querySelectorAll("board")[0];
   const right = board.getElementsByTagName("right")[0];
   const growthSection = board.getElementsByTagName("growth")[0];
