@@ -151,8 +151,7 @@ complexity {
   width: 800px;
 }
 
-complexity::before,
-complexity::after {
+complexity-line {
   background-image: url("../images/board/growth_underline.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;

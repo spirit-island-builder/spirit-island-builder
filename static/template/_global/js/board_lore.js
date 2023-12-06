@@ -54,10 +54,11 @@ function adjustComplexityValue() {
   var quickComplexity = document.getElementsByTagName("complexity")[0].getAttribute("value");
   if (quickComplexity) {
     var quickDescriptor = document.getElementsByTagName("complexity")[0].getAttribute("descriptor");
-    var inner = `
+    var inner = `<complexity-line></complexity-line>
                 <complexity-title>COMPLEXITY</complexity-title>
                 <complexity-value value="${quickComplexity}" style="width: 300px;">${quickDescriptor}</complexity-value>
-                <red-box></red-box>`;
+                <red-box></red-box>
+                <complexity-line></complexity-line>`;
     document.getElementsByTagName("complexity")[0].innerHTML = inner;
   }
 
