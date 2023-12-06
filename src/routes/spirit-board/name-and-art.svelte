@@ -13,9 +13,27 @@
     let growthPanel = previewFrame.document.getElementsByTagName("board")[0];
     growthPanel.classList.add("hide-text");
   }
+
+  function setType(type, spiritBoard) {
+    spiritBoard.nameAndArt.starlight = type;
+    spiritBoard = spiritBoard;
+    document.getElementById("updateButton").click();
+  }
+
+  function setSingleBanner() {
+    spiritBoard.nameAndArt.energyBannerPath = spiritBoard.nameAndArt.bannerPath;
+    spiritBoard.nameAndArt.playsBannerPath = spiritBoard.nameAndArt.bannerPath;
+    spiritBoard = spiritBoard;
+  }
+
+  function toggleSingleBanner() {
+    spiritBoard.nameAndArt.isOneBanner = !spiritBoard.nameAndArt.isOneBanner;
+  }
 </script>
 
-<Section title="Spirit Name & Art" bind:isVisible={spiritBoard.nameAndArt.isVisible}>
+<Section
+  title="Spirit Name, Artwork, and Special Features"
+  bind:isVisible={spiritBoard.nameAndArt.isVisible}>
   <div class="mb-1 p-1 note">
     <InstructionsLink anchor="spirit-name-and-art" />
   </div>
@@ -27,6 +45,19 @@
         class="input"
         type="text"
         bind:value={spiritBoard.nameAndArt.name} />
+    </div>
+  </div>
+  <div class="field has-addons">
+    <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+      <div class="field mr-2">Board Type:</div>
+      <button
+        class:is-light={spiritBoard.nameAndArt.starlight === true}
+        class="button is-success is-small button-hold mb-0"
+        on:click={setType(false, spiritBoard)}>Regular</button>
+      <button
+        class:is-light={spiritBoard.nameAndArt.starlight !== true}
+        class="button is-info is-small button-hold mb-0"
+        on:click={setType(true, spiritBoard)}>Starlight Style</button>
     </div>
   </div>
   <!-- Spirit Art -->
@@ -50,38 +81,54 @@
         bind:value={spiritBoard.nameAndArt.artistCredit} />
     </div>
   </div>
-  <!-- Banner Art -->
-  <ImageInput
-    id="spiritBanner"
-    title="Banner Art"
-    examples={banners}
-    exampleDescription="Pre-Made Banners"
-    bind:imageURL={spiritBoard.nameAndArt.bannerPath} />
-  <!-- Energy Track Banner -->
-  <ImageInput
-    id="energyBanner"
-    title="Energy Track Banner"
-    includeScale
-    examples={banners}
-    exampleDescription="Pre-Made Banners"
-    bind:imageURL={spiritBoard.nameAndArt.energyBannerPath}
-    bind:imageScale={spiritBoard.nameAndArt.energyBannerScale} />
-  <!-- Plays Track Banner -->
-  <ImageInput
-    id="playsBanner"
-    title="Plays Track Banner"
-    includeScale
-    examples={banners}
-    exampleDescription="Pre-Made Banners"
-    bind:imageURL={spiritBoard.nameAndArt.playsBannerPath}
-    bind:imageScale={spiritBoard.nameAndArt.playsBannerScale} />
-  <!-- Combined Track Banner -->
-  <ImageInput
-    id="combinedBanner"
-    title="Combined Track Banner (ie. Finder/Snake)"
-    includeScale
-    bind:imageURL={spiritBoard.nameAndArt.combinedBannerPath}
-    bind:imageScale={spiritBoard.nameAndArt.combinedBannerScaleV} />
+  <!-- Two buttons: Use for All, Individual Banners -->
+  {#if !spiritBoard.nameAndArt.isOneBanner}
+    <ImageInput
+      id="spiritBanner"
+      title="Banner Art"
+      examples={banners}
+      exampleDescription="Pre-Made Banners"
+      bind:imageURL={spiritBoard.nameAndArt.bannerPath} />
+    <button class="button is-info is-small button-hold mb-0" on:click={setSingleBanner}
+      >Use for All</button>
+    <button class="button is-info is-small button-hold mb-0" on:click={toggleSingleBanner}
+      >Individual Banners</button>
+  {:else}
+    <!-- Banner Art -->
+    <ImageInput
+      id="spiritBanner"
+      title="Banner Art"
+      examples={banners}
+      exampleDescription="Pre-Made Banners"
+      bind:imageURL={spiritBoard.nameAndArt.bannerPath} />
+    <!-- Energy Track Banner -->
+    <ImageInput
+      id="energyBanner"
+      title="Energy Track Banner"
+      includeScale
+      examples={banners}
+      exampleDescription="Pre-Made Banners"
+      bind:imageURL={spiritBoard.nameAndArt.energyBannerPath}
+      bind:imageScale={spiritBoard.nameAndArt.energyBannerScale} />
+    <!-- Plays Track Banner -->
+    <ImageInput
+      id="playsBanner"
+      title="Plays Track Banner"
+      includeScale
+      examples={banners}
+      exampleDescription="Pre-Made Banners"
+      bind:imageURL={spiritBoard.nameAndArt.playsBannerPath}
+      bind:imageScale={spiritBoard.nameAndArt.playsBannerScale} />
+    <!-- Combined Track Banner -->
+    <ImageInput
+      id="combinedBanner"
+      title="Combined Track Banner (ie. Finder/Snake)"
+      includeScale
+      bind:imageURL={spiritBoard.nameAndArt.combinedBannerPath}
+      bind:imageScale={spiritBoard.nameAndArt.combinedBannerScaleV} />
+    <button class="button is-info is-small button-hold mb-0" on:click={toggleSingleBanner}
+      >Unified Banner</button>
+  {/if}
   <!-- Overwriting Headings -->
   <label class="label mb-0" for="spiritNameInput">Translation Support Features</label>
   <label class="label is-small " for="spiritNameInput"

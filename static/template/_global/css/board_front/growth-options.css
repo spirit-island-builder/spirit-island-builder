@@ -351,6 +351,10 @@ presence-node.growth {
   margin-top: -39px;
 }
 
+presence-node.growth.blank {
+  margin-top: -8px;
+}
+
 plus-presence {
   display: block;
   line-height: 20px;
@@ -1723,4 +1727,56 @@ gain-per-fear icon.animal {
 }
 gain-per-fear icon.water {
   background-image: url(../../images/board/element_simple_water.png);
+}
+
+/* Starlight Type Nonsense */
+board.starlight growth {
+  background-size: 100% 100%;
+}
+
+board.starlight growth-table {
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 720px;
+  margin-top: -5px;
+  margin-bottom: 0px;
+}
+
+board.starlight growth-group {
+  height: 150px;
+}
+
+board.starlight right {
+  width: 720px;
+  left: 530px;
+  border-right: 5px solid #6b552a;
+}
+
+right-right {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 1143px;
+  top: 19px;
+  left: 1250px;
+}
+
+right-right innate-powers {
+  margin-left: 0px;
+  height: inherit;
+}
+
+right-right innate-power,
+right-right innate-powers section-title {
+  margin-left: 10px;
+}
+
+board.starlight presence-tracks {
+  margin-left: 145px;
+  flex-grow: 1;
+}
+
+board.starlight right-right level {
+  width: 485px;
 }

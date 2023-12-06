@@ -37,7 +37,8 @@ export const addGrowthGroup = (
   groupCost = "",
   groupTint = "",
   groupTitle = "",
-  groupTitleLeft = false
+  groupTitleLeft = false,
+  groupNewRow = false
 ) => {
   let groupHasCost = false;
   let groupHasTint = false;
@@ -64,6 +65,7 @@ export const addGrowthGroup = (
     hasTint: groupHasTint,
     hasTitle: groupHasTitle,
     hasTitleLeft: groupHasLeftTitle,
+    newRow: groupNewRow,
     growthActions: [],
   });
   return spiritBoard;

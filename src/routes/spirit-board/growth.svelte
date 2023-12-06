@@ -311,6 +311,11 @@
     growthPanel.classList.add("hide-text");
   }
 
+  function toggleNewRow(growthGroup) {
+    growthGroup.newRow = !growthGroup.newRow;
+    spiritBoard = spiritBoard;
+  }
+
   export let spiritBoard;
 </script>
 
@@ -400,6 +405,12 @@
                   <button
                     class="button is-warning is-light is-small row-button"
                     on:click={setTitle(i, j)}>Add Title</button>
+                {/if}
+                {#if !growthGroup.hasTitle}
+                  <button
+                    class:is-light={growthGroup.newRow !== true}
+                    class="button is-warning is-light is-small row-button"
+                    on:click={toggleNewRow(growthGroup)}>Start New Growth Row</button>
                 {/if}
               </div>
               {#if growthGroup.hasCost}
