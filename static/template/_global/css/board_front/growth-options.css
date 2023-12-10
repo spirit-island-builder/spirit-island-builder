@@ -269,6 +269,7 @@ growth-cell icon.incarna {
 growth-cell icon.incarna.add-move {
   margin-bottom: 10px;
   height: 52px;
+  z-index: 2;
 }
 
 growth-cell add-move-upper {
@@ -325,7 +326,7 @@ add-move-upper icon.move-arrow {
 growth-cell icon.with-your {
   width: 35px;
   height: 35px;
-  z-index: -1;
+  z-index: 0;
   margin-bottom: 0px;
   margin-left: -20px;
 }
@@ -349,14 +350,14 @@ growth-cell icon.reclaim-element {
   position: relative;
   left: 28px;
   top: -28px;
-  width: 36px;
+  width: 40px;
 }
 
 growth-cell icon.discard-element {
   position: relative;
-  left: 28px;
+  left: 47px;
   top: -28px;
-  width: 36px;
+  width: 40px;
 }
 
 growth-cell icon.gain-card-pay-2 {
