@@ -26,7 +26,6 @@ innate-powers section-title {
 innate-power-container {
   display: flex;
   position: relative;
-  margin-top: 8px;
   pointer-events: none;
 }
 
@@ -48,7 +47,7 @@ innate-power ul {
 }
 
 innate-power-title {
-  width: 420px;
+  width: 460px;
   font-family: "JosefinSans";
   font-weight: bold;
   font-style: italic;
@@ -56,6 +55,8 @@ innate-power-title {
   text-transform: uppercase;
   letter-spacing: -2px;
   word-spacing: 1px;
+  margin-top: 8px;
+  display: block;
 }
 
 info-container {
@@ -64,6 +65,7 @@ info-container {
   position: relative;
   display: block;
   box-sizing: content-box;
+  margin-bottom: 10px;
 }
 
 info-title {
@@ -214,7 +216,7 @@ description-container {
   width: 465px;
   height: auto;
   display: block;
-  margin-top: 5px;
+  margin-top: -5px;
 }
 
 innate-powers.tight-levels level {
@@ -568,8 +570,8 @@ level {
   /* width: 507px; */
   font-family: "JosefinSans-Regular";
   font-size: 22.66px;
-  margin-top: 10px;
-  margin-bottom: 9px;
+  margin-top: 5px;
+  margin-bottom: 14px;
   letter-spacing: -1.5px;
   word-spacing: 0px;
   position: relative;

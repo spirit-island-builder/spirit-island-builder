@@ -176,6 +176,9 @@ function buildGrowthPanel() {
 
   board.getElementsByTagName("growth")[0].removeAttribute("title");
   board.getElementsByTagName("growth")[0].innerHTML = fullHTML;
+
+  const growthBottom = document.createElement("growth-bottom");
+  growthHTML[0].appendChild(growthBottom);
 }
 
 function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex = NaN) {
@@ -1505,6 +1508,9 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
       playsNodes[1].getElementsByTagName("presence-node")[0].classList.remove("first");
     }
   }
+
+  const presenceBottom = document.createElement("presence-bottom");
+  presenceTable.appendChild(presenceBottom);
 }
 
 function parseEnergyTrackTags() {
