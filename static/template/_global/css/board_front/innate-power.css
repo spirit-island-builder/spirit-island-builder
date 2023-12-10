@@ -770,7 +770,13 @@ threshold icon {
 }
 
 threshold-num {
-  width: 27px;
+  width: 16px;
+  display: inline-block;
+}
+
+threshold-num-double {
+  width: 34px;
+  display: inline-block;
 }
 
 threshold icon.wilds,

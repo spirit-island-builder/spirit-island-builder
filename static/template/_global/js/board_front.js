@@ -114,7 +114,7 @@ function buildGrowthPanel() {
   let subTitle = subList
     .map(
       (e) =>
-        `<sub-section-title><sub-section-line></sub-section-line><span>${e.title}</span><sub-section-line></sub-section-line></sub-section-title>`
+        `<sub-section-title><sub-section-line></sub-section-line><sub-section-header>${e.title}</sub-section-header><sub-section-line></sub-section-line></sub-section-title>`
     )
     .join("");
 
@@ -2429,6 +2429,14 @@ function growthHeadersAndTitles() {
     position += headerWidth[i] + headerAdditionalWidth[i];
   }
 
+  let subHeaders = Array.from(board.getElementsByTagName("sub-section-header"));
+  subHeaders.forEach((header, i) => {
+    subHeaders[i].style.width =
+      Math.ceil(
+        parseFloat(window.getComputedStyle(header).getPropertyValue("width").replace(/px/, ""))
+      ) + "px";
+  });
+
   // Create special titles
   const growthTableTitles = board.getElementsByTagName("growth-table");
   for (const table of growthTableTitles) {
@@ -2825,6 +2833,13 @@ function dynamicResizing() {
         window.getComputedStyle(threshold).getPropertyValue("margin-right").replace(/px/, "")
       )
   );
+
+  thresholds.forEach((threshold, i) => {
+    thresholds[i].style.width =
+      Math.ceil(
+        parseFloat(window.getComputedStyle(threshold).getPropertyValue("width").replace(/px/, ""))
+      ) + "px";
+  });
 
   for (let i = 0; i < description.length; i++) {
     // Scale the text width to the threshold size...
@@ -3448,7 +3463,8 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
       currentElement = elementPieces[k];
       currentNumeral = numeralPieces[k].trim();
     }
-    let currentNumeralHTML = "<threshold-num>" + currentNumeral + "</threshold-num>";
+    let numeralTag = currentNumeral >= 10 ? "threshold-num-double" : "threshold-num";
+    let currentNumeralHTML = `<${numeralTag}>${currentNumeral}</${numeralTag}>`;
     if (currentElement.toUpperCase() === "OR") {
       currentThresholdPieces[k] = "<threshold-or>or</threshold-or>";
     } else if (currentElement.toUpperCase().startsWith("TEXT")) {
