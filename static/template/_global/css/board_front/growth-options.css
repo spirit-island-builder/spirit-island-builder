@@ -113,6 +113,11 @@ growth sub-section-title > span {
   flex-shrink: 0;
 }
 
+growth sub-section-header {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
 growth sub-section-line {
   background-image: url("../../images/board/growth_underline.png");
   height: 5px;
