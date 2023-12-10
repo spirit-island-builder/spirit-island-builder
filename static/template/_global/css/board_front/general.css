@@ -118,10 +118,9 @@ artist-name {
 }
 
 .spirit-image {
-  margin-left: 0.5px;
   margin-bottom: -32.75px;
   width: 667.5px;
-  z-index: -1;
+  z-index: 0;
   flex-grow: 1;
   background-repeat: no-repeat;
   position: relative;
