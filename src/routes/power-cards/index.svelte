@@ -29,7 +29,7 @@
     reloadPreview();
   }
 
-  const demoURL = "/template/MyCustomContent/MySpirit/card_front_website.html";
+  const demoURL = "/template/MyCustomContent/MyPowerCard/Exampes_PowerCards.html";
   function onLoad() {
     if (powerCards.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
@@ -57,6 +57,7 @@
       newPowerCard.setAttribute("name", card.name);
       newPowerCard.setAttribute("speed", card.speed.toLowerCase());
       newPowerCard.setAttribute("cost", card.cost);
+      newPowerCard.setAttribute("type", card.type);
       newPowerCard.setAttribute("image", card.cardImage);
       newPowerCard.setAttribute("range", card.range);
       newPowerCard.setAttribute("target", card.target);
@@ -112,8 +113,10 @@
     if (powerCards.cardBackImage) {
       const cardBack = document.createElement("card-back");
       const cardBackArt = document.createElement("img");
+      const cardBackOverlay = document.createElement("card-back-overlay");
       fragment.append(cardBack);
       cardBack.append(cardBackArt);
+      cardBack.append(cardBackOverlay);
       cardBack.setAttribute("id", "cardBack");
       cardBackArt.classList.add("image-back");
       cardBackArt.setAttribute("src", powerCards.cardBackImage);
@@ -221,6 +224,7 @@
       name: powerCardHTML.getAttribute("name"),
       speed: powerCardHTML.getAttribute("speed"),
       cost: powerCardHTML.getAttribute("cost"),
+      type: powerCardHTML.getAttribute("type") || "",
       cardImage: Lib.maybeResolveURL(powerCardHTML.getAttribute("image"), baseURI),
       powerElements: elementsForm,
       range: powerCardHTML.getAttribute("range"),
@@ -460,7 +464,8 @@
   <button class="button is-success  mr-1" on:click={exportPowerCards}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
-  <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
+  <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
+    >Update Preview</button>
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Preview Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>

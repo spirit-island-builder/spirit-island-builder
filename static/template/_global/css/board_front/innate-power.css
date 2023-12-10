@@ -26,7 +26,6 @@ innate-powers section-title {
 innate-power-container {
   display: flex;
   position: relative;
-  margin-top: 8px;
   pointer-events: none;
 }
 
@@ -47,16 +46,8 @@ innate-power ul {
   padding-inline-start: 30px;
 }
 
-innate-power:only-child level {
-  width: 1000px !important;
-}
-
-innate-power:only-child note {
-  width: 1000px;
-}
-
 innate-power-title {
-  width: 420px;
+  width: 460px;
   font-family: "JosefinSans";
   font-weight: bold;
   font-style: italic;
@@ -64,6 +55,8 @@ innate-power-title {
   text-transform: uppercase;
   letter-spacing: -2px;
   word-spacing: 1px;
+  margin-top: 8px;
+  display: block;
 }
 
 info-container {
@@ -72,6 +65,7 @@ info-container {
   position: relative;
   display: block;
   box-sizing: content-box;
+  margin-bottom: 10px;
 }
 
 info-title {
@@ -139,6 +133,12 @@ innate-info-target {
   padding-bottom: 4px;
 }
 
+board.hide-text info-title-speed,
+board.hide-text info-title-range,
+board.hide-text info-title-target {
+  visibility: hidden;
+}
+
 innate-info-speed,
 innate-info-range,
 innate-info-target {
@@ -204,11 +204,27 @@ innate-power.slow innate-info-speed {
   background-size: 50px auto;
 }
 
+innate-power innate-info-speed.fast {
+  background-image: url("../../images/50px-Fasticon.png");
+}
+
+innate-power innate-info-speed.slow {
+  background-image: url("../../images/50px-Slowicon.png");
+}
+
 description-container {
   width: 465px;
   height: auto;
   display: block;
-  margin-top: 5px;
+  margin-top: -5px;
+}
+
+innate-powers.tight-levels level {
+  margin-bottom: 2px;
+}
+
+innate-power.ip1-wide level {
+  width: 507px;
 }
 
 .long {
@@ -480,7 +496,7 @@ description-container range {
   font-size: 24px;
 }
 
-level range {
+div.description range {
   width: 48px;
   height: 28px;
   font-family: "Antropos";
@@ -490,6 +506,19 @@ level range {
   justify-content: center;
   align-items: center;
   background-position: bottom;
+}
+
+info-container range {
+  width: 70px;
+  height: 40px;
+  margin-top: 5px;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position-y: 27px;
+  font-family: "Antropos";
+  font-size: 40px;
+  margin-bottom: unset;
 }
 
 innate-power range-value {
@@ -541,8 +570,8 @@ level {
   /* width: 507px; */
   font-family: "JosefinSans-Regular";
   font-size: 22.66px;
-  margin-top: 10px;
-  margin-bottom: 9px;
+  margin-top: 5px;
+  margin-bottom: 14px;
   letter-spacing: -1.5px;
   word-spacing: 0px;
   position: relative;
@@ -567,6 +596,10 @@ threshold.description-wrap {
 
 level.description-wrap {
   margin-bottom: 0px;
+}
+
+div.description.description-wrap {
+  padding-left: 0px;
 }
 
 innate-power:last-of-type level {
@@ -694,6 +727,10 @@ cost-threshold {
   display: inline-block;
 }
 
+board.hide-text cost-threshold {
+  visibility: hidden;
+}
+
 cost-energy {
   background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
   width: 45px;
@@ -707,6 +744,10 @@ cost-energy {
   top: -40px;
   left: -36px;
   margin-bottom: -15px;
+}
+
+board.hide-text cost-energy {
+  visibility: visible;
 }
 
 cost-energy value,
@@ -731,7 +772,13 @@ threshold icon {
 }
 
 threshold-num {
-  width: 27px;
+  width: 16px;
+  display: inline-block;
+}
+
+threshold-num-double {
+  width: 34px;
+  display: inline-block;
 }
 
 threshold icon.wilds,
@@ -868,4 +915,12 @@ div.description icon.incarna {
   height: 40px;
   margin-top: -13px;
   margin-bottom: -10px;
+}
+
+innate-power:only-child level {
+  width: 1000px;
+}
+
+innate-power:only-child note {
+  width: 1000px;
 }

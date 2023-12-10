@@ -55,6 +55,19 @@ growth special-section-title {
   top: -46px;
 }
 
+growth-bottom {
+  display: block;
+  position: absolute;
+  background-image: url(../../images/board/Growth_Bottom.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: top left;
+  width: 100%;
+  height: 228px;
+  bottom: 0px;
+  z-index: -1;
+}
+
 /* growth special-section-title.title-left {
   position: unset;
   display: inline-block;
@@ -103,11 +116,17 @@ growth .solo-tint {
   border-radius: 8px;
 }
 
-growth.hide-text growth-text {
+growth.hide-text growth-text,
+board.hide-text growth-text {
   visibility: hidden;
 }
 
 growth sub-section-title > span {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+growth sub-section-header {
   flex-grow: 0;
   flex-shrink: 0;
 }
@@ -250,6 +269,7 @@ growth-cell icon.incarna {
 growth-cell icon.incarna.add-move {
   margin-bottom: 10px;
   height: 52px;
+  z-index: 2;
 }
 
 growth-cell add-move-upper {
@@ -306,7 +326,7 @@ add-move-upper icon.move-arrow {
 growth-cell icon.with-your {
   width: 35px;
   height: 35px;
-  z-index: -1;
+  z-index: 0;
   margin-bottom: 0px;
   margin-left: -20px;
 }
@@ -330,14 +350,14 @@ growth-cell icon.reclaim-element {
   position: relative;
   left: 28px;
   top: -28px;
-  width: 36px;
+  width: 40px;
 }
 
 growth-cell icon.discard-element {
   position: relative;
-  left: 28px;
+  left: 47px;
   top: -28px;
-  width: 36px;
+  width: 40px;
 }
 
 growth-cell icon.gain-card-pay-2 {
@@ -348,6 +368,10 @@ growth-cell icon.gain-card-pay-2 {
 
 presence-node.growth {
   margin-top: -39px;
+}
+
+presence-node.growth.blank {
+  margin-top: -8px;
 }
 
 plus-presence {
@@ -1076,6 +1100,10 @@ growth-cost::after {
   top: 44px;
 }
 
+board.hide-text growth-cost::after {
+  visibility: hidden;
+}
+
 growth-cost.custom {
   background-image: none;
   font-size: 26.66px;
@@ -1105,6 +1133,10 @@ growth-cost.custom::after {
   position: absolute;
   left: 3px;
   top: 44px;
+}
+
+board.hide-text growth-cost.custom::after {
+  visibility: hidden;
 }
 
 growth-cost.nonscaling {
@@ -1714,4 +1746,60 @@ gain-per-fear icon.animal {
 }
 gain-per-fear icon.water {
   background-image: url(../../images/board/element_simple_water.png);
+}
+
+/* Starlight Type Nonsense */
+board.starlight growth {
+  background-size: 100% 100%;
+}
+
+board.starlight growth-table {
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 720px;
+  margin-top: -5px;
+  margin-bottom: 0px;
+}
+
+board.starlight growth-group {
+  height: 150px;
+}
+
+board.starlight right {
+  width: 720px;
+  left: 530px;
+  border-right: 5px solid #6b552a;
+}
+
+right-right {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 1143px;
+  top: 19px;
+  left: 1250px;
+}
+
+right-right innate-powers {
+  margin-left: 0px;
+  height: inherit;
+}
+
+right-right innate-power,
+right-right innate-powers section-title {
+  margin-left: 10px;
+}
+
+board.starlight presence-tracks {
+  margin-left: 145px;
+  flex-grow: 1;
+}
+
+board.starlight right-right level {
+  width: 485px;
+}
+
+board.starlight info-container {
+  margin-bottom: 5px;
 }

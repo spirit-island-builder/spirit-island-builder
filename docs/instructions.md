@@ -236,7 +236,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 - Target Land/Target: Toggle between Target Land (for land targetting powers) and Target (for Powers that target spirits, etc).
 - Note (optional): Allows adding notes to the top of the innate (See Volcano Looming High or Lure of the Deep Wilderness as an example). Use [{icon shortcuts}](#general-icons) here (such as {dahan}).
 - Add Level: Adds a Thershold Level to the Innate Power.
-  - Threshold: Contains the threshold informatioin. Can include:
+  - Threshold: Contains the threshold information. Can include:
     - Elements: 1-plant,2-fire
     - Icons: 2-wilds
     - Energy Costs: cost-2
@@ -245,12 +245,18 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
       - Example: Spreading Rot: 2-moon,3-water,2-animal,2-cost(custom1)
     - Or: As seen on Trickster
       - Example: Trickster: 3-sun,OR,3-fire
-    - Custom Text: You can use text in place of an icon in a threshold
+    - Custom Threshold: You can use text in place of an icon in a threshold
       - Example: 2-water,2-text(X)
-- Long: Allows the level text to spill into the second column (like Volcano's first Innate Power, last threshold). Use only when appropriate.
-- Effect: The effect of the power at that threshold level. Use {icons} freely here.
-  - To achieve 'for each element' effects, use the notation {element, #}.
-  - Example: Serpent's Second Innate, Second Level: For each **_{moon,2} {earth,2}_**, 2 {fear} and push 1 {town}.
+    - Text: You can also create a block of text by just putting 'text' into the threshold.
+    - Subpower: You can create a second power in the same column using subpowers. This will make the title and info block.
+      - Threshold: 'new-power'
+      - Effect: Use the following format: Power Name;speed;range;target info;target type
+      - Example: 'Volcanic Eruption;slow;sacred-site,1;any;target land'
+  - Effect: The effect of the power at that threshold level. Use {icons} freely here.
+    - To achieve 'for each element' effects, use the notation {element, #}.
+    - Example: Serpent's Second Innate, Second Level: For each **_{moon,2} {earth,2}_**, 2 {fear} and push 1 {town}.
+  - Long: Allows the level text to spill into the second column (like Volcano's first Innate Power, last threshold). Use only when appropriate.
+  - Remove: Deletes the level. Cannot be undone.
 - Add Innate Power: Adds another Innate Power. You can add more than 2... but it won't be pretty so don't do it.
 
 [Home](#index)

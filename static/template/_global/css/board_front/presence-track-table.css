@@ -19,7 +19,6 @@ presence-tracks {
   z-index: 2;
   margin-left: 10px;
 
-  padding-left: 50px;
   padding-bottom: 0px;
 
   background-image: url("../../images/board/Presence_Without_Text.png");
@@ -36,7 +35,7 @@ presence-tracks:hover {
   cursor: pointer;
 }
 presence-tracks presence-title {
-  margin-left: -11px;
+  margin-left: 39px;
   margin-bottom: 12px;
   padding-top: 0px;
   display: flex;
@@ -49,10 +48,10 @@ presence-tracks presence-title.tight {
 
 presence-tracks table {
   display: inline-block;
-  margin-left: -50px; /* adding a blank row for an image. This gives us some space. */
   border-collapse: collapse;
   position: relative;
   pointer-events: none;
+  z-index: 2;
 }
 
 board.devwrap presence-tracks table {
@@ -68,6 +67,18 @@ presence-tracks table td {
 presence-tracks table td[rowspan="2"] {
   vertical-align: top;
   position: relative;
+}
+
+presence-bottom {
+  display: block;
+  position: absolute;
+  background-image: url("../../images/board/Presence_Bottom.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: top left;
+  width: 100%;
+  height: 57px;
+  bottom: 0px;
 }
 
 td.middle > presence-node {
@@ -132,6 +143,10 @@ subtext {
   display: block;
   margin-top: -1px;
   letter-spacing: 0.5px;
+}
+
+board.hide-text subtext {
+  visibility: hidden;
 }
 
 .adjust-subtext {

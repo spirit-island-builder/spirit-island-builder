@@ -114,7 +114,7 @@ function buildGrowthPanel() {
   let subTitle = subList
     .map(
       (e) =>
-        `<sub-section-title><sub-section-line></sub-section-line><span>${e.title}</span><sub-section-line></sub-section-line></sub-section-title>`
+        `<sub-section-title><sub-section-line></sub-section-line><sub-section-header>${e.title}</sub-section-header><sub-section-line></sub-section-line></sub-section-title>`
     )
     .join("");
 
@@ -176,6 +176,9 @@ function buildGrowthPanel() {
 
   board.getElementsByTagName("growth")[0].removeAttribute("title");
   board.getElementsByTagName("growth")[0].innerHTML = fullHTML;
+
+  const growthBottom = document.createElement("growth-bottom");
+  growthHTML[0].appendChild(growthBottom);
 }
 
 function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex = NaN) {
@@ -201,12 +204,14 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   const specialTitleTextLeft = growthGroup.getAttribute("special-title-left")
     ? ` special-title-left='${growthGroup.getAttribute("special-title-left")}'`
     : "";
+  const newRowFlag = growthGroup.getAttribute("new-row") ? ` new-row=true` : "";
 
   if (specialTitleTextLeft) {
     console.log("Found special title");
     console.log(growthGroup);
   }
-  growthGroupHTML += `<growth-group` + headerText + specialTitleText + specialTitleTextLeft + `>`;
+  growthGroupHTML +=
+    `<growth-group` + headerText + newRowFlag + specialTitleText + specialTitleTextLeft + `>`;
 
   const cost = growthGroup.getAttribute("cost");
   if (cost) {
@@ -329,8 +334,16 @@ function writeGrowthAction(
 
   //Handle Presence Node
   if (isPresenceNode) {
-    growthIcons =
-      '<presence-node class="growth"><ring-icon>' + growthIcons + "</ring-icon></presence-node>";
+    console.log(growthIcons);
+    if (growthAction.includes("blank")) {
+      growthIcons =
+        '<presence-node class="growth blank"><ring-icon>' +
+        growthIcons +
+        "</ring-icon></presence-node>";
+    } else {
+      growthIcons =
+        '<presence-node class="growth"><ring-icon>' + growthIcons + "</ring-icon></presence-node>";
+    }
     isPresenceNode = false;
   }
 
@@ -361,7 +374,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       repeatText = "x" + repeat + ": ";
     } else if (repeat.startsWith("cost(")) {
       // Energy Cost (syntax ^cost(-2) )
-      const matches = regExp.exec(growthAction);
+      const matches = regExp.exec(repeat);
       if (matches) {
         let energy_cost = matches[1];
         repeatOpen = `<repeat-growth class='energy-cost'><value>-${energy_cost}</value></repeat-growth>`;
@@ -1495,6 +1508,9 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
       playsNodes[1].getElementsByTagName("presence-node")[0].classList.remove("first");
     }
   }
+
+  const presenceBottom = document.createElement("presence-bottom");
+  presenceTable.appendChild(presenceBottom);
 }
 
 function parseEnergyTrackTags() {
@@ -2419,6 +2435,14 @@ function growthHeadersAndTitles() {
     position += headerWidth[i] + headerAdditionalWidth[i];
   }
 
+  let subHeaders = Array.from(board.getElementsByTagName("sub-section-header"));
+  subHeaders.forEach((header, i) => {
+    subHeaders[i].style.width =
+      Math.ceil(
+        parseFloat(window.getComputedStyle(header).getPropertyValue("width").replace(/px/, ""))
+      ) + "px";
+  });
+
   // Create special titles
   const growthTableTitles = board.getElementsByTagName("growth-table");
   for (const table of growthTableTitles) {
@@ -2454,12 +2478,49 @@ function growthHeadersAndTitles() {
 function dynamicResizing() {
   let debug = false;
   const board = document.querySelectorAll("board")[0];
+  const right = board.getElementsByTagName("right")[0];
+  const growthSection = board.getElementsByTagName("growth")[0];
+  const innatePowerBox = board.getElementsByTagName("innate-powers")[0];
+
+  //Optional: Starlight type boards
+  let starlight = board.getAttribute("starlight") ? true : false;
+  const rightRight = document.createElement("right-right");
+  if (starlight) {
+    rightRight.appendChild(innatePowerBox);
+    board.appendChild(rightRight);
+    board.classList.add("starlight");
+  }
 
   console.log("RESIZING: Growth");
   // Growth Sizing
-  let growthTable = board.getElementsByTagName("growth-table")[0];
 
-  // Add additional Growth Row if necessary
+  //Custom growth new line breaks
+  let growthTable = board.getElementsByTagName("growth-table")[0];
+  console.log("growth table before resizing");
+  console.log(growthTable);
+  let growthGroups = growthSection.getElementsByTagName("growth-group");
+  let currTable = growthTable;
+  let customNewTablesFlag = false;
+  for (let j = 1; j < growthGroups.length; j++) {
+    let newTableFlag = growthGroups[j].getAttribute("new-row");
+    if (newTableFlag) {
+      customNewTablesFlag = true;
+      let newGrowthTable = document.createElement("growth-table");
+      growthSection.appendChild(newGrowthTable);
+      let index = Array.prototype.indexOf.call(
+        growthGroups[j].parentElement.children,
+        growthGroups[j]
+      );
+      while (currTable.children.length > index) {
+        // brings all remaining growth groups over to the next growth table
+        newGrowthTable.appendChild(currTable.children[index]);
+      }
+      // remove the extra growth border
+      currTable.children[index - 1].remove();
+      currTable = newGrowthTable;
+    }
+  }
+
   let totalWidth = getGrowthTableWidth(growthTable);
   let growthTexts = board.getElementsByTagName("growth-text");
   let tallGrowthText = hasTallGrowthText(growthTexts);
@@ -2477,30 +2538,34 @@ function dynamicResizing() {
   }
 
   let newGrowthTable;
-  if (totalWidth > 1090 || tallGrowthText) {
-    const growthGroups = growthTable.getElementsByTagName("growth-group");
-    const growthBorders = growthTable.getElementsByTagName("growth-border");
-    newGrowthTable = document.createElement("growth-table");
-    const growthLine = document.createElement("growth-row-line");
-    let c = 0;
-    while (totalWidth > 1090 || tallGrowthText) {
-      if (c === 0) {
-        newGrowthTable.appendChild(growthGroups[growthGroups.length - 1]);
-      } else {
-        const growthBorder = document.createElement("growth-border");
-        newGrowthTable.insertBefore(growthBorder, newGrowthTable.firstChild);
-        newGrowthTable.insertBefore(
-          growthGroups[growthGroups.length - 1],
-          newGrowthTable.firstChild
-        );
+  if (!customNewTablesFlag) {
+    //Automatical new growth row (deactivated if custom is used)
+
+    if (totalWidth > 1090 || tallGrowthText) {
+      const growthGroups = growthTable.getElementsByTagName("growth-group");
+      const growthBorders = growthTable.getElementsByTagName("growth-border");
+      newGrowthTable = document.createElement("growth-table");
+      const growthLine = document.createElement("growth-row-line");
+      let c = 0;
+      while (totalWidth > 1090 || tallGrowthText) {
+        if (c === 0) {
+          newGrowthTable.appendChild(growthGroups[growthGroups.length - 1]);
+        } else {
+          const growthBorder = document.createElement("growth-border");
+          newGrowthTable.insertBefore(growthBorder, newGrowthTable.firstChild);
+          newGrowthTable.insertBefore(
+            growthGroups[growthGroups.length - 1],
+            newGrowthTable.firstChild
+          );
+        }
+        growthBorders[growthBorders.length - 1].remove();
+        totalWidth = getGrowthTableWidth(growthTable);
+        tallGrowthText = hasTallGrowthText(growthTable.getElementsByTagName("growth-text"));
+        c++;
       }
-      growthBorders[growthBorders.length - 1].remove();
-      totalWidth = getGrowthTableWidth(growthTable);
-      tallGrowthText = hasTallGrowthText(growthTable.getElementsByTagName("growth-text"));
-      c++;
+      document.getElementsByTagName("growth")[0].append(growthLine);
+      document.getElementsByTagName("growth")[0].append(newGrowthTable);
     }
-    document.getElementsByTagName("growth")[0].append(growthLine);
-    document.getElementsByTagName("growth")[0].append(newGrowthTable);
   }
 
   const allGrowthCells = board.getElementsByTagName("growth-cell");
@@ -2605,7 +2670,7 @@ function dynamicResizing() {
     if (i === 0 && growthTables.length > 1) {
       growthTable.classList.add("two-table-top");
       tightFlag = true;
-      console.log("will tighten presence tracks");
+      console.log("  Flag: will tighten presence tracks");
     }
 
     const growthCells = growthTable.getElementsByTagName("growth-cell");
@@ -2622,9 +2687,9 @@ function dynamicResizing() {
       localBorderPixels += localBorders[j].offsetWidth;
     }
 
-    const growthPanelWidth = 1090 - 10 - localBorderPixels - growthCostsPixels;
+    const growthPanelWidth = right.offsetWidth - 10 - localBorderPixels - growthCostsPixels;
     if (debug) {
-      console.log("width for growth actions = " + growthPanelWidth);
+      console.log("table" + i + " width for growth actions = " + growthPanelWidth);
     }
     let totalCellWidth = 0;
     let growthWidthByIcons = [];
@@ -2668,21 +2733,33 @@ function dynamicResizing() {
     if (debug) {
       console.log("aveage width = " + averageWidth);
     }
-    if (totalCellWidth > 1000 || i === 0) {
+    // if (totalCellWidth > 1000 || i === 0) {
+    console.log(totalCellWidth);
+    console.log(growthPanelWidth);
+    // if (totalCellWidth > growthPanelWidth || i === 0) {
+    if (i < growthTables.length - 1 || i === 0 || starlight) {
+      console.log("setting widths");
+      console.log(growthPanelWidth);
+      console.log(totalAdjustedIconWidth);
       for (let j = 0; j < growthCells.length; j++) {
+        console.log(adjustedGrowthWidths[j]);
         growthCells[j].style.width =
           adjustedGrowthWidths[j] * (growthPanelWidth / totalAdjustedIconWidth) + "px";
       }
-    } else if (i > 0) {
+    } else {
       growthTable.classList.add("two-table-bottom");
       // growthTable.style.maxWidth = growthCells.length * averageWidth +100 + "px";
       for (let j = 0; j < growthCells.length; j++) {
         let iconWidth = getGrowthActionIconWidth(growthCells[j]);
         let textWidth = growthTexts[j].getBoundingClientRect().width;
         let cellWidth = Math.max(iconWidth, textWidth);
-        console.log("cellwidth = " + cellWidth);
+        if (debug) {
+          console.log("cellwidth = " + cellWidth);
+        }
         growthCells[j].style.width = 1.1 * cellWidth + 20 + "px"; //10 for padding (maybe tweak the 1.15) maybe instead update the width based on text & icons
-        console.log(adjustedGrowthWidths);
+        if (debug) {
+          console.log(adjustedGrowthWidths);
+        }
         growthCells[j].style.minWidth = "100px";
         if (j < growthCells.length - 1) {
           growthCells[j].style.paddingRight = "20px";
@@ -2695,7 +2772,7 @@ function dynamicResizing() {
       totalWidth += growthCells[j].offsetWidth;
     }
 
-    if (i > 0) {
+    if (i > 0 && !customNewTablesFlag) {
       const growthLines = board.getElementsByTagName("growth-row-line");
       growthLines[i - 1].style.width = totalWidth + "px";
     }
@@ -2709,7 +2786,9 @@ function dynamicResizing() {
     for (let group of growthGroupsTint) {
       let growthTints = group.getElementsByClassName("tint");
       if (growthTints.length === 1) {
-        console.log("found solo tint");
+        if (debug) {
+          console.log("found solo tint");
+        }
         growthTints[0].classList.add("solo-tint");
       } else if (growthTints.length) {
         growthTints[0].classList.add("start-tint");
@@ -2761,6 +2840,13 @@ function dynamicResizing() {
       )
   );
 
+  thresholds.forEach((threshold, i) => {
+    thresholds[i].style.width =
+      Math.ceil(
+        parseFloat(window.getComputedStyle(threshold).getPropertyValue("width").replace(/px/, ""))
+      ) + "px";
+  });
+
   for (let i = 0; i < description.length; i++) {
     // Scale the text width to the threshold size...
     description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
@@ -2771,7 +2857,8 @@ function dynamicResizing() {
       // Align-middle the text if its a single line
     } else if (textHeight > 86) {
       // Wrap description below the threshold if its greater than three lines
-      description[i].style.paddingLeft = "0px";
+      description[i].style.paddingLeft = "0px"; // delete this if nothing seems broken
+      description[i].classList.add("description-wrap");
       thresholds[i].classList.add("description-wrap");
       levels[i].classList.add("description-wrap");
     }
@@ -2784,7 +2871,7 @@ function dynamicResizing() {
   const playsTrack = board.getElementsByClassName("plays-track")[0];
   //Load board ojects
   const growth = board.getElementsByTagName("growth")[0];
-  const right = board.getElementsByTagName("right")[0];
+  // const right = board.getElementsByTagName("right")[0];
 
   //Check horizontal overflow
   if (checkOverflowWidth(presenceTrack, 0)) {
@@ -2817,10 +2904,10 @@ function dynamicResizing() {
 
   // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
   let currentTrack;
-  debug = true;
+  debug = false;
   // let last_node_adjusted = false;
   if (tightFlag) {
-    console.log("tightening presence tracks");
+    console.log("  Flag: tightening presence tracks");
     board.getElementsByTagName("presence-title")[0].classList.add("tight");
   }
 
@@ -2857,7 +2944,9 @@ function dynamicResizing() {
       }
     });
     subtextArray.forEach((text, i) => {
-      console.log(text);
+      if (debug) {
+        console.log(text);
+      }
       if (i > 0) {
         if (text.offsetHeight > 50) {
           // subtext.classList.add("adjust-subtext");
@@ -2872,27 +2961,36 @@ function dynamicResizing() {
             rightTextLocation = subtextArray[i + 1].getBoundingClientRect();
             rightLeft = rightTextLocation.left - 10;
           }
-          console.log(leftTextLocation);
-          console.log(curTextLocation);
-          console.log(rightTextLocation);
+          if (debug) {
+            console.log(leftTextLocation);
+            console.log(curTextLocation);
+            console.log(rightTextLocation);
+          }
           let deltaL = curTextLocation.left - leftTextLocation.right - 10;
           let deltaR = rightLeft - curTextLocation.right;
           let delta = deltaL < deltaR ? deltaL : deltaR;
-          console.log("delta:" + delta);
+          if (debug) {
+            console.log("delta:" + delta);
+          }
           if (delta > 0) {
             delta = delta > 30 ? 30 : delta;
             let newWidth = curTextLocation.width + 2 * delta;
-            console.log(curTextLocation.width + " " + newWidth);
-            console.log(text);
             subtext[i].style.width = newWidth + "px";
-            console.log(subtext[i]);
+            if (debug) {
+              console.log(curTextLocation.width + " " + newWidth);
+              console.log(text);
+              console.log(subtext[i]);
+            }
             balanceText(subtext[i]);
           }
         }
       }
     });
-    console.log("textHeightsArray");
-    console.log(textHeightsArray);
+    if (debug) {
+      console.log("textHeightsArray");
+      console.log(textHeightsArray);
+    }
+
     // for (let i = 0; i < subtext.length; i++) {
     //   let textHeight = subtext[i].offsetHeight;
     //   if (track_tds[1].classList.contains("middle")) {
@@ -2929,7 +3027,7 @@ function dynamicResizing() {
       //should replace this with css
       node.style.marginBottom = "5px";
     });
-    console.log(">Compressing Presence Tracks Vertically");
+    console.log("  > Compressing Presence Tracks Vertically");
   }
 
   // Place middle presence nodes
@@ -2950,7 +3048,7 @@ function dynamicResizing() {
   const innatePowers = board.getElementsByTagName("innate-power");
 
   // Shrink Innate Power notes if needed for space
-  const innatePowerBox = board.getElementsByTagName("innate-powers")[0];
+  // const innatePowerBox = board.getElementsByTagName("innate-powers")[0];
   innatePowerBox.style.height =
     right.clientHeight - presenceTracks.clientHeight - growth.clientHeight + "px";
   let moveFlag = false;
@@ -2958,23 +3056,27 @@ function dynamicResizing() {
 
   // First give left innate more horizontal room
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log(">Innate Power 1 overflowing, giving more room to IP1");
-    let levels = Array.from(innatePowers[0].getElementsByTagName("level"));
-    levels.forEach((level) => {
-      level.style.width = "507px";
-    });
+    console.log("  > Innate Power 1 overflowing, giving more room to IP1");
+    // let levels = Array.from(innatePowers[0].getElementsByTagName("level"));
+    // levels.forEach((level) => {
+    //   // level.style.width = "507px";
+    //   level.classList.add("ip1-wide");
+    // });
+    innatePowers[0].classList.add("ip1-wide");
   }
   // Then tighten up the power levels
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log(">Innate Powers overflowing, shrinking space between levels");
-    let levels = Array.from(board.getElementsByTagName("level"));
-    levels.forEach((level) => {
-      level.style.marginBottom = "2px";
-    });
+    console.log("  > Innate Powers overflowing, shrinking space between levels");
+    // let levels = Array.from(board.getElementsByTagName("level"));
+    // levels.forEach((level) => {
+    //   // level.style.marginBottom = "2px";
+    //   level.classList.add("tight-margin");
+    // });
+    innatePowerBoxCheck.classList.add("tight-levels");
   }
   // Then tighten up the power level font spacing
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log(">Innate Powers overflowing, shrinking level description line height");
+    console.log("  > Innate Powers overflowing, shrinking level description line height");
     let descriptions = Array.from(board.getElementsByClassName("description"));
     descriptions.forEach((description) => {
       description.style.lineHeight = "1";
@@ -3233,34 +3335,18 @@ function parseInnatePower(innatePowerHTML, index) {
     innatePowerID +
     "title'>" +
     innatePowerHTML.getAttribute("name") +
-    "</innate-power-title><info-container><info-title>";
+    "</innate-power-title>";
 
-  //Innate Power Speed and Range Header
-  currentPowerHTML +=
-    "<info-title-speed>SPEED</info-title-speed><info-title-range>RANGE</info-title-range>";
+  //Innate Power info block
+  currentPowerHTML += writeInnatePowerInfoBlock(
+    innatePowerID,
+    innatePowerHTML.getAttribute("speed"),
+    innatePowerHTML.getAttribute("range"),
+    innatePowerHTML.getAttribute("target"),
+    innatePowerHTML.getAttribute("target-title")
+  );
 
-  //Innate Power Target Header
-  currentPowerHTML +=
-    "<info-title-target id='" +
-    innatePowerID +
-    "targettitle'>" +
-    innatePowerHTML.getAttribute("target-title") +
-    "</info-title-target></info-title><innate-info>";
-
-  //Innater Power Speed value
-  currentPowerHTML += "<innate-info-speed></innate-info-speed>";
-
-  //Innate Power Range value
-  currentPowerHTML += `<innate-info-range id="${innatePowerID}range">${getRangeModel(
-    innatePowerHTML.getAttribute("range")
-  )}</innate-info-range>`;
-
-  //Innate Power Target value
-  const targetValue = innatePowerHTML.getAttribute("target");
-  currentPowerHTML += `<innate-info-target id="${innatePowerID}target">${replaceIcon(
-    targetValue
-  )}</innate-info-target></innate-info></info-container>`;
-
+  //Innate Power effect
   currentPowerHTML += "<description-container>";
 
   let noteValue = innatePowerHTML.getAttribute("note");
@@ -3308,11 +3394,29 @@ function writeInnateLevel(currentLevel, levelID) {
   }
   let levelHTML = "";
   const currentThreshold = currentLevel.getAttribute("threshold");
-  const isText = currentLevel.getAttribute("text");
-  if (isText !== null) {
+  if (currentThreshold === "text") {
     // User wants a special text-only line
     levelHTML += "<level><level-note>";
     levelHTML += currentLevel.innerHTML + "</level-note></level>";
+  } else if (currentThreshold === "new-power") {
+    const subpowerOptions = currentLevel.innerHTML.split(";");
+    const subpowerName = subpowerOptions[0];
+    const subpowerSpeed = subpowerOptions[1];
+    const subpowerRange = subpowerOptions[2];
+    const subpowerTarget = subpowerOptions[3];
+    const subpowerTargetType = subpowerOptions[4] ? subpowerOptions[4] : "Target Land";
+    const subID = levelID + "-2";
+    //Innate Power title
+    levelHTML +=
+      "<innate-power-title id='" + subID + "title'>" + subpowerName + "</innate-power-title>";
+    //Info Block
+    levelHTML += writeInnatePowerInfoBlock(
+      subID,
+      subpowerSpeed,
+      subpowerRange,
+      subpowerTarget,
+      subpowerTargetType
+    );
   } else {
     // User wants a normal thershold-level effect
 
@@ -3365,7 +3469,8 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
       currentElement = elementPieces[k];
       currentNumeral = numeralPieces[k].trim();
     }
-    let currentNumeralHTML = "<threshold-num>" + currentNumeral + "</threshold-num>";
+    let numeralTag = currentNumeral >= 10 ? "threshold-num-double" : "threshold-num";
+    let currentNumeralHTML = `<${numeralTag}>${currentNumeral}</${numeralTag}>`;
     if (currentElement.toUpperCase() === "OR") {
       currentThresholdPieces[k] = "<threshold-or>or</threshold-or>";
     } else if (currentElement.toUpperCase().startsWith("TEXT")) {
@@ -3397,6 +3502,44 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
   }
   thresholdHTML += "</threshold>";
   return thresholdHTML;
+}
+
+function writeInnatePowerInfoBlock(
+  innatePowerID,
+  powerSpeed,
+  powerRange,
+  powerTarget,
+  targetTitle = "TARGET LAND"
+) {
+  let newPowerHTML = "";
+
+  //Innate Power Speed and Range Header
+  newPowerHTML +=
+    "<info-container><info-title><info-title-speed>SPEED</info-title-speed><info-title-range>RANGE</info-title-range>";
+
+  //Innate Power Target Header
+  newPowerHTML +=
+    "<info-title-target id='" +
+    innatePowerID +
+    "targettitle'>" +
+    targetTitle +
+    "</info-title-target></info-title><innate-info>";
+
+  //Innater Power Speed value
+  newPowerHTML += `<innate-info-speed class="${powerSpeed.toLowerCase()}"></innate-info-speed>`;
+
+  //Innate Power Range value
+  newPowerHTML += `<innate-info-range id="${innatePowerID}range">${getRangeModel(
+    powerRange
+  )}</innate-info-range>`;
+
+  //Innate Power Target value
+  const targetValue = powerTarget;
+  newPowerHTML += `<innate-info-target id="${innatePowerID}target">${replaceIcon(
+    targetValue
+  )}</innate-info-target></innate-info></info-container>`;
+
+  return newPowerHTML;
 }
 
 function parseSpecialRules() {

@@ -44,7 +44,9 @@
     isClickable: true,
     nameAndArt: {
       isVisible: false,
+      isOneBanner: false,
       name: "",
+      starlight: "",
       artPath: "",
       artScale: "",
       bannerPath: "",
@@ -87,6 +89,7 @@
               hasTint: false,
               hasTitle: false,
               hasTitleLeft: false,
+              newRow: false,
               growthActions: [
                 {
                   id: 0,
@@ -225,6 +228,7 @@
         name: "",
         speed: "",
         cost: "",
+        type: "",
         cardImage: "",
         cardArtist: "",
         powerElements: {
