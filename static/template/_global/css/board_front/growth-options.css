@@ -55,6 +55,19 @@ growth special-section-title {
   top: -46px;
 }
 
+growth-bottom {
+  display: block;
+  position: absolute;
+  background-image: url(../../images/board/Growth_Bottom.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: top left;
+  width: 100%;
+  height: 228px;
+  bottom: 0px;
+  z-index: -1;
+}
+
 /* growth special-section-title.title-left {
   position: unset;
   display: inline-block;
@@ -1784,4 +1797,8 @@ board.starlight presence-tracks {
 
 board.starlight right-right level {
   width: 485px;
+}
+
+board.starlight info-container {
+  margin-bottom: 5px;
 }
