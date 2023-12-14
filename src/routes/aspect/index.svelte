@@ -148,6 +148,13 @@
       aspectRulesContainer.appendChild(newInnatePower);
     });
 
+    //Set Bonus Node
+    if (aspect.aspectEffects.bonusNode.has) {
+      let bonusNode = document.createElement("bonus-node");
+      bonusNode.setAttribute("effect", aspect.aspectEffects.bonusNode.effect);
+      aspectRulesContainer.appendChild(bonusNode);
+    }
+
     //Set Custom Icons
     const spiritStyle = document.createElement("style");
     fragment.prepend(spiritStyle);
@@ -281,6 +288,14 @@
           );
         });
       });
+    }
+
+    //Read Bonus Nodes
+    let bonusNode = htmlElement.querySelectorAll("bonus-node")[0];
+    aspect.aspectEffects.bonusNode.has = false;
+    if (bonusNode) {
+      aspect.aspectEffects.bonusNode.has = true;
+      aspect.aspectEffects.bonusNode.effect = bonusNode.getAttribute("effect");
     }
 
     //Custom Icons

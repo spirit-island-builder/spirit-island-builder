@@ -1677,7 +1677,7 @@ function enhancePresenceTracksTable() {
 function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRing) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
-  let pnDebug = false;
+  let pnDebug = true;
   let nodeClass = "";
 
   // Every node will have a presence-node element with
@@ -2778,6 +2778,7 @@ function dynamicResizing() {
     }
   }
 
+  // Adjust headers and titles
   growthHeadersAndTitles();
 
   // Handle Tint (corners)
@@ -2809,60 +2810,61 @@ function dynamicResizing() {
 
   // Innate Power Sizing
   console.log("RESIZING: Innate Powers");
-  // Innate Power Notes (scale font size)
-  const noteBlocks = board.getElementsByTagName("note");
-  for (let i = 0; i < noteBlocks.length; i++) {
-    let noteHeight = noteBlocks[i].offsetHeight;
-    let j = 0;
-    while (noteHeight > 92) {
-      const style = window.getComputedStyle(noteBlocks[i], null).getPropertyValue("font-size");
-      const fontSize = parseFloat(style);
-      noteBlocks[i].style.fontSize = fontSize - 1 + "px";
-      noteHeight = noteBlocks[i].offsetHeight;
-      // safety valve
-      j += 1;
-      if (j > 5) {
-        break;
-      }
-    }
-  }
+  innatePowerSizing(board);
+  // // Innate Power Notes (scale font size)
+  // const noteBlocks = board.getElementsByTagName("note");
+  // for (let i = 0; i < noteBlocks.length; i++) {
+  //   let noteHeight = noteBlocks[i].offsetHeight;
+  //   let j = 0;
+  //   while (noteHeight > 92) {
+  //     const style = window.getComputedStyle(noteBlocks[i], null).getPropertyValue("font-size");
+  //     const fontSize = parseFloat(style);
+  //     noteBlocks[i].style.fontSize = fontSize - 1 + "px";
+  //     noteHeight = noteBlocks[i].offsetHeight;
+  //     // safety valve
+  //     j += 1;
+  //     if (j > 5) {
+  //       break;
+  //     }
+  //   }
+  // }
 
-  // Innate Power Levels
-  const description = board.getElementsByClassName("description");
-  const thresholds = Array.from(board.getElementsByTagName("threshold"));
-  const levels = board.getElementsByTagName("level");
+  // // Innate Power Levels
+  // const description = board.getElementsByClassName("description");
+  // const thresholds = Array.from(board.getElementsByTagName("threshold"));
+  // const levels = board.getElementsByTagName("level");
 
-  let outerThresholdWidth = thresholds.map(
-    (threshold) =>
-      threshold.clientWidth +
-      parseFloat(
-        window.getComputedStyle(threshold).getPropertyValue("margin-right").replace(/px/, "")
-      )
-  );
+  // let outerThresholdWidth = thresholds.map(
+  //   (threshold) =>
+  //     threshold.clientWidth +
+  //     parseFloat(
+  //       window.getComputedStyle(threshold).getPropertyValue("margin-right").replace(/px/, "")
+  //     )
+  // );
 
-  thresholds.forEach((threshold, i) => {
-    thresholds[i].style.width =
-      Math.ceil(
-        parseFloat(window.getComputedStyle(threshold).getPropertyValue("width").replace(/px/, ""))
-      ) + "px";
-  });
+  // thresholds.forEach((threshold, i) => {
+  //   thresholds[i].style.width =
+  //     Math.ceil(
+  //       parseFloat(window.getComputedStyle(threshold).getPropertyValue("width").replace(/px/, ""))
+  //     ) + "px";
+  // });
 
-  for (let i = 0; i < description.length; i++) {
-    // Scale the text width to the threshold size...
-    description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
-    // description[i].style.position = "relative";
-    const textHeight = description[i].clientHeight;
-    if (textHeight < 40) {
-      description[i].classList.add("single-line");
-      // Align-middle the text if its a single line
-    } else if (textHeight > 86) {
-      // Wrap description below the threshold if its greater than three lines
-      description[i].style.paddingLeft = "0px"; // delete this if nothing seems broken
-      description[i].classList.add("description-wrap");
-      thresholds[i].classList.add("description-wrap");
-      levels[i].classList.add("description-wrap");
-    }
-  }
+  // for (let i = 0; i < description.length; i++) {
+  //   // Scale the text width to the threshold size...
+  //   description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
+  //   // description[i].style.position = "relative";
+  //   const textHeight = description[i].clientHeight;
+  //   if (textHeight < 40) {
+  //     description[i].classList.add("single-line");
+  //     // Align-middle the text if its a single line
+  //   } else if (textHeight > 86) {
+  //     // Wrap description below the threshold if its greater than three lines
+  //     description[i].style.paddingLeft = "0px"; // delete this if nothing seems broken
+  //     description[i].classList.add("description-wrap");
+  //     thresholds[i].classList.add("description-wrap");
+  //     levels[i].classList.add("description-wrap");
+  //   }
+  // }
 
   console.log("RESIZING: Presence Tracks");
   //Load tracks
@@ -3057,21 +3059,11 @@ function dynamicResizing() {
   // First give left innate more horizontal room
   if (checkOverflowHeight(innatePowerBox)) {
     console.log("  > Innate Power 1 overflowing, giving more room to IP1");
-    // let levels = Array.from(innatePowers[0].getElementsByTagName("level"));
-    // levels.forEach((level) => {
-    //   // level.style.width = "507px";
-    //   level.classList.add("ip1-wide");
-    // });
     innatePowers[0].classList.add("ip1-wide");
   }
   // Then tighten up the power levels
   if (checkOverflowHeight(innatePowerBox)) {
     console.log("  > Innate Powers overflowing, shrinking space between levels");
-    // let levels = Array.from(board.getElementsByTagName("level"));
-    // levels.forEach((level) => {
-    //   // level.style.marginBottom = "2px";
-    //   level.classList.add("tight-margin");
-    // });
     innatePowerBoxCheck.classList.add("tight-levels");
   }
   // Then tighten up the power level font spacing
@@ -3152,6 +3144,64 @@ function getGrowthActionIconWidth(growthCell) {
   let growthChildren = Array.from(growthCell.children);
   let rect = growthChildren[0].getBoundingClientRect();
   return rect.width;
+}
+
+function innatePowerSizing(board) {
+  console.log("RESIZING: Innate Powers (from board_front.js)");
+  // Innate Power Notes (scale font size)
+  const noteBlocks = board.getElementsByTagName("note");
+  for (let i = 0; i < noteBlocks.length; i++) {
+    let noteHeight = noteBlocks[i].offsetHeight;
+    let j = 0;
+    while (noteHeight > 92) {
+      const style = window.getComputedStyle(noteBlocks[i], null).getPropertyValue("font-size");
+      const fontSize = parseFloat(style);
+      noteBlocks[i].style.fontSize = fontSize - 1 + "px";
+      noteHeight = noteBlocks[i].offsetHeight;
+      // safety valve
+      j += 1;
+      if (j > 5) {
+        break;
+      }
+    }
+  }
+
+  // Innate Power Levels
+  const description = board.getElementsByClassName("description");
+  const thresholds = Array.from(board.getElementsByTagName("threshold"));
+  const levels = board.getElementsByTagName("level");
+
+  let outerThresholdWidth = thresholds.map(
+    (threshold) =>
+      threshold.clientWidth +
+      parseFloat(
+        window.getComputedStyle(threshold).getPropertyValue("margin-right").replace(/px/, "")
+      )
+  );
+
+  thresholds.forEach((threshold, i) => {
+    thresholds[i].style.width =
+      Math.ceil(
+        parseFloat(window.getComputedStyle(threshold).getPropertyValue("width").replace(/px/, ""))
+      ) + "px";
+  });
+
+  for (let i = 0; i < description.length; i++) {
+    // Scale the text width to the threshold size...
+    description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
+    // description[i].style.position = "relative";
+    const textHeight = description[i].clientHeight;
+    if (textHeight < 40) {
+      description[i].classList.add("single-line");
+      // Align-middle the text if its a single line
+    } else if (textHeight > 86) {
+      // Wrap description below the threshold if its greater than three lines
+      description[i].style.paddingLeft = "0px"; // delete this if nothing seems broken
+      description[i].classList.add("description-wrap");
+      thresholds[i].classList.add("description-wrap");
+      levels[i].classList.add("description-wrap");
+    }
+  }
 }
 
 function balanceText(el) {
@@ -3320,7 +3370,8 @@ function parseInnatePowers() {
     "</innate-power-container>";
 }
 
-function parseInnatePower(innatePowerHTML, index) {
+function parseInnatePower(innatePowerHTML, index = 0) {
+  console.log("Parsing IP in boardfront.js");
   const innatePowerID = "ip" + index;
   let currentPowerHTML =
     "<innate-power id='" +
