@@ -331,6 +331,7 @@
     >Bonus Presence Node
   </label>
   {#if aspect.aspectEffects.bonusNode.has}
+    <div class="mb-1 p-1 note">Note: will only show in 'landscape' layout.</div>
     <div class="field is-flex is-small mb-0">
       <label class="label incarna-label mr-1" for={`bonusNodeEffect`}>Effect: </label>
       <div class="control">
