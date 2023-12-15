@@ -67,6 +67,7 @@ function parseAspectBack(back) {
 function parseBonusNodes(aspect) {
   let bonusNode = aspect.querySelector("bonus-node");
   if (bonusNode) {
+    aspect.classList.add("has-bonus-node");
     let nodeText = bonusNode.getAttribute("effect");
     let bonusNodeHTML = getPresenceNodeHtml(nodeText, true, 0, "card", false);
     bonusNode.innerHTML = bonusNodeHTML;
