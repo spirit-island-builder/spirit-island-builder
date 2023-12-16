@@ -2738,11 +2738,15 @@ function dynamicResizing() {
     console.log(growthPanelWidth);
     // if (totalCellWidth > growthPanelWidth || i === 0) {
     if (i < growthTables.length - 1 || i === 0 || starlight) {
-      console.log("setting widths");
-      console.log(growthPanelWidth);
-      console.log(totalAdjustedIconWidth);
+      if (debug) {
+        console.log("setting widths");
+        console.log(growthPanelWidth);
+        console.log(totalAdjustedIconWidth);
+      }
       for (let j = 0; j < growthCells.length; j++) {
-        console.log(adjustedGrowthWidths[j]);
+        if (debug) {
+          console.log(adjustedGrowthWidths[j]);
+        }
         growthCells[j].style.width =
           adjustedGrowthWidths[j] * (growthPanelWidth / totalAdjustedIconWidth) + "px";
       }
@@ -2906,7 +2910,7 @@ function dynamicResizing() {
 
   // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
   let currentTrack;
-  debug = false;
+  debug = true;
   // let last_node_adjusted = false;
   if (tightFlag) {
     console.log("  Flag: tightening presence tracks");
@@ -3205,13 +3209,13 @@ function innatePowerSizing(board) {
 }
 
 function balanceText(el) {
-  let debug = false;
+  let debug = true;
   if (debug) {
     console.log("Balancing Text: " + el.textContent);
   }
   const initialHeight = el.offsetHeight;
-  if (initialHeight > 20) {
-    // No action needed for 1 liners (19px)
+  if (initialHeight > 23) {
+    // No action needed for 1 liners (~19px growth, ~22px presence)
     let currentHeight = initialHeight;
     let j = 0;
     let k = Math.trunc(el.offsetWidth);
