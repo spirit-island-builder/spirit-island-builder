@@ -299,22 +299,22 @@
     }
 
     //Custom Icons
-    if (aspect.demoBoardWasLoaded) {
-      const aspectStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (aspectStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = aspectStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
+    // if (aspect.demoBoardWasLoaded) {
+    const aspectStyle = htmlElement.querySelectorAll("style")[0];
+    customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+    if (aspectStyle) {
+      const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+      let iconList = aspectStyle.textContent.match(regExp);
+      if (iconList) {
+        iconList.forEach((customIcon) => {
+          customIcons = Lib.addCustomIcon(customIcons, customIcon);
+          console.log(customIcon);
+        });
       }
-    } else {
-      console.log("SKIPPING ICON LOAD");
     }
+    // } else {
+    //   console.log("SKIPPING ICON LOAD");
+    // }
 
     console.log("aspect loaded");
     console.log(aspect);
