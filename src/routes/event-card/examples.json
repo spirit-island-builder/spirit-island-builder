@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Events",
+    "examples": [
+      {
+        "name": "Cultural Assimilation - Terror Level",
+        "url": "/template/MyCustomContent/MyEvent/CulturalAssimilation.html"
+      },
+      {
+        "name": "Years of Little Rain - Choice",
+        "url": "/template/MyCustomContent/MyEvent/Years_Of_Little_Rain(choice).html"
+      },
+      {
+        "name": "Thriving Trade - Blight",
+        "url": "/template/MyCustomContent/MyEvent/ThrivingTrade(healthy_blighted).html"
+      },
+      {
+        "name": "Interesting Discoveries - Invader Stage",
+        "url": "/template/MyCustomContent/MyEvent/InterestingDiscoveries(Stage1+23).html"
+      }
+    ]
+  }
+]

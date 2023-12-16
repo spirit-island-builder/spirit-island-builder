@@ -581,5 +581,13 @@ binder {
 
 icon-count {
   display: inline-block;
+  margin-right: 4px;
+}
+
+binder icon:first-child {
   margin-right: 2px;
+}
+
+binder icon:last-child {
+  margin-left: 2px;
 }
