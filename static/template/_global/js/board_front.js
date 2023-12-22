@@ -311,6 +311,7 @@ function writeGrowthAction(
     isPresenceNode = true;
     growthAction = matches;
     growthActionType = growthAction.split("(")[0].split("^")[0];
+    console.log(growthAction);
   }
 
   // Establish Growth HTML Openers and Closers
@@ -319,16 +320,19 @@ function writeGrowthAction(
   let growthTextClose = "</growth-text></growth-cell>";
   let growthIcons = "";
   let growthText = "";
+  let growthWasDefault;
 
   // Get the Text and Icons for the Growth Action
   let actionIconsAndText = getGrowthActionTextAndIcons(growthAction);
   growthIcons = actionIconsAndText[0];
   growthText = actionIconsAndText[1];
+  growthWasDefault = actionIconsAndText[2];
   for (let a = 1; a < numActions; a++) {
     // For an 'or' growth, loop through the additional actions
     actionIconsAndText = getGrowthActionTextAndIcons(orGrowthActions[a]);
     growthText += " or " + actionIconsAndText[1];
     growthIcons += "or" + actionIconsAndText[0];
+    growthWasDefault = 0;
   }
 
   //Handle Presence Node
@@ -340,8 +344,24 @@ function writeGrowthAction(
         growthIcons +
         "</ring-icon></presence-node>";
     } else {
-      growthIcons =
-        '<presence-node class="growth"><ring-icon>' + growthIcons + "</ring-icon></presence-node>";
+      if (growthWasDefault) {
+        // Assume user wants Presence Node options
+        console.log(growthIcons);
+        console.log(growthAction);
+        let nodeHTML = getPresenceNodeHtml(growthAction, false, 0, "card", false);
+        let wrapper = document.createElement("div");
+        wrapper.innerHTML = nodeHTML;
+        let div = wrapper.firstChild;
+        div.classList.add("growth");
+        growthIcons = div.outerHTML;
+        growthText = "";
+      } else {
+        growthIcons =
+          '<presence-node class="growth"><ring-icon>' +
+          growthIcons +
+          "</ring-icon></presence-node>";
+        console.log("node in growth with: " + growthIcons);
+      }
     }
     isPresenceNode = false;
   }
@@ -389,6 +409,7 @@ function getGrowthActionTextAndIcons(growthAction) {
   }
 
   let growthIcons, growthText;
+  let isDefault = 0;
   switch (growthActionType) {
     // Simple growth items are handled in the 'Default' case. See function IconName.
     // Only growth items with options are handled here.
@@ -1431,6 +1452,7 @@ function getGrowthActionTextAndIcons(growthAction) {
     default: {
       growthIcons = "{" + growthActionType + "}";
       growthText = IconName(growthActionType);
+      isDefault = 1;
     }
   }
 
@@ -1440,7 +1462,7 @@ function getGrowthActionTextAndIcons(growthAction) {
     growthText = repeatText + growthText;
   }
 
-  return [growthIcons, growthText];
+  return [growthIcons, growthText, isDefault];
 }
 
 function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
@@ -1676,7 +1698,7 @@ function enhancePresenceTracksTable() {
 function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRing) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
-  let pnDebug = false;
+  let pnDebug = true;
   let nodeClass = "";
 
   // Every node will have a presence-node element with
