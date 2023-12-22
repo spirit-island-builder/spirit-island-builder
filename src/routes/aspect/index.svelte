@@ -109,7 +109,7 @@
 
     aspect.aspectEffects.specialRules.rules.forEach((rule) => {
       let newRuleName = document.createElement("special-rules-subtitle");
-      newRuleName.textContent = rule.name;
+      newRuleName.innerHTML = rule.name;
       let newRuleEffect = document.createElement("special-rule");
       newRuleEffect.innerHTML = rule.effect;
       aspectRulesContainer.appendChild(newRuleName);
@@ -189,7 +189,6 @@
     const aspectReplacementsHTML = aspectHTML.querySelectorAll("aspect-subtext");
     if (aspectReplacementsHTML) {
       aspectReplacementsHTML.forEach((replacement) => {
-        console.log(replacement);
         aspect.nameReplacements.replacements.push({
           id: aspect.nameReplacements.replacements.length,
           aspectRelacement: replacement.innerHTML.split(":")[0],
@@ -283,7 +282,7 @@
             aspect.aspectEffects,
             k,
             htmlLevel.getAttribute("threshold"),
-            htmlLevel.textContent.trim(),
+            htmlLevel.innerHTML.trim(),
             htmlLevel.hasAttribute("long")
           );
         });
@@ -308,16 +307,12 @@
       if (iconList) {
         iconList.forEach((customIcon) => {
           customIcons = Lib.addCustomIcon(customIcons, customIcon);
-          console.log(customIcon);
         });
       }
     }
     // } else {
     //   console.log("SKIPPING ICON LOAD");
     // }
-
-    console.log("aspect loaded");
-    console.log(aspect);
   }
 
   function exportAspect() {

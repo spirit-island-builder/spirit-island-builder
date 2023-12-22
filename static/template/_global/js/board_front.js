@@ -186,7 +186,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
 
   console.log("--Growth Group s" + setIndex + "g" + groupIndex + "--");
   if (debug) {
-    console.log("growthGroup: " + growthGroup.outerHTML);
+    console.log("growthGroup: " + growthGroup.getAttribute("values"));
   }
 
   let growthGroupHTML = "";
@@ -251,7 +251,6 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   }
 
   const growthActions = growthGroup.getAttribute("values").split(";");
-  console.log(growthActions);
 
   let nextGrowthAction;
   for (let j = 0; j < growthActions.length; j++) {
@@ -1677,7 +1676,7 @@ function enhancePresenceTracksTable() {
 function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRing) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
-  let pnDebug = true;
+  let pnDebug = false;
   let nodeClass = "";
 
   // Every node will have a presence-node element with
@@ -2496,8 +2495,10 @@ function dynamicResizing() {
 
   //Custom growth new line breaks
   let growthTable = board.getElementsByTagName("growth-table")[0];
-  console.log("growth table before resizing");
-  console.log(growthTable);
+  if (debug) {
+    console.log("growth table before resizing");
+    console.log(growthTable);
+  }
   let growthGroups = growthSection.getElementsByTagName("growth-group");
   let currTable = growthTable;
   let customNewTablesFlag = false;
@@ -2732,10 +2733,11 @@ function dynamicResizing() {
     const averageWidth = totalCellWidth / growthCells.length;
     if (debug) {
       console.log("aveage width = " + averageWidth);
+      console.log("total cell width = " + totalCellWidth);
+      console.log("growth panel width = " + growthPanelWidth);
     }
     // if (totalCellWidth > 1000 || i === 0) {
-    console.log(totalCellWidth);
-    console.log(growthPanelWidth);
+
     // if (totalCellWidth > growthPanelWidth || i === 0) {
     if (i < growthTables.length - 1 || i === 0 || starlight) {
       if (debug) {
@@ -2814,62 +2816,9 @@ function dynamicResizing() {
 
   // Innate Power Sizing
   console.log("RESIZING: Innate Powers");
-  innatePowerSizing(board);
-  // // Innate Power Notes (scale font size)
-  // const noteBlocks = board.getElementsByTagName("note");
-  // for (let i = 0; i < noteBlocks.length; i++) {
-  //   let noteHeight = noteBlocks[i].offsetHeight;
-  //   let j = 0;
-  //   while (noteHeight > 92) {
-  //     const style = window.getComputedStyle(noteBlocks[i], null).getPropertyValue("font-size");
-  //     const fontSize = parseFloat(style);
-  //     noteBlocks[i].style.fontSize = fontSize - 1 + "px";
-  //     noteHeight = noteBlocks[i].offsetHeight;
-  //     // safety valve
-  //     j += 1;
-  //     if (j > 5) {
-  //       break;
-  //     }
-  //   }
-  // }
+  innatePowerSizing(board); //Moved to its own function
 
-  // // Innate Power Levels
-  // const description = board.getElementsByClassName("description");
-  // const thresholds = Array.from(board.getElementsByTagName("threshold"));
-  // const levels = board.getElementsByTagName("level");
-
-  // let outerThresholdWidth = thresholds.map(
-  //   (threshold) =>
-  //     threshold.clientWidth +
-  //     parseFloat(
-  //       window.getComputedStyle(threshold).getPropertyValue("margin-right").replace(/px/, "")
-  //     )
-  // );
-
-  // thresholds.forEach((threshold, i) => {
-  //   thresholds[i].style.width =
-  //     Math.ceil(
-  //       parseFloat(window.getComputedStyle(threshold).getPropertyValue("width").replace(/px/, ""))
-  //     ) + "px";
-  // });
-
-  // for (let i = 0; i < description.length; i++) {
-  //   // Scale the text width to the threshold size...
-  //   description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
-  //   // description[i].style.position = "relative";
-  //   const textHeight = description[i].clientHeight;
-  //   if (textHeight < 40) {
-  //     description[i].classList.add("single-line");
-  //     // Align-middle the text if its a single line
-  //   } else if (textHeight > 86) {
-  //     // Wrap description below the threshold if its greater than three lines
-  //     description[i].style.paddingLeft = "0px"; // delete this if nothing seems broken
-  //     description[i].classList.add("description-wrap");
-  //     thresholds[i].classList.add("description-wrap");
-  //     levels[i].classList.add("description-wrap");
-  //   }
-  // }
-
+  // Presence Track Sizing
   console.log("RESIZING: Presence Tracks");
   //Load tracks
   const presenceTrack = board.getElementsByTagName("presence-tracks")[0];
@@ -2877,7 +2826,6 @@ function dynamicResizing() {
   const playsTrack = board.getElementsByClassName("plays-track")[0];
   //Load board ojects
   const growth = board.getElementsByTagName("growth")[0];
-  // const right = board.getElementsByTagName("right")[0];
 
   //Check horizontal overflow
   if (checkOverflowWidth(presenceTrack, 0)) {
@@ -2885,14 +2833,18 @@ function dynamicResizing() {
     spacers.forEach((spacer) => {
       spacer.classList.add("tight");
     });
-    console.log("> compressing Tracks horizontally; smaller initial spacer");
+    if (debug) {
+      console.log("> Compressing horizontally; smaller initial spacer");
+    }
   }
   if (checkOverflowWidth(presenceTrack, 20)) {
     let tdNodes = Array.from(presenceTrack.getElementsByTagName("td"));
     tdNodes.forEach((tdNode) => {
       tdNode.classList.add("tight");
     });
-    console.log("> compressing Tracks horizontally; less space between nodes");
+    if (debug) {
+      console.log("> Compressing horizontally; less space between nodes");
+    }
   }
 
   //Update Presence Track banners
@@ -2910,7 +2862,7 @@ function dynamicResizing() {
 
   // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
   let currentTrack;
-  debug = true;
+  debug = false;
   // let last_node_adjusted = false;
   if (tightFlag) {
     console.log("  Flag: tightening presence tracks");
@@ -2955,7 +2907,6 @@ function dynamicResizing() {
       }
       if (i > 0) {
         if (text.offsetHeight > 50) {
-          // subtext.classList.add("adjust-subtext");
           let leftTextLocation = subtextArray[i - 1].getBoundingClientRect();
           let curTextLocation = text.getBoundingClientRect();
           let rightTextLocation;
@@ -2996,32 +2947,6 @@ function dynamicResizing() {
       console.log("textHeightsArray");
       console.log(textHeightsArray);
     }
-
-    // for (let i = 0; i < subtext.length; i++) {
-    //   let textHeight = subtext[i].offsetHeight;
-    //   if (track_tds[1].classList.contains("middle")) {
-    //     // Only read/apply to non-middle nodes
-    //     textHeight = 0;
-    //     last_node_adjusted = false;
-    //   } else if (textHeight > 55) {
-    //     // Only adjust if its >2 lines (~50px is 2 lines)
-    //     if (!last_node_adjusted) {
-    //       subtext[i].classList.add("adjust-subtext");
-    //       textHeight = subtext[i].offsetHeight;
-    //       last_node_adjusted = true;
-    //       console.log("adjusting node text: " + subtext[i].innerHTML);
-    //     } else {
-    //       console.log(
-    //         "rejected text adjstment for: " +
-    //           subtext[i].innerHTML +
-    //           " :Reason: neighbor already adjusted: "
-    //       );
-    //       last_node_adjusted = false;
-    //     }
-    //   } else {
-    //     last_node_adjusted = false;
-    //   }
-    // }
   }
 
   // Adjust table
@@ -3062,31 +2987,41 @@ function dynamicResizing() {
 
   // First give left innate more horizontal room
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log("  > Innate Power 1 overflowing, giving more room to IP1");
+    if (debug) {
+      console.log("  > Innate Power 1 overflowing, giving more room to IP1");
+    }
     innatePowers[0].classList.add("ip1-wide");
   }
   // Then tighten up the power levels
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log("  > Innate Powers overflowing, shrinking space between levels");
+    if (debug) {
+      console.log("  > Innate Powers overflowing, shrinking space between levels");
+    }
     innatePowerBoxCheck.classList.add("tight-levels");
   }
   // Then tighten up the power level font spacing
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log("  > Innate Powers overflowing, shrinking level description line height");
+    if (debug) {
+      console.log("  > Innate Powers overflowing, shrinking level description line height");
+    }
     let descriptions = Array.from(board.getElementsByClassName("description"));
     descriptions.forEach((description) => {
       description.style.lineHeight = "1";
     });
   }
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log("Innate Powers overflowing, shrinking notes (if applicable)...");
+    if (debug) {
+      console.log("Innate Powers overflowing, shrinking notes (if applicable)...");
+    }
 
     // First, check if its just one IP, and if so, move its note to the side (see Ember-Eyed)
     if (innatePowers.length === 1) {
       const note = innatePowers[0].getElementsByTagName("note")[0];
       if (note) {
         note.classList.add("single-squish");
-        console.log("Single power note detected. Moving note to side.");
+        if (debug) {
+          console.log("Single power note detected. Moving note to side.");
+        }
         moveFlag = true;
       }
     }
@@ -3100,12 +3035,16 @@ function dynamicResizing() {
         tallest_index = i;
       }
     }
-    console.log("tallest is Innate Power: " + (tallest_index + 1));
+    if (debug) {
+      console.log("tallest is Innate Power: " + (tallest_index + 1));
+    }
 
     //check for note in tallest innate power
     const noteBox = descriptionContainers[tallest_index].getElementsByTagName("note")[0];
     if (noteBox && !moveFlag) {
-      console.log("notebox detected, attempting to shrink");
+      if (debug) {
+        console.log("notebox detected, attempting to shrink");
+      }
       while (checkOverflowHeight(innatePowerBox)) {
         const style = window.getComputedStyle(noteBox, null).getPropertyValue("font-size");
         const fontSize = parseFloat(style);
@@ -3209,7 +3148,7 @@ function innatePowerSizing(board) {
 }
 
 function balanceText(el) {
-  let debug = true;
+  let debug = false;
   if (debug) {
     console.log("Balancing Text: " + el.textContent);
   }
@@ -3375,7 +3314,10 @@ function parseInnatePowers() {
 }
 
 function parseInnatePower(innatePowerHTML, index = 0) {
-  console.log("Parsing IP in boardfront.js");
+  let debug = false;
+  if (debug) {
+    console.log("Parsing Innate Power in boardfront.js");
+  }
   const innatePowerID = "ip" + index;
   let currentPowerHTML =
     "<innate-power id='" +
