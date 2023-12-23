@@ -402,7 +402,7 @@ rules-container {
 
 rules {
   flex-grow: 1;
-
+  width: 100%;
   box-sizing: border-box;
   padding-top: 6px;
   padding-left: 15px;
@@ -416,6 +416,10 @@ rules {
 rules:last-child {
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 2px;
+}
+
+rules > div {
+  width: 100%;
 }
 
 threshold {
