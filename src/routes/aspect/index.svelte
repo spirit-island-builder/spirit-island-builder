@@ -109,7 +109,7 @@
 
     aspect.aspectEffects.specialRules.rules.forEach((rule) => {
       let newRuleName = document.createElement("special-rules-subtitle");
-      newRuleName.textContent = rule.name;
+      newRuleName.innerHTML = rule.name;
       let newRuleEffect = document.createElement("special-rule");
       newRuleEffect.innerHTML = rule.effect;
       aspectRulesContainer.appendChild(newRuleName);
@@ -148,6 +148,13 @@
       aspectRulesContainer.appendChild(newInnatePower);
     });
 
+    //Set Bonus Node
+    if (aspect.aspectEffects.bonusNode.has) {
+      let bonusNode = document.createElement("bonus-node");
+      bonusNode.setAttribute("effect", aspect.aspectEffects.bonusNode.effect);
+      aspectRulesContainer.appendChild(bonusNode);
+    }
+
     //Set Custom Icons
     const spiritStyle = document.createElement("style");
     fragment.prepend(spiritStyle);
@@ -182,7 +189,6 @@
     const aspectReplacementsHTML = aspectHTML.querySelectorAll("aspect-subtext");
     if (aspectReplacementsHTML) {
       aspectReplacementsHTML.forEach((replacement) => {
-        console.log(replacement);
         aspect.nameReplacements.replacements.push({
           id: aspect.nameReplacements.replacements.length,
           aspectRelacement: replacement.innerHTML.split(":")[0],
@@ -276,33 +282,37 @@
             aspect.aspectEffects,
             k,
             htmlLevel.getAttribute("threshold"),
-            htmlLevel.textContent.trim(),
+            htmlLevel.innerHTML.trim(),
             htmlLevel.hasAttribute("long")
           );
         });
       });
     }
 
-    //Custom Icons
-    if (aspect.demoBoardWasLoaded) {
-      const aspectStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (aspectStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = aspectStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
-      }
-    } else {
-      console.log("SKIPPING ICON LOAD");
+    //Read Bonus Nodes
+    let bonusNode = htmlElement.querySelectorAll("bonus-node")[0];
+    aspect.aspectEffects.bonusNode.has = false;
+    if (bonusNode) {
+      aspect.aspectEffects.bonusNode.has = true;
+      aspect.aspectEffects.bonusNode.effect = bonusNode.getAttribute("effect");
     }
 
-    console.log("aspect loaded");
-    console.log(aspect);
+    //Custom Icons
+    // if (aspect.demoBoardWasLoaded) {
+    const aspectStyle = htmlElement.querySelectorAll("style")[0];
+    customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+    if (aspectStyle) {
+      const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+      let iconList = aspectStyle.textContent.match(regExp);
+      if (iconList) {
+        iconList.forEach((customIcon) => {
+          customIcons = Lib.addCustomIcon(customIcons, customIcon);
+        });
+      }
+    }
+    // } else {
+    //   console.log("SKIPPING ICON LOAD");
+    // }
   }
 
   function exportAspect() {

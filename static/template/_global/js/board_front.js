@@ -186,7 +186,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
 
   console.log("--Growth Group s" + setIndex + "g" + groupIndex + "--");
   if (debug) {
-    console.log("growthGroup: " + growthGroup.outerHTML);
+    console.log("growthGroup: " + growthGroup.getAttribute("values"));
   }
 
   let growthGroupHTML = "";
@@ -251,7 +251,6 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   }
 
   const growthActions = growthGroup.getAttribute("values").split(";");
-  console.log(growthActions);
 
   let nextGrowthAction;
   for (let j = 0; j < growthActions.length; j++) {
@@ -312,6 +311,7 @@ function writeGrowthAction(
     isPresenceNode = true;
     growthAction = matches;
     growthActionType = growthAction.split("(")[0].split("^")[0];
+    console.log(growthAction);
   }
 
   // Establish Growth HTML Openers and Closers
@@ -320,16 +320,19 @@ function writeGrowthAction(
   let growthTextClose = "</growth-text></growth-cell>";
   let growthIcons = "";
   let growthText = "";
+  let growthWasDefault;
 
   // Get the Text and Icons for the Growth Action
   let actionIconsAndText = getGrowthActionTextAndIcons(growthAction);
   growthIcons = actionIconsAndText[0];
   growthText = actionIconsAndText[1];
+  growthWasDefault = actionIconsAndText[2];
   for (let a = 1; a < numActions; a++) {
     // For an 'or' growth, loop through the additional actions
     actionIconsAndText = getGrowthActionTextAndIcons(orGrowthActions[a]);
     growthText += " or " + actionIconsAndText[1];
     growthIcons += "or" + actionIconsAndText[0];
+    growthWasDefault = 0;
   }
 
   //Handle Presence Node
@@ -341,8 +344,24 @@ function writeGrowthAction(
         growthIcons +
         "</ring-icon></presence-node>";
     } else {
-      growthIcons =
-        '<presence-node class="growth"><ring-icon>' + growthIcons + "</ring-icon></presence-node>";
+      if (growthWasDefault) {
+        // Assume user wants Presence Node options
+        console.log(growthIcons);
+        console.log(growthAction);
+        let nodeHTML = getPresenceNodeHtml(growthAction, false, 0, "card", false);
+        let wrapper = document.createElement("div");
+        wrapper.innerHTML = nodeHTML;
+        let div = wrapper.firstChild;
+        div.classList.add("growth");
+        growthIcons = div.outerHTML;
+        growthText = "";
+      } else {
+        growthIcons =
+          '<presence-node class="growth"><ring-icon>' +
+          growthIcons +
+          "</ring-icon></presence-node>";
+        console.log("node in growth with: " + growthIcons);
+      }
     }
     isPresenceNode = false;
   }
@@ -390,6 +409,7 @@ function getGrowthActionTextAndIcons(growthAction) {
   }
 
   let growthIcons, growthText;
+  let isDefault = 0;
   switch (growthActionType) {
     // Simple growth items are handled in the 'Default' case. See function IconName.
     // Only growth items with options are handled here.
@@ -1432,6 +1452,7 @@ function getGrowthActionTextAndIcons(growthAction) {
     default: {
       growthIcons = "{" + growthActionType + "}";
       growthText = IconName(growthActionType);
+      isDefault = 1;
     }
   }
 
@@ -1441,7 +1462,7 @@ function getGrowthActionTextAndIcons(growthAction) {
     growthText = repeatText + growthText;
   }
 
-  return [growthIcons, growthText];
+  return [growthIcons, growthText, isDefault];
 }
 
 function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
@@ -1677,7 +1698,7 @@ function enhancePresenceTracksTable() {
 function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRing) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
-  let pnDebug = false;
+  let pnDebug = true;
   let nodeClass = "";
 
   // Every node will have a presence-node element with
@@ -2496,8 +2517,10 @@ function dynamicResizing() {
 
   //Custom growth new line breaks
   let growthTable = board.getElementsByTagName("growth-table")[0];
-  console.log("growth table before resizing");
-  console.log(growthTable);
+  if (debug) {
+    console.log("growth table before resizing");
+    console.log(growthTable);
+  }
   let growthGroups = growthSection.getElementsByTagName("growth-group");
   let currTable = growthTable;
   let customNewTablesFlag = false;
@@ -2732,17 +2755,22 @@ function dynamicResizing() {
     const averageWidth = totalCellWidth / growthCells.length;
     if (debug) {
       console.log("aveage width = " + averageWidth);
+      console.log("total cell width = " + totalCellWidth);
+      console.log("growth panel width = " + growthPanelWidth);
     }
     // if (totalCellWidth > 1000 || i === 0) {
-    console.log(totalCellWidth);
-    console.log(growthPanelWidth);
+
     // if (totalCellWidth > growthPanelWidth || i === 0) {
     if (i < growthTables.length - 1 || i === 0 || starlight) {
-      console.log("setting widths");
-      console.log(growthPanelWidth);
-      console.log(totalAdjustedIconWidth);
+      if (debug) {
+        console.log("setting widths");
+        console.log(growthPanelWidth);
+        console.log(totalAdjustedIconWidth);
+      }
       for (let j = 0; j < growthCells.length; j++) {
-        console.log(adjustedGrowthWidths[j]);
+        if (debug) {
+          console.log(adjustedGrowthWidths[j]);
+        }
         growthCells[j].style.width =
           adjustedGrowthWidths[j] * (growthPanelWidth / totalAdjustedIconWidth) + "px";
       }
@@ -2778,6 +2806,7 @@ function dynamicResizing() {
     }
   }
 
+  // Adjust headers and titles
   growthHeadersAndTitles();
 
   // Handle Tint (corners)
@@ -2809,61 +2838,9 @@ function dynamicResizing() {
 
   // Innate Power Sizing
   console.log("RESIZING: Innate Powers");
-  // Innate Power Notes (scale font size)
-  const noteBlocks = board.getElementsByTagName("note");
-  for (let i = 0; i < noteBlocks.length; i++) {
-    let noteHeight = noteBlocks[i].offsetHeight;
-    let j = 0;
-    while (noteHeight > 92) {
-      const style = window.getComputedStyle(noteBlocks[i], null).getPropertyValue("font-size");
-      const fontSize = parseFloat(style);
-      noteBlocks[i].style.fontSize = fontSize - 1 + "px";
-      noteHeight = noteBlocks[i].offsetHeight;
-      // safety valve
-      j += 1;
-      if (j > 5) {
-        break;
-      }
-    }
-  }
+  innatePowerSizing(board); //Moved to its own function
 
-  // Innate Power Levels
-  const description = board.getElementsByClassName("description");
-  const thresholds = Array.from(board.getElementsByTagName("threshold"));
-  const levels = board.getElementsByTagName("level");
-
-  let outerThresholdWidth = thresholds.map(
-    (threshold) =>
-      threshold.clientWidth +
-      parseFloat(
-        window.getComputedStyle(threshold).getPropertyValue("margin-right").replace(/px/, "")
-      )
-  );
-
-  thresholds.forEach((threshold, i) => {
-    thresholds[i].style.width =
-      Math.ceil(
-        parseFloat(window.getComputedStyle(threshold).getPropertyValue("width").replace(/px/, ""))
-      ) + "px";
-  });
-
-  for (let i = 0; i < description.length; i++) {
-    // Scale the text width to the threshold size...
-    description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
-    // description[i].style.position = "relative";
-    const textHeight = description[i].clientHeight;
-    if (textHeight < 40) {
-      description[i].classList.add("single-line");
-      // Align-middle the text if its a single line
-    } else if (textHeight > 86) {
-      // Wrap description below the threshold if its greater than three lines
-      description[i].style.paddingLeft = "0px"; // delete this if nothing seems broken
-      description[i].classList.add("description-wrap");
-      thresholds[i].classList.add("description-wrap");
-      levels[i].classList.add("description-wrap");
-    }
-  }
-
+  // Presence Track Sizing
   console.log("RESIZING: Presence Tracks");
   //Load tracks
   const presenceTrack = board.getElementsByTagName("presence-tracks")[0];
@@ -2871,7 +2848,6 @@ function dynamicResizing() {
   const playsTrack = board.getElementsByClassName("plays-track")[0];
   //Load board ojects
   const growth = board.getElementsByTagName("growth")[0];
-  // const right = board.getElementsByTagName("right")[0];
 
   //Check horizontal overflow
   if (checkOverflowWidth(presenceTrack, 0)) {
@@ -2879,14 +2855,18 @@ function dynamicResizing() {
     spacers.forEach((spacer) => {
       spacer.classList.add("tight");
     });
-    console.log("> compressing Tracks horizontally; smaller initial spacer");
+    if (debug) {
+      console.log("> Compressing horizontally; smaller initial spacer");
+    }
   }
   if (checkOverflowWidth(presenceTrack, 20)) {
     let tdNodes = Array.from(presenceTrack.getElementsByTagName("td"));
     tdNodes.forEach((tdNode) => {
       tdNode.classList.add("tight");
     });
-    console.log("> compressing Tracks horizontally; less space between nodes");
+    if (debug) {
+      console.log("> Compressing horizontally; less space between nodes");
+    }
   }
 
   //Update Presence Track banners
@@ -2949,7 +2929,6 @@ function dynamicResizing() {
       }
       if (i > 0) {
         if (text.offsetHeight > 50) {
-          // subtext.classList.add("adjust-subtext");
           let leftTextLocation = subtextArray[i - 1].getBoundingClientRect();
           let curTextLocation = text.getBoundingClientRect();
           let rightTextLocation;
@@ -2990,32 +2969,6 @@ function dynamicResizing() {
       console.log("textHeightsArray");
       console.log(textHeightsArray);
     }
-
-    // for (let i = 0; i < subtext.length; i++) {
-    //   let textHeight = subtext[i].offsetHeight;
-    //   if (track_tds[1].classList.contains("middle")) {
-    //     // Only read/apply to non-middle nodes
-    //     textHeight = 0;
-    //     last_node_adjusted = false;
-    //   } else if (textHeight > 55) {
-    //     // Only adjust if its >2 lines (~50px is 2 lines)
-    //     if (!last_node_adjusted) {
-    //       subtext[i].classList.add("adjust-subtext");
-    //       textHeight = subtext[i].offsetHeight;
-    //       last_node_adjusted = true;
-    //       console.log("adjusting node text: " + subtext[i].innerHTML);
-    //     } else {
-    //       console.log(
-    //         "rejected text adjstment for: " +
-    //           subtext[i].innerHTML +
-    //           " :Reason: neighbor already adjusted: "
-    //       );
-    //       last_node_adjusted = false;
-    //     }
-    //   } else {
-    //     last_node_adjusted = false;
-    //   }
-    // }
   }
 
   // Adjust table
@@ -3056,41 +3009,41 @@ function dynamicResizing() {
 
   // First give left innate more horizontal room
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log("  > Innate Power 1 overflowing, giving more room to IP1");
-    // let levels = Array.from(innatePowers[0].getElementsByTagName("level"));
-    // levels.forEach((level) => {
-    //   // level.style.width = "507px";
-    //   level.classList.add("ip1-wide");
-    // });
+    if (debug) {
+      console.log("  > Innate Power 1 overflowing, giving more room to IP1");
+    }
     innatePowers[0].classList.add("ip1-wide");
   }
   // Then tighten up the power levels
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log("  > Innate Powers overflowing, shrinking space between levels");
-    // let levels = Array.from(board.getElementsByTagName("level"));
-    // levels.forEach((level) => {
-    //   // level.style.marginBottom = "2px";
-    //   level.classList.add("tight-margin");
-    // });
+    if (debug) {
+      console.log("  > Innate Powers overflowing, shrinking space between levels");
+    }
     innatePowerBoxCheck.classList.add("tight-levels");
   }
   // Then tighten up the power level font spacing
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log("  > Innate Powers overflowing, shrinking level description line height");
+    if (debug) {
+      console.log("  > Innate Powers overflowing, shrinking level description line height");
+    }
     let descriptions = Array.from(board.getElementsByClassName("description"));
     descriptions.forEach((description) => {
       description.style.lineHeight = "1";
     });
   }
   if (checkOverflowHeight(innatePowerBox)) {
-    console.log("Innate Powers overflowing, shrinking notes (if applicable)...");
+    if (debug) {
+      console.log("Innate Powers overflowing, shrinking notes (if applicable)...");
+    }
 
     // First, check if its just one IP, and if so, move its note to the side (see Ember-Eyed)
     if (innatePowers.length === 1) {
       const note = innatePowers[0].getElementsByTagName("note")[0];
       if (note) {
         note.classList.add("single-squish");
-        console.log("Single power note detected. Moving note to side.");
+        if (debug) {
+          console.log("Single power note detected. Moving note to side.");
+        }
         moveFlag = true;
       }
     }
@@ -3104,12 +3057,16 @@ function dynamicResizing() {
         tallest_index = i;
       }
     }
-    console.log("tallest is Innate Power: " + (tallest_index + 1));
+    if (debug) {
+      console.log("tallest is Innate Power: " + (tallest_index + 1));
+    }
 
     //check for note in tallest innate power
     const noteBox = descriptionContainers[tallest_index].getElementsByTagName("note")[0];
     if (noteBox && !moveFlag) {
-      console.log("notebox detected, attempting to shrink");
+      if (debug) {
+        console.log("notebox detected, attempting to shrink");
+      }
       while (checkOverflowHeight(innatePowerBox)) {
         const style = window.getComputedStyle(noteBox, null).getPropertyValue("font-size");
         const fontSize = parseFloat(style);
@@ -3154,14 +3111,72 @@ function getGrowthActionIconWidth(growthCell) {
   return rect.width;
 }
 
+function innatePowerSizing(board) {
+  console.log("RESIZING: Innate Powers (from board_front.js)");
+  // Innate Power Notes (scale font size)
+  const noteBlocks = board.getElementsByTagName("note");
+  for (let i = 0; i < noteBlocks.length; i++) {
+    let noteHeight = noteBlocks[i].offsetHeight;
+    let j = 0;
+    while (noteHeight > 92) {
+      const style = window.getComputedStyle(noteBlocks[i], null).getPropertyValue("font-size");
+      const fontSize = parseFloat(style);
+      noteBlocks[i].style.fontSize = fontSize - 1 + "px";
+      noteHeight = noteBlocks[i].offsetHeight;
+      // safety valve
+      j += 1;
+      if (j > 5) {
+        break;
+      }
+    }
+  }
+
+  // Innate Power Levels
+  const description = board.getElementsByClassName("description");
+  const thresholds = Array.from(board.getElementsByTagName("threshold"));
+  const levels = board.getElementsByTagName("level");
+
+  let outerThresholdWidth = thresholds.map(
+    (threshold) =>
+      threshold.clientWidth +
+      parseFloat(
+        window.getComputedStyle(threshold).getPropertyValue("margin-right").replace(/px/, "")
+      )
+  );
+
+  thresholds.forEach((threshold, i) => {
+    thresholds[i].style.width =
+      Math.ceil(
+        parseFloat(window.getComputedStyle(threshold).getPropertyValue("width").replace(/px/, ""))
+      ) + "px";
+  });
+
+  for (let i = 0; i < description.length; i++) {
+    // Scale the text width to the threshold size...
+    description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
+    // description[i].style.position = "relative";
+    const textHeight = description[i].clientHeight;
+    if (textHeight < 40) {
+      description[i].classList.add("single-line");
+      // Align-middle the text if its a single line
+    } else if (textHeight > 86) {
+      // Wrap description below the threshold if its greater than three lines
+      description[i].style.paddingLeft = "0px"; // delete this if nothing seems broken
+      description[i].classList.add("description-wrap");
+      thresholds[i].classList.add("description-wrap");
+      levels[i].classList.add("description-wrap");
+    }
+  }
+}
+
 function balanceText(el) {
   let debug = false;
   if (debug) {
     console.log("Balancing Text: " + el.textContent);
   }
   const initialHeight = el.offsetHeight;
-  if (initialHeight > 20) {
-    // No action needed for 1 liners (19px)
+  if (initialHeight > 23) {
+    // No action needed for 1 liners (~19px growth, ~22px presence)
     let currentHeight = initialHeight;
     let j = 0;
     let k = Math.trunc(el.offsetWidth);
@@ -3320,7 +3335,11 @@ function parseInnatePowers() {
     "</innate-power-container>";
 }
 
-function parseInnatePower(innatePowerHTML, index) {
+function parseInnatePower(innatePowerHTML, index = 0) {
+  let debug = false;
+  if (debug) {
+    console.log("Parsing Innate Power in boardfront.js");
+  }
   const innatePowerID = "ip" + index;
   let currentPowerHTML =
     "<innate-power id='" +

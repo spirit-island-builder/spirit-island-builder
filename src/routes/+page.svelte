@@ -322,6 +322,10 @@
           },
         ],
       },
+      bonusNode: {
+        has: false,
+        effect: "",
+      },
     },
   };
   let aspect = JSON.parse(JSON.stringify(emptyAspect));
@@ -525,7 +529,7 @@
     ["spiritBoardFront", "Spirit Board Play Side"],
     ["spiritBoardBack", "Spirit Board Lore Side"],
     ["powerCards", "Power Cards"],
-    ["aspect", "Aspect / Special Cards"],
+    ["aspect", "Aspect"],
     ["incarnaToken", "Incarna Token"],
     ["adversary", "Adversary"],
     ["blightCard", "Blight Card"],

@@ -42,7 +42,6 @@ function replaceIcon(html) {
     let elementCount = "";
     let elementCountText = "";
     if (iconNamePieces[1]) {
-      console.log("multi-pieces");
       iconName = iconNamePieces[0];
       elementCount = iconNamePieces[1];
       elementCountText += "<icon-count>" + elementCount + "</icon-count>";

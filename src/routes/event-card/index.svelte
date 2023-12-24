@@ -10,11 +10,10 @@
   // import AspectEffects from "./aspect-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
   import { downloadHTML } from "$lib/download";
+  import Examples from "$lib/example-modal.svelte";
+  import examples from "./examples.json";
 
-  // import examples from "./examples.json";
-  // import Examples from "$lib/example-modal.svelte";
-
-  // let exampleModal;
+  let exampleModal;
 
   export let eventCard;
   export let emptyEventCard;
@@ -29,7 +28,7 @@
     reloadPreview();
   }
 
-  const demoURL = "/template/MyCustomContent/MyEvent/CulturalAssimilation (Terror 1+23).html";
+  const demoURL = "/template/MyCustomContent/MyEvent/CulturalAssimilation.html";
   function onLoad() {
     if (eventCard.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
@@ -169,7 +168,7 @@
   }
 
   function exportEventCard() {
-    const htmlFileName = eventCard.card.cardName.replaceAll(" ", "_") + "_EventCard.html";
+    const htmlFileName = eventCard.card.name.replaceAll(" ", "_") + "_EventCard.html";
     downloadHTML(generateHTML(eventCard), htmlFileName);
   }
 
@@ -186,15 +185,22 @@
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 
+  async function loadExample(example) {
+    await loadHTMLFromURL(example.url);
+    hideAll();
+  }
+
   // async function loadExample(example) {
   //   await loadHTMLFromURL(example.url);
   //   hideAll();
   // }
 
-  // function hideAll() {
-  //   eventCard.card.isVisible = false;
-  //   customIcons.isVisible = false;
-  // }
+  function hideAll() {
+    eventCard.card.isVisible = false;
+    eventCard.subevents.isVisible = false;
+    eventCard.tokenevents.isVisible = false;
+    customIcons.isVisible = false;
+  }
 </script>
 
 <PreviewFrame id="event-card-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
@@ -207,9 +213,9 @@
 </PreviewFrame>
 
 <div class="field has-addons mb-2 is-flex-wrap-wrap">
-  <!-- <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
+  <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
     Examples
-  </button> -->
+  </button>
   <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
     Load
   </LoadButton>
@@ -230,3 +236,4 @@
     <TokeneventType bind:eventCard />
   </div>
 </div>
+<Examples bind:this={exampleModal} {loadExample} title="Load Examples" {examples} />

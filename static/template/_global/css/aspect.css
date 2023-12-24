@@ -2,6 +2,7 @@
 @import "board_front/special-rules.css";
 @import "board_front/innate-power.css";
 @import "board_front/growth-options.css";
+@import "board_front/presence-track-table.css";
 @import "board_front/icon.css";
 
 @font-face {
@@ -353,4 +354,31 @@ aspect-subtext icon.beasts {
 
 aspect-subtext icon.dahan {
   background-image: url("../images/board/aspect-white-icons/50px_dahan_white.png");
+}
+
+aspect.has-bonus-node aspect-container {
+  width: 550px;
+}
+
+aspect bonus-node {
+  display: block;
+  position: absolute;
+  top: 250px;
+  left: 620px;
+}
+
+aspect.profile bonus-node {
+  width: 100%;
+  display: none;
+}
+
+bonus-text {
+  display: block;
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+  font-family: "Name Headings";
+  text-transform: uppercase;
 }

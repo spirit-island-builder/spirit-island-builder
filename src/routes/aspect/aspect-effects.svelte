@@ -104,6 +104,10 @@
   function nextNode(event) {
     Lib.nextNode(event);
   }
+
+  function toggleBonusNode() {
+    aspect.aspectEffects.bonusNode.has = !aspect.aspectEffects.bonusNode.has;
+  }
 </script>
 
 <Section title="Aspect Effects" bind:isVisible={aspect.aspectEffects.isVisible}>
@@ -168,6 +172,7 @@
       <button class="button is-primary is-light" on:click={addSpecialRule}>Add Special Rule</button>
     </div>
   </div>
+  <hr class="mt-1 mb-1" />
   {#each aspect.aspectEffects.innatePowers.powers as power, i (power.id)}
     <div class="field mt-2">
       <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
@@ -321,38 +326,33 @@
   <div class="pt-1">
     <button class="button is-primary is-light" on:click={addInnatePower}>Add Innate Power</button>
   </div>
-  <!-- aspectEffects: {
-    isVisible: false,
-    specialRules: {
-      isVisible: false,
-      rules: [
-        {
-          id: 0,
-          name: "",
-          effect: "",
-        },
-      ],
-    },
-    innatePowers: {
-      isVisible: false,
-      powers: [
-        {
-          id: 0,
-          name: "",
-          speed: "",
-          range: "",
-          target: "",
-          targetTitle: "",
-          effect: "",
-          note: "",
-          noteShow: true,
-          levels: [
-            {
-              id: 0,
-              threshold: "",
-              effect: "",
-            },
-          ],
-        },
-      ], -->
+  <hr class="mt-1 mb-1" />
+  <label class="label is-flex is-justify-content-space-between" for={`bonusNode`}
+    >Bonus Presence Node
+  </label>
+  {#if aspect.aspectEffects.bonusNode.has}
+    <div class="mb-1 p-1 note">Note: will only show in 'landscape' layout.</div>
+    <div class="field is-flex is-small mb-0">
+      <label class="label incarna-label mr-1" for={`bonusNodeEffect`}>Effect: </label>
+      <div class="control">
+        <input
+          id={`bonusNodeEffect`}
+          class="input"
+          type="text"
+          placeholder="Effect"
+          on:keyup={nextNode}
+          on:focus={selectNode}
+          bind:value={aspect.aspectEffects.bonusNode.effect} />
+      </div>
+    </div>
+    <div class="pt-1">
+      <button class="button is-warning is-small is-light" on:click={toggleBonusNode}
+        >Remove Bonus Node</button>
+    </div>
+  {:else}
+    <div class="pt-1">
+      <button class="button is-primary is-small is-light" on:click={toggleBonusNode}
+        >Add Bonus Node</button>
+    </div>
+  {/if}
 </Section>
