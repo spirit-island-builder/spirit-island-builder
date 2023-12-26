@@ -1,4 +1,4 @@
-name: Create/Update prod PR
+name: Auto Prod PR
 on:
   push:
     branches:
