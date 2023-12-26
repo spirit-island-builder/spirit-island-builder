@@ -38,6 +38,24 @@
     insertTemplatePresenceNode(index, "card");
   }
 
+  function insertAdditionalTrackNode(t, index) {
+    let focusId = "additional" + t + "node" + (index + 1) + "builder";
+    let additionalTrack = spiritBoard.presenceTrack.additionalTracks[t];
+    additionalTrack.additionalNodes.splice(index + 1, 0, {
+      id: additionalTrack.additionalNodes.length,
+      effect: "",
+    });
+    //Set the focus to the new Node if it is visible.
+    if (spiritBoard.presenceTrack.isVisible) {
+      setTimeout(() => {
+        document.getElementById(focusId).focus();
+      }, 100);
+    }
+    spiritBoard = spiritBoard;
+    console.log(spiritBoard.presenceTrack);
+    // insertTemplatePresenceNode(index, "card");
+  }
+
   function insertTemplatePresenceNode(index, type) {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let findPresenceNode = previewFrame.document.getElementById(type + index);
@@ -71,6 +89,15 @@
     });
     spiritBoard = spiritBoard;
     removeTemplatePresenceNode("card" + index);
+  }
+
+  function removeAdditionalTrackNode(t, index) {
+    spiritBoard.presenceTrack.additionalTracks[t].additionalNodes.splice(index, 1);
+    spiritBoard.presenceTrack.additionalTracks[t].additionalNodes.forEach((node, i) => {
+      node.id = i;
+    });
+    spiritBoard = spiritBoard;
+    // removeTemplatePresenceNode("card" + index);
   }
 
   function removeTemplatePresenceNode(templatePresenceNodeID) {
@@ -175,6 +202,12 @@
   function selectNode(event) {
     Lib.selectNode(event);
   }
+
+  function addPresenceTrack() {
+    spiritBoard = Lib.addPresenceTrack(spiritBoard);
+    spiritBoard = spiritBoard;
+    console.log(spiritBoard.presenceTrack);
+  }
 </script>
 
 <Section title="Presence Tracks" bind:isVisible={spiritBoard.presenceTrack.isVisible}>
@@ -253,6 +286,45 @@
       {/each}
     </div>
   </div>
+  {#if spiritBoard.presenceTrack.hasAdditionalTracks}
+    <div class="field">
+      {#each spiritBoard.presenceTrack.additionalTracks as additionalTrack, t (additionalTrack.id)}
+        <label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput"
+          >Additional Track {t + 1}
+        </label>
+        <div class="presence-track-row">
+          {#each additionalTrack.additionalNodes as additionalNode, i (additionalNode.id)}
+            <div>
+              <div class="control">
+                <input
+                  id={`additional${t}node${i}builder`}
+                  class="input is-small"
+                  style="z-index: 2;"
+                  type="text"
+                  on:focus={selectNode}
+                  on:keyup={nextNode}
+                  bind:value={additionalNode.effect} />
+              </div>
+              <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
+                <button
+                  class="presence-track-add-node button is-light is-primary presence-track-button "
+                  id={`additional${t}node${i}builderadd`}
+                  on:click={insertAdditionalTrackNode(t, i)}
+                  ><span style="margin-top:11px;pointer-events: none;">+</span>
+                </button>
+                <button
+                  class="button is-light presence-track-button presence-track-remove-node"
+                  on:click={removeAdditionalTrackNode(t, i)}
+                  ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
+                </button>
+                <div style="width:15px;" />
+              </div>
+            </div>
+          {/each}
+        </div>
+      {/each}
+    </div>
+  {/if}
   <div class="field has-addons">
     <label class="label is-small has-addons mr-2">Note:</label>
     <div class="control field" style="width:100%">
@@ -265,4 +337,16 @@
         bind:value={spiritBoard.presenceTrack.note} />
     </div>
   </div>
+  <button class="button is-primary is-small is-light mb-1" on:click={addPresenceTrack}
+    >Add Additional Presence Track</button>
 </Section>
+
+<!-- on:blur={updatePresenceNodeLocal(i, "card")}
+          on:focus={selectNode}
+          on:keyup={nextNode} -->
+
+<!-- <button
+          class="button is-light presence-track-button presence-track-remove-node"
+          on:click={removeAdditionalTrackNode(i)}
+          ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
+        </button> -->

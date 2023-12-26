@@ -1475,11 +1475,19 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
     ? ` customName="${presenceTable.getAttribute("customname")}"`
     : "";
 
+  // Enable additional presence tracks
+  const additionalTracks = Array.from(document.getElementsByTagName("additional-track"));
+  let additionalTrackHTML = "";
+  additionalTracks.forEach((additionalTrack) => {
+    additionalTrackHTML += parseAdditionalTrackTags(additionalTrack);
+  });
+
   presenceTable.innerHTML =
     `<presence-title><section-title${customNameText}>Presence</section-title></presence-title>` +
     "<table id='presence-table'><tbody>" +
     energyHTML +
     cardPlayHTML +
+    additionalTrackHTML +
     "</tbody></table>";
 
   //Allow combined-banners
@@ -1648,6 +1656,50 @@ function parseCardPlayTrackTags() {
   cardPlayHTML += "</tr>";
   board.getElementsByTagName("card-play-track")[0].removeAttribute("values");
   return cardPlayHTML;
+}
+
+function parseAdditionalTrackTags(additionalTrack) {
+  const board = document.querySelectorAll("board")[0];
+  const additionalTrackValues = additionalTrack.getAttribute("values");
+  const additionalTrackOptions = additionalTrackValues.split(",");
+  const additionalTrackBanner = board
+    .getElementsByTagName("card-play-track")[0]
+    .getAttribute("banner"); //Use CardPlay banner
+  let additionalTrackBannerScale = additionalTrack.getAttribute("banner-v-scale");
+  if (!additionalTrackBannerScale) {
+    additionalTrackBannerScale = "100";
+  }
+  if (additionalTrackBannerScale.at(-1) !== "%") {
+    additionalTrackBannerScale = additionalTrackBannerScale + "px";
+  }
+  let additionalTrackHTML = "";
+
+  //Determine the length of the energy track
+  //If for some reason the width of a presence track spot changes, this needs to be updated. Ideas for automating?
+  let additionalTrackLength = additionalTrackOptions.length * 130 + 15;
+  if (additionalTrackBanner) {
+    additionalTrackHTML =
+      "<tr class='additional-track' style='background-image:  url(" +
+      additionalTrackBanner +
+      "); background-size: " +
+      additionalTrackLength +
+      "px " +
+      additionalTrackBannerScale +
+      "; background-repeat: no-repeat; background-position: left 0px top 20px;'>";
+  } else {
+    additionalTrackHTML = "<tr class='additional-track'>";
+  }
+
+  // This can be scaled to move the first presence icon.
+  additionalTrackHTML += "<td class='spacer'></td>";
+
+  for (let i = 0; i < additionalTrackOptions.length; i++) {
+    additionalTrackHTML +=
+      "<td>" + getPresenceNodeHtml(additionalTrackOptions[i], i === 0, i, "card", false) + "</td>";
+  }
+  additionalTrackHTML += "</tr>";
+  additionalTrack.removeAttribute("values");
+  return additionalTrackHTML;
 }
 
 function enhancePresenceTracksTable() {
