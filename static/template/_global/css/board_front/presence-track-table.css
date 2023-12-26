@@ -131,7 +131,11 @@ td.tight {
   padding-right: 0px;
 }
 
-tr.plays-track {
+/* tr.plays-track {
+  height: 174px;
+} */
+
+presence-tracks tr:last-of-type {
   height: 174px;
 }
 
