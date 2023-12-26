@@ -278,7 +278,7 @@
   {#if spiritBoard.presenceTrack.hasAdditionalTracks}
     <div class="field">
       {#each spiritBoard.presenceTrack.additionalTracks as additionalTrack, t (additionalTrack.id)}
-        <div style="          display: flex;          justify-content: space-between;">
+        <div style="display: flex;">
           <label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput"
             >Additional Track {t + 1}
           </label>
