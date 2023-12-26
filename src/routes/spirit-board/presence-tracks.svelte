@@ -100,6 +100,14 @@
     // removeTemplatePresenceNode("card" + index);
   }
 
+  function removeAdditionalTrack(trackIndex) {
+    spiritBoard.presenceTrack.additionalTracks.splice(trackIndex, 1);
+    spiritBoard.presenceTrack.additionalTracks.forEach((additionalTrack, i) => {
+      additionalTrack.id = i;
+    });
+    spiritBoard = spiritBoard;
+  }
+
   function removeTemplatePresenceNode(templatePresenceNodeID) {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let findPresenceNode = previewFrame.document.getElementById(templatePresenceNodeID);
@@ -179,25 +187,6 @@
     console.log("next node");
     Lib.nextNode(event);
   }
-
-  // function nextNode(event){
-  //   if (event.key == 'Enter'){
-  //     var currentID = event.target.id;
-  //     var focusID= currentID.replace(/(\d+)+/g, function(match, number) {
-  //       return parseInt(number)+1;
-  //     });
-  //     console.log(focusID)
-  //     var newNode = document.getElementById(focusID)
-  //   //Set the focus to the Growth Action if it is visible.
-  //     if (spiritBoard.presenceTrack.isVisible) {
-  //       if (newNode !== null){
-  //         document.getElementById(focusID).focus();
-  //       }else{
-  //         document.getElementById(currentID+'add').focus();
-  //       }
-  //     }
-  //   }
-  // }
 
   function selectNode(event) {
     Lib.selectNode(event);
@@ -289,9 +278,13 @@
   {#if spiritBoard.presenceTrack.hasAdditionalTracks}
     <div class="field">
       {#each spiritBoard.presenceTrack.additionalTracks as additionalTrack, t (additionalTrack.id)}
-        <label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput"
-          >Additional Track {t + 1}
-        </label>
+        <div style="          display: flex;          justify-content: space-between;">
+          <label class="label is-flex is-justify-content-space-between" for="spiritGrowthInput"
+            >Additional Track {t + 1}
+          </label>
+          <button class="button presence-track-remove" on:click={removeAdditionalTrack(t)}
+            >&#10006;</button>
+        </div>
         <div class="presence-track-row">
           {#each additionalTrack.additionalNodes as additionalNode, i (additionalNode.id)}
             <div>
