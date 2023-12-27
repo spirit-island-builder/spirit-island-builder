@@ -32,7 +32,7 @@
 </script>
 
 <Section
-  title="Spirit Name, Artwork, and Special Features"
+  title="Spirit Name, Artwork, and Features"
   bind:isVisible={spiritBoard.nameAndArt.isVisible}>
   <div class="mb-1 p-1 note">
     <InstructionsLink anchor="spirit-name-and-art" />
