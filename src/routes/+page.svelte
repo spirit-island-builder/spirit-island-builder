@@ -118,6 +118,17 @@
           effect: "",
         },
       ],
+      // additionalTracks: [
+      //   {
+      //     // id: 0,
+      //     // additionalNodes: [
+      //     //   {
+      //     //     id: 0,
+      //     //     effect: "",
+      //     //   },
+      //     // ],
+      //   },
+      // ],
     },
     innatePowers: {
       isVisible: false,

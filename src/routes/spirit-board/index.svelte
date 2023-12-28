@@ -261,6 +261,26 @@
       presenceTrackContainer.setAttribute("customname", spiritBoard.presenceTrack.customHeading);
     }
 
+    if (spiritBoard.presenceTrack.additionalTracks) {
+      console.log("adding additional tracks ***");
+      spiritBoard.presenceTrack.additionalTracks.forEach((additionalTrack) => {
+        let additionalTrackHTML = document.createElement("additional-track");
+        if (additionalTrack.bannerPath) {
+          additionalTrackHTML.setAttribute("banner", additionalTrack.bannerPath);
+        }
+        if (additionalTrack.bannerScale) {
+          additionalTrackHTML.setAttribute("banner-v-scale", additionalTrack.bannerScale);
+        }
+        let additionalValues = "";
+        additionalTrack.additionalNodes.forEach((additionalNode) => {
+          additionalValues += additionalNode.effect + ",";
+        });
+        additionalTrackHTML.setAttribute("values", additionalValues.slice(0, -1));
+        presenceTrackContainer.appendChild(additionalTrackHTML);
+        console.log(additionalTrackHTML);
+      });
+    }
+
     //Set Innate Powers
     const innatePowerContainer = document.createElement("innate-powers");
     right.appendChild(innatePowerContainer);
@@ -448,6 +468,26 @@
     playsValues.forEach((value) => {
       spiritBoard = Lib.addPlaysTrackNode(spiritBoard, value);
     });
+
+    let additionalTracks = htmlElement.querySelectorAll("additional-track");
+    for (let i = 0; i < additionalTracks.length; i++) {
+      console.log("adding track: " + (i + 1));
+      let additionalTrackEl = additionalTracks[i];
+      spiritBoard = Lib.addPresenceTrack(spiritBoard);
+      let additionalTrackJSON = spiritBoard.presenceTrack.additionalTracks[i];
+      console.log(additionalTrackJSON);
+      additionalTrackJSON.bannerPath = Lib.maybeResolveURL(
+        additionalTrackEl.getAttribute("banner"),
+        baseURI
+      );
+      additionalTrackJSON.bannerScale = additionalTrackEl.getAttribute("banner-v-scale");
+      let additionalValues = additionalTrackEl.getAttribute("values").split(",");
+      additionalTrackJSON.additionalNodes.splice(0, additionalTrackJSON.additionalNodes.length); //Clear the Form first
+      additionalValues.forEach((value) => {
+        additionalTrackJSON = Lib.addAdditionalTrackNode(additionalTrackJSON, value);
+        spiritBoard = spiritBoard;
+      });
+    }
     spiritBoard.presenceTrack.customHeading = presenceTracks.getAttribute("customname")
       ? presenceTracks.getAttribute("customname")
       : "";

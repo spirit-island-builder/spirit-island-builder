@@ -1475,11 +1475,19 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
     ? ` customName="${presenceTable.getAttribute("customname")}"`
     : "";
 
+  // Enable additional presence tracks
+  const additionalTracks = Array.from(document.getElementsByTagName("additional-track"));
+  let additionalTrackHTML = "";
+  additionalTracks.forEach((additionalTrack) => {
+    additionalTrackHTML += parseAdditionalTrackTags(additionalTrack);
+  });
+
   presenceTable.innerHTML =
     `<presence-title><section-title${customNameText}>Presence</section-title></presence-title>` +
     "<table id='presence-table'><tbody>" +
     energyHTML +
     cardPlayHTML +
+    additionalTrackHTML +
     "</tbody></table>";
 
   //Allow combined-banners
@@ -1650,6 +1658,50 @@ function parseCardPlayTrackTags() {
   return cardPlayHTML;
 }
 
+function parseAdditionalTrackTags(additionalTrack) {
+  const board = document.querySelectorAll("board")[0];
+  const additionalTrackValues = additionalTrack.getAttribute("values");
+  const additionalTrackOptions = additionalTrackValues.split(",");
+  const additionalTrackBanner = board
+    .getElementsByTagName("card-play-track")[0]
+    .getAttribute("banner"); //Use CardPlay banner
+  let additionalTrackBannerScale = additionalTrack.getAttribute("banner-v-scale");
+  if (!additionalTrackBannerScale) {
+    additionalTrackBannerScale = "100";
+  }
+  if (additionalTrackBannerScale.at(-1) !== "%") {
+    additionalTrackBannerScale = additionalTrackBannerScale + "px";
+  }
+  let additionalTrackHTML = "";
+
+  //Determine the length of the energy track
+  //If for some reason the width of a presence track spot changes, this needs to be updated. Ideas for automating?
+  let additionalTrackLength = additionalTrackOptions.length * 130 + 15;
+  if (additionalTrackBanner) {
+    additionalTrackHTML =
+      "<tr class='additional-track' style='background-image:  url(" +
+      additionalTrackBanner +
+      "); background-size: " +
+      additionalTrackLength +
+      "px " +
+      additionalTrackBannerScale +
+      "; background-repeat: no-repeat; background-position: left 0px top 20px;'>";
+  } else {
+    additionalTrackHTML = "<tr class='additional-track'>";
+  }
+
+  // This can be scaled to move the first presence icon.
+  additionalTrackHTML += "<td class='spacer'></td>";
+
+  for (let i = 0; i < additionalTrackOptions.length; i++) {
+    additionalTrackHTML +=
+      "<td>" + getPresenceNodeHtml(additionalTrackOptions[i], i === 0, i, "card", false) + "</td>";
+  }
+  additionalTrackHTML += "</tr>";
+  additionalTrack.removeAttribute("values");
+  return additionalTrackHTML;
+}
+
 function enhancePresenceTracksTable() {
   console.log("BUILDING PRESENCE TRACK PANEL");
   console.log(
@@ -1695,7 +1747,16 @@ function enhancePresenceTracksTable() {
   } */
 }
 
-function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRing) {
+function getPresenceNodeHtml(
+  nodeText,
+  first,
+  nodeIndex,
+  trackType,
+  addEnergyRing,
+  forceEnergyRing = false,
+  forceShadow = false,
+  forceNone = false
+) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
   let pnDebug = true;
@@ -1728,13 +1789,26 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
   let addDeepLayers = false;
   let iconDeepLayers;
   if (nodeText.split("^")[1]) {
-    iconDeepLayers = nodeText.split("^")[1];
+    iconDeepLayers = nodeText.split("^")[1].split("_")[0];
+    addDeepLayers = true;
     if (pnDebug) {
       console.log(iconDeepLayers);
     }
-    addDeepLayers = true;
-    nodeText = nodeText.split("^")[0];
   }
+  let optionsNodeBack;
+  if (nodeText.split("_")[1]) {
+    optionsNodeBack = nodeText.split("_")[1].split("^")[0];
+    if (optionsNodeBack.includes("energy")) {
+      forceEnergyRing = true;
+    }
+    if (optionsNodeBack.includes("shadow")) {
+      forceShadow = true;
+    }
+    if (optionsNodeBack.includes("none")) {
+      forceNone = true;
+    }
+  }
+  nodeText = nodeText.split("_")[0].split("^")[0];
 
   if (trackType === "dynamic") {
     if (nodeText.startsWith("energy")) {
@@ -2136,15 +2210,16 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           "<presence-node-multi " + track_icon_loc + ">" + trackIcons + "</presence-node-multi>";
         inner += trackIcons;
       }
-      // inner = trackIcons;
     }
   }
 
-  if (addEnergyRing) {
-    inner = "<energy-icon>" + inner + "</energy-icon>";
-  }
-  if (addIconShadow) {
-    inner = "<icon-shadow>" + inner + "</icon-shadow>";
+  if (!forceNone) {
+    if (addEnergyRing || forceEnergyRing) {
+      inner = "<energy-icon>" + inner + "</energy-icon>";
+    }
+    if (addIconShadow || forceShadow) {
+      inner = "<icon-shadow>" + inner + "</icon-shadow>";
+    }
   }
   ring.innerHTML = inner;
   presenceNode.innerHTML += "<subtext>" + subText + "</subtext>";
