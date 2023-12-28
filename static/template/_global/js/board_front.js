@@ -1747,7 +1747,15 @@ function enhancePresenceTracksTable() {
   } */
 }
 
-function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRing) {
+function getPresenceNodeHtml(
+  nodeText,
+  first,
+  nodeIndex,
+  trackType,
+  addEnergyRing,
+  forceEnergyRing = false,
+  forceShadow = false
+) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
   let pnDebug = true;
@@ -1780,13 +1788,23 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
   let addDeepLayers = false;
   let iconDeepLayers;
   if (nodeText.split("^")[1]) {
-    iconDeepLayers = nodeText.split("^")[1];
+    iconDeepLayers = nodeText.split("^")[1].split("_")[0];
+    addDeepLayers = true;
     if (pnDebug) {
       console.log(iconDeepLayers);
     }
-    addDeepLayers = true;
-    nodeText = nodeText.split("^")[0];
   }
+  let optionsNodeBack;
+  if (nodeText.split("_")[1]) {
+    optionsNodeBack = nodeText.split("_")[1].split("^")[0];
+    if (optionsNodeBack.includes("energy")) {
+      forceEnergyRing = true;
+    }
+    if (optionsNodeBack.includes("shadow")) {
+      forceShadow = true;
+    }
+  }
+  nodeText = nodeText.split("_")[0].split("^")[0];
 
   if (trackType === "dynamic") {
     if (nodeText.startsWith("energy")) {
@@ -2188,14 +2206,13 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           "<presence-node-multi " + track_icon_loc + ">" + trackIcons + "</presence-node-multi>";
         inner += trackIcons;
       }
-      // inner = trackIcons;
     }
   }
 
-  if (addEnergyRing) {
+  if (addEnergyRing || forceEnergyRing) {
     inner = "<energy-icon>" + inner + "</energy-icon>";
   }
-  if (addIconShadow) {
+  if (addIconShadow || forceShadow) {
     inner = "<icon-shadow>" + inner + "</icon-shadow>";
   }
   ring.innerHTML = inner;
