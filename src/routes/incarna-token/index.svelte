@@ -132,22 +132,22 @@
     }
 
     //Custom Icons
-    if (incarnaToken.demoBoardWasLoaded) {
-      const incarnaTokenStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (incarnaTokenStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = incarnaTokenStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
+    // if (incarnaToken.demoBoardWasLoaded) {
+    const incarnaTokenStyle = htmlElement.querySelectorAll("style")[0];
+    customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+    if (incarnaTokenStyle) {
+      const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
+      let iconList = incarnaTokenStyle.textContent.match(regExp);
+      if (iconList) {
+        iconList.forEach((customIcon) => {
+          customIcons = Lib.addCustomIcon(customIcons, customIcon);
+          console.log(customIcon);
+        });
       }
-    } else {
-      console.log("SKIPPING ICON LOAD");
     }
+    // } else {
+    //   console.log("SKIPPING ICON LOAD");
+    // }
 
     console.log("incarnaToken HTML loaded into form");
     console.log(incarnaToken);
