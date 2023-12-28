@@ -1754,7 +1754,8 @@ function getPresenceNodeHtml(
   trackType,
   addEnergyRing,
   forceEnergyRing = false,
-  forceShadow = false
+  forceShadow = false,
+  forceNone = false
 ) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
@@ -1802,6 +1803,9 @@ function getPresenceNodeHtml(
     }
     if (optionsNodeBack.includes("shadow")) {
       forceShadow = true;
+    }
+    if (optionsNodeBack.includes("none")) {
+      forceNone = true;
     }
   }
   nodeText = nodeText.split("_")[0].split("^")[0];
@@ -2209,11 +2213,13 @@ function getPresenceNodeHtml(
     }
   }
 
-  if (addEnergyRing || forceEnergyRing) {
-    inner = "<energy-icon>" + inner + "</energy-icon>";
-  }
-  if (addIconShadow || forceShadow) {
-    inner = "<icon-shadow>" + inner + "</icon-shadow>";
+  if (!forceNone) {
+    if (addEnergyRing || forceEnergyRing) {
+      inner = "<energy-icon>" + inner + "</energy-icon>";
+    }
+    if (addIconShadow || forceShadow) {
+      inner = "<icon-shadow>" + inner + "</icon-shadow>";
+    }
   }
   ring.innerHTML = inner;
   presenceNode.innerHTML += "<subtext>" + subText + "</subtext>";
