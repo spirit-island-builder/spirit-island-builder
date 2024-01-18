@@ -108,9 +108,12 @@ function replaceIcon(html) {
       range_num = "+" + iconName.substring(11);
       iconName = "gain-range";
       num_val = range_num;
-      /*       if(isNaN(range_num)){
-        range_num = '<icon class="range-small-icon '+range_num+'"></icon>'
-      } */
+    } else if (iconName.startsWith("lose-range-")) {
+      HTMLTag = "range";
+
+      range_num = "-" + iconName.substring(11);
+      iconName = "gain-range";
+      num_val = range_num;
     }
 
     if (iconName.startsWith("energy-")) {

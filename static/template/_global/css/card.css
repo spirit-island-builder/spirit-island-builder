@@ -286,13 +286,6 @@ info-title {
   top: 341px;
   height: 11px;
   width: 357px;
-
-  display: flex;
-  align-items: center;
-  font-family: "Name Headings";
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-align: center;
 }
 
 info {
@@ -377,13 +370,11 @@ rules-container {
   top: 398px;
   width: 357px;
   height: 245px;
-
   display: flex;
   flex-direction: column;
-
   text-align: center;
   font-family: "JosefinSans-Regular";
-  font-size: 22px;
+  font-size: 23px;
   line-height: 30px;
   letter-spacing: -0.5px;
 }
@@ -621,7 +612,7 @@ rules icon.sacred-site rules icon.wetland-presence {
   margin-bottom: -10px;
 }
 
-rules icon.jungle-sand,
+/* rules icon.jungle-sand,
 rules icon.jungle-wetland,
 rules icon.mountain-jungle,
 rules icon.mountain-sand,
@@ -630,6 +621,14 @@ rules icon.sand-wetland {
   width: 50px;
   height: 28px;
   margin-bottom: -8px;
+  margin-left: -4px;
+  margin-right: -4px;
+} */
+
+rules-container icon.terrain-double {
+  width: 68px;
+  height: 39px;
+  margin-bottom: -14px;
   margin-left: -4px;
   margin-right: -4px;
 }

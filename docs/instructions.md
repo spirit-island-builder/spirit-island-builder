@@ -214,7 +214,10 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 |                                     | custom(_your_text_;x)                      | Can be used in combinations. x is an icon(s) and/or text. Note the semicolon.                                                    | Spreading Rot top row: 2,custom(Gain 1 Rot;custom1)+water,3,custom(Gain 1 Rot;custom1)+plant,custom(Gain 1 Rot;custom1)+earth,4                              |
 |                                     | custom(_your_text_;{x}/{y})                | Cannot be used in combinations. Can have icons (x and y, for example) and text                                                   | custom(Destroy 1 Town or City;{town}/{city})<br>custom(Pay 2 Disease to Gain Power Card;{disease}{disease}{gain-power-card})                                 |
 | Middle Nodes                        | middle(wrap other node options)            | Wrap your presence node options in middle() to have them appear in the middle of the tracks. Only do this to energy track nodes. | Serpent energy track: 1,fire,any,reclaim-one,**middle(earth)**,6,any,12                                                                                      |
-| Bonus Nodes                         | bonus(wrap other node options)             | Behaves like middle() but will include the text 'bonus' above the nodes.                                                         | Hearth-Vigil energy track: bonus(gather(dahan)),0,1+sun,2,3+animal,4,5+sun                                                                                                |
+| Bonus Nodes                         | bonus(wrap other node options)             | Behaves like middle() but will include the text 'bonus' above the nodes.                                                         | Hearth-Vigil energy track: bonus(gather(dahan)),0,1+sun,2,3+animal,4,5+sun                                                                                 |
+| Force Energy icon behind node       | _energy                                    | Adds an energy icon to the back of the node. Can be combined with shadow like _energyshadow                          |                                                                                                |
+| Force Shadow behind node            | _shadow                                    | Adds an shadow icon to the back of the node. Can be combined with energy like _energyshadow                          |                                                                                                |
+| Force nothing behind node            | _none                                    | Prevents any icon behind a presence node                      |                                                                                                |
 | Blank space / empty presence track  | blank, blank(x)                            | Creates a blank presence node. Useful for creating space if you want to end the presence tracks elsewhere                        |                                                                                                                                                              |
 
 [Home](#index)
@@ -366,7 +369,7 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - Power icons (fast, slow, minor, major, spirit, or, forget, noforget)
 - Range icons (range, range-0, range-1, range-2, range-3, range-4, jungle-presence, sand-presence, mountain-presence, wetland-presence)
 - Targeting icons (spirit)
-- Power effect icon (isolate, gain-range-1, gain-range-2, gain-range-3, gain-range-x)
+- Power effect icon (isolate, gain-range-1, gain-range-2, gain-range-3, gain-range-x, lose-range-1, etc)
 - Energy icons (energy-1, energy-2, energy-x where x is whatever number)
 - Growth icons (see [Growth](#growth) section and [Supported Growth Actions](#supported-growth-actions) for examples)
 - Presence track icons (see [Presence Track](#presence-tracks) section for examples)

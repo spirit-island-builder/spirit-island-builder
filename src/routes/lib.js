@@ -122,6 +122,50 @@ export const addPlaysTrackNode = (spiritBoard, nodeEffect = "") => {
   return spiritBoard;
 };
 
+export const addAdditionalTrackNode = (track, nodeEffect = "") => {
+  let focusId = "plays" + track.additionalNodes.length;
+  track.additionalNodes.push({
+    id: track.additionalNodes.length,
+    effect: nodeEffect,
+  });
+  //Set the focus to the new Node if it is visible.
+  if (track.isVisible) {
+    setTimeout(() => {
+      document.getElementById(focusId).focus();
+    }, 100);
+  }
+  return track;
+};
+
+export const addPresenceTrack = (spiritBoard) => {
+  spiritBoard.presenceTrack.hasAdditionalTracks = true;
+  if (spiritBoard.presenceTrack.additionalTracks) {
+    spiritBoard.presenceTrack.additionalTracks.push({
+      id: spiritBoard.presenceTrack.additionalTracks.length,
+      additionalNodes: [
+        {
+          id: 0,
+          effect: "",
+        },
+      ],
+    });
+  } else {
+    spiritBoard.presenceTrack["additionalTracks"] = [
+      {
+        id: 0,
+        additionalNodes: [
+          {
+            id: 0,
+            effect: "",
+          },
+        ],
+      },
+    ];
+  }
+  console.log(spiritBoard.presenceTrack);
+  return spiritBoard;
+};
+
 export const addInnatePower = (
   spiritBoard,
   powerName = "",
@@ -249,6 +293,12 @@ export const nextNode = (event) => {
         focusID = currentID.replace(/(\d+)+/g, function (match, number) {
           return parseInt(number) + 1;
         });
+        if (document.getElementById(focusID) === null) {
+          focusID = currentID + "add";
+        }
+        break;
+      case "additionalnodebuilder":
+        focusID = "additional" + numMatches[0] + "node" + (numMatches[1] + 1) + "builder";
         if (document.getElementById(focusID) === null) {
           focusID = currentID + "add";
         }

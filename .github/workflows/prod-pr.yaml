@@ -1,0 +1,20 @@
+name: Auto Prod PR
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  prodPr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Reset dev branch
+        run: |
+          git fetch origin dev:dev
+          git reset --hard dev
+      - name: Prod PR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: dev-to-prod-branch

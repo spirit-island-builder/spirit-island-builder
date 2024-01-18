@@ -13,11 +13,7 @@ async function startMain() {
 
     buildGrowthPanel();
 
-    if (document.getElementById("presence-table")) {
-      enhancePresenceTracksTable();
-    } else {
-      setNewEnergyCardPlayTracks(parseEnergyTrackTags(), parseCardPlayTrackTags());
-    }
+    setNewEnergyCardPlayTracks(parseEnergyTrackTags(), parseCardPlayTrackTags());
 
     parseInnatePowers();
 
@@ -28,6 +24,7 @@ async function startMain() {
     board.innerHTML = replaceIcon(html);
 
     // This needs to be removed at some point, none of the code in here should be asynchronus and both dynamicResizing and addImages should not need to wait before they work properly. We have a race condition that works most of the time but will fail for some people.
+    // Counterpoint: Resize needs the browser to draw the spirit board first, and then adjust things, so it needs to be drawn.
     await waitPromise(200);
     dynamicResizing();
     addImages(board);
@@ -1475,11 +1472,19 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
     ? ` customName="${presenceTable.getAttribute("customname")}"`
     : "";
 
+  // Enable additional presence tracks
+  const additionalTracks = Array.from(document.getElementsByTagName("additional-track"));
+  let additionalTrackHTML = "";
+  additionalTracks.forEach((additionalTrack) => {
+    additionalTrackHTML += parseAdditionalTrackTags(additionalTrack);
+  });
+
   presenceTable.innerHTML =
     `<presence-title><section-title${customNameText}>Presence</section-title></presence-title>` +
     "<table id='presence-table'><tbody>" +
     energyHTML +
     cardPlayHTML +
+    additionalTrackHTML +
     "</tbody></table>";
 
   //Allow combined-banners
@@ -1650,52 +1655,105 @@ function parseCardPlayTrackTags() {
   return cardPlayHTML;
 }
 
-function enhancePresenceTracksTable() {
-  console.log("BUILDING PRESENCE TRACK PANEL");
-  console.log(
-    "This method of creating middle node is no longer supported. Your results may very. Use middle() instead."
-  );
+function parseAdditionalTrackTags(additionalTrack) {
   const board = document.querySelectorAll("board")[0];
-  const elmt = board.getElementsByTagName("presence-tracks")[0];
-  const title = document.createElement("section-title");
-  title.innerHTML = "Presence";
-  elmt.insertBefore(title, elmt.firstChild);
-  console.log("creating dynamic presence tracks...");
-  const table = document.getElementById("presence-table");
-  table.innerHTML = table.innerHTML.replaceAll('middle=""', 'rowspan="2" class="middle"');
+  const additionalTrackValues = additionalTrack.getAttribute("values");
+  const additionalTrackOptions = additionalTrackValues.split(",");
+  const additionalTrackBanner = board
+    .getElementsByTagName("card-play-track")[0]
+    .getAttribute("banner"); //Use CardPlay banner
+  let additionalTrackBannerScale = additionalTrack.getAttribute("banner-v-scale");
+  if (!additionalTrackBannerScale) {
+    additionalTrackBannerScale = "100";
+  }
+  if (additionalTrackBannerScale.at(-1) !== "%") {
+    additionalTrackBannerScale = additionalTrackBannerScale + "px";
+  }
+  let additionalTrackHTML = "";
 
-  for (let i = 0, row; (row = table.rows[i]); i++) {
-    for (let j = 0, cell; (cell = row.cells[j]); j++) {
-      cell.innerHTML = getPresenceNodeHtml(
-        cell.firstChild.nodeValue,
-        j === 0,
-        j,
-        "dynamic",
-        i === 0
-      );
-    }
+  //Determine the length of the energy track
+  //If for some reason the width of a presence track spot changes, this needs to be updated. Ideas for automating?
+  let additionalTrackLength = additionalTrackOptions.length * 130 + 15;
+  if (additionalTrackBanner) {
+    additionalTrackHTML =
+      "<tr class='additional-track' style='background-image:  url(" +
+      additionalTrackBanner +
+      "); background-size: " +
+      additionalTrackLength +
+      "px " +
+      additionalTrackBannerScale +
+      "; background-repeat: no-repeat; background-position: left 0px top 20px;'>";
+  } else {
+    additionalTrackHTML = "<tr class='additional-track'>";
   }
 
-  // Add spacing row to the front of the table
-  const firstRow = table.getElementsByTagName("tr")[0];
-  const firstCell = firstRow.getElementsByTagName("td")[0];
-  const spacerRow = document.createElement("td");
-  spacerRow.classList.add("spacer");
-  spacerRow.style.width = "10px";
-  spacerRow.rowSpan = "2";
-  firstRow.insertBefore(spacerRow, firstCell);
+  // This can be scaled to move the first presence icon.
+  additionalTrackHTML += "<td class='spacer'></td>";
 
-  /*   // Detect presence note
-  presenceNote = table.getAttribute("note");
-  if(presenceNote){
-    const note = document.createElement("presence-note");
-    note.innerHTML = presenceNote;
-    title.after(note)
-    title.classList.add('has-note')
-  } */
+  for (let i = 0; i < additionalTrackOptions.length; i++) {
+    additionalTrackHTML +=
+      "<td>" + getPresenceNodeHtml(additionalTrackOptions[i], i === 0, i, "card", false) + "</td>";
+  }
+  additionalTrackHTML += "</tr>";
+  additionalTrack.removeAttribute("values");
+  return additionalTrackHTML;
 }
 
-function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRing) {
+// function enhancePresenceTracksTable() {
+//   console.log("BUILDING PRESENCE TRACK PANEL");
+//   console.log(
+//     "This method of creating middle node is no longer supported. Your results may very. Use middle() instead."
+//   );
+//   const board = document.querySelectorAll("board")[0];
+//   const elmt = board.getElementsByTagName("presence-tracks")[0];
+//   const title = document.createElement("section-title");
+//   title.innerHTML = "Presence";
+//   elmt.insertBefore(title, elmt.firstChild);
+//   console.log("creating dynamic presence tracks...");
+//   const table = document.getElementById("presence-table");
+//   table.innerHTML = table.innerHTML.replaceAll('middle=""', 'rowspan="2" class="middle"');
+
+//   for (let i = 0, row; (row = table.rows[i]); i++) {
+//     for (let j = 0, cell; (cell = row.cells[j]); j++) {
+//       cell.innerHTML = getPresenceNodeHtml(
+//         cell.firstChild.nodeValue,
+//         j === 0,
+//         j,
+//         "dynamic",
+//         i === 0
+//       );
+//     }
+//   }
+
+//   // Add spacing row to the front of the table
+//   const firstRow = table.getElementsByTagName("tr")[0];
+//   const firstCell = firstRow.getElementsByTagName("td")[0];
+//   const spacerRow = document.createElement("td");
+//   spacerRow.classList.add("spacer");
+//   spacerRow.style.width = "10px";
+//   spacerRow.rowSpan = "2";
+//   firstRow.insertBefore(spacerRow, firstCell);
+
+//   /*   // Detect presence note
+//   presenceNote = table.getAttribute("note");
+//   if(presenceNote){
+//     const note = document.createElement("presence-note");
+//     note.innerHTML = presenceNote;
+//     title.after(note)
+//     title.classList.add('has-note')
+//   } */
+// }
+
+function getPresenceNodeHtml(
+  nodeText,
+  first,
+  nodeIndex,
+  trackType,
+  addEnergyRing,
+  forceEnergyRing = false,
+  forceShadow = false,
+  forceNone = false
+) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
   let pnDebug = true;
@@ -1724,18 +1782,33 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
         trackType
     );
   }
-  //Allows adding an icon top-left of the node using ^ (as with Stone)
+
+  //Handle ^ (node notation) and _ (force nodes)
   let addDeepLayers = false;
   let iconDeepLayers;
   if (nodeText.split("^")[1]) {
-    iconDeepLayers = nodeText.split("^")[1];
+    iconDeepLayers = nodeText.split("^")[1].split("_")[0];
+    addDeepLayers = true;
     if (pnDebug) {
       console.log(iconDeepLayers);
     }
-    addDeepLayers = true;
-    nodeText = nodeText.split("^")[0];
   }
+  let optionsNodeBack;
+  if (nodeText.split("_")[1]) {
+    optionsNodeBack = nodeText.split("_")[1].split("^")[0];
+    if (optionsNodeBack.includes("energy")) {
+      forceEnergyRing = true;
+    }
+    if (optionsNodeBack.includes("shadow")) {
+      forceShadow = true;
+    }
+    if (optionsNodeBack.includes("none")) {
+      forceNone = true;
+    }
+  }
+  nodeText = nodeText.split("_")[0].split("^")[0];
 
+  //
   if (trackType === "dynamic") {
     if (nodeText.startsWith("energy")) {
       nodeText = nodeText.substr(6);
@@ -1745,6 +1818,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
       nodeText = nodeText.replace("+energy", "+");
       nodeClass = "energy";
       subText = "Energy/Turn";
+      console.log("SHOULD WE BE HERE");
     } else if (nodeText.startsWith("card")) {
       nodeText = nodeText.substr(4);
       nodeClass = "card";
@@ -2132,19 +2206,19 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
         } else {
           trackIcons += "<icon class='" + splitOptions[i] + "'" + "></icon>";
         }
-        trackIcons =
-          "<presence-node-multi " + track_icon_loc + ">" + trackIcons + "</presence-node-multi>";
+        trackIcons = `<presence-node-multi ${track_icon_loc}>${trackIcons}</presence-node-multi>`;
         inner += trackIcons;
       }
-      // inner = trackIcons;
     }
   }
 
-  if (addEnergyRing) {
-    inner = "<energy-icon>" + inner + "</energy-icon>";
-  }
-  if (addIconShadow) {
-    inner = "<icon-shadow>" + inner + "</icon-shadow>";
+  if (!forceNone) {
+    if (addEnergyRing || forceEnergyRing) {
+      inner = "<energy-icon>" + inner + "</energy-icon>";
+    }
+    if (addIconShadow || forceShadow) {
+      inner = "<icon-shadow>" + inner + "</icon-shadow>";
+    }
   }
   ring.innerHTML = inner;
   presenceNode.innerHTML += "<subtext>" + subText + "</subtext>";
@@ -2187,6 +2261,13 @@ function updatePresenceNodeIDs() {
   }
   for (let i = 0; i < playsNodes.length; i++) {
     playsNodes[i].id = "card" + i;
+  }
+  const additionalTracks = presenceTable.getElementsByClassName("additional-track");
+  for (let i = 0; i < additionalTracks.length; i++) {
+    const additionalNodes = additionalTracks[i].getElementsByTagName("presence-node");
+    for (let j = 0; j < additionalNodes.length; j++) {
+      additionalNodes[j].id = "addtrack" + i + "node" + j;
+    }
   }
 }
 
@@ -3282,35 +3363,6 @@ function checkOverflowHeight(el, slack = 2) {
   el.style.overflowY = curOverflow;
   return isOverflowing;
 }
-
-// Putting this function on ice for now, it isn't used presently.
-// function findBoundingRect(el) {
-//   let growthCellRect;
-//   // console.log(el.tagName+", "+el.classList.value)
-//   if (el.children.length === 0) {
-//     growthCellRect = el.getBoundingClientRect();
-//     return growthCellRect;
-//   } else {
-//     growthCellRect = el.children[0].getBoundingClientRect();
-//   }
-//   // console.log(el.tagName+", "+el.classList.value+' left = '+growthCellRect.left)
-//   // console.log(el.tagName+", "+el.classList.value+' right = '+growthCellRect.right)
-//   for (const child of el.children) {
-//     if (child.tagName !== "GROWTH-TEXT") {
-//       let newCellRect = findBoundingRect(child);
-//       if (newCellRect.left < growthCellRect.left) {
-//         growthCellRect.left = newCellRect.left;
-//       }
-//       if (newCellRect.right > growthCellRect.right) {
-//         growthCellRect.right = newCellRect.right;
-//       }
-//     }
-//   }
-//   // console.log('returning for '+el.tagName+", "+el.classList.value+':')
-//   // console.log(' left = '+growthCellRect.left)
-//   // console.log(' right = '+growthCellRect.right)
-//   return growthCellRect;
-// }
 
 function parseInnatePowers() {
   console.log("BUILDING INNATE POWERS");

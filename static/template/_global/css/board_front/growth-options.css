@@ -13,6 +13,7 @@ growth {
 growth:hover section-title {
   text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
 }
+
 growth:hover {
   cursor: pointer;
 }
@@ -56,7 +57,6 @@ growth special-section-title {
 }
 
 growth-bottom {
-
   display: block;
   position: absolute;
   background-image: url(../../images/board/Growth_Bottom.png);
@@ -68,7 +68,6 @@ growth-bottom {
   bottom: 0px;
   z-index: -2;
 }
-
 
 /* growth special-section-title.title-left {
   position: unset;
@@ -733,6 +732,7 @@ growth-cell icon.energy-per-play {
   width: 100px;
   height: 110px;
 }
+
 /* 
 growth-cell icon.destroyed-presence, growth-cell icon.destroy-presence {
   margin-bottom: 7px;
@@ -805,27 +805,35 @@ icon.gain-card-modifier {
 icon.gain-card-modifier.sun {
   background-image: url(../../images/board/element_simple_sun.png);
 }
+
 icon.gain-card-modifier.earth {
   background-image: url(../../images/board/element_simple_earth.png);
 }
+
 icon.gain-card-modifier.plant {
   background-image: url(../../images/board/element_simple_plant.png);
 }
+
 icon.gain-card-modifier.fire {
   background-image: url(../../images/board/element_simple_fire.png);
 }
+
 icon.gain-card-modifier.air {
   background-image: url(../../images/board/element_simple_air.png);
 }
+
 icon.gain-card-modifier.moon {
   background-image: url(../../images/board/element_simple_moon.png);
 }
+
 icon.gain-card-modifier.animal {
   background-image: url(../../images/board/element_simple_animal.png);
 }
+
 icon.gain-card-modifier.water {
   background-image: url(../../images/board/element_simple_water.png);
 }
+
 icon.gain-card-modifier.any {
   background-image: url(../../images/board/element_simple_any.png);
 }
@@ -907,6 +915,7 @@ custom-icon2 {
   flex-direction: column;
   align-items: center;
 }
+
 custom-icon2 icon.move-range-1,
 custom-icon2 icon.move-range-2,
 custom-icon2 icon.move-range-3,
@@ -1552,27 +1561,35 @@ gain-per-element icon.custom3 {
 gain-per-element icon.sun {
   background-image: url(../../images/board/element_simple_sun.png);
 }
+
 gain-per-element icon.earth {
   background-image: url(../../images/board/element_simple_earth.png);
 }
+
 gain-per-element icon.plant {
   background-image: url(../../images/board/element_simple_plant.png);
 }
+
 gain-per-element icon.fire {
   background-image: url(../../images/board/element_simple_fire.png);
 }
+
 gain-per-element icon.air {
   background-image: url(../../images/board/element_simple_air.png);
 }
+
 gain-per-element icon.moon {
   background-image: url(../../images/board/element_simple_moon.png);
 }
+
 gain-per-element icon.animal {
   background-image: url(../../images/board/element_simple_animal.png);
 }
+
 gain-per-element icon.water {
   background-image: url(../../images/board/element_simple_water.png);
 }
+
 gain-per-element icon.any {
   background-image: url(../../images/board/element_simple_any.png);
 }
@@ -1729,24 +1746,31 @@ gain-per-fear icon.custom3 {
 gain-per-fear icon.sun {
   background-image: url(../../images/board/element_simple_sun.png);
 }
+
 gain-per-fear icon.earth {
   background-image: url(../../images/board/element_simple_earth.png);
 }
+
 gain-per-fear icon.plant {
   background-image: url(../../images/board/element_simple_plant.png);
 }
+
 gain-per-fear icon.fire {
   background-image: url(../../images/board/element_simple_fire.png);
 }
+
 gain-per-fear icon.air {
   background-image: url(../../images/board/element_simple_air.png);
 }
+
 gain-per-fear icon.moon {
   background-image: url(../../images/board/element_simple_moon.png);
 }
+
 gain-per-fear icon.animal {
   background-image: url(../../images/board/element_simple_animal.png);
 }
+
 gain-per-fear icon.water {
   background-image: url(../../images/board/element_simple_water.png);
 }

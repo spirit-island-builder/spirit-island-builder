@@ -109,6 +109,7 @@ presence-node {
   max-width: 130px;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 tr.energy-track presence-node {
@@ -131,7 +132,11 @@ td.tight {
   padding-right: 0px;
 }
 
-tr.plays-track {
+/* tr.plays-track {
+  height: 174px;
+} */
+
+presence-tracks tr:last-of-type {
   height: 174px;
 }
 
@@ -422,7 +427,7 @@ deep-layers {
   left: 0px;
   top: -3px;
   transform: translateX(50%);
-  position: relative;
+  position: absolute;
   z-index: 2;
   align-self: flex-start;
 }
