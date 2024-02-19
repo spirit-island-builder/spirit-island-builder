@@ -39,9 +39,9 @@ function parseSubNodes(aspect) {
 function parseSubtexts(aspect) {
   var subtexts = aspect.getElementsByTagName("aspect-subtext");
   if (subtexts && subtexts.length > 0) {
+    var finalsubtext = subtexts[0];
+    finalsubtext.innerHTML = `<aspect-rule>${finalsubtext.innerHTML}</aspect-rule>`;
     if (subtexts.length > 1) {
-      var finalsubtext = subtexts[0];
-      finalsubtext.innerHTML = `<aspect-rule>${finalsubtext.innerHTML}</aspect-rule>`;
       for (var i = 1; i < subtexts.length; i++) {
         finalsubtext.innerHTML += `<aspect-rule>${subtexts[i].innerHTML}</aspect-rule>`;
       }
@@ -141,12 +141,24 @@ function parseSpecialRules(aspect) {
 }
 
 function resizeAspect(aspect) {
+  let debug = true;
   const aspectContainer = aspect.getElementsByTagName("aspect-container")[0];
   const aspectName = aspect.getElementsByTagName("aspect-name")[0];
   const aspectSubtext = aspect.getElementsByTagName("aspect-subtext")[0];
+  if (debug) {
+    console.log("resizing aspect");
+  }
+  if (checkOverflowHeight(aspect)) {
+    if (debug) {
+      console.log("aspect is overflowing");
+    }
+  }
   if (checkOverflowHeight(aspectContainer)) {
-    console.log("its overflowing");
+    console.log("container is overflowing");
     console.log(aspectContainer);
+
+    // Try smaller text
+    aspectContainer.classList.add("tight");
     aspectContainer.style.height =
       aspect.clientHeight - aspectName.clientHeight - aspectSubtext.clientHeight + "px";
 
