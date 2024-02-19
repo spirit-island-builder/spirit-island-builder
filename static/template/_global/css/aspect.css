@@ -174,15 +174,19 @@ aspect-container {
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
-/* aspect-container innate-power {
-  width: 100%;
-} */
+aspect-container special-rule,
+aspect-container level div.description {
+  font-size: 27px;
+}
 
-/* aspect innate-power description-container {
-  width: 100%;
-} */
+aspect-container.tight special-rule,
+aspect-container.tight level div.description {
+  font-size: 24px;
+  line-height: 26px;
+}
 
 aspect growth-table {
   scale: 1.156;
@@ -293,30 +297,26 @@ icon.or {
 }
 
 aspect innate-power {
-  /* scale: 0.9;
-  transform-origin: left top; */
   margin-left: 0px;
 }
 
-/* aspect innate-power info-container, aspect innate-power description-container{
-  scale: 0.9;
-  transform-origin: left top;
-} */
-
 aspect special-rule {
-  /* font-size: 15.5pt; */
-  line-height: 26px;
   padding-bottom: 21px;
   white-space: pre-line;
 }
 
 aspect special-rules-subtitle {
-  font-size: 21.33px;
   padding-top: 0px;
 }
 
 aspect innate-power-title {
-  font-size: 21.33px;
+  margin-top: 0px;
+}
+
+aspect special-rules-subtitle,
+aspect innate-power-title {
+  font-size: 20px;
+  letter-spacing: -1.5px;
 }
 
 aspect growth-cell {
@@ -373,7 +373,7 @@ aspect-subtext icon.dahan {
 }
 
 aspect.has-bonus-node aspect-container {
-  width: 550px;
+  width: 557px;
 }
 
 aspect bonus-node {
@@ -413,4 +413,10 @@ aspect threshold icon {
 
 aspect threshold-num {
   width: 15px;
+}
+
+aspect info-title-speed,
+aspect info-title-range,
+aspect info-title-target {
+  padding-bottom: 3px;
 }
