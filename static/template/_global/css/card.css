@@ -749,3 +749,7 @@ power-subtitle {
     left: 30px;
   }
 }
+
+card rules-container range-value {
+  top: -7px;
+}

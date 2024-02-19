@@ -53,7 +53,7 @@ aspect {
 aspect.profile {
   width: 567px;
   height: 786px;
-  padding: 19px 16px 24px 19px;
+  padding: 24px 24px 25px 26px;
   background-image: url("../images/aspect-profile.png");
 }
 
@@ -105,8 +105,8 @@ aspect complexity {
 }
 
 aspect.profile complexity {
-  top: 24px;
-  right: 10px;
+  top: 36px;
+  right: 15px;
 }
 
 aspect-subtext icon {
@@ -124,7 +124,7 @@ complexity.down {
 }
 
 aspect aspect-subtext {
-  padding-top: 7px;
+  padding-top: 3px;
   padding-left: 26px;
   padding-right: 22px;
   font-size: 20px;
@@ -135,8 +135,9 @@ aspect aspect-subtext {
   margin-left: -25px;
   margin-right: 19px;
 
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
   white-space: normal;
   flex-shrink: 0;
@@ -147,12 +148,16 @@ aspect aspect-subtext {
   background-repeat: no-repeat;
 
   min-height: 20px;
+  padding-bottom: 5px;
+
+  letter-spacing: -1px;
+  word-spacing: -1px;
+  line-height: 1.125;
 }
 
 aspect.profile aspect-subtext {
-  width: 567px;
+  width: 553px;
   margin-left: -19px;
-  padding-top: 3px;
 }
 
 aspect aspect-subtext.has-complexity {
@@ -165,7 +170,7 @@ aspect.profile aspect-subtext.has-complexity {
 }
 
 aspect-container {
-  padding: 18px 10px 10px 15px;
+  padding: 11px 10px 10px 15px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -178,6 +183,17 @@ aspect-container {
 /* aspect innate-power description-container {
   width: 100%;
 } */
+
+aspect growth-table {
+  scale: 1.156;
+  transform-origin: top left;
+}
+
+aspect-rule {
+  display: block;
+  min-height: unset;
+  width: 100%;
+}
 
 aspect innate-power level,
 aspect innate-power note,
@@ -364,7 +380,8 @@ aspect bonus-node {
   display: block;
   position: absolute;
   top: 250px;
-  left: 620px;
+  left: 605px;
+  scale: 1.156;
 }
 
 aspect.profile bonus-node {
@@ -375,10 +392,25 @@ aspect.profile bonus-node {
 bonus-text {
   display: block;
   position: absolute;
-  top: -32px;
+  top: -40px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 28px;
   font-family: "Name Headings";
   text-transform: uppercase;
+}
+
+aspect threshold {
+  display: inline-flex;
+  align-items: center;
+  font-size: 34px;
+}
+
+aspect threshold icon {
+  height: 38px;
+  width: 38px;
+}
+
+aspect threshold-num {
+  width: 15px;
 }

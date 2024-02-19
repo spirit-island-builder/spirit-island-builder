@@ -12,7 +12,6 @@ function startMain() {
     parseSubNodes(aspects[i]);
     parseSpecialRules(aspects[i]);
     aspects[i].innerHTML = replaceIcon(aspects[i].innerHTML);
-    resizeAspect(aspects[i]);
   }
   var backs = document.querySelectorAll("aspect-back");
   for (var i = 0; i < backs.length; i++) {
@@ -20,6 +19,7 @@ function startMain() {
   }
 
   setTimeout(function () {
+    resizeAspect(aspects[0]);
     innatePowerSizing(document);
   }, 200);
 }
@@ -41,9 +41,9 @@ function parseSubtexts(aspect) {
   if (subtexts && subtexts.length > 0) {
     if (subtexts.length > 1) {
       var finalsubtext = subtexts[0];
+      finalsubtext.innerHTML = `<aspect-rule>${finalsubtext.innerHTML}</aspect-rule>`;
       for (var i = 1; i < subtexts.length; i++) {
-        finalsubtext.innerHTML += "<br>" + subtexts[i].innerHTML;
-        //console.log(subtexts[i].remove());
+        finalsubtext.innerHTML += `<aspect-rule>${subtexts[i].innerHTML}</aspect-rule>`;
       }
       for (var i = subtexts.length - 1; i > 0; i--) {
         subtexts[i].remove();
@@ -170,6 +170,11 @@ function resizeAspect(aspect) {
         });
       }
     }
+  }
+
+  const aspectRules = aspectSubtext.getElementsByTagName("aspect-rule");
+  for (i = 0; i < aspectRules.length; i++) {
+    balanceText(aspectRules[i]);
   }
 }
 

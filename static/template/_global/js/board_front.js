@@ -3250,17 +3250,20 @@ function innatePowerSizing(board) {
   }
 }
 
-function balanceText(el) {
+function balanceText(el, lineHeight = 23) {
   let debug = false;
-  if (debug) {
-    console.log("Balancing Text: " + el.textContent);
-  }
   const initialHeight = el.offsetHeight;
-  if (initialHeight > 23) {
+  const initialWidth = el.offsetWidth;
+  if (debug) {
+    console.log(
+      "Balancing Text: " + el.textContent + " H:" + initialHeight + ", W:" + initialWidth
+    );
+  }
+  if (initialHeight > lineHeight) {
     // No action needed for 1 liners (~19px growth, ~22px presence)
     let currentHeight = initialHeight;
     let j = 0;
-    let k = Math.trunc(el.offsetWidth);
+    let k = Math.trunc(initialWidth);
     let overflow = false;
     while (currentHeight <= initialHeight) {
       overflow = checkOverflowWidth(el, 0);
@@ -3275,6 +3278,9 @@ function balanceText(el) {
       el.style.width = k + "px";
       currentHeight = el.offsetHeight;
       j += 1;
+      if (debug) {
+        console.log(" H:" + currentHeight + ", W:" + k);
+      }
       if (j > 200) {
         if (debug) {
           console.log("Max text reduction reached for");
