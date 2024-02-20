@@ -21,6 +21,10 @@
       {
         "name": "Shadows - Dark Fire",
         "url": "/template/MyCustomContent/MyAspect/Dark_Fire_Aspect.html"
+      },
+      {
+        "name": "Keeper - Spreading Hostility",
+        "url": "/template/MyCustomContent/MyAspect/Hostility_Aspect.html"
       }
     ]
   }
