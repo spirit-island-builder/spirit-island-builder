@@ -191,6 +191,11 @@ aspect-container.tight level div.description {
 aspect growth-table {
   scale: 1.156;
   transform-origin: top left;
+  width: unset;
+}
+
+aspect growth-table.tight {
+  scale: 1;
 }
 
 aspect-rule {
