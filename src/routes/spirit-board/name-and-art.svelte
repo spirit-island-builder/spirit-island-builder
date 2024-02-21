@@ -10,8 +10,8 @@
 
   function hideAllTexts() {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
-    let growthPanel = previewFrame.document.getElementsByTagName("board")[0];
-    growthPanel.classList.add("hide-text");
+    let spiritBoard = previewFrame.document.getElementsByTagName("board")[0];
+    spiritBoard.classList.add("hide-text");
   }
 
   function setType(type, spiritBoard) {
@@ -28,6 +28,12 @@
 
   function toggleSingleBanner() {
     spiritBoard.nameAndArt.isOneBanner = !spiritBoard.nameAndArt.isOneBanner;
+  }
+
+  function togglePrinterClean() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let spiritBoard = previewFrame.document.getElementsByTagName("board")[0];
+    spiritBoard.classList.add("printer-clean");
   }
 </script>
 
@@ -188,5 +194,9 @@
   <div class="control">
     <button class="button is-warning is-light is-small row-button" on:click={hideAllTexts}
       >Click to Remove Unchangeable Text</button>
+  </div>
+  <div class="control">
+    <button class="button is-warning is-light is-small row-button" on:click={togglePrinterClean}
+      >Click for Printer-Friendly</button>
   </div>
 </Section>
