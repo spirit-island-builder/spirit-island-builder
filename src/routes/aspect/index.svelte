@@ -4,6 +4,7 @@
   import * as Lib from "../lib";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import { dev } from "$app/environment";
 
   import NameReplacements from "./name-replacements.svelte";
   import AspectEffects from "./aspect-effects.svelte";
@@ -346,6 +347,17 @@
     aspect.aspectEffects.isVisible = false;
     customIcons.isVisible = false;
   }
+
+  let overlayImage;
+  function addOverlay() {
+    console.log("adding overlay");
+    console.log(overlayImage);
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let aspectDom = previewFrame.document.getElementsByTagName("aspect")[0];
+    const overlay = previewFrame.document.createElement("dev-overlay");
+    aspectDom.appendChild(overlay);
+    overlay.style.backgroundImage = `url('${overlayImage}')`;
+  }
 </script>
 
 <PreviewFrame
@@ -376,6 +388,15 @@
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+  {#if dev}
+    <LoadButton
+      accept="image/png, image/jpeg"
+      class="button is-file-load is-small"
+      loadDataURL={(url) => {
+        overlayImage = url;
+      }}>Load Overlay</LoadButton>
+    <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
+  {/if}
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">
