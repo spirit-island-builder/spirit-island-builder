@@ -40,9 +40,9 @@
 }
 
 @font-face {
- font-family: "Short Name Headings";
- src: url(../fonts/DKSnemand/DKSnemandShort.otf),
- url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf);
+  font-family: "Short Name Headings";
+  src: url(../fonts/DKSnemand/DKSnemandShort.otf),
+    url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf);
 }
 
 @font-face {
