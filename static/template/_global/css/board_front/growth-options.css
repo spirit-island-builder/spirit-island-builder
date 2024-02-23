@@ -18,6 +18,11 @@ growth:hover {
   cursor: pointer;
 }
 
+board.printer-clean growth {
+  background-image: none;
+  background-color: white;
+}
+
 growth section-title {
   margin-left: 47px;
   margin-top: -12px;
@@ -67,6 +72,11 @@ growth-bottom {
   height: 228px;
   bottom: 0px;
   z-index: -2;
+}
+
+board.printer-clean growth-bottom {
+  background-image: none;
+  background-color: white;
 }
 
 /* growth special-section-title.title-left {

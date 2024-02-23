@@ -29,7 +29,7 @@
     reloadPreview();
   }
 
-  const demoURL = "/template/MyCustomContent/MyPowerCard/Exampes_PowerCards.html";
+  const demoURL = "/template/MyCustomContent/MyPowerCard/Examples_PowerCards.html";
   function onLoad() {
     if (powerCards.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {

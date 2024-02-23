@@ -12,7 +12,6 @@ function startMain() {
     parseSubNodes(aspects[i]);
     parseSpecialRules(aspects[i]);
     aspects[i].innerHTML = replaceIcon(aspects[i].innerHTML);
-    resizeAspect(aspects[i]);
   }
   var backs = document.querySelectorAll("aspect-back");
   for (var i = 0; i < backs.length; i++) {
@@ -20,6 +19,7 @@ function startMain() {
   }
 
   setTimeout(function () {
+    resizeAspect(aspects[0]);
     innatePowerSizing(document);
   }, 200);
 }
@@ -39,11 +39,11 @@ function parseSubNodes(aspect) {
 function parseSubtexts(aspect) {
   var subtexts = aspect.getElementsByTagName("aspect-subtext");
   if (subtexts && subtexts.length > 0) {
+    var finalsubtext = subtexts[0];
+    finalsubtext.innerHTML = `<aspect-rule>${finalsubtext.innerHTML}</aspect-rule>`;
     if (subtexts.length > 1) {
-      var finalsubtext = subtexts[0];
       for (var i = 1; i < subtexts.length; i++) {
-        finalsubtext.innerHTML += "<br>" + subtexts[i].innerHTML;
-        //console.log(subtexts[i].remove());
+        finalsubtext.innerHTML += `<aspect-rule>${subtexts[i].innerHTML}</aspect-rule>`;
       }
       for (var i = subtexts.length - 1; i > 0; i--) {
         subtexts[i].remove();
@@ -141,12 +141,24 @@ function parseSpecialRules(aspect) {
 }
 
 function resizeAspect(aspect) {
+  let debug = true;
   const aspectContainer = aspect.getElementsByTagName("aspect-container")[0];
   const aspectName = aspect.getElementsByTagName("aspect-name")[0];
   const aspectSubtext = aspect.getElementsByTagName("aspect-subtext")[0];
+  if (debug) {
+    console.log("resizing aspect");
+  }
+  if (checkOverflowHeight(aspect)) {
+    if (debug) {
+      console.log("aspect is overflowing");
+    }
+  }
   if (checkOverflowHeight(aspectContainer)) {
-    console.log("its overflowing");
+    console.log("container is overflowing");
     console.log(aspectContainer);
+
+    // Try smaller text
+    aspectContainer.classList.add("tight");
     aspectContainer.style.height =
       aspect.clientHeight - aspectName.clientHeight - aspectSubtext.clientHeight + "px";
 
@@ -171,6 +183,20 @@ function resizeAspect(aspect) {
       }
     }
   }
+
+  const aspectRules = aspectSubtext.getElementsByTagName("aspect-rule");
+  for (i = 0; i < aspectRules.length; i++) {
+    balanceText(aspectRules[i]);
+  }
+
+  const growthTables = aspect.getElementsByTagName("growth-table");
+  if (growthTables) {
+    for (i = 0; i < growthTables.length; i++) {
+      if (checkOverflowWidth(growthTables[i].parentNode)) {
+        growthTables[i].classList.add("tight");
+      }
+    }
+  }
 }
 
 function checkOverflowHeight(el) {
@@ -179,6 +205,17 @@ function checkOverflowHeight(el) {
     el.style.overflow = "auto";
   }
   let isOverflowing = el.clientHeight < el.scrollHeight;
+  el.style.overflow = curOverflow;
+
+  return isOverflowing;
+}
+
+function checkOverflowWidth(el) {
+  let curOverflow = el.style.overflow;
+  if (!curOverflow || curOverflow === "visible") {
+    el.style.overflow = "auto";
+  }
+  let isOverflowing = el.clientWidth < el.scrollWidth;
   el.style.overflow = curOverflow;
 
   return isOverflowing;
