@@ -96,7 +96,9 @@ innate-info {
 }
 
 info-title-speed {
-  width: 143px;  color: white;
+  width: 143px;
+  padding-bottom: 4px;
+  color: white;
 }
 
 innate-info-speed {
@@ -106,7 +108,9 @@ innate-info-speed {
 }
 
 info-title-range {
-  width: 155px;  color: white;
+  width: 155px;
+  padding-bottom: 4px;
+  color: white;
 }
 
 innate-info-range {
@@ -118,6 +122,7 @@ innate-info-range {
 
 info-title-target {
   width: 165px;
+  padding-bottom: 4px;
   color: white;
 }
 innate-info-target {
