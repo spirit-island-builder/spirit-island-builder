@@ -185,11 +185,11 @@ card.minor type-watermark {
 
 name {
   position: absolute;
-  left: 133px;
-  top: 25px;
+  left: 136px;
+  top: 21px;
   height: 68px;
   width: 320px;
-  font-size: 28px;
+  font-size: 30px;
   line-height: 32px;
   word-spacing: -3px;
   font-family: "Short Name Headings";
@@ -200,6 +200,7 @@ name {
   text-align: center;
   white-space: normal;
   align-items: center;
+  word-spacing: -6px;
 }
 
 name:hover {
