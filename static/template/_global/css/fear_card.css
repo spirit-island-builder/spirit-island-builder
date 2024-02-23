@@ -72,7 +72,7 @@ fear-card-name {
   justify-content: center;
 
   font-size: 29px;
-  font-family: "Name Headings";
+  font-family: "Short Name Headings";
   white-space: normal;
   height: 68px;
   width: inherit;
@@ -122,7 +122,7 @@ blight-heading {
   width: inherit;
   font-size: 64px;
   line-height: 32px;
-  font-family: "Name Headings";
+  font-family: "Short Name Headings";
   color: #57544a;
   text-align: center;
   text-transform: uppercase;
