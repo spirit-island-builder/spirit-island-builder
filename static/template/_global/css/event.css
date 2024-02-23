@@ -261,8 +261,9 @@ subevent-header {
   align-items: center;
   padding-top: 15px;
   padding-left: 7px;
-  padding-right: 7px;
+  padding-right: 17px;
   height: 53px;
+  font-weight:bold;
 }
 
 subevent-header.choice {
