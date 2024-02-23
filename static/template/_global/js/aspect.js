@@ -188,6 +188,15 @@ function resizeAspect(aspect) {
   for (i = 0; i < aspectRules.length; i++) {
     balanceText(aspectRules[i]);
   }
+
+  const growthTables = aspect.getElementsByTagName("growth-table");
+  if (growthTables) {
+    for (i = 0; i < growthTables.length; i++) {
+      if (checkOverflowWidth(growthTables[i].parentNode)) {
+        growthTables[i].classList.add("tight");
+      }
+    }
+  }
 }
 
 function checkOverflowHeight(el) {
@@ -196,6 +205,17 @@ function checkOverflowHeight(el) {
     el.style.overflow = "auto";
   }
   let isOverflowing = el.clientHeight < el.scrollHeight;
+  el.style.overflow = curOverflow;
+
+  return isOverflowing;
+}
+
+function checkOverflowWidth(el) {
+  let curOverflow = el.style.overflow;
+  if (!curOverflow || curOverflow === "visible") {
+    el.style.overflow = "auto";
+  }
+  let isOverflowing = el.clientWidth < el.scrollWidth;
   el.style.overflow = curOverflow;
 
   return isOverflowing;
