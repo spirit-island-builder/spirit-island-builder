@@ -35,8 +35,14 @@
 
 @font-face {
   font-family: "Name Headings";
-  src: url(../fonts/DKSnemand/DK-Snemand.otf), local("DK Snemand Regular"),
+  src: url(../fonts/DKSnemand/DKSnemandTall.otf),
     url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf);
+}
+
+@font-face {
+ font-family: "Short Name Headings";
+ src: url(../fonts/DKSnemand/DKSnemandShort.otf),
+ url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf);
 }
 
 @font-face {
