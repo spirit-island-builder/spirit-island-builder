@@ -276,9 +276,9 @@ subevent-header.choice {
   height: unset;
 }
 
-subevent-header.blighted,
+/* subevent-header.blighted,
 subevent-header.healthy {
-}
+} */
 
 event-header {
   font-family: "Name Headings";
