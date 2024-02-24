@@ -221,7 +221,7 @@ subevent-banner-icon.terror3 {
 }
 
 subevent-banner-text {
-  font-family: "Name Headings";
+  font-family: "Short Name Headings";
   font-size: 18pt;
   position: relative;
   display: block;
@@ -247,7 +247,7 @@ subevent-body {
 }
 
 subevent-header {
-  font-family: "Name Headings";
+  font-family: "Short Name Headings";
   color: #3d2919;
   font-size: 24pt;
   word-spacing: -2px;
@@ -276,9 +276,9 @@ subevent-header.choice {
   height: unset;
 }
 
-subevent-header.blighted,
+/* subevent-header.blighted,
 subevent-header.healthy {
-}
+} */
 
 event-header {
   font-family: "Name Headings";
@@ -300,7 +300,7 @@ event-header {
 }
 
 token-event-name {
-  font-family: Name Headings;
+  font-family: "Short Name Headings";
   letter-spacing: 0px;
 }
 

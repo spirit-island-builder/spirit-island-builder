@@ -57,7 +57,7 @@ effect-name {
   position: relative;
   display: block;
   font-size: 29px;
-  font-family: "Name Headings";
+  font-family: "Short Name Headings";
   white-space: normal;
   width: inherit;
   line-height: 32px;
@@ -86,9 +86,9 @@ blight-heading {
   position: absolute;
   top: 8.5%;
   width: inherit;
-  font-size: 64px;
+  font-size: 56px;
   line-height: 32px;
-  font-family: "Name Headings";
+  font-family: "Short Name Headings";
   color: #57544a;
   text-align: center;
   text-transform: uppercase;
