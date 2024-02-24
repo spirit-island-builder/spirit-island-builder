@@ -4,6 +4,7 @@
   import * as Lib from "../lib";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import { dev } from "$app/environment";
 
   import EventType from "./event-type.svelte";
   import TokeneventType from "./tokenevents.svelte";
@@ -201,6 +202,17 @@
     eventCard.tokenevents.isVisible = false;
     customIcons.isVisible = false;
   }
+
+  let overlayImage;
+  function addOverlay() {
+    console.log("adding overlay");
+    console.log(overlayImage);
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let eventCardDOM = previewFrame.document.getElementsByTagName("event-card")[0];
+    const overlay = previewFrame.document.createElement("dev-overlay");
+    eventCardDOM.appendChild(overlay);
+    overlay.style.backgroundImage = `url('${overlayImage}')`;
+  }
 </script>
 
 <PreviewFrame id="event-card-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
@@ -226,6 +238,15 @@
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+  {#if dev}
+    <LoadButton
+      accept="image/png, image/jpeg"
+      class="button is-file-load is-small"
+      loadDataURL={(url) => {
+        overlayImage = url;
+      }}>Load Overlay</LoadButton>
+    <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
+  {/if}
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">

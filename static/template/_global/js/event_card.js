@@ -29,7 +29,7 @@ function resize(eventType) {
   if (eventType === "blight" || eventType === "stage" || eventType === "terror") {
     let subeventHeaders = document.querySelectorAll("subevent-header");
     subeventHeaders.forEach((header) => {
-      let fontUpdate = dynamicSizing(header, 55);
+      let fontUpdate = dynamicSizing(header, 58);
       if (fontUpdate) {
         subeventHeaders.forEach((header2) => {
           header2.style.fontSize = fontUpdate;
