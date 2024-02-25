@@ -67,7 +67,7 @@ event-body {
 
 token-event {
   width: 444px;
-  height: 100px;
+  height: 106px;
   position: absolute;
   left: 24px;
   box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.4);
@@ -142,17 +142,15 @@ token-event-icon.badlands {
 
 token-event-effect {
   font-family: "JosefinSans-Regular";
-  font-size: 15pt;
-  letter-spacing: -1px;
+  font-size: 19px;
+  letter-spacing: -0.5px;
   word-spacing: 0px;
   white-space: pre-line;
   position: relative;
-  display: block;
+  display: inline-block;
   text-align: left;
-  padding-top: 10px;
   padding-right: 30px;
-  margin-bottom: 5px;
-  padding-left: 5px;
+  padding-left: 7px;
   width: 374px;
 }
 
@@ -205,6 +203,7 @@ subevent-banner-icon {
   position: relative;
   width: 60px;
   height: 60px;
+  left: 7px;
 }
 
 subevent-banner-icon.terror1 {
@@ -236,6 +235,9 @@ subevent {
   flex-direction: row;
   width: 100%;
   height: 100%;
+}
+
+subevent:first-child {
   margin-top: -10px;
 }
 
@@ -252,22 +254,24 @@ subevent-header {
   width: 100%;
   font-family: "Short Name Headings";
   color: #3d2919;
-  font-size: 26px;
-  word-spacing: -6px;
-  letter-spacing: 0.7px;
+  text-shadow: 1px 0px 0 #3d2919;
+  font-size: 27px;
+  word-spacing: -7px;
+  letter-spacing: 0.25px;
   white-space: pre-line;
   position: relative;
-  display: flex;
+  display: block;
   align-self: center;
-  align-items: flex-end;
-  padding-left: 7px;
-  padding-right: 7px;
+  padding-left: 14px;
+  padding-right: 17px;
   height: 37px;
-  justify-content: center;
+  text-transform: lowercase;
+  text-align: center;
 }
 
 subevent:first-child subevent-header {
   height: 49px;
+  padding-top: 17px;
 }
 
 subevent-header.choice {
@@ -301,7 +305,6 @@ event-header {
   align-self: center;
   align-items: center;
   font-weight: bold;
-  padding-top: 0px;
   width: 400px;
   justify-content: center;
   min-height: 48px;
@@ -310,21 +313,28 @@ event-header {
 
 token-event-name {
   font-family: "Short Name Headings";
-  letter-spacing: 0px;
+  letter-spacing: -0.1px;
+  word-spacing: -3px;
+  font-size: 20px;
+  text-shadow: 0.5px 0px 0 #000000;
 }
 
 effect {
   font-family: "JosefinSans-Regular";
-  font-size: 15pt;
+  font-size: 20px;
+  line-height: 22px;
   letter-spacing: -1px;
-  word-spacing: 0px;
+  word-spacing: -2px;
   white-space: pre-line;
   position: relative;
   display: block;
   text-align: left;
-  padding-top: 5px;
   padding-right: 40px;
   padding-left: 11px;
+}
+
+subevent:first-child effect {
+  padding-top: 4px;
 }
 
 effect.title {
