@@ -293,9 +293,6 @@ function checkOverflow(el, maxSize = el.clientHeight) {
   }
   let isOverflowing = maxSize < el.scrollHeight;
   el.style.overflow = curOverflow;
-  /* 	console.log('el.clientHeight='+el.clientHeight)
-	console.log('el.scrollHeight='+el.scrollHeight)
-	console.log('isOverflowing?='+isOverflowing) */
 
   return isOverflowing;
 }

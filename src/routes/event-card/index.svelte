@@ -205,8 +205,6 @@
 
   let overlayImage;
   function addOverlay() {
-    console.log("adding overlay");
-    console.log(overlayImage);
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let eventCardDOM = previewFrame.document.getElementsByTagName("event-card")[0];
     const overlay = previewFrame.document.createElement("dev-overlay");
