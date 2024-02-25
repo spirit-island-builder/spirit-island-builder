@@ -19,9 +19,6 @@ async function startMain() {
 }
 
 function resize(eventType) {
-  //not sure we want to resize the whole card? this might be an error?
-  dynamicSizing(document.querySelectorAll("event-card")[0], 55);
-
   // resizes title (for choice events)
   dynamicSizing(document.getElementsByClassName("title")[0], 55);
 
@@ -290,7 +287,7 @@ function parseTokenEvent(el, bottomOffset) {
   html += `
       </token-event-icon-container>
       <token-event-texture> </token-event-texture>
-      <token-event-effect><token-event-name>${name}:</token-event-name> ${effect}</token-event-effect>
+      <token-event-effect><token-event-name>${name}</token-event-name><b>:</b> ${effect}</token-event-effect>
       
       </token-event class="${tokens}">
       `;
@@ -326,9 +323,10 @@ function dynamicSizing(el, maxSize = el.offsetHeight) {
 }
 
 function checkOverflow(el) {
+  console.log("checking overflow:" + el.tagName);
   let curOverflow = el.style.overflow;
   if (!curOverflow || curOverflow === "visible") {
-    el.style.overflow = "hidden";
+    el.style.overflow = "auto";
   }
   let isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
   el.style.overflow = curOverflow;
