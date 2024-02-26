@@ -18,9 +18,10 @@ function startMain() {
     parseAspectBack(backs[i]);
   }
 
+  innatePowerSizing(document);
+
   setTimeout(function () {
     resizeAspect(aspects[0]);
-    innatePowerSizing(document);
   }, 200);
 }
 
@@ -165,7 +166,7 @@ function resizeAspect(aspect) {
     const lastRuleType = aspectContainer.lastChild;
     console.log(lastRuleType);
     if (lastRuleType.tagName.toUpperCase() === "INNATE-POWER") {
-      console.log("here");
+      console.log("last rule is IP");
       if (checkOverflowHeight(lastRuleType)) {
         console.log("Innate Powers overflowing, shrinking space between levels");
         let levels = Array.from(aspect.getElementsByTagName("level"));

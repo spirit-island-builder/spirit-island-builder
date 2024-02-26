@@ -3194,12 +3194,28 @@ function getGrowthActionIconWidth(growthCell) {
 
 function innatePowerSizing(board) {
   console.log("RESIZING: Innate Powers (from board_front.js)");
+
+  let debug = true;
+  if (debug) {
+    console.log(board);
+  }
+
   // Innate Power Notes (scale font size)
   const noteBlocks = board.getElementsByTagName("note");
+
   for (let i = 0; i < noteBlocks.length; i++) {
     let noteHeight = noteBlocks[i].offsetHeight;
+    const lineHeight = parseFloat(
+      window.getComputedStyle(noteBlocks[i]).getPropertyValue("line-height").replace(/px/, "")
+    );
+    if (debug) {
+      console.log(lineHeight);
+    }
+    if (debug) {
+      console.log(lineHeight * 4.25);
+    }
     let j = 0;
-    while (noteHeight > 92) {
+    while (noteHeight > lineHeight * 4.1) {
       const style = window.getComputedStyle(noteBlocks[i], null).getPropertyValue("font-size");
       const fontSize = parseFloat(style);
       noteBlocks[i].style.fontSize = fontSize - 1 + "px";
