@@ -142,7 +142,8 @@ token-event-icon.badlands {
 
 token-event-effect {
   font-family: "JosefinSans-Regular";
-  font-size: 19px;
+  font-size: 20px;
+  line-height: 22px;
   letter-spacing: -0.5px;
   word-spacing: 0px;
   white-space: pre-line;
@@ -307,8 +308,8 @@ event-header {
   font-weight: bold;
   width: 400px;
   justify-content: center;
-  min-height: 48px;
-  padding-top: 18px;
+  min-height: 50px;
+  padding-top: 14px;
 }
 
 token-event-name {
@@ -329,12 +330,13 @@ effect {
   position: relative;
   display: block;
   text-align: left;
-  padding-right: 40px;
+  padding-right: 27px;
   padding-left: 11px;
 }
 
 subevent:first-child effect {
   padding-top: 4px;
+  padding-right: 35px;
 }
 
 effect.title {

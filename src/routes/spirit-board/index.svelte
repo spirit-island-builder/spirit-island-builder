@@ -835,6 +835,15 @@
     }
     //check if its clickable
   }
+
+  let overlayImage;
+  function addOverlay() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let eventCardDOM = previewFrame.document.getElementsByTagName("board")[0];
+    const overlay = previewFrame.document.createElement("dev-overlay");
+    eventCardDOM.appendChild(overlay);
+    overlay.style.backgroundImage = `url('${overlayImage}')`;
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -883,6 +892,13 @@
       {#if dev}
         <button class="button is-danger mt-1 mr-1" on:click={toggleClickableInterface}
           >Toggle Clickable GUI</button>
+        <LoadButton
+          accept="image/png, image/jpeg"
+          class="button is-file-load is-small"
+          loadDataURL={(url) => {
+            overlayImage = url;
+          }}>Load Overlay</LoadButton>
+        <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
       {/if}
     </div>
   </div>
