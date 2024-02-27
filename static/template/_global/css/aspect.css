@@ -85,11 +85,11 @@ aspect.profile aspect-subtext.has-complexity {
   padding-right: 109px;
 }
 
-aspect.profile aspect-name.has-complexity,
+/* aspect.profile aspect-name.has-complexity,
 aspect.profile aspect-subtext.has-complexity {
-  /* padding-right: 91px;
-  padding-left: 28px; */
-}
+  padding-right: 91px;
+  padding-left: 28px;
+} */
 
 aspect complexity {
   background-repeat: no-repeat;
@@ -226,9 +226,9 @@ aspect-container innate-power:only-child note {
   width: 100% !important;
 }
 
-aspect-container level .description {
-  /* padding-top: 13px; */
-}
+/* aspect-container level .description {
+  padding-top: 13px;
+} */
 
 aspect-back {
   width: 786px;
@@ -370,17 +370,17 @@ aspect-subtext icon.presence {
   /* background-image: url("../images/board/aspect-white-icons/50px_presence_white.png"); */
 }
 
-aspect-subtext icon.blight {
-  /* background-image: url("../images/board/aspect-white-icons/75px_blight_white.png"); */
+/* aspect-subtext icon.blight {
+  background-image: url("../images/board/aspect-white-icons/75px_blight_white.png");
 }
 
 aspect-subtext icon.beasts {
-  /* background-image: url("../images/board/aspect-white-icons/beast_white.png"); */
+  background-image: url("../images/board/aspect-white-icons/beast_white.png");
 }
 
 aspect-subtext icon.dahan {
-  /* background-image: url("../images/board/aspect-white-icons/50px_dahan_white.png"); */
-}
+  background-image: url("../images/board/aspect-white-icons/50px_dahan_white.png");
+} */
 
 aspect.has-bonus-node aspect-container {
   width: 557px;
