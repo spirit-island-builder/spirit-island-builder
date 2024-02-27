@@ -305,7 +305,7 @@
     console.log(powerCards.cardBackImage);
     if (powerCards.cardBackImage) {
       elementNamesInIframe.push(`#cardBack`);
-      fileNames.push("BackImage.png");
+      fileNames.push(powerCards.spiritName.replaceAll(" ", "_") + "_BackImage.png");
     }
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
