@@ -285,7 +285,7 @@ aspect-back img {
   text-align: center;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .aspect-back-name {
@@ -300,7 +300,7 @@ aspect-back img {
   text-transform: uppercase;
   color: black;
   text-align: center;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
 }
 
