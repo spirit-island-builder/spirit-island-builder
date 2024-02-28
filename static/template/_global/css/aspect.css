@@ -62,6 +62,9 @@ aspect.round-border {
 }
 
 aspect aspect-name {
+  display: block;
+  position: relative;
+
   font-size: 34px;
   font-family: "Name Headings";
   text-transform: uppercase;
@@ -135,6 +138,7 @@ aspect aspect-subtext {
   margin-left: -25px;
   margin-right: 19px;
 
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
