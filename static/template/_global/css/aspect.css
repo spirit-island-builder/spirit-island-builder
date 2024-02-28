@@ -274,13 +274,17 @@ aspect-back img {
 .aspect-back-title {
   position: absolute;
   left: 35px;
-  top: 34px;
+  top: 37px;
   width: 332px;
-  height: 42px;
+  height: 40px;
   font-size: 35px;
-  font-family: "Name Headings";
+  font-family: "Short Name Headings";
   color: white;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 4px solid #000;
 }
 
 .aspect-back-name {
@@ -288,6 +292,7 @@ aspect-back img {
   top: 77px;
   left: 35px;
   width: 332px;
+  height: 31.33333px;
   font-size: 26px;
   font-family: "Name Headings";
   text-transform: uppercase;
