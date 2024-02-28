@@ -78,6 +78,7 @@ aspect aspect-name {
   text-align: center;
   white-space: normal;
   letter-spacing: 1px;
+  border: 5px solid red;
 }
 aspect aspect-name.no-subtext {
   padding-bottom: 28px;
