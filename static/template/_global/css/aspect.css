@@ -63,22 +63,21 @@ aspect.round-border {
 
 aspect aspect-name {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   position: relative;
   top: 0px;
   right: 0px;
-  height: 49px;
+  height: 45px;
   font-size: 34px;
   font-family: "Name Headings";
   text-transform: uppercase;
   color: white;
-  padding-bottom: 8px;
+  margin-bottom: 8px;
   padding-top: 0px;
   text-align: center;
   white-space: normal;
   letter-spacing: 1px;
-  border: 5px solid red;
 }
 aspect aspect-name.no-subtext {
   padding-bottom: 28px;
