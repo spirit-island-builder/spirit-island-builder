@@ -62,7 +62,9 @@ aspect.round-border {
 }
 
 aspect aspect-name {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   top: 0px;
   right: 0px;
@@ -284,11 +286,11 @@ aspect-back img {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 4px solid #000;
 }
 
 .aspect-back-name {
   position: absolute;
+  display: flex;
   top: 77px;
   left: 35px;
   width: 332px;
@@ -298,6 +300,8 @@ aspect-back img {
   text-transform: uppercase;
   color: black;
   text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 icon.or {
