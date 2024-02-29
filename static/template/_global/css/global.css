@@ -64,6 +64,10 @@
   letter-spacing: -0.5px;
 }
 
+body {
+  font-variant-ligatures: none;
+}
+
 icon {
   position: relative;
   display: inline-flex;
