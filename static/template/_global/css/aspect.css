@@ -68,20 +68,28 @@ aspect aspect-name {
   position: relative;
   top: 0px;
   right: 0px;
-  height: 45px;
+  height: 41px;
   font-size: 34px;
   font-family: "Name Headings";
   text-transform: uppercase;
   color: white;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   padding-top: 0px;
   text-align: center;
   white-space: normal;
   letter-spacing: 1px;
 }
+
 aspect aspect-name.no-subtext {
-  padding-bottom: 28px;
+  padding-bottom: 3px;
+  margin-bottom: 35px;
 }
+
+aspect.profile aspect-name.no-subtext {
+  padding-bottom: 3px;
+  margin-bottom: 35px;
+}
+
 aspect aspect-name.has-complexity,
 aspect aspect-subtext.has-complexity {
   padding-right: 107px;
@@ -90,6 +98,11 @@ aspect aspect-subtext.has-complexity {
 aspect.profile aspect-name.has-complexity,
 aspect.profile aspect-subtext.has-complexity {
   padding-right: 109px;
+}
+
+aspect.profile aspect-name {
+  height: 45px;
+  margin-bottom: 8px;
 }
 
 /* aspect.profile aspect-name.has-complexity,
