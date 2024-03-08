@@ -3645,22 +3645,28 @@ function parseSpecialRules() {
   const specialRuleNameList = specialRules.getElementsByTagName("special-rules-subtitle");
 
   // Enable snake-like presence track in special rules
-  const specialTrack = board.getElementsByTagName("special-rules-track")[0];
-  if (specialTrack) {
-    const specialValues = specialTrack.getAttribute("values");
-    const specialOptions = specialValues.split(",");
-    let specialHTML = "";
+  const specialTracks = board.getElementsByTagName("special-rules-track");
+  if (specialTracks.length) {
+    for (let j = 0; j < specialTracks.length; j++) {
+      let specialTrack = specialTracks[j];
+      if (specialTrack) {
+        let specialValues = specialTrack.getAttribute("values");
+        let specialOptions = specialValues.split(",");
+        let specialHTML = "";
 
-    for (let i = 0; i < specialOptions.length; i++) {
-      let nodeText = specialOptions[i];
-      specialHTML += "<td>" + getPresenceNodeHtml(nodeText, i === 0, i, "special", true) + "</td>";
-    }
-    specialHTML += "</tr>";
-    board.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
-    specialTrack.innerHTML = specialHTML;
-    const subtextList = specialTrack.getElementsByTagName("subtext");
-    for (let i = subtextList.length - 1; i >= 0; --i) {
-      subtextList[i].remove();
+        for (let i = 0; i < specialOptions.length; i++) {
+          let nodeText = specialOptions[i];
+          specialHTML +=
+            "<td>" + getPresenceNodeHtml(nodeText, i === 0, i, "special", true) + "</td>";
+        }
+        specialHTML += "</tr>";
+        board.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
+        specialTrack.innerHTML = specialHTML;
+        let subtextList = specialTrack.getElementsByTagName("subtext");
+        for (let i = subtextList.length - 1; i >= 0; --i) {
+          subtextList[i].remove();
+        }
+      }
     }
   }
 
