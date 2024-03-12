@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^2.0.1",
-    "@sveltejs/kit": "^1.0.0",
+    "@sveltejs/kit": "^1.15.2",
     "bulma": "^0.9.4",
     "cross-env": "^7.0.3",
     "eslint": "^8.16.0",
