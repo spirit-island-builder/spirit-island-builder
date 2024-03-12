@@ -583,6 +583,8 @@ threshold {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
 }
 
 threshold.description-wrap {
@@ -716,7 +718,7 @@ cost-threshold {
   font-style: italic;
   font-size: 20px;
   color: black;
-  top: 12px;
+  top: 22px;
   left: 6px;
   text-transform: capitalize;
   position: relative;
@@ -865,18 +867,13 @@ cost-threshold icon.cost-custom {
 }
 
 threshold-or {
-  font-family: "Name Headings";
+  font-family: "Short Name Headings";
   text-transform: uppercase;
   font-size: 24px;
   display: inline-block;
   position: relative;
-  top: -8px;
-  left: -26px;
-  height: 15px;
-  width: 1px;
-  margin-bottom: 8px;
-  margin-top: -28px;
-  margin-left: 26px;
+  left: -3px;
+  height: 33px;
 }
 
 note icon.sun {
