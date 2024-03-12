@@ -84,6 +84,7 @@ presence-bottom {
   width: 100%;
   height: 57px;
   bottom: 0px;
+  pointer-events: none;
 }
 
 board.printer-clean presence-bottom {

@@ -72,6 +72,7 @@ growth-bottom {
   height: 228px;
   bottom: 0px;
   z-index: -2;
+  pointer-events: none;
 }
 
 board.printer-clean growth-bottom {
