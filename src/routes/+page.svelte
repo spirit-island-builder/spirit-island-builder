@@ -7,10 +7,14 @@
   import "../innatePowers.css";
 
   import { browser, dev } from "$app/environment";
+  import { page } from "$app/stores";
   import { defineCustomElement } from "ionicons/components/ion-icon.js";
   if (browser) {
     defineCustomElement(window);
   }
+
+  //$page.url.pathname
+  console.log($page.url.hash);
 
   import SpiritBoard from "./spirit-board/index.svelte";
   import SpiritBoardBack from "./spirit-board-back/index.svelte";
@@ -29,7 +33,56 @@
   let debugDownloads = false;
   $: divertDownload(debugDownloads);
 
-  let currentPage = "spiritBoardFront";
+  let currentPage = $page.url.hash ? $page.url.hash.substring(1) : "spiritBoardFront";
+  switch (currentPage.toLowerCase()) {
+    case "spiritboardfront":
+    case "front":
+    case "play":
+      currentPage = "spiritBoardFront";
+      break;
+    case "spiritboardback":
+    case "back":
+    case "lore":
+      currentPage = "spiritBoardBack";
+      break;
+    case "powercards":
+    case "power":
+    case "powers":
+    case "cards":
+    case "card":
+      currentPage = "powerCards";
+      break;
+    case "incarnatoken":
+    case "incarna":
+    case "token":
+      currentPage = "incarnaToken";
+      break;
+    case "adversary":
+    case "advarsary":
+      currentPage = "adversary";
+      break;
+    case "aspect":
+    case "aspectt":
+      currentPage = "aspect";
+      break;
+
+    case "blightcard":
+    case "blight":
+      currentPage = "blightCard";
+      break;
+
+    case "fearcard":
+    case "fear":
+      currentPage = "fearCard";
+      break;
+
+    case "eventcard":
+    case "event":
+      currentPage = "eventCard";
+      break;
+    default:
+      currentPage = "spiritBoardFront";
+  }
 
   function setCurrentPage(page) {
     currentPage = page;
