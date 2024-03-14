@@ -3,6 +3,7 @@
 
   import * as Lib from "../lib";
   import { downloadHTML } from "$lib/download";
+  import { dev } from "$app/environment";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
   import examples from "./examples.json";
@@ -180,6 +181,15 @@
     await loadHTMLFromURL(example.url);
     hideAll();
   }
+
+  let overlayImage;
+  function addOverlay() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let eventCardDOM = previewFrame.document.getElementsByTagName("adversary")[0];
+    const overlay = previewFrame.document.createElement("dev-overlay");
+    eventCardDOM.appendChild(overlay);
+    overlay.style.backgroundImage = `url('${overlayImage}')`;
+  }
 </script>
 
 <PreviewFrame id="adversary-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
@@ -204,6 +214,15 @@
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+  {#if dev}
+    <LoadButton
+      accept="image/png, image/jpeg"
+      class="button is-file-load is-small"
+      loadDataURL={(url) => {
+        overlayImage = url;
+      }}>Load Overlay</LoadButton>
+    <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
+  {/if}
   <InstructionsLink class="button is-info mr-1" anchor="adversary" />
 </div>
 <div class="columns mt-0 mb-1">

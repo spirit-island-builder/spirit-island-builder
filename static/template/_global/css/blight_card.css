@@ -165,3 +165,17 @@ blight-reminder {
   text-align: center;
   line-height: 1.3;
 }
+
+blight-card dev-overlay {
+  display: block;
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-size: inherit;
+  opacity: 0.5;
+  filter: invert(1) saturate(0);
+  pointer-events: none;
+  z-index: 101;
+}
