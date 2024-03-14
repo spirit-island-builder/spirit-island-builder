@@ -8,6 +8,7 @@
   import NameEffects from "./name-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
   import { downloadHTML } from "$lib/download";
+  import { dev } from "$app/environment";
 
   export let fearCard;
   export let emptyFearCard;
@@ -156,6 +157,15 @@
   //   fearCard.card.isVisible = false;
   //   customIcons.isVisible = false;
   // }
+
+  let overlayImage;
+  function addOverlay() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let eventCardDOM = previewFrame.document.getElementsByTagName("template-fear-card")[0];
+    const overlay = previewFrame.document.createElement("dev-overlay");
+    eventCardDOM.appendChild(overlay);
+    overlay.style.backgroundImage = `url('${overlayImage}')`;
+  }
 </script>
 
 <PreviewFrame id="fear-card-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
@@ -182,6 +192,15 @@
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Board Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+  {#if dev}
+    <LoadButton
+      accept="image/png, image/jpeg"
+      class="button is-file-load is-small"
+      loadDataURL={(url) => {
+        overlayImage = url;
+      }}>Load Overlay</LoadButton>
+    <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
+  {/if}
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">

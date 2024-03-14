@@ -34,7 +34,7 @@
   $: divertDownload(debugDownloads);
 
   let currentPage = $page.url.hash ? $page.url.hash.substring(1) : "spiritBoardFront";
-  switch (currentPage.toLowerCase()) {
+  switch (currentPage.toLowerCase().replace(/\W/g, "")) {
     case "spiritboardfront":
     case "front":
     case "play":
