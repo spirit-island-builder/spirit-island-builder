@@ -25,6 +25,7 @@
   import FearCard from "./fear-card/index.svelte";
   import IncarnaToken from "./incarna-token/index.svelte";
   import EventCard from "./event-card/index.svelte";
+  import About from "./about/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
   import Footer from "./footer.svelte";
 
@@ -599,6 +600,7 @@
     ["blightCard", "Blight Card"],
     ["fearCard", "Fear Card"],
     ["eventCard", "Event Card"],
+    ["about", "About"],
   ];
 </script>
 
@@ -635,22 +637,6 @@
             </button>
           </div>
         </div>
-        <!-- <div class="field has-addons">
-          <button
-            class="button is-info button-hold mb-0"
-            on:click={toggleClickableInterface}>Toggle Clickable GUI</button>
-         </div>
-         <div class="navbar-menu">
-          <div class="navbar-end">
-            <button
-              class={`button navbar-item ${toggleClickableInterface ? "is-primary is-selected" : ""}`}
-              on:click={() => {
-                toggleClickableInterface = !toggleClickableInterface;
-              }}>
-              Toggle Clickable GUI
-            </button>
-          </div>
-        </div> -->
       {/if}
     </nav>
   </header>
@@ -674,6 +660,8 @@
       <FearCard bind:fearCard bind:emptyFearCard bind:customIcons />
     {:else if currentPage === "eventCard"}
       <EventCard bind:eventCard bind:emptyEventCard bind:customIcons />
+    {:else if currentPage === "about"}
+      <About />
     {/if}
   </div>
 
