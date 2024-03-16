@@ -113,9 +113,15 @@
 <Section title="Aspect Effects" bind:isVisible={aspect.aspectEffects.isVisible}>
   {#each aspect.aspectEffects.specialRules.rules as rule, i (rule.id)}
     <div class="field mb-0">
-      <label class="label is-flex is-justify-content-space-between" for={`ruleNameInputAspect${i}`}
-        >Special Rule {i + 1}
-      </label>
+      <div class="is-flex is-justify-content-space-between">
+        <label
+          class="label is-flex is-justify-content-space-between"
+          for={`ruleNameInputAspect${i}`}
+          >Special Rule {i + 1}
+        </label>
+        <button class="button is-warning is-light is-small" on:click={removeSpecialRule(i)}
+          >Remove Special Rule</button>
+      </div>
       <div class="growth-action-container">
         <div class="control" style="width:100%">
           <input
@@ -127,12 +133,12 @@
             on:focus={selectNode}
             bind:value={rule.name} />
         </div>
-        <button class="button is-warning is-light" on:click={removeSpecialRule(i)}>Remove</button>
       </div>
       <AutoComplete
         id={`ruleEffectInput${i}`}
         elementType="textarea"
         placeholder="Effect"
+        classNames="is-small"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={rule.effect} />
     </div>
@@ -169,14 +175,20 @@
   {/each}
   <div class="field mt-2">
     <div class="control">
-      <button class="button is-primary is-light" on:click={addSpecialRule}>Add Special Rule</button>
+      <button class="button is-primary is-light is-small" on:click={addSpecialRule}
+        >Add Special Rule</button>
     </div>
   </div>
   <hr class="mt-1 mb-1" />
   {#each aspect.aspectEffects.innatePowers.powers as power, i (power.id)}
     <div class="field mt-2">
-      <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
-        >{`Innate Power ${i + 1}`}</label>
+      <div class="is-flex is-justify-content-space-between">
+        <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
+          >{`Innate Power ${i + 1}`}</label>
+        <button
+          class="button is-primary is-small is-light is-warning"
+          on:click={removeInnatePower(i)}>Remove Innate Power</button>
+      </div>
       <div class="is-flex is-flex-direction-row">
         <div class="control" style="width:100%">
           <input
@@ -188,8 +200,6 @@
             on:focus={selectNode}
             bind:value={power.name} />
         </div>
-        <button class="button is-primary is-light is-warning" on:click={removeInnatePower(i)}
-          >Remove Innate Power</button>
       </div>
     </div>
     <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
@@ -288,11 +298,11 @@
       id={`power${i}addLevel`}
       on:click={addLevel(i)}>Add Level</button>
     {#each power.levels as level, j (level.id)}
-      <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
+      <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap power-level-fonts">
         <div class="control">
           <input
             id={`power${i}levelThreshold${j}`}
-            class="input is-small"
+            class="input is-small small-power"
             type="text"
             placeholder="Threshold"
             on:keyup={nextNode}
@@ -302,9 +312,9 @@
         <div class="control" style="width:100%">
           <AutoComplete
             id={`power${i}levelEffect${j}`}
-            elementType="input"
+            elementType="textarea"
             placeholder="Effect"
-            classNames="is-small"
+            classNames="is-small small-power"
             validAutoCompleteValues={iconValuesSorted}
             bind:value={level.effect} />
         </div>
@@ -324,7 +334,8 @@
     {/each}
   {/each}
   <div class="pt-1">
-    <button class="button is-primary is-light" on:click={addInnatePower}>Add Innate Power</button>
+    <button class="button is-primary is-light is-small" on:click={addInnatePower}
+      >Add Innate Power</button>
   </div>
   <hr class="mt-1 mb-1" />
   <label class="label is-flex is-justify-content-space-between" for={`bonusNode`}
