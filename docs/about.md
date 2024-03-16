@@ -13,6 +13,5 @@ Thank you to:
 And thank you for using this tool! I love hearing from users. Please feel free to provide feedback via [this Google form](https://forms.gle/7EaVLHfAvhmLjEDn8) or by emailing me directly at resonant@spiritislandbuilder.com
 
 *Resonant*
-resonant@spiritislandbuilder.com
 
 All materials belong to Greater Than Games, LLC. The Spirit Island Builder is unofficial and is not affiliated with Greater Than Games. 

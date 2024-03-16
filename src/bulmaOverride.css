@@ -18,6 +18,10 @@
   color: #fff;
 }
 
+.button {
+  font-family: "JosefinSans-Regular";
+}
+
 .button.is-danger {
   background-color: #d62026;
   border-color: transparent;
@@ -129,4 +133,12 @@ ion-icon {
   flex: 50%;
   flex-grow: 0;
   padding-right: 5px;
+}
+
+input.is-small.small-power,
+textarea.is-small.small-power {
+  padding: 1px 1px 1px 2px;
+  font-size: 10px;
+  min-height: 30px;
+  height: 2.5em;
 }

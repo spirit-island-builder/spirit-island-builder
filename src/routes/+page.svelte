@@ -641,7 +641,10 @@
     </nav>
   </header>
   <Instructions />
-  <div class="container" class:is-spiritBoardFront={currentPage === "spiritBoardFront"}>
+  <div
+    class="container"
+    class:is-spiritBoardFront={currentPage === "spiritBoardFront"}
+    class:is-sideMenu={currentPage === "aspect"}>
     {#if currentPage === "spiritBoardFront"}
       <SpiritBoard bind:spiritBoard bind:emptySpiritBoard bind:customIcons />
     {:else if currentPage === "spiritBoardBack"}
@@ -692,6 +695,9 @@
     width: 100vw;
   }
   .is-spiritBoardFront {
+    max-width: none !important;
+  }
+  .is-sideMenu {
     max-width: none !important;
   }
 </style>
