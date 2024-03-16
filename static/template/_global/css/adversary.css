@@ -34,7 +34,7 @@ li {
 
 adversary {
   display: block;
-  background-image: url(../images/adversary-frame.jpg);
+  background-image: url(../images/adversary/adversary-background-frame.png);
   background-repeat: no-repeat;
   background-size: cover;
   /* width: 800px;
@@ -45,20 +45,26 @@ adversary {
   position: absolute;
   top: 0px;
   left: 10px;
+  overflow: hidden;
 }
 
 adversary-title {
   display: block;
-  position: absolute;
+  position: relative;
   left: 0px;
   top: 0px;
-  height: 108px;
-  width: 888px;
+  height: 116px;
+  width: 1177px;
+  z-index: 3;
   text-align: center;
   line-height: 108px;
   font-size: 46px;
   font-family: "Name Headings";
   text-transform: uppercase;
+
+  background-image: url(../images/adversary/title-row-frame.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 adversary rule {
@@ -79,10 +85,15 @@ custom-meeple {
 .flag {
   display: block;
   position: absolute;
-  left: 888px;
-  top: 41px;
-  height: 148px;
-  width: 212px;
+  left: 894px;
+  top: 34px;
+  height: 162px;
+  width: 226px;
+  background-image: url(../images/adversary/flag-frame.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  z-index: 5;
+  padding: 5px;
 }
 
 adversary-base-dif {
@@ -101,10 +112,10 @@ adversary-base-dif {
 top-info {
   display: block;
   position: absolute;
-  left: 48px;
-  top: 111px;
-  height: 115px;
-  width: 839px;
+  left: 33px;
+  bottom: 551px;
+  height: 124px;
+  width: 1115px;
 
   display: flex;
   flex-wrap: nowrap;
@@ -117,7 +128,11 @@ top-info {
 
   padding-top: 7px;
   padding-left: 20px;
-  padding-right: 2px;
+  padding-right: 256px;
+
+  background-image: url(../images/adversary/loss-escalation-frame.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 section-title {
