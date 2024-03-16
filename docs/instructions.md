@@ -13,6 +13,7 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
 - Save: Click this button to immediately download save file for your Spirit
 - Download Image: Click this button to download a PNG of your Spirit Board or other content.
 - Export TTS file: Click this button to download an object file for the popular Spirit Island Tabletop Simulator mod.
+  - Check out [this video](https://www.youtube.com/watch?v=q7zS8x9dO4s) for instructions on how to set up your spirit in TTS. - Thank you James from MissingTriggers for the video.
 - Update Preview: Click this button to load a new preview board and see your changes.
 - Toggle Board Size: Click this to change the size of the preview. NOTE: While you can download images of Spirit Boards, you can also use a screen capture to get a higher resolution.
 - Clear All Fields: Click this to delete everything in the Builder form. It will ask for confirmation.
