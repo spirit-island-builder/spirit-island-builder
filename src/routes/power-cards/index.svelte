@@ -29,7 +29,7 @@
     reloadPreview();
   }
 
-  const demoURL = "/template/MyCustomContent/MyPowerCard/Exampes_PowerCards.html";
+  const demoURL = "/template/MyCustomContent/MyPowerCard/Examples_PowerCards.html";
   function onLoad() {
     if (powerCards.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
@@ -305,7 +305,7 @@
     console.log(powerCards.cardBackImage);
     if (powerCards.cardBackImage) {
       elementNamesInIframe.push(`#cardBack`);
-      fileNames.push("BackImage.png");
+      fileNames.push(powerCards.spiritName.replaceAll(" ", "_") + "_BackImage.png");
     }
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }

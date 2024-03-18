@@ -18,6 +18,11 @@ special-rules-container {
   position: relative;
 }
 
+board.printer-clean special-rules-container {
+  background-image: none;
+  background-color: white;
+}
+
 /* This seemed to break the DomToImage for some reason. I don't exactly know why. */
 /* special-rules-container::before {
   content: "";

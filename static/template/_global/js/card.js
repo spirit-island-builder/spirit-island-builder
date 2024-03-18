@@ -138,7 +138,7 @@ function setThreshold(card) {
       var addCondition = secondThreshold.getAttribute("condition");
       var addConditionText = `<threshold-condition id="${
         card.id
-      }thresholdCondition${i}"><span>${getThresholdElements(
+      }thresholdCondition${1}"><span>${getThresholdElements(
         addCondition
       )}:</span></threshold-condition>`;
       threshold.innerHTML += addConditionText + secondThreshold.innerHTML;
@@ -293,9 +293,6 @@ function checkOverflow(el, maxSize = el.clientHeight) {
   }
   let isOverflowing = maxSize < el.scrollHeight;
   el.style.overflow = curOverflow;
-  /* 	console.log('el.clientHeight='+el.clientHeight)
-	console.log('el.scrollHeight='+el.scrollHeight)
-	console.log('isOverflowing?='+isOverflowing) */
 
   return isOverflowing;
 }

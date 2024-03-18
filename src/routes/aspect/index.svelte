@@ -4,6 +4,7 @@
   import * as Lib from "../lib";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import { dev } from "$app/environment";
 
   import NameReplacements from "./name-replacements.svelte";
   import AspectEffects from "./aspect-effects.svelte";
@@ -346,45 +347,63 @@
     aspect.aspectEffects.isVisible = false;
     customIcons.isVisible = false;
   }
+
+  let overlayImage;
+  function addOverlay() {
+    console.log("adding overlay");
+    console.log(overlayImage);
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let aspectDom = previewFrame.document.getElementsByTagName("aspect")[0];
+    const overlay = previewFrame.document.createElement("dev-overlay");
+    aspectDom.appendChild(overlay);
+    overlay.style.backgroundImage = `url('${overlayImage}')`;
+  }
 </script>
 
-<PreviewFrame
-  id="aspect-preview"
-  bind:this={previewFrame}
-  on:hot-reload={reloadPreview}
-  class={aspect.profile ? "portrait" : ""}>
-  <svelte:fragment slot="head">
-    <link href="/template/_global/css/global.css" rel="stylesheet" />
-    <link href="/template/_global/css/aspect.css" rel="stylesheet" />
-    <script type="text/javascript" src="/template/_global/js/common.js"></script>
-    <script type="text/javascript" src="/template/_global/js/board_front.js"></script>
-    <script type="text/javascript" src="/template/_global/js/aspect.js"></script>
-  </svelte:fragment>
-</PreviewFrame>
-
-<div class="field has-addons mb-2 is-flex-wrap-wrap">
-  <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
-    Examples
-  </button>
-  <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
-    Load
-  </LoadButton>
-  <button class="button is-success  mr-1" on:click={exportAspect}> Save </button>
-  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
-  <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
-    >Update Preview</button>
-  <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
-    >Toggle Board Size</button>
-  <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-</div>
-<div class="columns mt-0 mb-1">
-  <div class="column pt-0">
+<div class="columns ml-4 mt-0 mb-1">
+  <div class="column is-one-third pt-0">
     <NameReplacements bind:aspect />
+    <AspectEffects bind:aspect />
     <CustomIcons bind:customIcons />
-    <!-- <CustomIcons bind:customIcons /> -->
   </div>
   <div class="column pt-0">
-    <AspectEffects bind:aspect />
+    <PreviewFrame
+      id="aspect-preview"
+      bind:this={previewFrame}
+      on:hot-reload={reloadPreview}
+      class={aspect.profile ? "portrait" : ""}>
+      <svelte:fragment slot="head">
+        <link href="/template/_global/css/global.css" rel="stylesheet" />
+        <link href="/template/_global/css/aspect.css" rel="stylesheet" />
+        <script type="text/javascript" src="/template/_global/js/common.js"></script>
+        <script type="text/javascript" src="/template/_global/js/board_front.js"></script>
+        <script type="text/javascript" src="/template/_global/js/aspect.js"></script>
+      </svelte:fragment>
+    </PreviewFrame>
+    <div class="field has-addons mb-2 is-flex-wrap-wrap">
+      <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
+        Examples
+      </button>
+      <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+        Load
+      </LoadButton>
+      <button class="button is-success  mr-1" on:click={exportAspect}> Save </button>
+      <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
+        >Update Preview</button>
+      <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
+        >Toggle Board Size</button>
+      <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+      {#if dev}
+        <LoadButton
+          accept="image/png, image/jpeg"
+          class="button is-file-load is-small"
+          loadDataURL={(url) => {
+            overlayImage = url;
+          }}>Load Overlay</LoadButton>
+        <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
+      {/if}
+    </div>
   </div>
 </div>
 <Examples

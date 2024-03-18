@@ -3194,12 +3194,28 @@ function getGrowthActionIconWidth(growthCell) {
 
 function innatePowerSizing(board) {
   console.log("RESIZING: Innate Powers (from board_front.js)");
+
+  let debug = true;
+  if (debug) {
+    console.log(board);
+  }
+
   // Innate Power Notes (scale font size)
   const noteBlocks = board.getElementsByTagName("note");
+
   for (let i = 0; i < noteBlocks.length; i++) {
     let noteHeight = noteBlocks[i].offsetHeight;
+    const lineHeight = parseFloat(
+      window.getComputedStyle(noteBlocks[i]).getPropertyValue("line-height").replace(/px/, "")
+    );
+    if (debug) {
+      console.log(lineHeight);
+    }
+    if (debug) {
+      console.log(lineHeight * 4.25);
+    }
     let j = 0;
-    while (noteHeight > 92) {
+    while (noteHeight > lineHeight * 4.1) {
       const style = window.getComputedStyle(noteBlocks[i], null).getPropertyValue("font-size");
       const fontSize = parseFloat(style);
       noteBlocks[i].style.fontSize = fontSize - 1 + "px";
@@ -3250,17 +3266,20 @@ function innatePowerSizing(board) {
   }
 }
 
-function balanceText(el) {
+function balanceText(el, lineHeight = 23) {
   let debug = false;
-  if (debug) {
-    console.log("Balancing Text: " + el.textContent);
-  }
   const initialHeight = el.offsetHeight;
-  if (initialHeight > 23) {
+  const initialWidth = el.offsetWidth;
+  if (debug) {
+    console.log(
+      "Balancing Text: " + el.textContent + " H:" + initialHeight + ", W:" + initialWidth
+    );
+  }
+  if (initialHeight > lineHeight) {
     // No action needed for 1 liners (~19px growth, ~22px presence)
     let currentHeight = initialHeight;
     let j = 0;
-    let k = Math.trunc(el.offsetWidth);
+    let k = Math.trunc(initialWidth);
     let overflow = false;
     while (currentHeight <= initialHeight) {
       overflow = checkOverflowWidth(el, 0);
@@ -3275,6 +3294,9 @@ function balanceText(el) {
       el.style.width = k + "px";
       currentHeight = el.offsetHeight;
       j += 1;
+      if (debug) {
+        console.log(" H:" + currentHeight + ", W:" + k);
+      }
       if (j > 200) {
         if (debug) {
           console.log("Max text reduction reached for");
@@ -3623,22 +3645,28 @@ function parseSpecialRules() {
   const specialRuleNameList = specialRules.getElementsByTagName("special-rules-subtitle");
 
   // Enable snake-like presence track in special rules
-  const specialTrack = board.getElementsByTagName("special-rules-track")[0];
-  if (specialTrack) {
-    const specialValues = specialTrack.getAttribute("values");
-    const specialOptions = specialValues.split(",");
-    let specialHTML = "";
+  const specialTracks = board.getElementsByTagName("special-rules-track");
+  if (specialTracks.length) {
+    for (let j = 0; j < specialTracks.length; j++) {
+      let specialTrack = specialTracks[j];
+      if (specialTrack) {
+        let specialValues = specialTrack.getAttribute("values");
+        let specialOptions = specialValues.split(",");
+        let specialHTML = "";
 
-    for (let i = 0; i < specialOptions.length; i++) {
-      let nodeText = specialOptions[i];
-      specialHTML += "<td>" + getPresenceNodeHtml(nodeText, i === 0, i, "special", true) + "</td>";
-    }
-    specialHTML += "</tr>";
-    board.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
-    specialTrack.innerHTML = specialHTML;
-    const subtextList = specialTrack.getElementsByTagName("subtext");
-    for (let i = subtextList.length - 1; i >= 0; --i) {
-      subtextList[i].remove();
+        for (let i = 0; i < specialOptions.length; i++) {
+          let nodeText = specialOptions[i];
+          specialHTML +=
+            "<td>" + getPresenceNodeHtml(nodeText, i === 0, i, "special", true) + "</td>";
+        }
+        specialHTML += "</tr>";
+        board.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
+        specialTrack.innerHTML = specialHTML;
+        let subtextList = specialTrack.getElementsByTagName("subtext");
+        for (let i = subtextList.length - 1; i >= 0; --i) {
+          subtextList[i].remove();
+        }
+      }
     }
   }
 

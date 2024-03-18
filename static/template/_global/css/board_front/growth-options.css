@@ -18,6 +18,11 @@ growth:hover {
   cursor: pointer;
 }
 
+board.printer-clean growth {
+  background-image: none;
+  background-color: white;
+}
+
 growth section-title {
   margin-left: 47px;
   margin-top: -12px;
@@ -67,6 +72,12 @@ growth-bottom {
   height: 228px;
   bottom: 0px;
   z-index: -2;
+  pointer-events: none;
+}
+
+board.printer-clean growth-bottom {
+  background-image: none;
+  background-color: white;
 }
 
 /* growth special-section-title.title-left {
@@ -770,6 +781,7 @@ growth-cell icon.make-fast {
 custom-icon {
   font-size: 26.66px;
   font-weight: bold;
+  font-style: normal;
   display: flex;
   margin-top: -31px;
   width: auto;

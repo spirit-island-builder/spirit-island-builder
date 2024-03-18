@@ -608,51 +608,51 @@
     let thresholds = [];
     const thresholdsNodes = Array.from(board.getElementsByTagName("threshold"));
     thresholdsNodes.forEach((threshold) => {
-      console.log(threshold);
-      let icons = Array.from(threshold.getElementsByTagName("icon"));
-      let thresholdNums = Array.from(threshold.getElementsByTagName("threshold-num"));
-      let elementNums = thresholdNums.map((x) => x.innerHTML);
+      let childNodesArray = Array.from(threshold.childNodes);
 
+      const elementNames = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
       let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
-      icons.forEach((icon, i) => {
-        if (icon.classList.contains("sun")) {
-          elementCounts[0] = elementNums[i];
-        } else if (icon.classList.contains("moon")) {
-          elementCounts[1] = elementNums[i];
-        } else if (icon.classList.contains("fire")) {
-          elementCounts[2] = elementNums[i];
-        } else if (icon.classList.contains("air")) {
-          elementCounts[3] = elementNums[i];
-        } else if (icon.classList.contains("water")) {
-          elementCounts[4] = elementNums[i];
-        } else if (icon.classList.contains("earth")) {
-          elementCounts[5] = elementNums[i];
-        } else if (icon.classList.contains("plant")) {
-          elementCounts[6] = elementNums[i];
-        } else if (icon.classList.contains("animal")) {
-          elementCounts[7] = elementNums[i];
+
+      let lastNum = 0;
+      let j = 0;
+      let elCountArrays = [elementCounts];
+
+      childNodesArray.forEach((child) => {
+        if (child.tagName === "THRESHOLD-NUM") {
+          lastNum = child.innerHTML;
+        } else if (child.tagName === "ICON") {
+          let findIndex = elementNames.findIndex((el) => el === child.className);
+          elCountArrays[j][findIndex] = lastNum;
+          lastNum = 0;
+        } else if (child.tagName === "THRESHOLD-OR") {
+          j++;
+          elCountArrays.push([0, 0, 0, 0, 0, 0, 0, 0]);
         }
       });
 
       let rect = threshold.getBoundingClientRect();
-      thresholds.push({
-        elements: elementCounts.join(""),
-        position: {
-          x: toFixedNumber(
-            (-(boardRect.width / boardRect.height) *
-              (-23 + rect.left - boardRect.x - boardRect.width / 2)) /
-              (boardRect.width / 2),
-            4
-          ),
-          y: 0,
-          z: toFixedNumber(
-            (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
-              (boardRect.height / 2),
-            4
-          ),
-        },
+
+      elCountArrays.forEach((elArray) => {
+        thresholds.push({
+          elements: elArray.join(""),
+          position: {
+            x: toFixedNumber(
+              (-(boardRect.width / boardRect.height) *
+                (-23 + rect.left - boardRect.x - boardRect.width / 2)) /
+                (boardRect.width / 2),
+              4
+            ),
+            y: 0,
+            z: toFixedNumber(
+              (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+                (boardRect.height / 2),
+              4
+            ),
+          },
+        });
       });
     });
+    console.log(thresholds);
 
     //Lua scripting - track energy & elements
     let trackElements = [];
@@ -835,6 +835,15 @@
     }
     //check if its clickable
   }
+
+  let overlayImage;
+  function addOverlay() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let eventCardDOM = previewFrame.document.getElementsByTagName("board")[0];
+    const overlay = previewFrame.document.createElement("dev-overlay");
+    eventCardDOM.appendChild(overlay);
+    overlay.style.backgroundImage = `url('${overlayImage}')`;
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -883,6 +892,13 @@
       {#if dev}
         <button class="button is-danger mt-1 mr-1" on:click={toggleClickableInterface}
           >Toggle Clickable GUI</button>
+        <LoadButton
+          accept="image/png, image/jpeg"
+          class="button is-file-load is-small"
+          loadDataURL={(url) => {
+            overlayImage = url;
+          }}>Load Overlay</LoadButton>
+        <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
       {/if}
     </div>
   </div>

@@ -94,7 +94,9 @@
       {#each aspect.nameReplacements.replacements as replacement, i (replacement.id)}
         <div class="field is-flex is-small is-flex-direction-row mb-1">
           <div class="field is-flex is-small is-flex-direction-column mb-0" style="width:30%">
-            <label class="label is-flex is-justify-content-space-between mb-0" for="replacesInput"
+            <label
+              class="label is-flex is-justify-content-space-between mb-0 is-small"
+              for="replacesInput"
               >Replacement #{i + 1}
             </label>
             <div class="field is-flex is-small mb-0">
@@ -110,9 +112,11 @@
               </div>
             </div>
           </div>
-          <div class="field is-flex is-small is-flex-direction-column mb-0" style="width:70%">
+          <div
+            class="field is-flex is-small is-flex-direction-column is-justify-content-space-between mb-0"
+            style="width:70%">
             <label
-              class="label is-flex is-justify-content-space-between mb-0"
+              class="label is-flex is-justify-content-space-between mb-0 is-small"
               for="rulesReplacedInput{i}"
               >Rule/Power Name
             </label>
@@ -140,25 +144,21 @@
     <div class="field has-addons">
       <label class="label is-unselectable mr-1 mt-1" for="">Complexity: </label>
       <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-        <input
-          id="complexityInput"
-          class="input"
-          type="text"
-          placeholder="Complexity"
-          style="text-transform: capitalize;"
-          disabled
-          bind:value={aspect.nameReplacements.complexity} />
         <button
-          class="button is-danger is-light button-hold mb-0"
+          class="button is-danger is-small button-hold mb-0"
+          class:is-light={aspect.nameReplacements.complexity !== "up"}
           on:click={setComplexity("up", aspect.nameReplacements)}>Up</button>
         <button
-          class="button is-warning is-light button-hold mb-0"
+          class="button is-warning is-small button-hold mb-0"
+          class:is-light={aspect.nameReplacements.complexity !== "equal"}
           on:click={setComplexity("equal", aspect.nameReplacements)}>Equal</button>
         <button
-          class="button is-success is-light button-hold mb-0"
+          class="button is-success is-small button-hold mb-0"
+          class:is-light={aspect.nameReplacements.complexity !== "down"}
           on:click={setComplexity("down", aspect.nameReplacements)}>Down</button>
         <button
-          class="button is-light button-hold mb-0"
+          class="button is-small button-hold mb-0"
+          class:is-light={aspect.nameReplacements.complexity !== ""}
           on:click={setComplexity("", aspect.nameReplacements)}>None</button>
       </div>
     </div>

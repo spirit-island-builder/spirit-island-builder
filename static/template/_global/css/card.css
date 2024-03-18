@@ -189,9 +189,10 @@ name {
   top: 25px;
   height: 68px;
   width: 320px;
-  font-size: 34px;
+  font-size: 28px;
   line-height: 32px;
-  font-family: "Name Headings";
+  word-spacing: -3px;
+  font-family: "Short Name Headings";
   text-transform: uppercase;
   color: white;
   display: flex;
@@ -748,4 +749,8 @@ power-subtitle {
     top: 120px;
     left: 30px;
   }
+}
+
+card rules-container range-value {
+  top: -7px;
 }

@@ -7,10 +7,14 @@
   import "../innatePowers.css";
 
   import { browser, dev } from "$app/environment";
+  import { page } from "$app/stores";
   import { defineCustomElement } from "ionicons/components/ion-icon.js";
   if (browser) {
     defineCustomElement(window);
   }
+
+  //$page.url.pathname
+  console.log($page.url.hash);
 
   import SpiritBoard from "./spirit-board/index.svelte";
   import SpiritBoardBack from "./spirit-board-back/index.svelte";
@@ -21,6 +25,7 @@
   import FearCard from "./fear-card/index.svelte";
   import IncarnaToken from "./incarna-token/index.svelte";
   import EventCard from "./event-card/index.svelte";
+  import About from "./about/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
   import Footer from "./footer.svelte";
 
@@ -29,7 +34,56 @@
   let debugDownloads = false;
   $: divertDownload(debugDownloads);
 
-  let currentPage = "spiritBoardFront";
+  let currentPage = $page.url.hash ? $page.url.hash.substring(1) : "spiritBoardFront";
+  switch (currentPage.toLowerCase().replace(/\W/g, "")) {
+    case "spiritboardfront":
+    case "front":
+    case "play":
+      currentPage = "spiritBoardFront";
+      break;
+    case "spiritboardback":
+    case "back":
+    case "lore":
+      currentPage = "spiritBoardBack";
+      break;
+    case "powercards":
+    case "power":
+    case "powers":
+    case "cards":
+    case "card":
+      currentPage = "powerCards";
+      break;
+    case "incarnatoken":
+    case "incarna":
+    case "token":
+      currentPage = "incarnaToken";
+      break;
+    case "adversary":
+    case "advarsary":
+      currentPage = "adversary";
+      break;
+    case "aspect":
+    case "aspectt":
+      currentPage = "aspect";
+      break;
+
+    case "blightcard":
+    case "blight":
+      currentPage = "blightCard";
+      break;
+
+    case "fearcard":
+    case "fear":
+      currentPage = "fearCard";
+      break;
+
+    case "eventcard":
+    case "event":
+      currentPage = "eventCard";
+      break;
+    default:
+      currentPage = "spiritBoardFront";
+  }
 
   function setCurrentPage(page) {
     currentPage = page;
@@ -546,6 +600,7 @@
     ["blightCard", "Blight Card"],
     ["fearCard", "Fear Card"],
     ["eventCard", "Event Card"],
+    ["about", "About"],
   ];
 </script>
 
@@ -582,27 +637,14 @@
             </button>
           </div>
         </div>
-        <!-- <div class="field has-addons">
-          <button
-            class="button is-info button-hold mb-0"
-            on:click={toggleClickableInterface}>Toggle Clickable GUI</button>
-         </div>
-         <div class="navbar-menu">
-          <div class="navbar-end">
-            <button
-              class={`button navbar-item ${toggleClickableInterface ? "is-primary is-selected" : ""}`}
-              on:click={() => {
-                toggleClickableInterface = !toggleClickableInterface;
-              }}>
-              Toggle Clickable GUI
-            </button>
-          </div>
-        </div> -->
       {/if}
     </nav>
   </header>
   <Instructions />
-  <div class="container" class:is-spiritBoardFront={currentPage === "spiritBoardFront"}>
+  <div
+    class="container"
+    class:is-spiritBoardFront={currentPage === "spiritBoardFront"}
+    class:is-sideMenu={currentPage === "aspect"}>
     {#if currentPage === "spiritBoardFront"}
       <SpiritBoard bind:spiritBoard bind:emptySpiritBoard bind:customIcons />
     {:else if currentPage === "spiritBoardBack"}
@@ -621,6 +663,8 @@
       <FearCard bind:fearCard bind:emptyFearCard bind:customIcons />
     {:else if currentPage === "eventCard"}
       <EventCard bind:eventCard bind:emptyEventCard bind:customIcons />
+    {:else if currentPage === "about"}
+      <About />
     {/if}
   </div>
 
@@ -651,6 +695,9 @@
     width: 100vw;
   }
   .is-spiritBoardFront {
+    max-width: none !important;
+  }
+  .is-sideMenu {
     max-width: none !important;
   }
 </style>
