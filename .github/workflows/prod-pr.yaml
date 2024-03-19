@@ -7,7 +7,6 @@ jobs:
   prodPr:
     runs-on: ubuntu-latest
     permissions:
-      pull-requests: write
       contents: write
     steps:
       - uses: actions/checkout@v4
