@@ -15,6 +15,6 @@ jobs:
           git fetch origin dev:dev
           git reset --hard dev
       - name: Prod PR
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
-          branch: dev-to-prod-branch
+          branch: dev-to-main-branch
