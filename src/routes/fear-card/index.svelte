@@ -168,49 +168,48 @@
   }
 </script>
 
-<PreviewFrame id="fear-card-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
-  <svelte:fragment slot="head">
-    <link href="/template/_global/css/global.css" rel="stylesheet" />
-    <link href="/template/_global/css/fear_card.css" rel="stylesheet" />
-    <link href="/template/_global/css/blight_fear_card_icons.css" rel="stylesheet" />
-    <script type="text/javascript" src="/template/_global/js/common.js"></script>
-    <script type="text/javascript" src="/template/_global/js/fear_card.js" defer></script>
-  </svelte:fragment>
-</PreviewFrame>
-
-<div class="field has-addons mb-2 is-flex-wrap-wrap">
-  <!-- <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
-    Examples
-  </button> -->
-  <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
-    Load
-  </LoadButton>
-  <button class="button is-success  mr-1" on:click={exportFearCard}> Save </button>
-  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
-  <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
-    >Update Preview</button>
-  <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
-    >Toggle Board Size</button>
-  <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  {#if dev}
-    <LoadButton
-      accept="image/png, image/jpeg"
-      class="button is-file-load is-small"
-      loadDataURL={(url) => {
-        overlayImage = url;
-      }}>Load Overlay</LoadButton>
-    <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
-  {/if}
-</div>
-<div class="columns mt-0 mb-1">
-  <div class="column pt-0">
+<div class="columns ml-4 mt-0 mb-1">
+  <div class="column is-one-third pt-0">
     <NameEffects bind:fearCard />
     <CustomIcons bind:customIcons />
   </div>
   <div class="column pt-0">
-    <!-- <AspectEffects bind:aspect /> -->
+    <PreviewFrame id="fear-card-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
+      <svelte:fragment slot="head">
+        <link href="/template/_global/css/global.css" rel="stylesheet" />
+        <link href="/template/_global/css/fear_card.css" rel="stylesheet" />
+        <link href="/template/_global/css/blight_fear_card_icons.css" rel="stylesheet" />
+        <script type="text/javascript" src="/template/_global/js/common.js"></script>
+        <script type="text/javascript" src="/template/_global/js/fear_card.js" defer></script>
+      </svelte:fragment>
+    </PreviewFrame>
+    <div class="field has-addons mb-2 is-flex-wrap-wrap">
+      <!-- <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
+        Examples
+      </button> -->
+      <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+        Load
+      </LoadButton>
+      <button class="button is-success  mr-1" on:click={exportFearCard}> Save </button>
+      <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
+        >Update Preview</button>
+      <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
+        >Toggle Board Size</button>
+      <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+      {#if dev}
+        <LoadButton
+          accept="image/png, image/jpeg"
+          class="button is-file-load is-small"
+          loadDataURL={(url) => {
+            overlayImage = url;
+          }}>Load Overlay</LoadButton>
+        <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
+      {/if}
+    </div>
   </div>
 </div>
+
 <!-- <Examples
   bind:this={exampleModal}
   {loadExample}
