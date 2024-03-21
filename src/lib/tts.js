@@ -59,7 +59,13 @@ export const getThresholdTTSJSON = (component) => {
         elCountArrays.push([0, 0, 0, 0, 0, 0, 0, 0]);
       }
     });
-
+    let xRatio = 1;
+    let zRatio = 1;
+    if (boardRect.width >= boardRect.height) {
+      xRatio = boardRect.width / boardRect.height;
+    } else {
+      zRatio = boardRect.height / boardRect.width;
+    }
     let rect = threshold.getBoundingClientRect();
 
     elCountArrays.forEach((elArray) => {
@@ -67,14 +73,13 @@ export const getThresholdTTSJSON = (component) => {
         elements: elArray.join(""),
         position: {
           x: toFixedNumber(
-            (-(boardRect.width / boardRect.height) *
-              (-23 + rect.left - boardRect.x - boardRect.width / 2)) /
+            (-xRatio * (-45 / xRatio + rect.left - boardRect.x - boardRect.width / 2)) /
               (boardRect.width / 2),
             4
           ),
           y: 0,
           z: toFixedNumber(
-            (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+            (zRatio * (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2)) /
               (boardRect.height / 2),
             4
           ),
