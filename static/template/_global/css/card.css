@@ -347,6 +347,10 @@ info-range icon.mountain {
 info-range icon.jungle {
   background-image: url("../images/board/jungle-presence.png");
 }
+info-range icon.ocean {
+  background-image: url("../images/board/ocean-presence.png");
+  width: 45px;
+}
 
 info-target {
   display: flex;
