@@ -635,6 +635,9 @@ innate-info-range icon.mountain {
 innate-info-range icon.jungle {
   background-image: url("../../images/board/jungle-presence.png");
 }
+innate-info-range icon.ocean {
+  background-image: url("../../images/board/ocean-presence.png");
+}
 
 innate-info-target icon.terrain-single {
   width: 45px;
@@ -689,12 +692,20 @@ innate-info-range icon.wetlands,
 innate-info-range icon.jungle-presence,
 innate-info-range icon.jungle,
 innate-info-range icon.mountain-presence,
-innate-info-range icon.mountain {
+innate-info-range icon.mountain,
+innate-info-range icon.ocean,
+innate-info-range icon.ocean-presence {
   width: 50px;
   height: 50px;
   margin-top: 4px;
   margin-left: 0px;
   margin-right: 10px;
+}
+
+innate-info-range icon.ocean,
+innate-info-range icon.ocean-presence {
+  width: 60px;
+  margin-right: 5px;
 }
 
 innate-info icon.blight,
