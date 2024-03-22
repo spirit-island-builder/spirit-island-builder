@@ -1914,11 +1914,25 @@ function getPresenceNodeHtml(
         }
         case "incarna": {
           const matches = regExp.exec(splitOptions[0]);
-          const incarnaAction = matches[1];
+          const incarnaOptions = matches[1].split(";");
+          const incarnaAction = incarnaOptions[0];
+          const customIncarnaIcon = incarnaOptions[1];
+          let addMoveHelper;
           switch (incarnaAction) {
             case "empower":
               subText = "Empower Incarna";
               inner = "{empower-incarna}";
+              break;
+            case "addmove":
+            case "add-move":
+              addMoveHelper = incarnaOptions[2] ? incarnaOptions[2] : "presence";
+              subText = "Add/Move Incarna to Land with " + IconName(addMoveHelper);
+              inner =
+                '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
+                customIncarnaIcon +
+                '"></icon><icon class="' +
+                addMoveHelper +
+                ' with-your"></icon></add-move-lower></custom-icon>';
               break;
             default:
               subText = "Empower Incarna";
