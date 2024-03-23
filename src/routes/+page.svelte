@@ -529,6 +529,7 @@
       token: "",
       empowered: false,
       empoweredOnlyToken: false,
+      empoweredToken: "",
       color: "",
     },
   };

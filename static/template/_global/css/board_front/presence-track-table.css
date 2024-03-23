@@ -3,8 +3,8 @@ presence-tracks section-title {
   margin-top: -3px;
 }
 
-presence-tracks section-title.has-note {
-}
+/* presence-tracks section-title.has-note {
+} */
 
 presence-tracks presence-note {
   font-family: "JosefinSans-Regular";

@@ -7,12 +7,10 @@
 
   function toggleEmpower(val) {
     incarnaToken.incarna.empowered = val;
+    if (val) {
+      incarnaToken.incarna.empoweredToken = incarnaToken.incarna.token;
+    }
     incarnaToken = incarnaToken;
-    document.getElementById("updateButton").click();
-  }
-
-  function toggleEmpowerToken() {
-    incarnaToken.incarna.empoweredOnlyToken = !incarnaToken.incarna.empoweredOnlyToken;
     document.getElementById("updateButton").click();
   }
 
@@ -44,6 +42,17 @@
           bind:value={incarnaToken.incarna.name} />
       </div>
     </div>
+    <div class="field is-flex is-align-items-center is-small mb-0">
+      <label class="label incarna-label" for="head">Color: </label>
+      <div class="input-color-container">
+        <input
+          type="color"
+          class="input-color"
+          id="head"
+          on:change={() => document.getElementById("updateButton").click()}
+          bind:value={incarnaToken.incarna.color} />
+      </div>
+    </div>
     <div class="field is-flex is-small mb-0">
       <label class="label incarna-label" for={`incarnaTokenToken`}>Incarna: </label>
       <div class="control">
@@ -70,23 +79,25 @@
           bind:value={incarnaToken.incarna.token} />
       </div>
       {#if incarnaToken.incarna.empowered === true}
-        <button
-          class:is-light={incarnaToken.incarna.empoweredOnlyToken}
-          class="button is-warning is-light mb-0"
-          on:click={() => toggleEmpowerToken()}>Both</button>
+        <label class="label incarna-label ml-1" for={`incarnaTokenToken`}> Unempowered</label>
       {/if}
     </div>
-    <div class="field is-flex is-align-items-center is-small mb-0">
-      <label class="label incarna-label" for="head">Color: </label>
-      <div class="input-color-container">
-        <input
-          type="color"
-          class="input-color"
-          id="head"
-          on:change={() => document.getElementById("updateButton").click()}
-          bind:value={incarnaToken.incarna.color} />
+    {#if incarnaToken.incarna.empowered === true}
+      <div class="field is-flex is-small mb-0">
+        <label class="label incarna-label" for={`incarnaTokenEmpoweredToken`} />
+        <div class="control">
+          <input
+            id={`incarnaTokenEmpoweredToken`}
+            class="input"
+            type="text"
+            placeholder="Empowered Token"
+            on:keyup={nextNode}
+            on:focus={selectNode}
+            bind:value={incarnaToken.incarna.empoweredToken} />
+        </div>
+        <label class="label incarna-label ml-1" for={`incarnaTokenToken`}> Empowered</label>
       </div>
-    </div>
+    {/if}
     <div>
       {#if incarnaToken.incarna.empowered === true}
         <button class="button is-warning mb-0" on:click={toggleEmpower(true, incarnaToken)}
@@ -123,5 +134,7 @@
   }
   .incarna-label {
     width: 65px;
+    display: flex;
+    align-items: center;
   }
 </style>

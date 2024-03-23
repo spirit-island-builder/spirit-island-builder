@@ -73,6 +73,12 @@
         incarnaToken.incarna.empoweredOnlyToken
       );
     }
+    if (incarnaToken.incarna.empoweredToken) {
+      incarnaTokenHTML.setAttribute(
+        "empowered-token",
+        incarnaToken.incarna.empoweredToken.replace("{", "").replace("}", "")
+      );
+    }
     if (incarnaToken.incarna.color) {
       incarnaTokenHTML.setAttribute("color", incarnaToken.incarna.color);
     }
@@ -88,7 +94,6 @@
     spiritStyle.textContent = customIconText;
 
     console.log("incarnaToken HTML generated");
-    console.log(incarnaToken);
 
     return fragment;
   }
@@ -119,14 +124,24 @@
         .replace("{", "")
         .replace("}", "");
       console.log(incarnaToken.incarna.token);
+      incarnaToken.incarna.empoweredToken = incarnaToken.incarna.token;
     }
     if (incarnaTokenHTML.getAttribute("empowered")) {
       incarnaToken.incarna.empowered = incarnaTokenHTML.getAttribute("empowered") === "true";
     }
     if (incarnaTokenHTML.getAttribute("empowered-only-token")) {
-      incarnaToken.incarna.empoweredOnlyToken =
-        incarnaTokenHTML.getAttribute("empowered-only-token") === "true";
+      // incarnaToken.incarna.empoweredOnlyToken =
+      //   incarnaTokenHTML.getAttribute("empowered-only-token") === "true";
+      incarnaToken.incarna.token = "";
     }
+    if (incarnaTokenHTML.getAttribute("empowered-token")) {
+      incarnaToken.incarna.empoweredToken = incarnaTokenHTML
+        .getAttribute("empowered-token")
+        .replace("{", "")
+        .replace("}", "");
+      console.log(incarnaToken.incarna.empoweredToken);
+    }
+
     if (incarnaTokenHTML.getAttribute("color")) {
       incarnaToken.incarna.color = incarnaTokenHTML.getAttribute("color");
     }
@@ -211,7 +226,5 @@
     <NameEffects bind:incarnaToken />
     <CustomIcons bind:customIcons />
   </div>
-  <div class="column pt-0">
-    <!-- <AspectEffects bind:aspect /> -->
-  </div>
+  <div class="column pt-0" />
 </div>
