@@ -126,7 +126,7 @@ cost {
   top: 18px;
   width: 106px;
   aspect-ratio: 1;
-  z-index: 3;
+  z-index: 7;
   background-repeat: no-repeat;
   background-size: contain;
   display: flex;
@@ -279,6 +279,7 @@ element.animal {
   border-top-left-radius: 10px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  z-index: 5;
 }
 
 info-title {
@@ -287,6 +288,7 @@ info-title {
   top: 341px;
   height: 11px;
   width: 357px;
+  z-index: 7;
 }
 
 info {
@@ -757,4 +759,21 @@ power-subtitle {
 
 card rules-container range-value {
   top: -7px;
+}
+
+card.printer-clean card-frame {
+  background-image: none;
+  background-color: white;
+  border: black 3px solid;
+  box-sizing: border-box;
+  border-radius: 22px;
+}
+
+card.printer-clean threshold {
+  background-image: none;
+  background-color: white;
+}
+
+card.printer-clean name {
+  color: black;
 }
