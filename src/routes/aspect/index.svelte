@@ -1,7 +1,9 @@
 <script>
   import { onMount } from "svelte";
+  import jsone from "json-e";
 
   import * as Lib from "../lib";
+  import { downloadHTML, downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
   import { dev } from "$app/environment";
@@ -9,10 +11,13 @@
   import NameReplacements from "./name-replacements.svelte";
   import AspectEffects from "./aspect-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
-  import { downloadHTML } from "$lib/download";
 
   import examples from "./examples.json";
   import Examples from "$lib/example-modal.svelte";
+
+  import aspectJSONTemplate from "./tts-aspect.json";
+
+  import { createTTSSave, ttsSaveMIMEType, getThresholdTTSJSON } from "$lib/tts.js";
 
   let exampleModal;
 
@@ -102,6 +107,9 @@
       fragment.append(aspectBackHTML);
       aspectBackHTML.setAttribute("spirit-name", aspect.nameReplacements.spiritName);
       aspectBackHTML.setAttribute("src", aspect.nameReplacements.spiritImage);
+      if (aspect.profile) {
+        aspectBackHTML.classList.add("profile");
+      }
     }
 
     //Set Special Rules
@@ -348,6 +356,84 @@
     customIcons.isVisible = false;
   }
 
+  async function downloadTTSJSON() {
+    let previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
+    const aspectHTML = previewFrameDoc.querySelectorAll("aspect")[0];
+    let LUAScript = "";
+    let aspectUniqueName =
+      aspect.nameReplacements.aspectName + "-" + aspect.nameReplacements.spiritName;
+
+    // landscape vs portrait
+    let isLandscape = !aspect.profile;
+    console.log("isLandscape = " + isLandscape);
+
+    // elements
+    let nodeEffectText = aspect.aspectEffects.bonusNode.effect;
+    console.log(nodeEffectText);
+    console.log(nodeEffectText);
+    const nameCounts = {};
+    nodeEffectText.split("+").forEach(function (x) {
+      nameCounts[x] = (nameCounts[x] || 0) + 1;
+    });
+    let namesList = Object.keys(nameCounts);
+    let countList = Object.values(nameCounts);
+    let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
+    for (let i = 0; i < namesList.length; i++) {
+      if (namesList[i] === "sun") {
+        elementCounts[0] = countList[i];
+      }
+      if (namesList[i] === "moon") {
+        elementCounts[1] = countList[i];
+      }
+      if (namesList[i] === "fire") {
+        elementCounts[2] = countList[i];
+      }
+      if (namesList[i] === "air") {
+        elementCounts[3] = countList[i];
+      }
+      if (namesList[i] === "water") {
+        elementCounts[4] = countList[i];
+      }
+      if (namesList[i] === "earth") {
+        elementCounts[5] = countList[i];
+      }
+      if (namesList[i] === "plant") {
+        elementCounts[6] = countList[i];
+      }
+      if (namesList[i] === "animal") {
+        elementCounts[7] = countList[i];
+      }
+    }
+    console.log(elementCounts);
+    const elementCountTotal = elementCounts.reduce((partialSum, a) => partialSum + a, 0);
+    console.log(elementCountTotal);
+    if (elementCountTotal > 0) {
+      LUAScript += "elements={" + elementCounts.toString() + "}\n";
+      console.log(LUAScript);
+    }
+
+    // thresholds (see tts.js)
+    let thresholds = getThresholdTTSJSON(aspectHTML);
+    if (thresholds.length) {
+      console.log("thresolds detected");
+      LUAScript +=
+        'function onLoad(saved_data)\n    if saved_data ~= "" then\n        local loaded_data = JSON.decode(saved_data)\n        self.setTable("thresholds", loaded_data.thresholds)\n    end\nend\n-- card loading end';
+      console.log(LUAScript);
+    }
+
+    let aspectJSON = jsone(aspectJSONTemplate, {
+      guid: aspect.nameReplacements.aspectName.replaceAll(" ", "_"),
+      isLandscape: isLandscape,
+      LUAScript: LUAScript,
+      aspectUniqueName: aspectUniqueName,
+      thresholds,
+    });
+    let ttsSave = createTTSSave([aspectJSON]);
+
+    const jsonFileName = aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_TTS.json";
+    downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
+  }
+
   let overlayImage;
   function addOverlay() {
     console.log("adding overlay");
@@ -389,6 +475,7 @@
       </LoadButton>
       <button class="button is-success  mr-1" on:click={exportAspect}> Save </button>
       <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
       <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}

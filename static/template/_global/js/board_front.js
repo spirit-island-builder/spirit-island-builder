@@ -1699,51 +1699,6 @@ function parseAdditionalTrackTags(additionalTrack) {
   return additionalTrackHTML;
 }
 
-// function enhancePresenceTracksTable() {
-//   console.log("BUILDING PRESENCE TRACK PANEL");
-//   console.log(
-//     "This method of creating middle node is no longer supported. Your results may very. Use middle() instead."
-//   );
-//   const board = document.querySelectorAll("board")[0];
-//   const elmt = board.getElementsByTagName("presence-tracks")[0];
-//   const title = document.createElement("section-title");
-//   title.innerHTML = "Presence";
-//   elmt.insertBefore(title, elmt.firstChild);
-//   console.log("creating dynamic presence tracks...");
-//   const table = document.getElementById("presence-table");
-//   table.innerHTML = table.innerHTML.replaceAll('middle=""', 'rowspan="2" class="middle"');
-
-//   for (let i = 0, row; (row = table.rows[i]); i++) {
-//     for (let j = 0, cell; (cell = row.cells[j]); j++) {
-//       cell.innerHTML = getPresenceNodeHtml(
-//         cell.firstChild.nodeValue,
-//         j === 0,
-//         j,
-//         "dynamic",
-//         i === 0
-//       );
-//     }
-//   }
-
-//   // Add spacing row to the front of the table
-//   const firstRow = table.getElementsByTagName("tr")[0];
-//   const firstCell = firstRow.getElementsByTagName("td")[0];
-//   const spacerRow = document.createElement("td");
-//   spacerRow.classList.add("spacer");
-//   spacerRow.style.width = "10px";
-//   spacerRow.rowSpan = "2";
-//   firstRow.insertBefore(spacerRow, firstCell);
-
-//   /*   // Detect presence note
-//   presenceNote = table.getAttribute("note");
-//   if(presenceNote){
-//     const note = document.createElement("presence-note");
-//     note.innerHTML = presenceNote;
-//     title.after(note)
-//     title.classList.add('has-note')
-//   } */
-// }
-
 function getPresenceNodeHtml(
   nodeText,
   first,
@@ -1756,7 +1711,7 @@ function getPresenceNodeHtml(
 ) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
-  let pnDebug = true;
+  let pnDebug = false;
   let nodeClass = "";
 
   // Every node will have a presence-node element with
@@ -1959,11 +1914,25 @@ function getPresenceNodeHtml(
         }
         case "incarna": {
           const matches = regExp.exec(splitOptions[0]);
-          const incarnaAction = matches[1];
+          const incarnaOptions = matches[1].split(";");
+          const incarnaAction = incarnaOptions[0];
+          const customIncarnaIcon = incarnaOptions[1];
+          let addMoveHelper;
           switch (incarnaAction) {
             case "empower":
               subText = "Empower Incarna";
               inner = "{empower-incarna}";
+              break;
+            case "addmove":
+            case "add-move":
+              addMoveHelper = incarnaOptions[2] ? incarnaOptions[2] : "presence";
+              subText = "Add/Move Incarna to Land with " + IconName(addMoveHelper);
+              inner =
+                '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
+                customIncarnaIcon +
+                '"></icon><icon class="' +
+                addMoveHelper +
+                ' with-your"></icon></add-move-lower></custom-icon>';
               break;
             default:
               subText = "Empower Incarna";
@@ -2750,21 +2719,6 @@ function dynamicResizing() {
     }
   }
 
-  // TEST iterate through growth cells
-  // const cellWidthV2 = [];
-  // for (const cell of allGrowthCells) {
-  //   const cellRect = findBoundingRect(cell);
-  //   // console.log('-- TEST --')
-  //   // console.log(cellRect)
-  //   // console.log(cell)
-  //   // console.log(cellRect.width)
-  //   // console.log('^--RESULT--^')
-  //   cellWidthV2.push(cellRect.width);
-  // }
-  /* console.log('total icon width = '+totalInitialIconWidth) */
-  // console.log('old way = '+totalWidth)
-  // console.log(cellWidthV2)
-
   //Iterate through growth table(s) to resize
   const growthTables = board.getElementsByTagName("growth-table");
 
@@ -2992,8 +2946,6 @@ function dynamicResizing() {
     const track_tds = currentTrack.getElementsByTagName("td");
     if (debug) {
       console.log(presence_nodes[0].classList);
-    }
-    if (debug) {
       console.log(track_tds);
     }
 
@@ -3195,7 +3147,7 @@ function getGrowthActionIconWidth(growthCell) {
 function innatePowerSizing(board) {
   console.log("RESIZING: Innate Powers (from board_front.js)");
 
-  let debug = true;
+  let debug = false;
   if (debug) {
     console.log(board);
   }
@@ -3210,8 +3162,6 @@ function innatePowerSizing(board) {
     );
     if (debug) {
       console.log(lineHeight);
-    }
-    if (debug) {
       console.log(lineHeight * 4.25);
     }
     let j = 0;
@@ -3481,8 +3431,6 @@ function writeInnateLevel(currentLevel, levelID) {
   let debug = false;
   if (debug) {
     console.log("writing level");
-  }
-  if (debug) {
     console.log(currentLevel);
   }
   let levelHTML = "";
@@ -3537,8 +3485,6 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
   let thresholdHTML = "";
   if (debug) {
     console.log("writing threshold");
-  }
-  if (debug) {
     console.log(currentThreshold);
   }
   thresholdHTML += "<threshold id='" + levelID + "t'>";
@@ -3675,6 +3621,20 @@ function parseSpecialRules() {
     specialRuleList[j].id = "sr" + j + "effect";
     specialRuleNameList[j].id = "sr" + j + "name";
   }
+
+  // Capture lines to control line break heights
+  let specialRulesArray = Array.from(specialRuleList);
+  specialRulesArray.forEach((specialRule) => {
+    let separateLines = specialRule.innerHTML.split(/\r?\n|\r|\n/g);
+    specialRule.innerHTML = "";
+    separateLines.forEach((line) => {
+      if (line.replace(/\W/g, "").length > 0) {
+        let specialRuleLine = document.createElement("special-rule-line");
+        specialRuleLine.innerHTML = line;
+        specialRule.appendChild(specialRuleLine);
+      }
+    });
+  });
 
   // Allow custom heading name
   if (specialRules.getAttribute("customname")) {

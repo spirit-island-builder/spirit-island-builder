@@ -264,7 +264,7 @@ aspect-overlay {
   height: 567px;
   display: flex;
   border-radius: 22px;
-  position: relative;
+  position: absolute;
 
   background-image: url("../images/aspect-back.png");
   background-size: cover;
@@ -471,4 +471,15 @@ aspect dev-overlay {
   opacity: 0.5;
   filter: invert(1) saturate(0);
   pointer-events: none;
+}
+
+aspect-back.profile {
+  width: 567px;
+  height: 786px;
+}
+
+aspect-back.profile img,
+aspect-back.profile aspect-overlay {
+  transform-origin: top left;
+  transform: translateY(786px) rotate(270deg);
 }

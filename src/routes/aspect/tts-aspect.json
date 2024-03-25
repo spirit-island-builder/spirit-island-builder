@@ -2,17 +2,17 @@
   "GUID": "${guid}",
   "Name": "CardCustom",
   "Transform": {
-    "posX": 0,
-    "posY": 0,
-    "posZ": 0,
+    "posX": -38.7473373,
+    "posY": 0.8167039,
+    "posZ": 83.8556442,
     "rotX": 0,
-    "rotY": 180,
+    "rotY": 180.0,
     "rotZ": 0,
     "scaleX": 1.53,
     "scaleY": 1.0,
     "scaleZ": 1.53
   },
-  "Nickname": "${cardName}",
+  "Nickname": "${aspectUniqueName}",
   "Description": "",
   "GMNotes": "",
   "AltLookAngle": {
@@ -25,7 +25,7 @@
     "g": 0.7132,
     "b": 0.7132
   },
-  "Tags": { "$eval": "tags" },
+  "Tags": ["Aspect"],
   "LayoutGroupSortIndex": 0,
   "Value": 0,
   "Locked": false,
@@ -40,12 +40,12 @@
   "GridProjection": false,
   "HideWhenFaceDown": true,
   "Hands": true,
-  "CardID": 45703,
-  "SidewaysCard": false,
+  "CardID": 248300,
+  "SidewaysCard": { "$eval": "isLandscape" },
   "CustomDeck": {
-    "457": {
-      "FaceURL": "https://i.imgur.com/JjlaX12.png",
-      "BackURL": "https://i.imgur.com/qfRIrtg.png",
+    "2483": {
+      "FaceURL": "https://i.imgur.com/jR8jpcD.png",
+      "BackURL": "https://i.imgur.com/oipNles.png",
       "NumWidth": 1,
       "NumHeight": 1,
       "BackIsHidden": true,
@@ -53,7 +53,11 @@
       "Type": 0
     }
   },
-  "LuaScript": "elements=\"${elements}\"\nenergy=${energy}\n${thresholdText}",
-  "LuaScriptState": { "$if": "len(thresholds)", "then": "${thresholds}", "else": "" },
+  "LuaScript": { "$eval": "LUAScript" },
+  "LuaScriptState": {
+    "$json": {
+      "thresholds": { "$eval": "thresholds" }
+    }
+  },
   "XmlUI": ""
 }

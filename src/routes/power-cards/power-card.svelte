@@ -192,6 +192,14 @@
   }
 
   const elements = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
+
+  function togglePrinterClean() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let cards = Array.from(previewFrame.document.getElementsByTagName("card"));
+    cards.forEach((card) => {
+      card.classList.add("printer-clean");
+    });
+  }
 </script>
 
 <div class="is-power-cards">
@@ -471,11 +479,16 @@
     </div>
   </div>
 </div>
-<Section title={`Card Back`} bind:isVisible={powerCards.cardBackImageIsVisible}>
+<Section title={`Card Back & Options`} bind:isVisible={powerCards.cardBackImageIsVisible}>
   <ImageInput
     id="powerCardBack"
     title="Power Card Back Art"
     bind:imageURL={powerCards.cardBackImage} />
+  <label class="label mb-0" for="spiritNameInput">Options</label>
+  <div class="control">
+    <button class="button is-warning is-light is-small row-button" on:click={togglePrinterClean}
+      >Click for Printer-Friendly</button>
+  </div>
 </Section>
 
 <style>

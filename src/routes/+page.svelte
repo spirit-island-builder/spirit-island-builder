@@ -529,6 +529,7 @@
       token: "",
       empowered: false,
       empoweredOnlyToken: false,
+      empoweredToken: "",
       color: "",
     },
   };
@@ -644,7 +645,7 @@
   <div
     class="container"
     class:is-spiritBoardFront={currentPage === "spiritBoardFront"}
-    class:is-sideMenu={currentPage === "aspect"}>
+    class:is-sideMenu={currentPage === "aspect" || currentPage === "fearCard"}>
     {#if currentPage === "spiritBoardFront"}
       <SpiritBoard bind:spiritBoard bind:emptySpiritBoard bind:customIcons />
     {:else if currentPage === "spiritBoardBack"}

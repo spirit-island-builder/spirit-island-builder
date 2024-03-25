@@ -1,4 +1,4 @@
-<iframe src={"/docs/about.md"} title="about" id="aboutFrame" />
+<iframe src="../docs/about.md" title="about.md" id="aboutFrame" />
 
 <style>
   iframe {

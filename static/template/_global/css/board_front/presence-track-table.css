@@ -3,8 +3,8 @@ presence-tracks section-title {
   margin-top: -3px;
 }
 
-presence-tracks section-title.has-note {
-}
+/* presence-tracks section-title.has-note {
+} */
 
 presence-tracks presence-note {
   font-family: "JosefinSans-Regular";
@@ -675,4 +675,39 @@ element-or-wrap icon.backslash {
   height: 94px;
   z-index: 2;
   margin-bottom: 30px;
+}
+
+presence-node add-move-lower icon {
+  display: block;
+  position: absolute;
+  transform: translateX(-50%) translateY(-50%);
+  width: 40px;
+  height: 60px;
+}
+
+presence-node add-move-lower icon.add-move {
+  left: 35%;
+  width: 40px;
+  top: 85px;
+}
+
+presence-node add-move-lower icon.with-your {
+  left: 65%;
+  width: 40px;
+  top: 85px;
+}
+
+presence-node add-move-upper {
+  position: absolute;
+  display: block;
+  top: 33px;
+  margin-left: 4px;
+}
+
+presence-node add-move-upper icon.backslash {
+  margin-right: 0px;
+}
+
+presence-node add-move-upper icon.move-arrow {
+  margin-left: 0px;
 }

@@ -76,6 +76,16 @@ board.devwrap special-rule {
   pointer-events: all;
 }
 
+special-rule-line {
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+special-rule-line:last-child {
+  padding-bottom: 0px;
+}
+
 special-rule icon {
   width: 30px;
   height: 30px;

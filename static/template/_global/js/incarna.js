@@ -1,11 +1,12 @@
 function startMain() {
   // window.onload = function startMain() {
   console.log("incarna startMain");
-  var incarna = document.querySelectorAll("incarna")[0];
+  let incarna = document.querySelectorAll("incarna")[0];
   let icon = incarna.getAttribute("icon");
   let tokenType = incarna.getAttribute("token");
   let empowered = incarna.getAttribute("empowered") === "true";
   let empoweredTokenBoth = incarna.getAttribute("empowered-only-token") === "true";
+  let empoweredToken = incarna.getAttribute("empowered-token");
   let backgroundColor = incarna.getAttribute("color");
 
   let background = document.createElement("background");
@@ -40,20 +41,21 @@ function startMain() {
   background.appendChild(tokenWrapper);
   let token = document.createElement("icon");
   let tokenShadow = document.createElement("icon");
+  tokenType = tokenType ? tokenType.toLowerCase() : "";
   if (tokenType) {
     // let token = document.createElement("icon");
     // let tokenShadow = document.createElement("icon");
     token.classList.add(tokenType);
-    token.classList.add("token");
     tokenShadow.classList.add(tokenType);
-    tokenShadow.classList.add("token");
-    tokenShadow.classList.add("shadow");
-    tokenWrapper.appendChild(tokenShadow);
-    tokenWrapper.appendChild(token);
-    if (empoweredTokenBoth) {
-      token.classList.add("not-both");
-      tokenShadow.classList.add("not-both");
-    }
+  }
+  token.classList.add("token");
+  tokenShadow.classList.add("token");
+  tokenShadow.classList.add("shadow");
+  tokenWrapper.appendChild(tokenShadow);
+  tokenWrapper.appendChild(token);
+  if (empoweredTokenBoth) {
+    token.classList.add("not-both");
+    tokenShadow.classList.add("not-both");
   }
 
   //Add incarna icon
@@ -104,6 +106,16 @@ function startMain() {
   }
 
   incarnaWrapper.appendChild(incarna);
+
+  if (empoweredToken && empowered) {
+    console.log("alternate empowered token");
+    if (tokenType) {
+      token.classList.remove(tokenType);
+      tokenShadow.classList.remove(tokenType);
+    }
+    token.classList.add(empoweredToken);
+    tokenShadow.classList.add(empoweredToken);
+  }
 }
 
 ("use strict");

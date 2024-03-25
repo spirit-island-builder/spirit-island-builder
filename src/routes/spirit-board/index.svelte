@@ -16,7 +16,7 @@
   import InnatePowers from "./innate-powers.svelte";
   import CustomIcons from "../custom-icons.svelte";
 
-  import { createTTSSave, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
+  import { createTTSSave, toFixedNumber, ttsSaveMIMEType, getThresholdTTSJSON } from "$lib/tts.js";
 
   import examples from "./examples.json";
   import spiritBoardJsonTemplate from "./tts-spirit-board.json";
@@ -604,55 +604,8 @@
       }
     });
 
-    //Lua scripting - thresholds
-    let thresholds = [];
-    const thresholdsNodes = Array.from(board.getElementsByTagName("threshold"));
-    thresholdsNodes.forEach((threshold) => {
-      let childNodesArray = Array.from(threshold.childNodes);
-
-      const elementNames = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
-      let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
-
-      let lastNum = 0;
-      let j = 0;
-      let elCountArrays = [elementCounts];
-
-      childNodesArray.forEach((child) => {
-        if (child.tagName === "THRESHOLD-NUM") {
-          lastNum = child.innerHTML;
-        } else if (child.tagName === "ICON") {
-          let findIndex = elementNames.findIndex((el) => el === child.className);
-          elCountArrays[j][findIndex] = lastNum;
-          lastNum = 0;
-        } else if (child.tagName === "THRESHOLD-OR") {
-          j++;
-          elCountArrays.push([0, 0, 0, 0, 0, 0, 0, 0]);
-        }
-      });
-
-      let rect = threshold.getBoundingClientRect();
-
-      elCountArrays.forEach((elArray) => {
-        thresholds.push({
-          elements: elArray.join(""),
-          position: {
-            x: toFixedNumber(
-              (-(boardRect.width / boardRect.height) *
-                (-23 + rect.left - boardRect.x - boardRect.width / 2)) /
-                (boardRect.width / 2),
-              4
-            ),
-            y: 0,
-            z: toFixedNumber(
-              (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
-                (boardRect.height / 2),
-              4
-            ),
-          },
-        });
-      });
-    });
-    console.log(thresholds);
+    //Lua scripting - thresholds (see tts.js)
+    let thresholds = getThresholdTTSJSON(board);
 
     //Lua scripting - track energy & elements
     let trackElements = [];
