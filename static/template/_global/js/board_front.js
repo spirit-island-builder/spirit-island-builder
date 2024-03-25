@@ -3622,6 +3622,20 @@ function parseSpecialRules() {
     specialRuleNameList[j].id = "sr" + j + "name";
   }
 
+  // Capture lines to control line break heights
+  let specialRulesArray = Array.from(specialRuleList);
+  specialRulesArray.forEach((specialRule) => {
+    let separateLines = specialRule.innerHTML.split(/\r?\n|\r|\n/g);
+    specialRule.innerHTML = "";
+    separateLines.forEach((line) => {
+      if (line.replace(/\W/g, "").length > 0) {
+        let specialRuleLine = document.createElement("special-rule-line");
+        specialRuleLine.innerHTML = line;
+        specialRule.appendChild(specialRuleLine);
+      }
+    });
+  });
+
   // Allow custom heading name
   if (specialRules.getAttribute("customname")) {
     console.log("special rule heading detected");
