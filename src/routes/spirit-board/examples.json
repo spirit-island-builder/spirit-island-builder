@@ -115,6 +115,31 @@
     ]
   },
   {
+    "title": "Horizons",
+    "examples": [
+      {
+        "name": "Rising Heat",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Rising_Heat_of_Stone_and_Sand.html"
+      },
+      {
+        "name": "Devouring Teeth",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Devouring_Teeth_Lurk_Underfoot.html"
+      },
+      {
+        "name": "Sun-Bright Whirlwind",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Sun-Bright Whirlwind.html"
+      },
+      {
+        "name": "Eyes Watch",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Eyes Watch From The Trees.html"
+      },
+      {
+        "name": "Fathomless Mud",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Fathomless_Mud_of_the_Swamp.html"
+      }
+    ]
+  },
+  {
     "title": "Nature Incarnate",
     "examples": [
       {
