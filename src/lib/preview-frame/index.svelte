@@ -55,13 +55,29 @@
       format: pageType,
     });
     let i = 0;
+    let j = 0;
+    let xi = 0.5;
+    let x = xi;
+    let yi = 0.5;
+    let y = yi;
+    let pw = doc.getPageWidth();
+    //let ph = doc.getPageHeight();
     let count = elementNamesInIframe.length;
+    //
     elementNamesInIframe.forEach((elementNameInIframe) => {
       previewIframe.contentWindow
         .takeScreenshot(elementNameInIframe, large ? 2 : 1.5)
         .then((imageURL) => {
-          console.log(i);
-          doc.addImage(imageURL, "PNG", 1 + i * wid, 1, wid, hit);
+          x = xi + j * wid;
+          if (x + wid > pw) {
+            x = xi;
+            y = y + hit;
+            j = 0;
+            console.log("push to new row");
+          }
+          j++;
+          doc.addImage(imageURL, "PNG", x, y, wid, hit);
+          console.log("add card " + elementNameInIframe + " to " + x + "," + y);
           if (++i === count) {
             doc.save(fileName);
           }
