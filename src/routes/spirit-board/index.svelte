@@ -775,6 +775,20 @@
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 
+  function printToPDF(pageType = "letter") {
+    const fileNames = [spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.pdf"];
+    const elementNamesInIframe = ["board"];
+    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType);
+  }
+
+  function printToPDFLetter() {
+    printToPDF("letter");
+  }
+
+  function printToPDFA4() {
+    printToPDF("a4");
+  }
+
   function toggleClickableInterface() {
     //find the board
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
@@ -822,7 +836,7 @@
       </svelte:fragment>
     </PreviewFrame>
 
-    <div class="field has-addons mb-2 is-flex-wrap-wrap">
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
       <button class="button is-info js-modal-trigger mt-1 mr-1" on:click={exampleModal.open}>
         Examples
       </button>
@@ -834,24 +848,31 @@
         Load
       </LoadButton>
       <button class="button is-success mt-1 mr-1" on:click={exportSpiritBoard}>Save</button>
-      <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
-      <button class="button is-success mt-1 mr-1" on:click={downloadTTSJSON}
-        >Export TTS file</button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
         >Toggle Board Size</button>
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
+    </div>
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
+      <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button class="button is-success mt-1 mr-1" on:click={printToPDFLetter}
+        >Create PDF (letter)</button>
+      <button class="button is-success mt-1 mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
+      <button class="button is-success mt-1 mr-1" on:click={downloadTTSJSON}
+        >Export TTS file</button>
+    </div>
+    <div class="field has-addons mb-1 is-flex-wrap-wrap">
       {#if dev}
         <button class="button is-danger mt-1 mr-1" on:click={toggleClickableInterface}
           >Toggle Clickable GUI</button>
         <LoadButton
           accept="image/png, image/jpeg"
-          class="button is-file-load is-small"
+          class="button is-file-load is-small mt-1"
           loadDataURL={(url) => {
             overlayImage = url;
           }}>Load Overlay</LoadButton>
-        <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
+        <button class="button is-danger mt-1 mr-1" on:click={addOverlay}>Add Overlay</button>
       {/if}
     </div>
   </div>
