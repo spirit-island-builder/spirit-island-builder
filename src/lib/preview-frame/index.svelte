@@ -7,6 +7,7 @@
   import { tick, onMount } from "svelte";
   import { browser } from "$app/environment";
   import { installHotReloadEvent } from "$lib/hmr-helper.js";
+  import { jsPDF } from "jspdf";
 
   // Using a query string of `?worker&url` gives a URL from which we can
   // pass to `<script type="module">` tag, which we can inject into the
@@ -44,6 +45,27 @@
       previewIframe.contentWindow
         .takeScreenshot(elementNameInIframe, large ? 2 : 1.5)
         .then((imageURL) => downloadImage(imageURL, fileNames[index]));
+    });
+  };
+
+  export const getPDF = (fileName, elementNamesInIframe, pageType, wid = 9, hit = 6) => {
+    const doc = new jsPDF({
+      orientation: "landscape",
+      unit: "in",
+      format: pageType,
+    });
+    let i = 0;
+    let count = elementNamesInIframe.length;
+    elementNamesInIframe.forEach((elementNameInIframe) => {
+      previewIframe.contentWindow
+        .takeScreenshot(elementNameInIframe, large ? 2 : 1.5)
+        .then((imageURL) => {
+          console.log(i);
+          doc.addImage(imageURL, "PNG", 1 + i * wid, 1, wid, hit);
+          if (++i === count) {
+            doc.save(fileName);
+          }
+        });
     });
   };
 
