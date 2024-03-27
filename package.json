@@ -33,7 +33,7 @@
     "svelte": "^3.44.0",
     "svelte-check": "^3.0.3",
     "svelte-highlight": "^7.1.2",
-    "vite": "^4.0.0",
+    "vite": "^4.5.2",
     "vite-plugin-remark-rehype": "^0.1.0"
   },
   "type": "module",
