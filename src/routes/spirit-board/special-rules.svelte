@@ -13,6 +13,12 @@
 
   function removeSpecialRule(index) {
     spiritBoard = Lib.removeSpecialRule(spiritBoard, index);
+    document.getElementById("updateButton").click();
+  }
+
+  function moveSpecialRule(to, from) {
+    spiritBoard = Lib.moveSpecialRule(spiritBoard, to, from);
+    document.getElementById("updateButton").click();
   }
 
   function nextNode(event) {
@@ -53,9 +59,23 @@
   <!-- The (rule.id) makes this a keyed each block. See https://svelte.dev/tutorial/keyed-each-blocks -->
   {#each spiritBoard.specialRules.rules as rule, i (rule.id)}
     <div class="field">
-      <label class="label is-flex is-justify-content-space-between" for={`ruleNameInput${i}`}
-        >Special Rule {i + 1}
-      </label>
+      <div class="field is-flex is-justify-content-space-between mb-0">
+        <label class="label is-flex is-justify-content-space-between" for={`ruleNameInput${i}`}
+          >Special Rule {i + 1}
+        </label>
+        <div class="field has-addons is-tiny" style="height:20px;">
+          <button
+            class="button is-light is-small"
+            disabled={i === 0}
+            on:click={moveSpecialRule(i - 1, i)}>&#11165;</button>
+          <button
+            class="button is-light is-small"
+            disabled={i + 1 === spiritBoard.specialRules.rules.length}
+            on:click={moveSpecialRule(i + 1, i)}>&#11167;</button>
+          <button class="button is-warning is-small is-light" on:click={removeSpecialRule(i)}
+            >&#10006;</button>
+        </div>
+      </div>
       <div class="growth-action-container">
         <div class="control" style="width:100%">
           <input
@@ -68,7 +88,6 @@
             on:blur={() => updateSpecialRule(rule, i, "name")}
             bind:value={spiritBoard.specialRules.rules[i].name} />
         </div>
-        <button class="button is-warning is-light" on:click={removeSpecialRule(i)}>Remove</button>
       </div>
       <AutoComplete
         id={`ruleEffectInput${i}`}
@@ -87,3 +106,12 @@
     </div>
   </div>
 </Section>
+
+<style>
+  .button[disabled] {
+    opacity: 0.1;
+  }
+  div.is-tiny button {
+    height: 25px;
+  }
+</style>
