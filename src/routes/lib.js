@@ -22,6 +22,17 @@ export const removeSpecialRule = (spiritBoard, index) => {
   return spiritBoard;
 };
 
+export const moveSpecialRule = (spiritBoard, to, from) => {
+  // console.log(spiritBoard.specialRules.rules.splice(from, 1)[0])
+  console.log(to);
+  spiritBoard.specialRules.rules.splice(to, 0, spiritBoard.specialRules.rules.splice(from, 1)[0]);
+  spiritBoard.specialRules.rules.forEach((rule, i) => {
+    rule.id = i;
+  });
+  console.log(spiritBoard.specialRules.rules);
+  return spiritBoard;
+};
+
 export const addGrowthSet = (spiritBoard, growthChoiceText = "") => {
   spiritBoard.growth.growthSets.push({
     id: spiritBoard.growth.growthSets.length,
