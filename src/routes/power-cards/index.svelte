@@ -445,6 +445,31 @@
     await loadHTMLFromURL(example.url);
     hideAll();
   }
+
+  function printToPDF(pageType = "letter") {
+    let fileName = "";
+    const elementNamesInIframe = [];
+    if (powerCards.spiritName) {
+      fileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCardSet.pdf";
+    } else {
+      fileName = "Custom_PowerCardSet.pdf";
+    }
+    powerCards.cards.forEach((card, index) => {
+      elementNamesInIframe.push(`#card${index}`);
+    });
+    if (powerCards.cardBackImage) {
+      elementNamesInIframe.push(`#cardBack`);
+    }
+    previewFrame.getPDF(fileName, elementNamesInIframe, pageType, 2.48, 3.465);
+  }
+
+  function printToPDFLetter() {
+    printToPDF("letter");
+  }
+
+  function printToPDFA4() {
+    printToPDF("a4");
+  }
 </script>
 
 <PreviewFrame
@@ -469,6 +494,8 @@
   <button class="button is-success  mr-1" on:click={exportPowerCards}> Save </button>
   <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
   <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
+  <button class="button is-success mr-1" on:click={printToPDFLetter}>Create PDF (letter)</button>
+  <button class="button is-success mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
   <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
     >Update Preview</button>
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
