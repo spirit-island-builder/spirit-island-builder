@@ -42,7 +42,7 @@ export const getThresholdTTSJSON = (
     console.log(component);
     console.log(thresholdTags);
   }
-  let isRotated = component.classList.contains("profile");
+  let isVertical = component.classList.contains("profile");
   const boardRect = component.getBoundingClientRect();
   const thresholdsNodes = Array.from(thresholdTags);
   thresholdsNodes.forEach((threshold) => {
@@ -87,10 +87,11 @@ export const getThresholdTTSJSON = (
           (boardRect.height / 2),
         4
       );
-      if (isRotated) {
+      if (!isVertical) {
         let temp = zLoc;
         zLoc = -xLoc;
         xLoc = temp;
+        console.log("rotating z and x");
       }
       thresholds.push({
         elements: elArray.join(""),

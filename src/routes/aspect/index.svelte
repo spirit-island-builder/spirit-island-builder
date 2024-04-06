@@ -342,7 +342,16 @@
       aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_AspectBack.png",
     ];
     const elementNamesInIframe = ["aspect", "aspect-back"];
+
+    // let previewFrameDoc = document.getElementById("preview-iframe").contentWindow;
+    // const aspectHTML = previewFrameDoc.document.getElementsByTagName("aspect")[0];
+    // const aspectBackHTML =  previewFrameDoc.document.getElementsByTagName("aspect-back")[0];
+
+    // aspectHTML.classList.add("for-image-download")
+    // aspectBackHTML.classList.add("for-image-download")
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
+    // aspectHTML.classList.remove("for-image-download")
+    // aspectBackHTML.classList.remove("for-image-download")
   }
 
   async function loadExample(example) {
@@ -421,9 +430,16 @@
       console.log(LUAScript);
     }
 
+    //default image
+    let defaultImage = "https://i.imgur.com/jR8jpcD.png"; //vert
+    // if(isLandscape){
+    //   defaultImage = "https://i.imgur.com/knMsIXM.png"
+    // }
+
     let aspectJSON = jsone(aspectJSONTemplate, {
       guid: aspect.nameReplacements.aspectName.replaceAll(" ", "_"),
       isLandscape: isLandscape,
+      defaultImage: defaultImage,
       LUAScript: LUAScript,
       aspectUniqueName: aspectUniqueName,
       thresholds,

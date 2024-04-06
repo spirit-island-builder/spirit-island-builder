@@ -37,9 +37,17 @@ body {
 
 aspect {
   overflow: hidden;
+  border-radius: 22px;
   width: 786px;
   height: 567px;
-  padding: 27px 25px 23px 27px;
+  position: relative;
+}
+
+aspect-background {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  padding: 28px 27px 25px 26px;
   border-radius: 22px;
   background-image: url("../images/aspect.png");
   background-size: 100% 100%;
@@ -53,6 +61,9 @@ aspect {
 aspect.profile {
   width: 567px;
   height: 786px;
+}
+
+aspect.profile aspect-background {
   padding: 24px 24px 25px 26px;
   background-image: url("../images/aspect-profile.png");
 }
@@ -259,7 +270,7 @@ aspect-back {
   position: relative;
 }
 
-aspect-overlay {
+aspect-back-overlay {
   width: 786px;
   height: 567px;
   display: flex;
@@ -479,7 +490,19 @@ aspect-back.profile {
 }
 
 aspect-back.profile img,
-aspect-back.profile aspect-overlay {
+aspect-back.profile aspect-back-overlay {
   transform-origin: top left;
   transform: translateY(786px) rotate(270deg);
+}
+
+aspect.for-image-download {
+  width: 567px;
+  height: 786px;
+}
+
+aspect.for-image-download aspect-background {
+  transform-origin: top left;
+  transform: translateX(567px) rotate(90deg);
+  width: 786px;
+  height: 567px;
 }
