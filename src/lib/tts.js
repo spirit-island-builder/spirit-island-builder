@@ -32,9 +32,17 @@ export const toFixedNumber = (num, digits) => {
   return Math.round(num * mult) / mult;
 };
 
-export const getThresholdTTSJSON = (component) => {
+export const getThresholdTTSJSON = (
+  component,
+  thresholdTags = component.getElementsByTagName("threshold")
+) => {
+  let debug = true;
   let thresholds = [];
-  let thresholdTags = component.getElementsByTagName("threshold");
+  if (debug) {
+    console.log(component);
+    console.log(thresholdTags);
+  }
+  let isVertical = component.classList.contains("profile");
   const boardRect = component.getBoundingClientRect();
   const thresholdsNodes = Array.from(thresholdTags);
   thresholdsNodes.forEach((threshold) => {
@@ -69,24 +77,34 @@ export const getThresholdTTSJSON = (component) => {
     let rect = threshold.getBoundingClientRect();
 
     elCountArrays.forEach((elArray) => {
+      let xLoc = toFixedNumber(
+        (-xRatio * (-45 / xRatio + rect.left - boardRect.x - boardRect.width / 2)) /
+          (boardRect.width / 2),
+        4
+      );
+      let zLoc = toFixedNumber(
+        (zRatio * (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2)) /
+          (boardRect.height / 2),
+        4
+      );
+      if (!isVertical) {
+        let temp = zLoc;
+        zLoc = -xLoc;
+        xLoc = temp;
+        console.log("rotating z and x");
+      }
       thresholds.push({
         elements: elArray.join(""),
         position: {
-          x: toFixedNumber(
-            (-xRatio * (-45 / xRatio + rect.left - boardRect.x - boardRect.width / 2)) /
-              (boardRect.width / 2),
-            4
-          ),
+          x: xLoc,
           y: 0,
-          z: toFixedNumber(
-            (zRatio * (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2)) /
-              (boardRect.height / 2),
-            4
-          ),
+          z: zLoc,
         },
       });
     });
   });
-  console.log(thresholds);
+  if (debug) {
+    console.log(thresholds);
+  }
   return thresholds;
 };

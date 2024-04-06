@@ -11,6 +11,9 @@ function startMain() {
     parseSubtexts(aspects[i]);
     parseSubNodes(aspects[i]);
     parseSpecialRules(aspects[i]);
+    //add background to card
+    aspects[i].innerHTML = "<aspect-background>" + aspects[i].innerHTML + "</aspect-background>";
+
     aspects[i].innerHTML = replaceIcon(aspects[i].innerHTML);
   }
   var backs = document.querySelectorAll("aspect-back");
@@ -58,7 +61,7 @@ function parseSubtexts(aspect) {
 
 function parseAspectBack(back) {
   var html = '<img src="' + back.getAttribute("src") + '" />';
-  html += "<aspect-overlay/>";
+  html += "<aspect-back-overlay/>";
   html += '<div class="aspect-back-title">ASPECT</div>';
   html += '<div class="aspect-back-name">' + back.getAttribute("spirit-name") + "</div>";
   back.innerHTML = html;

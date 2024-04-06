@@ -42,9 +42,15 @@
 
   export const takeScreenshot = (fileNames, elementNamesInIframe) => {
     elementNamesInIframe.forEach((elementNameInIframe, index) => {
+      let element = previewIframe.contentDocument.querySelector(elementNameInIframe);
+      console.log(element);
+      element.classList.add("for-image-download");
       previewIframe.contentWindow
         .takeScreenshot(elementNameInIframe, large ? 2 : 1.5)
-        .then((imageURL) => downloadImage(imageURL, fileNames[index]));
+        .then((imageURL) => {
+          downloadImage(imageURL, fileNames[index]);
+          element.classList.remove("for-image-download");
+        });
     });
   };
 

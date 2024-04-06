@@ -13,7 +13,7 @@
 
   import powerCardsJsonTemplate from "./tts-power-card.json";
   import jsone from "json-e";
-  import { createTTSSave, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
+  import { createTTSSave, getThresholdTTSJSON, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
   import InstructionsLink from "$lib/instructions/link.svelte";
 
   export let powerCards;
@@ -338,7 +338,7 @@
 
       let thresholdText;
       let thresholds = [];
-      if (card.hasThreshold) {
+      if (card.hasThreshold && card.thresholdCondition.length > 0) {
         thresholdText =
           'function onLoad(saved_data)\n    if saved_data ~= "" then\n        local loaded_data = JSON.decode(saved_data)\n        self.setTable("thresholds", loaded_data.thresholds)\n    end\nend\n-- card loading end';
         //"{\"thresholds\": [{\"elements\": \"00030000\", \"position\": {\"x\": 0.07, \"y\": 0, \"z\": 1.09}}]}"
@@ -396,8 +396,13 @@
         // No Threshold
         thresholdText = "";
       }
-
       thresholds = JSON.stringify({ thresholds: thresholds });
+      let thresholds2 = getThresholdTTSJSON(
+        cardTemplate,
+        cardTemplate.getElementsByTagName("threshold-condition")[0]
+      );
+      console.log(thresholds);
+      console.log(thresholds2);
 
       let powerCardJson = jsone(powerCardsJsonTemplate, {
         guid: card.name.replaceAll(" ", "_"),
