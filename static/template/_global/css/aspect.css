@@ -495,12 +495,12 @@ aspect-back.profile aspect-back-overlay {
   transform: translateY(786px) rotate(270deg);
 }
 
-aspect.for-image-download {
+aspect:not(.profile).for-image-download {
   width: 567px;
   height: 786px;
 }
 
-aspect.for-image-download aspect-background {
+aspect:not(.profile).for-image-download aspect-background {
   transform-origin: top left;
   transform: translateX(567px) rotate(90deg);
   width: 786px;
