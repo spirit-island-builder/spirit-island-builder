@@ -737,6 +737,12 @@ growth-cell icon.days-never-were {
   width: 90px;
 }
 
+growth-cell icon.take-power-card {
+  margin-bottom: 7px;
+  height: 90px;
+  width: 110px;
+}
+
 growth-cell icon.energy-per-play {
   margin-bottom: 0px;
   margin-top: -20px;
@@ -812,6 +818,9 @@ icon.gain-card-modifier {
   left: -10px;
   top: -33px;
   display: block;
+  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
+    drop-shadow(0px -1px 0px);
+  color: #ead38d;
 }
 
 icon.gain-card-modifier.sun {
@@ -852,6 +861,11 @@ icon.gain-card-modifier.any {
 
 icon.gain-card-modifier.minor {
   width: 42px;
+}
+
+icon.take-power-card icon.gain-card-modifier {
+  left: 30px;
+  width: 40px;
 }
 
 icon.gain-card-second-modifier {
