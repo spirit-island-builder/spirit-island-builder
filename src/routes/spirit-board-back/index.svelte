@@ -12,7 +12,17 @@
   import InstructionsLink from "$lib/instructions/link.svelte";
 
   export let spiritBoardBack;
+  export let emptySpiritBoardBack;
   export let customIcons;
+
+  function clearAllFields() {
+    if (
+      window.confirm("Are you sure? This permanently clears all fields in Spirit Board Lore Side.")
+    ) {
+      spiritBoardBack = JSON.parse(JSON.stringify(emptySpiritBoardBack));
+      reloadPreview();
+    }
+  }
 
   let previewFrame;
 
@@ -218,53 +228,6 @@
   function exportSpiritBoardBack() {
     const htmlFileName = spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritLore.html";
     downloadHTML(generateHTML(spiritBoardBack), htmlFileName);
-  }
-
-  function clearAllFields() {
-    if (
-      window.confirm("Are you sure? This permanently clears all fields in Spirit Board Lore Side.")
-    ) {
-      spiritBoardBack = {
-        prop: "value",
-        demoBoardWasLoaded: false,
-        previewBoard: {
-          isVisible: false,
-        },
-        nameArtLore: {
-          isVisible: false,
-        },
-        setupPlaystyleComplexityPowers: {
-          isVisible: false,
-        },
-        nameImage: {
-          name: "",
-          img: "",
-          scale: "",
-        },
-        lore: {
-          loreText: "",
-        },
-        setup: {
-          setupText: "",
-        },
-        playStyle: {
-          playStyleText: "",
-        },
-        complexity: {
-          complexityValue: "",
-          complexityDescriptor: "",
-        },
-        summary: {
-          offenseValue: "",
-          controlValue: "",
-          fearValue: "",
-          defenseValue: "",
-          utilityValue: "",
-          usesTokens: "",
-        },
-      };
-      reloadPreview();
-    }
   }
 
   function screenshotSetUp() {
