@@ -61,27 +61,20 @@
       format: pageType,
     });
     let i = 0;
-    let j = 0;
     let xi = 0.5;
     let x = xi;
     let yi = 0.5;
     let y = yi;
     let pw = doc.getPageWidth();
-    //let ph = doc.getPageHeight();
     let count = elementNamesInIframe.length;
-    //
-    elementNamesInIframe.forEach((elementNameInIframe) => {
+    elementNamesInIframe.forEach((elementNameInIframe, n) => {
       previewIframe.contentWindow
         .takeScreenshot(elementNameInIframe, large ? 2 : 1.5)
         .then((imageURL) => {
-          x = xi + j * wid;
-          if (x + wid > pw) {
-            x = xi;
-            y = y + hit;
-            j = 0;
-            console.log("push to new row");
-          }
-          j++;
+          const col_n = n % Math.floor((pw - xi) / wid);
+          x = xi + col_n * wid;
+          const row_n = Math.floor(((n + 1) * wid) / (pw - xi));
+          y = yi + row_n * hit;
           doc.addImage(imageURL, "PNG", x, y, wid, hit);
           console.log("add card " + elementNameInIframe + " to " + x + "," + y);
           if (++i === count) {

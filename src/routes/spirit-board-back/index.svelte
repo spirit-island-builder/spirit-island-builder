@@ -237,34 +237,55 @@
     const elementNamesInIframe = ["board"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
+
+  function printToPDF(pageType = "letter") {
+    const fileNames = [
+      spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritBoardBack.pdf",
+    ];
+    const elementNamesInIframe = ["board"];
+    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType);
+  }
+
+  function printToPDFLetter() {
+    printToPDF("letter");
+  }
+
+  function printToPDFA4() {
+    printToPDF("a4");
+  }
 </script>
 
-<PreviewFrame id="lore-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
-  <svelte:fragment slot="head">
-    <link href="/template/_global/css/global.css" rel="stylesheet" />
-    <link href="/template/_global/css/board_lore.css" rel="stylesheet" />
-    <script type="text/javascript" src="/template/_global/js/common.js"></script>
-    <script type="text/javascript" src="/template/_global/js/board_lore.js"></script>
-  </svelte:fragment>
-</PreviewFrame>
-<div class="field has-addons mb-2 is-flex-wrap-wrap">
-  <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
-    Load
-  </LoadButton>
-  <button class="button is-success  mr-1" on:click={exportSpiritBoardBack}> Save </button>
-  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
-  <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
-  <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
-    >Toggle Board Size</button>
-  <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  <InstructionsLink class="button is-info mr-1" anchor="spirit-board-lore-side" />
-</div>
-<div class="columns mt-0 mb-1">
-  <div class="column pt-0">
+<div class="columns ml-4 mt-0 mb-1">
+  <div class="column is-one-third pt-0">
     <NameArtLore bind:spiritBoardBack />
+    <SetupPlaystyleComplexityPowers bind:spiritBoardBack />
     <CustomIcons bind:customIcons />
   </div>
   <div class="column pt-0">
-    <SetupPlaystyleComplexityPowers bind:spiritBoardBack />
+    <PreviewFrame id="lore-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
+      <svelte:fragment slot="head">
+        <link href="/template/_global/css/global.css" rel="stylesheet" />
+        <link href="/template/_global/css/board_lore.css" rel="stylesheet" />
+        <script type="text/javascript" src="/template/_global/js/common.js"></script>
+        <script type="text/javascript" src="/template/_global/js/board_lore.js"></script>
+      </svelte:fragment>
+    </PreviewFrame>
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
+      <InstructionsLink class="button is-info mr-1" anchor="spirit-board-lore-side" />
+      <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+        Load
+      </LoadButton>
+      <button class="button is-success  mr-1" on:click={exportSpiritBoardBack}> Save </button>
+      <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
+      <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
+        >Toggle Board Size</button>
+      <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+    </div>
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
+      <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button class="button is-success mt-1 mr-1" on:click={printToPDFLetter}
+        >Create PDF (letter)</button>
+      <button class="button is-success mt-1 mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
+    </div>
   </div>
 </div>
