@@ -87,11 +87,11 @@ export const getThresholdTTSJSON = (
           (boardRect.height / 2),
         4
       );
-      if (!isVertical) {
+      if (!isVertical && component.tagName === "ASPECT") {
         let temp = zLoc;
         zLoc = -xLoc;
         xLoc = temp;
-        console.log("rotating z and x");
+        console.log("non-vertical aspect, rotating z and x");
       }
       thresholds.push({
         elements: elArray.join(""),
