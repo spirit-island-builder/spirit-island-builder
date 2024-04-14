@@ -1764,6 +1764,8 @@ function getPresenceNodeHtml(
     }
     if (optionsNodeBack.includes("nofirst")) {
       first = false;
+    } else if (optionsNodeBack.includes("first")) {
+      first = true;
     }
   }
   nodeText = nodeText.split("_")[0].split("^")[0];
