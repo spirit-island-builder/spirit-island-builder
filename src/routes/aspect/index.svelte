@@ -460,6 +460,32 @@
     aspectDom.appendChild(overlay);
     overlay.style.backgroundImage = `url('${overlayImage}')`;
   }
+
+  function printToPDF(pageType = "letter") {
+    let fileName = "";
+    fileName = aspect.nameReplacements.aspectName.replaceAll(" ", "_");
+    if (aspect.nameReplacements.spiritName) {
+      fileName += aspect.nameReplacements.spiritName.replaceAll(" ", "_");
+    }
+    fileName += "_Aspect.pdf";
+
+    const elementNamesInIframe = ["aspect", "aspect-back"];
+    let w = 3.465;
+    let h = 2.48;
+    if (aspect.profile) {
+      w = 2.48;
+      h = 3.465;
+    }
+    previewFrame.getPDF(fileName, elementNamesInIframe, pageType, w, h);
+  }
+
+  function printToPDFLetter() {
+    printToPDF("letter");
+  }
+
+  function printToPDFA4() {
+    printToPDF("a4");
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -482,7 +508,7 @@
         <script type="text/javascript" src="/template/_global/js/aspect.js"></script>
       </svelte:fragment>
     </PreviewFrame>
-    <div class="field has-addons mb-2 is-flex-wrap-wrap">
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
       <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
         Examples
       </button>
@@ -490,13 +516,21 @@
         Load
       </LoadButton>
       <button class="button is-success  mr-1" on:click={exportAspect}> Save </button>
-      <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
-      <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
+
       <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
         >Toggle Board Size</button>
       <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+    </div>
+    <div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
+      <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
+      <button class="button is-success mr-1" on:click={printToPDFLetter}
+        >Create PDF (letter)</button>
+      <button class="button is-success mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
+    </div>
+    <div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
       {#if dev}
         <LoadButton
           accept="image/png, image/jpeg"

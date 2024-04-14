@@ -470,6 +470,14 @@
   function printToPDFA4() {
     printToPDF("a4");
   }
+
+  function togglePrinterClean() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let cards = Array.from(previewFrame.document.getElementsByTagName("card"));
+    cards.forEach((card) => {
+      card.classList.add("printer-clean");
+    });
+  }
 </script>
 
 <PreviewFrame
@@ -484,7 +492,7 @@
     <script type="text/javascript" src="/template/_global/js/card.js"></script>
   </svelte:fragment>
 </PreviewFrame>
-<div class="field has-addons mt-2 mb-2 is-flex-wrap-wrap">
+<div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
   <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
     Examples
   </button>
@@ -492,16 +500,20 @@
     Load
   </LoadButton>
   <button class="button is-success  mr-1" on:click={exportPowerCards}> Save </button>
-  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
-  <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
-  <button class="button is-success mr-1" on:click={printToPDFLetter}>Create PDF (letter)</button>
-  <button class="button is-success mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
   <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
     >Update Preview</button>
   <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
     >Toggle Preview Size</button>
   <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
   <InstructionsLink class="button is-info mr-1" anchor="power-cards" />
+</div>
+<div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
+  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+  <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
+  <button class="button is-success mr-1" on:click={printToPDFLetter}>Create PDF (letter)</button>
+  <button class="button is-success mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
+  <button class="button is-warning mr-1 is-small" on:click={togglePrinterClean}
+    >Printer-Friendly</button>
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">

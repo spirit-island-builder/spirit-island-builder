@@ -645,7 +645,10 @@
   <div
     class="container"
     class:is-spiritBoardFront={currentPage === "spiritBoardFront"}
-    class:is-sideMenu={currentPage === "aspect" || currentPage === "fearCard"}>
+    class:is-sideMenu={currentPage === "spiritBoardBack" ||
+      currentPage === "adversary" ||
+      currentPage === "aspect" ||
+      currentPage === "fearCard"}>
     {#if currentPage === "spiritBoardFront"}
       <SpiritBoard bind:spiritBoard bind:emptySpiritBoard bind:customIcons />
     {:else if currentPage === "spiritBoardBack"}
