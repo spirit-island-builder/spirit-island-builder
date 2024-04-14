@@ -97,8 +97,8 @@ custom-meeple {
 }
 
 adversary-base-dif {
-  display: inline;
-  position: relative;
+  display: block;
+  position: absolute;
   left: 742px;
   top: 71px;
   text-align: right;
@@ -107,6 +107,7 @@ adversary-base-dif {
   width: 140px;
   font-family: "Name Headings";
   text-transform: uppercase;
+  z-index: 5;
 }
 
 top-info {
@@ -364,4 +365,14 @@ adversary dev-overlay {
   filter: invert(1) saturate(0);
   pointer-events: none;
   z-index: 101;
+}
+
+adversary.printer-clean,
+adversary.printer-clean top-info,
+adversary.printer-clean adversary-title {
+  background-image: none;
+}
+adversary.printer-clean {
+  border: black 3px solid;
+  box-sizing: border-box;
 }

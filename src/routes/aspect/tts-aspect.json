@@ -44,7 +44,7 @@
   "SidewaysCard": { "$eval": "isLandscape" },
   "CustomDeck": {
     "2483": {
-      "FaceURL": "https://i.imgur.com/jR8jpcD.png",
+      "FaceURL": { "$eval": "defaultImage" },
       "BackURL": "https://i.imgur.com/oipNles.png",
       "NumWidth": 1,
       "NumHeight": 1,

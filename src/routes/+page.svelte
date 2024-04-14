@@ -233,7 +233,7 @@
     ],
   };
 
-  let spiritBoardBack = {
+  let emptySpiritBoardBack = {
     prop: "value",
     demoBoardWasLoaded: false,
     previewBoard: {
@@ -263,7 +263,7 @@
       playStyleText: "",
     },
     complexity: {
-      complexityValue: "",
+      complexityValue: 0,
       complexityDescriptor: "",
     },
     summary: {
@@ -275,6 +275,7 @@
       usesTokens: "",
     },
   };
+  let spiritBoardBack = JSON.parse(JSON.stringify(emptySpiritBoardBack));
 
   let powerCards = {
     prop: "value",
@@ -645,11 +646,14 @@
   <div
     class="container"
     class:is-spiritBoardFront={currentPage === "spiritBoardFront"}
-    class:is-sideMenu={currentPage === "aspect" || currentPage === "fearCard"}>
+    class:is-sideMenu={currentPage === "spiritBoardBack" ||
+      currentPage === "adversary" ||
+      currentPage === "aspect" ||
+      currentPage === "fearCard"}>
     {#if currentPage === "spiritBoardFront"}
       <SpiritBoard bind:spiritBoard bind:emptySpiritBoard bind:customIcons />
     {:else if currentPage === "spiritBoardBack"}
-      <SpiritBoardBack bind:spiritBoardBack bind:customIcons />
+      <SpiritBoardBack bind:spiritBoardBack bind:emptySpiritBoardBack bind:customIcons />
     {:else if currentPage === "powerCards"}
       <PowerCards bind:powerCards bind:customIcons />
     {:else if currentPage === "aspect"}

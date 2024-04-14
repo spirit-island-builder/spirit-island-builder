@@ -342,7 +342,16 @@
       aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_AspectBack.png",
     ];
     const elementNamesInIframe = ["aspect", "aspect-back"];
+
+    // let previewFrameDoc = document.getElementById("preview-iframe").contentWindow;
+    // const aspectHTML = previewFrameDoc.document.getElementsByTagName("aspect")[0];
+    // const aspectBackHTML =  previewFrameDoc.document.getElementsByTagName("aspect-back")[0];
+
+    // aspectHTML.classList.add("for-image-download")
+    // aspectBackHTML.classList.add("for-image-download")
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
+    // aspectHTML.classList.remove("for-image-download")
+    // aspectBackHTML.classList.remove("for-image-download")
   }
 
   async function loadExample(example) {
@@ -421,9 +430,16 @@
       console.log(LUAScript);
     }
 
+    //default image
+    let defaultImage = "https://i.imgur.com/jR8jpcD.png"; //vert
+    // if(isLandscape){
+    //   defaultImage = "https://i.imgur.com/knMsIXM.png"
+    // }
+
     let aspectJSON = jsone(aspectJSONTemplate, {
       guid: aspect.nameReplacements.aspectName.replaceAll(" ", "_"),
       isLandscape: isLandscape,
+      defaultImage: defaultImage,
       LUAScript: LUAScript,
       aspectUniqueName: aspectUniqueName,
       thresholds,
@@ -443,6 +459,32 @@
     const overlay = previewFrame.document.createElement("dev-overlay");
     aspectDom.appendChild(overlay);
     overlay.style.backgroundImage = `url('${overlayImage}')`;
+  }
+
+  function printToPDF(pageType = "letter") {
+    let fileName = "";
+    fileName = aspect.nameReplacements.aspectName.replaceAll(" ", "_");
+    if (aspect.nameReplacements.spiritName) {
+      fileName += aspect.nameReplacements.spiritName.replaceAll(" ", "_");
+    }
+    fileName += "_Aspect.pdf";
+
+    const elementNamesInIframe = ["aspect", "aspect-back"];
+    let w = 3.465;
+    let h = 2.48;
+    if (aspect.profile) {
+      w = 2.48;
+      h = 3.465;
+    }
+    previewFrame.getPDF(fileName, elementNamesInIframe, pageType, w, h);
+  }
+
+  function printToPDFLetter() {
+    printToPDF("letter");
+  }
+
+  function printToPDFA4() {
+    printToPDF("a4");
   }
 </script>
 
@@ -466,7 +508,7 @@
         <script type="text/javascript" src="/template/_global/js/aspect.js"></script>
       </svelte:fragment>
     </PreviewFrame>
-    <div class="field has-addons mb-2 is-flex-wrap-wrap">
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
       <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
         Examples
       </button>
@@ -474,13 +516,21 @@
         Load
       </LoadButton>
       <button class="button is-success  mr-1" on:click={exportAspect}> Save </button>
-      <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
-      <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
+
       <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
         >Toggle Board Size</button>
       <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+    </div>
+    <div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
+      <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
+      <button class="button is-success mr-1" on:click={printToPDFLetter}
+        >Create PDF (letter)</button>
+      <button class="button is-success mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
+    </div>
+    <div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
       {#if dev}
         <LoadButton
           accept="image/png, image/jpeg"
