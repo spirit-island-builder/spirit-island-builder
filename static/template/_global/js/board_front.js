@@ -471,20 +471,22 @@ function getGrowthActionTextAndIcons(growthAction) {
       growthText = "You may Pay 2 Energy to Gain a Power Card";
       break;
     }
+    case "take-power-card":
     case "gain-power-card": {
       const matches = regExp.exec(growthAction);
       let gainPowerCardIcon = "{" + growthActionType + "}";
       let gainPowerCardText = IconName(growthActionType);
+      let actionVerb = Capitalise(growthActionType.split("-")[0]);
       if (matches) {
         let gainPowerCardOptions = matches[1].split(",");
         let gainPowerCardType = gainPowerCardOptions[0];
         let gainPCModifiersOrText = gainPowerCardOptions[1];
         let gainPCModifierIcon = gainPowerCardOptions[2];
-        gainPowerCardIcon = "<icon class='gain-power-card'>";
+        gainPowerCardIcon = `<icon class='${growthActionType}'>`;
         switch (gainPowerCardType) {
           case "minor":
             gainPowerCardIcon += "<icon class='minor gain-card-modifier'></icon>";
-            gainPowerCardText = "Gain Minor Power Card";
+            gainPowerCardText = `${actionVerb} Minor Power Card`;
             // if(gainPCModifiersOrText){
             // gainPowerCardIcon = "<icon class='reclaim-"+gainPowerCardType+"'>"+"<icon class='reclaim-element "+gainPCModifiersOrText+"'></icon></icon>"
             // gainPowerCardText = 'Reclaim All Cards with '+Capitalise(gainPCModifiersOrText)
@@ -492,12 +494,12 @@ function getGrowthActionTextAndIcons(growthAction) {
             break;
           case "major":
             gainPowerCardIcon += "<icon class='major gain-card-modifier'></icon>";
-            gainPowerCardText = "Gain Major Power Card";
+            gainPowerCardText = `${actionVerb} Major Power Card`;
             break;
           default:
             gainPowerCardIcon +=
               "<icon class='" + gainPowerCardType.toLowerCase() + " gain-card-modifier'></icon>";
-            gainPowerCardText = "Gain " + Capitalise(gainPowerCardType) + " Power Card";
+            gainPowerCardText = `${actionVerb} ${Capitalise(gainPowerCardType)} Power Card`;
         }
         if (gainPCModifierIcon) {
           gainPowerCardIcon +=
@@ -2278,6 +2280,9 @@ function IconName(str, iconNum = 1) {
       break;
     case "gain-power-card":
       subText = "Gain Power Card";
+      break;
+    case "take-power-card":
+      subText = "Take Power Card";
       break;
     case "gain-card-play":
       subText = "+1 Card Play/Turn";

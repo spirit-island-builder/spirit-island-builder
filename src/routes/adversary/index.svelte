@@ -190,48 +190,77 @@
     eventCardDOM.appendChild(overlay);
     overlay.style.backgroundImage = `url('${overlayImage}')`;
   }
+
+  function printToPDF(pageType = "letter") {
+    const fileNames = [adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.pdf"];
+    const elementNamesInIframe = ["adversary"];
+    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 6, 4);
+  }
+
+  function printToPDFLetter() {
+    printToPDF("letter");
+  }
+
+  function printToPDFA4() {
+    printToPDF("a4");
+  }
+
+  function togglePrinterClean() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let spiritBoard = previewFrame.document.getElementsByTagName("adversary")[0];
+    spiritBoard.classList.add("printer-clean");
+  }
 </script>
 
-<PreviewFrame id="adversary-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
-  <svelte:fragment slot="head">
-    <link href="/template/_global/css/global.css" rel="stylesheet" />
-    <link href="/template/_global/css/adversary.css" rel="stylesheet" />
-    <script type="text/javascript" src="/template/_global/js/common.js"></script>
-    <script type="text/javascript" src="/template/_global/js/adversary.js"></script>
-  </svelte:fragment>
-</PreviewFrame>
-<div class="field has-addons mb-2 is-flex-wrap-wrap">
-  <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
-    Examples
-  </button>
-  <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
-    Load
-  </LoadButton>
-
-  <button class="button is-success  mr-1" on:click={exportAdversary}> Save </button>
-  <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
-  <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
-  <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
-    >Toggle Board Size</button>
-  <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  {#if dev}
-    <LoadButton
-      accept="image/png, image/jpeg"
-      class="button is-file-load is-small"
-      loadDataURL={(url) => {
-        overlayImage = url;
-      }}>Load Overlay</LoadButton>
-    <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
-  {/if}
-  <InstructionsLink class="button is-info mr-1" anchor="adversary" />
-</div>
-<div class="columns mt-0 mb-1">
-  <div class="column pt-0">
+<div class="columns ml-4 mt-0 mb-1">
+  <div class="column is-one-third pt-0">
     <NameLossAndEscalation bind:adversary />
+    <AdversaryLevels bind:adversary />
     <CustomIcons bind:customIcons />
   </div>
   <div class="column pt-0">
-    <AdversaryLevels bind:adversary />
+    <PreviewFrame id="adversary-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
+      <svelte:fragment slot="head">
+        <link href="/template/_global/css/global.css" rel="stylesheet" />
+        <link href="/template/_global/css/adversary.css" rel="stylesheet" />
+        <script type="text/javascript" src="/template/_global/js/common.js"></script>
+        <script type="text/javascript" src="/template/_global/js/adversary.js"></script>
+      </svelte:fragment>
+    </PreviewFrame>
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
+      <InstructionsLink class="button is-info mr-1" anchor="adversary" />
+      <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
+        Examples
+      </button>
+      <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+        Load
+      </LoadButton>
+      <button class="button is-success  mr-1" on:click={exportAdversary}> Save </button>
+      <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
+      <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
+        >Toggle Board Size</button>
+      <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+    </div>
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
+      <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button class="button is-success mt-1 mr-1" on:click={printToPDFLetter}
+        >Create PDF (letter)</button>
+      <button class="button is-success mt-1 mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
+      <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
+        >Printer-Friendly</button>
+    </div>
+    <div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
+      {#if dev}
+        <LoadButton
+          accept="image/png, image/jpeg"
+          class="button is-file-load is-small"
+          loadDataURL={(url) => {
+            overlayImage = url;
+          }}>Load Overlay</LoadButton>
+        <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
+      {/if}
+    </div>
   </div>
 </div>
 <Examples
