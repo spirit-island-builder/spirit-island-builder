@@ -1762,6 +1762,9 @@ function getPresenceNodeHtml(
     if (optionsNodeBack.includes("none")) {
       forceNone = true;
     }
+    if (optionsNodeBack.includes("nofirst")) {
+      first = false;
+    }
   }
   nodeText = nodeText.split("_")[0].split("^")[0];
 
