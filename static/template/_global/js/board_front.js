@@ -83,7 +83,7 @@ function addImages(board) {
   if (spiritImage) {
     //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
     board.innerHTML =
-      `<div class="spirit-image" style="background-image: url(${spiritImage}); background-size: auto ${imageSize}; width:1700px;" ></div>` +
+      `<spirit-image-holder><spirit-image class="spirit-image" style="height:${imageSize}; background-image: url(${spiritImage});" ></spirit-image></spirit-image-holder>` +
       board.innerHTML;
     artistCredit[0].style.display = "block";
     artistCredit[0].innerHTML = "Artist Credit: " + artistCredit[0].innerHTML;
@@ -176,6 +176,8 @@ function buildGrowthPanel() {
 
   const growthBottom = document.createElement("growth-bottom");
   growthHTML[0].appendChild(growthBottom);
+  const growthBackground = document.createElement("growth-background");
+  growthHTML[0].appendChild(growthBackground);
 }
 
 function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex = NaN) {
@@ -3366,7 +3368,7 @@ function parseInnatePowers() {
   innatePowerContainer.innerHTML =
     `<section-title${customNameText}>Innate Powers</section-title><innate-power-container>` +
     fullHTML +
-    "</innate-power-container>";
+    "</innate-power-container><innate-powers-background></innate-powers-background>";
 }
 
 function parseInnatePower(innatePowerHTML, index = 0) {
@@ -3599,6 +3601,13 @@ function parseSpecialRules() {
   const specialRuleSection = specialRules.getElementsByTagName("section-title")[0];
   const specialRuleList = specialRules.getElementsByTagName("special-rule");
   const specialRuleNameList = specialRules.getElementsByTagName("special-rules-subtitle");
+
+  // Re-organize slightly and add background
+  const specialRulesHolder = document.createElement("special-rules");
+  specialRules.after(specialRulesHolder);
+  specialRulesHolder.appendChild(specialRules);
+  const specialRulesBackground = document.createElement("special-rules-background");
+  specialRulesHolder.appendChild(specialRulesBackground);
 
   // Enable snake-like presence track in special rules
   const specialTracks = board.getElementsByTagName("special-rules-track");
