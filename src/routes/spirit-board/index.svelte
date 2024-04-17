@@ -817,6 +817,12 @@
     let spiritBoard = previewFrame.document.getElementsByTagName("board")[0];
     spiritBoard.classList.add("printer-clean");
   }
+
+  function toggleTransparent() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let spiritBoard = previewFrame.document.getElementsByTagName("board")[0];
+    spiritBoard.classList.add("transparent");
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -869,6 +875,8 @@
       <button class="button is-success mt-1 mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
       <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
         >Printer-Friendly</button>
+      <button class="button is-warning mt-1 mr-1 is-small" on:click={toggleTransparent}
+        >Transparent</button>
     </div>
     <div class="field has-addons mb-1 is-flex-wrap-wrap">
       {#if dev}

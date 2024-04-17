@@ -117,13 +117,24 @@ artist-name {
   background-size: 705px 100%;
 }
 
-.spirit-image {
+spirit-image.spirit-image {
   margin-bottom: -32.75px;
-  width: 667.5px;
   z-index: 0;
   flex-grow: 1;
   background-repeat: no-repeat;
   position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-size: contain;
+}
+
+spirit-image-holder {
+  margin-bottom: -32.75px;
+  /* width: 667.5px; */
+  z-index: 0;
+  flex-grow: 1;
+  overflow: visible;
 }
 
 #single-line {
