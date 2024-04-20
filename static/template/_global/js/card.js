@@ -34,9 +34,9 @@ function constructCard(data, cardIndex) {
     console.log(data);
   }
   card.innerHTML = `
-  <div class="image" style="background-image:url(${data.image});"></div>
+  <card-art><div class="image" style="background-image:url(${data.image});"></div></card-art>
   <card-frame></card-frame>
-  <power-subtitle></power-subtitle>
+  <power-subtitle>${data.subtitle || ""}</power-subtitle>
   <cost></cost>
   <type-watermark></type-watermark>
   <cost id='${card.id}cost'>${data.cost}</cost>

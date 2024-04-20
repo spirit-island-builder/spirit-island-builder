@@ -698,7 +698,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           let flag = 0; // This flag is used to figure out if 'land with' has been said already. It comes up with add-presence(3,jungle,beasts,or)
           let and_flag = 0;
           for (let i = 1; i < presenceOptions.length; i++) {
-            presenceReq = presenceOptions[i];
+            presenceReq = presenceOptions[i].toLowerCase().trim();
 
             // Check to see if we've reached an 'or' or 'and', which shouldn't be parsed
             if (presenceReq.toLowerCase() === "or" || presenceReq.toLowerCase() === "and") {

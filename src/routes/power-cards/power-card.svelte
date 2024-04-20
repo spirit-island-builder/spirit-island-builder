@@ -242,9 +242,30 @@
             class:is-light={card.type !== "major"}
             class="button is-info is-small is-light button-hold mb-0"
             on:click={setType("major", card)}>Major</button>
+          <button
+            class:is-light={card.type !== "aspect"}
+            class="button is-success is-small is-light button-hold mb-0"
+            on:click={setType("aspect", card)}>Aspect</button>
         </div>
       </div>
-
+      {#if card.type === "aspect"}
+        <div class="field has-addons mr-2">
+          <label class="label is-unselectable mr-1 mt-1" for={`aspectSubtitle${i}`}
+            >Aspect Subtitle:
+          </label>
+          <div class="control">
+            <input
+              id={`aspectSubtitle${i}`}
+              class="input is-small"
+              style="text-align:center;"
+              type="text"
+              placeholder="ie. Sparking (2 of 2)"
+              on:keyup={nextNode}
+              on:focus={selectNode}
+              bind:value={card.aspectSubtitle} />
+          </div>
+        </div>
+      {/if}
       <div class="field has-addons mt-2 mb-0">
         <div class="field has-addons mr-2">
           <label class="label is-unselectable mr-1 mt-1" for="">Cost: </label>

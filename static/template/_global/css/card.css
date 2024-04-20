@@ -272,13 +272,21 @@ element.animal {
 .image {
   position: absolute;
   display: block;
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  z-index: 5;
+}
+
+card-art {
+  position: absolute;
+  display: block;
   left: 105px;
   top: 97px;
   width: 358px;
   height: 258px;
   border-top-left-radius: 10px;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
   z-index: 5;
 }
 
@@ -740,10 +748,24 @@ power-subtitle {
   background-image: url("../images/board/powercard_aspect_banner.png");
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 100% 100%;
   position: absolute;
-  display: block;
-  height: 50px;
-  width: 200px;
+  display: none;
+  height: 28px;
+  width: 359px;
+  top: 90px;
+  left: 105px;
+  z-index: 6;
+  word-spacing: -3px;
+  font-family: "Short Name Headings";
+  color: white;
+  font-size: 18px;
+}
+
+card.aspect power-subtitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media print {

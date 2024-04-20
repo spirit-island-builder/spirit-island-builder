@@ -318,6 +318,7 @@
         hasSecondThreshold: false,
         secondThreshold: "",
         secondThresholdCondition: "",
+        aspectSubtitle: "",
       },
     ],
     cardBackImage: "",
