@@ -20,7 +20,7 @@ function resize() {
   playstyle = document.querySelectorAll("play-style-description")[0];
 
   let j = 0;
-  while (checkOverflow(secondContainer)) {
+  while (checkOverflowHeight(secondContainer)) {
     var style = window.getComputedStyle(setup, null).getPropertyValue("font-size");
     var fontSize = parseFloat(style);
     setup.style.fontSize = fontSize - 1 + "px";
@@ -47,6 +47,8 @@ function resize() {
       loreImage.style.width = imageScale + "%";
     }
   }
+
+  dynamicSizing(document.querySelectorAll("spirit-name")[0]);
 }
 
 function adjustComplexityValue() {
@@ -195,7 +197,7 @@ function createPowerProperties() {
 
 function dynamicSizing(el, maxSize = el.offsetHeight) {
   let j = 0;
-  while (checkOverflow(el)) {
+  while (checkOverflowHeight(el)) {
     var style = window.getComputedStyle(el, null).getPropertyValue("font-size");
     var fontSize = parseFloat(style);
     el.style.fontSize = fontSize - 1 + "px";
@@ -209,7 +211,7 @@ function dynamicSizing(el, maxSize = el.offsetHeight) {
   }
 }
 
-function checkOverflow(el) {
+function checkOverflowHeight(el) {
   let curOverflow = el.style.overflow;
   if (!curOverflow || curOverflow === "visible") {
     el.style.overflow = "hidden";

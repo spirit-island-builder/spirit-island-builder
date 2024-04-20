@@ -120,7 +120,7 @@ function buildLevel(quickLevel) {
 
 function dynamicSizing(el, maxSize = el.offsetHeight) {
   let j = 0;
-  while (checkOverflow(el)) {
+  while (checkOverflowHeight(el, 0)) {
     var style = window.getComputedStyle(el, null).getPropertyValue("font-size");
     var line = window.getComputedStyle(el, null).getPropertyValue("line-height");
     var fontSize = parseFloat(style);
@@ -139,12 +139,16 @@ function dynamicSizing(el, maxSize = el.offsetHeight) {
   }
 }
 
-function checkOverflow(el) {
-  let curOverflow = el.style.overflow;
-  if (!curOverflow || curOverflow === "visible") {
-    el.style.overflow = "hidden";
-  }
-  let isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
-  el.style.overflow = curOverflow;
-  return isOverflowing;
-}
+// function checkOverflow(el) {
+//   let debug = true;
+//   if (debug) {
+//     console.log(`Common: Check OverflowWidth (${el.tagName})`)
+//   }
+//   let curOverflow = el.style.overflow;
+//   if (!curOverflow || curOverflow === "visible") {
+//     el.style.overflow = "hidden";
+//   }
+//   let isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
+//   el.style.overflow = curOverflow;
+//   return isOverflowing;
+// }
