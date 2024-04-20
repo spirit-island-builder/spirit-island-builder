@@ -3,6 +3,8 @@
 // const { text } = require("svelte/internal");
 
 /* global replaceIcon */
+/* global checkOverflowHeight */
+/* global checkOverflowWidth */
 
 /* exported startMain */
 async function startMain() {
@@ -68,7 +70,7 @@ function addImages(board) {
   while (checkOverflowHeight(spiritNamePanel)) {
     nameFontSize -= 1;
     spiritNamePanel.style.fontSize = nameFontSize + "px";
-    if (nameFontSize < 35) {
+    if (nameFontSize < 32) {
       console.log("too small, break");
       break;
     }
@@ -3321,32 +3323,32 @@ function addLine(el) {
   el.style.width = k + "px";
 }
 
-function checkOverflowWidth(el, slack = 30) {
-  let curOverflow = el.style.overflowX;
-  if (!curOverflow || curOverflow === "visible") {
-    el.style.overflowX = "auto";
-  }
-  let isOverflowing = el.clientWidth + slack < el.scrollWidth ? el.scrollWidth : false;
-  el.style.overflowX = curOverflow;
+// function checkOverflowWidth(el, slack = 30) {
+//   let curOverflow = el.style.overflowX;
+//   if (!curOverflow || curOverflow === "visible") {
+//     el.style.overflowX = "auto";
+//   }
+//   let isOverflowing = el.clientWidth + slack < el.scrollWidth ? el.scrollWidth : false;
+//   el.style.overflowX = curOverflow;
 
-  return isOverflowing;
-}
+//   return isOverflowing;
+// }
 
-function checkOverflowHeight(el, slack = 2) {
-  let debug = false;
-  let curOverflow = el.style.overflowY;
-  if (!curOverflow || curOverflow === "visible") {
-    el.style.overflowY = "auto";
-  }
-  let isOverflowing = el.clientHeight + slack < el.scrollHeight;
-  if (debug) {
-    console.log(
-      "check overflowY = " + (el.clientHeight + slack) + " " + slack + "," + el.scrollHeight
-    );
-  }
-  el.style.overflowY = curOverflow;
-  return isOverflowing;
-}
+// function checkOverflowHeight(el, slack = 2) {
+//   let debug = false;
+//   let curOverflow = el.style.overflowY;
+//   if (!curOverflow || curOverflow === "visible") {
+//     el.style.overflowY = "auto";
+//   }
+//   let isOverflowing = el.clientHeight + slack < el.scrollHeight;
+//   if (debug) {
+//     console.log(
+//       "check overflowY = " + (el.clientHeight + slack) + " " + slack + "," + el.scrollHeight
+//     );
+//   }
+//   el.style.overflowY = curOverflow;
+//   return isOverflowing;
+// }
 
 function parseInnatePowers() {
   console.log("BUILDING INNATE POWERS");

@@ -446,7 +446,12 @@
       </div>
       <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-4">
         <div class="field has-addons mr-2 ml-1">
-          <ImageInput id="cardArt{i}" title="Card Art:&nbsp;" bind:imageURL={card.cardImage} />
+          <ImageInput
+            id="cardArt{i}"
+            title="Card Art:&nbsp;"
+            includeInfo
+            info="art ratio 4x3"
+            bind:imageURL={card.cardImage} />
           <label class="label is-unselectable mr-1" for="">Artist: </label>
           <div class="control mr-2">
             <input

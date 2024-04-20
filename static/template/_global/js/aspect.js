@@ -1,3 +1,6 @@
+/* global checkOverflowHeight */
+/* global checkOverflowWidth */
+
 function startMain() {
   console.log("aspect startMain");
   var aspects = document.querySelectorAll("aspect");
@@ -196,31 +199,31 @@ function resizeAspect(aspect) {
   const growthTables = aspect.getElementsByTagName("growth-table");
   if (growthTables) {
     for (i = 0; i < growthTables.length; i++) {
-      if (checkOverflowWidth(growthTables[i].parentNode)) {
+      if (checkOverflowWidth(growthTables[i].parentNode, 0)) {
         growthTables[i].classList.add("tight");
       }
     }
   }
 }
 
-function checkOverflowHeight(el) {
-  let curOverflow = el.style.overflow;
-  if (!curOverflow || curOverflow === "visible") {
-    el.style.overflow = "auto";
-  }
-  let isOverflowing = el.clientHeight < el.scrollHeight;
-  el.style.overflow = curOverflow;
+// function checkOverflowHeight(el) {
+//   let curOverflow = el.style.overflow;
+//   if (!curOverflow || curOverflow === "visible") {
+//     el.style.overflow = "auto";
+//   }
+//   let isOverflowing = el.clientHeight < el.scrollHeight;
+//   el.style.overflow = curOverflow;
 
-  return isOverflowing;
-}
+//   return isOverflowing;
+// }
 
-function checkOverflowWidth(el) {
-  let curOverflow = el.style.overflow;
-  if (!curOverflow || curOverflow === "visible") {
-    el.style.overflow = "auto";
-  }
-  let isOverflowing = el.clientWidth < el.scrollWidth;
-  el.style.overflow = curOverflow;
+// function checkOverflowWidth(el) {
+//   let curOverflow = el.style.overflow;
+//   if (!curOverflow || curOverflow === "visible") {
+//     el.style.overflow = "auto";
+//   }
+//   let isOverflowing = el.clientWidth < el.scrollWidth;
+//   el.style.overflow = curOverflow;
 
-  return isOverflowing;
-}
+//   return isOverflowing;
+// }

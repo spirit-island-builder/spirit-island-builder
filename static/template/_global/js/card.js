@@ -89,7 +89,7 @@ function resize() {
     thresholdBlock = rulesContainers[i].querySelectorAll("threshold")[0];
     limitingBlock = thresholdBlock == undefined ? rulesContainers[i] : thresholdBlock;
     let j = 0;
-    while (checkOverflow(limitingBlock)) {
+    while (checkOverflowHeight(limitingBlock)) {
       var style = window.getComputedStyle(rulesBlock, null).getPropertyValue("font-size");
       var line = window.getComputedStyle(rulesBlock, null).getPropertyValue("line-height");
       var fontSize = parseFloat(style);
@@ -270,7 +270,7 @@ function insertAfter(newNode, referenceNode) {
 
 function dynamicSizing(el, maxSize = el.offsetHeight) {
   let j = 0;
-  while (checkOverflow(el, maxSize)) {
+  while (checkOverflowHeight(el, maxSize)) {
     var style = window.getComputedStyle(el, null).getPropertyValue("font-size");
     var line = window.getComputedStyle(el, null).getPropertyValue("line-height");
     var fontSize = parseFloat(style);
@@ -286,13 +286,14 @@ function dynamicSizing(el, maxSize = el.offsetHeight) {
   }
 }
 
-function checkOverflow(el, maxSize = el.clientHeight) {
-  let curOverflow = el.style.overflow;
-  if (!curOverflow || curOverflow === "visible") {
-    el.style.overflow = "auto";
-  }
-  let isOverflowing = maxSize < el.scrollHeight;
-  el.style.overflow = curOverflow;
+// function checkOverflow(el, maxSize = el.clientHeight) {
+//   let curOverflow = el.style.overflow;
+//   console.log('Check Overflow: '+el.tagName)
+//   if (!curOverflow || curOverflow === "visible") {
+//     el.style.overflow = "auto";
+//   }
+//   let isOverflowing = maxSize < el.scrollHeight;
+//   el.style.overflow = curOverflow;
 
-  return isOverflowing;
-}
+//   return isOverflowing;
+// }
