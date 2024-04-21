@@ -34,25 +34,35 @@ li {
 
 adversary {
   display: block;
-  background-image: url(../images/adversary/adversary-background-frame.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  /* width: 800px;
-  height: 534px; */
   width: 1177px;
   height: 786px;
-  border-radius: 15.1px;
+  border-radius: 22px;
   position: absolute;
   top: 0px;
   left: 10px;
   overflow: hidden;
 }
 
-adversary-title {
+adversary-background {
+  background-image: url(../images/adversary/adversary-background-frame.png);
+  background-repeat: no-repeat;
+  background-size: cover;
   display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+}
+
+adversary-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   left: 0px;
-  top: 0px;
+  top: -40px;
   height: 116px;
   width: 1177px;
   z-index: 3;
@@ -61,10 +71,11 @@ adversary-title {
   font-size: 46px;
   font-family: "Name Headings";
   text-transform: uppercase;
-
   background-image: url(../images/adversary/title-row-frame.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  padding-right: 265px;
+  padding-top: 40px;
 }
 
 adversary rule {
@@ -72,13 +83,14 @@ adversary rule {
 }
 
 created-with {
-  left: 943px;
-  top: 758px;
+  left: 948px;
+  top: 767px;
+  font-size: 13px;
 }
 
 custom-meeple {
-  left: 1100px;
-  top: 717px;
+  left: 1128px;
+  top: 746px;
   width: 16px;
 }
 
@@ -99,38 +111,42 @@ custom-meeple {
 adversary-base-dif {
   display: block;
   position: absolute;
-  left: 742px;
-  top: 71px;
+  left: 881px;
+  top: 34px;
   text-align: right;
   line-height: 36px;
   font-size: 21px;
-  width: 140px;
-  font-family: "Name Headings";
+  width: 163px;
+  font-family: "Short Name Headings";
   text-transform: uppercase;
   z-index: 5;
+  word-spacing: -4px;
+  letter-spacing: -0.35px;
+  transform: translateX(-100%);
+}
+
+adversary-base-dif num {
+  font-family: "Gobold Extra2";
+  font-size: 18px;
 }
 
 top-info {
   display: block;
   position: absolute;
-  left: 33px;
-  bottom: 551px;
-  height: 124px;
-  width: 1115px;
-
+  left: 27px;
+  top: 72px;
+  height: 132px;
+  width: 1121px;
   display: flex;
   flex-wrap: nowrap;
   font-family: "JosefinSans-Regular";
-  font-size: 21px;
-  text-align: left;
-  letter-spacing: -1px;
-  word-spacing: 0px;
+  font-size: 22.33px;
+  letter-spacing: -1.3px;
+  word-spacing: -0.6px;
   line-height: 1;
-
-  padding-top: 7px;
-  padding-left: 20px;
+  padding-top: 6px;
+  padding-left: 12px;
   padding-right: 256px;
-
   background-image: url(../images/adversary/loss-escalation-frame.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -138,17 +154,19 @@ top-info {
 
 section-title {
   font-family: "JosefinSans";
-  font-size: 22.5px;
+  font-size: 25px;
   font-weight: bold;
   font-style: italic;
   text-align: left;
   letter-spacing: -2px;
   word-spacing: 1px;
+  margin-bottom: 4px;
+  display: block;
 }
 
 loss-condition {
   margin-right: 5px;
-  flex: 1 0 215px;
+  flex: 1 0 238px;
 }
 
 escalation {
@@ -157,8 +175,6 @@ escalation {
 }
 
 header-level {
-  margin-bottom: -15px;
-  margin-left: 0px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -167,13 +183,13 @@ header-level {
 adversary-levels {
   display: block;
   position: absolute;
-  left: 49px;
-  top: 231px;
-  height: 528px;
-  width: 1078px;
+  left: 28px;
+  top: 207px;
+  height: 556px;
+  width: 1115px;
 
   font-family: "JosefinSans-Regular";
-  font-size: 20px;
+  font-size: 24px;
   text-align: left;
   letter-spacing: -1px;
   word-spacing: 0px;
@@ -181,7 +197,7 @@ adversary-levels {
   padding-left: 29px;
   padding-right: 29px;
   padding-top: 7px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 
   display: flex;
   flex-direction: column;
@@ -190,20 +206,31 @@ adversary-levels {
 
 adversary-levels header {
   font-family: "JosefinSans";
-  font-size: 22.5px;
+  font-size: 25px;
   font-weight: bold;
   font-style: italic;
   text-align: left;
-  letter-spacing: -2px;
+  letter-spacing: -2.25px;
   word-spacing: 1px;
-
+  margin-bottom: -10px;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   flex-wrap: nowrap;
+  line-height: 29px;
+  height: 40px;
+}
+
+adversary-levels header div {
+  /* padding-bottom: 10px;
+  height: 40px; */
 }
 
 adversary-levels level:not(:last-child) {
   border-bottom: 1px solid rgb(0 0 0);
+}
+
+adversary-levels level:first-of-type div:nth-child(3) {
+  min-height: 70px;
 }
 
 adversary-levels header div:nth-child(1),
@@ -216,13 +243,14 @@ adversary-levels level div:nth-child(1) {
 adversary-levels header div:nth-child(2),
 adversary-levels level div:nth-child(2) {
   white-space: nowrap;
-  flex: 0 0 140px;
+  flex: 0 0 170px;
   text-align: center;
 }
 
 adversary-levels header div:nth-child(3),
 adversary-levels level div:nth-child(3) {
   flex-grow: 1;
+  padding-left: 16px;
 }
 
 adversary-levels level {
@@ -235,22 +263,28 @@ adversary-levels level {
 }
 
 adversary-levels level div:first-child {
-  font-size: 34px;
+  font-size: 39px;
   font-family: "Gobold Extra2";
-  padding-left: 25px;
+  padding-left: 21px;
 }
 
 adversary-levels level div:nth-child(2) {
+  height: 40px;
+  display: flex;
+  font-size: 24px;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 adversary-levels level div:last-child {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 adversary-levels level rule {
-  line-height: 25px;
-  padding-top: 3px;
+  line-height: 30px;
+  padding-top: 6px;
 }
 
 adversary-levels line {
@@ -273,13 +307,18 @@ div.level-difficulty {
 }
 
 level-difficulty {
-  font-size: 14px;
+  font-size: 20px;
   position: relative;
   top: 5px;
-  left: 3px;
-  font-family: "Gobold Extra2";
-  display: inline-block;
+  left: 5px;
+  font-family: "Lato Regular";
+  display: inline-flex;
   letter-spacing: 0px;
+  align-items: flex-start;
+}
+
+level-difficulty num {
+  font-family: "Gobold Extra2";
 }
 
 icon {
@@ -355,12 +394,12 @@ icon.any {
 
 adversary dev-overlay {
   display: block;
-  width: inherit;
-  height: inherit;
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 0px;
   left: 0px;
-  background-size: inherit;
+  background-size: 100% 100%;
   opacity: 0.5;
   filter: invert(1) saturate(0);
   pointer-events: none;
@@ -375,4 +414,15 @@ adversary.printer-clean adversary-title {
 adversary.printer-clean {
   border: black 3px solid;
   box-sizing: border-box;
+}
+
+adversary range {
+  width: 60px;
+  margin-top: -3px;
+}
+
+adversary range-value {
+  position: relative;
+  top: -6px;
+  font-size: 32px;
 }
