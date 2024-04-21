@@ -200,6 +200,7 @@ name {
   text-align: center;
   white-space: normal;
   align-items: center;
+  z-index: 6;
 }
 
 name:hover {
@@ -287,7 +288,7 @@ card-art {
   width: 358px;
   height: 258px;
   border-top-left-radius: 10px;
-  z-index: 5;
+  z-index: 0;
 }
 
 info-title {
@@ -751,21 +752,28 @@ power-subtitle {
   background-size: 100% 100%;
   position: absolute;
   display: none;
-  height: 28px;
-  width: 359px;
-  top: 90px;
-  left: 105px;
   z-index: 6;
   word-spacing: -3px;
   font-family: "Short Name Headings";
   color: white;
   font-size: 18px;
+  height: 96px;
+  width: 358px;
+  top: 25px;
+  left: 105px;
+  border-top-right-radius: 23px;
+  line-height: 28px;
+}
+
+card.printer-clean power-subtitle {
+  background-image: none;
+  color: black;
 }
 
 card.aspect power-subtitle {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 }
 
 @media print {

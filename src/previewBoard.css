@@ -59,7 +59,7 @@
   --scroll-amount: 295;
   --preview-frame-width: 860px;
   --preview-frame-height: 805px;
-  --preview-wrap-width: 1190px;
+  --preview-wrap-width: 120%;
 
   --preview-large-wrap-height: 792px;
   --preview-large-frame-transform: scale(1);

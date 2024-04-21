@@ -158,9 +158,6 @@ function replaceIcon(html) {
 
 function checkOverflowHeight(el, slack = 2) {
   let debug = true;
-  if (debug) {
-    console.log(`Common: Check OverflowHeight (${el.tagName})`);
-  }
   let curOverflow = el.style.overflowY;
   if (!curOverflow || curOverflow === "visible") {
     el.style.overflowY = "auto";
@@ -172,6 +169,9 @@ function checkOverflowHeight(el, slack = 2) {
     );
   }
   el.style.overflowY = curOverflow;
+  if (debug) {
+    console.log(`Common: Check OverflowHeight (${el.tagName}); Result: ${isOverflowing}`);
+  }
   return isOverflowing;
 }
 
