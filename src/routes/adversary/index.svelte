@@ -228,10 +228,10 @@
       </svelte:fragment>
     </PreviewFrame>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
-      <InstructionsLink class="button is-info mr-1" anchor="adversary" />
       <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
         Examples
       </button>
+      <InstructionsLink class="button is-info mr-1" anchor="adversary" />
       <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadButton>

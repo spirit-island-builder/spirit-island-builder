@@ -1,0 +1,39 @@
+[
+  {
+    "title": "Official Adversaries",
+    "examples": [
+      {
+        "name": "The Habsburg Monarchy (Livestock Colony)",
+        "url": "/template/MyCustomContent/MyAdversary/The_Habsburg_Monarchy_(Livestock_Colony)_Adversary.html"
+      },
+      {
+        "name": "Habsburg Mining Expedition",
+        "url": "/template/MyCustomContent/MyAdversary/Habsburg_Mining_Expedition_Adversary.html"
+      },
+      {
+        "name": "The Kingdom of England",
+        "url": "/template/MyCustomContent/MyAdversary/The_Kingdom_of_England_Adversary.html"
+      },
+      {
+        "name": "The Kingdom of Brandenburg-Prussia",
+        "url": "/template/MyCustomContent/MyAdversary/The_Kingdom_of_Brandenburg-Prussia_Adversary.html"
+      },
+      {
+        "name": "The Kingdom of France (Plantation Colony)",
+        "url": "/template/MyCustomContent/MyAdversary/The_Kingdom_of_France_(Plantation_Colony)_Adversary.html"
+      },
+      {
+        "name": "The Kingdom of Scotland",
+        "url": "/template/MyCustomContent/MyAdversary/The_Kingdom_of_Scotland_Adversary.html"
+      },
+      {
+        "name": "The Kingdom of Sweden",
+        "url": "/template/MyCustomContent/MyAdversary/The_Kingdom_of_Sweden_Adversary.html"
+      },
+      {
+        "name": "The Tsardom of Russia",
+        "url": "/template/MyCustomContent/MyAdversary/The_Tsardom_of_Russia_Adversary.html"
+      }
+    ]
+  }
+]
