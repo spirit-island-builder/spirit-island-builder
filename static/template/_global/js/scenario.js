@@ -38,7 +38,7 @@ function buildScenario(quickScenario) {
   let scenarioName = document.createElement("scenario-front-name");
   scenarioName.innerHTML = quickScenario.getAttribute("name");
   let scenarioArtHolder = document.createElement("scenario-art-holder");
-  if (quickScenario.getAttribute("image") === true) {
+  if (quickScenario.getAttribute("image")) {
     scenarioArtHolder.innerHTML = `<div class="image" style="background-image:url(${quickScenario.getAttribute(
       "image"
     )});"></div>`;
@@ -60,6 +60,7 @@ function buildScenario(quickScenario) {
 
   // Stack panels
   let allPanels = Array.from(scenarioFront.querySelectorAll("panel"));
+  console.log("number of panels in js: " + allPanels.length);
   allPanels.forEach((panel, i) => {
     panel.style.zIndex = 10 - i;
   });
@@ -81,12 +82,38 @@ function buildScenario(quickScenario) {
   evaluateComments(scenarioFront);
   evaluateComments(scenarioBack);
 
+  let allComments = document.querySelectorAll("comment");
+  console.log("number of comments in js: " + allComments.length);
+
   function evaluateComments(el) {
     console.log("doing comments for " + el.tagName);
     let allComments = Array.from(el.querySelectorAll("comment"));
     allComments.forEach((comment, i) => {
       if (comment.getAttribute("type")) {
         comment.classList.add(comment.getAttribute("type"));
+      }
+      if (comment.classList.contains("bullets")) {
+        let commentLines = comment.innerHTML.split(/\r?\n|\r|\n/g);
+        comment.innerHTML = "";
+        commentLines.forEach((line) => {
+          if (line.replace(/\W/g, "").length > 0) {
+            let commentLine = document.createElement("li");
+            commentLine.innerHTML = line;
+            comment.appendChild(commentLine);
+          }
+        });
+        comment.innerHTML = `<ul>${comment.innerHTML}</ul>`;
+      }
+      if (comment.classList.contains("para")) {
+        let commentLines = comment.innerHTML.split(/\r?\n|\r|\n/g);
+        comment.innerHTML = "";
+        commentLines.forEach((line) => {
+          if (line.replace(/\W/g, "").length > 0) {
+            let commentLine = document.createElement("comment-line");
+            commentLine.innerHTML = line;
+            comment.appendChild(commentLine);
+          }
+        });
       }
     });
   }

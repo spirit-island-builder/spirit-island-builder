@@ -35,7 +35,7 @@
     customIcons.isVisible = false;
   }
 
-  const demoURL = "/template/MyCustomContent/MyScenario/scenario_blank.html";
+  const demoURL = "/template/MyCustomContent/MyScenario/The_Great_River_Scenario.html";
 
   function onLoad() {
     if (scenario.demoBoardWasLoaded === false) {
@@ -87,16 +87,18 @@
       lorePanel.innerHTML = scenario.scenarioFront.lore;
     }
     scenarioRight.append(lorePanel);
-    scenario.scenarioFront.panels.forEach((panel) => {
+    scenario.scenarioFront.panels.forEach((panel, i) => {
       let panelHTML = document.createElement("panel");
       scenarioRight.appendChild(panelHTML);
-      panel.comments.forEach((comment) => {
+      console.log("writing panel HTML " + i);
+      panel.comments.forEach((comment, j) => {
         let commentHTML = document.createElement("comment");
         if (comment.type) {
           commentHTML.setAttribute("type", comment.type);
         }
         commentHTML.innerHTML = comment.text;
         panelHTML.appendChild(commentHTML);
+        console.log("writing comment HTML " + j);
       });
     });
 
@@ -154,24 +156,28 @@
     if (lorePanel) {
       scenario.scenarioFront.lore = lorePanel.innerHTML;
     }
+    scenario.scenarioFront.panels.splice(0, scenario.scenarioFront.panels.length); //Clear the Form first
     const frontPanels = scenarioFront.querySelectorAll("panel");
     frontPanels.forEach((panel, i) => {
       scenario.scenarioFront.panels.push({
         id: scenario.scenarioFront.panels.length,
         comments: [],
       });
+      console.log("creating panel..." + i);
       const comments = panel.querySelectorAll("comment");
-      comments.forEach((comment) => {
+      comments.forEach((comment, j) => {
         scenario.scenarioFront.panels[i].comments.push({
           id: scenario.scenarioFront.panels[i].comments.length,
           type: comment.getAttribute("type"),
           text: comment.innerHTML,
         });
+        console.log("creating comment..." + j);
       });
     });
 
     //Back Left Comments
     const backLeftComments = backLeft.querySelectorAll("comment");
+    scenario.scenarioBack.left.comments.splice(0, scenario.scenarioBack.left.comments.length); //Clear the Form first
     backLeftComments.forEach((comment) => {
       scenario.scenarioBack.left.comments.push({
         id: scenario.scenarioBack.left.comments.length,
@@ -183,6 +189,7 @@
 
     //Back Right Comments
     const backRightComments = backRight.querySelectorAll("comment");
+    scenario.scenarioBack.right.comments.splice(0, scenario.scenarioBack.right.comments.length); //Clear the Form first
     backRightComments.forEach((comment) => {
       scenario.scenarioBack.right.comments.push({
         id: scenario.scenarioBack.right.comments.length,

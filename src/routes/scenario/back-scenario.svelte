@@ -83,7 +83,11 @@
             <button
               class:is-light={comment.type !== "heading"}
               class="button is-info button-hold mb-0 is-small"
-              on:click={setType("heading", comment)}>Title</button>
+              on:click={setType("heading", comment)}>Heading</button>
+            <button
+              class:is-light={comment.type !== "title"}
+              class="button is-info button-hold mb-0 is-small"
+              on:click={setType("title", comment)}>Title</button>
             <button
               class:is-light={comment.type !== "para"}
               class="button is-info is-light button-hold mb-0 is-small"
@@ -122,6 +126,14 @@
           bind:value={comment.text} />
       {/if}
       {#if comment.type === "heading"}
+        <AutoComplete
+          id={`comment${i}BackLeft`}
+          elementType="input"
+          placeholder="Effect"
+          validAutoCompleteValues={iconValuesSorted}
+          bind:value={comment.text} />
+      {/if}
+      {#if comment.type === "title"}
         <AutoComplete
           id={`comment${i}BackLeft`}
           elementType="input"
@@ -175,7 +187,11 @@
             <button
               class:is-light={comment.type !== "heading"}
               class="button is-info button-hold mb-0 is-small"
-              on:click={setType("heading", comment)}>Title</button>
+              on:click={setType("heading", comment)}>Heading</button>
+            <button
+              class:is-light={comment.type !== "title"}
+              class="button is-info button-hold mb-0 is-small"
+              on:click={setType("title", comment)}>Title</button>
             <button
               class:is-light={comment.type !== "para"}
               class="button is-info is-light button-hold mb-0 is-small"
@@ -206,6 +222,14 @@
       </div>
 
       {#if comment.type === ""}
+        <AutoComplete
+          id={`comment${i}BackRight`}
+          elementType="input"
+          placeholder="Effect"
+          validAutoCompleteValues={iconValuesSorted}
+          bind:value={comment.text} />
+      {/if}
+      {#if comment.type === "title"}
         <AutoComplete
           id={`comment${i}BackRight`}
           elementType="input"
