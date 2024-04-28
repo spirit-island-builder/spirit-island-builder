@@ -69,6 +69,20 @@
   --preview-frame-small-transform: scale(0.75);
 }
 
+#scenario-preview {
+  --scroll-amount: 295;
+  --preview-frame-width: 860px;
+  --preview-frame-height: 805px;
+  --preview-wrap-width: 120%;
+
+  --preview-large-wrap-height: 792px;
+  --preview-large-frame-transform: scale(1);
+  --preview-large-frame-width: 1200px;
+
+  --preview-small-wrap-height: 605px;
+  --preview-frame-small-transform: scale(0.75);
+}
+
 #aspect-preview {
   --scroll-amount: 0;
   --preview-frame-height: 567px;
