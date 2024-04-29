@@ -4,6 +4,8 @@
   export let imageURL;
   export let imageScale;
   export let includeScale = false;
+  export let info;
+  export let includeInfo = false;
   export let examples = null;
   export let exampleDescription = "Example";
 
@@ -84,7 +86,7 @@
 </div>
 <!-- Spirit Art Scale -->
 {#if includeScale}
-  <div class="field has-addons is-horizontal is-justify-content-left">
+  <div class="field has-addons is-horizontal is-justify-content-left" class:mb-0={includeInfo}>
     <div class="field-label is-small">
       <label class="label" for="{id}-scale">Vertical Scale:</label>
     </div>
@@ -96,6 +98,15 @@
         placeholder="%"
         bind:value={imageScale} />
     </div>
+  </div>
+{/if}
+{#if includeInfo}
+  <div class="content is-small is-flex is-justify-content-right mb-1">
+    <p>
+      <i>
+        {info}
+      </i>
+    </p>
   </div>
 {/if}
 

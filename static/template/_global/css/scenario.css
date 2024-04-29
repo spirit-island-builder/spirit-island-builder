@@ -18,7 +18,7 @@ body {
 }
 
 body {
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
 }
@@ -32,21 +32,37 @@ li {
   padding-left: 3px;
 }
 
-adversary {
+scenario {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+}
+
+scenario-front {
   display: block;
   width: 1177px;
   height: 786px;
   border-radius: 22px;
-  position: absolute;
+  position: relative;
   top: 0px;
-  left: 10px;
+  left: 0px;
   overflow: hidden;
 }
 
-adversary-background {
-  background-image: url(../images/adversary/adversary-background-frame.png);
+scenario-back {
+  display: block;
+  width: 1177px;
+  height: 786px;
+  border-radius: 22px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+}
+
+scenario-background {
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   display: block;
   width: 100%;
   height: 100%;
@@ -54,6 +70,198 @@ adversary-background {
   top: 0px;
   left: 0px;
   z-index: -1;
+}
+
+scenario-back scenario-background {
+  background-image: url(../images/cards/Scenario/ScenarioBackground.png);
+}
+
+scenario-front scenario-background {
+  background-image: url(../images/cards/Scenario/ScenarioFront.png);
+}
+
+scenario-art-holder {
+  display: block;
+  position: absolute;
+  left: 22px;
+  top: 127px;
+  height: 637px;
+  width: 568px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  z-index: -2;
+}
+
+div.image {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+}
+
+scenario-right {
+  display: flex;
+  position: relative;
+  width: 560px;
+  height: 100%;
+  left: 592px;
+  padding-top: 22px;
+  padding-bottom: 22px;
+  flex-direction: column;
+}
+
+scenario-front panel {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-image: url(../images/cards/Scenario/ScenarioSectionRight.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin-top: -10px;
+  padding-top: 15px;
+}
+
+scenario-front lore-panel {
+  background-image: url(../images/cards/Scenario/ScenarioSectionRight.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  display: flex;
+  font-size: 23px;
+  font-style: italic;
+  font-family: serif;
+  color: #855324;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-top-right-radius: 23px;
+  z-index: 11;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 1.3;
+  padding-left: 29px;
+  padding-right: 29px;
+}
+
+scenario comment {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding-left: 18px;
+  padding-right: 5px;
+  white-space: pre-line;
+}
+
+comment.title {
+  font-family: "JosefinSans-Regular";
+  font-size: 24px;
+  text-align: left;
+  letter-spacing: -1px;
+  word-spacing: 0px;
+  font-weight: bold;
+}
+
+comment.heading {
+  font-family: "Name Headings";
+  color: rgb(158 114 55);
+  font-size: 26px;
+  margin-bottom: 5px;
+}
+
+comment.bullets,
+comment.para {
+  font-family: "JosefinSans-Regular";
+  font-size: 24px;
+  text-align: left;
+  letter-spacing: -1px;
+  word-spacing: 0px;
+  line-height: 29px;
+}
+
+comment-line {
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+scenario-right comment:last-child {
+  padding-bottom: 15px;
+}
+
+scenario panel:last-child {
+  background-image: none;
+}
+
+back-left,
+back-right {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  top: 129px;
+  height: 624px;
+}
+back-left {
+  width: 564px;
+  left: 23px;
+}
+back-right {
+  width: 561px;
+  left: 591px;
+}
+
+scenario-front-name {
+  position: absolute;
+  display: flex;
+  top: 62px;
+  width: 538px;
+  height: 62px;
+  left: 35px;
+  align-items: center;
+}
+
+scenario-back-name {
+  position: absolute;
+  display: flex;
+  top: 62px;
+  width: 850px;
+  height: 62px;
+  left: 40px;
+  align-items: center;
+}
+
+scenario-back-name,
+scenario-front-name {
+  font-family: "Name Headings";
+  color: white;
+  font-size: 46px;
+}
+scenario-front-name {
+  justify-content: center;
+}
+
+scenario-heading {
+  position: absolute;
+  display: flex;
+  top: 21px;
+  width: 532px;
+  height: 43px;
+  left: 38px;
+  align-items: center;
+  font-family: "Short Name Headings";
+  color: white;
+  font-size: 24px;
+}
+
+scenario-front scenario-heading {
+  justify-content: center;
+}
+
+scenario ul {
+  margin-block-end: 0px;
+  margin-block-start: 0px;
+  padding-inline-start: 18px;
 }
 
 adversary-title {

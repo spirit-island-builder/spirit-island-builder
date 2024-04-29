@@ -21,6 +21,7 @@
   import PowerCards from "./power-cards/index.svelte";
   import Aspect from "./aspect/index.svelte";
   import Adversary from "./adversary/index.svelte";
+  import Scenario from "./scenario/index.svelte";
   import BlightCard from "./blight-card/index.svelte";
   import FearCard from "./fear-card/index.svelte";
   import IncarnaToken from "./incarna-token/index.svelte";
@@ -62,6 +63,11 @@
     case "advarsary":
       currentPage = "adversary";
       break;
+
+    case "scenario":
+      currentPage = "scenario";
+      break;
+
     case "aspect":
     case "aspectt":
       currentPage = "aspect";
@@ -318,6 +324,7 @@
         hasSecondThreshold: false,
         secondThreshold: "",
         secondThresholdCondition: "",
+        aspectSubtitle: "",
       },
     ],
     cardBackImage: "",
@@ -484,6 +491,59 @@
   };
   let adversary = JSON.parse(JSON.stringify(emptyAdversary));
 
+  let emptyScenario = {
+    prop: "value",
+    demoBoardWasLoaded: false,
+    previewBoard: {
+      isVisible: false,
+    },
+    info: {
+      isVisible: false,
+      name: "",
+      difficulty: "",
+      image: "",
+    },
+    scenarioFront: {
+      isVisible: false,
+      lore: "",
+      panels: [
+        {
+          id: 0,
+          comments: [
+            {
+              id: 0,
+              type: "",
+              text: "",
+            },
+          ],
+        },
+      ],
+    },
+    scenarioBack: {
+      isVisible: false,
+      left: {
+        comments: [
+          {
+            id: 0,
+            type: "",
+            text: "",
+          },
+        ],
+      },
+      right: {
+        comments: [
+          {
+            id: 0,
+            name: "",
+            type: "",
+            text: "",
+          },
+        ],
+      },
+    },
+  };
+  let scenario = JSON.parse(JSON.stringify(emptyScenario));
+
   let emptyBlightCard = {
     prop: "value",
     demoBoardWasLoaded: false,
@@ -599,6 +659,7 @@
     ["aspect", "Aspect"],
     ["incarnaToken", "Incarna Token"],
     ["adversary", "Adversary"],
+    ["scenario", "Scenario"],
     ["blightCard", "Blight Card"],
     ["fearCard", "Fear Card"],
     ["eventCard", "Event Card"],
@@ -648,6 +709,7 @@
     class:is-spiritBoardFront={currentPage === "spiritBoardFront"}
     class:is-sideMenu={currentPage === "spiritBoardBack" ||
       currentPage === "adversary" ||
+      currentPage === "scenario" ||
       currentPage === "aspect" ||
       currentPage === "fearCard"}>
     {#if currentPage === "spiritBoardFront"}
@@ -660,6 +722,8 @@
       <Aspect bind:aspect bind:emptyAspect bind:customIcons />
     {:else if currentPage === "adversary"}
       <Adversary bind:adversary bind:emptyAdversary bind:customIcons />
+    {:else if currentPage === "scenario"}
+      <Scenario bind:scenario bind:emptyScenario bind:customIcons />
     {:else if currentPage === "incarnaToken"}
       <IncarnaToken bind:incarnaToken bind:emptyIncarnaToken bind:customIcons />
     {:else if currentPage === "blightCard"}

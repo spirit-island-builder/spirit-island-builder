@@ -155,3 +155,91 @@ function replaceIcon(html) {
     return iconHtml;
   }
 }
+
+function checkOverflowHeight(el, slack = 2) {
+  let debug = true;
+  let curOverflow = el.style.overflowY;
+  if (!curOverflow || curOverflow === "visible") {
+    el.style.overflowY = "auto";
+  }
+  let isOverflowing = el.clientHeight + slack < el.scrollHeight;
+  if (debug) {
+    console.log(
+      "check overflowY = " + (el.clientHeight + slack) + " " + slack + "," + el.scrollHeight
+    );
+  }
+  el.style.overflowY = curOverflow;
+  if (debug) {
+    console.log(`Common: Check OverflowHeight (${el.tagName}); Result: ${isOverflowing}`);
+  }
+  return isOverflowing;
+}
+
+function checkOverflowWidth(el, slack = 30) {
+  let debug = true;
+  if (debug) {
+    console.log(`Common: Check OverflowWidth (${el.tagName})`);
+  }
+  let curOverflow = el.style.overflowX;
+  if (!curOverflow || curOverflow === "visible") {
+    el.style.overflowX = "auto";
+  }
+  let isOverflowing = el.clientWidth + slack < el.scrollWidth ? el.scrollWidth : false;
+  el.style.overflowX = curOverflow;
+
+  return isOverflowing;
+}
+
+function balanceText(el, lineHeight = 23) {
+  // Balances text in an element
+  let debug = false;
+  const initialHeight = el.offsetHeight;
+  const initialWidth = el.offsetWidth;
+  if (debug) {
+    console.log(
+      "Common. Balancing Text: " + el.tagName + " H:" + initialHeight + ", W:" + initialWidth
+    );
+  }
+  if (initialHeight > lineHeight) {
+    // No action needed for 1 liners (~19px growth, ~22px presence)
+    let currentHeight = initialHeight;
+    let j = 0;
+    let k = Math.trunc(initialWidth);
+    let overflow = false;
+    while (currentHeight <= initialHeight) {
+      overflow = checkOverflowWidth(el, 0);
+      if (overflow) {
+        if (debug) {
+          console.log("balance overflowing, j=" + j);
+        }
+        break;
+      }
+      // tighten until it changes something
+      k = k - 1;
+      el.style.width = k + "px";
+      currentHeight = el.offsetHeight;
+      j += 1;
+      if (debug) {
+        console.log(" H:" + currentHeight + ", W:" + k);
+      }
+      if (j > 200) {
+        if (debug) {
+          console.log("Max text reduction reached for");
+          console.log(el);
+        }
+        break;
+      }
+    }
+    if (debug) {
+      console.log(
+        "reset at w=" + el.offsetWidth + ",h=" + el.offsetHeight + ",overflow=" + overflow
+      );
+    }
+    k = k + 1;
+    el.style.width = k + "px";
+    if (debug) {
+      console.log("reset to w=" + el.offsetWidth + ",h=" + el.offsetHeight);
+    }
+    // el.style.width = el.offsetWidth + "px";
+  }
+}

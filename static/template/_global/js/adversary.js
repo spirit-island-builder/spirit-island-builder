@@ -17,17 +17,13 @@ function startMain() {
   }, 200);
 }
 
-function resize() {
-  dynamicSizing(document.querySelectorAll("top-info")[0], 55);
-}
-
 function buildAdversary(quickAdversary) {
   adversaryName = quickAdversary.getAttribute("name");
   flagImage = quickAdversary.getAttribute("flag-image");
   baseDifficulty = quickAdversary.getAttribute("base-difficulty");
   let baseDifficultyText = "";
   if (baseDifficulty) {
-    baseDifficultyText = `<adversary-base-dif>BASE DIFFICULTY ${baseDifficulty}</adversary-base-dif>`;
+    baseDifficultyText = `<adversary-base-dif>BASE DIFFICULTY <num>${baseDifficulty}</num></adversary-base-dif>`;
   }
 
   lossCondition = quickAdversary.querySelectorAll("loss-condition")[0];
@@ -71,7 +67,7 @@ function buildAdversary(quickAdversary) {
   html += buildLevel(quickAdversary.querySelectorAll("level-5")[0]);
   html += buildLevel(quickAdversary.querySelectorAll("level-6")[0]);
 
-  html += `</adversary-levels><created-with>spiritislandbuilder.com</created-with><custom-meeple></custom-meeple>`;
+  html += `</adversary-levels><adversary-background></adversary-background><created-with>spiritislandbuilder.com</created-with><custom-meeple></custom-meeple>`;
 
   return html;
 }
@@ -102,11 +98,9 @@ function buildLevel(quickLevel) {
   }
 
   levelHTML = `<level>
-        <div>${quickLevel.tagName.at(
-          -1
-        )}<level-difficulty class="level-difficulty">(${quickLevel.getAttribute(
+        <div>${quickLevel.tagName.at(-1)}<level-difficulty>(<num>${quickLevel.getAttribute(
     "difficulty"
-  )})</level-difficulty></div>
+  )}</num>)</level-difficulty></div>
         <div>${fearCardNum} (${fearCards})</div>
         <div>
           <rule><strong>${quickLevel.getAttribute("name")}:</strong> ${quickLevel.getAttribute(
@@ -118,33 +112,74 @@ function buildLevel(quickLevel) {
   return levelHTML;
 }
 
+function resize() {
+  dynamicSizing(document.querySelectorAll("top-info")[0], 55);
+  dynamicSizingRules();
+}
+
 function dynamicSizing(el, maxSize = el.offsetHeight) {
+  let debug = true;
+  if (debug) {
+    console.log("Shinking: " + el.tagName);
+  }
   let j = 0;
-  while (checkOverflow(el)) {
+  while (checkOverflowHeight(el, 0)) {
     var style = window.getComputedStyle(el, null).getPropertyValue("font-size");
     var line = window.getComputedStyle(el, null).getPropertyValue("line-height");
     var fontSize = parseFloat(style);
     var lineHeight = parseFloat(line);
     el.style.lineHeight = lineHeight - 1 + "px";
-    if (lineHeight < 15) {
-      // there's more room in line height first
-      el.style.fontSize = fontSize - 1 + "px";
-    }
+    // if (lineHeight < 15) {
+    //   // there's more room in line height first
+    el.style.fontSize = fontSize - 1 + "px";
+    // }
     // safety valve
     j += 1;
-    if (j > 8) {
+    if (j > 20) {
       console.log("safety");
       break;
     }
   }
 }
 
-function checkOverflow(el) {
-  let curOverflow = el.style.overflow;
-  if (!curOverflow || curOverflow === "visible") {
-    el.style.overflow = "hidden";
+function dynamicSizingRules() {
+  let debug = true;
+  let levelsHolder = document.querySelectorAll("adversary-levels")[0];
+  if (debug) {
+    console.log("Shinking: " + levelsHolder.tagName);
   }
-  let isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
-  el.style.overflow = curOverflow;
-  return isOverflowing;
+  let rules = document.querySelectorAll("rule");
+  let firstRule = rules[0];
+  let j = 0;
+  while (checkOverflowHeight(levelsHolder, 0)) {
+    var style = window.getComputedStyle(firstRule, null).getPropertyValue("font-size");
+    var line = window.getComputedStyle(firstRule, null).getPropertyValue("line-height");
+    var fontSize = parseFloat(style);
+    var lineHeight = parseFloat(line);
+    rules.forEach((rule) => {
+      rule.style.lineHeight = lineHeight - 1 + "px";
+      rule.style.fontSize = fontSize - 1 + "px";
+    });
+
+    // safety valve
+    j += 1;
+    if (j > 20) {
+      console.log("safety");
+      break;
+    }
+  }
 }
+
+// function checkOverflow(el) {
+//   let debug = true;
+//   if (debug) {
+//     console.log(`Common: Check OverflowWidth (${el.tagName})`)
+//   }
+//   let curOverflow = el.style.overflow;
+//   if (!curOverflow || curOverflow === "visible") {
+//     el.style.overflow = "hidden";
+//   }
+//   let isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
+//   el.style.overflow = curOverflow;
+//   return isOverflowing;
+// }

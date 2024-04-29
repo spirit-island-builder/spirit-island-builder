@@ -71,8 +71,10 @@
     id="spiritArt"
     title="Spirit Art"
     includeScale
+    includeInfo
     bind:imageURL={spiritBoard.nameAndArt.artPath}
-    bind:imageScale={spiritBoard.nameAndArt.artScale} />
+    bind:imageScale={spiritBoard.nameAndArt.artScale}
+    info="Use % or px, and art ratio up to 9x6" />
   <!-- Artist Credits -->
   <div class="field has-addons is-horizontal is-justify-content-left">
     <div class="field-label is-small">

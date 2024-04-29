@@ -63,6 +63,7 @@
       newPowerCard.setAttribute("target", card.target);
       newPowerCard.setAttribute("target-title", card.targetTitle);
       newPowerCard.setAttribute("artist-name", card.cardArtist);
+      newPowerCard.setAttribute("subtitle", card.aspectSubtitle);
 
       let elementalList = card.powerElements;
       let elementListHTML = [];
@@ -239,6 +240,7 @@
       hasSecondThreshold: hasSecondThresholdPush,
       secondThreshold: thresholdSecondPush,
       secondThresholdCondition: thresholdSecondConditionPush,
+      aspectSubtitle: powerCardHTML.getAttribute("subtitle") || "",
     });
 
     return powerCards;
