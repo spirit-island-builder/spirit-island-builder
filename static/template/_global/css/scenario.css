@@ -150,7 +150,7 @@ scenario comment {
   position: relative;
   width: 100%;
   padding-left: 18px;
-  padding-right: 5px;
+  padding-right: 12px;
   white-space: pre-line;
 }
 
@@ -168,6 +168,8 @@ comment.heading {
   color: rgb(158 114 55);
   font-size: 26px;
   margin-bottom: 5px;
+  margin-bottom: 8px;
+  line-height: 22px;
 }
 
 comment.bullets,
@@ -201,6 +203,7 @@ back-right {
   flex-direction: column;
   top: 129px;
   height: 624px;
+  padding-top: 5px;
 }
 back-left {
   width: 564px;
@@ -262,6 +265,23 @@ scenario ul {
   margin-block-end: 0px;
   margin-block-start: 0px;
   padding-inline-start: 18px;
+}
+
+scenario.printer-clean scenario-background,
+scenario.printer-clean panel,
+scenario.printer-clean lore-panel {
+  background-image: none;
+  color: black;
+}
+scenario.printer-clean scenario-background {
+  border: black 3px solid;
+  box-sizing: border-box;
+  border-radius: 22px;
+}
+scenario.printer-clean scenario-back-name,
+scenario.printer-clean scenario-front-name,
+scenario.printer-clean scenario-heading {
+  color: black;
 }
 
 adversary-title {
