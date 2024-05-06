@@ -68,7 +68,9 @@ function buildScenario(quickScenario) {
   // Build Scenario Back
   let scenarioBackBackground = document.createElement("scenario-background");
   let scenarioDifficulty = document.createElement("scenario-back-difficulty");
-  scenarioDifficulty.innerHTML = quickScenario.getAttribute("difficulty");
+  scenarioDifficulty.innerHTML = `Difficulty <num>${quickScenario.getAttribute(
+    "difficulty"
+  )}</num>`;
   let scenarioBackName = document.createElement("scenario-back-name");
   scenarioBackName.innerHTML = quickScenario.getAttribute("name");
   let scenarioHeadingBack = document.createElement("scenario-heading");
