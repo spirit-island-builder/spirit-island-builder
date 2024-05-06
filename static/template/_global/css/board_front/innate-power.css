@@ -29,6 +29,11 @@ board.transparent innate-powers-background {
   opacity: 0.9;
 }
 
+board.printer-clean innate-powers-background {
+  background-image: none;
+  background-color: white;
+}
+
 innate-powers:hover section-title {
   text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
   cursor: pointer;
