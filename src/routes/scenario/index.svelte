@@ -6,19 +6,19 @@
   import { dev } from "$app/environment";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
-  import examples from "./examples.json";
+  // import examples from "./examples.json";
   import FrontScenario from "./front-scenario.svelte";
   import NameDifficultyImage from "./name-difficulty-image.svelte";
   import BackScenario from "./back-scenario.svelte";
   import CustomIcons from "../custom-icons.svelte";
   import InstructionsLink from "$lib/instructions/link.svelte";
-  import Examples from "$lib/example-modal.svelte";
+  // import Examples from "$lib/example-modal.svelte";
 
   export let scenario;
   export let emptyScenario;
   export let customIcons;
 
-  let exampleModal;
+  // let exampleModal;
   let previewFrame;
 
   async function loadHTMLFromURL(url) {
@@ -28,12 +28,12 @@
     reloadPreview();
   }
 
-  function hideAll() {
-    scenario.info.isVisible = false;
-    scenario.scenarioFront.isVisible = false;
-    scenario.scenarioBack.isVisible = false;
-    customIcons.isVisible = false;
-  }
+  // function hideAll() {
+  //   scenario.info.isVisible = false;
+  //   scenario.scenarioFront.isVisible = false;
+  //   scenario.scenarioBack.isVisible = false;
+  //   customIcons.isVisible = false;
+  // }
 
   const demoURL = "/template/MyCustomContent/MyScenario/The_Great_River_Scenario.html";
 
@@ -238,10 +238,10 @@
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 
-  async function loadExample(example) {
-    await loadHTMLFromURL(example.url);
-    hideAll();
-  }
+  // async function loadExample(example) {
+  //   await loadHTMLFromURL(example.url);
+  //   hideAll();
+  // }
 
   let overlayImage;
   function addOverlay() {
@@ -290,9 +290,6 @@
       </svelte:fragment>
     </PreviewFrame>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
-      <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
-        Examples
-      </button>
       <InstructionsLink class="button is-info mr-1" anchor="scenario" />
       <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
         Load
@@ -326,8 +323,8 @@
     </div>
   </div>
 </div>
-<Examples
+<!-- <Examples
   bind:this={exampleModal}
   {loadExample}
   title="Load Examples & Official Adversaries"
-  {examples} />
+  {examples} /> -->
