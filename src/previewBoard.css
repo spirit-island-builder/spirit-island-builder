@@ -95,6 +95,7 @@
 /* The layout scaler is relevant for the side menu layout */
 #body-container .preview-wrap {
   --layout-scaler: 0.9;
+  --screen-width: 1766;
 }
 
 #body-container.is-sideMenu .preview-wrap {
