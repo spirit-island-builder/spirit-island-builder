@@ -284,6 +284,27 @@ scenario.printer-clean scenario-heading {
   color: black;
 }
 
+scenario-back-difficulty {
+  position: absolute;
+  display: flex;
+  top: 13px;
+  width: 532px;
+  height: 43px;
+  left: 1010px;
+  align-items: flex-end;
+  font-family: "Short Name Headings";
+  color: white;
+  font-size: 24px;
+}
+
+scenario-back-difficulty num {
+  left: 6px;
+  display: block;
+  position: relative;
+  font-size: 20px;
+  font-family: "Gobold Extra2";
+}
+
 adversary-title {
   display: flex;
   justify-content: center;
