@@ -142,3 +142,7 @@ textarea.is-small.small-power {
   min-height: 30px;
   height: 2.5em;
 }
+
+.preview-buttons {
+  margin-bottom: 0.75rem;
+}

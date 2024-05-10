@@ -863,7 +863,7 @@
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
-        >Toggle Board Size</button>
+        >Toggle Zoom</button>
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
     </div>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">

@@ -49,6 +49,7 @@ board {
   justify-content: end;
   flex-direction: column;
   cursor: pointer;
+  overflow: hidden;
 }
 
 spirit-name:hover {
