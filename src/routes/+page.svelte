@@ -680,7 +680,7 @@
         {#each pages as [page, title]}
           {@const isCurrent = currentPage === page}
           <button
-            class={`button navbar-item ${isCurrent ? "is-primary" : "is-link is-light"}`}
+            class={`button mb-1 navbar-item ${isCurrent ? "is-primary" : "is-link is-light"}`}
             on:click={() => {
               setCurrentPage(page);
             }}>
@@ -705,12 +705,16 @@
   </header>
   <Instructions />
   <div
+    id="body-container"
     class="container"
-    class:is-spiritBoardFront={currentPage === "spiritBoardFront"}
-    class:is-sideMenu={currentPage === "spiritBoardBack" ||
+    class:is-sideMenu={currentPage === "spiritBoardFront" ||
+      currentPage === "spiritBoardBack" ||
       currentPage === "adversary" ||
       currentPage === "scenario" ||
+      currentPage === "incarnaToken" ||
       currentPage === "aspect" ||
+      currentPage === "blightCard" ||
+      currentPage === "eventCard" ||
       currentPage === "fearCard"}>
     {#if currentPage === "spiritBoardFront"}
       <SpiritBoard bind:spiritBoard bind:emptySpiritBoard bind:customIcons />
