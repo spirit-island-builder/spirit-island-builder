@@ -509,26 +509,30 @@
       </svelte:fragment>
     </PreviewFrame>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
-      <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
+      <button class="button is-info js-modal-trigger mt-1 mr-1" on:click={exampleModal.open}>
         Examples
       </button>
-      <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+      <LoadButton
+        accept=".html"
+        class="button is-success mt-1 mr-1"
+        loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadButton>
-      <button class="button is-success  mr-1" on:click={exportAspect}> Save </button>
+      <button class="button is-success mt-1 mr-1" on:click={exportAspect}> Save </button>
 
-      <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
+      <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
-      <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
-        >Toggle Board Size</button>
-      <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+      <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
+        >Toggle Zoom</button>
+      <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
     </div>
-    <div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
-      <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
-      <button class="button is-success  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
-      <button class="button is-success mr-1" on:click={printToPDFLetter}
+    <div class="field has-addons preview-buttons mb-0 is-flex-wrap-wrap">
+      <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button class="button is-success mt-1 mr-1" on:click={downloadTTSJSON}
+        >Export TTS file</button>
+      <button class="button is-success mt-1 mr-1" on:click={printToPDFLetter}
         >Create PDF (letter)</button>
-      <button class="button is-success mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
+      <button class="button is-success mt-1 mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
     </div>
     <div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
       {#if dev}

@@ -27,8 +27,6 @@ body {
   align-content: center;
   justify-content: flex-start;
   align-items: center;
-  margin-left: 25%;
-  margin-top: 10px;
 }
 
 * {
@@ -59,6 +57,7 @@ incarna-wrapper {
   position: relative;
   display: flex;
   align-items: flex-start;
+  overflow: hidden;
 }
 
 incarna-wrapper.tts-export {

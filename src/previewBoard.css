@@ -1,5 +1,4 @@
 .preview-wrap {
-  width: var(--preview-wrap-width);
   padding: 0;
   overflow: hidden;
 }
@@ -9,11 +8,11 @@
 }
 
 .preview-wrap:not(.large) {
-  height: var(--preview-small-wrap-height);
+  height: var(--board-height-px);
 }
 
 .preview-wrap .preview-frame {
-  height: var(--preview-frame-height);
+  height: var(--board-height-px);
   border: 0px;
   transform-origin: 0 0;
 }
@@ -23,15 +22,75 @@
   width: var(--preview-large-frame-width);
 }
 
-.preview-wrap:not(.large) .preview-frame {
+/* .preview-wrap:not(.large) .preview-frame {
   transform: var(--preview-frame-small-transform);
-  /* width: var(--preview-small-frame-width, var(--preview-frame-width)); */
+} */
+
+/* Dynamic screen sizing */
+.preview-wrap {
+  --screen-width: 2000;
+  width: calc(var(--scaler) * var(--board-width-px) * 1px * 1.03);
+}
+
+.preview-wrap:not(.large) .preview-frame {
+  --scaler: calc(var(--layout-scaler) * var(--screen-width) / var(--board-width-px));
+  transform: scale(var(--scaler));
+  width: calc(100% * 1 / var(--scaler));
+}
+.preview-wrap:not(.large) {
+  --scaler: calc(var(--layout-scaler) * var(--screen-width) / var(--board-width-px));
+  height: calc(var(--board-height-px) * var(--scaler));
 }
 
 @media (max-width: 1000px) {
-  .preview-wrap {
-    overflow-x: auto;
+  .preview-wrap:not(.large),
+  .preview-wrap:not(.large) .preview-frame {
+    --screen-width: 1000;
   }
+}
+
+@media (min-width: 1000px) and (max-width: 1100px) {
+  .preview-wrap:not(.large),
+  .preview-wrap:not(.large) .preview-frame {
+    --screen-width: 1050;
+  }
+}
+
+@media (min-width: 1100px) and (max-width: 1200px) {
+  .preview-wrap:not(.large),
+  .preview-wrap:not(.large) .preview-frame {
+    --screen-width: 1150;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1300px) {
+  .preview-wrap:not(.large),
+  .preview-wrap:not(.large) .preview-frame {
+    --screen-width: 1250;
+  }
+}
+
+@media (min-width: 1300px) and (max-width: 1400px) {
+  .preview-wrap:not(.large),
+  .preview-wrap:not(.large) .preview-frame {
+    --screen-width: 1350;
+  }
+}
+
+@media (min-width: 1400px) and (max-width: 1600px) {
+  .preview-wrap:not(.large),
+  .preview-wrap:not(.large) .preview-frame {
+    --screen-width: 1500;
+  }
+}
+
+/* The layout scaler is relevant for the side menu layout */
+#body-container .preview-wrap {
+  --layout-scaler: 0.9;
+}
+
+#body-container.is-sideMenu .preview-wrap {
+  --layout-scaler: 0.6;
 }
 
 .preview-frame {
@@ -40,145 +99,117 @@
 
 #spirit-preview {
   --scroll-amount: 245;
-  --preview-frame-width: 1800px;
-  --preview-frame-height: 1195px;
-  --preview-wrap-width: 155%;
+
+  --board-width-px: 1766;
+  --board-height-px: 1177px;
 
   --preview-large-wrap-height: 890px;
   --preview-large-frame-transform: scale(0.745);
   --preview-large-frame-width: 1777px;
-
-  --preview-small-wrap-height: 660px;
-
-  /* 1/scale */
-  /* --preview-frame-small-width: 182%;  */
-  --preview-frame-small-transform: scale(0.55);
 }
 
 #adversary-preview {
   --scroll-amount: 295;
-  --preview-frame-width: 860px;
-  --preview-frame-height: 805px;
-  --preview-wrap-width: 120%;
+
+  --board-width-px: 1177;
+  --board-height-px: 786px;
 
   --preview-large-wrap-height: 792px;
   --preview-large-frame-transform: scale(1);
   --preview-large-frame-width: 1200px;
-
-  --preview-small-wrap-height: 605px;
-  --preview-frame-small-transform: scale(0.75);
 }
 
 #scenario-preview {
   --scroll-amount: 295;
-  --preview-frame-width: 860px;
-  --preview-frame-height: 805px;
-  --preview-wrap-width: 120%;
+
+  --board-width-px: 1177;
+  --board-height-px: 786px;
 
   --preview-large-wrap-height: 792px;
   --preview-large-frame-transform: scale(1);
   --preview-large-frame-width: 1200px;
-
-  --preview-small-wrap-height: 605px;
-  --preview-frame-small-transform: scale(0.75);
 }
 
 #aspect-preview {
   --scroll-amount: 0;
-  --preview-frame-height: 567px;
-  --preview-frame-width: 600px;
-  --preview-wrap-width: 1700px;
+
+  --board-width-px: 1550;
+  --board-height-px: 567px;
 
   --preview-large-wrap-height: 575px;
   --preview-large-frame-transform: scale(1);
   --preview-large-frame-width: 1000px;
-
-  --preview-small-wrap-height: 330px;
-  --preview-frame-small-transform: scale(0.57);
-  /* --preview-small-frame-width: 149%; */
 }
 
 #aspect-preview.portrait {
-  --preview-frame-height: 787px;
+  --board-width-px: 1350;
+  --board-height-px: 786px;
+
   --preview-large-wrap-height: 580px;
-  --preview-small-wrap-height: 452px;
 }
 
 #power-cards-preview {
   --scroll-amount: 240;
-  --preview-frame-height: 682px;
+
+  --board-width-px: 1952;
+  --board-height-px: 682px;
 
   --preview-large-wrap-height: 700px;
   --preview-large-frame-transform: scale(1);
   --preview-large-frame-width: 1200px;
-
-  --preview-small-wrap-height: 460px;
-  --preview-frame-small-transform: scale(0.67);
-  --preview-small-frame-width: 149%;
-
-  --preview-wrap-width: 150%;
 }
 
 #lore-preview {
   --scroll-amount: 245;
-  --preview-frame-width: 1800px;
-  --preview-frame-height: 1197px;
+
+  --board-width-px: 1766;
+  --board-height-px: 1177px;
 
   --preview-large-wrap-height: 890px;
   --preview-large-frame-transform: scale(0.745);
   --preview-large-frame-width: 1777px;
-  --preview-wrap-width: 155%;
-
-  --preview-small-wrap-height: 660px;
-  --preview-frame-small-transform: scale(0.55);
 }
 
 #blight-card-preview {
   --scroll-amount: 295;
-  --preview-frame-width: 650px;
-  --preview-frame-height: 700px;
-  --preview-wrap-width: 100%;
+
+  --board-width-px: 1250;
+  --board-height-px: 682px;
+
   --preview-large-wrap-height: 710px;
   --preview-large-frame-transform: scale(1);
   --preview-large-frame-width: 650px;
-  --preview-small-wrap-height: 470px;
-  --preview-frame-small-transform: scale(0.67);
 }
 
 #fear-card-preview {
   --scroll-amount: 295;
-  --preview-frame-width: 650px;
-  --preview-frame-height: 700px;
-  --preview-wrap-width: 100%;
+
+  --board-width-px: 1250;
+  --board-height-px: 682px;
 
   --preview-large-wrap-height: 710px;
   --preview-large-frame-transform: scale(1);
   --preview-large-frame-width: 650px;
-
-  --preview-small-wrap-height: 470px;
-  --preview-frame-small-transform: scale(0.67);
 }
 
 #incarna-preview {
   --scroll-amount: 295;
-  --preview-frame-width: 650px;
-  --preview-frame-height: 700px;
-  --preview-wrap-width: 100%;
-  --preview-large-wrap-height: 846px;
-  --preview-large-frame-transform: scale(2);
+
+  --board-width-px: 1000;
+  --board-height-px: 427px;
+
+  --preview-large-wrap-height: 440px;
+  --preview-large-frame-transform: scale(1);
   --preview-large-frame-width: 650px;
-  --preview-small-wrap-height: 428px;
-  --preview-frame-small-transform: scale(1);
 }
 
 #event-card-preview {
   --scroll-amount: 295;
-  --preview-frame-width: 650px;
-  --preview-frame-height: 700px;
-  --preview-wrap-width: 100%;
+
+  --board-width-px: 1250;
+  --board-height-px: 682px;
+
   --preview-large-wrap-height: 710px;
   --preview-large-frame-transform: scale(1);
   --preview-large-frame-width: 650px;
-  --preview-small-wrap-height: 470px;
-  --preview-frame-small-transform: scale(0.67);
 }

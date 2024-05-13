@@ -187,16 +187,20 @@
       <!-- <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
         Examples
       </button> -->
-      <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+      <LoadButton
+        accept=".html"
+        class="button is-success mt-1 mr-1"
+        loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadButton>
-      <button class="button is-success  mr-1" on:click={exportFearCard}> Save </button>
-      <button class="button is-success  mr-1" on:click={screenshotSetUp}>Download Image</button>
-      <button class="button is-warning  mr-1" id="updateButton" on:click={reloadPreview}
+      <button class="button is-success mt-1  mr-1" on:click={exportFearCard}> Save </button>
+      <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}
+        >Download Image</button>
+      <button class="button is-warning mt-1  mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
-      <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
+      <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
         >Toggle Board Size</button>
-      <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+      <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
       {#if dev}
         <LoadButton
           accept="image/png, image/jpeg"
