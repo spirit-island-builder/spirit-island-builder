@@ -30,6 +30,7 @@ async function startMain() {
     await waitPromise(200);
     dynamicResizing();
     addImages(board);
+    addTrackBanners(board);
     tagSectionHeadings();
 
     return 1;
@@ -95,6 +96,59 @@ function addImages(board) {
   const spiritName = board.getElementsByTagName("spirit-name");
   spiritName[0].outerHTML += "<custom-meeple></custom-meeple>";
   spiritName[0].outerHTML += "<created-with>spiritislandbuilder.com</created-with>";
+}
+
+function addTrackBanners(board) {
+  let debug = false;
+  const presenceTracks = board.getElementsByTagName("presence-tracks")[0];
+
+  // Check for Combined Banner
+  let combinedBanner = board.getElementsByClassName("combined-track")[0];
+  if (combinedBanner) {
+    if (debug) {
+      console.log("Combined banner");
+    }
+    presenceTracks.appendChild(combinedBanner);
+    let table = document.getElementById("presence-table");
+    let tableRows = presenceTracks.getElementsByTagName("tr");
+    let firstRowNodes = tableRows[0].getElementsByTagName("presence-node");
+    let lastRowNodes = tableRows[tableRows.length - 1].getElementsByTagName("presence-node");
+    let tracksHeight =
+      lastRowNodes[1].getBoundingClientRect().top -
+      firstRowNodes[1].getBoundingClientRect().top +
+      130;
+    let trackTop =
+      firstRowNodes[1].getBoundingClientRect().top -
+      presenceTracks.getBoundingClientRect().top +
+      tracksHeight / 2;
+    combinedBanner.style.top = trackTop + "px";
+    combinedBanner.style.width = table.getBoundingClientRect().width + "px";
+    combinedBanner.style.height = tracksHeight + "px";
+    console.log(tracksHeight);
+  } else {
+    // Default: Not combined track
+    if (debug) {
+      console.log("Default track art");
+    }
+    const tracks = Array.from(presenceTracks.getElementsByTagName("tr"));
+    const bannerArts = Array.from(board.getElementsByTagName("track-banner-art"));
+    const bannerTags = bannerArts.map((banner) => banner.className);
+    bannerArts.forEach((banner) => {
+      presenceTracks.appendChild(banner);
+    });
+    tracks.forEach((track) => {
+      let nodes = track.getElementsByTagName("td");
+      let trackType = track.className;
+      let trackWidth =
+        nodes[nodes.length - 1].getBoundingClientRect().right -
+        nodes[0].getBoundingClientRect().left;
+      let trackTop =
+        nodes[1].getBoundingClientRect().top + 130 / 2 - presenceTracks.getBoundingClientRect().top;
+      let banner = bannerArts[bannerTags.indexOf(trackType)];
+      banner.style.width = trackWidth + "px";
+      banner.style.top = trackTop + "px";
+    });
+  }
 }
 
 function buildGrowthPanel() {
@@ -1481,8 +1535,8 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
   // Enable additional presence tracks
   const additionalTracks = Array.from(document.getElementsByTagName("additional-track"));
   let additionalTrackHTML = "";
-  additionalTracks.forEach((additionalTrack) => {
-    additionalTrackHTML += parseAdditionalTrackTags(additionalTrack);
+  additionalTracks.forEach((additionalTrack, i) => {
+    additionalTrackHTML += parseAdditionalTrackTags(additionalTrack, i);
   });
 
   presenceTable.innerHTML =
@@ -1493,29 +1547,15 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
     additionalTrackHTML +
     "</tbody></table>";
 
-  //Allow combined-banners
+  //detect combined-banners
   const combinedBanner = presenceTable.getAttribute("banner");
-  if (combinedBanner !== null && combinedBanner !== "null") {
-    console.log("combined banner detected. recommend turning off individual banners");
-    let combinedBannerScaleV = presenceTable.getAttribute("banner-v-scale");
-    if (combinedBannerScaleV === null || combinedBannerScaleV === "null") {
-      combinedBannerScaleV = "100%";
+  if (combinedBanner) {
+    // Prepare banner
+    console.log("preparing combined banner");
+    if (combinedBanner) {
+      createTrackBannerArt(combinedBanner, presenceTable, "combined");
     }
-    if (combinedBannerScaleV.at(-1) !== "%") {
-      combinedBannerScaleV = combinedBannerScaleV + "%";
-    }
-    let combinedBannerScaleH = presenceTable.getAttribute("banner-h-scale");
-    if (combinedBannerScaleH === null || combinedBannerScaleH === "null") {
-      combinedBannerScaleH = "100%";
-    }
-    console.log(combinedBannerScaleH);
-    if (combinedBannerScaleH.at(-1) !== "%") {
-      combinedBannerScaleH = combinedBannerScaleH + "%";
-    }
-    let tbody = presenceTable.getElementsByTagName("table")[0];
-    tbody.style.backgroundImage = "url(" + combinedBanner + ")";
-    tbody.style.backgroundSize = combinedBannerScaleH + " " + combinedBannerScaleV;
-    tbody.style.backgroundRepeat = "no-repeat";
+    presenceTable.removeAttribute("banner");
   }
 
   //Allow for Notes
@@ -1545,35 +1585,35 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
   presenceTable.appendChild(presenceBottom);
 }
 
+function createTrackBannerArt(banner, trackTemplate, type, i = "") {
+  const board = document.querySelectorAll("board")[0];
+  const newTrackBanner = document.createElement("track-banner-art");
+  newTrackBanner.classList.add(`${type}-track${i}`);
+  newTrackBanner.style.backgroundImage = `url(${banner})`;
+  board.appendChild(newTrackBanner);
+  let bannerScale = trackTemplate.getAttribute("banner-v-scale");
+  if (!bannerScale) {
+    bannerScale = "100";
+  }
+  if (bannerScale.at(-1) !== "%") {
+    bannerScale = bannerScale + "px";
+  }
+  newTrackBanner.style.backgroundSize = `100% ${bannerScale}`;
+}
+
 function parseEnergyTrackTags() {
   const board = document.querySelectorAll("board")[0];
-  const energyValues = board.getElementsByTagName("energy-track")[0].getAttribute("values");
+  const energyTrackTemplate = board.getElementsByTagName("energy-track")[0];
+  const energyValues = energyTrackTemplate.getAttribute("values");
   const energyOptions = energyValues.split(",");
 
-  const energyBanner = board.getElementsByTagName("energy-track")[0].getAttribute("banner");
-  let energyBannerScale = board
-    .getElementsByTagName("energy-track")[0]
-    .getAttribute("banner-v-scale");
-  if (!energyBannerScale) {
-    energyBannerScale = "100";
-  }
-  if (energyBannerScale.at(-1) !== "%") {
-    energyBannerScale = energyBannerScale + "px";
-  }
-  let energyHTML = "";
-
-  //Determine the length of the energy track
-  //If for some reason the width of a presence track spot changes, this needs to be updated. Ideas for automating?
+  // Prepare banner
+  const energyBanner = energyTrackTemplate.getAttribute("banner");
   if (energyBanner) {
-    energyHTML =
-      "<tr class='energy-track' style='background-image:  url(" +
-      energyBanner +
-      "); background-size: 100% " +
-      energyBannerScale +
-      "; background-repeat: no-repeat; background-position: left 0px top 20px;'>";
-  } else {
-    energyHTML = "<tr class='energy-track'>";
+    createTrackBannerArt(energyBanner, energyTrackTemplate, "energy");
   }
+
+  let energyHTML = "<tr class='energy-track'>";
 
   // This can be scaled to move the first presence icon.
   energyHTML += "<td class='spacer'></td>";
@@ -1619,35 +1659,17 @@ function parseEnergyTrackTags() {
 
 function parseCardPlayTrackTags() {
   const board = document.querySelectorAll("board")[0];
-  const cardPlayValues = board.getElementsByTagName("card-play-track")[0].getAttribute("values");
+  const playsTrackTemplate = board.getElementsByTagName("card-play-track")[0];
+  const cardPlayValues = playsTrackTemplate.getAttribute("values");
   const cardPlayOptions = cardPlayValues.split(",");
-  const cardPlayBanner = board.getElementsByTagName("card-play-track")[0].getAttribute("banner");
-  let cardPlayBannerScale = board
-    .getElementsByTagName("card-play-track")[0]
-    .getAttribute("banner-v-scale");
-  if (!cardPlayBannerScale) {
-    cardPlayBannerScale = "100";
-  }
-  if (cardPlayBannerScale.at(-1) !== "%") {
-    cardPlayBannerScale = cardPlayBannerScale + "px";
-  }
-  let cardPlayHTML = "";
 
-  //Determine the length of the energy track
-  //If for some reason the width of a presence track spot changes, this needs to be updated. Ideas for automating?
-  let cardPlayLength = cardPlayOptions.length * 130 + 15;
+  // Prepare banner
+  const cardPlayBanner = playsTrackTemplate.getAttribute("banner");
   if (cardPlayBanner) {
-    cardPlayHTML =
-      "<tr class='plays-track' style='background-image:  url(" +
-      cardPlayBanner +
-      "); background-size: " +
-      cardPlayLength +
-      "px " +
-      cardPlayBannerScale +
-      "; background-repeat: no-repeat; background-position: left 0px top 20px;'>";
-  } else {
-    cardPlayHTML = "<tr class='plays-track'>";
+    createTrackBannerArt(cardPlayBanner, playsTrackTemplate, "plays");
   }
+
+  let cardPlayHTML = "<tr class='plays-track'>";
 
   // This can be scaled to move the first presence icon.
   cardPlayHTML += "<td class='spacer'></td>";
@@ -1661,37 +1683,19 @@ function parseCardPlayTrackTags() {
   return cardPlayHTML;
 }
 
-function parseAdditionalTrackTags(additionalTrack) {
+function parseAdditionalTrackTags(additionalTrack, i) {
   const board = document.querySelectorAll("board")[0];
   const additionalTrackValues = additionalTrack.getAttribute("values");
   const additionalTrackOptions = additionalTrackValues.split(",");
-  const additionalTrackBanner = board
-    .getElementsByTagName("card-play-track")[0]
-    .getAttribute("banner"); //Use CardPlay banner
-  let additionalTrackBannerScale = additionalTrack.getAttribute("banner-v-scale");
-  if (!additionalTrackBannerScale) {
-    additionalTrackBannerScale = "100";
-  }
-  if (additionalTrackBannerScale.at(-1) !== "%") {
-    additionalTrackBannerScale = additionalTrackBannerScale + "px";
-  }
-  let additionalTrackHTML = "";
+  const additionalTrackTemplate = board.getElementsByTagName("card-play-track")[0];
 
-  //Determine the length of the energy track
-  //If for some reason the width of a presence track spot changes, this needs to be updated. Ideas for automating?
-  let additionalTrackLength = additionalTrackOptions.length * 130 + 15;
+  // Prepare banner
+  const additionalTrackBanner = additionalTrackTemplate.getAttribute("banner"); //Use CardPlay banner
   if (additionalTrackBanner) {
-    additionalTrackHTML =
-      "<tr class='additional-track' style='background-image:  url(" +
-      additionalTrackBanner +
-      "); background-size: " +
-      additionalTrackLength +
-      "px " +
-      additionalTrackBannerScale +
-      "; background-repeat: no-repeat; background-position: left 0px top 20px;'>";
-  } else {
-    additionalTrackHTML = "<tr class='additional-track'>";
+    createTrackBannerArt(additionalTrackBanner, additionalTrackTemplate, "additional", i);
   }
+
+  let additionalTrackHTML = `<tr class='additional-track${i}'>`;
 
   // This can be scaled to move the first presence icon.
   additionalTrackHTML += "<td class='spacer'></td>";

@@ -117,6 +117,7 @@
       energyBannerScale: "",
       playsBannerPath: "",
       playsBannerScale: "",
+      unifiedBannerScale: "100%",
       artistCredit: "",
     },
     specialRules: {

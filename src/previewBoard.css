@@ -28,19 +28,12 @@
 
 /* Dynamic screen sizing */
 .preview-wrap {
-  --screen-width: 2000px;
+  --screen-width: 2000;
   width: calc(var(--scaler) * var(--board-width-px) * 1px * 1.03);
 }
 
-/* @media (max-width: 1000px) {
-  .preview-wrap {
-    overflow-x: auto;
-  }
-} */
-
-/* @media (max-width: 1600px) { */
 .preview-wrap:not(.large) .preview-frame {
-  /* --scaler: calc(0.6* var(--screen-width) / var(--board-width-px)); */
+  --scaler: calc(var(--layout-scaler) * var(--screen-width) / var(--board-width-px));
   transform: scale(var(--scaler));
   width: calc(100% * 1 / var(--scaler));
 }
@@ -48,7 +41,6 @@
   --scaler: calc(var(--layout-scaler) * var(--screen-width) / var(--board-width-px));
   height: calc(var(--board-height-px) * var(--scaler));
 }
-/* } */
 
 @media (max-width: 1000px) {
   .preview-wrap:not(.large),
@@ -95,7 +87,6 @@
 /* The layout scaler is relevant for the side menu layout */
 #body-container .preview-wrap {
   --layout-scaler: 0.9;
-  --screen-width: 1766;
 }
 
 #body-container.is-sideMenu .preview-wrap {
