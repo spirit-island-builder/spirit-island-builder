@@ -270,15 +270,14 @@
         <script type="text/javascript" src="/template/_global/js/board_lore.js"></script>
       </svelte:fragment>
     </PreviewFrame>
-    <div class="field has-addons mb-0 is-flex-wrap-wrap">
+    <div class="field has-addons preview-buttons mt-1 mb-0 is-flex-wrap-wrap">
       <InstructionsLink class="button is-info mr-1" anchor="spirit-board-lore-side" />
       <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadButton>
       <button class="button is-success  mr-1" on:click={exportSpiritBoardBack}> Save </button>
       <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
-      <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}
-        >Toggle Board Size</button>
+      <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}>Toggle Zoom</button>
       <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
     </div>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">

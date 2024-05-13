@@ -23,7 +23,10 @@
   function setSingleBanner() {
     spiritBoard.nameAndArt.energyBannerPath = spiritBoard.nameAndArt.bannerPath;
     spiritBoard.nameAndArt.playsBannerPath = spiritBoard.nameAndArt.bannerPath;
+    spiritBoard.nameAndArt.playsBannerScale = spiritBoard.nameAndArt.unifiedBannerScale;
+    spiritBoard.nameAndArt.energyBannerScale = spiritBoard.nameAndArt.unifiedBannerScale;
     spiritBoard = spiritBoard;
+    document.getElementById("updateButton").click();
   }
 
   function toggleSingleBanner() {
@@ -90,22 +93,26 @@
     </div>
   </div>
   <!-- Two buttons: Use for All, Individual Banners -->
-  {#if !spiritBoard.nameAndArt.isOneBanner}
+  {#if spiritBoard.nameAndArt.isOneBanner}
     <ImageInput
       id="spiritBanner"
-      title="Banner Art"
+      title="Banner Art (Name & Tracks)"
       examples={banners}
       exampleDescription="Pre-Made Banners"
-      bind:imageURL={spiritBoard.nameAndArt.bannerPath} />
-    <button class="button is-info is-small button-hold mb-0" on:click={setSingleBanner}
-      >Use for All</button>
-    <button class="button is-info is-small button-hold mb-0" on:click={toggleSingleBanner}
-      >Individual Banners</button>
+      includeScale
+      bind:imageURL={spiritBoard.nameAndArt.bannerPath}
+      bind:imageScale={spiritBoard.nameAndArt.unifiedBannerScale} />
+    <div class="field is-flex is-justify-content-space-between">
+      <button class="button is-info is-small button-hold mb-0" on:click={toggleSingleBanner}
+        >More Banner Options</button>
+      <button class="button is-info is-small button-hold mb-0" on:click={setSingleBanner}
+        >Use for All</button>
+    </div>
   {:else}
     <!-- Banner Art -->
     <ImageInput
       id="spiritBanner"
-      title="Banner Art"
+      title="Name Banner Art"
       examples={banners}
       exampleDescription="Pre-Made Banners"
       bind:imageURL={spiritBoard.nameAndArt.bannerPath} />
@@ -135,7 +142,7 @@
       bind:imageURL={spiritBoard.nameAndArt.combinedBannerPath}
       bind:imageScale={spiritBoard.nameAndArt.combinedBannerScaleV} />
     <button class="button is-info is-small button-hold mb-0" on:click={toggleSingleBanner}
-      >Unified Banner</button>
+      >Use Single Banner Input</button>
   {/if}
   <!-- Overwriting Headings -->
   <label class="label mb-0" for="spiritNameInput">Translation Support Features</label>
