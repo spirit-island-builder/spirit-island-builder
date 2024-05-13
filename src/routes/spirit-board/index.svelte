@@ -225,6 +225,8 @@
     checkTracksForCommas(); //swap commas for semicolons
 
     if (spiritBoard.nameAndArt.combinedBannerPath) {
+      console.log("combined banner being added:");
+      console.log(spiritBoard.nameAndArt.combinedBannerPath);
       presenceTrackContainer.setAttribute("banner", spiritBoard.nameAndArt.combinedBannerPath);
       presenceTrackContainer.setAttribute(
         "banner-v-scale",
@@ -430,9 +432,11 @@
       : "";
 
     //Load Presence Tracks
-
     let presenceTracks = htmlElement.querySelectorAll("presence-tracks")[0];
     if (presenceTracks.getAttribute("banner")) {
+      console.log("combined banner detected:");
+      console.log(presenceTracks.getAttribute("banner"));
+      spiritBoard.nameAndArt.isOneBanner = false;
       spiritBoard.nameAndArt.combinedBannerPath = Lib.maybeResolveURL(
         presenceTracks.getAttribute("banner"),
         baseURI
@@ -440,6 +444,7 @@
       spiritBoard.nameAndArt.combinedBannerScaleV = presenceTracks.getAttribute("banner-v-scale");
       spiritBoard.nameAndArt.combinedBannerScaleH = presenceTracks.getAttribute("banner-h-scale");
     }
+
     let presenceNote = presenceTracks.getAttribute("note");
     if (presenceNote) {
       spiritBoard.presenceTrack.note = presenceNote;
@@ -487,6 +492,13 @@
         additionalTrackJSON = Lib.addAdditionalTrackNode(additionalTrackJSON, value);
         spiritBoard = spiritBoard;
       });
+    }
+    if (spiritBoard.nameAndArt.energyBannerScale === spiritBoard.nameAndArt.playsBannerScale) {
+      if (!spiritBoard.nameAndArt.combinedBannerPath) {
+        console.log(!spiritBoard.nameAndArt.combinedBannerPath);
+        spiritBoard.nameAndArt.isOneBanner = true;
+        spiritBoard.nameAndArt.unifiedBannerScale = spiritBoard.nameAndArt.energyBannerScale;
+      }
     }
     spiritBoard.presenceTrack.customHeading = presenceTracks.getAttribute("customname")
       ? presenceTracks.getAttribute("customname")

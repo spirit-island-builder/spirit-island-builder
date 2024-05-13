@@ -151,6 +151,22 @@ presence-tracks tr:last-of-type {
   height: 174px;
 }
 
+track-banner-art {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 130px;
+  top: 0px;
+  left: 0px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center left;
+  transform: translateY(-50%);
+}
+track-banner-art.combined-track {
+  height: 100%;
+}
+
 subtext {
   font-family: "Lato SemiBold";
   font-size: 18.66px;
