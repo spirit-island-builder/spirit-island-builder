@@ -77,10 +77,24 @@
   }
 }
 
-@media (min-width: 1400px) and (max-width: 1600px) {
+@media (min-width: 1400px) and (max-width: 1500px) {
   .preview-wrap:not(.large),
   .preview-wrap:not(.large) .preview-frame {
-    --screen-width: 1500;
+    --screen-width: 1450;
+  }
+}
+
+@media (min-width: 1500px) and (max-width: 1600px) {
+  .preview-wrap:not(.large),
+  .preview-wrap:not(.large) .preview-frame {
+    --screen-width: 1550;
+  }
+}
+
+@media (min-width: 1600px) {
+  .preview-wrap:not(.large),
+  .preview-wrap:not(.large) .preview-frame {
+    --screen-width: 1600;
   }
 }
 
