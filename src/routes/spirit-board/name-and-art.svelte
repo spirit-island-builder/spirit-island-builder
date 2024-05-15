@@ -32,16 +32,10 @@
   function toggleSingleBanner() {
     spiritBoard.nameAndArt.isOneBanner = !spiritBoard.nameAndArt.isOneBanner;
   }
-
-  function togglePrinterClean() {
-    let previewFrame = document.getElementById("preview-iframe").contentWindow;
-    let spiritBoard = previewFrame.document.getElementsByTagName("board")[0];
-    spiritBoard.classList.add("printer-clean");
-  }
 </script>
 
 <Section
-  title="Spirit Name, Artwork, and Features"
+  title="Spirit Name, Artwork, Options and Accesibility"
   bind:isVisible={spiritBoard.nameAndArt.isVisible}>
   <div class="mb-1 p-1 note">
     <InstructionsLink anchor="spirit-name-and-art" />
@@ -201,11 +195,7 @@
     </div>
   </div>
   <div class="control">
-    <button class="button is-warning is-light is-small row-button" on:click={hideAllTexts}
-      >Click to Remove Unchangeable Text</button>
-  </div>
-  <div class="control">
-    <button class="button is-warning is-light is-small row-button" on:click={togglePrinterClean}
-      >Click for Printer-Friendly</button>
+    <button class="button is-success is-light row-button" on:click={hideAllTexts}
+      >Remove Other Unchangeable Text <i>(so you can add in text in your langauge)</i></button>
   </div>
 </Section>
