@@ -183,7 +183,7 @@
         <script type="text/javascript" src="/template/_global/js/fear_card.js" defer></script>
       </svelte:fragment>
     </PreviewFrame>
-    <div class="field has-addons mb-2 is-flex-wrap-wrap">
+    <div class="field has-addons mb-1 is-flex-wrap-wrap">
       <!-- <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
         Examples
       </button> -->
@@ -201,6 +201,8 @@
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
         >Toggle Board Size</button>
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
+    </div>
+    <div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
       {#if dev}
         <LoadButton
           accept="image/png, image/jpeg"
