@@ -4,6 +4,8 @@
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
   import Section from "$lib/section.svelte";
   import InstructionsLink from "$lib/instructions/link.svelte";
+  import ImageInput from "$lib/image-input.svelte";
+
   // import * as Lib from "../lib";
 
   // function nextNode(event) {
@@ -96,6 +98,10 @@
               class:is-light={comment.type !== "bullets"}
               class="button is-info is-light button-hold mb-0 is-small"
               on:click={setType("bullets", comment)}>Bullets</button>
+            <button
+              class:is-light={comment.type !== "image"}
+              class="button is-info is-light button-hold mb-0 is-small"
+              on:click={setType("image", comment)}>Image</button>
           </div>
         </div>
         <!-- Move and remove cluster -->
@@ -157,6 +163,12 @@
           validAutoCompleteValues={iconValuesSorted}
           bind:value={comment.text} />
       {/if}
+      {#if comment.type === "image"}
+        <ImageInput
+          id={`comment${i}BackLeft`}
+          title="Image Field Input"
+          bind:imageURL={comment.imgsrc} />
+      {/if}
     </div>
   {/each}
   <div class="field">
@@ -200,6 +212,10 @@
               class:is-light={comment.type !== "bullets"}
               class="button is-info is-light button-hold mb-0 is-small"
               on:click={setType("bullets", comment)}>Bullets</button>
+            <button
+              class:is-light={comment.type !== "image"}
+              class="button is-info is-light button-hold mb-0 is-small"
+              on:click={setType("image", comment)}>Image</button>
           </div>
         </div>
         <!-- Move and remove cluster -->
@@ -260,6 +276,12 @@
           placeholder="Effect"
           validAutoCompleteValues={iconValuesSorted}
           bind:value={comment.text} />
+      {/if}
+      {#if comment.type === "image"}
+        <ImageInput
+          id={`comment${i}BackRight`}
+          title="Image Field Input"
+          bind:imageURL={comment.imgsrc} />
       {/if}
     </div>
   {/each}
