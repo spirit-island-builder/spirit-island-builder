@@ -13,10 +13,35 @@
 
   function moveLevel(to, from) {
     console.log(to);
-    adversary.levelSummary.levels.splice(to, 0, adversary.levelSummary.levels.splice(from, 1)[0]);
-    adversary.levelSummary.levels.forEach((level, i) => {
-      level.id = i;
-    });
+    let levelA = adversary.levelSummary.levels[to];
+    let levelB = adversary.levelSummary.levels[from];
+    [
+      levelA.name,
+      levelA.effect,
+      levelA.name2,
+      levelA.effect2,
+      levelA.hasRule2,
+      levelB.name,
+      levelB.effect,
+      levelB.name2,
+      levelB.effect2,
+      levelB.hasRule2,
+    ] = [
+      levelB.name,
+      levelB.effect,
+      levelB.name2,
+      levelB.effect2,
+      levelB.hasRule2,
+      levelA.name,
+      levelA.effect,
+      levelA.name2,
+      levelA.effect2,
+      levelA.hasRule2,
+    ];
+    // adversary.levelSummary.levels.splice(to, 0, adversary.levelSummary.levels.splice(from, 1)[0]);
+    // adversary.levelSummary.levels.forEach((level, i) => {
+    //   level.id = i;
+    // });
     adversary = adversary;
     document.getElementById("updateButton").click();
     console.log(adversary.levelSummary.levels);
