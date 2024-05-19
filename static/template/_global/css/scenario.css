@@ -182,6 +182,11 @@ comment.para {
   line-height: 29px;
 }
 
+comment.image img {
+  width: 100%;
+  height: 100%;
+}
+
 comment-line {
   display: inline-block;
   width: 100%;

@@ -6,10 +6,6 @@
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-bluelightning.png"
       },
       {
-        "name": "Blue Sparkles",
-        "imageURL": "/template/MyCustomContent/BannerExamples/banner-bluesparkles.png"
-      },
-      {
         "name": "Brown Earth",
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-brownearth.png"
       },
@@ -60,6 +56,10 @@
       {
         "name": "Lightning & Clouds",
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-thundercloud.png"
+      },
+      {
+        "name": "Blue Sparkles",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-bluesparkles.png"
       }
     ]
   }

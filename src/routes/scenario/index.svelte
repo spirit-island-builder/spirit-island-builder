@@ -97,6 +97,9 @@
           commentHTML.setAttribute("type", comment.type);
         }
         commentHTML.innerHTML = comment.text;
+        if (comment.imgsrc) {
+          commentHTML.setAttribute("imgsrc", comment.imgsrc);
+        }
         panelHTML.appendChild(commentHTML);
         console.log("writing comment HTML " + j);
       });
@@ -108,6 +111,9 @@
       if (comment.type) {
         commentHTML.setAttribute("type", comment.type);
       }
+      if (comment.imgsrc) {
+        commentHTML.setAttribute("imgsrc", comment.imgsrc);
+      }
       commentHTML.innerHTML = comment.text;
       backLeft.appendChild(commentHTML);
     });
@@ -117,6 +123,9 @@
       let commentHTML = document.createElement("comment");
       if (comment.type) {
         commentHTML.setAttribute("type", comment.type);
+      }
+      if (comment.imgsrc) {
+        commentHTML.setAttribute("imgsrc", comment.imgsrc);
       }
       commentHTML.innerHTML = comment.text;
       backRight.appendChild(commentHTML);
@@ -170,6 +179,7 @@
           id: scenario.scenarioFront.panels[i].comments.length,
           type: comment.getAttribute("type"),
           text: comment.innerHTML,
+          imgsrc: comment.getAttribute("imgsrc") || "",
         });
         console.log("creating comment..." + j);
       });
@@ -183,6 +193,7 @@
         id: scenario.scenarioBack.left.comments.length,
         type: comment.getAttribute("type"),
         text: comment.innerHTML,
+        imgsrc: comment.getAttribute("imgsrc") || "",
       });
       scenario = scenario;
     });
@@ -195,6 +206,7 @@
         id: scenario.scenarioBack.right.comments.length,
         type: comment.getAttribute("type"),
         text: comment.innerHTML,
+        imgsrc: comment.getAttribute("imgsrc") || "",
       });
       scenario = scenario;
     });
