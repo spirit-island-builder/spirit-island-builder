@@ -506,3 +506,17 @@ aspect:not(.profile).for-image-download aspect-background {
   width: 786px;
   height: 567px;
 }
+
+aspect.printer-clean aspect-background {
+  background-color: white;
+  background-image: none;
+  border: black 3px solid;
+  box-sizing: border-box;
+  border-radius: 22px;
+}
+
+aspect.printer-clean aspect-name,
+aspect.printer-clean aspect-subtext {
+  color: black;
+  background-image: none;
+}

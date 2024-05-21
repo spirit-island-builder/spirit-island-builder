@@ -58,6 +58,10 @@
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-thundercloud.png"
       },
       {
+        "name": "Rainbow",
+        "imageURL": "/template/MyCustomContent/BannerExamples/banner-rainbow.png"
+      },
+      {
         "name": "Blue Sparkles",
         "imageURL": "/template/MyCustomContent/BannerExamples/banner-bluesparkles.png"
       }

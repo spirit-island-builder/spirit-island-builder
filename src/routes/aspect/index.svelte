@@ -486,6 +486,12 @@
   function printToPDFA4() {
     printToPDF("a4");
   }
+
+  function togglePrinterClean() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let spiritBoard = previewFrame.document.getElementsByTagName("aspect")[0];
+    spiritBoard.classList.add("printer-clean");
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -533,6 +539,8 @@
       <button class="button is-success mt-1 mr-1" on:click={printToPDFLetter}
         >Create PDF (letter)</button>
       <button class="button is-success mt-1 mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
+      <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
+        >Printer-Friendly</button>
     </div>
     <div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
       {#if dev}

@@ -41,10 +41,9 @@ board.round-border {
 
 spirit-name {
   position: absolute;
-  left: 33%;
-  top: 6px;
-  height: 63px;
-  width: 900px;
+  display: flex;
+  height: 79px;
+  width: 100%;
   font-size: 40pt;
   font-family: "Name Headings";
   text-transform: uppercase;
@@ -52,6 +51,19 @@ spirit-name {
   text-align: left;
   z-index: 1;
   white-space: normal;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+
+right {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 1034px;
+  width: 900px;
+  left: 840px;
+  top: 96px;
 }
 
 .spirit-image {
@@ -63,9 +75,8 @@ spirit-name {
 }
 
 lore-description {
-  position: absolute;
-  left: 883px;
-  top: 120px;
+  position: relative;
+  display: block;
   width: 780px;
   height: 320px;
   font-family: "Calibri";
@@ -73,19 +84,25 @@ lore-description {
   font-weight: bold;
   font-style: italic;
   white-space: pre-line;
+  padding: 40px;
+  padding-bottom: 0px;
+  padding-top: 25px;
 }
 
 second-section-container {
-  position: absolute;
-  left: 900px;
-  top: 465px;
+  position: relative;
+  display: block;
   height: 363px;
+  margin-left: 57px;
+  margin-top: 18px;
 }
 
 third-section-container {
   position: absolute;
-  left: 900px;
-  top: 800px;
+  display: flex;
+  top: 695px;
+  margin-left: 57px;
+  flex-direction: column;
 }
 
 setup {
@@ -185,8 +202,9 @@ complexity-title {
 }
 
 summary-of-powers {
-  bottom: -190px;
-  position: absolute;
+  position: relative;
+  display: block;
+  width: 800px;
 }
 
 lore-overlay {
@@ -205,10 +223,6 @@ div.summary-of-powers-title {
   width: 124px;
   padding-left: 40px;
   padding-right: 40px;
-}
-
-.powers-summary {
-  margin-top: -125px;
 }
 
 .powers-summary tbody tr td {
@@ -371,4 +385,25 @@ second-section-container icon.water {
 }
 second-section-container icon.any {
   background-image: url(../images/board/element_simple_any.png);
+}
+
+board.printer-clean lore-overlay {
+  background-image: none;
+}
+
+board.printer-clean img.spirit-image {
+  width: 48%;
+  height: 100%;
+  object-fit: cover;
+}
+
+board.printer-clean right,
+board.printer-clean spirit-name {
+  background-color: white;
+}
+
+board.printer-clean {
+  border: black 3px solid;
+  box-sizing: border-box;
+  border-radius: 22px;
 }
