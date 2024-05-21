@@ -253,6 +253,12 @@
   function printToPDFA4() {
     printToPDF("a4");
   }
+
+  function togglePrinterClean() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let spiritBoard = previewFrame.document.getElementsByTagName("board")[0];
+    spiritBoard.classList.add("printer-clean");
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -276,7 +282,8 @@
         Load
       </LoadButton>
       <button class="button is-success  mr-1" on:click={exportSpiritBoardBack}> Save </button>
-      <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
+      <button class="button is-warning mr-1" id="updateButton" on:click={reloadPreview}
+        >Update Preview</button>
       <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}>Toggle Zoom</button>
       <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
     </div>
@@ -285,6 +292,8 @@
       <button class="button is-success mt-1 mr-1" on:click={printToPDFLetter}
         >Create PDF (letter)</button>
       <button class="button is-success mt-1 mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
+      <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
+        >Printer-Friendly</button>
     </div>
   </div>
 </div>
