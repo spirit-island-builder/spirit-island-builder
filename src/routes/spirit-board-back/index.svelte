@@ -243,7 +243,7 @@
       spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritBoardBack.pdf",
     ];
     const elementNamesInIframe = ["board"];
-    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType);
+    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 9, 6, true);
   }
 
   function printToPDFLetter() {
