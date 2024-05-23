@@ -456,11 +456,14 @@
     } else {
       fileName = "Custom_PowerCardSet.pdf";
     }
-    powerCards.cards.forEach((card, index) => {
-      elementNamesInIframe.push(`#card${index}`);
-    });
+    for (let i = 0; i < powerCards.cards.length; i++) {
+      elementNamesInIframe.push(`#card${i}`);
+    }
     if (powerCards.cardBackImage) {
-      elementNamesInIframe.push(`#cardBack`);
+      // add a card back for each card
+      for (let i = 0; i < powerCards.cards.length; i++) {
+        elementNamesInIframe.push(`#cardBack`);
+      }
     }
     previewFrame.getPDF(fileName, elementNamesInIframe, pageType, 2.48, 3.465);
   }
