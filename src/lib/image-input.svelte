@@ -21,15 +21,24 @@
 
   const handleInput = () => {
     const file = files.item(0);
+    console.log(files);
     if (file) {
       const fileReader = new FileReader();
       fileReader.onload = (event) => {
         imageURL = event.target.result;
       };
-
+      console.log("reading new image");
       // This reads the file and then triggers the onload function above once it finishes
       fileReader.readAsDataURL(file);
     }
+  };
+
+  const removeImage = () => {
+    imageURL = "";
+  };
+  const quickClear = (event) => {
+    console.log(event.target);
+    event.target.value = "";
   };
 </script>
 
@@ -44,6 +53,7 @@
         id="{id}-file-input"
         accept="image/png, image/jpeg"
         bind:files
+        on:click={quickClear}
         on:change={handleInput}
         type="file"
         class="input is-small" />
@@ -75,9 +85,7 @@
         placeholder="File Name"
         disabled
         bind:value={imageURL} />
-      <button
-        class="button is-warning is-light is-small row-button"
-        on:click={() => (imageURL = "")}>
+      <button class="button is-warning is-light is-small row-button" on:click={removeImage}>
         Remove
       </button>
     </div>
