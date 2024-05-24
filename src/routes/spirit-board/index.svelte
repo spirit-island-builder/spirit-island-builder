@@ -882,9 +882,24 @@
       <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
       <button class="button is-success mt-1 mr-1" on:click={downloadTTSJSON}
         >Export TTS file</button>
-      <button class="button is-success mt-1 mr-1" on:click={printToPDFLetter}
-        >Create PDF (letter)</button>
-      <button class="button is-success mt-1 mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
+      <div class="dropdown is-hoverable is-up">
+        <div class="dropdown-trigger">
+          <button
+            class="button mt-1 mr-1 is-success"
+            aria-haspopup="true"
+            aria-controls="dropdown-menu4">
+            <span>Create PDF...</span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+          <div class="dropdown-content">
+            <button class="button is-success mr-1 dropdown-item" on:click={printToPDFLetter}
+              >Letter size</button>
+            <button class="button is-success mt-1 mr-1 dropdown-item" on:click={printToPDFA4}
+              >A4 size</button>
+          </div>
+        </div>
+      </div>
       <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
         >Printer-Friendly</button>
       <button class="button is-warning mt-1 mr-1 is-small" on:click={toggleTransparent}
