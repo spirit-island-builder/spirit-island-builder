@@ -146,3 +146,22 @@ textarea.is-small.small-power {
 .preview-buttons {
   margin-bottom: 0.75rem;
 }
+
+div.dropdown-content {
+  padding: 0px;
+}
+div.dropdown.is-up div.dropdown-menu {
+  border-left: 3px #0ba14a solid;
+  padding-bottom: 8px;
+  margin-bottom: -8px;
+  width: 100%;
+  min-width: unset;
+  border-top-left-radius: 6px;
+}
+div.dropdown-trigger .button.is-success:hover {
+  background-color: #0ba14a;
+  color: white;
+}
+.dropdown-content button {
+  width: 80%;
+}
