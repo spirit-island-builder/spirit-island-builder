@@ -1,11 +1,16 @@
 function startMain() {
-  var html = document.querySelectorAll("board")[0].innerHTML;
-  document.querySelectorAll("board")[0].innerHTML = replaceIcon(html);
+  let board = document.querySelectorAll("board")[0];
+  board.innerHTML = replaceIcon(board.innerHTML);
   adjustComplexityValue();
   createPowerProperties();
-  var setup = document.querySelectorAll("setup-description")[0];
-  var playstyle = document.querySelectorAll("play-style-description")[0];
-  var lore = document.querySelectorAll("lore-description")[0];
+  let right = document.createElement("right");
+  let lore = document.querySelectorAll("lore-description")[0];
+  let secondContainer = document.querySelectorAll("second-section-container")[0];
+  let thirdContainer = document.querySelectorAll("third-section-container")[0];
+  right.appendChild(lore);
+  right.appendChild(secondContainer);
+  right.appendChild(thirdContainer);
+  board.appendChild(right);
 
   setTimeout(() => {
     resize();

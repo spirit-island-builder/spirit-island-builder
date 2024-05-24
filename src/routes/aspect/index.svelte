@@ -336,22 +336,14 @@
     }
   }
 
-  function screenshotSetUp() {
+  function screenshotSetUp(option = "for-image-download") {
     const fileNames = [
       aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.png",
       aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_AspectBack.png",
     ];
     const elementNamesInIframe = ["aspect", "aspect-back"];
 
-    // let previewFrameDoc = document.getElementById("preview-iframe").contentWindow;
-    // const aspectHTML = previewFrameDoc.document.getElementsByTagName("aspect")[0];
-    // const aspectBackHTML =  previewFrameDoc.document.getElementsByTagName("aspect-back")[0];
-
-    // aspectHTML.classList.add("for-image-download")
-    // aspectBackHTML.classList.add("for-image-download")
-    previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
-    // aspectHTML.classList.remove("for-image-download")
-    // aspectBackHTML.classList.remove("for-image-download")
+    previewFrame.takeScreenshot(fileNames, elementNamesInIframe, option);
   }
 
   async function loadExample(example) {
@@ -486,6 +478,12 @@
   function printToPDFA4() {
     printToPDF("a4");
   }
+
+  function togglePrinterClean() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let spiritBoard = previewFrame.document.getElementsByTagName("aspect")[0];
+    spiritBoard.classList.add("printer-clean");
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -527,18 +525,54 @@
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
     </div>
     <div class="field has-addons preview-buttons mb-0 is-flex-wrap-wrap">
-      <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <div class="dropdown is-hoverable is-up">
+        <div class="dropdown-trigger">
+          <button
+            class="button mt-1 mr-1 is-success"
+            aria-haspopup="true"
+            aria-controls="dropdown-menu4">
+            <span>Download Image...</span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+          <div class="dropdown-content">
+            <button
+              class="button is-success mr-1 dropdown-item"
+              on:click={screenshotSetUp("for-sharing", aspect)}>for Sharing</button>
+            <button
+              class="button is-success mt-1 mr-1 dropdown-item"
+              on:click={screenshotSetUp("for-image-download", aspect)}>for TTS</button>
+          </div>
+        </div>
+      </div>
       <button class="button is-success mt-1 mr-1" on:click={downloadTTSJSON}
         >Export TTS file</button>
-      <button class="button is-success mt-1 mr-1" on:click={printToPDFLetter}
-        >Create PDF (letter)</button>
-      <button class="button is-success mt-1 mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
+      <div class="dropdown is-hoverable is-up">
+        <div class="dropdown-trigger">
+          <button
+            class="button mt-1 mr-1 is-success"
+            aria-haspopup="true"
+            aria-controls="dropdown-menu4">
+            <span>Create PDF...</span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+          <div class="dropdown-content">
+            <button class="button is-success mr-1 dropdown-item" on:click={printToPDFLetter}
+              >Letter size</button>
+            <button class="button is-success mt-1 mr-1 dropdown-item" on:click={printToPDFA4}
+              >A4 size</button>
+          </div>
+        </div>
+      </div>
+      <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
+        >Printer-Friendly</button>
     </div>
     <div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
       {#if dev}
         <LoadButton
           accept="image/png, image/jpeg"
-          class="button is-file-load is-small"
+          class="button is-file-load"
           loadDataURL={(url) => {
             overlayImage = url;
           }}>Load Overlay</LoadButton>

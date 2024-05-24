@@ -40,21 +40,34 @@
     );
   };
 
-  export const takeScreenshot = (fileNames, elementNamesInIframe) => {
+  export const takeScreenshot = (
+    fileNames,
+    elementNamesInIframe,
+    options = "for-image-download"
+  ) => {
+    console.log("screenshot with " + options);
     elementNamesInIframe.forEach((elementNameInIframe, index) => {
       let element = previewIframe.contentDocument.querySelector(elementNameInIframe);
       console.log(element);
-      element.classList.add("for-image-download");
+      element.classList.add(options);
       previewIframe.contentWindow.takeScreenshot(elementNameInIframe, 2).then((imageURL) => {
         downloadImage(imageURL, fileNames[index]);
-        element.classList.remove("for-image-download");
+        element.classList.remove(options);
       });
     });
   };
 
-  export const getPDF = (fileName, elementNamesInIframe, pageType, wid = 9, hit = 6) => {
+  export const getPDF = (
+    fileName,
+    elementNamesInIframe,
+    pageType,
+    wid = 9,
+    hit = 6,
+    flip = false,
+    orientation = "landscape"
+  ) => {
     const doc = new jsPDF({
-      orientation: "landscape",
+      orientation: orientation,
       unit: "in",
       format: pageType,
     });
@@ -73,6 +86,9 @@
           x = xi + col_n * wid;
           const row_n = Math.floor(((n + 1) * wid) / (pw - xi));
           y = yi + row_n * hit;
+          if (flip) {
+            x = pw - wid - xi;
+          }
           doc.addImage(imageURL, "PNG", x, y, wid, hit);
           console.log("add card " + elementNameInIframe + " to " + x + "," + y);
           if (++i === count) {

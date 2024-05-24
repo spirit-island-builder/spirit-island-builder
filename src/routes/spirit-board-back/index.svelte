@@ -243,7 +243,7 @@
       spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritBoardBack.pdf",
     ];
     const elementNamesInIframe = ["board"];
-    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType);
+    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 9, 6, true);
   }
 
   function printToPDFLetter() {
@@ -252,6 +252,12 @@
 
   function printToPDFA4() {
     printToPDF("a4");
+  }
+
+  function togglePrinterClean() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let spiritBoard = previewFrame.document.getElementsByTagName("board")[0];
+    spiritBoard.classList.add("printer-clean");
   }
 </script>
 
@@ -270,21 +276,43 @@
         <script type="text/javascript" src="/template/_global/js/board_lore.js"></script>
       </svelte:fragment>
     </PreviewFrame>
-    <div class="field has-addons preview-buttons mt-1 mb-0 is-flex-wrap-wrap">
-      <InstructionsLink class="button is-info mr-1" anchor="spirit-board-lore-side" />
-      <LoadButton accept=".html" class="button is-success mr-1" loadObjectURL={loadHTMLFromURL}>
+    <div class="field has-addons preview-buttons mb-0 is-flex-wrap-wrap">
+      <InstructionsLink class="button is-info mt-1 mr-1" anchor="spirit-board-lore-side" />
+      <LoadButton
+        accept=".html"
+        class="button is-success mt-1 mr-1"
+        loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadButton>
-      <button class="button is-success  mr-1" on:click={exportSpiritBoardBack}> Save </button>
-      <button class="button is-warning  mr-1" on:click={reloadPreview}>Update Preview</button>
-      <button class="button is-warning mr-1" on:click={previewFrame.toggleSize}>Toggle Zoom</button>
-      <button class="button is-danger mr-1" on:click={clearAllFields}>Clear All Fields</button>
+      <button class="button is-success mt-1 mr-1" on:click={exportSpiritBoardBack}> Save </button>
+      <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
+        >Update Preview</button>
+      <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
+        >Toggle Zoom</button>
+      <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
     </div>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
       <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
-      <button class="button is-success mt-1 mr-1" on:click={printToPDFLetter}
-        >Create PDF (letter)</button>
-      <button class="button is-success mt-1 mr-1" on:click={printToPDFA4}>Create PDF (a4)</button>
+      <div class="dropdown is-hoverable is-up">
+        <div class="dropdown-trigger">
+          <button
+            class="button mt-1 mr-1 is-success"
+            aria-haspopup="true"
+            aria-controls="dropdown-menu4">
+            <span>Create PDF...</span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+          <div class="dropdown-content">
+            <button class="button is-success mr-1 dropdown-item" on:click={printToPDFLetter}
+              >Letter size</button>
+            <button class="button is-success mt-1 mr-1 dropdown-item" on:click={printToPDFA4}
+              >A4 size</button>
+          </div>
+        </div>
+      </div>
+      <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
+        >Printer-Friendly</button>
     </div>
   </div>
 </div>
