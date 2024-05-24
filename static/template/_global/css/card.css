@@ -807,3 +807,7 @@ card.printer-clean threshold {
 card.printer-clean name {
   color: black;
 }
+
+card.printer-clean card-art {
+  z-index: 1;
+}
