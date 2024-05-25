@@ -418,6 +418,7 @@
       lossCondition: {
         name: "",
         effect: "",
+        alternate: false,
       },
       escalation: {
         name: "",

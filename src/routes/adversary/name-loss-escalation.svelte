@@ -15,6 +15,13 @@
     let nodeID = event.target.id;
     document.getElementById(nodeID).select();
   }
+
+  function toggleLossToSpecialRule() {
+    adversary.nameLossEscalation.lossCondition.alternate =
+      !adversary.nameLossEscalation.lossCondition.alternate;
+    adversary = adversary;
+    document.getElementById("updateButton").click();
+  }
 </script>
 
 <Section
@@ -52,9 +59,21 @@
   </div>
   <!-- Loss Condition -->
   <div class="field">
-    <label class="label is-flex is-justify-content-space-between" for="LossConditionInput"
-      >Loss Condition
-    </label>
+    <div class="field is-flex is-justify-content-space-between mb-0">
+      {#if !adversary.nameLossEscalation.lossCondition.alternate}
+        <label class="label is-flex is-justify-content-space-between" for="LossConditionInput"
+          >Additional Loss Condition
+        </label>
+        <button class="button is-small" on:click={toggleLossToSpecialRule}
+          >Switch to Special Rule</button>
+      {:else}
+        <label class="label is-flex is-justify-content-space-between" for="LossConditionInput"
+          >Special Rule
+        </label>
+        <button class="button is-small" on:click={toggleLossToSpecialRule}
+          >Switch to Loss Condition</button>
+      {/if}
+    </div>
     <div class="field is-flex is-small mb-0">
       <div class="control" style="width:100%">
         <input
