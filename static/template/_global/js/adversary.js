@@ -27,7 +27,13 @@ function buildAdversary(quickAdversary) {
   }
 
   lossCondition = quickAdversary.querySelectorAll("loss-condition")[0];
-  var lossConditionTitle = lossCondition.getAttribute("name");
+  let lossConditionTitle = lossCondition.getAttribute("name");
+  let lossConditionAlt = lossCondition.getAttribute("alternate") === "true" || false;
+  let lossConditionHeading = "Additional Loss Condition";
+  if (lossConditionAlt) {
+    console.log(lossConditionAlt);
+    lossConditionHeading = "Special Rule";
+  }
   if (lossConditionTitle) {
     lossConditionTitle = lossConditionTitle + "<strong>:</strong> ";
   }
@@ -41,7 +47,7 @@ function buildAdversary(quickAdversary) {
     ${baseDifficultyText}
     <top-info>
       <loss-condition>
-        <section-title>Additional Loss Condition</section-title>
+        <section-title>${lossConditionHeading}</section-title>
         <div>
           <strong>${lossConditionTitle}</strong>${lossCondition.getAttribute("rules")}
         </div>
