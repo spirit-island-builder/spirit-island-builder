@@ -242,29 +242,29 @@
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
           {#if innatePower.speed === ""}
             <button
-              class="button is-danger is-light button-hold mb-0"
+              class="button is-danger is-small is-light button-hold mb-0"
               id="fast-button"
               on:click={setSpeedTextbox("Fast", innatePower)}>Fast</button>
             <button
-              class="button is-info is-light button-hold mb-0"
+              class="button is-info is-small is-light button-hold mb-0"
               id="slow-button"
               on:click={setSpeedTextbox("Slow", innatePower)}>Slow</button>
           {:else if innatePower.speed === "Fast" || innatePower.speed === "fast"}
             <button
-              class="button is-danger button-hold mb-0"
+              class="button is-danger is-small button-hold mb-0"
               id="fast-button"
               on:click={setSpeedTextbox("Fast", innatePower)}>Fast</button>
             <button
-              class="button is-info is-light button-hold mb-0"
+              class="button is-info is-small is-light button-hold mb-0"
               id="slow-button"
               on:click={setSpeedTextbox("Slow", innatePower)}>Slow</button>
           {:else}
             <button
-              class="button is-danger is-light button-hold mb-0"
+              class="button is-danger is-small is-light button-hold mb-0"
               id="fast-button"
               on:click={setSpeedTextbox("Fast", innatePower)}>Fast</button>
             <button
-              class="button is-info button-hold mb-0"
+              class="button is-info is-small button-hold mb-0"
               id="slow-button"
               on:click={setSpeedTextbox("Slow", innatePower)}>Slow</button>
           {/if}
@@ -301,7 +301,7 @@
           <div class="control">
             <input
               id={`powerRange${i}`}
-              class="input"
+              class="input is-small"
               type="text"
               placeholder="Range"
               on:keyup={nextNode}
@@ -313,6 +313,7 @@
             <AutoComplete
               id={`powerTarget${i}`}
               elementType="input"
+              classNames="is-small"
               placeholder="Target"
               validAutoCompleteValues={iconValuesSorted}
               additionalOnBlurFunction={() => updateInnatePowerTarget(innatePower, `ip${i}target`)}
