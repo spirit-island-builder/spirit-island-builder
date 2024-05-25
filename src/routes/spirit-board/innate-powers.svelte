@@ -47,6 +47,7 @@
       power.id = i;
     });
     spiritBoard = spiritBoard;
+    document.getElementById("updateButton").click();
   }
 
   function switchLong(powerIndex, levelIndex) {
@@ -182,6 +183,22 @@
     console.log("next node");
     Lib.nextNode(event);
   }
+
+  function moveInnatePower(to, from) {
+    spiritBoard = Lib.moveSpecialRule(spiritBoard, to, from);
+    console.log(to);
+    spiritBoard.innatePowers.powers.splice(
+      to,
+      0,
+      spiritBoard.innatePowers.powers.splice(from, 1)[0]
+    );
+    spiritBoard.innatePowers.powers.forEach((power, i) => {
+      power.id = i;
+    });
+    console.log(spiritBoard.innatePowers.powers);
+    spiritBoard = spiritBoard;
+    document.getElementById("updateButton").click();
+  }
 </script>
 
 <Section title="Innate Powers" bind:isVisible={spiritBoard.innatePowers.isVisible}>
@@ -190,8 +207,23 @@
   </div>
   {#each spiritBoard.innatePowers.powers as innatePower, i (innatePower.id)}
     <div class="field mt-2">
-      <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
-        >{`Innate Power ${i + 1}`}</label>
+      <div class="field is-flex is-justify-content-space-between mb-0">
+        <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
+          >{`Innate Power ${i + 1}`}</label>
+        <div class="field has-addons is-tiny" style="height:20px;">
+          <button
+            class="button is-light is-small"
+            disabled={i === 0}
+            on:click={moveInnatePower(i - 1, i)}>&#11165;</button>
+          <button
+            class="button is-light is-small"
+            disabled={i + 1 === spiritBoard.innatePowers.powers.length}
+            on:click={moveInnatePower(i + 1, i)}>&#11167;</button>
+          <button
+            class="button is-primary is-light is-warning is-small"
+            on:click={removeInnatePower(i)}>&#10006;</button>
+        </div>
+      </div>
       <div class="is-flex is-flex-direction-row">
         <div class="control" style="width:100%">
           <input
@@ -203,8 +235,6 @@
             on:focus={selectNode}
             bind:value={innatePower.name} />
         </div>
-        <button class="button is-primary is-light is-warning" on:click={removeInnatePower(i)}
-          >Remove Innate Power</button>
       </div>
     </div>
     <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
