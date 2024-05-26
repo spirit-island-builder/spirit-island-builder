@@ -488,22 +488,23 @@
                     on:mousedown={handleon}
                     on:mouseup={handleoff}
                     on:dragover={(event) => event.preventDefault()} />
-                  <div class="control">
+                  <div class="control" style="width:100%;">
                     <AutoComplete
                       id={`growthSet${i}Group${j}Action${k}`}
                       elementType="input"
+                      classNames="is-small"
                       placeholder="Growth Action"
                       showListImmediately={true}
                       validAutoCompleteValues={growthValuesSorted}
                       additionalOnBlurFunction={() => updateGrowthActionLocal(i, j, k)}
                       bind:value={growthAction.effect} />
                   </div>
-                  <button
-                    class="button is-warning is-light row-button"
+                  <!-- <button
+                    class="button is-warning is-light is-small row-button"
                     on:click={updateGrowthActionLocal(i, j, k)}
-                    on:dragover={(event) => event.preventDefault()}>&#x21bb;</button>
+                    on:dragover={(event) => event.preventDefault()}>&#x21bb;</button> -->
                   <button
-                    class="button is-light row-button"
+                    class="button is-light is-small row-button"
                     on:click={removeGrowthAction(i, j, k)}
                     on:dragover={(event) => event.preventDefault()}>Remove</button>
                 </div>
