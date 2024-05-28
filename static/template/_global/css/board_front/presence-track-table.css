@@ -162,6 +162,7 @@ track-banner-art {
   background-repeat: no-repeat;
   background-position: center left;
   transform: translateY(-50%);
+  pointer-events: none;
 }
 track-banner-art.combined-track {
   height: 100%;
