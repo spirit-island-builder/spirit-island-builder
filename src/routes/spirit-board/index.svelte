@@ -68,7 +68,7 @@
       hideAll();
       spiritBoard.innatePowers.isVisible = outcome;
     }
-    if (e.target.tagName === "BOARD" || e.target.tagName === "SPIRIT-NAME") {
+    if (e.target.tagName === "SPIRIT-IMAGE" || e.target.tagName === "SPIRIT-NAME") {
       outcome = !spiritBoard.nameAndArt.isVisible;
       hideAll();
       spiritBoard.nameAndArt.isVisible = outcome;

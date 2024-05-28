@@ -45,6 +45,7 @@ presence-tracks presence-title {
   padding-top: 0px;
   display: flex;
   align-items: flex-end;
+  pointer-events: none;
 }
 
 presence-tracks presence-title.tight {
