@@ -23,6 +23,7 @@ innate-powers-background {
   top: 0px;
   left: 0px;
   z-index: -1;
+  pointer-events: none;
 }
 
 board.transparent innate-powers-background {
