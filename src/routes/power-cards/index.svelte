@@ -17,6 +17,7 @@
   import InstructionsLink from "$lib/instructions/link.svelte";
 
   export let powerCards;
+  export let emptyPowerCards;
   export let customIcons;
 
   let previewFrame;
@@ -34,6 +35,7 @@
     if (powerCards.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
         powerCards.demoBoardWasLoaded = true;
+        emptyPowerCards.demoBoardWasLoaded = true;
       });
     } else {
       reloadPreview();
@@ -46,6 +48,15 @@
     previewFrame.copyHTMLFrom(generateHTML(powerCards)).then(() => {
       previewFrame.startMain();
     });
+  }
+
+  function clearAllFields() {
+    if (
+      window.confirm("Are you sure? This permanently clears all fields in Spirit Board Play Side.")
+    ) {
+      powerCards = JSON.parse(JSON.stringify(emptyPowerCards));
+      reloadPreview();
+    }
   }
 
   function generateHTML(powerCards) {
@@ -64,6 +75,7 @@
       newPowerCard.setAttribute("target-title", card.targetTitle);
       newPowerCard.setAttribute("artist-name", card.cardArtist);
       newPowerCard.setAttribute("subtitle", card.aspectSubtitle);
+      newPowerCard.setAttribute("stack-view", card.isVisible);
 
       let elementalList = card.powerElements;
       let elementListHTML = [];
@@ -123,6 +135,11 @@
       cardBackArt.setAttribute("src", powerCards.cardBackImage);
     }
 
+    if (powerCards.stackView) {
+      const stackViewOption = document.createElement("stack-view-on");
+      fragment.append(stackViewOption);
+    }
+
     return fragment;
   }
 
@@ -168,6 +185,11 @@
     const spiritNameHTML = htmlElement.querySelectorAll("spirit-name")[0];
     if (spiritNameHTML) {
       powerCards.spiritName = spiritNameHTML.innerHTML;
+    }
+
+    const stackViewCheck = htmlElement.querySelectorAll("stack-view-on")[0];
+    if (stackViewCheck) {
+      powerCards.stackView = true;
     }
   }
 
@@ -249,52 +271,6 @@
   function exportPowerCards() {
     const htmlFileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
     downloadHTML(generateHTML(powerCards), htmlFileName);
-  }
-
-  function clearAllFields() {
-    if (window.confirm("Are you sure? This permanently clears all fields in Power Cards.")) {
-      powerCards = {
-        prop: "value",
-        spiritName: "",
-        demoBoardWasLoaded: true,
-        previewBoard: {
-          isVisible: false,
-        },
-        form: {
-          isVisible: false,
-        },
-        cards: [
-          {
-            id: 0,
-            isVisible: true,
-            name: "",
-            speed: "",
-            cost: "",
-            cardImage: "",
-            cardArtist: "",
-            powerElements: {
-              air: false,
-              sun: false,
-              moon: false,
-              water: false,
-              fire: false,
-              earth: false,
-              plant: false,
-              animal: false,
-            },
-            range: "",
-            target: "",
-            targetTitle: "",
-            rules: "",
-            hasThreshold: "",
-            threshold: "",
-            thresholdCondition: "",
-            thresholdText: "",
-          },
-        ],
-      };
-      reloadPreview();
-    }
   }
 
   function screenshotSetUp() {
@@ -427,16 +403,25 @@
   }
 
   const openEditorHeading = (e) => {
+    console.log(e.target.tagName);
     console.log(e.target.id);
     console.log(e.target);
     console.log(e);
     let outcome;
     let regFindNumbers = /^\d+|\d+\b|\d+(?=\w)/g;
     let numMatches = e.target.id.match(regFindNumbers);
+    let card = powerCards.cards[numMatches[0]];
     // e.stopPropagation(); // we stop the event from propegating up to 'board', which would cause this to trigger twice
-    outcome = !powerCards.cards[numMatches[0]].isVisible;
+    outcome = !card.isVisible;
     hideAll();
-    powerCards.cards[numMatches[0]].isVisible = outcome;
+    card.isVisible = outcome;
+    powerCards = powerCards;
+    let htmlCard = e.target;
+    if (htmlCard.classList.contains("stack-view")) {
+      htmlCard.classList.remove("stack-view");
+    } else {
+      htmlCard.classList.add("stack-view");
+    }
   };
 
   function hideAll() {
@@ -482,6 +467,30 @@
     cards.forEach((card) => {
       card.classList.add("printer-clean");
     });
+  }
+
+  function setStackView() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let cardHolder = previewFrame.document.getElementsByTagName("cards")[0];
+    if (!cardHolder.classList.contains("enable-stack-view")) {
+      cardHolder.classList.add("enable-stack-view");
+      powerCards.stackView = true;
+    }
+    let cards = Array.from(previewFrame.document.getElementsByTagName("card"));
+    cards.forEach((card) => {
+      if (!card.classList.contains("stack-view")) {
+        card.classList.add("stack-view");
+      }
+    });
+  }
+
+  function unsetStackView() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let cardHolder = previewFrame.document.getElementsByTagName("cards")[0];
+    if (cardHolder.classList.contains("enable-stack-view")) {
+      cardHolder.classList.remove("enable-stack-view");
+      powerCards.stackView = false;
+    }
   }
 </script>
 
@@ -535,6 +544,13 @@
   </div>
   <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
     >Printer-Friendly</button>
+  {#if !powerCards.stackView}
+    <button class="button is-warning mt-1 mr-1 is-small" on:click={setStackView}
+      >Enable Stack View</button>
+  {:else}
+    <button class="button is-warning mt-1 mr-1 is-small" on:click={unsetStackView}
+      >Disable Stack View</button>
+  {/if}
 </div>
 <div class="columns mt-0 mb-1">
   <div class="column pt-0">

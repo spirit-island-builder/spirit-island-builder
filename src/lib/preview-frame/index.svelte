@@ -98,6 +98,7 @@
     });
   };
 
+  //startMain also handles clicks
   export const startMain = async () => {
     const status = await previewIframe.contentWindow.startMain();
     if (status === 1) {
@@ -124,6 +125,12 @@
       console.log(names);
       names.forEach((name) => {
         name.addEventListener("click", clickFunction());
+      });
+
+      const cards = Array.from(previewIframe.contentDocument.getElementsByTagName("card"));
+      console.log(cards);
+      cards.forEach((card) => {
+        card.addEventListener("click", clickFunction());
       });
     }
   };
