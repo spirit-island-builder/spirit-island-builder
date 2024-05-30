@@ -284,10 +284,11 @@
   };
   let spiritBoardBack = JSON.parse(JSON.stringify(emptySpiritBoardBack));
 
-  let powerCards = {
+  let emptyPowerCards = {
     prop: "value",
     demoBoardWasLoaded: false,
     spiritName: "",
+    stackView: false,
     previewBoard: {
       isVisible: false,
     },
@@ -331,6 +332,7 @@
     cardBackImage: "",
     cardBackImageIsVisible: false,
   };
+  let powerCards = JSON.parse(JSON.stringify(emptyPowerCards));
 
   let emptyAspect = {
     prop: "value",
@@ -724,7 +726,7 @@
     {:else if currentPage === "spiritBoardBack"}
       <SpiritBoardBack bind:spiritBoardBack bind:emptySpiritBoardBack bind:customIcons />
     {:else if currentPage === "powerCards"}
-      <PowerCards bind:powerCards bind:customIcons />
+      <PowerCards bind:powerCards bind:emptyPowerCards bind:customIcons />
     {:else if currentPage === "aspect"}
       <Aspect bind:aspect bind:emptyAspect bind:customIcons />
     {:else if currentPage === "adversary"}

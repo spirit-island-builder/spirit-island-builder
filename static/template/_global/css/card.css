@@ -19,6 +19,18 @@ html {
 }
 
 body {
+  /* display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  align-content: center; */
+}
+
+* {
+  pointer-events: none;
+}
+
+cards {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -38,6 +50,17 @@ card {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+  transition: margin-right 0.5s;
+  pointer-events: auto;
+}
+
+cards.enable-stack-view card.stack-view {
+  margin-right: -385px;
+  filter: drop-shadow(2px 4px 6px black);
+}
+
+cards.enable-stack-view card-back {
+  filter: drop-shadow(2px 4px 6px black);
 }
 
 card-frame {
@@ -81,7 +104,9 @@ card.slow info-speed {
 card-back {
   width: 488px;
   height: 682px;
+  border-radius: 22px;
   position: relative;
+  overflow: hidden;
 }
 
 /* card-back::after {
@@ -203,10 +228,15 @@ name {
   z-index: 6;
 }
 
-name:hover {
+/* name:hover {
   text-shadow: -1px 1px 0 #000000, 1px 1px 0 #000000, 1px -1px 0 #000000, -1px -1px 0 #000000;
 }
 name:hover {
+  cursor: pointer;
+} */
+
+card:hover name {
+  text-shadow: -1px 1px 0 #000000, 1px 1px 0 #000000, 1px -1px 0 #000000, -1px -1px 0 #000000;
   cursor: pointer;
 }
 
