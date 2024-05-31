@@ -31,11 +31,13 @@ growth-background {
   top: 0px;
   left: 0px;
   z-index: -3;
+  pointer-events: none;
 }
 
 growth section-title {
   margin-left: 47px;
   margin-top: -12px;
+  pointer-events: none;
 }
 
 sub-growth {

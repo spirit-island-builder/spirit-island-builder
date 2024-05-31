@@ -213,27 +213,25 @@
           <div class="control">
             <input
               id={`energy${i}builder`}
-              class="input is-small"
-              style="z-index: 2;"
+              class="input is-small presence-input-block"
               type="text"
               on:focus={selectNode}
               on:blur={updatePresenceNodeLocal(i, "energy")}
               on:keyup={nextNode}
               bind:value={spiritBoard.presenceTrack.energyNodes[i].effect} />
-          </div>
-          <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
-            <button
-              class="presence-track-add-node button is-light is-primary presence-track-button "
-              id={`energy${i}builderadd`}
-              on:click={insertEnergyTrackNode(i)}
-              ><span style="margin-top:11px;pointer-events: none;">+</span>
-            </button>
-            <button
-              class="button is-light presence-track-button presence-track-remove-node"
-              on:click={removeEnergyTrackNode(i)}
-              ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
-            </button>
-            <div style="width:15px;" />
+            <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
+              <button
+                class="presence-track-add-node button is-light is-primary presence-track-button "
+                id={`energy${i}builderadd`}
+                on:click={insertEnergyTrackNode(i)}
+                ><span style="margin-top:11px;pointer-events: none;">+</span>
+              </button>
+              <button
+                class="button is-light presence-track-button presence-track-remove-node"
+                on:click={removeEnergyTrackNode(i)}
+                ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
+              </button>
+            </div>
           </div>
         </div>
       {/each}
@@ -249,27 +247,25 @@
           <div class="control">
             <input
               id={`plays${i}builder`}
-              class="input is-small"
-              style="z-index: 2;"
+              class="input is-small presence-input-block"
               type="text"
               on:blur={updatePresenceNodeLocal(i, "card")}
               on:focus={selectNode}
               on:keyup={nextNode}
               bind:value={spiritBoard.presenceTrack.playsNodes[i].effect} />
-          </div>
-          <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
-            <button
-              class="presence-track-add-node button is-light is-primary presence-track-button "
-              id={`plays${i}builderadd`}
-              on:click={insertPlaysTrackNode(i)}
-              ><span style="margin-top:11px;pointer-events: none;">+</span>
-            </button>
-            <button
-              class="button is-light presence-track-button presence-track-remove-node"
-              on:click={removePlaysTrackNode(i)}
-              ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
-            </button>
-            <div style="width:15px;" />
+            <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
+              <button
+                class="presence-track-add-node button is-light is-primary presence-track-button "
+                id={`plays${i}builderadd`}
+                on:click={insertPlaysTrackNode(i)}
+                ><span style="margin-top:11px;pointer-events: none;">+</span>
+              </button>
+              <button
+                class="button is-light presence-track-button presence-track-remove-node"
+                on:click={removePlaysTrackNode(i)}
+                ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
+              </button>
+            </div>
           </div>
         </div>
       {/each}
@@ -291,26 +287,24 @@
               <div class="control">
                 <input
                   id={`additional${t}node${i}builder`}
-                  class="input is-small"
-                  style="z-index: 2;"
+                  class="input is-small presence-input-block"
                   type="text"
                   on:focus={selectNode}
                   on:keyup={nextNode}
                   bind:value={additionalNode.effect} />
-              </div>
-              <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
-                <button
-                  class="presence-track-add-node button is-light is-primary presence-track-button "
-                  id={`additional${t}node${i}builderadd`}
-                  on:click={insertAdditionalTrackNode(t, i)}
-                  ><span style="margin-top:11px;pointer-events: none;">+</span>
-                </button>
-                <button
-                  class="button is-light presence-track-button presence-track-remove-node"
-                  on:click={removeAdditionalTrackNode(t, i)}
-                  ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
-                </button>
-                <div style="width:15px;" />
+                <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
+                  <button
+                    class="presence-track-add-node button is-light is-primary presence-track-button "
+                    id={`additional${t}node${i}builderadd`}
+                    on:click={insertAdditionalTrackNode(t, i)}
+                    ><span style="margin-top:11px;pointer-events: none;">+</span>
+                  </button>
+                  <button
+                    class="button is-light presence-track-button presence-track-remove-node"
+                    on:click={removeAdditionalTrackNode(t, i)}
+                    ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
+                  </button>
+                </div>
               </div>
             </div>
           {/each}

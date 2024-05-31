@@ -2,20 +2,29 @@ function startMain() {
   console.log("Start Main cards");
 
   var quickCards = document.querySelectorAll("quick-card");
-
+  let cardHolder = document.createElement("cards");
+  document.body.appendChild(cardHolder);
   let cardIndex = 0;
   for (var quickCard of quickCards) {
     var data = getData(quickCard, cardIndex);
     var card = constructCard(data, cardIndex);
-    insertAfter(card, quickCard);
+    cardHolder.appendChild(card);
+    // insertAfter(card, quickCard);
     quickCard.remove();
     cardIndex++;
   }
 
-  const cards = document.querySelectorAll("card");
+  let cardBack = document.querySelectorAll("card-back");
+  if (cardBack[0]) {
+    console.log(cardBack);
+    cardHolder.appendChild(cardBack[0]);
+    cardBack[0].style.zIndex = cardIndex;
+  }
 
+  const cards = document.querySelectorAll("card");
   for (i = 0; i < cards.length; ++i) {
     cards[i].innerHTML = replaceIcon(cards[i].innerHTML);
+    cards[i].style.zIndex = i + 1;
   }
 
   setTimeout(() => {

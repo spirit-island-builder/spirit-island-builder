@@ -45,6 +45,7 @@ presence-tracks presence-title {
   padding-top: 0px;
   display: flex;
   align-items: flex-end;
+  pointer-events: none;
 }
 
 presence-tracks presence-title.tight {
@@ -162,6 +163,7 @@ track-banner-art {
   background-repeat: no-repeat;
   background-position: center left;
   transform: translateY(-50%);
+  pointer-events: none;
 }
 track-banner-art.combined-track {
   height: 100%;
