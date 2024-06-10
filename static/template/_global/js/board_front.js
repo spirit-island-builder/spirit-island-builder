@@ -431,11 +431,17 @@ function writeGrowthAction(
 }
 
 function getGrowthActionTextAndIcons(growthAction) {
-  let growthActionType = growthAction.split("(")[0].split("^")[0];
+  let growthActionType = growthAction.split("(")[0].split("^")[0].split("*")[0];
   const terrains = new Set(["wetland", "mountain", "sand", "sands", "jungle"]);
   const elementNames = new Set(["sun", "moon", "fire", "air", "plant", "water", "earth", "animal"]);
   const regExp = /\(([^)]+)\)/;
   const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
+
+  let overrideText = "";
+  if (growthAction.split("*")[1]) {
+    overrideText = growthAction.split("*")[1].split("(")[0].split("^")[0];
+    console.log("override detected:" + overrideText);
+  }
 
   //Find if a growth effect is repeated (Fractured Days)
   let repeatOpen = "";
@@ -670,6 +676,17 @@ function getGrowthActionTextAndIcons(growthAction) {
       growthText = energyGrowthText;
       break;
     }
+    case "add-presence-custom": {
+      console.log(growthAction);
+      const fullMatch = regExpOuterParentheses.exec(growthAction);
+      let initialOptions = fullMatch[1].split(",");
+      overrideText = initialOptions[0];
+      console.log(initialOptions);
+      initialOptions.shift();
+      growthAction = `add-presence(${initialOptions.join()})`;
+      console.log(growthAction);
+    }
+    // intentional fallthrough
     case "add-presence": {
       const matches = regExpOuterParentheses.exec(growthAction);
       if (!matches) {
@@ -868,6 +885,9 @@ function getGrowthActionTextAndIcons(growthAction) {
         presenceRangeClose +
         presenceReqClose;
       growthText = "Add a Presence" + presenceText;
+      if (overrideText) {
+        growthText = overrideText;
+      }
       break;
     }
     case "push":
@@ -1519,6 +1539,10 @@ function getGrowthActionTextAndIcons(growthAction) {
     growthText = repeatText + growthText;
   }
 
+  if (overrideText) {
+    growthText = overrideText;
+  }
+
   return [growthIcons, growthText, isDefault];
 }
 
@@ -1709,6 +1733,42 @@ function parseAdditionalTrackTags(additionalTrack, i) {
   return additionalTrackHTML;
 }
 
+let Energy = {
+  en: "Energy",
+  de: "Energie",
+};
+let Turn = {
+  en: "Turn",
+  de: "Runde",
+};
+let CardPlay = {
+  en: "Card Play",
+  de: "Karte ausspielen",
+};
+
+// let elNames = {
+//   "en": {
+//       sun: "sun",
+//       moon: "moon",
+//       fire: "fire",
+//       air: "air",
+//       plant: "plant",
+//       water: "water",
+//       earth: "earth",
+//       animal: "animal"
+//     },
+//   "de": {
+//     sun: "sun",
+//     moon: "moon",
+//     fire: "fire",
+//     air: "air",
+//     plant: "plant",
+//     water: "water",
+//     earth: "earth",
+//     animal: "animal"
+//     },
+// }
+
 function getPresenceNodeHtml(
   nodeText,
   first,
@@ -1717,7 +1777,8 @@ function getPresenceNodeHtml(
   addEnergyRing,
   forceEnergyRing = false,
   forceShadow = false,
-  forceNone = false
+  forceNone = false,
+  lang = "en"
 ) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
@@ -1779,24 +1840,9 @@ function getPresenceNodeHtml(
   nodeText = nodeText.split("_")[0].split("^")[0];
 
   //
-  if (trackType === "dynamic") {
-    if (nodeText.startsWith("energy")) {
-      nodeText = nodeText.substr(6);
-      nodeClass = "energy";
-      subText = "Energy/Turn";
-    } else if (nodeText.startsWith("+energy")) {
-      nodeText = nodeText.replace("+energy", "+");
-      nodeClass = "energy";
-      subText = "Energy/Turn";
-      console.log("SHOULD WE BE HERE");
-    } else if (nodeText.startsWith("card")) {
-      nodeText = nodeText.substr(4);
-      nodeClass = "card";
-      subText = "Card Plays";
-    }
-  } else if (trackType === "energy") {
+  if (trackType === "energy") {
     nodeClass = "energy";
-    subText = "Energy/Turn";
+    subText = `${Energy[lang]}/${Turn[lang]}`;
   } else if (trackType === "card") {
     nodeClass = "card";
     subText = "Card Plays";
@@ -1815,7 +1861,7 @@ function getPresenceNodeHtml(
     } else {
       subText = nodeText;
       if (isNaN(nodeText[0])) {
-        subText += " Energy";
+        subText += ` ${Energy[lang]}`;
         nodeClass = "energy";
       }
     }
@@ -1913,7 +1959,7 @@ function getPresenceNodeHtml(
           const matches = regExp.exec(splitOptions[0]);
           const num = matches[1];
           inner = "<energy-icon><value>+" + num + "</value></energy-icon>";
-          subText = "+" + num + " Energy";
+          subText = `+${num} ${Energy[lang]}`;
           addEnergyRing = true;
           addIconShadow = false;
           break;
@@ -2043,20 +2089,9 @@ function getPresenceNodeHtml(
           break;
         }
         case "gain-card-play": {
-          const matches = regExp.exec(splitOptions[0]);
-          if (matches) {
-            const cardplay_text = matches[1].split(";");
-            inner =
-              "<icon class='" +
-              option +
-              " deep-layers'><icon class='" +
-              cardplay_text +
-              "'></icon></icon>";
-          } else {
-            const cardplay_text = splitOptions[0];
-            inner = "<icon class='" + cardplay_text + "'></icon>";
-          }
-          subText = "+1 Card Play/Turn";
+          const cardplay_text = splitOptions[0];
+          inner = "<icon class='" + cardplay_text + "'></icon>";
+          subText = IconName(option);
           addEnergyRing = false;
           break;
         }
@@ -2255,7 +2290,7 @@ function updatePresenceNodeIDs() {
   }
 }
 
-function IconName(str, iconNum = 1) {
+function IconName(str, iconNum = 1, lang = "en") {
   const regExp = /\(([^)]+)\)/;
   const matches = regExp.exec(str);
   let num = "";
@@ -2272,18 +2307,24 @@ function IconName(str, iconNum = 1) {
   }
   let plural = iconNum > 1 ? "s" : "";
   let subText;
+  let localize;
   switch (str) {
     case "presence":
-      subText = "Your Presence";
+      localize = {
+        en: "Your Presence",
+        de: "eigenes Gibiet platzeiren",
+      };
+      console.log("here");
+      subText = localize[lang];
       break;
     case "incarna":
       subText = "Your Incarna";
       break;
     case "energy":
-      subText = num + " Energy";
+      subText = `${num} ${Energy[lang]}`;
       break;
     case "plays":
-      subText = num + " Card Play" + plural;
+      subText = `${num} ${CardPlay[lang]}${plural}`;
       break;
     case "elements":
       subText = Capitalise(num) + " OR " + Capitalise(txt);
@@ -2295,10 +2336,14 @@ function IconName(str, iconNum = 1) {
       subText = "Take Power Card";
       break;
     case "gain-card-play":
-      subText = "+1 Card Play/Turn";
+      subText = `+1 ${CardPlay[lang]}/${Turn[lang]}`;
       break;
     case "reclaim-all":
-      subText = "Reclaim Cards";
+      localize = {
+        en: "Reclaim Cards",
+        de: "Alle Karten wiedererlangen",
+      };
+      subText = localize[lang];
       break;
     case "reclaim-one":
       subText = "Reclaim One";
@@ -2427,6 +2472,10 @@ function Capitalise(str, plural = 0) {
 
   return return_str;
 }
+
+// function translateElementsAndTokens(str){
+//   return str
+// }
 
 function setupCustomIcons() {
   const spiritStyle = document.querySelectorAll("style")[0];
@@ -3566,20 +3615,39 @@ function writeInnatePowerInfoBlock(
   powerSpeed,
   powerRange,
   powerTarget,
-  targetTitle = "TARGET LAND"
+  targetTitle = "TARGET LAND",
+  lang = "en"
 ) {
+  targetTitle = targetTitle === "TARGET LAND" ? "land" : "spirit";
+  // Localization
+  let infoTitles = {
+    en: {
+      id: "en",
+      speed: "SPEED",
+      range: "RANGE",
+      land: "TARGET LAND",
+      spirit: "TARGET",
+    },
+    de: {
+      id: "de",
+      speed: "WANN",
+      range: "WIE WEIT",
+      land: "WO",
+      spirit: "WEN",
+    },
+  };
+
   let newPowerHTML = "";
 
   //Innate Power Speed and Range Header
-  newPowerHTML +=
-    "<info-container><info-title><info-title-speed>SPEED</info-title-speed><info-title-range>RANGE</info-title-range>";
+  newPowerHTML += `<info-container><info-title><info-title-speed>${infoTitles[lang].speed}</info-title-speed><info-title-range>${infoTitles[lang].range}</info-title-range>`;
 
   //Innate Power Target Header
   newPowerHTML +=
     "<info-title-target id='" +
     innatePowerID +
     "targettitle'>" +
-    targetTitle +
+    infoTitles[lang][targetTitle] +
     "</info-title-target></info-title><innate-info>";
 
   //Innater Power Speed value
@@ -3661,27 +3729,47 @@ function parseSpecialRules() {
     });
   });
 
-  // Allow custom heading name
+  // Transfer over the custom name
   if (specialRules.getAttribute("customname")) {
-    console.log("special rule heading detected");
-    console.log(specialRuleSection);
-    console.log(specialRules.getAttribute("customname"));
-    console.log(specialRuleSection);
     specialRuleSection.setAttribute("customname", specialRules.getAttribute("customname"));
   }
 
   // <special-rules-track values="2,3,4"></special-rules-track>
 }
 
-function tagSectionHeadings() {
+function tagSectionHeadings(lang = "en") {
+  let sectionTitles = {
+    en: {
+      growth: "GROWTH",
+      presence: "PRESENCE",
+      innate: "INNATE POWERS",
+      special: "SPECIAL RULES",
+    },
+    de: {
+      growth: "WACHSTUM",
+      presence: "PRÄSENZ",
+      innate: "PERMANENTE FÄHIGKEITEN",
+      special: "SPEZIALREGELN",
+    },
+  };
+
   const board = document.querySelectorAll("board")[0];
   let sectionHeadings = board.getElementsByTagName("section-title");
   for (let j = 0; j < sectionHeadings.length; j++) {
-    let headingName = sectionHeadings[j].textContent.split(" ")[0];
-    sectionHeadings[j].id = "section-title-" + headingName.toLowerCase();
+    let headingName = sectionHeadings[j].textContent.split(" ")[0].toLowerCase();
+    sectionHeadings[j].id = "section-title-" + headingName;
     if (sectionHeadings[j].getAttribute("customname")) {
       sectionHeadings[j].textContent = sectionHeadings[j].getAttribute("customname");
       console.log("custom heading name detected and assigned");
+    } else {
+      if (headingName === "growth") {
+        sectionHeadings[j].textContent = sectionHeadings[j].textContent.replace(
+          "Growth",
+          sectionTitles[lang][headingName]
+        );
+      } else {
+        sectionHeadings[j].textContent = sectionTitles[lang][headingName];
+      }
     }
   }
 }
