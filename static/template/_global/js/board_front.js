@@ -13,6 +13,12 @@ async function startMain() {
   console.log("Spirit Board startMain");
   if (document.getElementsByTagName("board")[0]) {
     console.log("CREATING SPIRIT BOARD");
+    const board = document.querySelectorAll("board")[0];
+    if (board.getAttribute("lang")) {
+      lang = board.getAttribute("lang");
+      console.log("found language " + lang);
+    }
+
     setupCustomIcons();
 
     buildGrowthPanel();
@@ -23,10 +29,6 @@ async function startMain() {
 
     parseSpecialRules();
 
-    const board = document.querySelectorAll("board")[0];
-    if (board.getAttribute("lang")) {
-      lang = board.getAttribute("lang");
-    }
     const html = board.innerHTML;
     board.innerHTML = replaceIcon(html);
 
@@ -1741,38 +1743,62 @@ function parseAdditionalTrackTags(additionalTrack, i) {
 let Energy = {
   en: "Energy",
   de: "Energie",
+  pl: "Energia",
 };
 let Turn = {
   en: "Turn",
   de: "Runde",
+  pl: "Rundę",
 };
 let CardPlay = {
   en: "Card Play",
   de: "Karte ausspielen",
+  pl: "Zagraj jedną",
+};
+let CardPlays = {
+  en: "Card Plays",
+  de: "Karten ausspielen",
+  pl: "Zagrane Karty",
 };
 
-// let elNames = {
-//   "en": {
-//       sun: "sun",
-//       moon: "moon",
-//       fire: "fire",
-//       air: "air",
-//       plant: "plant",
-//       water: "water",
-//       earth: "earth",
-//       animal: "animal"
-//     },
-//   "de": {
-//     sun: "sun",
-//     moon: "moon",
-//     fire: "fire",
-//     air: "air",
-//     plant: "plant",
-//     water: "water",
-//     earth: "earth",
-//     animal: "animal"
-//     },
-// }
+let elNames = {
+  en: {
+    sun: "sun",
+    moon: "moon",
+    fire: "fire",
+    air: "air",
+    plant: "plant",
+    water: "water",
+    earth: "earth",
+    animal: "animal",
+    star: "element",
+    any: "any",
+  },
+  de: {
+    sun: "sun",
+    moon: "moon",
+    fire: "fire",
+    air: "air",
+    plant: "plant",
+    water: "water",
+    earth: "earth",
+    animal: "animal",
+    star: "",
+    any: "any",
+  },
+  pl: {
+    sun: "słońce",
+    moon: "księżyc",
+    fire: "ogień",
+    air: "powietrze",
+    plant: "roślinność",
+    water: "woda",
+    earth: "ziemia",
+    animal: "zwierzęcość",
+    star: "źródło mocy",
+    any: "dowolne",
+  },
+};
 
 function getPresenceNodeHtml(
   nodeText,
@@ -1854,7 +1880,7 @@ function getPresenceNodeHtml(
     subText = `${Energy[lang]}/${Turn[lang]}`;
   } else if (trackType === "card") {
     nodeClass = "card";
-    subText = "Card Plays";
+    subText = `${CardPlays[lang]}`;
   } else if (trackType === "special") {
     nodeClass = "special-ring";
     subText = "";
@@ -2326,11 +2352,15 @@ function IconName(str, iconNum = 1) {
         en: "Your Presence",
         de: "eigenes Gibiet platzeiren",
       };
-      console.log("here");
       subText = localize[lang];
       break;
     case "incarna":
-      subText = "Your Incarna";
+      localize = {
+        en: "Your Incarna",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "energy":
       subText = `${num} ${Energy[lang]}`;
@@ -2339,13 +2369,28 @@ function IconName(str, iconNum = 1) {
       subText = `${num} ${CardPlay[lang]}${plural}`;
       break;
     case "elements":
-      subText = Capitalise(num) + " OR " + Capitalise(txt);
+      localize = {
+        en: " OR ",
+        de: "",
+        pl: "",
+      };
+      subText = IconName(num) + localize[lang] + IconName(txt);
       break;
     case "gain-power-card":
-      subText = "Gain Power Card";
+      localize = {
+        en: "Gain Power Card",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "take-power-card":
-      subText = "Take Power Card";
+      localize = {
+        en: "Take Power Card",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "gain-card-play":
       subText = `+1 ${CardPlay[lang]}/${Turn[lang]}`;
@@ -2354,100 +2399,230 @@ function IconName(str, iconNum = 1) {
       localize = {
         en: "Reclaim Cards",
         de: "Alle Karten wiedererlangen",
+        pl: "",
       };
       subText = localize[lang];
       break;
     case "reclaim-one":
-      subText = "Reclaim One";
+      localize = {
+        en: "Reclaim One",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "reclaim":
-      subText = "Reclaim Cards";
+      localize = {
+        en: "Reclaim Cards",
+        de: "Alle Karten wiedererlangen",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "reclaim-half":
-      subText = "Reclaim Half <em>(round up)</em>";
+      localize = {
+        en: "Reclaim Half <em>(round up)</em>",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "forget-power-card":
-      subText = "Forget Power Card";
+      localize = {
+        en: "Forget Power Card",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "discard-cards":
-      subText = "Discard 2 Power Cards";
-      break;
     case "discard-2-cards":
-      subText = "Discard 2 Power Cards";
+      localize = {
+        en: "Discard 2 Power Cards",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "discard-card":
-      subText = "Discard 1 Power Card";
-      break;
     case "discard-1-card":
-      subText = "Discard 1 Power Card";
+      localize = {
+        en: "Discard 1 Power Card",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "gain-1-time":
-      subText = "Gain 1 Time";
+      localize = {
+        en: "Gain 1 Time",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "gain-2-time":
-      subText = "Gain 2 Time";
+      localize = {
+        en: "Gain 2 Time",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "days-never-were":
-      subText = "Gain Power Card from Days That Never Were";
+      localize = {
+        en: "Gain Power Card from Days That Never Were",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "destroy-presence":
-      subText = "Destroy 1 of your Presence";
+      localize = {
+        en: "Destroy 1 of your Presence",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "destroyed-presence":
-      subText = "Destroyed Presence";
+      localize = {
+        en: "Destroyed Presence",
+        de: "",
+        pl: "",
+      };
       if (iconNum > 1) {
-        subText = "up to " + iconNum + " Destroyed Presence";
+        localize = {
+          en: "up to " + iconNum + " Destroyed Presence",
+          de: "",
+          pl: "",
+        };
       }
+      subText = localize[lang];
       break;
     case "make-fast":
-      subText = "One of your Powers may be Fast";
+      localize = {
+        en: "One of your Powers may be Fast",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "gain-card-pay-2":
-      subText = "Pay 2 Energy to Gain a Power Card";
+      localize = {
+        en: "Pay 2 Energy to Gain a Power Card",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "ignore-range":
-      subText = "You may ignore Range this turn";
-      break;
-    case "star":
-      subText = "Element";
+      localize = {
+        en: "You may ignore Range this turn",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "markerplus":
-      subText = "Prepare " + iconNum + " Element Marker" + plural;
+      localize = {
+        en: "Prepare " + iconNum + " Element Marker" + plural,
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "markerminus":
-      subText = "Discard " + iconNum + " Element Marker" + plural;
+      localize = {
+        en: "Discard " + iconNum + " Element Marker" + plural,
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "isolate":
-      subText = "Isolate " + iconNum + " of your Lands";
+      localize = {
+        en: "Isolate " + iconNum + " of your Lands",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "reclaim-none":
-      subText = "Reclaim None";
+      localize = {
+        en: "Reclaim None",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "increase-energy":
-      subText = "+" + num + " Energy";
+      localize = {
+        en: "+" + num + " Energy",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "move-presence":
-      subText = "Move Presence " + num[0];
+      localize = {
+        en: "Move Presence " + num[0],
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "damage-1":
-      subText = "Deal 1 Damage in one of your Lands";
+      localize = {
+        en: "Deal 1 Damage in one of your Lands",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "damage-2":
-      subText = "Deal 2 Damage in one of your Lands";
+      localize = {
+        en: "Deal 2 Damage in one of your Lands",
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       break;
     case "custom":
       subText = num;
       break;
     case "gain-range":
-      subText = "+" + num[0] + " Range";
+      localize = {
+        en: `+${num[0]} Range`,
+        de: "",
+        pl: "",
+      };
+      subText = localize[lang];
       if (typeof txt !== "undefined") {
-        subText += " on " + txt;
+        localize = {
+          en: ` on ${txt}`,
+          de: "",
+          pl: "",
+        };
+        subText += localize[lang];
       }
       break;
     case "inland":
     case "coastal":
     case "invaders":
       subText = str.toUpperCase();
+      break;
+    case "sun":
+    case "moon":
+    case "air":
+    case "fire":
+    case "water":
+    case "plant":
+    case "earth":
+    case "animal":
+    case "star":
+    case "any":
+      subText = Capitalise(elNames[lang][str]);
       break;
     default:
       subText = iconNum > 1 ? iconNum + " " + Capitalise(str) : Capitalise(str);
@@ -3633,18 +3808,22 @@ function writeInnatePowerInfoBlock(
   // Localization
   let infoTitles = {
     en: {
-      id: "en",
       speed: "SPEED",
       range: "RANGE",
       land: "TARGET LAND",
       spirit: "TARGET",
     },
     de: {
-      id: "de",
       speed: "WANN",
       range: "WIE WEIT",
       land: "WO",
       spirit: "WEN",
+    },
+    pl: {
+      speed: "SZYBKOŚĆ",
+      range: "ZASIĘG",
+      land: "CEL (KRAINA)",
+      spirit: "CEL",
     },
   };
 
@@ -3761,6 +3940,12 @@ function tagSectionHeadings() {
       presence: "PRÄSENZ",
       innate: "PERMANENTE FÄHIGKEITEN",
       special: "SPEZIALREGELN",
+    },
+    pl: {
+      growth: "ROZWÓJ",
+      presence: "OBECNOŚĆ",
+      innate: "WRODZONE MOCE",
+      special: "SPECJALNE ZASADY",
     },
   };
 

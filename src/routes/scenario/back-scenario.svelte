@@ -74,52 +74,52 @@
   {#each scenario.scenarioBack.left.comments as comment, i (comment.id)}
     <div class="field">
       <!-- Full Title and controls -->
-      <div class="field is-flex is-justify-content-space-between mb-0">
+      <div class="field is-flex is-justify-content-space-between mb-0 is-flex-direction-column">
         <!-- Title and buttons cluster -->
-        <div class="field is-flex is-justify-content-space-between mb-0">
+        <div class="field is-flex is-justify-content-space-between mb-0 is-flex-direction-row">
           <label class="label is-unselectable mr-1 mt-1 is-small" for=""
             >Field {i + 1} - Type:
           </label>
-          <div
-            class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap is-align-items-flex-end mb-0">
+          <!-- Move and remove cluster -->
+          <div class="field has-addons is-tiny comment-buttons">
             <button
-              class:is-light={comment.type !== "heading"}
-              class="button is-info button-hold mb-0 is-small"
-              on:click={setType("heading", comment)}>Heading</button>
+              class="button is-light is-small"
+              disabled={i === 0}
+              on:click={movePanelOrComment(scenario.scenarioBack.left.comments, i - 1, i)}
+              >&#11165;</button>
             <button
-              class:is-light={comment.type !== "title"}
-              class="button is-info button-hold mb-0 is-small"
-              on:click={setType("title", comment)}>Title</button>
+              class="button is-light is-small"
+              disabled={i + 1 === scenario.scenarioBack.left.comments.length}
+              on:click={movePanelOrComment(scenario.scenarioBack.left.comments, i + 1, i)}
+              >&#11167;</button>
             <button
-              class:is-light={comment.type !== "para"}
-              class="button is-info is-light button-hold mb-0 is-small"
-              on:click={setType("para", comment)}>Paragraph</button>
-            <button
-              class:is-light={comment.type !== "bullets"}
-              class="button is-info is-light button-hold mb-0 is-small"
-              on:click={setType("bullets", comment)}>Bullets</button>
-            <button
-              class:is-light={comment.type !== "image"}
-              class="button is-info is-light button-hold mb-0 is-small"
-              on:click={setType("image", comment)}>Image</button>
+              class="button is-warning is-small is-light"
+              on:click={removePanelOrComment(scenario.scenarioBack.left.comments, i)}
+              >&#10006;</button>
           </div>
         </div>
-        <!-- Move and remove cluster -->
-        <div class="field has-addons is-tiny comment-buttons">
+        <div
+          class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap is-align-items-flex-end mb-0">
           <button
-            class="button is-light is-small"
-            disabled={i === 0}
-            on:click={movePanelOrComment(scenario.scenarioBack.left.comments, i - 1, i)}
-            >&#11165;</button>
+            class:is-light={comment.type !== "heading"}
+            class="button is-info button-hold mb-0 is-small"
+            on:click={setType("heading", comment)}>Heading</button>
           <button
-            class="button is-light is-small"
-            disabled={i + 1 === scenario.scenarioBack.left.comments.length}
-            on:click={movePanelOrComment(scenario.scenarioBack.left.comments, i + 1, i)}
-            >&#11167;</button>
+            class:is-light={comment.type !== "title"}
+            class="button is-info button-hold mb-0 is-small"
+            on:click={setType("title", comment)}>Title</button>
           <button
-            class="button is-warning is-small is-light"
-            on:click={removePanelOrComment(scenario.scenarioBack.left.comments, i)}
-            >&#10006;</button>
+            class:is-light={comment.type !== "para"}
+            class="button is-info is-light button-hold mb-0 is-small"
+            on:click={setType("para", comment)}>Paragraph</button>
+          <button
+            class:is-light={comment.type !== "bullets"}
+            class="button is-info is-light button-hold mb-0 is-small"
+            on:click={setType("bullets", comment)}>Bullets</button>
+          <button
+            class:is-light={comment.type !== "image"}
+            class="button is-info is-light button-hold mb-0 is-small"
+            on:click={setType("image", comment)}>Image</button>
         </div>
       </div>
 
@@ -188,52 +188,52 @@
   {#each scenario.scenarioBack.right.comments as comment, i (comment.id)}
     <div class="field">
       <!-- Full Title and controls -->
-      <div class="field is-flex is-justify-content-space-between mb-0">
+      <div class="field is-flex is-justify-content-space-between mb-0 is-flex-direction-column">
         <!-- Title and buttons cluster -->
-        <div class="field is-flex is-justify-content-space-between mb-0">
+        <div class="field is-flex is-justify-content-space-between mb-0 is-flex-direction-row">
           <label class="label is-unselectable mr-1 mt-1 is-small" for=""
             >Field {i + 1} - Type:
           </label>
-          <div
-            class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap is-align-items-flex-end mb-0">
+          <!-- Move and remove cluster -->
+          <div class="field has-addons is-tiny comment-buttons">
             <button
-              class:is-light={comment.type !== "heading"}
-              class="button is-info button-hold mb-0 is-small"
-              on:click={setType("heading", comment)}>Heading</button>
+              class="button is-light is-small"
+              disabled={i === 0}
+              on:click={movePanelOrComment(scenario.scenarioBack.right.comments, i - 1, i)}
+              >&#11165;</button>
             <button
-              class:is-light={comment.type !== "title"}
-              class="button is-info button-hold mb-0 is-small"
-              on:click={setType("title", comment)}>Title</button>
+              class="button is-light is-small"
+              disabled={i + 1 === scenario.scenarioBack.right.comments.length}
+              on:click={movePanelOrComment(scenario.scenarioBack.right.comments, i + 1, i)}
+              >&#11167;</button>
             <button
-              class:is-light={comment.type !== "para"}
-              class="button is-info is-light button-hold mb-0 is-small"
-              on:click={setType("para", comment)}>Paragraph</button>
-            <button
-              class:is-light={comment.type !== "bullets"}
-              class="button is-info is-light button-hold mb-0 is-small"
-              on:click={setType("bullets", comment)}>Bullets</button>
-            <button
-              class:is-light={comment.type !== "image"}
-              class="button is-info is-light button-hold mb-0 is-small"
-              on:click={setType("image", comment)}>Image</button>
+              class="button is-warning is-small is-light"
+              on:click={removePanelOrComment(scenario.scenarioBack.right.comments, i)}
+              >&#10006;</button>
           </div>
         </div>
-        <!-- Move and remove cluster -->
-        <div class="field has-addons is-tiny comment-buttons">
+        <div
+          class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap is-align-items-flex-end mb-0">
           <button
-            class="button is-light is-small"
-            disabled={i === 0}
-            on:click={movePanelOrComment(scenario.scenarioBack.right.comments, i - 1, i)}
-            >&#11165;</button>
+            class:is-light={comment.type !== "heading"}
+            class="button is-info button-hold mb-0 is-small"
+            on:click={setType("heading", comment)}>Heading</button>
           <button
-            class="button is-light is-small"
-            disabled={i + 1 === scenario.scenarioBack.right.comments.length}
-            on:click={movePanelOrComment(scenario.scenarioBack.right.comments, i + 1, i)}
-            >&#11167;</button>
+            class:is-light={comment.type !== "title"}
+            class="button is-info button-hold mb-0 is-small"
+            on:click={setType("title", comment)}>Title</button>
           <button
-            class="button is-warning is-small is-light"
-            on:click={removePanelOrComment(scenario.scenarioBack.right.comments, i)}
-            >&#10006;</button>
+            class:is-light={comment.type !== "para"}
+            class="button is-info is-light button-hold mb-0 is-small"
+            on:click={setType("para", comment)}>Paragraph</button>
+          <button
+            class:is-light={comment.type !== "bullets"}
+            class="button is-info is-light button-hold mb-0 is-small"
+            on:click={setType("bullets", comment)}>Bullets</button>
+          <button
+            class:is-light={comment.type !== "image"}
+            class="button is-info is-light button-hold mb-0 is-small"
+            on:click={setType("image", comment)}>Image</button>
         </div>
       </div>
 

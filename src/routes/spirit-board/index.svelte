@@ -108,6 +108,12 @@
     board.setAttribute("spirit-border", spiritBoard.nameAndArt.bannerPath);
     board.setAttribute("clickable-GUI", spiritBoard.isClickable);
 
+    if (spiritBoard.nameAndArt.language) {
+      board.setAttribute("lang", spiritBoard.nameAndArt.language);
+    } else {
+      board.setAttribute("lang", "en");
+    }
+
     //Set Spirit Name and Image
     const spiritName = document.createElement("spirit-name");
     if (spiritName) {
@@ -370,6 +376,11 @@
     const artistName = htmlElement.querySelectorAll("artist-name")[0];
     if (artistName) {
       spiritBoard.nameAndArt.artistCredit = artistName.textContent.trim();
+    }
+
+    const language = board.getAttribute("lang");
+    if (language) {
+      spiritBoard.nameAndArt.language = language;
     }
 
     //Load Special Rules
