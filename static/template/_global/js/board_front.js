@@ -6,6 +6,8 @@
 /* global checkOverflowHeight */
 /* global checkOverflowWidth */
 
+let lang = "en";
+
 /* exported startMain */
 async function startMain() {
   console.log("Spirit Board startMain");
@@ -22,6 +24,9 @@ async function startMain() {
     parseSpecialRules();
 
     const board = document.querySelectorAll("board")[0];
+    if (board.getAttribute("lang")) {
+      lang = board.getAttribute("lang");
+    }
     const html = board.innerHTML;
     board.innerHTML = replaceIcon(html);
 
@@ -1777,8 +1782,7 @@ function getPresenceNodeHtml(
   addEnergyRing,
   forceEnergyRing = false,
   forceShadow = false,
-  forceNone = false,
-  lang = "en"
+  forceNone = false
 ) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
@@ -1813,7 +1817,7 @@ function getPresenceNodeHtml(
   let addDeepLayers = false;
   let iconDeepLayers;
   if (nodeText.split("^")[1]) {
-    iconDeepLayers = nodeText.split("^")[1].split("_")[0];
+    iconDeepLayers = nodeText.split("^")[1].split("_")[0].split("*")[0];
     addDeepLayers = true;
     if (pnDebug) {
       console.log(iconDeepLayers);
@@ -1821,7 +1825,7 @@ function getPresenceNodeHtml(
   }
   let optionsNodeBack;
   if (nodeText.split("_")[1]) {
-    optionsNodeBack = nodeText.split("_")[1].split("^")[0];
+    optionsNodeBack = nodeText.split("_")[1].split("^")[0].split("*")[0];
     if (optionsNodeBack.includes("energy")) {
       forceEnergyRing = true;
     }
@@ -1837,7 +1841,12 @@ function getPresenceNodeHtml(
       first = true;
     }
   }
-  nodeText = nodeText.split("_")[0].split("^")[0];
+  let overrideText = "";
+  if (nodeText.split("*")[1]) {
+    overrideText = nodeText.split("*")[1].split("^")[0].split("_")[0];
+  }
+
+  nodeText = nodeText.split("_")[0].split("^")[0].split("*")[0];
 
   //
   if (trackType === "energy") {
@@ -2239,6 +2248,9 @@ function getPresenceNodeHtml(
       inner = "<icon-shadow>" + inner + "</icon-shadow>";
     }
   }
+  if (overrideText) {
+    subText = overrideText;
+  }
   ring.innerHTML = inner;
   presenceNode.innerHTML += "<subtext>" + subText + "</subtext>";
   if (addDeepLayers) {
@@ -2290,7 +2302,7 @@ function updatePresenceNodeIDs() {
   }
 }
 
-function IconName(str, iconNum = 1, lang = "en") {
+function IconName(str, iconNum = 1) {
   const regExp = /\(([^)]+)\)/;
   const matches = regExp.exec(str);
   let num = "";
@@ -3615,8 +3627,7 @@ function writeInnatePowerInfoBlock(
   powerSpeed,
   powerRange,
   powerTarget,
-  targetTitle = "TARGET LAND",
-  lang = "en"
+  targetTitle = "TARGET LAND"
 ) {
   targetTitle = targetTitle === "TARGET LAND" ? "land" : "spirit";
   // Localization
@@ -3737,7 +3748,7 @@ function parseSpecialRules() {
   // <special-rules-track values="2,3,4"></special-rules-track>
 }
 
-function tagSectionHeadings(lang = "en") {
+function tagSectionHeadings() {
   let sectionTitles = {
     en: {
       growth: "GROWTH",
