@@ -371,6 +371,8 @@
     spiritBoard.nameAndArt.starlight = false;
     if (board.getAttribute("starlight")) {
       spiritBoard.nameAndArt.starlight = board.getAttribute("starlight");
+      console.log(spiritBoard.nameAndArt.starlight);
+      console.log(spiritBoard);
     }
 
     const artistName = htmlElement.querySelectorAll("artist-name")[0];

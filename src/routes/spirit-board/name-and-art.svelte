@@ -61,11 +61,11 @@
     <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
       <div class="field mr-2">Board Type:</div>
       <button
-        class:is-light={spiritBoard.nameAndArt.starlight === true}
+        class:is-light={spiritBoard.nameAndArt.starlight}
         class="button is-success is-small button-hold mb-0"
         on:click={setType(false, spiritBoard)}>Regular</button>
       <button
-        class:is-light={spiritBoard.nameAndArt.starlight !== true}
+        class:is-light={!spiritBoard.nameAndArt.starlight}
         class="button is-info is-small button-hold mb-0"
         on:click={setType(true, spiritBoard)}>Starlight Style</button>
     </div>
@@ -162,6 +162,10 @@
       class="button is-small is-success"
       class:is-light={spiritBoard.nameAndArt.language !== "pl"}
       on:click={setLanguage("pl", spiritBoard)}>Polski</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={spiritBoard.nameAndArt.language !== "ar"}
+      on:click={setLanguage("ar", spiritBoard)}>عربي</button>
   </div>
   <label class="label is-small " for="spiritNameInput">Custom headings</label>
   <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap pb-4">

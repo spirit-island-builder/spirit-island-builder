@@ -53,7 +53,7 @@
   function switchLong(powerIndex, levelIndex) {
     spiritBoard.innatePowers.powers[powerIndex].levels[levelIndex].isLong =
       !spiritBoard.innatePowers.powers[powerIndex].levels[levelIndex].isLong;
-    console.log("isLong=" + spiritBoard.innatePowers.powers[powerIndex].levels[levelIndex].isLong);
+    document.getElementById("updateButton").click();
   }
 
   function updateInnatePowerThreshold(level, ID) {
@@ -185,7 +185,6 @@
   }
 
   function moveInnatePower(to, from) {
-    spiritBoard = Lib.moveSpecialRule(spiritBoard, to, from);
     console.log(to);
     spiritBoard.innatePowers.powers.splice(
       to,
@@ -196,6 +195,20 @@
       power.id = i;
     });
     console.log(spiritBoard.innatePowers.powers);
+    spiritBoard = spiritBoard;
+    document.getElementById("updateButton").click();
+  }
+  function moveThresholdLevel(i, to, from) {
+    console.log(to);
+    spiritBoard.innatePowers.powers[i].levels.splice(
+      to,
+      0,
+      spiritBoard.innatePowers.powers[i].levels.splice(from, 1)[0]
+    );
+    spiritBoard.innatePowers.powers[i].levels.forEach((level, i) => {
+      level.id = i;
+    });
+    console.log(spiritBoard.innatePowers.powers[i].levels);
     spiritBoard = spiritBoard;
     document.getElementById("updateButton").click();
   }
@@ -340,7 +353,7 @@
         <div class="control">
           <input
             id={`power${i}levelThreshold${j}`}
-            class="input is-small"
+            class="input is-small small-power"
             type="text"
             placeholder="Threshold"
             on:focus={selectNode}
@@ -351,25 +364,34 @@
         <div class="control" style="width:100%">
           <AutoComplete
             id={`power${i}levelEffect${j}`}
-            elementType="input"
+            elementType="textarea"
             placeholder="Effect"
-            classNames="is-small"
+            classNames="is-small small-power"
             validAutoCompleteValues={iconValuesSorted}
             additionalOnBlurFunction={() => updateInnatePowerEffect(level, `ip${i}L${j}`)}
             bind:value={level.effect} />
         </div>
-        {#if !level.isLong}
+        <div class="field has-addons is-tiny comment-buttons">
+          <div class="control has-addons is-tiny comment-buttons is-flex is-flex-direction-column">
+            <button
+              class="button is-light is-small level-move-buttons"
+              disabled={j === 0}
+              on:click={moveThresholdLevel(i, j - 1, j)}>&#11165;</button>
+            <button
+              class="button is-light is-small level-move-buttons"
+              disabled={j + 1 === innatePower.levels.length}
+              on:click={moveThresholdLevel(i, j + 1, j)}>&#11167;</button>
+          </div>
           <button
-            class="button is-primary is-light is-warning is-small row-button"
+            class="button is-primary is-light is-warning is-small"
+            class:is-light={!level.isLong}
+            style="padding: 2px;"
             on:click={switchLong(i, j)}>Long</button>
-        {:else}
           <button
-            class="button is-primary is-warning is-small row-button"
-            on:click={switchLong(i, j)}>Long</button>
-        {/if}
-        <button
-          class="button is-primary is-light is-warning is-small row-button"
-          on:click={removeLevel(i, j)}>Remove</button>
+            class="button is-warning is-small is-light"
+            style="width:30px;"
+            on:click={removeLevel(i, j)}>&#10006;</button>
+        </div>
       </div>
     {/each}
   {/each}
@@ -377,3 +399,11 @@
     <button class="button is-primary is-light" on:click={addInnatePower}>Add Innate Power</button>
   </div>
 </Section>
+
+<style>
+  .level-move-buttons {
+    padding: 0px;
+    height: 15px;
+    width: 30px;
+  }
+</style>
