@@ -119,6 +119,7 @@
       playsBannerScale: "",
       unifiedBannerScale: "100%",
       artistCredit: "",
+      language: "en",
     },
     specialRules: {
       isVisible: false,
