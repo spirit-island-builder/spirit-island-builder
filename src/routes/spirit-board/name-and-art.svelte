@@ -32,10 +32,17 @@
   function toggleSingleBanner() {
     spiritBoard.nameAndArt.isOneBanner = !spiritBoard.nameAndArt.isOneBanner;
   }
+
+  function setLanguage(language, spiritBoard) {
+    spiritBoard.nameAndArt.language = language;
+    spiritBoard = spiritBoard;
+    document.getElementById("updateButton").click();
+    console.log(spiritBoard);
+  }
 </script>
 
 <Section
-  title="Spirit Name, Artwork, Options and Accesibility"
+  title="Spirit Name, Artwork, Language and Accesibility"
   bind:isVisible={spiritBoard.nameAndArt.isVisible}>
   <div class="mb-1 p-1 note">
     <InstructionsLink anchor="spirit-name-and-art" />
@@ -54,11 +61,11 @@
     <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
       <div class="field mr-2">Board Type:</div>
       <button
-        class:is-light={spiritBoard.nameAndArt.starlight === true}
+        class:is-light={spiritBoard.nameAndArt.starlight}
         class="button is-success is-small button-hold mb-0"
         on:click={setType(false, spiritBoard)}>Regular</button>
       <button
-        class:is-light={spiritBoard.nameAndArt.starlight !== true}
+        class:is-light={!spiritBoard.nameAndArt.starlight}
         class="button is-info is-small button-hold mb-0"
         on:click={setType(true, spiritBoard)}>Starlight Style</button>
     </div>
@@ -140,8 +147,27 @@
   {/if}
   <!-- Overwriting Headings -->
   <label class="label mb-0" for="spiritNameInput">Translation Support Features</label>
-  <label class="label is-small " for="spiritNameInput"
-    >(no translations yet, but this can help for creating non-English boards)</label>
+  <label class="label is-small " for="spiritNameInput">Headings</label>
+  <!-- Languages -->
+  <div class="buttons has-addons mb-0">
+    <button
+      class="button is-small is-success"
+      class:is-light={spiritBoard.nameAndArt.language !== "en"}
+      on:click={setLanguage("en", spiritBoard)}>English</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={spiritBoard.nameAndArt.language !== "de"}
+      on:click={setLanguage("de", spiritBoard)}>Deutsch</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={spiritBoard.nameAndArt.language !== "pl"}
+      on:click={setLanguage("pl", spiritBoard)}>Polski</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={spiritBoard.nameAndArt.language !== "ar"}
+      on:click={setLanguage("ar", spiritBoard)}>عربي</button>
+  </div>
+  <label class="label is-small " for="spiritNameInput">Custom headings</label>
   <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap pb-4">
     <div class="field pr-2" style="width:30%;">
       <label class="label is-small" for="customHeadingSR">Special Rules: </label>
@@ -195,7 +221,7 @@
     </div>
   </div>
   <div class="control">
-    <button class="button is-success is-light row-button" on:click={hideAllTexts}
+    <button class="button is-success is-small is-light row-button" on:click={hideAllTexts}
       >Remove Other Unchangeable Text <i>(so you can add in text in your langauge)</i></button>
   </div>
 </Section>

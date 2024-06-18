@@ -313,7 +313,7 @@
     </div>
   {/if}
   <div class="field has-addons">
-    <label class="label is-small has-addons mr-2">Note:</label>
+    <label class="label is-small has-addons mr-2" for="presenceTrackNote">Note:</label>
     <div class="control field" style="width:100%">
       <AutoComplete
         id={`presenceTrackNote`}

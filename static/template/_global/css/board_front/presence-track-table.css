@@ -729,3 +729,34 @@ presence-node add-move-upper icon.backslash {
 presence-node add-move-upper icon.move-arrow {
   margin-left: 0px;
 }
+
+track-damage {
+  background-image: url(../../images/board/NewIcons/Damage\ Blank.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  font-size: 26.66px;
+  font-weight: bold;
+  display: block;
+  text-align: center;
+  margin-top: -11px;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1px;
+  margin-right: -3px;
+}
+
+track-damage value {
+  font-family: "Energy Font";
+  font-size: 29.33px;
+  display: inline-block;
+  margin-top: 36px;
+  margin-left: 0px;
+  font-style: normal;
+  text-align: center;
+}
+damage range {
+  margin-top: -17px;
+  margin-left: 25px;
+  line-height: 30px;
+}

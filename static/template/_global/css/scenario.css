@@ -286,6 +286,7 @@ scenario.printer-clean scenario-background {
 }
 scenario.printer-clean scenario-back-name,
 scenario.printer-clean scenario-front-name,
+scenario.printer-clean scenario-back-difficulty,
 scenario.printer-clean scenario-heading {
   color: black;
 }

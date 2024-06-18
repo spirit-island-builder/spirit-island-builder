@@ -1,3 +1,8 @@
 .active-highlight {
   background-color: #c9ffca;
 }
+
+input.small-power:focus {
+  min-width: 180px;
+  z-index: 5;
+}
