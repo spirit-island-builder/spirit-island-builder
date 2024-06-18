@@ -603,7 +603,7 @@ function getGrowthActionTextAndIcons(growthAction) {
     case "isolate": {
       const matches = regExp.exec(growthAction);
       let isolateIcons = "{isolate}";
-      let isolateText = IconName(growthActionType);
+      let isolateText = IconName(growthAction);
       let isolateReqOpen = "";
       let isolateReqClose = "";
       if (matches) {
@@ -612,12 +612,6 @@ function getGrowthActionTextAndIcons(growthAction) {
         isolateReqOpen = "<custom-icon>";
         isolateReqClose = "</custom-icon>";
         isolateIcons += "<range-growth><value>" + isolateRange + "</value></range-growth>";
-        localize = {
-          en: "Isolate a Land",
-          de: "",
-          pl: "",
-        };
-        isolateText = localize[lang];
       }
       growthIcons = isolateReqOpen + isolateIcons + isolateReqClose;
       growthText = isolateText;
@@ -635,12 +629,8 @@ function getGrowthActionTextAndIcons(growthAction) {
         "<range-growth><value>" +
         range +
         "</value></range-growth></custom-icon>";
-      localize = {
-        en: "Deal " + damage + " Damage at Range " + range,
-        de: "",
-        pl: "",
-      };
-      growthText = localize[lang];
+      let damageText = IconName(growthAction);
+      growthText = damageText;
       break;
     }
     case "gain-energy": {
@@ -1091,7 +1081,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       const matches = regExp.exec(growthAction);
       const moveOptions = matches[1].split(",");
       const moveRange = moveOptions[0];
-      let moveText = "";
+      let moveText = IconName(growthAction);
       let moveIcons = "";
       if (!moveOptions[1]) {
         // moveIcons = "<custom-icon>{presence}{move-range-" + moveRange + "}</custom-icon>";
@@ -1099,7 +1089,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           "<custom-icon>{presence}<move-growth><value>" +
           moveRange +
           "</value></move-growth></custom-icon>";
-        moveText = "Move a Presence";
+        // moveText = "Move a Presence";
       } else if (!isNaN(moveOptions[1])) {
         moveIcons = "<custom-icon><token-wrap>";
         for (let i = 0; i < moveOptions[1]; i++) {
@@ -1107,7 +1097,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         }
         moveIcons +=
           "</token-wrap><move-growth><value>" + moveRange + "</value></move-growth></custom-icon>";
-        moveText = "Move up to " + moveOptions[1] + " Presence together";
+        // moveText = "Move up to " + moveOptions[1] + " Presence together";
       }
 
       growthIcons = moveIcons;
@@ -1883,6 +1873,57 @@ let landtypeNames = {
   },
 };
 
+let numLocalize = {
+  en: {
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
+  },
+  de: {
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
+  },
+  pl: {
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
+  },
+  ar: {
+    0: "٠",
+    1: "١",
+    2: "٢",
+    3: "٣",
+    4: "٤",
+    5: "٥",
+    6: "٦",
+    7: "٧",
+    8: "٨",
+    9: "٩",
+  },
+};
+
 // let tokenNames = {
 //   en: {
 //     beast: "beasts",
@@ -2011,12 +2052,19 @@ function getPresenceNodeHtml(
       presenceNode.classList.add("first");
     } else {
       subText = nodeText;
+      if (pnDebug) {
+        console.log("setting nodetext:" + subText);
+      }
       if (isNaN(nodeText[0])) {
         subText += ` ${Energy[lang]}`;
         nodeClass = "energy";
+      } else {
+        subText = numLocalize[lang][nodeText] || nodeText;
       }
     }
-    inner = "<" + nodeClass + "-icon><value>" + nodeText + "</value></" + nodeClass + "-icon>";
+    inner = `<${nodeClass}-icon><value>${
+      numLocalize[lang][nodeText] || nodeText
+    }</value></${nodeClass}-icon>`;
   } else {
     //It is either a single element or a mix of elements/numbers/other options
 
@@ -2065,7 +2113,6 @@ function getPresenceNodeHtml(
         case "push": {
           const matches = regExp.exec(splitOptions[0]);
           const moveTarget = matches[1];
-          const preposition = option === "push" ? "from" : "into";
           let moveIcons = "<div class='push'>";
           let moveText = "";
           if (moveTarget.split(";")[0].toLocaleLowerCase() === "incarna") {
@@ -2074,18 +2121,17 @@ function getPresenceNodeHtml(
             } else {
               moveIcons += "{incarna}";
             }
-            subText = Capitalise(option) + " Your Incarna";
+            subText = "Push Your Incarna";
           } else {
             for (let i = 0; i < moveTarget.split(";").length; i++) {
               moveIcons += "{" + moveTarget.split(";")[i] + "}";
-              moveText += Capitalise(moveTarget.split(";")[i]);
+              moveText += IconName(moveTarget.split(";")[i]);
               if (i < moveTarget.split(";").length - 1) {
                 moveIcons += "{backslash}";
                 moveText += "/";
               }
             }
-            subText =
-              Capitalise(option) + " 1 " + moveText + " " + preposition + " 1 of your Lands";
+            subText = `Push 1 ${moveText} from 1 of your Lands`;
           }
           moveIcons += "</div>";
           inner = "<icon class='push'>" + moveIcons + "</icon>";
@@ -2204,34 +2250,30 @@ function getPresenceNodeHtml(
         }
         case "move-presence": {
           const matches = regExp.exec(splitOptions[0]);
-          let moveRange = matches[1];
-          if (isNaN(moveRange)) {
-            inner =
-              "<track-move-presence>{presence}<move-text>" +
-              moveRange +
-              "</move-text>{move-arrow}</track-move-presence>";
-            localize = {
-              en: "Move a Presence to " + moveRange + " land",
-              de: "",
-              pl: "",
-            };
-            subText = localize[lang];
-          } else {
-            inner =
-              "<track-move-presence>{presence}<move-value>" +
-              moveRange +
-              "</move-value>{move-arrow}</track-move-presence>";
-            localize = {
-              en: "Move a Presence " + moveRange,
-              de: "",
-              pl: "",
-            };
-            subText = localize[lang];
+          let moveRange = 1;
+          inner =
+            "<track-move-presence>{presence}<move-value>" +
+            moveRange +
+            "</move-value>{move-arrow}</track-move-presence>";
+          if (matches[1]) {
+            moveRange = matches[1];
+            if (isNaN(moveRange)) {
+              inner =
+                "<track-move-presence>{presence}<move-text>" +
+                moveRange +
+                "</move-text>{move-arrow}</track-move-presence>";
+            } else {
+              inner =
+                "<track-move-presence>{presence}<move-value>" +
+                moveRange +
+                "</move-value>{move-arrow}</track-move-presence>";
+            }
+            addIconShadow = true;
+            if (addEnergyRing) {
+              addIconShadow = false;
+            }
           }
-          addIconShadow = true;
-          if (addEnergyRing) {
-            addIconShadow = false;
-          }
+          subText = IconName(splitOptions[0]);
           break;
         }
         case "elements":
@@ -2269,6 +2311,23 @@ function getPresenceNodeHtml(
           inner = "<icon class='" + cardplay_text + "'></icon>";
           subText = IconName(option);
           addEnergyRing = false;
+          break;
+        }
+        case "damage": {
+          const matches = regExp.exec(splitOptions[0]);
+          let damageOptions = matches[1].split(";");
+          if (damageOptions[1]) {
+            // damage at range
+            let range = damageOptions[0];
+            let damage = damageOptions[1];
+            inner = `<damage><track-damage><value>${damage}</value></track-damage><range class="small">${range}</range></damage>`;
+          } else {
+            // damage in one of your lands
+            let damage = damageOptions[0];
+            inner = `<track-damage><value>${damage}</value></track-damage>`;
+          }
+          subText = IconName(splitOptions[0]);
+          addIconShadow = true;
           break;
         }
         case "blank": {
@@ -2325,12 +2384,14 @@ function getPresenceNodeHtml(
         }
         // deal with cards and energy
         if (!isNaN(splitOptions[i])) {
+          let num = splitOptions[i];
+          num = numLocalize[lang][num] || num;
           trackIcons +=
             "<" +
             nodeClass +
             "-icon class='small'" +
             "><value>" +
-            splitOptions[i] +
+            num +
             "</value></" +
             nodeClass +
             "-icon>";
@@ -2341,12 +2402,14 @@ function getPresenceNodeHtml(
           trackIcons += "<icon class='" + splitOptions[i] + " small-reclaim'" + "></icon>";
         } else if (splitOptions[i].startsWith("energy")) {
           const matches = regExp.exec(splitOptions[i]);
-          const num = matches[1];
+          let num = matches[1];
+          num = numLocalize[lang][num] || num;
           trackIcons += "<energy-icon class='small'" + "><value>" + num + "</value></energy-icon>";
           addEnergyRing = false;
         } else if (splitOptions[i].startsWith("plays")) {
           const matches = regExp.exec(splitOptions[i]);
-          const num = matches[1];
+          let num = matches[1];
+          num = numLocalize[lang][num] || num;
           addEnergyRing = false;
           trackIcons += "<card-icon class='small'" + "><value>" + num + "</value></card-icon>";
         } else if (splitOptions[i].startsWith("gain-card-play")) {
@@ -2476,27 +2539,17 @@ function IconName(str, iconNum = 1) {
   let txt = "";
   let localize;
   if (matches) {
-    let options = matches[1].split(";");
-    num = options[0];
-    console.log(num);
-    if (lang === "ar") {
-      console.log("localizing numbers!");
-      localize = {
-        0: "٠",
-        1: "١",
-        2: "٢",
-        3: "٣",
-        4: "٤",
-        5: "٥",
-        6: "٦",
-        7: "٧",
-        8: "٨",
-        9: "٩",
-      };
-      num = localize[num];
-      console.log(num);
+    let options = matches[1];
+    if (options.includes(";")) {
+      options = matches[1].split(";");
+    } else {
+      options = matches[1].split(",");
     }
-    txt = options[1];
+    num = options[0];
+    if (!isNaN(num)) {
+      num = numLocalize[lang][num] || num;
+    }
+    txt = options[1] || "";
   }
   str = str.split("(")[0];
   if (!isNaN(str) && isNaN(str[0])) {
@@ -2510,16 +2563,20 @@ function IconName(str, iconNum = 1) {
     case "presence":
       localize = {
         en: "Your Presence",
-        de: "eigenes Gibiet platzeiren",
+        de: "Deine Präsenz",
         pl: "twoją Obecnością",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "incarna":
       localize = {
         en: "Your Incarna",
-        de: "",
+        de: "Dein Incarna",
         pl: "Twoje Inkarna",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
@@ -2532,24 +2589,30 @@ function IconName(str, iconNum = 1) {
     case "elements":
       localize = {
         en: "OR",
-        de: "",
+        de: "ODER",
         pl: "",
+        ar: "",
+        zh: "",
       };
       subText = `${IconName(num)} ${localize[lang]} ${IconName(txt)}`;
       break;
     case "gain-power-card":
       localize = {
         en: "Gain Power Card",
-        de: "",
+        de: "Fähigkeitenkare erhalten",
         pl: "Pozyskaj Kartę Mocy",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "take-power-card":
       localize = {
         en: "Take Power Card",
-        de: "",
+        de: "Fähigkeitenkarte nehmen",
         pl: "Weź Kartę Mocy",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
@@ -2561,14 +2624,18 @@ function IconName(str, iconNum = 1) {
         en: "Reclaim Cards",
         de: "Alle Karten wiedererlangen",
         pl: "Odzyskaj Karty",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "reclaim-one":
       localize = {
         en: "Reclaim One",
-        de: "",
+        de: "1 Karte wiedererlangen",
         pl: "Odzyskaj Jedną",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
@@ -2577,22 +2644,28 @@ function IconName(str, iconNum = 1) {
         en: "Reclaim Cards",
         de: "Alle Karten wiedererlangen",
         pl: "Odzyskaj Karty",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "reclaim-half":
       localize = {
         en: "Reclaim Half <em>(round up)</em>",
-        de: "",
+        de: "Hälfte der Karten wiedererlangen",
         pl: "Odzyskaj połowę <em>(zaokrąglając w górę)</em>",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "forget-power-card":
       localize = {
         en: "Forget Power Card",
-        de: "",
+        de: "Fähigkeitenkarte vergessen",
         pl: "Zapomnij Kartę Mocy",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
@@ -2600,8 +2673,10 @@ function IconName(str, iconNum = 1) {
     case "discard-2-cards":
       localize = {
         en: "Discard 2 Power Cards",
-        de: "",
+        de: "2 Fähigkeitenkarten abwerfen",
         pl: "Odrzuć 2 Karty Mocy",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
@@ -2609,54 +2684,68 @@ function IconName(str, iconNum = 1) {
     case "discard-1-card":
       localize = {
         en: "Discard 1 Power Card",
-        de: "",
+        de: "1 Fähigkeitenkarte abwerfen",
         pl: "Odrzuć 1 Kartę Mocy",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "gain-1-time":
       localize = {
         en: "Gain 1 Time",
-        de: "",
-        pl: "Zyskaj 1 Jednostkę Czasu", //# Unit Of Time is what I suggest - '1 Czas' makes little sense in polish coz its uncountable
+        de: "Erhalte 1 Zeit",
+        pl: "Zyskaj 1 Jednostkę Czasu",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "gain-2-time":
       localize = {
         en: "Gain 2 Time",
-        de: "",
+        de: "Erhalte 2 Zeit",
         pl: "Zyskaj 2 Jednostki Czasu",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "days-never-were":
       localize = {
         en: "Gain Power Card from Days That Never Were",
-        de: "",
+        de: "Fähigkeitenkarte von Tage die nie waren erlangen",
         pl: "Pozyskaj Kartę Mocy z Dni, Które Nigdy Nie Nadeszły",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "destroy-presence":
       localize = {
         en: "Destroy 1 of your Presence",
-        de: "",
+        de: "Zerstöre 1 deiner Präsenzen",
         pl: "Zniszcz 1 ze swoich Obecności",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "destroyed-presence":
       localize = {
         en: "Destroyed Presence",
-        de: "",
+        de: "Zerstörte Präsenz",
         pl: "Zniszczona Obecność",
+        ar: "",
+        zh: "",
       };
       if (iconNum > 1) {
         localize = {
           en: "up to " + iconNum + " Destroyed Presence",
-          de: "",
+          de: "bis zu " + iconNum + " zerstörte Präsenz",
           pl: "do " + iconNum + " Zniszczonych Obecności",
+          ar: "",
+          zh: "",
         };
       }
       subText = localize[lang];
@@ -2664,31 +2753,37 @@ function IconName(str, iconNum = 1) {
     case "make-fast":
       localize = {
         en: "One of your Powers may be Fast",
-        de: "",
+        de: "Eine deiner Fähigkeiten darf schnell sein",
         pl: "Jedna z twoich Mocy może być Szybka",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "gain-card-pay-2":
       localize = {
         en: "Pay 2 Energy to Gain a Power Card",
-        de: "",
+        de: "Zahle 2 Energie, um 1 Fähigkeitenkarte zu erlangen",
         pl: "Wydaj 2 Energii, by Pozyskać Kartę Mocy",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "ignore-range":
       localize = {
         en: "You may ignore Range this turn",
-        de: "",
+        de: "Ignoriere diese Runde Reichweite",
         pl: "W tej turze możesz ignorować Zasięg Mocy",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "markerplus":
       localize = {
         en: "Prepare " + iconNum + " Element Marker" + plural,
-        de: "",
+        de: iconNum + " Element-Marker vorbereiten",
         pl:
           iconNum > 1
             ? "Przygotuj " + iconNum + " Znaczników Żywiołów"
@@ -2699,57 +2794,123 @@ function IconName(str, iconNum = 1) {
     case "markerminus":
       localize = {
         en: "Discard " + iconNum + " Element Marker" + plural,
-        de: "",
+        de: iconNum + " Element-Marker ablegen",
         pl:
           iconNum > 1 ? "Odrzuć " + iconNum + " Znaczników Żywiołów" : "Odrzuć 1 Znacznik Żywiołów",
       };
       subText = localize[lang];
       break;
     case "isolate":
-      localize = {
-        en: "Isolate " + iconNum + " of your Lands",
-        de: "",
-        pl: iconNum > 1 ? "Izoluj " + iconNum + " twoje krainy" : "Izoluj 1 twoją krainę",
-      };
+      if (num) {
+        localize = {
+          en: "Isolate a Land",
+          de: "",
+          pl: "Izoluj Krainę",
+          ar: "",
+          zh: "",
+        };
+      } else {
+        localize = {
+          en: "Isolate " + iconNum + " of your Lands",
+          de: iconNum + " deiner Gebiete isolieren",
+          pl: iconNum > 1 ? "Izoluj " + iconNum + " twoje krainy" : "Izoluj 1 twoją krainę",
+          ar: "",
+          zh: "",
+        };
+      }
       subText = localize[lang];
       break;
     case "reclaim-none":
       localize = {
         en: "Reclaim None",
-        de: "",
-        pl: "Nie Odzyskuj Karty", //# I translated to 'do not reclaim a card', anything else makes little sense in polish, coz we can only negate the verb here
+        de: "Nichts wiedererlangen",
+        pl: "Nie Odzyskuj Karty",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "increase-energy":
       localize = {
         en: "+" + num + " Energy",
-        de: "",
-        pl: "+" + num + " Energii", //# ok, I think like that
+        de: "+" + num + " Energie",
+        pl: "+" + num + " Energii",
       };
       subText = localize[lang];
       break;
     case "move-presence":
-      localize = {
-        en: "Move Presence " + num[0],
-        de: "",
-        pl: "Przenieś Obecność " + num[0],
-      };
+      if (txt) {
+        localize = {
+          en: "Move up to " + txt + " Presence together",
+          de: "",
+          pl: "Przesuń do " + txt + " Obecności jednocześnie",
+          ar: "",
+        };
+      } else if (num) {
+        if (isNaN(num)) {
+          // its text
+          localize = {
+            en: "Move a Presence to " + IconName(num) + " land",
+            de: "",
+            pl: "",
+          };
+        } else {
+          // its a number
+          localize = {
+            en: "Move a Presence " + num,
+            de: "Präsenz " + num + " bewegen",
+            pl: "Przenieś Obecność " + num,
+            ar: "",
+          };
+        }
+      } else {
+        // its just move-presence text
+        localize = {
+          en: "Move a Presence",
+          de: "Präsenz " + num + " bewegen",
+          pl: "Przesuń Obecność",
+          ar: "",
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "damage":
+      if (txt) {
+        localize = {
+          en: `${num} Damage at Range ${txt}`,
+          de: `${num} Schaden mit ${txt} Reichweite`,
+          pl: `${num} Obrażeń w Zasięgu ${txt}`,
+          ar: "",
+          zh: "",
+        };
+      } else {
+        localize = {
+          en: `${num} Damage in one of your Lands`,
+          de: "1 Schaden in 1 deiner Gebiete",
+          pl: "1 Obrażenie w jednej z twoich Krain",
+          ar: "",
+          zh: "",
+        };
+      }
       subText = localize[lang];
       break;
     case "damage-1":
       localize = {
         en: "Deal 1 Damage in one of your Lands",
-        de: "",
+        de: "1 Schaden in 1 deiner Gebiete",
         pl: "1 Obrażenie w jednej z twoich Krain",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
     case "damage-2":
       localize = {
         en: "Deal 2 Damage in one of your Lands",
-        de: "",
+        de: "1 Schaden in 2 deiner Gebiete",
         pl: "2 Obrażenia w jednej z twoich Krain",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
@@ -2759,15 +2920,15 @@ function IconName(str, iconNum = 1) {
     case "gain-range":
       localize = {
         en: `+${num[0]} Range`,
-        de: "",
+        de: `+${num[0]} Reichweite`,
         pl: `+${num[0]} Zasięgu`,
       };
       subText = localize[lang];
       if (typeof txt !== "undefined") {
         localize = {
           en: ` on ${txt}`,
-          de: "",
-          pl: ` na ${txt}`, //# I think like this
+          de: ` kein ${txt}`,
+          pl: ` na ${txt}`,
         };
         subText += localize[lang];
       }
@@ -2792,13 +2953,16 @@ function IconName(str, iconNum = 1) {
     case "empower-incarna":
       localize = {
         en: "Empower Incarna",
-        de: "",
+        de: "Incarna verstärken",
         pl: "Wzmocnij Inkarna",
       };
       subText = localize[lang];
       break;
     default:
       subText = iconNum > 1 ? iconNum + " " + Capitalise(str) : Capitalise(str);
+      if (!isNaN(subText)) {
+        subText = numLocalize[lang][subText] || subText;
+      }
   }
 
   return subText;

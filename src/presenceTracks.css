@@ -64,6 +64,3 @@ div.presence-track-row .presence-input-block:focus {
   min-width: 180px;
   z-index: 5;
 }
-div.presence-track-row div.control:focus-within button {
-  display: none;
-}
