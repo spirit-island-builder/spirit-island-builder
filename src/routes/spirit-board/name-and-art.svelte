@@ -42,7 +42,7 @@
 </script>
 
 <Section
-  title="Spirit Name, Artwork, Language and Accesibility"
+  title="Spirit Name, Artwork, Language and Accessibility"
   bind:isVisible={spiritBoard.nameAndArt.isVisible}>
   <div class="mb-1 p-1 note">
     <InstructionsLink anchor="spirit-name-and-art" />
@@ -166,6 +166,10 @@
       class="button is-small is-success"
       class:is-light={spiritBoard.nameAndArt.language !== "ar"}
       on:click={setLanguage("ar", spiritBoard)}>عربي</button>
+  </div>
+  <div class="content">
+    Translation support is incomplete. For growth and presence tracks, put "*Any custom text" at the
+    end of your options to re-write the auto-generated text.
   </div>
   <label class="label is-small " for="spiritNameInput">Custom headings</label>
   <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap pb-4">
