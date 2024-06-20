@@ -101,6 +101,75 @@ board.printer-clean growth-bottom {
   padding-right:5px;
 } */
 
+/* In most cases, we want simple element icons. */
+growth icon.sun {
+  background-image: url(../../images/board/element_simple_sun.png);
+}
+
+growth icon.earth {
+  background-image: url(../../images/board/element_simple_earth.png);
+}
+
+growth icon.plant {
+  background-image: url(../../images/board/element_simple_plant.png);
+}
+
+growth icon.fire {
+  background-image: url(../../images/board/element_simple_fire.png);
+}
+
+growth icon.air {
+  background-image: url(../../images/board/element_simple_air.png);
+}
+
+growth icon.moon {
+  background-image: url(../../images/board/element_simple_moon.png);
+}
+
+growth icon.animal {
+  background-image: url(../../images/board/element_simple_animal.png);
+}
+
+growth icon.water {
+  background-image: url(../../images/board/element_simple_water.png);
+}
+
+growth icon.any {
+  background-image: url(../../images/board/element_simple_any.png);
+}
+
+/* Gain is the exception */
+growth gain icon.sun {
+  background-image: url("../../images/board/Sun.png");
+}
+growth gain icon.moon {
+  background-image: url("../../images/board/Moon.png");
+}
+growth gain icon.fire {
+  background-image: url("../../images/board/Fire.png");
+}
+growth gain icon.air {
+  background-image: url("../../images/board/Air.png");
+}
+growth gain icon.plant {
+  background-image: url("../../images/board/Plant.png");
+}
+growth gain icon.water {
+  background-image: url("../../images/board/Water.png");
+}
+growth gain icon.earth {
+  background-image: url("../../images/board/Earth.png");
+}
+growth gain icon.animal {
+  background-image: url("../../images/board/Animal.png");
+}
+growth gain icon.star {
+  background-image: url("../../images/board/NewIcons/Element Star.png");
+}
+growth gain icon.any {
+  background-image: url("../../images/board/Any.png");
+}
+
 growth-table.has-special-title {
   padding-top: 28px;
 }
@@ -880,12 +949,15 @@ icon.take-power-card icon.gain-card-modifier {
   width: 40px;
 }
 
-icon.gain-card-second-modifier {
-  width: 35px;
+div.gain-card-second-modifier {
   position: absolute;
   right: 0px;
   top: -35px;
   display: block;
+}
+
+div.gain-card-second-modifier icon {
+  width: 35px;
 }
 
 token-wrap {
@@ -1594,42 +1666,6 @@ gain-per-element icon.custom3 {
   height: 60px;
   width: 50px;
   z-index: 0;
-}
-
-gain-per-element icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-
-gain-per-element icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-gain-per-element icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-gain-per-element icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-gain-per-element icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-gain-per-element icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-gain-per-element icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-gain-per-element icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-gain-per-element icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
 }
 
 gain-per-element ring-icon {
