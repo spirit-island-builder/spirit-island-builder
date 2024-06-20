@@ -166,6 +166,10 @@
       class="button is-small is-success"
       class:is-light={spiritBoard.nameAndArt.language !== "ar"}
       on:click={setLanguage("ar", spiritBoard)}>عربي</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={spiritBoard.nameAndArt.language !== "zh"}
+      on:click={setLanguage("zh", spiritBoard)}>中国人</button>
   </div>
   <div class="content">
     Translation support is incomplete. For growth and presence tracks, put "*Any custom text" at the
