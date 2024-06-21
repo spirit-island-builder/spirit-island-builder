@@ -1421,11 +1421,11 @@ function getGrowthActionTextAndIcons(growthAction) {
       let tokenNum = tokenOptions[2];
       let tokenReqOpen = "<custom-icon>";
       let tokenReqClose = "</custom-icon>";
-      let tokenText = "";
       let tokenIcons = "";
+      let iconNameVars = range;
       if (!tokenNum) {
         tokenIcons = "+<icon class='" + token + " token'></icon>";
-        tokenText = "Add a " + Capitalise(token);
+        iconNameVars += `,${"and"},${token}`;
       } else if (!isNaN(tokenNum)) {
         // multiple of the same token
         tokenIcons += "+";
@@ -1436,29 +1436,22 @@ function getGrowthActionTextAndIcons(growthAction) {
             tokenIcons += "<icon class='" + token + " token'></icon>";
           }
         }
-        tokenText = "Add " + IconName(token, tokenNum) + " together";
+        iconNameVars += `,${"and"},${token},${tokenNum}`;
       } else {
         // two or more different tokens
         const operator = tokenOptions.at(-1);
         tokenIcons += "+<icon class='" + token + " token'></icon>";
-        tokenText += "Add a " + Capitalise(token);
         if (operator === "and" || operator === "or") {
           for (let i = 2; i < tokenOptions.length - 1; i++) {
             tokenIcons += operator === "or" ? "/" : "";
             tokenIcons += "<icon class='" + tokenOptions[i] + " token'></icon>";
-            tokenText += i === tokenOptions.length - 2 ? " " + operator + " " : ", ";
-            tokenText += Capitalise(tokenOptions[i]);
           }
-          if (operator === "and") {
-            tokenText += " together";
-          }
-        } else {
-          tokenText = "MUST use AND or OR";
         }
+        iconNameVars += `,${operator},${tokenOptions.slice(1, -1)}`;
       }
       growthIcons =
         tokenReqOpen + "<token-wrap>" + tokenIcons + "</token-wrap>" + tokenRange + tokenReqClose;
-      growthText = tokenText;
+      growthText = IconName(`add-token(${iconNameVars})`);
       break;
     }
     case "replace": {
@@ -1984,7 +1977,6 @@ function getPresenceNodeHtml(
     // const matches = regExpOuterParentheses.exec(nodeText);
     let splitNodes = nodeText.split("/");
     let splitSubtext = "";
-    console.log("find split");
     for (let i = 0; i < splitNodes.length; i++) {
       let splitNodeHTML = getPresenceNodeHtml(
         splitNodes[i],
@@ -2234,12 +2226,7 @@ function getPresenceNodeHtml(
           const tokenAdd = matches[1];
           inner =
             "<icon class='your-land'>{misc-plus}<icon class='" + tokenAdd + "'></icon></icon>";
-          localize = {
-            en: "Add 1 " + IconName(tokenAdd) + " to 1 of your Lands",
-            de: "",
-            pl: "",
-          };
-          subText = localize[lang];
+          subText = IconName(`add-token(${tokenAdd})`);
           break;
         }
         case "custom": {
@@ -2558,9 +2545,10 @@ function IconName(str, iconNum = 1) {
   let txt = "";
   let opt3 = "";
   let opt4 = "";
+  let options;
   let localize;
   if (matches) {
-    let options = matches[1];
+    options = matches[1];
     if (options.includes(";")) {
       options = matches[1].split(";");
     } else {
@@ -3078,6 +3066,50 @@ function IconName(str, iconNum = 1) {
         subText += localize[lang];
       }
       break;
+    case "add-token":
+      //add-token(range#/token,and/or,token,num/[othertokens])
+      if (isNaN(num)) {
+        // its a presence track token
+        localize = {
+          en: "Add 1 " + IconName(num) + " to 1 of your Lands",
+          de: "",
+          pl: "",
+          ar: ``,
+          zh: ``,
+        };
+      } else {
+        // its a growth token
+        if (opt4 && isNaN(opt4)) {
+          //multiple tokens of different types
+          localize = {
+            en: `Add a ${ListLocalize(options.slice(2), txt)} ${txt === "and" ? "together" : ""}`,
+            de: ``,
+            pl: ``,
+            ar: ``,
+            zh: ``,
+          };
+        } else if (opt4) {
+          //multiple tokens of the same type
+          localize = {
+            en: `Add ${IconName(opt3, opt4)} together`,
+            de: ``,
+            pl: ``,
+            ar: ``,
+            zh: ``,
+          };
+        } else {
+          // one token
+          localize = {
+            en: `Add a ${IconName(opt3)}`,
+            de: ``,
+            pl: ``,
+            ar: ``,
+            zh: ``,
+          };
+        }
+      }
+      subText = localize[lang];
+      break;
     case "inland":
     case "coastal":
     case "invaders":
@@ -3143,6 +3175,23 @@ function Capitalise(str, plural = 0) {
   }
 
   return return_str;
+}
+
+function ListLocalize(list, conjuction = "and") {
+  let listText = "";
+  console.log(list);
+  switch (lang) {
+    case "en":
+      if (conjuction === "and" || conjuction === "or") {
+        listText += IconName(list[0]);
+        for (let i = 1; i < list.length; i++) {
+          listText += i === list.length - 1 ? ` ${conjuction} ` : ", ";
+          listText += IconName(list[i]);
+        }
+      }
+      break;
+  }
+  return listText;
 }
 
 // function translateElementsAndTokens(str){
