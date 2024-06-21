@@ -1941,7 +1941,7 @@ function getPresenceNodeHtml(
 ) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
-  let pnDebug = true;
+  let pnDebug = false;
   let nodeClass = "";
 
   // Every node will have a presence-node element with
@@ -1967,14 +1967,13 @@ function getPresenceNodeHtml(
         first +
         ", nodeIndex:" +
         nodeIndex +
-        " trackType: " +
+        ", trackType: " +
         trackType
     );
   }
 
   // Handle Splitpath nodes
   if (nodeText.includes("/")) {
-    // const matches = regExpOuterParentheses.exec(nodeText);
     let splitNodes = nodeText.split("/");
     let splitSubtext = "";
     for (let i = 0; i < splitNodes.length; i++) {
@@ -2540,13 +2539,15 @@ function updatePresenceNodeIDs() {
 
 function IconName(str, iconNum = 1) {
   const regExp = /\(([^)]+)\)/;
-  const matches = regExp.exec(str);
   let num = "";
   let txt = "";
   let opt3 = "";
   let opt4 = "";
   let options;
   let localize;
+
+  // identify if 'str' contains options
+  const matches = regExp.exec(str);
   if (matches) {
     options = matches[1];
     if (options.includes(";")) {
@@ -2562,13 +2563,26 @@ function IconName(str, iconNum = 1) {
     opt3 = options[2] || "";
     opt4 = options[3] || "";
   }
+
+  // Remove the options, if present
   str = str.split("(")[0];
+
+  // if its a number, but it starts with +/-
   if (!isNaN(str) && isNaN(str[0])) {
     num = str[1];
     str = "increase-energy";
   }
   let plural = iconNum > 1 ? "s" : "";
   let subText;
+
+  // handle icon name pre-fixes
+  if (str.startsWith("incarna-")) {
+    str = str.replace("incarna-", "");
+    console.log("removing incarna from icon name");
+  }
+  // if (str.startsWith("custom")) {
+  //   str = getCustomIconName(str);
+  // }
 
   switch (str) {
     case "presence":
@@ -3182,6 +3196,10 @@ function ListLocalize(list, conjuction = "and") {
   console.log(list);
   switch (lang) {
     case "en":
+      // goal is to construct lists of items in your language:
+      // list1, list2 and list3
+      // list1 and list2
+      // list1, list2 or list3
       if (conjuction === "and" || conjuction === "or") {
         listText += IconName(list[0]);
         for (let i = 1; i < list.length; i++) {
@@ -3193,10 +3211,6 @@ function ListLocalize(list, conjuction = "and") {
   }
   return listText;
 }
-
-// function translateElementsAndTokens(str){
-//   return str
-// }
 
 function setupCustomIcons() {
   const spiritStyle = document.querySelectorAll("style")[0];
