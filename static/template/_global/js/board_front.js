@@ -873,19 +873,15 @@ function getGrowthActionTextAndIcons(growthAction) {
 
       let preposition = growthActionType === "push" ? "from" : "into";
 
-      let moveText = "";
       let moveIcons = "";
       let moveTarget = matches[1];
       let moveOptions = moveTarget.split(",");
       let moveRange = moveOptions[1];
       let moveNum = moveOptions[2];
-      let plural = 0;
       if (!moveNum) {
         moveNum = 1;
       } else if (isNaN(moveNum)) {
         moveNum = moveNum.toUpperCase();
-      } else {
-        plural = moveNum > 1 ? 1 : 0;
       }
       if (moveRange) {
         moveTarget = moveOptions[0];
@@ -893,32 +889,8 @@ function getGrowthActionTextAndIcons(growthAction) {
           let moveCondition = moveRange;
           // Gather/Push into/from a sacred site, land with token, or terrain
 
-          // Text
-          if (isNaN(moveNum)) {
-            moveText +=
-              Capitalise(growthActionType) +
-              " 1 " +
-              Capitalise(moveTarget) +
-              " " +
-              preposition +
-              " " +
-              moveNum;
-          } else {
-            moveText +=
-              Capitalise(growthActionType) +
-              " " +
-              moveNum +
-              " " +
-              Capitalise(moveTarget) +
-              " " +
-              preposition;
-          }
           switch (moveCondition) {
             case "sacred-site":
-              if (isNaN(moveNum)) {
-                moveText += " of";
-              }
-              moveText += " your Sacred Sites";
               moveIcons +=
                 "<push-gather><icon class='" +
                 growthActionType +
@@ -968,13 +940,8 @@ function getGrowthActionTextAndIcons(growthAction) {
                 " " +
                 preposition +
                 "'></icon></icon></push-gather>";
-              moveText += " " + Capitalise(moveCondition, plural);
               break;
             default:
-              if (moveNum === 1) {
-                moveText += " 1";
-              }
-              moveText += " of your Lands with " + Capitalise(moveCondition);
               moveIcons +=
                 "<push-gather><icon class='" +
                 growthActionType +
@@ -999,13 +966,6 @@ function getGrowthActionTextAndIcons(growthAction) {
             "<range-growth><value>" +
             moveRange +
             "</value></range-growth></push-gather-range-req>";
-          moveText +=
-            Capitalise(growthActionType) +
-            " up to 1 " +
-            Capitalise(moveTarget) +
-            " " +
-            preposition +
-            " a Land";
         }
       } else {
         moveIcons +=
@@ -1014,16 +974,9 @@ function getGrowthActionTextAndIcons(growthAction) {
           "'>{" +
           moveTarget +
           "}</icon></push-gather>";
-        moveText +=
-          Capitalise(growthActionType) +
-          " 1 " +
-          Capitalise(moveTarget) +
-          " " +
-          preposition +
-          ` 1 of your Lands`;
       }
       growthIcons = moveIcons;
-      growthText = moveText;
+      growthText = IconName(growthAction);
       break;
     }
     case "presence-no-range": {
@@ -1347,12 +1300,11 @@ function getGrowthActionTextAndIcons(growthAction) {
             "<icon class='discard-card'><icon class='discard-element " +
             discardElement +
             "'></icon></icon>";
-          growthText = "Discard a Power Card with " + Capitalise(discardElement);
         }
       } else {
         growthIcons = "{discard-card}";
-        growthText = "Discard a Card";
       }
+      growthText = IconName(growthAction);
       break;
     }
     case "incarna": {
@@ -1375,11 +1327,9 @@ function getGrowthActionTextAndIcons(growthAction) {
             "<move-growth>" +
             incarnaRangeOrToken +
             "</move-growth></custom-icon2>";
-          growthText = "Move Incarna";
           break;
         case "empower":
           growthIcons = "{empower-incarna}";
-          growthText = "Empower Incarna";
           break;
         case "add-move":
           growthIcons =
@@ -1388,7 +1338,6 @@ function getGrowthActionTextAndIcons(growthAction) {
             '"></icon><icon class="' +
             incarnaRangeOrToken +
             ' with-your"></icon></add-move-lower></custom-icon>';
-          growthText = "Add/Move Incarna to Land with " + IconName(incarnaRangeOrToken);
           break;
         case "replace":
           growthIcons =
@@ -1397,7 +1346,6 @@ function getGrowthActionTextAndIcons(growthAction) {
             '"><icon class="replace-with-incarna no ' +
             incarnaRangeOrToken +
             '"></custom-icon>';
-          growthText = "You may Replace " + IconName(incarnaRangeOrToken) + " with your Incarna";
           break;
         case "add-token":
           growthIcons =
@@ -1406,10 +1354,10 @@ function getGrowthActionTextAndIcons(growthAction) {
             '"></add-token-upper><add-token-lower><icon class="incarna ' +
             customIncarnaIcon +
             '"><add-token-lower></custom-icon>';
-          growthText = "Add a " + IconName(incarnaRangeOrToken) + " at your Incarna";
           break;
         default:
       }
+      growthText = IconName(growthAction);
       break;
     }
     case "add-token": {
@@ -1455,8 +1403,8 @@ function getGrowthActionTextAndIcons(growthAction) {
       break;
     }
     case "replace": {
-      let replaceText = "";
       let replaceIcons = "";
+      let iconNameVars = "0";
       const matches = regExp.exec(growthAction);
       let replaceOptions = matches[1].split(",");
       let range = replaceOptions[0];
@@ -1464,8 +1412,10 @@ function getGrowthActionTextAndIcons(growthAction) {
 
       let shift = 0;
       if (x_is_num) {
+        iconNameVars = replaceOptions[0];
         shift += 1;
       }
+      iconNameVars += "," + replaceOptions[shift] + "," + replaceOptions[shift + 1];
       if (x_is_num) {
         // Ranged replace
         replaceIcons =
@@ -1476,13 +1426,6 @@ function getGrowthActionTextAndIcons(growthAction) {
           '"></icon></replace-wrap><range-growth><value>' +
           range +
           "</value></range-growth></custom-icon>";
-        console.log(replaceIcons);
-        replaceText =
-          "You may Replace " +
-          IconName(replaceOptions[shift]) +
-          " with " +
-          IconName(replaceOptions[shift + 1]);
-        console.log(replaceText);
       } else {
         // Local replace
         replaceIcons =
@@ -1491,15 +1434,9 @@ function getGrowthActionTextAndIcons(growthAction) {
           '"></icon>+<icon class="replace-with ' +
           replaceOptions[shift + 1] +
           '"></icon></replace-wrap></custom-icon>';
-        replaceText =
-          "You may Replace 1 " +
-          IconName(replaceOptions[shift]) +
-          " in your Lands with " +
-          IconName(replaceOptions[shift + 1]);
       }
-
       growthIcons = replaceIcons;
-      growthText = replaceText;
+      growthText = IconName(`replace(${iconNameVars})`);
       break;
     }
     default: {
@@ -1817,9 +1754,34 @@ let elNames = {
 
 let landtypeNames = {
   en: {
-    inland: "inland",
-    coastal: "coastal",
-    invaders: "invaders",
+    "ocean": "Ocean",
+    "oceans": "Ocean",
+    "mountain": "Mountain",
+    "jungle": "Jungle",
+    "sand": "Sands",
+    "sands": "Sands",
+    "wetland": "Wetland",
+    "jungle-wetland": "Jungle or Wetland",
+    "wetland-jungle": "Jungle or Wetland",
+    "jungle-sand": "Jungle or Sands",
+    "sand-jungle": "Jungle or Sands",
+    "jungle-sands": "Jungle or Sands",
+    "sands-jungle": "Jungle or Sands",
+    "sand-wetland": "Sands or Wetland",
+    "wetland-sand": "Sands or Wetland",
+    "sands-wetland": "Sands or Wetland",
+    "wetland-sands": "Sands or Wetland",
+    "mountain-jungle": "Mountain or Jungle",
+    "jungle-mountain": "Mountain or Jungle",
+    "mountain-wetland": "Mountain or Wetland",
+    "wetland-mountain": "Mountain or Wetland",
+    "mountain-sand": "Mountain or Sands",
+    "sand-mountain": "Mountain or Sands",
+    "mountain-sands": "Mountain or Sands",
+    "sands-mountain": "Mountain or Sands",
+    "inland": "inland",
+    "coastal": "coastal",
+    "invaders": "invaders",
   },
   de: {
     inland: "inland",
@@ -1941,7 +1903,7 @@ function getPresenceNodeHtml(
 ) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
-  let pnDebug = false;
+  let pnDebug = true;
   let nodeClass = "";
 
   // Every node will have a presence-node element with
@@ -2097,7 +2059,7 @@ function getPresenceNodeHtml(
       let findInd = splitOptions.indexOf("energy(");
       if (splitOptions.length > 2) {
         // Multioption
-        splitOptions[findInd] = "+" + splitOptions[findInd + 1];
+        splitOptions[findInd] = "bonusenergy(" + splitOptions[findInd + 1] + ")";
         splitOptions[findInd] = splitOptions[findInd].substring(
           0,
           splitOptions[findInd].length - 1
@@ -2117,47 +2079,35 @@ function getPresenceNodeHtml(
         console.log("Single Option: " + option + " with " + splitOptions[0]);
       }
 
-      let localize;
-
       switch (option) {
         case "push": {
           const matches = regExp.exec(splitOptions[0]);
           const moveTarget = matches[1];
           let moveIcons = "<div class='push'>";
-          let moveText = "";
           if (moveTarget.split(";")[0].toLocaleLowerCase() === "incarna") {
             if (moveTarget.split(";")[1]) {
               moveIcons += `<icon class="incarna ${moveTarget.split(";")[1]}"></icon>`;
             } else {
               moveIcons += "{incarna}";
             }
-            subText = "Push Your Incarna";
           } else {
             for (let i = 0; i < moveTarget.split(";").length; i++) {
               moveIcons += "{" + moveTarget.split(";")[i] + "}";
-              moveText += IconName(moveTarget.split(";")[i]);
               if (i < moveTarget.split(";").length - 1) {
                 moveIcons += "{backslash}";
-                moveText += "/";
               }
             }
-            subText = `Push 1 ${moveText} from 1 of your Lands`;
           }
           moveIcons += "</div>";
           inner = "<icon class='push'>" + moveIcons + "</icon>";
-
+          subText = IconName("track-" + splitOptions[0]);
           break;
         }
         case "gather": {
           const matches = regExp.exec(splitOptions[0]);
           const moveTarget = matches[1];
           inner = "<icon class='gather'><icon class='" + moveTarget + "'></icon></icon>";
-          localize = {
-            en: `Gather 1 ${Capitalise(moveTarget)} into 1 of your Lands`,
-            de: "",
-            pl: "",
-          };
-          subText = localize[lang];
+          subText = IconName("track-" + splitOptions[0]);
           break;
         }
         case "energy": {
@@ -2195,18 +2145,11 @@ function getPresenceNodeHtml(
           let addMoveHelper;
           switch (incarnaAction) {
             case "empower":
-              subText = IconName("empower-incarna");
               inner = "{empower-incarna}";
               break;
             case "addmove":
             case "add-move":
               addMoveHelper = incarnaOptions[2] ? incarnaOptions[2] : "presence";
-              localize = {
-                en: "Add/Move Incarna to Land with " + IconName(addMoveHelper),
-                de: "",
-                pl: "",
-              };
-              subText = localize[lang];
               inner =
                 '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
                 customIncarnaIcon +
@@ -2215,9 +2158,9 @@ function getPresenceNodeHtml(
                 ' with-your"></icon></add-move-lower></custom-icon>';
               break;
             default:
-              subText = IconName("empower-incarna");
               inner = "{empower-incarna}";
           }
+          subText = IconName(splitOptions[0]);
           break;
         }
         case "token": {
@@ -2411,6 +2354,12 @@ function getPresenceNodeHtml(
           num = numLocalize[lang][num] || num;
           trackIcons += "<energy-icon class='small'" + "><value>" + num + "</value></energy-icon>";
           addEnergyRing = false;
+        } else if (splitOptions[i].startsWith("bonusenergy")) {
+          const matches = regExp.exec(splitOptions[i]);
+          let num = matches[1];
+          num = numLocalize[lang][num] || num;
+          trackIcons += "<energy-icon class='small'" + "><value>+" + num + "</value></energy-icon>";
+          addEnergyRing = false;
         } else if (splitOptions[i].startsWith("plays")) {
           const matches = regExp.exec(splitOptions[i]);
           let num = matches[1];
@@ -2596,17 +2545,81 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "incarna":
-      localize = {
-        en: "Your Incarna",
-        de: "Dein Incarna",
-        pl: "Twoje Inkarna",
-        ar: "",
-        zh: "你的化身",
-      };
+      if (num) {
+        switch (num) {
+          case "empower":
+            localize = {
+              en: "Empower Incarna",
+              de: "Incarna verstärken",
+              pl: "Wzmocnij Inkarna",
+              ar: ``,
+              zh: ``,
+            };
+            break;
+          case "addmove":
+          case "add-move":
+            localize = {
+              en: txt
+                ? `Add/Move Incarna to Land with ${IconName(txt)}`
+                : `Add/Move Incarna to Land with ${IconName("presence")}`,
+              de: ``,
+              pl: ``,
+              ar: ``,
+              zh: ``,
+            };
+            break;
+          case "replace":
+            localize = {
+              en: `You may Replace ${IconName(txt)} with your Incarna`,
+              de: ``,
+              pl: ``,
+              ar: ``,
+              zh: ``,
+            };
+            break;
+          case "move":
+            localize = {
+              en: "Move Incarna",
+              de: "",
+              pl: "",
+              ar: ``,
+              zh: ``,
+            };
+            break;
+          case "add-token":
+            localize = {
+              en: `Add a ${IconName(txt)} at your Incarna`,
+              de: "",
+              pl: "",
+              ar: ``,
+              zh: ``,
+            };
+            break;
+          default:
+            localize = {
+              en: "Empower Incarna",
+              de: "Incarna verstärken",
+              pl: "Wzmocnij Inkarna",
+              ar: ``,
+              zh: ``,
+            };
+        }
+      } else {
+        localize = {
+          en: "Your Incarna",
+          de: "Dein Incarna",
+          pl: "Twoje Inkarna",
+          ar: "",
+          zh: "你的化身",
+        };
+      }
       subText = localize[lang];
       break;
     case "energy":
       subText = `${num} ${Energy[lang]}`;
+      break;
+    case "bonusenergy":
+      subText = `+${num} ${Energy[lang]}`;
       break;
     case "plays":
       subText = `${num} ${CardPlay[lang]}${plural}`;
@@ -2821,6 +2834,26 @@ function IconName(str, iconNum = 1) {
         ar: "",
         zh: "棄置1張法術牌",
       };
+      subText = localize[lang];
+      break;
+    case "discard":
+      if (num) {
+        localize = {
+          en: "Discard a Power Card with " + IconName(num),
+          de: "",
+          pl: "",
+          ar: "",
+          zh: "",
+        };
+      } else {
+        localize = {
+          en: "Discard a Card",
+          de: "1 Fähigkeitenkarte abwerfen",
+          pl: "Odrzuć 1 Kartę Mocy",
+          ar: "",
+          zh: "棄置1張法術牌",
+        };
+      }
       subText = localize[lang];
       break;
     case "gain-1-time":
@@ -3123,6 +3156,203 @@ function IconName(str, iconNum = 1) {
         }
       }
       subText = localize[lang];
+      break;
+    case "replace":
+      if (num > 0) {
+        localize = {
+          en: `You may Replace ${IconName(txt)} with ${IconName(opt3)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else {
+        localize = {
+          en: `You may Replace 1 ${IconName(txt)} in your Lands with ${IconName(opt3)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "push":
+      if (txt && !isNaN(txt)) {
+        // second option is a number - P/G at range
+        localize = {
+          en: `Push up to 1 ${IconName(num)} from a Land`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (opt3 && !isNaN(opt3)) {
+        // third option is a number - Conditional P/G at multiple sites
+        localize = {
+          en: `Push ${IconName(opt3)} ${IconName(num)} from ${IconName(txt)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (opt3) {
+        // third option is text - Conditional P/G at TEXT
+        localize = {
+          en: `Push 1 ${IconName(num)} from ${IconName(opt3)} ${IconName(txt)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (txt) {
+        // only two options, the second is text - P/G
+        localize = {
+          en: landtypeNames[lang][txt]
+            ? `Push 1 ${IconName(num)} from ${IconName(txt)}`
+            : `Push 1 ${IconName(num)} from 1 of your Lands with ${IconName(txt)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else {
+        // only one option
+        localize = {
+          en: `Push 1 ${IconName(num)} from 1 of your Lands`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "track-push":
+      if (num === "incarna") {
+        localize = {
+          en: `Push ${IconName(num)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else {
+        subText = IconName(num);
+        for (let i = 1; i < options.length; i++) {
+          subText += "/" + IconName(options[i]);
+        }
+        localize = {
+          en: `Push 1 ${subText} from 1 of your Lands`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "gather":
+      if (txt && !isNaN(txt)) {
+        // second option is a number - P/G at range
+        localize = {
+          en: `Gather up to 1 ${IconName(num)} into a Land`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (opt3 && !isNaN(opt3)) {
+        // third option is a number - Conditional P/G at multiple sites
+        localize = {
+          en: `Gather ${IconName(opt3)} ${IconName(num)} into ${IconName(txt)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (opt3) {
+        // third option is text - Conditional P/G at TEXT
+        localize = {
+          en: `Gather 1 ${IconName(num)} into ${IconName(opt3)} ${IconName(txt)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (txt) {
+        // only two options, the second is text - P/G
+        localize = {
+          en: landtypeNames[lang][txt]
+            ? `Gather 1 ${IconName(num)} into ${IconName(txt)}`
+            : `Gather 1 ${IconName(num)} into 1 of your Lands with ${IconName(txt)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else {
+        // only one option
+        localize = {
+          en: `Gather 1 ${IconName(num)} into 1 of your Lands`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "track-gather":
+      if (num === "incarna") {
+        localize = {
+          en: `Push ${IconName(num)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else {
+        subText = IconName(num);
+        for (let i = 1; i < options.length; i++) {
+          subText += "/" + IconName(options[i]);
+        }
+        localize = {
+          en: `Push 1 ${subText} from 1 of your Lands`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "wetland":
+    case "sand":
+    case "sands":
+    case "mountain":
+    case "jungle":
+    case "jungle-wetland":
+    case "jungle-sand":
+    case "jungle-sands":
+    case "jungle-mountain":
+    case "sand-wetland":
+    case "sands-wetland":
+    case "sand-jungle":
+    case "sands-jungle":
+    case "sand-mountain":
+    case "sands-mountain":
+    case "mountain-wetland":
+    case "mountain-sand":
+    case "mountain-sands":
+    case "mountain-jungle":
+    case "wetland-jugnle":
+    case "wetland-mountain":
+    case "wetland-sand":
+    case "wetland-sands":
+    case "ocean":
+    case "oceans":
+      subText = landtypeNames[lang][str];
       break;
     case "inland":
     case "coastal":

@@ -24,7 +24,6 @@ function getElement(name) {
 function buildScenario(quickScenario) {
   quickScenario = document.querySelectorAll("quick-scenario")[0];
 
-  console.log(document.body);
   // Build Scenario
   let scenario = document.createElement("scenario");
   quickScenario.parentNode.appendChild(scenario);
@@ -83,6 +82,12 @@ function buildScenario(quickScenario) {
 
   evaluateComments(scenarioFront);
   evaluateComments(scenarioBack);
+
+  let credit = document.createElement("created-with");
+  credit.textContent = "spiritislandbuilder.com";
+  let meeple = document.createElement("custom-meeple");
+  scenarioBack.appendChild(credit);
+  scenarioBack.appendChild(meeple);
 
   let allComments = document.querySelectorAll("comment");
   console.log("number of comments in js: " + allComments.length);
