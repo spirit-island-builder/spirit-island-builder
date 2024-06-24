@@ -100,6 +100,10 @@ no-icon {
   opacity: 1;
 }
 
+icon.incarna {
+  background-image: url("../images/board/NewIcons/incarna-unempower.png");
+  filter: invert(0);
+}
 icon.range {
   background-image: url("../images/50px-Rangeicon.png");
 }
@@ -471,11 +475,6 @@ icon.gather-into {
 }
 icon.your-land {
   background-image: url("../images/board/NewIcons/Land.png");
-}
-
-icon.incarna {
-  background-image: url("../images/board/NewIcons/incarna-unempower.png");
-  filter: invert(0);
 }
 
 icon.incarna-ember {
