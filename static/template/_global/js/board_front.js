@@ -1439,6 +1439,19 @@ function getGrowthActionTextAndIcons(growthAction) {
       growthText = IconName(`replace(${iconNameVars})`);
       break;
     }
+    case "destroy-presence": {
+      const matches = regExp.exec(growthAction);
+      let destroyOptions = matches[1].split(",");
+      let num = destroyOptions[0] || 1;
+      let destroyIcons = "";
+      for (let i = 0; i < num; i++) {
+        destroyIcons += "{destroyed-presence}";
+      }
+      destroyIcons = `<destroy-wrap>${destroyIcons}</destroy-wrap>`;
+      growthIcons = destroyIcons;
+      growthText = IconName(growthAction);
+      break;
+    }
     default: {
       growthIcons = "{" + growthActionType + "}";
       growthText = IconName(growthActionType);
@@ -2887,8 +2900,9 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "destroy-presence":
+      num = num ? num : 1;
       localize = {
-        en: "Destroy 1 of your Presence",
+        en: `Destroy ${num} of your Presence`,
         de: "Zerstöre 1 deiner Präsenzen",
         pl: "Zniszcz 1 ze swoich Obecności",
         ar: "",
