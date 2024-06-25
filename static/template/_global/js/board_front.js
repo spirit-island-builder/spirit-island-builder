@@ -1739,16 +1739,16 @@ let elNames = {
     any: "اي",
   },
   zh: {
-    sun: "sun",
-    moon: "moon",
-    fire: "fire",
-    air: "air",
-    plant: "plant",
-    water: "water",
-    earth: "earth",
-    animal: "animal",
-    star: "element",
-    any: "any",
+    sun: "日",
+    moon: "月",
+    fire: "火",
+    air: "氣",
+    plant: "植物",
+    water: "水",
+    earth: "土",
+    animal: "動物",
+    star: "元素",
+    any: "任意",
   },
 };
 
@@ -1845,16 +1845,16 @@ let numLocalize = {
     9: "٩",
   },
   zh: {
-    0: 0,
-    1: 1,
-    2: 2,
-    3: 3,
-    4: 4,
-    5: 5,
-    6: 6,
-    7: 7,
-    8: 8,
-    9: 9,
+    0: "零",
+    1: "一",
+    2: "二",
+    3: "三",
+    4: "四",
+    5: "五",
+    6: "六",
+    7: "七",
+    8: "八",
+    9: "九",
   },
 };
 const elementNames = new Set(["sun", "moon", "fire", "air", "plant", "water", "earth", "animal"]);
@@ -2132,7 +2132,7 @@ function getPresenceNodeHtml(
           const matches = regExp.exec(splitOptions[0]);
           const num = matches[1];
           inner = "<card-icon><value>" + num + "</value></card-icon>";
-          subText = num;
+          subText = IconName(splitOptions[0]);
           addEnergyRing = false;
           addIconShadow = false;
           break;
@@ -2622,7 +2622,7 @@ function IconName(str, iconNum = 1) {
       subText = `+${num} ${Energy[lang]}`;
       break;
     case "plays":
-      subText = `${num} ${CardPlay[lang]}${plural}`;
+      subText = `${num} ${num > 1 ? CardPlays[lang] : CardPlay[lang]}`;
       break;
     case "elements":
       localize = {
