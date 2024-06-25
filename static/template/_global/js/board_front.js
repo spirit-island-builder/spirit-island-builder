@@ -145,12 +145,17 @@ function addTrackBanners(board) {
     });
     tracks.forEach((track) => {
       let nodes = track.getElementsByTagName("td");
-      let trackType = track.className;
+      let trackType = track.classList[0];
       let trackWidth =
         nodes[nodes.length - 1].getBoundingClientRect().right -
         nodes[0].getBoundingClientRect().left;
       let trackTop =
         nodes[1].getBoundingClientRect().top + 130 / 2 - presenceTracks.getBoundingClientRect().top;
+      if (track.classList.contains("has-split-node")) {
+        trackTop += parseFloat(
+          window.getComputedStyle(nodes[1]).getPropertyValue("padding-top").replace(/px/, "")
+        );
+      }
       let banner = bannerArts[bannerTags.indexOf(trackType)];
       banner.style.width = trackWidth + "px";
       banner.style.top = trackTop + "px";
@@ -484,11 +489,14 @@ function getGrowthActionTextAndIcons(growthAction) {
     case "reclaim": {
       const matches = regExp.exec(growthAction);
       let reclaimIcon = "{reclaim-all}";
-      let reclaimText = IconName("reclaim" + "-all");
+      let reclaimText = IconName("reclaim");
       if (matches) {
+        console.log(matches);
         let reclaimOptions = matches[1].split(",");
         let reclaimType = reclaimOptions[0];
         let reclaimModifiersOrText = reclaimOptions[1];
+        let reclaimSyntax = `${growthActionType}-${reclaimType}${matches[0]}`;
+        reclaimText = IconName(reclaimSyntax);
         switch (reclaimType) {
           case "all":
             if (reclaimModifiersOrText) {
@@ -499,12 +507,6 @@ function getGrowthActionTextAndIcons(growthAction) {
                 "<icon class='reclaim-element " +
                 reclaimModifiersOrText +
                 "'></icon></icon>";
-              localize = {
-                en: "Reclaim All Cards with " + Capitalise(reclaimModifiersOrText),
-                de: "",
-                pl: "",
-              };
-              reclaimText = localize[lang];
             }
             break;
           case "one":
@@ -516,33 +518,18 @@ function getGrowthActionTextAndIcons(growthAction) {
                 "<icon class='reclaim-element " +
                 reclaimModifiersOrText +
                 "'></icon></icon>";
-              localize = {
-                en: "Reclaim One Card with " + Capitalise(reclaimModifiersOrText),
-                de: "",
-                pl: "",
-              };
-              reclaimText = localize[lang];
             } else {
               reclaimIcon = "{reclaim-" + reclaimType + "}";
-              reclaimText = IconName("reclaim-" + reclaimType);
             }
             break;
           case "none":
             reclaimIcon = "{reclaim-" + reclaimType + "}";
-            reclaimText = IconName("reclaim-" + reclaimType);
             break;
           case "half":
             reclaimIcon = "{reclaim-" + reclaimType + "}";
-            reclaimText = IconName("reclaim-" + reclaimType);
             break;
           case "custom":
             reclaimIcon = "{reclaim-" + reclaimType + "}";
-            localize = {
-              en: "Reclaim " + reclaimModifiersOrText,
-              de: "",
-              pl: "",
-            };
-            reclaimText = localize[lang];
             break;
           default:
             reclaimText = "TEXT NOT RECOGNIZED - use 'all','one',or 'custom'";
@@ -561,43 +548,20 @@ function getGrowthActionTextAndIcons(growthAction) {
     case "gain-power-card": {
       const matches = regExp.exec(growthAction);
       let gainPowerCardIcon = "{" + growthActionType + "}";
-      let gainPowerCardText = IconName(growthActionType);
-      let actionVerb = Capitalise(growthActionType.split("-")[0]);
       if (matches) {
         let gainPowerCardOptions = matches[1].split(",");
-        let gainPowerCardType = gainPowerCardOptions[0];
-        let gainPCModifiersOrText = gainPowerCardOptions[1];
+        let gainPowerCardType = gainPowerCardOptions[0] || "";
         let gainPCModifierIcon = gainPowerCardOptions[2];
         gainPowerCardIcon = `<icon class='${growthActionType}'>`;
-        switch (gainPowerCardType) {
-          case "minor":
-            gainPowerCardIcon += "<icon class='minor gain-card-modifier'></icon>";
-            gainPowerCardText = `${actionVerb} ${Minor[lang]} ${PowerCard[lang]}`;
-            // if(gainPCModifiersOrText){
-            // gainPowerCardIcon = "<icon class='reclaim-"+gainPowerCardType+"'>"+"<icon class='reclaim-element "+gainPCModifiersOrText+"'></icon></icon>"
-            // gainPowerCardText = 'Reclaim All Cards with '+Capitalise(gainPCModifiersOrText)
-            // }
-            break;
-          case "major":
-            gainPowerCardIcon += "<icon class='major gain-card-modifier'></icon>";
-            gainPowerCardText = `${actionVerb} ${Major[lang]} ${PowerCard[lang]}`;
-            break;
-          default:
-            gainPowerCardIcon +=
-              "<icon class='" + gainPowerCardType.toLowerCase() + " gain-card-modifier'></icon>";
-            gainPowerCardText = `${actionVerb} ${Capitalise(gainPowerCardType)} ${PowerCard[lang]}`;
-        }
+        gainPowerCardIcon +=
+          "<icon class='" + gainPowerCardType.toLowerCase() + " gain-card-modifier'></icon>";
         if (gainPCModifierIcon) {
-          gainPowerCardIcon +=
-            "<icon class='" + gainPCModifierIcon + " gain-card-second-modifier'></icon>";
-        }
-        if (gainPCModifiersOrText) {
-          gainPowerCardText += gainPCModifiersOrText;
+          gainPowerCardIcon += `<div class="gain-card-second-modifier">{${gainPCModifierIcon}}</div>`;
         }
         gainPowerCardIcon += "</icon>";
       }
       growthIcons = gainPowerCardIcon;
-      growthText = gainPowerCardText;
+      growthText = IconName(growthAction);
       break;
     }
     case "isolate": {
@@ -644,7 +608,6 @@ function getGrowthActionTextAndIcons(growthAction) {
         energyManyIconClose = "</growth-cell-double>";
       }
       let energyGrowthIcons = "";
-      let energyGrowthText = "";
       let x_is_num = !isNaN(energyOptions[0]);
       let x_is_zero = energyOptions[0] === 0;
       let x_is_text = energyOptions[0] === "text";
@@ -671,14 +634,11 @@ function getGrowthActionTextAndIcons(growthAction) {
           ? "{" + scaling_entity + "}"
           : "<div class='custom-scaling'></div>";
 
+      let iconNamevars = "0";
       // Flat Energy
       if (x_is_flat) {
         energyGrowthIcons = "<growth-energy><value>" + flatEnergy + "</value></growth-energy>";
-        if (scaling_entity) {
-          energyGrowthText = "Gain " + flatEnergy + " Energy";
-        } else {
-          energyGrowthText = "Gain Energy";
-        }
+        iconNamevars = flatEnergy + "";
       }
 
       // Scaling Energy
@@ -686,16 +646,11 @@ function getGrowthActionTextAndIcons(growthAction) {
         energyGrowthIcons += "<gain-per><value>" + scaling_value + "</value></gain-per>";
         energyGrowthIcons +=
           "<gain-per-element><ring-icon>" + customScalingIcon + "</ring-icon></gain-per-element>";
-        if (x_is_flat) {
-          energyGrowthText += " and +" + scaling_value + " more per ";
-        } else {
-          energyGrowthText += "Gain " + scaling_value + " Energy per ";
-        }
-        energyGrowthText += has_custom_text ? custom_text : Capitalise(scaling_entity);
-        energyGrowthText += elementNames.has(scaling_entity) ? " Showing" : "";
+        iconNamevars += "," + scaling_value + "," + scaling_entity;
+        iconNamevars += has_custom_text ? "," + custom_text : "";
       }
       growthIcons = energyManyIconOpen + energyGrowthIcons + energyManyIconClose;
-      growthText = energyGrowthText;
+      growthText = IconName(`gain-energy(${iconNamevars})`);
       break;
     }
     case "add-presence-custom": {
@@ -918,19 +873,15 @@ function getGrowthActionTextAndIcons(growthAction) {
 
       let preposition = growthActionType === "push" ? "from" : "into";
 
-      let moveText = "";
       let moveIcons = "";
       let moveTarget = matches[1];
       let moveOptions = moveTarget.split(",");
       let moveRange = moveOptions[1];
       let moveNum = moveOptions[2];
-      let plural = 0;
       if (!moveNum) {
         moveNum = 1;
       } else if (isNaN(moveNum)) {
         moveNum = moveNum.toUpperCase();
-      } else {
-        plural = moveNum > 1 ? 1 : 0;
       }
       if (moveRange) {
         moveTarget = moveOptions[0];
@@ -938,32 +889,8 @@ function getGrowthActionTextAndIcons(growthAction) {
           let moveCondition = moveRange;
           // Gather/Push into/from a sacred site, land with token, or terrain
 
-          // Text
-          if (isNaN(moveNum)) {
-            moveText +=
-              Capitalise(growthActionType) +
-              " 1 " +
-              Capitalise(moveTarget) +
-              " " +
-              preposition +
-              " " +
-              moveNum;
-          } else {
-            moveText +=
-              Capitalise(growthActionType) +
-              " " +
-              moveNum +
-              " " +
-              Capitalise(moveTarget) +
-              " " +
-              preposition;
-          }
           switch (moveCondition) {
             case "sacred-site":
-              if (isNaN(moveNum)) {
-                moveText += " of";
-              }
-              moveText += " your Sacred Sites";
               moveIcons +=
                 "<push-gather><icon class='" +
                 growthActionType +
@@ -1013,13 +940,8 @@ function getGrowthActionTextAndIcons(growthAction) {
                 " " +
                 preposition +
                 "'></icon></icon></push-gather>";
-              moveText += " " + Capitalise(moveCondition, plural);
               break;
             default:
-              if (moveNum === 1) {
-                moveText += " 1";
-              }
-              moveText += " of your Lands with " + Capitalise(moveCondition);
               moveIcons +=
                 "<push-gather><icon class='" +
                 growthActionType +
@@ -1044,13 +966,6 @@ function getGrowthActionTextAndIcons(growthAction) {
             "<range-growth><value>" +
             moveRange +
             "</value></range-growth></push-gather-range-req>";
-          moveText +=
-            Capitalise(growthActionType) +
-            " up to 1 " +
-            Capitalise(moveTarget) +
-            " " +
-            preposition +
-            " a Land";
         }
       } else {
         moveIcons +=
@@ -1059,16 +974,9 @@ function getGrowthActionTextAndIcons(growthAction) {
           "'>{" +
           moveTarget +
           "}</icon></push-gather>";
-        moveText +=
-          Capitalise(growthActionType) +
-          " 1 " +
-          Capitalise(moveTarget) +
-          " " +
-          preposition +
-          ` 1 of your Lands`;
       }
       growthIcons = moveIcons;
-      growthText = moveText;
+      growthText = IconName(growthAction);
       break;
     }
     case "presence-no-range": {
@@ -1392,12 +1300,11 @@ function getGrowthActionTextAndIcons(growthAction) {
             "<icon class='discard-card'><icon class='discard-element " +
             discardElement +
             "'></icon></icon>";
-          growthText = "Discard a Power Card with " + Capitalise(discardElement);
         }
       } else {
         growthIcons = "{discard-card}";
-        growthText = "Discard a Card";
       }
+      growthText = IconName(growthAction);
       break;
     }
     case "incarna": {
@@ -1420,11 +1327,9 @@ function getGrowthActionTextAndIcons(growthAction) {
             "<move-growth>" +
             incarnaRangeOrToken +
             "</move-growth></custom-icon2>";
-          growthText = "Move Incarna";
           break;
         case "empower":
           growthIcons = "{empower-incarna}";
-          growthText = "Empower Incarna";
           break;
         case "add-move":
           growthIcons =
@@ -1433,7 +1338,6 @@ function getGrowthActionTextAndIcons(growthAction) {
             '"></icon><icon class="' +
             incarnaRangeOrToken +
             ' with-your"></icon></add-move-lower></custom-icon>';
-          growthText = "Add/Move Incarna to Land with " + IconName(incarnaRangeOrToken);
           break;
         case "replace":
           growthIcons =
@@ -1442,7 +1346,6 @@ function getGrowthActionTextAndIcons(growthAction) {
             '"><icon class="replace-with-incarna no ' +
             incarnaRangeOrToken +
             '"></custom-icon>';
-          growthText = "You may Replace " + IconName(incarnaRangeOrToken) + " with your Incarna";
           break;
         case "add-token":
           growthIcons =
@@ -1451,10 +1354,10 @@ function getGrowthActionTextAndIcons(growthAction) {
             '"></add-token-upper><add-token-lower><icon class="incarna ' +
             customIncarnaIcon +
             '"><add-token-lower></custom-icon>';
-          growthText = "Add a " + IconName(incarnaRangeOrToken) + " at your Incarna";
           break;
         default:
       }
+      growthText = IconName(growthAction);
       break;
     }
     case "add-token": {
@@ -1466,11 +1369,11 @@ function getGrowthActionTextAndIcons(growthAction) {
       let tokenNum = tokenOptions[2];
       let tokenReqOpen = "<custom-icon>";
       let tokenReqClose = "</custom-icon>";
-      let tokenText = "";
       let tokenIcons = "";
+      let iconNameVars = range;
       if (!tokenNum) {
         tokenIcons = "+<icon class='" + token + " token'></icon>";
-        tokenText = "Add a " + Capitalise(token);
+        iconNameVars += `,${"and"},${token}`;
       } else if (!isNaN(tokenNum)) {
         // multiple of the same token
         tokenIcons += "+";
@@ -1481,34 +1384,27 @@ function getGrowthActionTextAndIcons(growthAction) {
             tokenIcons += "<icon class='" + token + " token'></icon>";
           }
         }
-        tokenText = "Add " + IconName(token, tokenNum) + " together";
+        iconNameVars += `,${"and"},${token},${tokenNum}`;
       } else {
         // two or more different tokens
         const operator = tokenOptions.at(-1);
         tokenIcons += "+<icon class='" + token + " token'></icon>";
-        tokenText += "Add a " + Capitalise(token);
         if (operator === "and" || operator === "or") {
           for (let i = 2; i < tokenOptions.length - 1; i++) {
             tokenIcons += operator === "or" ? "/" : "";
             tokenIcons += "<icon class='" + tokenOptions[i] + " token'></icon>";
-            tokenText += i === tokenOptions.length - 2 ? " " + operator + " " : ", ";
-            tokenText += Capitalise(tokenOptions[i]);
           }
-          if (operator === "and") {
-            tokenText += " together";
-          }
-        } else {
-          tokenText = "MUST use AND or OR";
         }
+        iconNameVars += `,${operator},${tokenOptions.slice(1, -1)}`;
       }
       growthIcons =
         tokenReqOpen + "<token-wrap>" + tokenIcons + "</token-wrap>" + tokenRange + tokenReqClose;
-      growthText = tokenText;
+      growthText = IconName(`add-token(${iconNameVars})`);
       break;
     }
     case "replace": {
-      let replaceText = "";
       let replaceIcons = "";
+      let iconNameVars = "0";
       const matches = regExp.exec(growthAction);
       let replaceOptions = matches[1].split(",");
       let range = replaceOptions[0];
@@ -1516,8 +1412,10 @@ function getGrowthActionTextAndIcons(growthAction) {
 
       let shift = 0;
       if (x_is_num) {
+        iconNameVars = replaceOptions[0];
         shift += 1;
       }
+      iconNameVars += "," + replaceOptions[shift] + "," + replaceOptions[shift + 1];
       if (x_is_num) {
         // Ranged replace
         replaceIcons =
@@ -1528,13 +1426,6 @@ function getGrowthActionTextAndIcons(growthAction) {
           '"></icon></replace-wrap><range-growth><value>' +
           range +
           "</value></range-growth></custom-icon>";
-        console.log(replaceIcons);
-        replaceText =
-          "You may Replace " +
-          IconName(replaceOptions[shift]) +
-          " with " +
-          IconName(replaceOptions[shift + 1]);
-        console.log(replaceText);
       } else {
         // Local replace
         replaceIcons =
@@ -1543,15 +1434,9 @@ function getGrowthActionTextAndIcons(growthAction) {
           '"></icon>+<icon class="replace-with ' +
           replaceOptions[shift + 1] +
           '"></icon></replace-wrap></custom-icon>';
-        replaceText =
-          "You may Replace 1 " +
-          IconName(replaceOptions[shift]) +
-          " in your Lands with " +
-          IconName(replaceOptions[shift + 1]);
       }
-
       growthIcons = replaceIcons;
-      growthText = replaceText;
+      growthText = IconName(`replace(${iconNameVars})`);
       break;
     }
     default: {
@@ -1789,21 +1674,21 @@ let CardPlays = {
 //   de: "",
 //   pl: "Pozyskaj",
 // };
-let PowerCard = {
-  en: "Power Card",
-  de: "",
-  pl: "Kartę Mocy",
-};
-let Minor = {
-  en: "Minor",
-  de: "",
-  pl: "Pomniejsza",
-};
-let Major = {
-  en: "Major",
-  de: "",
-  pl: "Większa",
-};
+// let PowerCard = {
+//   en: "Power Card",
+//   de: "",
+//   pl: "Kartę Mocy",
+// };
+// let Minor = {
+//   en: "Minor",
+//   de: "",
+//   pl: "Pomniejsza",
+// };
+// let Major = {
+//   en: "Major",
+//   de: "",
+//   pl: "Większa",
+// };
 let elNames = {
   en: {
     sun: "sun",
@@ -1853,13 +1738,50 @@ let elNames = {
     star: "عنصر تقليدي",
     any: "اي",
   },
+  zh: {
+    sun: "日",
+    moon: "月",
+    fire: "火",
+    air: "氣",
+    plant: "植物",
+    water: "水",
+    earth: "土",
+    animal: "動物",
+    star: "元素",
+    any: "任意",
+  },
 };
 
 let landtypeNames = {
   en: {
-    inland: "inland",
-    coastal: "coastal",
-    invaders: "invaders",
+    "ocean": "Ocean",
+    "oceans": "Ocean",
+    "mountain": "Mountain",
+    "jungle": "Jungle",
+    "sand": "Sands",
+    "sands": "Sands",
+    "wetland": "Wetland",
+    "jungle-wetland": "Jungle or Wetland",
+    "wetland-jungle": "Jungle or Wetland",
+    "jungle-sand": "Jungle or Sands",
+    "sand-jungle": "Jungle or Sands",
+    "jungle-sands": "Jungle or Sands",
+    "sands-jungle": "Jungle or Sands",
+    "sand-wetland": "Sands or Wetland",
+    "wetland-sand": "Sands or Wetland",
+    "sands-wetland": "Sands or Wetland",
+    "wetland-sands": "Sands or Wetland",
+    "mountain-jungle": "Mountain or Jungle",
+    "jungle-mountain": "Mountain or Jungle",
+    "mountain-wetland": "Mountain or Wetland",
+    "wetland-mountain": "Mountain or Wetland",
+    "mountain-sand": "Mountain or Sands",
+    "sand-mountain": "Mountain or Sands",
+    "mountain-sands": "Mountain or Sands",
+    "sands-mountain": "Mountain or Sands",
+    "inland": "inland",
+    "coastal": "coastal",
+    "invaders": "invaders",
   },
   de: {
     inland: "inland",
@@ -1922,8 +1844,20 @@ let numLocalize = {
     8: "٨",
     9: "٩",
   },
+  zh: {
+    0: "零",
+    1: "一",
+    2: "二",
+    3: "三",
+    4: "四",
+    5: "五",
+    6: "六",
+    7: "七",
+    8: "八",
+    9: "九",
+  },
 };
-
+const elementNames = new Set(["sun", "moon", "fire", "air", "plant", "water", "earth", "animal"]);
 // let tokenNames = {
 //   en: {
 //     beast: "beasts",
@@ -1969,7 +1903,7 @@ function getPresenceNodeHtml(
 ) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
-  let pnDebug = false;
+  let pnDebug = true;
   let nodeClass = "";
 
   // Every node will have a presence-node element with
@@ -1983,6 +1917,10 @@ function getPresenceNodeHtml(
   let subText = "";
   // Will be populated with the raw HTML that will go inside the ring-icon element.
   let inner = "";
+
+  // Setup values
+  let addIconShadow = false;
+
   if (pnDebug) {
     console.log(
       "--Presence Node-- Text:" +
@@ -1991,12 +1929,44 @@ function getPresenceNodeHtml(
         first +
         ", nodeIndex:" +
         nodeIndex +
-        " trackType: " +
+        ", trackType: " +
         trackType
     );
   }
 
-  //Handle ^ (node notation) and _ (force nodes)
+  // Handle Splitpath nodes
+  if (nodeText.includes("/")) {
+    let splitNodes = nodeText.split("/");
+    let splitSubtext = "";
+    for (let i = 0; i < splitNodes.length; i++) {
+      let splitNodeHTML = getPresenceNodeHtml(
+        splitNodes[i],
+        first,
+        nodeIndex + "-" + i,
+        trackType,
+        addEnergyRing,
+        forceEnergyRing,
+        forceShadow,
+        forceNone
+      );
+      let holder = document.createElement("holder");
+      holder.innerHTML = splitNodeHTML;
+      let subtext = holder.getElementsByTagName("subtext")[0];
+      if (i === 0) {
+        splitSubtext += subtext.innerHTML;
+        subtext.remove();
+        inner += holder.innerHTML;
+      } else {
+        subtext.innerHTML = splitSubtext + "/" + subtext.innerHTML;
+        inner += holder.innerHTML;
+        holder.remove();
+      }
+    }
+    inner = `<split-presence-node>${inner}</split-presence-node>`;
+    return inner;
+  }
+
+  //Handle ^ (node notation)
   let addDeepLayers = false;
   let iconDeepLayers;
   if (nodeText.split("^")[1]) {
@@ -2006,6 +1976,8 @@ function getPresenceNodeHtml(
       console.log(iconDeepLayers);
     }
   }
+
+  // Handle _ (force node backgroundss)
   let optionsNodeBack;
   if (nodeText.split("_")[1]) {
     optionsNodeBack = nodeText.split("_")[1].split("^")[0].split("*")[0];
@@ -2031,7 +2003,7 @@ function getPresenceNodeHtml(
 
   nodeText = nodeText.split("_")[0].split("^")[0].split("*")[0];
 
-  //
+  // Setup node class
   if (trackType === "energy") {
     nodeClass = "energy";
     subText = `${Energy[lang]}/${Turn[lang]}`;
@@ -2044,7 +2016,7 @@ function getPresenceNodeHtml(
     addEnergyRing = false;
   }
 
-  let addIconShadow = false;
+  // Assess node
   if (!isNaN(nodeText)) {
     //The value is only a number
     addEnergyRing = false;
@@ -2066,7 +2038,7 @@ function getPresenceNodeHtml(
       numLocalize[lang][nodeText] || nodeText
     }</value></${nodeClass}-icon>`;
   } else {
-    //It is either a single element or a mix of elements/numbers/other options
+    //It is either a single option or a mix of elements/numbers/other options
 
     if (first === true && trackType !== "special") {
       presenceNode.classList.add("first");
@@ -2087,7 +2059,7 @@ function getPresenceNodeHtml(
       let findInd = splitOptions.indexOf("energy(");
       if (splitOptions.length > 2) {
         // Multioption
-        splitOptions[findInd] = "+" + splitOptions[findInd + 1];
+        splitOptions[findInd] = "bonusenergy(" + splitOptions[findInd + 1] + ")";
         splitOptions[findInd] = splitOptions[findInd].substring(
           0,
           splitOptions[findInd].length - 1
@@ -2107,47 +2079,35 @@ function getPresenceNodeHtml(
         console.log("Single Option: " + option + " with " + splitOptions[0]);
       }
 
-      let localize;
-
       switch (option) {
         case "push": {
           const matches = regExp.exec(splitOptions[0]);
           const moveTarget = matches[1];
           let moveIcons = "<div class='push'>";
-          let moveText = "";
           if (moveTarget.split(";")[0].toLocaleLowerCase() === "incarna") {
             if (moveTarget.split(";")[1]) {
-              moveIcons += '<icon class="incarna ' + moveTarget.split(";")[1] + '"></icon>';
+              moveIcons += `<icon class="incarna ${moveTarget.split(";")[1]}"></icon>`;
             } else {
               moveIcons += "{incarna}";
             }
-            subText = "Push Your Incarna";
           } else {
             for (let i = 0; i < moveTarget.split(";").length; i++) {
               moveIcons += "{" + moveTarget.split(";")[i] + "}";
-              moveText += IconName(moveTarget.split(";")[i]);
               if (i < moveTarget.split(";").length - 1) {
                 moveIcons += "{backslash}";
-                moveText += "/";
               }
             }
-            subText = `Push 1 ${moveText} from 1 of your Lands`;
           }
           moveIcons += "</div>";
           inner = "<icon class='push'>" + moveIcons + "</icon>";
-
+          subText = IconName("track-" + splitOptions[0]);
           break;
         }
         case "gather": {
           const matches = regExp.exec(splitOptions[0]);
           const moveTarget = matches[1];
           inner = "<icon class='gather'><icon class='" + moveTarget + "'></icon></icon>";
-          localize = {
-            en: `Gather 1 ${Capitalise(moveTarget)} into 1 of your Lands`,
-            de: "",
-            pl: "",
-          };
-          subText = localize[lang];
+          subText = IconName("track-" + splitOptions[0]);
           break;
         }
         case "energy": {
@@ -2172,7 +2132,7 @@ function getPresenceNodeHtml(
           const matches = regExp.exec(splitOptions[0]);
           const num = matches[1];
           inner = "<card-icon><value>" + num + "</value></card-icon>";
-          subText = num;
+          subText = IconName(splitOptions[0]);
           addEnergyRing = false;
           addIconShadow = false;
           break;
@@ -2185,18 +2145,11 @@ function getPresenceNodeHtml(
           let addMoveHelper;
           switch (incarnaAction) {
             case "empower":
-              subText = IconName("empower-incarna");
               inner = "{empower-incarna}";
               break;
             case "addmove":
             case "add-move":
               addMoveHelper = incarnaOptions[2] ? incarnaOptions[2] : "presence";
-              localize = {
-                en: "Add/Move Incarna to Land with " + IconName(addMoveHelper),
-                de: "",
-                pl: "",
-              };
-              subText = localize[lang];
               inner =
                 '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
                 customIncarnaIcon +
@@ -2205,9 +2158,9 @@ function getPresenceNodeHtml(
                 ' with-your"></icon></add-move-lower></custom-icon>';
               break;
             default:
-              subText = IconName("empower-incarna");
               inner = "{empower-incarna}";
           }
+          subText = IconName(splitOptions[0]);
           break;
         }
         case "token": {
@@ -2215,12 +2168,7 @@ function getPresenceNodeHtml(
           const tokenAdd = matches[1];
           inner =
             "<icon class='your-land'>{misc-plus}<icon class='" + tokenAdd + "'></icon></icon>";
-          localize = {
-            en: "Add 1 " + IconName(tokenAdd) + " to 1 of your Lands",
-            de: "",
-            pl: "",
-          };
-          subText = localize[lang];
+          subText = IconName(`add-token(${tokenAdd})`);
           break;
         }
         case "custom": {
@@ -2406,6 +2354,12 @@ function getPresenceNodeHtml(
           num = numLocalize[lang][num] || num;
           trackIcons += "<energy-icon class='small'" + "><value>" + num + "</value></energy-icon>";
           addEnergyRing = false;
+        } else if (splitOptions[i].startsWith("bonusenergy")) {
+          const matches = regExp.exec(splitOptions[i]);
+          let num = matches[1];
+          num = numLocalize[lang][num] || num;
+          trackIcons += "<energy-icon class='small'" + "><value>+" + num + "</value></energy-icon>";
+          addEnergyRing = false;
         } else if (splitOptions[i].startsWith("plays")) {
           const matches = regExp.exec(splitOptions[i]);
           let num = matches[1];
@@ -2534,12 +2488,17 @@ function updatePresenceNodeIDs() {
 
 function IconName(str, iconNum = 1) {
   const regExp = /\(([^)]+)\)/;
-  const matches = regExp.exec(str);
   let num = "";
   let txt = "";
+  let opt3 = "";
+  let opt4 = "";
+  let options;
   let localize;
+
+  // identify if 'str' contains options
+  const matches = regExp.exec(str);
   if (matches) {
-    let options = matches[1];
+    options = matches[1];
     if (options.includes(";")) {
       options = matches[1].split(";");
     } else {
@@ -2550,14 +2509,29 @@ function IconName(str, iconNum = 1) {
       num = numLocalize[lang][num] || num;
     }
     txt = options[1] || "";
+    opt3 = options[2] || "";
+    opt4 = options[3] || "";
   }
+
+  // Remove the options, if present
   str = str.split("(")[0];
+
+  // if its a number, but it starts with +/-
   if (!isNaN(str) && isNaN(str[0])) {
     num = str[1];
     str = "increase-energy";
   }
   let plural = iconNum > 1 ? "s" : "";
   let subText;
+
+  // handle icon name pre-fixes
+  if (str.startsWith("incarna-")) {
+    str = str.replace("incarna-", "");
+    console.log("removing incarna from icon name");
+  }
+  // if (str.startsWith("custom")) {
+  //   str = getCustomIconName(str);
+  // }
 
   switch (str) {
     case "presence":
@@ -2566,25 +2540,89 @@ function IconName(str, iconNum = 1) {
         de: "Deine Präsenz",
         pl: "twoją Obecnością",
         ar: "",
-        zh: "",
+        zh: "你的靈跡",
       };
       subText = localize[lang];
       break;
     case "incarna":
-      localize = {
-        en: "Your Incarna",
-        de: "Dein Incarna",
-        pl: "Twoje Inkarna",
-        ar: "",
-        zh: "",
-      };
+      if (num) {
+        switch (num) {
+          case "empower":
+            localize = {
+              en: "Empower Incarna",
+              de: "Incarna verstärken",
+              pl: "Wzmocnij Inkarna",
+              ar: ``,
+              zh: ``,
+            };
+            break;
+          case "addmove":
+          case "add-move":
+            localize = {
+              en: txt
+                ? `Add/Move Incarna to Land with ${IconName(txt)}`
+                : `Add/Move Incarna to Land with ${IconName("presence")}`,
+              de: ``,
+              pl: ``,
+              ar: ``,
+              zh: ``,
+            };
+            break;
+          case "replace":
+            localize = {
+              en: `You may Replace ${IconName(txt)} with your Incarna`,
+              de: ``,
+              pl: ``,
+              ar: ``,
+              zh: ``,
+            };
+            break;
+          case "move":
+            localize = {
+              en: "Move Incarna",
+              de: "",
+              pl: "",
+              ar: ``,
+              zh: ``,
+            };
+            break;
+          case "add-token":
+            localize = {
+              en: `Add a ${IconName(txt)} at your Incarna`,
+              de: "",
+              pl: "",
+              ar: ``,
+              zh: ``,
+            };
+            break;
+          default:
+            localize = {
+              en: "Empower Incarna",
+              de: "Incarna verstärken",
+              pl: "Wzmocnij Inkarna",
+              ar: ``,
+              zh: ``,
+            };
+        }
+      } else {
+        localize = {
+          en: "Your Incarna",
+          de: "Dein Incarna",
+          pl: "Twoje Inkarna",
+          ar: "",
+          zh: "你的化身",
+        };
+      }
       subText = localize[lang];
       break;
     case "energy":
       subText = `${num} ${Energy[lang]}`;
       break;
+    case "bonusenergy":
+      subText = `+${num} ${Energy[lang]}`;
+      break;
     case "plays":
-      subText = `${num} ${CardPlay[lang]}${plural}`;
+      subText = `${num} ${num > 1 ? CardPlays[lang] : CardPlay[lang]}`;
       break;
     case "elements":
       localize = {
@@ -2592,61 +2630,168 @@ function IconName(str, iconNum = 1) {
         de: "ODER",
         pl: "",
         ar: "",
-        zh: "",
+        zh: "或",
       };
       subText = `${IconName(num)} ${localize[lang]} ${IconName(txt)}`;
       break;
     case "gain-power-card":
-      localize = {
-        en: "Gain Power Card",
-        de: "Fähigkeitenkare erhalten",
-        pl: "Pozyskaj Kartę Mocy",
-        ar: "",
-        zh: "",
-      };
+      if (txt) {
+        localize = {
+          en: `Gain ${IconName(num)} Power Card ${txt}`,
+          de: "Fähigkeitenkare erhalten",
+          pl: "Pozyskaj Kartę Mocy",
+          ar: "",
+          zh: "獲得法術牌",
+        };
+      } else if (num) {
+        localize = {
+          en: `Gain ${IconName(num)} Power Card`,
+          de: "Fähigkeitenkare erhalten",
+          pl: "Pozyskaj Kartę Mocy",
+          ar: "",
+          zh: "獲得法術牌",
+        };
+      } else {
+        localize = {
+          en: "Gain Power Card",
+          de: "Fähigkeitenkare erhalten",
+          pl: "Pozyskaj Kartę Mocy",
+          ar: "",
+          zh: "獲得法術牌",
+        };
+      }
       subText = localize[lang];
       break;
     case "take-power-card":
-      localize = {
-        en: "Take Power Card",
-        de: "Fähigkeitenkarte nehmen",
-        pl: "Weź Kartę Mocy",
-        ar: "",
-        zh: "",
-      };
+      if (txt) {
+        localize = {
+          en: `Take ${IconName(num)} Power Card ${txt}`,
+          de: "Fähigkeitenkarte nehmen",
+          pl: "Weź Kartę Mocy",
+          ar: "",
+          zh: "拿取法術牌",
+        };
+      } else if (num) {
+        localize = {
+          en: `Take ${IconName(num)} Power Card`,
+          de: "Fähigkeitenkarte nehmen",
+          pl: "Weź Kartę Mocy",
+          ar: "",
+          zh: "拿取法術牌",
+        };
+      } else {
+        localize = {
+          en: "Take Power Card",
+          de: "Fähigkeitenkarte nehmen",
+          pl: "Weź Kartę Mocy",
+          ar: "",
+          zh: "拿取法術牌",
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "gain-energy":
+      // gain-energy(2,  1  ,days-never-were,custom text & chosen icon)
+      // gain-energy(num,txt,opt3           ,opt4)
+      if (opt4) {
+        // custom text
+        if (num === 0 || num === "0") {
+          // custom text, no flat energy
+          localize = {
+            en: `Gain ${txt} Energy per ${opt4}`,
+            de: ``,
+            pl: ``,
+            ar: ``,
+            zh: ``,
+          };
+        } else {
+          // custom text, with flat energy
+          localize = {
+            en: `Gain ${num} Energy and +${txt} more per ${opt4}`,
+            de: ``,
+            pl: ``,
+            ar: ``,
+            zh: ``,
+          };
+        }
+      } else if (opt3) {
+        if (num === 0 || num === "0") {
+          // scaling, no flat energy
+          localize = {
+            en: elementNames.has(opt3)
+              ? `Gain ${txt} Energy per ${IconName(opt3)} Showing`
+              : `Gain ${txt} Energy per ${IconName(opt3)}`,
+            de: ``,
+            pl: ``,
+            ar: ``,
+            zh: ``,
+          };
+        } else {
+          // scaling w/ flat energy
+          localize = {
+            en: elementNames.has(opt3)
+              ? `Gain ${num} Energy and +${txt} more per ${IconName(opt3)} Showing`
+              : `Gain ${num} Energy and +${txt} more per ${IconName(opt3)}`,
+            de: ``,
+            pl: ``,
+            ar: ``,
+            zh: ``,
+          };
+        }
+      } else {
+        // flat energy
+        localize = {
+          en: `Gain Energy`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      }
       subText = localize[lang];
       break;
     case "gain-card-play":
       subText = `+1 ${CardPlay[lang]}/${Turn[lang]}`;
       break;
     case "reclaim-all":
-      localize = {
-        en: "Reclaim Cards",
-        de: "Alle Karten wiedererlangen",
-        pl: "Odzyskaj Karty",
-        ar: "",
-        zh: "",
-      };
+    case "reclaim":
+      if (txt) {
+        localize = {
+          en: "Reclaim All Cards with " + IconName(txt),
+          de: "",
+          pl: "",
+          ar: "",
+          zh: "",
+        };
+      } else {
+        localize = {
+          en: "Reclaim Cards",
+          de: "Alle Karten wiedererlangen",
+          pl: "Odzyskaj Karty",
+          ar: "",
+          zh: "回收法術牌",
+        };
+      }
       subText = localize[lang];
       break;
     case "reclaim-one":
-      localize = {
-        en: "Reclaim One",
-        de: "1 Karte wiedererlangen",
-        pl: "Odzyskaj Jedną",
-        ar: "",
-        zh: "",
-      };
-      subText = localize[lang];
-      break;
-    case "reclaim":
-      localize = {
-        en: "Reclaim Cards",
-        de: "Alle Karten wiedererlangen",
-        pl: "Odzyskaj Karty",
-        ar: "",
-        zh: "",
-      };
+      if (txt) {
+        localize = {
+          en: "Reclaim One Card with " + IconName(txt),
+          de: "",
+          pl: "",
+          ar: "",
+          zh: "",
+        };
+      } else {
+        localize = {
+          en: "Reclaim One",
+          de: "1 Karte wiedererlangen",
+          pl: "Odzyskaj Jedną",
+          ar: "",
+          zh: "回收1張法術牌",
+        };
+      }
       subText = localize[lang];
       break;
     case "reclaim-half":
@@ -2655,7 +2800,7 @@ function IconName(str, iconNum = 1) {
         de: "Hälfte der Karten wiedererlangen",
         pl: "Odzyskaj połowę <em>(zaokrąglając w górę)</em>",
         ar: "",
-        zh: "",
+        zh: "回收一半法術牌",
       };
       subText = localize[lang];
       break;
@@ -2665,7 +2810,7 @@ function IconName(str, iconNum = 1) {
         de: "Fähigkeitenkarte vergessen",
         pl: "Zapomnij Kartę Mocy",
         ar: "",
-        zh: "",
+        zh: "遺忘法術牌",
       };
       subText = localize[lang];
       break;
@@ -2676,7 +2821,7 @@ function IconName(str, iconNum = 1) {
         de: "2 Fähigkeitenkarten abwerfen",
         pl: "Odrzuć 2 Karty Mocy",
         ar: "",
-        zh: "",
+        zh: "棄置2張法術牌",
       };
       subText = localize[lang];
       break;
@@ -2687,8 +2832,28 @@ function IconName(str, iconNum = 1) {
         de: "1 Fähigkeitenkarte abwerfen",
         pl: "Odrzuć 1 Kartę Mocy",
         ar: "",
-        zh: "",
+        zh: "棄置1張法術牌",
       };
+      subText = localize[lang];
+      break;
+    case "discard":
+      if (num) {
+        localize = {
+          en: "Discard a Power Card with " + IconName(num),
+          de: "",
+          pl: "",
+          ar: "",
+          zh: "",
+        };
+      } else {
+        localize = {
+          en: "Discard a Card",
+          de: "1 Fähigkeitenkarte abwerfen",
+          pl: "Odrzuć 1 Kartę Mocy",
+          ar: "",
+          zh: "棄置1張法術牌",
+        };
+      }
       subText = localize[lang];
       break;
     case "gain-1-time":
@@ -2697,7 +2862,7 @@ function IconName(str, iconNum = 1) {
         de: "Erhalte 1 Zeit",
         pl: "Zyskaj 1 Jednostkę Czasu",
         ar: "",
-        zh: "",
+        zh: "獲得1時間",
       };
       subText = localize[lang];
       break;
@@ -2707,7 +2872,7 @@ function IconName(str, iconNum = 1) {
         de: "Erhalte 2 Zeit",
         pl: "Zyskaj 2 Jednostki Czasu",
         ar: "",
-        zh: "",
+        zh: "獲得2時間",
       };
       subText = localize[lang];
       break;
@@ -2717,7 +2882,7 @@ function IconName(str, iconNum = 1) {
         de: "Fähigkeitenkarte von Tage die nie waren erlangen",
         pl: "Pozyskaj Kartę Mocy z Dni, Które Nigdy Nie Nadeszły",
         ar: "",
-        zh: "",
+        zh: "從未現時日牌堆中獲得法術牌",
       };
       subText = localize[lang];
       break;
@@ -2727,7 +2892,7 @@ function IconName(str, iconNum = 1) {
         de: "Zerstöre 1 deiner Präsenzen",
         pl: "Zniszcz 1 ze swoich Obecności",
         ar: "",
-        zh: "",
+        zh: "摧毀1個你的靈跡",
       };
       subText = localize[lang];
       break;
@@ -2737,7 +2902,7 @@ function IconName(str, iconNum = 1) {
         de: "Zerstörte Präsenz",
         pl: "Zniszczona Obecność",
         ar: "",
-        zh: "",
+        zh: "被摧毀的靈跡",
       };
       if (iconNum > 1) {
         localize = {
@@ -2745,7 +2910,7 @@ function IconName(str, iconNum = 1) {
           de: "bis zu " + iconNum + " zerstörte Präsenz",
           pl: "do " + iconNum + " Zniszczonych Obecności",
           ar: "",
-          zh: "",
+          zh: "至多" + numLocalize[lang][iconNum] || iconNum + " 被摧毀的靈跡",
         };
       }
       subText = localize[lang];
@@ -2756,7 +2921,7 @@ function IconName(str, iconNum = 1) {
         de: "Eine deiner Fähigkeiten darf schnell sein",
         pl: "Jedna z twoich Mocy może być Szybka",
         ar: "",
-        zh: "",
+        zh: "可以將你的一個法術改為快速",
       };
       subText = localize[lang];
       break;
@@ -2766,7 +2931,7 @@ function IconName(str, iconNum = 1) {
         de: "Zahle 2 Energie, um 1 Fähigkeitenkarte zu erlangen",
         pl: "Wydaj 2 Energii, by Pozyskać Kartę Mocy",
         ar: "",
-        zh: "",
+        zh: "支付2能來以獲得1張法術牌",
       };
       subText = localize[lang];
       break;
@@ -2776,7 +2941,7 @@ function IconName(str, iconNum = 1) {
         de: "Ignoriere diese Runde Reichweite",
         pl: "W tej turze możesz ignorować Zasięg Mocy",
         ar: "",
-        zh: "",
+        zh: "這回合你可以無視距離上限",
       };
       subText = localize[lang];
       break;
@@ -2788,6 +2953,8 @@ function IconName(str, iconNum = 1) {
           iconNum > 1
             ? "Przygotuj " + iconNum + " Znaczników Żywiołów"
             : "Przygotuj 1 Znacznik Żywiołów",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
@@ -2797,6 +2964,8 @@ function IconName(str, iconNum = 1) {
         de: iconNum + " Element-Marker ablegen",
         pl:
           iconNum > 1 ? "Odrzuć " + iconNum + " Znaczników Żywiołów" : "Odrzuć 1 Znacznik Żywiołów",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
@@ -2815,7 +2984,7 @@ function IconName(str, iconNum = 1) {
           de: iconNum + " deiner Gebiete isolieren",
           pl: iconNum > 1 ? "Izoluj " + iconNum + " twoje krainy" : "Izoluj 1 twoją krainę",
           ar: "",
-          zh: "",
+          zh: "阻隔 " + numLocalize[lang][iconNum] || iconNum + " 你的區域",
         };
       }
       subText = localize[lang];
@@ -2826,7 +2995,7 @@ function IconName(str, iconNum = 1) {
         de: "Nichts wiedererlangen",
         pl: "Nie Odzyskuj Karty",
         ar: "",
-        zh: "",
+        zh: "不回收法術牌",
       };
       subText = localize[lang];
       break;
@@ -2835,6 +3004,8 @@ function IconName(str, iconNum = 1) {
         en: "+" + num + " Energy",
         de: "+" + num + " Energie",
         pl: "+" + num + " Energii",
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
@@ -2845,6 +3016,7 @@ function IconName(str, iconNum = 1) {
           de: "",
           pl: "Przesuń do " + txt + " Obecności jednocześnie",
           ar: "",
+          zh: "",
         };
       } else if (num) {
         if (isNaN(num)) {
@@ -2853,6 +3025,8 @@ function IconName(str, iconNum = 1) {
             en: "Move a Presence to " + IconName(num) + " land",
             de: "",
             pl: "",
+            ar: "",
+            zh: "",
           };
         } else {
           // its a number
@@ -2861,6 +3035,7 @@ function IconName(str, iconNum = 1) {
             de: "Präsenz " + num + " bewegen",
             pl: "Przenieś Obecność " + num,
             ar: "",
+            zh: "",
           };
         }
       } else {
@@ -2870,6 +3045,7 @@ function IconName(str, iconNum = 1) {
           de: "Präsenz " + num + " bewegen",
           pl: "Przesuń Obecność",
           ar: "",
+          zh: "",
         };
       }
       subText = localize[lang];
@@ -2889,28 +3065,28 @@ function IconName(str, iconNum = 1) {
           de: "1 Schaden in 1 deiner Gebiete",
           pl: "1 Obrażenie w jednej z twoich Krain",
           ar: "",
-          zh: "",
+          zh: "在你的1個區域造成1點傷害",
         };
       }
       subText = localize[lang];
       break;
     case "damage-1":
       localize = {
-        en: "Deal 1 Damage in one of your Lands",
+        en: "1 Damage in one of your Lands",
         de: "1 Schaden in 1 deiner Gebiete",
         pl: "1 Obrażenie w jednej z twoich Krain",
         ar: "",
-        zh: "",
+        zh: "在你的1個區域造成1點傷害",
       };
       subText = localize[lang];
       break;
     case "damage-2":
       localize = {
-        en: "Deal 2 Damage in one of your Lands",
+        en: "2 Damage in one of your Lands",
         de: "1 Schaden in 2 deiner Gebiete",
         pl: "2 Obrażenia w jednej z twoich Krain",
         ar: "",
-        zh: "",
+        zh: "在你的1個區域造成2點傷害",
       };
       subText = localize[lang];
       break;
@@ -2922,6 +3098,8 @@ function IconName(str, iconNum = 1) {
         en: `+${num[0]} Range`,
         de: `+${num[0]} Reichweite`,
         pl: `+${num[0]} Zasięgu`,
+        ar: ``,
+        zh: ``,
       };
       subText = localize[lang];
       if (typeof txt !== "undefined") {
@@ -2929,14 +3107,267 @@ function IconName(str, iconNum = 1) {
           en: ` on ${txt}`,
           de: ` kein ${txt}`,
           pl: ` na ${txt}`,
+          ar: ``,
+          zh: ``,
         };
         subText += localize[lang];
       }
+      break;
+    case "add-token":
+      //add-token(range#/token,and/or,token,num/[othertokens])
+      if (isNaN(num)) {
+        // its a presence track token
+        localize = {
+          en: "Add 1 " + IconName(num) + " to 1 of your Lands",
+          de: "",
+          pl: "",
+          ar: ``,
+          zh: ``,
+        };
+      } else {
+        // its a growth token
+        if (opt4 && isNaN(opt4)) {
+          //multiple tokens of different types
+          localize = {
+            en: `Add a ${ListLocalize(options.slice(2), txt)} ${txt === "and" ? "together" : ""}`,
+            de: ``,
+            pl: ``,
+            ar: ``,
+            zh: ``,
+          };
+        } else if (opt4) {
+          //multiple tokens of the same type
+          localize = {
+            en: `Add ${IconName(opt3, opt4)} together`,
+            de: ``,
+            pl: ``,
+            ar: ``,
+            zh: ``,
+          };
+        } else {
+          // one token
+          localize = {
+            en: `Add a ${IconName(opt3)}`,
+            de: ``,
+            pl: ``,
+            ar: ``,
+            zh: ``,
+          };
+        }
+      }
+      subText = localize[lang];
+      break;
+    case "replace":
+      if (num > 0) {
+        localize = {
+          en: `You may Replace ${IconName(txt)} with ${IconName(opt3)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else {
+        localize = {
+          en: `You may Replace 1 ${IconName(txt)} in your Lands with ${IconName(opt3)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "push":
+      if (txt && !isNaN(txt)) {
+        // second option is a number - P/G at range
+        localize = {
+          en: `Push up to 1 ${IconName(num)} from a Land`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (opt3 && !isNaN(opt3)) {
+        // third option is a number - Conditional P/G at multiple sites
+        localize = {
+          en: `Push ${IconName(opt3)} ${IconName(num)} from ${IconName(txt)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (opt3) {
+        // third option is text - Conditional P/G at TEXT
+        localize = {
+          en: `Push 1 ${IconName(num)} from ${IconName(opt3)} ${IconName(txt)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (txt) {
+        // only two options, the second is text - P/G
+        localize = {
+          en: landtypeNames[lang][txt]
+            ? `Push 1 ${IconName(num)} from ${IconName(txt)}`
+            : `Push 1 ${IconName(num)} from 1 of your Lands with ${IconName(txt)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else {
+        // only one option
+        localize = {
+          en: `Push 1 ${IconName(num)} from 1 of your Lands`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "track-push":
+      if (num === "incarna") {
+        localize = {
+          en: `Push ${IconName(num)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else {
+        subText = IconName(num);
+        for (let i = 1; i < options.length; i++) {
+          subText += "/" + IconName(options[i]);
+        }
+        localize = {
+          en: `Push 1 ${subText} from 1 of your Lands`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "gather":
+      if (txt && !isNaN(txt)) {
+        // second option is a number - P/G at range
+        localize = {
+          en: `Gather up to 1 ${IconName(num)} into a Land`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (opt3 && !isNaN(opt3)) {
+        // third option is a number - Conditional P/G at multiple sites
+        localize = {
+          en: `Gather ${IconName(opt3)} ${IconName(num)} into ${IconName(txt)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (opt3) {
+        // third option is text - Conditional P/G at TEXT
+        localize = {
+          en: `Gather 1 ${IconName(num)} into ${IconName(opt3)} ${IconName(txt)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (txt) {
+        // only two options, the second is text - P/G
+        localize = {
+          en: landtypeNames[lang][txt]
+            ? `Gather 1 ${IconName(num)} into ${IconName(txt)}`
+            : `Gather 1 ${IconName(num)} into 1 of your Lands with ${IconName(txt)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else {
+        // only one option
+        localize = {
+          en: `Gather 1 ${IconName(num)} into 1 of your Lands`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "track-gather":
+      if (num === "incarna") {
+        localize = {
+          en: `Push ${IconName(num)}`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      } else {
+        subText = IconName(num);
+        for (let i = 1; i < options.length; i++) {
+          subText += "/" + IconName(options[i]);
+        }
+        localize = {
+          en: `Push 1 ${subText} from 1 of your Lands`,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "wetland":
+    case "sand":
+    case "sands":
+    case "mountain":
+    case "jungle":
+    case "jungle-wetland":
+    case "jungle-sand":
+    case "jungle-sands":
+    case "jungle-mountain":
+    case "sand-wetland":
+    case "sands-wetland":
+    case "sand-jungle":
+    case "sands-jungle":
+    case "sand-mountain":
+    case "sands-mountain":
+    case "mountain-wetland":
+    case "mountain-sand":
+    case "mountain-sands":
+    case "mountain-jungle":
+    case "wetland-jugnle":
+    case "wetland-mountain":
+    case "wetland-sand":
+    case "wetland-sands":
+    case "ocean":
+    case "oceans":
+      subText = landtypeNames[lang][str];
       break;
     case "inland":
     case "coastal":
     case "invaders":
       subText = landtypeNames[lang][str].toUpperCase();
+      break;
+    case "empower-incarna":
+      localize = {
+        en: "Empower Incarna",
+        de: "Incarna verstärken",
+        pl: "Wzmocnij Inkarna",
+        ar: ``,
+        zh: ``,
+      };
+      subText = localize[lang];
       break;
     case "sun":
     case "moon":
@@ -2948,21 +3379,14 @@ function IconName(str, iconNum = 1) {
     case "animal":
     case "star":
     case "any":
-      subText = Capitalise(elNames[lang][str]);
-      break;
-    case "empower-incarna":
-      localize = {
-        en: "Empower Incarna",
-        de: "Incarna verstärken",
-        pl: "Wzmocnij Inkarna",
-      };
-      subText = localize[lang];
-      break;
+      str = Capitalise(elNames[lang][str]);
+    // eslint-disable-next-line no-fallthrough
     default:
-      subText = iconNum > 1 ? iconNum + " " + Capitalise(str) : Capitalise(str);
-      if (!isNaN(subText)) {
-        subText = numLocalize[lang][subText] || subText;
-      }
+      subText =
+        iconNum > 1
+          ? (numLocalize[lang][iconNum] || iconNum) + " " + Capitalise(str)
+          : Capitalise(str);
+      subText = numLocalize[lang][subText] || subText;
   }
 
   return subText;
@@ -2997,9 +3421,26 @@ function Capitalise(str, plural = 0) {
   return return_str;
 }
 
-// function translateElementsAndTokens(str){
-//   return str
-// }
+function ListLocalize(list, conjuction = "and") {
+  let listText = "";
+  console.log(list);
+  switch (lang) {
+    case "en":
+      // goal is to construct lists of items in your language:
+      // list1, list2 and list3
+      // list1 and list2
+      // list1, list2 or list3
+      if (conjuction === "and" || conjuction === "or") {
+        listText += IconName(list[0]);
+        for (let i = 1; i < list.length; i++) {
+          listText += i === list.length - 1 ? ` ${conjuction} ` : ", ";
+          listText += IconName(list[i]);
+        }
+      }
+      break;
+  }
+  return listText;
+}
 
 function setupCustomIcons() {
   const spiritStyle = document.querySelectorAll("style")[0];
@@ -3474,6 +3915,17 @@ function dynamicResizing() {
   const playsTrack = board.getElementsByClassName("plays-track")[0];
   //Load board ojects
   const growth = board.getElementsByTagName("growth")[0];
+
+  //Check for split nodes and resize as appropriate
+  if (energyTrack.getElementsByTagName("split-presence-node")[0]) {
+    energyTrack.classList.add("has-split-node");
+  }
+  if (playsTrack.getElementsByTagName("split-presence-node")[0]) {
+    playsTrack.classList.add("has-split-node");
+    if (energyTrack.getElementsByTagName("split-presence-node")[0]) {
+      playsTrack.classList.add("has-split-node-tight");
+    }
+  }
 
   //Check horizontal overflow
   if (checkOverflowWidth(presenceTrack, 0)) {
@@ -4142,7 +4594,7 @@ function writeInnatePowerInfoBlock(
   targetTitle = "TARGET LAND"
 ) {
   targetTitle = targetTitle === "TARGET LAND" ? "land" : "spirit";
-  // Localize
+  // localize
   let infoTitles = {
     en: {
       speed: "SPEED",
@@ -4167,6 +4619,12 @@ function writeInnatePowerInfoBlock(
       range: "مدى",
       land: "الأرض المستهدفة",
       spirit: "هدف",
+    },
+    zh: {
+      speed: "速度",
+      range: "距離",
+      land: "目標區域",
+      spirit: "目標精靈",
     },
   };
 
@@ -4296,6 +4754,12 @@ function tagSectionHeadings() {
       presence: "وجود",
       innate: "القوة الفطري",
       special: "قواعد خاصة",
+    },
+    zh: {
+      growth: "成長",
+      presence: "靈跡",
+      innate: "天賦法術",
+      special: "特殊規則",
     },
   };
 
