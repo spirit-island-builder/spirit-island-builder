@@ -1439,6 +1439,19 @@ function getGrowthActionTextAndIcons(growthAction) {
       growthText = IconName(`replace(${iconNameVars})`);
       break;
     }
+    case "destroy-presence": {
+      const matches = regExp.exec(growthAction);
+      let destroyOptions = matches[1].split(",");
+      let num = destroyOptions[0] || 1;
+      let destroyIcons = "";
+      for (let i = 0; i < num; i++) {
+        destroyIcons += "{destroyed-presence}";
+      }
+      destroyIcons = `<destroy-wrap>${destroyIcons}</destroy-wrap>`;
+      growthIcons = destroyIcons;
+      growthText = IconName(growthAction);
+      break;
+    }
     default: {
       growthIcons = "{" + growthActionType + "}";
       growthText = IconName(growthActionType);
@@ -1973,7 +1986,7 @@ function getPresenceNodeHtml(
     iconDeepLayers = nodeText.split("^")[1].split("_")[0].split("*")[0];
     addDeepLayers = true;
     if (pnDebug) {
-      console.log(iconDeepLayers);
+      console.log("Adding Icon: " + iconDeepLayers);
     }
   }
 
@@ -2432,11 +2445,7 @@ function getPresenceNodeHtml(
       inner = "<icon-shadow>" + inner + "</icon-shadow>";
     }
   }
-  if (overrideText) {
-    subText = overrideText;
-  }
   ring.innerHTML = inner;
-  presenceNode.innerHTML += "<subtext>" + subText + "</subtext>";
   if (addDeepLayers) {
     let valueText = "";
     if (iconDeepLayers.startsWith("energy")) {
@@ -2444,6 +2453,13 @@ function getPresenceNodeHtml(
       const valueNum = matches[1];
       valueText = "<value>" + valueNum + "</value>";
       iconDeepLayers = "energy-blank";
+    }
+    if (iconDeepLayers.startsWith("pay")) {
+      const matches = regExp.exec(iconDeepLayers);
+      const valueNum = Math.abs(matches[1]);
+      valueText = `<value>${-valueNum}</value>`;
+      iconDeepLayers = "energy-blank";
+      subText = `You may pay ${valueNum} Energy to ${subText}`;
     }
     presenceNode.innerHTML =
       "<deep-layers>" +
@@ -2458,7 +2474,10 @@ function getPresenceNodeHtml(
     presenceNode.getElementsByTagName("ring-icon")[0].classList.add("deep-layers");
     ring.classList.add("deep-layers");
   }
-
+  if (overrideText) {
+    subText = overrideText;
+  }
+  presenceNode.innerHTML += "<subtext>" + subText + "</subtext>";
   return presenceNode.outerHTML;
 }
 
@@ -2887,8 +2906,9 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "destroy-presence":
+      num = num ? num : 1;
       localize = {
-        en: "Destroy 1 of your Presence",
+        en: `Destroy ${num} of your Presence`,
         de: "Zerstöre 1 deiner Präsenzen",
         pl: "Zniszcz 1 ze swoich Obecności",
         ar: "",

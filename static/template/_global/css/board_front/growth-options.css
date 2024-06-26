@@ -336,6 +336,22 @@ growth-cell icon.presence {
   margin-bottom: 0px;
 }
 
+growth-cell icon.destroyed-presence,
+growth-cell icon.destroy-presence {
+  margin-left: 4px;
+  width: 50px;
+  height: 38px;
+  margin-bottom: 0px;
+}
+
+growth-cell destroy-wrap {
+  display: flex;
+  height: 90px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+}
+
 growth-cell icon.reclaim-all,
 growth-cell icon.reclaim-one,
 growth-cell icon.reclaim-none,
