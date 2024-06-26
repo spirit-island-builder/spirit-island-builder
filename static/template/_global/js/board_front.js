@@ -1986,7 +1986,7 @@ function getPresenceNodeHtml(
     iconDeepLayers = nodeText.split("^")[1].split("_")[0].split("*")[0];
     addDeepLayers = true;
     if (pnDebug) {
-      console.log(iconDeepLayers);
+      console.log("Adding Icon: " + iconDeepLayers);
     }
   }
 
@@ -2445,11 +2445,7 @@ function getPresenceNodeHtml(
       inner = "<icon-shadow>" + inner + "</icon-shadow>";
     }
   }
-  if (overrideText) {
-    subText = overrideText;
-  }
   ring.innerHTML = inner;
-  presenceNode.innerHTML += "<subtext>" + subText + "</subtext>";
   if (addDeepLayers) {
     let valueText = "";
     if (iconDeepLayers.startsWith("energy")) {
@@ -2457,6 +2453,13 @@ function getPresenceNodeHtml(
       const valueNum = matches[1];
       valueText = "<value>" + valueNum + "</value>";
       iconDeepLayers = "energy-blank";
+    }
+    if (iconDeepLayers.startsWith("pay")) {
+      const matches = regExp.exec(iconDeepLayers);
+      const valueNum = Math.abs(matches[1]);
+      valueText = `<value>${-valueNum}</value>`;
+      iconDeepLayers = "energy-blank";
+      subText = `You may pay ${valueNum} Energy to ${subText}`;
     }
     presenceNode.innerHTML =
       "<deep-layers>" +
@@ -2471,7 +2474,10 @@ function getPresenceNodeHtml(
     presenceNode.getElementsByTagName("ring-icon")[0].classList.add("deep-layers");
     ring.classList.add("deep-layers");
   }
-
+  if (overrideText) {
+    subText = overrideText;
+  }
+  presenceNode.innerHTML += "<subtext>" + subText + "</subtext>";
   return presenceNode.outerHTML;
 }
 
