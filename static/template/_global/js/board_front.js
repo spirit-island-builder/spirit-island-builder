@@ -2862,7 +2862,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: "Discard a Power Card with " + IconName(num),
           de: "",
-          pl: "Odrzuć 1 Kartę Mocy z "  + IconName(num),
+          pl: "Odrzuć 1 Kartę Mocy z " + IconName(num),
           ar: "",
           zh: "",
         };
@@ -3140,9 +3140,9 @@ function IconName(str, iconNum = 1) {
       if (isNaN(num)) {
         // its a presence track token
         localize = {
-          en: "Add 1 " + IconName(num) + " to 1 of your Lands",
+          en: `Add 1 ${IconName(num)} to 1 of your Lands`,
           de: "",
-          pl: "Dodaj 1 " + IconName(num) + " do jednej z twoich Krain,
+          pl: `Dodaj 1 ${IconName(num)} do jednej z twoich Krain`,
           ar: ``,
           zh: ``,
         };
@@ -3334,7 +3334,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gather ${IconName(num)}`,
           de: ``,
-          pl: `Wypchnij ${IconName(num)}`,
+          pl: `Zgromadź ${IconName(num)}`,
           ar: ``,
           zh: ``,
         };
@@ -3346,7 +3346,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gather 1 ${subText} into 1 of your Lands`,
           de: ``,
-          pl: `Wypchnij 1 ${subText} z twojej krainy`,
+          pl: `Zgromadź 1 ${subText} w twojej krainie`,
           ar: ``,
           zh: ``,
         };
