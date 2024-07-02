@@ -3326,7 +3326,7 @@ function IconName(str, iconNum = 1) {
     case "track-gather":
       if (num === "incarna") {
         localize = {
-          en: `Push ${IconName(num)}`,
+          en: `Gather ${IconName(num)}`,
           de: ``,
           pl: ``,
           ar: ``,
@@ -3338,7 +3338,7 @@ function IconName(str, iconNum = 1) {
           subText += "/" + IconName(options[i]);
         }
         localize = {
-          en: `Push 1 ${subText} from 1 of your Lands`,
+          en: `Gather 1 ${subText} into 1 of your Lands`,
           de: ``,
           pl: ``,
           ar: ``,
