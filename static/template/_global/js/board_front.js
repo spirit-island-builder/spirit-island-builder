@@ -2582,7 +2582,9 @@ function IconName(str, iconNum = 1) {
                 ? `Add/Move Incarna to Land with ${IconName(txt)}`
                 : `Add/Move Incarna to Land with ${IconName("presence")}`,
               de: ``,
-              pl: ``,
+              pl: txt
+                ? `Dodaj/Przenieś Inkarna do Krainy z ${IconName(txt)}`
+                : `Dodaj/Przenieś Inkarna do Krainy z ${IconName("presence")}`,
               ar: ``,
               zh: ``,
             };
@@ -2591,7 +2593,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: `You may Replace ${IconName(txt)} with your Incarna`,
               de: ``,
-              pl: ``,
+              pl: `Możesz Zamienić ${IconName(txt)} na twoje Inkarna`,
               ar: ``,
               zh: ``,
             };
@@ -2600,7 +2602,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: "Move Incarna",
               de: "",
-              pl: "",
+              pl: "Przesuń Inkarna",
               ar: ``,
               zh: ``,
             };
@@ -2609,7 +2611,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: `Add a ${IconName(txt)} at your Incarna`,
               de: "",
-              pl: "",
+              pl: `Dodaj ${IconName(txt)} na twoje Inkarna`,
               ar: ``,
               zh: ``,
             };
@@ -2647,7 +2649,7 @@ function IconName(str, iconNum = 1) {
       localize = {
         en: "OR",
         de: "ODER",
-        pl: "",
+        pl: "ALBO",
         ar: "",
         zh: "或",
       };
@@ -2719,7 +2721,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Gain ${txt} Energy per ${opt4}`,
             de: ``,
-            pl: ``,
+            pl: `+${txt} Energii za każde ${opt4}`,
             ar: ``,
             zh: ``,
           };
@@ -2728,7 +2730,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Gain ${num} Energy and +${txt} more per ${opt4}`,
             de: ``,
-            pl: ``,
+            pl: `+${num} Energii. +${txt} za każde ${opt4}`,
             ar: ``,
             zh: ``,
           };
@@ -2762,7 +2764,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gain Energy`,
           de: ``,
-          pl: ``,
+          pl: `Zbierz Energię`,
           ar: ``,
           zh: ``,
         };
@@ -2778,7 +2780,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: "Reclaim All Cards with " + IconName(txt),
           de: "",
-          pl: "",
+          pl: "Odzyskaj wszystkie Karty z " + IconName(txt),
           ar: "",
           zh: "",
         };
@@ -2798,7 +2800,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: "Reclaim One Card with " + IconName(txt),
           de: "",
-          pl: "",
+          pl: "Odzyskaj Jedną Kartę z " + IconName(txt),
           ar: "",
           zh: "",
         };
@@ -2860,7 +2862,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: "Discard a Power Card with " + IconName(num),
           de: "",
-          pl: "",
+          pl: "Odrzuć 1 Kartę Mocy z "  + IconName(num),
           ar: "",
           zh: "",
         };
@@ -3044,7 +3046,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: "Move a Presence to " + IconName(num) + " land",
             de: "",
-            pl: "",
+            pl: "Przesuń Obecność do " + IconName(num),
             ar: "",
             zh: "",
           };
@@ -3140,7 +3142,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: "Add 1 " + IconName(num) + " to 1 of your Lands",
           de: "",
-          pl: "",
+          pl: "Dodaj 1 " + IconName(num) + " do jednej z twoich Krain,
           ar: ``,
           zh: ``,
         };
@@ -3151,7 +3153,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Add a ${ListLocalize(options.slice(2), txt)} ${txt === "and" ? "together" : ""}`,
             de: ``,
-            pl: ``,
+            pl: `Dodaj ${ListLocalize(options.slice(2), txt)} ${txt === "i" ? "jednocześnie" : ""}`,
             ar: ``,
             zh: ``,
           };
@@ -3160,7 +3162,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Add ${IconName(opt3, opt4)} together`,
             de: ``,
-            pl: ``,
+            pl: `Dodaj ${IconName(opt3, opt4)} jednocześnie`,
             ar: ``,
             zh: ``,
           };
@@ -3169,7 +3171,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Add a ${IconName(opt3)}`,
             de: ``,
-            pl: ``,
+            pl: `Dodaj ${IconName(opt3)}`,
             ar: ``,
             zh: ``,
           };
@@ -3182,7 +3184,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `You may Replace ${IconName(txt)} with ${IconName(opt3)}`,
           de: ``,
-          pl: ``,
+          pl: `Możesz Zamienić ${IconName(txt)} na ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
         };
@@ -3190,7 +3192,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `You may Replace 1 ${IconName(txt)} in your Lands with ${IconName(opt3)}`,
           de: ``,
-          pl: ``,
+          pl: `Możesz Zamienić 1 ${IconName(txt)} w jednej z Twoich krain z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
         };
@@ -3203,7 +3205,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Push up to 1 ${IconName(num)} from a Land`,
           de: ``,
-          pl: ``,
+          pl: `Wypchnij do 1 ${IconName(num)} z krainy`,
           ar: ``,
           zh: ``,
         };
@@ -3212,7 +3214,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Push ${IconName(opt3)} ${IconName(num)} from ${IconName(txt)}`,
           de: ``,
-          pl: ``,
+          pl: `Wypchnij ${IconName(opt3)} ${IconName(num)} z ${IconName(txt)}`,
           ar: ``,
           zh: ``,
         };
@@ -3221,7 +3223,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Push 1 ${IconName(num)} from ${IconName(opt3)} ${IconName(txt)}`,
           de: ``,
-          pl: ``,
+          pl: `Wypchnij ${IconName(opt3)} ${IconName(num)} z ${IconName(txt)}`,
           ar: ``,
           zh: ``,
         };
@@ -3232,7 +3234,9 @@ function IconName(str, iconNum = 1) {
             ? `Push 1 ${IconName(num)} from ${IconName(txt)}`
             : `Push 1 ${IconName(num)} from 1 of your Lands with ${IconName(txt)}`,
           de: ``,
-          pl: ``,
+          pl: landtypeNames[lang][txt]
+            ? `Wypchnij 1 ${IconName(num)} z ${IconName(txt)}`
+            : `Wypchnij 1 ${IconName(num)} z twojej krainy z ${IconName(txt)}`,
           ar: ``,
           zh: ``,
         };
@@ -3241,7 +3245,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Push 1 ${IconName(num)} from 1 of your Lands`,
           de: ``,
-          pl: ``,
+          pl: `Wypchnij 1 ${IconName(num)} z twojej krainy`,
           ar: ``,
           zh: ``,
         };
@@ -3253,7 +3257,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Push ${IconName(num)}`,
           de: ``,
-          pl: ``,
+          pl: `Wypchnij ${IconName(num)}`,
           ar: ``,
           zh: ``,
         };
@@ -3265,7 +3269,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Push 1 ${subText} from 1 of your Lands`,
           de: ``,
-          pl: ``,
+          pl: `Wypchnij ${IconName(num)} z twojej krainy`,
           ar: ``,
           zh: ``,
         };
@@ -3278,7 +3282,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gather up to 1 ${IconName(num)} into a Land`,
           de: ``,
-          pl: ``,
+          pl: `Zgromadź do 1 ${IconName(num)} w krainie`,
           ar: ``,
           zh: ``,
         };
@@ -3287,7 +3291,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gather ${IconName(opt3)} ${IconName(num)} into ${IconName(txt)}`,
           de: ``,
-          pl: ``,
+          pl: `Zgromadź ${IconName(opt3)} ${IconName(num)} w ${IconName(txt)}`,
           ar: ``,
           zh: ``,
         };
@@ -3296,7 +3300,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gather 1 ${IconName(num)} into ${IconName(opt3)} ${IconName(txt)}`,
           de: ``,
-          pl: ``,
+          pl: `Zgromadź 1 ${IconName(num)} w ${IconName(opt3)} ${IconName(txt)}`,
           ar: ``,
           zh: ``,
         };
@@ -3307,7 +3311,9 @@ function IconName(str, iconNum = 1) {
             ? `Gather 1 ${IconName(num)} into ${IconName(txt)}`
             : `Gather 1 ${IconName(num)} into 1 of your Lands with ${IconName(txt)}`,
           de: ``,
-          pl: ``,
+          pl: landtypeNames[lang][txt]
+            ? `Zgromadź 1 ${IconName(num)} w ${IconName(txt)}`
+            : `Zgromadź 1 ${IconName(num)} w twojej krainie z ${IconName(txt)}`,
           ar: ``,
           zh: ``,
         };
@@ -3316,7 +3322,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gather 1 ${IconName(num)} into 1 of your Lands`,
           de: ``,
-          pl: ``,
+          pl: `Zgromaź 1 ${IconName(num)} w twojej krainie`,
           ar: ``,
           zh: ``,
         };
@@ -3328,7 +3334,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gather ${IconName(num)}`,
           de: ``,
-          pl: ``,
+          pl: `Wypchnij ${IconName(num)}`,
           ar: ``,
           zh: ``,
         };
@@ -3340,7 +3346,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gather 1 ${subText} into 1 of your Lands`,
           de: ``,
-          pl: ``,
+          pl: `Wypchnij 1 ${subText} z twojej krainy`,
           ar: ``,
           zh: ``,
         };
