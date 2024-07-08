@@ -992,20 +992,26 @@ function getGrowthActionTextAndIcons(growthAction) {
       let moveText = IconName(growthAction);
       let moveIcons = "";
       if (!moveOptions[1]) {
-        // moveIcons = "<custom-icon>{presence}{move-range-" + moveRange + "}</custom-icon>";
+        // Move presence range X
         moveIcons =
           "<custom-icon>{presence}<move-growth><value>" +
           moveRange +
           "</value></move-growth></custom-icon>";
-        // moveText = "Move a Presence";
+        moveText = IconName(growthActionType);
       } else if (!isNaN(moveOptions[1])) {
+        // Move X presence together
         moveIcons = "<custom-icon><token-wrap>";
         for (let i = 0; i < moveOptions[1]; i++) {
           moveIcons += "{presence}";
         }
         moveIcons +=
           "</token-wrap><move-growth><value>" + moveRange + "</value></move-growth></custom-icon>";
-        // moveText = "Move up to " + moveOptions[1] + " Presence together";
+      } else {
+        // Move presence + token together
+        moveIcons = `<custom-icon>
+        <token-wrap>{presence}<icon class="${moveOptions[1]} token"></icon></token-wrap>
+        <move-growth><value>${moveRange}</value></move-growth>
+        </custom-icon>`;
       }
 
       growthIcons = moveIcons;
@@ -3033,22 +3039,34 @@ function IconName(str, iconNum = 1) {
       break;
     case "move-presence":
       if (txt) {
-        localize = {
-          en: "Move up to " + txt + " Presence together",
-          de: "",
-          pl: "Przesuń do " + txt + " Obecności jednocześnie",
-          ar: "",
-          zh: "",
-        };
+        if (isNaN(txt)) {
+          // Move a presence and a token together
+          localize = {
+            en: `Move a Presence and ${txt} together`,
+            de: ``,
+            pl: ``,
+            ar: ``,
+            zh: ``,
+          };
+        } else {
+          // Move x presence
+          localize = {
+            en: "Move up to " + txt + " Presence together",
+            de: ``,
+            pl: "Przesuń do " + txt + " Obecności jednocześnie",
+            ar: ``,
+            zh: ``,
+          };
+        }
       } else if (num) {
         if (isNaN(num)) {
           // its text
           localize = {
             en: "Move a Presence to " + IconName(num) + " land",
-            de: "",
+            de: ``,
             pl: "Przesuń Obecność do " + IconName(num),
-            ar: "",
-            zh: "",
+            ar: ``,
+            zh: ``,
           };
         } else {
           // its a number
@@ -3056,8 +3074,8 @@ function IconName(str, iconNum = 1) {
             en: "Move a Presence " + num,
             de: "Präsenz " + num + " bewegen",
             pl: "Przenieś Obecność " + num,
-            ar: "",
-            zh: "",
+            ar: ``,
+            zh: ``,
           };
         }
       } else {
@@ -3117,9 +3135,9 @@ function IconName(str, iconNum = 1) {
       break;
     case "gain-range":
       localize = {
-        en: `+${num[0]} Range`,
-        de: `+${num[0]} Reichweite`,
-        pl: `+${num[0]} Zasięgu`,
+        en: `+${num} Range`,
+        de: `+${num} Reichweite`,
+        pl: `+${num} Zasięgu`,
         ar: ``,
         zh: ``,
       };
