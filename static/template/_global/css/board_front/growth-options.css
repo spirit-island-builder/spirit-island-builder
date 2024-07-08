@@ -983,6 +983,7 @@ token-wrap {
   align-content: flex-end;
   padding-bottom: 2px;
   justify-content: center;
+  align-items: flex-end;
 }
 
 replace-wrap {
