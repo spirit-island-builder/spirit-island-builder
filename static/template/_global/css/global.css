@@ -419,6 +419,9 @@ icon.reclaim-half {
 icon.gain-power-card {
   background-image: url("../images/board/Gaincardicon.png");
 }
+icon.gain-power-card-blank {
+  background-image: url("../images/board/NewIcons/Card\ Blank.png");
+}
 icon.take-power-card {
   background-image: url("../images/customIcons/Take\ a\ Power.png");
 }

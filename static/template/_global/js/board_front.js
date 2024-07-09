@@ -2307,6 +2307,18 @@ function getPresenceNodeHtml(
           addIconShadow = false;
           break;
         }
+        case "gain-power-card": {
+          const iconText = splitOptions[0];
+          const matches = regExp.exec(splitOptions[0]);
+          if (matches) {
+            inner =
+              "<icon class='gain-power-card-blank'><icon class='" + matches[1] + "'></icon></icon>";
+          } else {
+            inner = "{" + iconText + "}";
+          }
+          subText = IconName(iconText);
+          break;
+        }
         default: {
           const iconText = splitOptions[0];
           inner = "{" + iconText + "}";
