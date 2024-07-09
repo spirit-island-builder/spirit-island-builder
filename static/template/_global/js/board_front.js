@@ -2072,7 +2072,9 @@ function getPresenceNodeHtml(
                 "<custom-presence-track-icon>" + custom_node[1] + "</custom-presence-track-icon>";
             } else {
               // User is not using icon shorthand (only 1 icon allowed)
-              inner = "<icon class='" + custom_node[1] + " custom-presence-track-icon'></icon>";
+              for (let i = 1; i < custom_node.length; i++) {
+                inner += "<icon class='" + custom_node[i] + " custom-presence-track-icon'></icon>";
+              }
             }
           } else {
             inner = "<" + nodeClass + "-icon><value></value></" + nodeClass + "-icon>";
@@ -2171,6 +2173,18 @@ function getPresenceNodeHtml(
           subText = subText.repeat(numSpace);
           addEnergyRing = false;
           addIconShadow = false;
+          break;
+        }
+        case "gain-power-card": {
+          const iconText = splitOptions[0];
+          const matches = regExp.exec(splitOptions[0]);
+          if (matches) {
+            inner =
+              "<icon class='gain-power-card-blank'><icon class='" + matches[1] + "'></icon></icon>";
+          } else {
+            inner = "{" + iconText + "}";
+          }
+          subText = IconName(iconText);
           break;
         }
         default: {
@@ -2331,7 +2345,14 @@ function getPresenceNodeHtml(
       const valueNum = Math.abs(matches[1]);
       valueText = `<value>${-valueNum}</value>`;
       iconDeepLayers = "energy-blank";
-      subText = `You may pay ${valueNum} Energy to ${subText}`;
+      let localize = {
+        en: `You may pay ${valueNum} Energy to ${subText}`,
+        de: ``,
+        pl: ``,
+        ar: ``,
+        zh: ``,
+      };
+      subText = localize[lang];
     }
     presenceNode.innerHTML =
       "<deep-layers>" +
