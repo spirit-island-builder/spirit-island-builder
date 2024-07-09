@@ -2333,7 +2333,14 @@ function getPresenceNodeHtml(
       const valueNum = Math.abs(matches[1]);
       valueText = `<value>${-valueNum}</value>`;
       iconDeepLayers = "energy-blank";
-      subText = `You may pay ${valueNum} Energy to ${subText}`;
+      let localize = {
+        en: `You may pay ${valueNum} Energy to ${subText}`,
+        de: ``,
+        pl: ``,
+        ar: ``,
+        zh: ``,
+      };
+      subText = localize[lang];
     }
     presenceNode.innerHTML =
       "<deep-layers>" +
