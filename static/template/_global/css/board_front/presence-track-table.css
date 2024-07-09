@@ -800,3 +800,12 @@ tr.has-split-node:not(:first-child) td {
 tr.has-split-node.has-split-node-tight:not(:first-child) td {
   padding-top: 0px;
 }
+
+presence-node icon.or {
+  background-image: url(../../images/board/backslash.png);
+  background-size: cover;
+  width: 15px;
+  height: 32px;
+  margin-bottom: 22px;
+  margin-top: 26px;
+}
