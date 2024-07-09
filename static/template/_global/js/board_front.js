@@ -2072,7 +2072,9 @@ function getPresenceNodeHtml(
                 "<custom-presence-track-icon>" + custom_node[1] + "</custom-presence-track-icon>";
             } else {
               // User is not using icon shorthand (only 1 icon allowed)
-              inner = "<icon class='" + custom_node[1] + " custom-presence-track-icon'></icon>";
+              for (let i = 1; i < custom_node.length; i++) {
+                inner += "<icon class='" + custom_node[i] + " custom-presence-track-icon'></icon>";
+              }
             }
           } else {
             inner = "<" + nodeClass + "-icon><value></value></" + nodeClass + "-icon>";
