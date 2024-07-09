@@ -809,3 +809,15 @@ presence-node icon.or {
   margin-bottom: 22px;
   margin-top: 26px;
 }
+
+presence-node icon.gain-power-card-blank {
+  display: flex;
+  justify-content: center;
+  height: 90px;
+  width: 90px;
+}
+
+icon.gain-power-card-blank > icon {
+  height: 45px;
+  width: 45px;
+}
