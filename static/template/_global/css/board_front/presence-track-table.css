@@ -190,6 +190,11 @@ board.hide-text subtext {
   margin-right: -20px;
 }
 
+td.middle .adjust-subtext {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
 presence-node ring-icon {
   background-repeat: no-repeat;
   background-size: contain;
@@ -820,4 +825,8 @@ presence-node icon.gain-power-card-blank {
 icon.gain-power-card-blank > icon {
   height: 45px;
   width: 45px;
+}
+
+presence-tracks.shadow subtext {
+  text-shadow: 1px 0 #f1decc, 1px 1px 0 #f1decc, 1px -1px 0 #f1decc, -1px -1px 0 #f1decc;
 }
