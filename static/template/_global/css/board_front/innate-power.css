@@ -346,12 +346,13 @@ note icon.presence {
   margin-right: -2px;
 }
 
-div.description {
+effect {
   white-space: pre-line;
   line-height: 1.15;
+  display: block;
 }
 
-.description icon.city {
+effect icon.city {
   width: 35px;
   height: 35px;
   margin-bottom: -10px;
@@ -360,20 +361,20 @@ div.description {
   margin-top: -10px;
 }
 
-.description icon.badlands,
-.description icon.beasts,
-.description icon.disease,
-.description icon.wilds,
-.description icon.strife,
-.description icon.blight,
-.description icon.town,
-.description icon.dahan,
-.description icon.fear,
-.description icon.slow,
-.description icon.fast,
-.description icon.major,
-.description icon.minor,
-.description icon.isolate {
+effect icon.badlands,
+effect icon.beasts,
+effect icon.disease,
+effect icon.wilds,
+effect icon.strife,
+effect icon.blight,
+effect icon.town,
+effect icon.dahan,
+effect icon.fear,
+effect icon.slow,
+effect icon.fast,
+effect icon.major,
+effect icon.minor,
+effect icon.isolate {
   width: 27px;
   height: 27px;
   margin-bottom: -5px;
@@ -383,19 +384,19 @@ div.description {
   background-position: bottom;
 }
 
-.description icon.slow,
-.description icon.fast,
-.description icon.fear {
+effect icon.slow,
+effect icon.fast,
+effect icon.fear {
   width: 45px;
   height: 35px;
   margin-bottom: -9px;
 }
 
-.description icon.fear {
+effect icon.fear {
   width: 35px;
 }
 
-.description icon.explorer {
+effect icon.explorer {
   height: 30px;
   margin-bottom: -6px;
   width: 20px;
@@ -403,20 +404,20 @@ div.description {
   margin-right: -5px;
 }
 
-.description icon.badlands,
-.description icon.wilds {
+effect icon.badlands,
+effect icon.wilds {
   width: 33px;
   margin-left: 0px;
   margin-right: 2px;
 }
 
-.description icon.range-0,
-.description icon.range-1,
-.description icon.range-2,
-.description icon.range-3,
-.description icon.range-4,
-.description icon.range-X,
-.description icon.range-x {
+effect icon.range-0,
+effect icon.range-1,
+effect icon.range-2,
+effect icon.range-3,
+effect icon.range-4,
+effect icon.range-X,
+effect icon.range-x {
   width: 50px;
   height: 30px;
   margin-left: 0px;
@@ -424,11 +425,11 @@ div.description {
   margin-bottom: -7px;
 }
 
-.description icon.gain-range-1,
-.description icon.gain-range-2,
-.description icon.gain-range-3,
-.description icon.gain-range-x,
-.description icon.gain-range-X {
+effect icon.gain-range-1,
+effect icon.gain-range-2,
+effect icon.gain-range-3,
+effect icon.gain-range-x,
+effect icon.gain-range-X {
   width: 45px;
   height: 40px;
   margin-left: 0px;
@@ -436,15 +437,15 @@ div.description {
   margin-bottom: -9px;
 }
 
-.description icon.sun,
-.description icon.earth,
-.description icon.plant,
-.description icon.fire,
-.description icon.air,
-.description icon.moon,
-.description icon.animal,
-.description icon.water,
-.description icon.any {
+effect icon.sun,
+effect icon.earth,
+effect icon.plant,
+effect icon.fire,
+effect icon.air,
+effect icon.moon,
+effect icon.animal,
+effect icon.water,
+effect icon.any {
   width: 45px;
   height: 30px;
   margin-left: -9px;
@@ -480,7 +481,7 @@ innate-power icon.any {
   background-image: url(../../images/board/element_simple_any.png);
 }
 
-.description icon.presence {
+effect icon.presence {
   height: 25px;
   width: 32px;
   margin-bottom: -8px;
@@ -488,7 +489,7 @@ innate-power icon.any {
   margin-right: -1px;
 }
 
-.description icon.sacred-site {
+effect icon.sacred-site {
   height: 30px;
   width: 50px;
   margin-bottom: -9px;
@@ -497,7 +498,7 @@ innate-power icon.any {
   margin-right: 0px;
 }
 
-.description icon.range-small-icon {
+effect icon.range-small-icon {
   width: 33px;
   height: 22px;
   position: relative;
@@ -514,7 +515,7 @@ description-container range {
   font-size: 24px;
 }
 
-div.description range {
+effect range {
   width: 48px;
   height: 28px;
   font-family: "Antropos";
@@ -608,18 +609,18 @@ threshold {
   align-items: center;
 }
 
-threshold.description-wrap {
-  position: relative;
-  top: unset;
-  transform: unset;
-}
-
 level.description-wrap {
   margin-bottom: 0px;
 }
 
-div.description.description-wrap {
+level.description-wrap effect {
   padding-left: 0px;
+}
+
+level.description-wrap threshold {
+  position: relative;
+  top: unset;
+  transform: unset;
 }
 
 innate-power:last-of-type level {
@@ -936,7 +937,7 @@ note icon.any {
   background-image: url(../../images/board/element_simple_any.png);
 }
 
-div.description icon.incarna {
+effect icon.incarna {
   width: 40px;
   height: 40px;
   margin-top: -13px;
