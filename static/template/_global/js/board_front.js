@@ -3110,9 +3110,9 @@ function IconName(str, iconNum = 1) {
     case "damage":
       if (txt) {
         localize = {
-          en: `${num} Damage at Range ${txt}`,
-          de: `${num} Schaden mit ${txt} Reichweite`,
-          pl: `${num} Obrażeń w Zasięgu ${txt}`,
+          en: `${txt} Damage at Range ${num}`,
+          de: `${txt} Schaden mit ${num} Reichweite`,
+          pl: `${txt} Obrażeń w Zasięgu ${num}`,
           ar: "",
           zh: "",
         };
@@ -4341,9 +4341,9 @@ function dynamicResizing() {
     if (debug) {
       console.log("  > Innate Powers overflowing, shrinking level description line height");
     }
-    let descriptions = Array.from(board.getElementsByClassName("description"));
-    descriptions.forEach((description) => {
-      description.style.lineHeight = "1";
+    let effects = Array.from(board.getElementsByTagName("effect"));
+    effects.forEach((effect) => {
+      effect.style.lineHeight = "1";
     });
   }
   if (checkOverflowHeight(innatePowerBox)) {
@@ -4429,7 +4429,7 @@ function getGrowthActionIconWidth(growthCell) {
 function innatePowerSizing(board) {
   console.log("RESIZING: Innate Powers (from board_front.js)");
 
-  let debug = false;
+  let debug = true;
   if (debug) {
     console.log(board);
   }
@@ -4461,7 +4461,7 @@ function innatePowerSizing(board) {
   }
 
   // Innate Power Levels
-  const description = board.getElementsByClassName("description");
+  const effects = Array.from(board.getElementsByTagName("effect"));
   const thresholds = Array.from(board.getElementsByTagName("threshold"));
   const levels = board.getElementsByTagName("level");
 
@@ -4480,19 +4480,23 @@ function innatePowerSizing(board) {
       ) + "px";
   });
 
-  for (let i = 0; i < description.length; i++) {
+  for (let i = 0; i < effects.length; i++) {
     // Scale the text width to the threshold size...
-    description[i].style.paddingLeft = outerThresholdWidth[i] + "px";
-    // description[i].style.position = "relative";
-    const textHeight = description[i].clientHeight;
+    effects[i].style.paddingLeft = outerThresholdWidth[i] + "px";
+    const textHeight = effects[i].offsetHeight;
+    const thresholdWidth = thresholds[i].offsetWidth;
     if (textHeight < 40) {
-      description[i].classList.add("single-line");
+      effects[i].classList.add("single-line");
+      if (debug) {
+        console.log("single line");
+      }
       // Align-middle the text if its a single line
-    } else if (textHeight > 86) {
-      // Wrap description below the threshold if its greater than three lines
-      description[i].style.paddingLeft = "0px"; // delete this if nothing seems broken
-      description[i].classList.add("description-wrap");
-      thresholds[i].classList.add("description-wrap");
+    } else if (textHeight > 86 && thresholdWidth > 80) {
+      // Wrap effects below the threshold if its greater than three lines
+      if (debug) {
+        console.log("wrapping large text");
+      }
+      effects[i].style.paddingLeft = "0px"; // delete this if nothing seems broken
       levels[i].classList.add("description-wrap");
     }
   }
@@ -4590,33 +4594,6 @@ function addLine(el) {
   }
   el.style.width = k + "px";
 }
-
-// function checkOverflowWidth(el, slack = 30) {
-//   let curOverflow = el.style.overflowX;
-//   if (!curOverflow || curOverflow === "visible") {
-//     el.style.overflowX = "auto";
-//   }
-//   let isOverflowing = el.clientWidth + slack < el.scrollWidth ? el.scrollWidth : false;
-//   el.style.overflowX = curOverflow;
-
-//   return isOverflowing;
-// }
-
-// function checkOverflowHeight(el, slack = 2) {
-//   let debug = false;
-//   let curOverflow = el.style.overflowY;
-//   if (!curOverflow || curOverflow === "visible") {
-//     el.style.overflowY = "auto";
-//   }
-//   let isOverflowing = el.clientHeight + slack < el.scrollHeight;
-//   if (debug) {
-//     console.log(
-//       "check overflowY = " + (el.clientHeight + slack) + " " + slack + "," + el.scrollHeight
-//     );
-//   }
-//   el.style.overflowY = curOverflow;
-//   return isOverflowing;
-// }
 
 function parseInnatePowers() {
   console.log("BUILDING INNATE POWERS");
@@ -4753,9 +4730,9 @@ function writeInnateLevel(currentLevel, levelID) {
     // Break the cost into a numeral and element piece (then do error handling to allow switching the order)
     levelHTML += "<level>";
     levelHTML += writeInnateThreshold(currentThreshold, levelID);
-    levelHTML += "<div class='description" + isLong + "' id='" + levelID + "'>";
+    levelHTML += "<effect class='" + isLong + "' id='" + levelID + "'>";
     const currentDescription = currentLevel.innerHTML;
-    levelHTML += currentDescription + "</div></level>";
+    levelHTML += currentDescription + "</effect></level>";
   }
 
   return levelHTML;

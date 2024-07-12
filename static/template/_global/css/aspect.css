@@ -210,12 +210,12 @@ aspect-container {
 }
 
 aspect-container special-rule,
-aspect-container level div.description {
+aspect-container level effect {
   font-size: 27px;
 }
 
 aspect-container.tight special-rule,
-aspect-container.tight level div.description {
+aspect-container.tight level effect {
   font-size: 24px;
   line-height: 26px;
 }
@@ -239,14 +239,14 @@ aspect-rule {
 aspect innate-power level,
 aspect innate-power note,
 aspect innate-power description-container,
-aspect innate-power div.description {
+aspect innate-power effect {
   width: 618px;
 }
 
 aspect.profile innate-power level,
 aspect.profile innate-power note,
 aspect.profile innate-power description-container,
-aspect.profile innate-power div.description {
+aspect.profile innate-power effect {
   width: 463px;
 }
 
