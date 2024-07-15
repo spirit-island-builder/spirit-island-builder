@@ -1136,23 +1136,26 @@ function getGrowthActionTextAndIcons(growthAction) {
     }
     case "discard": {
       const matches = regExp.exec(growthAction);
+      growthText = IconName(growthAction);
       if (matches) {
         let discardOptions = matches[1].split(",");
-        const num_discard = discardOptions[0];
-        if (!isNaN(num_discard)) {
-          //handle number discards
-        } else {
+        const numDiscard = discardOptions[0];
+        if (isNaN(numDiscard)) {
           //handle element discards
-          const discardElement = num_discard;
+          const discardElement = numDiscard;
           growthIcons =
             "<icon class='discard-card'><icon class='discard-element " +
             discardElement +
             "'></icon></icon>";
+        } else {
+          //handle number discards
+          let discardAction = numDiscard > 1 ? "discard-cards" : "discard-card";
+          growthIcons = "{" + discardAction + "}";
+          growthText = IconName(discardAction);
         }
       } else {
         growthIcons = "{discard-card}";
       }
-      growthText = IconName(growthAction);
       break;
     }
     case "incarna": {
@@ -2406,7 +2409,7 @@ function IconName(str, iconNum = 1) {
   let opt4 = "";
   let options;
   let localize;
-  let debug = false;
+  let debug = true;
 
   // identify if 'str' contains options
   const matches = regExp.exec(str);
@@ -2913,9 +2916,9 @@ function IconName(str, iconNum = 1) {
     case "discard":
       if (num) {
         localize = {
-          en: "Discard a Power Card with " + IconName(num),
+          en: "Discard a Power Card with " + num,
           de: "",
-          pl: "Odrzuć 1 Kartę Mocy z " + IconName(num),
+          pl: "Odrzuć 1 Kartę Mocy z " + num,
           ar: "",
           zh: "",
         };
@@ -3619,7 +3622,7 @@ function IconName(str, iconNum = 1) {
     // eslint-disable-next-line no-fallthrough
     default:
       subText =
-        iconNum > 1
+        iconNum && iconNum > 1
           ? (numLocalize[lang][iconNum] || iconNum) + " " + Capitalise(str)
           : Capitalise(str);
       subText = numLocalize[lang][subText] || subText;
