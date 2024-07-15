@@ -1149,12 +1149,9 @@ function getGrowthActionTextAndIcons(growthAction) {
             "'></icon></icon>";
         } else {
           //handle number discards
-          console.log("discard cards growth number:" + numDiscard);
           let discardAction = numDiscard > 1 ? "discard-cards" : "discard-card";
           growthIcons = "{" + discardAction + "}";
-          console.log(growthIcons);
           growthText = IconName(discardAction);
-          console.log(IconName(discardAction));
         }
       } else {
         growthIcons = "{discard-card}";
@@ -2918,7 +2915,6 @@ function IconName(str, iconNum = 1) {
       break;
     case "discard":
       if (num) {
-        console.log("here at inconname discard");
         localize = {
           en: "Discard a Power Card with " + num,
           de: "",
