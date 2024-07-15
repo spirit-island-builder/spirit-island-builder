@@ -3622,7 +3622,7 @@ function IconName(str, iconNum = 1) {
     // eslint-disable-next-line no-fallthrough
     default:
       subText =
-        iconNum > 1
+        iconNum && iconNum > 1
           ? (numLocalize[lang][iconNum] || iconNum) + " " + Capitalise(str)
           : Capitalise(str);
       subText = numLocalize[lang][subText] || subText;
