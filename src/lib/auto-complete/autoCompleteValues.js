@@ -88,50 +88,47 @@ const growthValues = [
     label: "add-presence",
     value: "add-presence()",
     detail: [
-      "add-presence(x) : Add a Presence up to x Range. _x can be 'any' or 1, 2, 3 or 4_",
-      "add-presence(x,y) : Add a Presence with y conditions at x Range. y can be terrain types (including dual types), tokens, invaders, invader pieces, dahan, blight, etc.",
-      "add-presence(x,y,z,...,_and/or_) : Add a Presence with multiple conditions y, z, etc at x Range, the last parameter must be 'or' or 'and'.",
-      "add-presence(x,token,y,and/or) : Add a Presence and/or a token y (beasts, disease, etc) at x Range.",
-      "add-presence(x,text,_your_text_here_) : Add a Presence at x Range. The presence text will read 'Add a Presence _your_text_here_'. The icon will be **!!!**",
-      "add-presence(x,text,_your_text_here_,y,...) : Add a Presence at x Range. The presence text will read 'Add a Presence _your_text_here_'. The icon will be y and any number of additional icons separated by commas",
+      "add-presence(x) : At range x, add a Presence. x can be a number or 'any'",
+      "add-presence(x,y) : At range x, add a Presence to a land with y conditions. y can be terrains, tokens, invaders, invader pieces, dahan, blight, etc.",
+      "add-presence(x,y,z,...,and/or) : At range x, add a Presence with multiple conditions y, z, etc, the last parameter must be 'or' or 'and'.",
+      "add-presence(x,token,y,and/or) : At range x, add a Presence and/or a token y (beasts, disease, etc). Use add-token if only adding tokens.",
+      "add-presence(x,text,*your_text_here*) : At range x, add a Presence with text 'Add a Presence *your_text*'. No icon.",
+      "add-presence(x,text,*your_text_here*,y,...) : At range x, add a Presence with text 'Add a Presence *your_text*'. The growth icon will be y and any number of additional icons separated by commas",
     ],
   },
   {
     label: "add-token",
     value: "add-token()",
     detail: [
-      "add-token(x,y) : At range x add token type y",
-      "add-token(x,y, z) : Add z tokens of y type at range x",
-      "add-token(x,y,z,...,and/or) : At range x, add a tokens of type y, z, and/or more. The last parameter must be 'or' or 'and'.",
+      "add-token(x,y) : At range x, add token type y",
+      "add-token(x,y, z) : At range x, add z tokens of y type",
+      "add-token(x,y,z,...,and/or) : At range x, add tokens of type y, z, and/or more. The last parameter must be 'or' or 'and'.",
     ],
   },
   {
     label: "custom",
     value: "custom()",
     detail: [
-      "custom(_your_text_here_) : A custom growth option with the image !!!",
-      "custom(_your_text_here_,x,...) : A custom growth option with the x icon of your choice (ie. town, dahan, element, etc). Can use more than 1 icon and they will appear in a row.",
-      "custom(_your_text_here_,text,x) : A custom growth option with the your custom text x in place of an icon.",
+      "custom(*your_text*) : A custom growth option with the image !!!",
+      "custom(*your_text*,x,...) : A custom growth option with the x icon of your choice (ie. town, dahan, element, etc). Can use more than 1 icon and they will appear in a row.",
+      "custom(*your_text*,text,x) : A custom growth option with the your custom text x in place of an icon.",
     ],
   },
-  {
-    label: "damage",
-    value: "damage()",
-    detail: [
-      "damage(x,y) : At range x, deal y Damage",
-      "damage-1, damage-2 : Deals 1 or 2 Damage in one of your Lands",
-    ],
-  },
+  { label: "damage", value: "damage()", detail: ["damage(x,y) : At range x, deal y Damage"] },
   { label: "damage-1", value: "damage-1", detail: [] },
   { label: "damage-2", value: "damage-2", detail: [] },
-  { label: "destroy-presence", value: "destroy-presence()", detail: ["destroy-presence : "] },
+  {
+    label: "destroy-presence",
+    value: "destroy-presence()",
+    detail: ["destroy-presence(x) : Destroy x of your Presence"],
+  },
   {
     label: "discard",
     value: "discard()",
     detail: [
+      "discard(x) : Discard a card with element x (as seen on Ember-Eyed)",
       "discard-cards : As seen on Downpour",
       "discard-card : ",
-      "discard(x) : As seen on Ember-Eyed: discard(fire)",
     ],
   },
   { label: "discard-card", value: "discard-card", detail: [] },
@@ -141,8 +138,8 @@ const growthValues = [
     value: "element-marker()",
     detail: [
       "element-marker : Prepare 1 element marker",
-      "element-marker(x) : Prepare x element markers (x can be more than 2, or negative)",
-      "element-marker(-x) : x is the number to discard",
+      "element-marker(x) : If x is positive, Prepare x Element Markers",
+      "element-marker(-x) : If x is negative, Discard x Element Markers",
     ],
   },
   {
@@ -161,35 +158,39 @@ const growthValues = [
       "fear(x,text,_your_text_here_) : Gain x Fear plus 1 Fear per condition of your choosing. Icon will be a !!!.",
     ],
   },
-  { label: "forget-power-card", value: "forget-power-card", detail: ["forget-power-card : "] },
+  {
+    label: "forget-power-card",
+    value: "forget-power-card",
+    detail: ["forget-power-card() : Forget a Power Card"],
+  },
   {
     label: "gain-card-play",
     value: "gain-card-play()",
-    detail: ["gain-card-play : Gain +1 Card Play", "gain-card-play(x) : Gain +x Card Plays"],
+    detail: ["gain-card-play() : Gain +1 Card Play", "gain-card-play(x) : Gain +x Card Plays"],
   },
   {
     label: "gain-element",
     value: "gain-element()",
     detail: [
-      "gain-element(x) : Gain Element x, which can be any the elements or 'any' or 'star'",
+      "gain-element(x) : Gain Element x, which can be any of the elements or 'any' or 'star'",
       "gain-element(x,y) : If y is a number, gain y of x Element",
-      "gain-element(x,y,z,...) : If y is an element, gain x or y or z Elements",
-      "gain-element(x,y,z,...,_and_) : Gain elements x, y, and z (or more). The last option must _and_",
+      "gain-element(x,y,...) : If y is an element, gain x or y (or z) Elements",
+      "gain-element(x,y,z,...,*and*) : Gain elements x, y, and z (or more). The last option must 'and'",
     ],
   },
   {
     label: "gain-energy",
     value: "gain-energy()",
     detail: [
-      "gain-energy(x) : Gain x Energy",
-      "gain-energy(x) : Gain 1 Energy per Thing x (such as Elements, Sacred Sites, etc)",
-      "gain-energy(x,y) : Gain x Energy plus 1 Energy per Thing y",
-      "gain-energy(x,y,z) : Gain x Energy plus z Energy per Thing y",
-      "gain-energy(x,text,_your_text_here_) : Gain x Energy plus 1 Energy per condition of your choosing. Icon will be a !!!.",
-      "gain-energy(x,text,_your_text_here_,y) : Gain x Energy plus 1 Energy per condition of your choosing. Icon will be y.",
-      "gain-energy(text,_your_text_here_) : Gain 1 Energy per condition of your choosing. Icon will be a !!!.",
-      "gain-energy(text,_your_text_here_,y) : If y is Entity, gain 1 Energy per Entity w/ your custom text. If y is number, gain y Energy per !!! w/ your custom text.",
-      "gain-energy(text,_your_text_here_,y,z) : Gain z Energy per Entity y of your choosing.",
+      "gain-energy(x) : Gain x Energy. x is a number.",
+      "gain-energy(x) : Gain 1 Energy per Entity x (such as Elements, Sacred Sites, etc)",
+      "gain-energy(x,y) : Gain x Energy plus 1 Energy per Entity y",
+      "gain-energy(x,y,z) : Gain x Energy plus z Energy per Entity y",
+      "gain-energy(x,text,*your_text*) : Gain x Energy plus 1 Energy per condition of your choosing. Icon will be a !!!.",
+      "gain-energy(x,text,*your_text*,y) : Gain x Energy plus 1 Energy per condition of your choosing. Icon will be y.",
+      "gain-energy(text,*your_text*) : Gain 1 Energy per condition of your choosing. Icon will be a !!!.",
+      "gain-energy(text,*your_text*,y) : If y is Entity, gain 1 Energy per Entity w/ your custom text. If y is number, gain y Energy per !!! w/ your custom text.",
+      "gain-energy(text,*your_text*,y,z) : Gain z Energy per Entity y of your choosing.",
     ],
   },
   { label: "gain-power-card", value: "gain-power-card", detail: [] },
@@ -197,8 +198,8 @@ const growthValues = [
     label: "gain-range",
     value: "gain-range()",
     detail: [
-      "gain-range(x) : Gain x range for Powers this turn",
-      "gain-range(x,y) : Gain x range for y effects (powers, power cards, innate powers, everything) this turn",
+      "gain-range(x) : Gain +x range for Powers this turn",
+      "gain-range(x,y) : Gain +x range for y effects (powers, power cards, innate powers, everything) this turn",
     ],
   },
   {
@@ -206,7 +207,7 @@ const growthValues = [
     value: "gather()",
     detail: [
       "gather(x) : Gather entity x (dahan, beasts, presence, etc) into 1 of your lands.",
-      "gather(x,y) : If y is a number, gather x into a land at y range.",
+      "gather(x,y) : If y is a number, gather entity x into a land at y range.",
       "gather(x,y) : If y is a condition, gather x into 1 of your lands with y condition (sacred site, beasts, etc).",
       "gather(x,y,z) : Gather x into z lands of y condition. z can be a number or 'each'",
     ],
@@ -214,14 +215,14 @@ const growthValues = [
   {
     label: "ignore-range",
     value: "ignore-range",
-    detail: ["ignore-range : Ignore Range this turn (as seen on Finder)"],
+    detail: ["ignore-range() : Ignore Range this turn (as seen on Finder)"],
   },
   {
     label: "incarna",
     value: "incarna()",
     detail: [
-      "incarna(add-move,x) or incarna(add-move,x,y) : Adds an Incarna. Is an icon (usually presence). y is the incarna icon",
-      "incarna(move,x) or incarna(move,x,y) : Moves an Incarna. X is the range & can be 1-4 or 'any'. Y is the incarna icon",
+      "incarna(add-move,x) or incarna(add-move,x,y) : Adds an Incarna. x is an icon (usually presence). y is the incarna icon",
+      "incarna(move,x) or incarna(move,x,y) : Moves an Incarna. x is the range & can be a number or 'any'. y is the incarna icon",
       "incarna(empower) : Empowers Incarna",
       "incarna(replace,x,y) : Replaces icon x with incarna. y is the incarna icon",
       "incarna(add-token,x,y) : Adds token/icon x at incarna. y is the incarna icon",
@@ -230,7 +231,7 @@ const growthValues = [
   {
     label: "isolate",
     value: "isolate()",
-    detail: ["isolate : Isolate one of your Lands", "isolate(x) : Isolate a land at x Range"],
+    detail: ["isolate() : Isolate one of your Lands", "isolate(x) : At range x, Isolate a land"],
   },
   {
     label: "make-fast",
@@ -241,9 +242,9 @@ const growthValues = [
     label: "move-presence",
     value: "move-presence()",
     detail: [
-      "move-presence(x) : Move a Presence up to x Range",
-      "move-presence(x,y) : Move y Presence up to x Range",
-      "move-presence(x,y) : Move Presence and token y up to x Range",
+      "move-presence(x) : Move a Presence up to x range",
+      "move-presence(x,y) : Move y Presence up to x range together",
+      "move-presence(x,y) : Move Presence and token y up to x range. y is a number",
     ],
   },
   {
@@ -262,7 +263,7 @@ const growthValues = [
     detail: [
       "push(x) : Push entity x (dahan, beasts, presence, etc) from 1 of your lands.",
       "push(x,y) : Push entity x (dahan, beasts, presence, etc) from a land at range y.",
-      "push(x,y) : If y is a condition, push x from 1 of your lands with y condition (sacred site, beasts, etc).",
+      "push(x,y) : If y is a condition, push x from 1 of your lands with y condition (terrain, sacred site, beasts, etc).",
       "push(x,y,z) : Push x from z lands of condition y. y can be terrain types, sacred site, token types, etc. z can be a numeral or 'each' (or another word at your own risk).",
     ],
   },
@@ -271,7 +272,7 @@ const growthValues = [
     value: "reclaim()",
     detail: [
       "relcaim(x) : x can be all, one, half, or custom",
-      "relcaim(x,y) : x can be all or one. y is an element",
+      "relcaim(x,y) : Reclaim x (all or one) cards with element y",
       "reclaim(custom,_your custom reclaim text_) : Custom reclaim text with a unique icon.",
     ],
   },
@@ -279,11 +280,11 @@ const growthValues = [
     label: "replace",
     value: "replace()",
     detail: [
-      "replace(x,y) : Replace token x with token y. Tokens can be presence or other things too.",
-      "replace(x,y,z) : At range x, replace token y with token z.",
+      "replace(x,y) : In your land, Replace entity x with entity y. Entity can be presence or other things too.",
+      "replace(x,y,z) : At range x, Replace entity y with entity z.",
     ],
   },
-  { label: "blank", value: "blank()", detail: ["blank : Creates a blank space"] },
+  { label: "blank", value: "blank()", detail: ["blank() : Creates a blank space"] },
 ];
 
 export const growthValuesSorted = growthValues.sort((a, b) => {
