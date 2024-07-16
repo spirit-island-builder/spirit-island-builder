@@ -2349,7 +2349,7 @@ function getPresenceNodeHtml(
       valueText = `<value>${-valueNum}</value>`;
       iconDeepLayers = "energy-blank";
       let localize = {
-        en: `You may pay ${valueNum} Energy to ${subText}`,
+        en: `Pay ${valueNum} Energy to ${subText}`,
         de: ``,
         pl: ``,
         ar: ``,
