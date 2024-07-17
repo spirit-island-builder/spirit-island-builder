@@ -4742,7 +4742,7 @@ function writeInnateLevel(currentLevel, levelID) {
 }
 
 function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
-  let debug = false;
+  let debug = true;
   const regExp = /\(([^)]+)\)/;
   let thresholdHTML = "";
   if (debug) {
@@ -4812,7 +4812,8 @@ function writeInnatePowerInfoBlock(
   powerTarget,
   targetTitle = "TARGET LAND"
 ) {
-  targetTitle = targetTitle === "TARGET LAND" ? "land" : "spirit";
+  targetTitle = targetTitle.toUpperCase() === "TARGET LAND" ? "land" : "spirit";
+
   // localize
   let infoTitles = {
     en: {
