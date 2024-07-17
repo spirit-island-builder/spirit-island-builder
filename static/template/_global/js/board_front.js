@@ -1932,7 +1932,8 @@ function getPresenceNodeHtml(
       presenceNode.classList.add("first");
     }
 
-    let splitOptions = nodeText.split("+");
+    const plusRegex = /\+(?![^()]*(?:\([^()]*\))?\))/gm;
+    let splitOptions = nodeText.split(plusRegex);
 
     //This code allows user to include +energy such as: +1
     const plus_check = splitOptions.indexOf("");
