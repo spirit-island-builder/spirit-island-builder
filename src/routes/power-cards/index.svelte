@@ -453,6 +453,24 @@
     previewFrame.getPDF(fileName, elementNamesInIframe, pageType, 2.48, 3.465);
   }
 
+  // function uploadScreenshot() {
+  //   // Unused here as an example code.
+  //   let fileName;
+  //   if (powerCards.spiritName) {
+  //     fileName = powerCards.spiritName.replaceAll(" ", "_") + "_power_card";
+  //   } else {
+  //     fileName = "power_card";
+  //   }
+  //
+  //   const urls = [];
+  //   for (let i = 0; i < powerCards.cards.length; i++) {
+  //     const elementNameInFrame = `#card${i}`;
+  //     const url = previewFrame.uploadScreenshot(fileName, elementNameInFrame);
+  //     urls.push(url);
+  //   }
+  //   return urls;
+  // }
+
   function printToPDFLetter() {
     printToPDF("letter");
   }

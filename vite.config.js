@@ -17,6 +17,9 @@ const config = {
       allow: ["docs/"],
     },
   },
+  build: {
+    sourcemap: true,
+  },
 };
 
 export default config;

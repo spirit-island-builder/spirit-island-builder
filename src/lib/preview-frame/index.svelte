@@ -40,12 +40,57 @@
     );
   };
 
-  export const takeScreenshot = (
+  async function uploadImage(imageURL, fileName) {
+    const imageResponse = await fetch(imageURL);
+    const imageBlob = await imageResponse.blob();
+
+    const formData = new FormData();
+    formData.append("image", imageBlob, fileName);
+    formData.append("title", fileName);
+
+    const route = "/uploadImage";
+
+    const response = await fetch(route, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const imageUrl = await response.text();
+    console.log("Uploaded image URL:", imageUrl);
+    return imageUrl;
+  }
+
+  export const uploadScreenshot = (
+    fileName,
+    elementNameInIframe,
+    options = "for-image-download"
+  ) => {
+    console.log("upload screenshot with " + options);
+
+    let element = previewIframe.contentDocument.querySelector(elementNameInIframe);
+    console.log(element);
+    element.classList.add(options);
+    const uploadedImageUrls = [];
+    previewIframe.contentWindow.takeScreenshot(elementNameInIframe, 2).then((imageDataUrl) => {
+      uploadImage(imageDataUrl, fileName).then((uploadedImageUrl) => {
+        console.log("uploadedImageUrl", uploadedImageUrl);
+        uploadedImageUrls.push(uploadedImageUrl);
+        element.classList.remove(options);
+      });
+    });
+    return uploadedImageUrls;
+  };
+
+  export const downloadScreenshot = (
     fileNames,
     elementNamesInIframe,
     options = "for-image-download"
   ) => {
-    console.log("screenshot with " + options);
+    console.log("download screenshot with " + options);
     elementNamesInIframe.forEach((elementNameInIframe, index) => {
       let element = previewIframe.contentDocument.querySelector(elementNameInIframe);
       console.log(element);
@@ -80,7 +125,7 @@
     let count = elementNamesInIframe.length;
     elementNamesInIframe.forEach((elementNameInIframe, n) => {
       previewIframe.contentWindow
-        .takeScreenshot(elementNameInIframe, large ? 2 : 1.5)
+        .downloadScreenshot(elementNameInIframe, large ? 2 : 1.5)
         .then((imageURL) => {
           const col_n = n % Math.floor((pw - xi) / wid);
           x = xi + col_n * wid;
