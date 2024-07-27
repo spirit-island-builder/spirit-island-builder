@@ -10,6 +10,7 @@
 
   import PowerCard from "./power-card.svelte";
   import CustomIcons from "../custom-icons.svelte";
+  import CombinedTTS from "../combined-tts-spirit-powers-export.svelte";
 
   import powerCardsJsonTemplate from "./tts-power-card.json";
   import jsone from "json-e";
@@ -19,6 +20,9 @@
   export let powerCards;
   export let emptyPowerCards;
   export let customIcons;
+  export let combinedTTS;
+  export let emptyCombinedTTS;
+  export let currentPage;
 
   let previewFrame;
   let exampleModal;
@@ -288,7 +292,7 @@
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 
-  async function downloadTTSJSON() {
+  const packagePowersTTSforExport = () => {
     let previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
 
     const cardsTemplate = previewFrameDoc.querySelectorAll("card");
@@ -394,6 +398,11 @@
       powerCardsJson.push(powerCardJson);
     });
     let ttsSave = createTTSSave(powerCardsJson);
+    return ttsSave;
+  };
+
+  async function downloadTTSJSON() {
+    let ttsSave = packagePowersTTSforExport();
     let saveName = "export";
     if (powerCards.spiritName) {
       saveName = powerCards.spiritName;
@@ -574,6 +583,11 @@
   <div class="column pt-0">
     <PowerCard bind:powerCards />
     <CustomIcons bind:customIcons />
+    <CombinedTTS
+      bind:combinedTTS
+      bind:currentPage
+      bind:emptyCombinedTTS
+      exportPowersTTS={packagePowersTTSforExport} />
   </div>
 </div>
 <Examples bind:this={exampleModal} {loadExample} title="Load Examples" {examples} />
