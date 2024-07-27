@@ -8,11 +8,8 @@
   export let exportPlayTTS = () => {};
   export let exportLoreTTS = () => {};
   export let exportPowersTTS = () => {};
-  // export let exportLoreTTS = () => {};
-  // export let exportCardsTTS = () => {};
 
   import bagTemplate from "$lib/bag-template.json";
-  // import { backspace, bag } from "ionicons/icons";
 
   function clearAll() {
     if (window.confirm("Are you sure? This will clear the combined export.")) {
