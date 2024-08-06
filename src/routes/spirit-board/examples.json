@@ -86,10 +86,6 @@
       {
         "name": "Volcano",
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Volcano Looming High.html"
-      },
-      {
-        "name": "Spreading Rot",
-        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_APOCRYPHA_Spreading Rot Renews the Earth.html"
       }
     ]
   },
@@ -173,6 +169,23 @@
       {
         "name": "Dances Up Earthquakes",
         "url": "/template/MyCustomContent/MySpirit/OFFICIAL_Dances Up Earthquakes.html"
+      }
+    ]
+  },
+  {
+    "title": "Apocrypha & Exploratory",
+    "examples": [
+      {
+        "name": "Bringer (Exploratory)",
+        "url": "/template/MyCustomContent/MySpirit/EXPLORATORY_Bringer.html"
+      },
+      {
+        "name": "Shadows (Exploratory)",
+        "url": "/template/MyCustomContent/MySpirit/EXPLORATORY_Shadows.html"
+      },
+      {
+        "name": "Spreading Rot",
+        "url": "/template/MyCustomContent/MySpirit/OFFICIAL_APOCRYPHA_Spreading Rot Renews the Earth.html"
       }
     ]
   },

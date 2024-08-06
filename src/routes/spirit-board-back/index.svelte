@@ -9,11 +9,15 @@
   import NameArtLore from "./name-art-lore.svelte";
   import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";
   import CustomIcons from "../custom-icons.svelte";
+  import CombinedTTS from "../combined-tts-spirit-powers-export.svelte";
   import InstructionsLink from "$lib/instructions/link.svelte";
 
   export let spiritBoardBack;
   export let emptySpiritBoardBack;
   export let customIcons;
+  export let combinedTTS;
+  export let emptyCombinedTTS;
+  export let currentPage;
 
   function clearAllFields() {
     if (
@@ -259,6 +263,10 @@
     let spiritBoard = previewFrame.document.getElementsByTagName("board")[0];
     spiritBoard.classList.add("printer-clean");
   }
+
+  const packageLoreTTSforExport = () => {
+    return spiritBoardBack;
+  };
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -266,6 +274,11 @@
     <NameArtLore bind:spiritBoardBack />
     <SetupPlaystyleComplexityPowers bind:spiritBoardBack />
     <CustomIcons bind:customIcons />
+    <CombinedTTS
+      bind:combinedTTS
+      bind:currentPage
+      bind:emptyCombinedTTS
+      exportLoreTTS={packageLoreTTSforExport} />
   </div>
   <div class="column pt-0">
     <PreviewFrame id="lore-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>

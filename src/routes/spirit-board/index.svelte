@@ -15,6 +15,7 @@
   import PresenceTracks from "./presence-tracks.svelte";
   import InnatePowers from "./innate-powers.svelte";
   import CustomIcons from "../custom-icons.svelte";
+  import CombinedTTS from "../combined-tts-spirit-powers-export.svelte";
 
   import { createTTSSave, toFixedNumber, ttsSaveMIMEType, getThresholdTTSJSON } from "$lib/tts.js";
 
@@ -25,6 +26,9 @@
   export let spiritBoard;
   export let emptySpiritBoard;
   export let customIcons;
+  export let combinedTTS;
+  export let emptyCombinedTTS;
+  export let currentPage;
 
   function clearAllFields() {
     if (
@@ -42,6 +46,7 @@
     spiritBoard.presenceTrack.isVisible = false;
     spiritBoard.innatePowers.isVisible = false;
     customIcons.isVisible = false;
+    combinedTTS.isVisible = false;
   }
 
   const openEditorHeading = (e) => {
@@ -596,7 +601,7 @@
     hideAll();
   }
 
-  async function downloadTTSJSON() {
+  const packagePlayTTSforExport = () => {
     let previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
     const board = previewFrameDoc.querySelectorAll("board")[0];
     const boardRect = board.getBoundingClientRect();
@@ -790,6 +795,11 @@
     });
     let ttsSave = createTTSSave([spiritBoardJson]);
 
+    return ttsSave;
+  };
+
+  async function downloadTTSJSON() {
+    let ttsSave = packagePlayTTSforExport();
     const jsonFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json";
     downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
@@ -858,6 +868,11 @@
     <PresenceTracks bind:spiritBoard />
     <InnatePowers bind:spiritBoard />
     <CustomIcons bind:customIcons />
+    <CombinedTTS
+      bind:combinedTTS
+      bind:currentPage
+      bind:emptyCombinedTTS
+      exportPlayTTS={packagePlayTTSforExport} />
   </div>
   <div class="column pt-0">
     <PreviewFrame
