@@ -85,11 +85,12 @@
     return uploadedImageUrls;
   };
 
-  export const downloadScreenshot = (
+  export const takeScreenshot = (
     fileNames,
     elementNamesInIframe,
     options = "for-image-download"
   ) => {
+    // Takes & immediately downloads a screenshot
     console.log("download screenshot with " + options);
     elementNamesInIframe.forEach((elementNameInIframe, index) => {
       let element = previewIframe.contentDocument.querySelector(elementNameInIframe);
