@@ -27,7 +27,7 @@ async function startMain() {
 
     parseInnatePowers();
 
-    parseSpecialRules();
+    buildSpecialRules();
 
     const html = board.innerHTML;
     board.innerHTML = replaceIcon(html);
@@ -2410,7 +2410,7 @@ function IconName(str, iconNum = 1) {
   let opt4 = "";
   let options;
   let localize;
-  let debug = true;
+  let debug = false;
 
   // identify if 'str' contains options
   const matches = regExp.exec(str);
@@ -4433,7 +4433,7 @@ function getGrowthActionIconWidth(growthCell) {
 function innatePowerSizing(board) {
   console.log("RESIZING: Innate Powers (from board_front.js)");
 
-  let debug = true;
+  let debug = false;
   if (debug) {
     console.log(board);
   }
@@ -4743,12 +4743,11 @@ function writeInnateLevel(currentLevel, levelID) {
 }
 
 function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
-  let debug = true;
+  let debug = false;
   const regExp = /\(([^)]+)\)/;
   let thresholdHTML = "";
   if (debug) {
-    console.log("writing threshold");
-    console.log(currentThreshold);
+    console.log("Writing threshold: " + currentThreshold);
   }
   thresholdHTML += "<threshold id='" + levelID + "t'>";
   const currentThresholdPieces = currentThreshold.split(",");
@@ -4879,7 +4878,7 @@ function writeInnatePowerInfoBlock(
   return newPowerHTML;
 }
 
-function parseSpecialRules() {
+function buildSpecialRules() {
   console.log("BUILDING SPECIAL RULES");
   const board = document.querySelectorAll("board")[0];
 
@@ -4895,6 +4894,21 @@ function parseSpecialRules() {
   const specialRulesBackground = document.createElement("special-rules-background");
   specialRulesHolder.appendChild(specialRulesBackground);
 
+  // Tag special rules with IDs
+  for (let j = 0; j < specialRuleList.length; j++) {
+    specialRuleList[j].id = "sr" + j + "effect";
+    specialRuleNameList[j].id = "sr" + j + "name";
+  }
+
+  parseSpecialRules(board);
+
+  // Transfer over the custom name
+  if (specialRules.getAttribute("customname")) {
+    specialRuleSection.setAttribute("customname", specialRules.getAttribute("customname"));
+  }
+}
+
+function parseSpecialRules(board) {
   // Enable snake-like presence track in special rules
   const specialTracks = board.getElementsByTagName("special-rules-track");
   if (specialTracks.length) {
@@ -4921,13 +4935,8 @@ function parseSpecialRules() {
     }
   }
 
-  // Tag special rules with IDs
-  for (let j = 0; j < specialRuleList.length; j++) {
-    specialRuleList[j].id = "sr" + j + "effect";
-    specialRuleNameList[j].id = "sr" + j + "name";
-  }
-
   // Capture lines to control line break heights
+  const specialRuleList = board.getElementsByTagName("special-rule");
   let specialRulesArray = Array.from(specialRuleList);
   specialRulesArray.forEach((specialRule) => {
     let separateLines = specialRule.innerHTML.split(/\r?\n|\r|\n/g);
@@ -4940,13 +4949,6 @@ function parseSpecialRules() {
       }
     });
   });
-
-  // Transfer over the custom name
-  if (specialRules.getAttribute("customname")) {
-    specialRuleSection.setAttribute("customname", specialRules.getAttribute("customname"));
-  }
-
-  // <special-rules-track values="2,3,4"></special-rules-track>
 }
 
 function tagSectionHeadings() {

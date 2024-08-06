@@ -13,7 +13,7 @@ function startMain() {
     parseBonusNodes(aspects[i]);
     parseSubtexts(aspects[i]);
     parseSubNodes(aspects[i]);
-    parseSpecialRules(aspects[i]);
+    parseSpecialRulesAspect(aspects[i]);
     //add background to card
     aspects[i].innerHTML = "<aspect-background>" + aspects[i].innerHTML + "</aspect-background>";
 
@@ -100,7 +100,7 @@ function parseComplexity(aspect) {
   }
 }
 
-function parseSpecialRules(aspect) {
+function parseSpecialRulesAspect(aspect) {
   var specialRules = aspect.getElementsByTagName("special-rule");
   for (var i = 0; i < specialRules.length; i++) {
     let specialRule = specialRules[i];
@@ -123,28 +123,26 @@ function parseSpecialRules(aspect) {
   // copied 12/6/22
   console.log("BUILDING SPECIAL RULES");
   const aspectContainer = document.querySelectorAll("aspect-container")[0];
-
+  parseSpecialRules(aspectContainer);
   // Enable snake-like presence track in special rules
-  var specialTrack = aspectContainer.getElementsByTagName("special-rules-track")[0];
-  if (specialTrack) {
-    var specialValues = specialTrack.getAttribute("values");
-    var specialOptions = specialValues.split(",");
-    var specialHTML = "";
+  // var specialTrack = aspectContainer.getElementsByTagName("special-rules-track")[0];
+  // if (specialTrack) {
+  //   var specialValues = specialTrack.getAttribute("values");
+  //   var specialOptions = specialValues.split(",");
+  //   var specialHTML = "";
 
-    for (i = 0; i < specialOptions.length; i++) {
-      let nodeText = specialOptions[i];
-      specialHTML += "<td>" + getPresenceNodeHtml(nodeText, i == 0, "special", true) + "</td>";
-    }
-    specialHTML += "</tr>";
-    aspectContainer.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
-    specialTrack.innerHTML = specialHTML;
-    var subtextList = specialTrack.getElementsByTagName("subtext");
-    for (var i = subtextList.length - 1; i >= 0; --i) {
-      subtextList[i].remove();
-    }
-  }
-
-  // <special-rules-track values="2,3,4"></special-rules-track>
+  //   for (i = 0; i < specialOptions.length; i++) {
+  //     let nodeText = specialOptions[i];
+  //     specialHTML += "<td>" + getPresenceNodeHtml(nodeText, i == 0, "special", true) + "</td>";
+  //   }
+  //   specialHTML += "</tr>";
+  //   aspectContainer.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
+  //   specialTrack.innerHTML = specialHTML;
+  //   var subtextList = specialTrack.getElementsByTagName("subtext");
+  //   for (var i = subtextList.length - 1; i >= 0; --i) {
+  //     subtextList[i].remove();
+  //   }
+  // }
 }
 
 function resizeAspect(aspect) {
