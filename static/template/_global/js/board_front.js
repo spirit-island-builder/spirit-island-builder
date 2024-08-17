@@ -2558,7 +2558,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Add a Presence to any Land`,
           de: ``,
-          pl: ``,
+          pl: `Dodaj Obecność do dowolnej Krainy`,
           ar: ``,
           zh: ``,
         };
@@ -2569,7 +2569,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Add a Presence ${opt3}`,
             de: ``,
-            pl: ``,
+            pl: `Dodaj Obecność ${opt3}`,
             ar: ``,
             zh: ``,
           };
@@ -2582,7 +2582,7 @@ function IconName(str, iconNum = 1) {
               localize = {
                 en: `Add a Presence and a ${IconName(opt3)}`,
                 de: ``,
-                pl: ``,
+                pl: `Dodaj Obecność i ${IconName(opt3)}`,
                 ar: ``,
                 zh: ``,
               };
@@ -2592,7 +2592,7 @@ function IconName(str, iconNum = 1) {
               localize = {
                 en: `Add a Presence or a ${IconName(opt3)}`,
                 de: ``,
-                pl: ``,
+                pl: `Dodaj Obecność lub ${IconName(opt3)}`,
                 ar: ``,
                 zh: ``,
               };
@@ -2612,7 +2612,7 @@ function IconName(str, iconNum = 1) {
               localize = {
                 en: `and `,
                 de: ``,
-                pl: ``,
+                pl: `i `,
                 ar: ``,
                 zh: ``,
               };
@@ -2620,7 +2620,7 @@ function IconName(str, iconNum = 1) {
               localize = {
                 en: `or `,
                 de: ``,
-                pl: ``,
+                pl: `lub `,
                 ar: ``,
                 zh: ``,
               };
@@ -2630,7 +2630,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: num === "any" ? `Add a Presence to any ` : `Add a Presence to `,
             de: ``,
-            pl: ``,
+            pl: num === "any" ? `Dodaj Obecność do dowolnej ` : `Dodaj Obecność do `,
             ar: ``,
             zh: ``,
           };
@@ -2677,7 +2677,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Add a Presence`,
           de: ``,
-          pl: ``,
+          pl: `Dodaj Obecność`,
           ar: ``,
           zh: ``,
         };
@@ -2690,7 +2690,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gain ${IconName(num, txt)}`,
           de: ``,
-          pl: ``,
+          pl: `Zyskaj ${IconName(num, txt)}`,
           ar: ``,
           zh: ``,
         };
@@ -2698,7 +2698,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gain ${ListLocalize(options.slice(0, -1))}`,
           de: ``,
-          pl: ``,
+          pl: `Zyskaj ${ListLocalize(options.slice(0, -1))}`,
           ar: ``,
           zh: ``,
         };
@@ -2706,7 +2706,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gain ${ListLocalize(options, "or")}`,
           de: ``,
-          pl: ``,
+          pl: `Zyskaj ${ListLocalize(options, "lub")}`,
           ar: ``,
           zh: ``,
         };
@@ -3065,7 +3065,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Move a Presence and ${IconName(txt)} together`,
             de: ``,
-            pl: ``,
+            pl: `Przesuń Obecność i ${IconName(txt)} jednocześnie`,
             ar: ``,
             zh: ``,
           };
@@ -3162,7 +3162,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: `Your Powers gain +${num} Range this turn`,
               de: ``,
-              pl: ``,
+              pl: `W tej turze twoje Moce zyskują +${num} zasięgu`,
               ar: ``,
               zh: ``,
             };
@@ -3171,7 +3171,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: `Your Power Cards gain +${num} Range this turn`,
               de: ``,
-              pl: ``,
+              pl: `W tej turze twoje Karty Mocy zyskują +${num} zasięgu`,
               ar: ``,
               zh: ``,
             };
@@ -3180,7 +3180,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: `+${num} Range on everything this turn`,
               de: ``,
-              pl: ``,
+              pl: `+${num} zasięgu dla wszystkich twoich akcji w tej turze`,
               ar: ``,
               zh: ``,
             };
@@ -3191,7 +3191,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: `Your Innate Powers gain +${num} Range this turn`,
               de: ``,
-              pl: ``,
+              pl: `W tej turze twoje Wrodzone Moce zyskują +${num} zasięgu`,
               ar: ``,
               zh: ``,
             };
@@ -3200,7 +3200,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: `+${num} Range on ${txt} this turn`,
               de: ``,
-              pl: ``,
+              pl: `W tej turze ${txt} zyskuje +${num} zasięgu`,
               ar: ``,
               zh: ``,
             };
@@ -3209,7 +3209,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Your Powers gain +${num} Range this turn`,
           de: ``,
-          pl: ``,
+          pl: `W tej turze twoje Moce zyskują +${num} zasięgu`,
           ar: ``,
           zh: ``,
         };
@@ -3444,7 +3444,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Generate ${txt} Fear per ${opt4}`,
             de: ``,
-            pl: ``,
+            pl: `${num} Strachu za każde ${opt4}`,
             ar: ``,
             zh: ``,
           };
@@ -3453,7 +3453,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Generate ${num} Fear and +${txt} more per ${opt4}`,
             de: ``,
-            pl: ``,
+            pl: `${num} Strachu i +${txt} Strachu za każde ${opt4} `,
             ar: ``,
             zh: ``,
           };
@@ -3487,7 +3487,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Generate Fear`,
           de: ``,
-          pl: ``,
+          pl: `Generujesz Strach`,
           ar: ``,
           zh: ``,
         };
