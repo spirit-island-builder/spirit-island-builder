@@ -62,6 +62,12 @@
     const loreBoardHTML = document.createElement("board");
     fragment.append(loreBoardHTML);
 
+    if (spiritBoardBack.language) {
+      loreBoardHTML.setAttribute("lang", spiritBoardBack.language);
+    } else {
+      loreBoardHTML.setAttribute("lang", "en");
+    }
+
     //Set Spirit Image
     const loreImage = document.createElement("img");
     loreImage.setAttribute("class", "spirit-image");
@@ -162,6 +168,11 @@
     const loreName = loreBoardHTML.querySelectorAll("spirit-name")[0];
 
     spiritBoardBack.nameImage.name = loreName.innerHTML.trim();
+
+    const language = loreBoardHTML.getAttribute("lang");
+    if (language) {
+      spiritBoardBack.language = language;
+    }
 
     //Set Spirit Image
     const loreImage = loreBoardHTML.querySelectorAll("img")[0];

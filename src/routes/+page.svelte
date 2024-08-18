@@ -290,6 +290,7 @@
     setupPlaystyleComplexityPowers: {
       isVisible: false,
     },
+    language: "en",
     nameImage: {
       name: "",
       img: "",
@@ -327,6 +328,7 @@
     demoBoardWasLoaded: false,
     spiritName: "",
     stackView: false,
+    language: "en",
     previewBoard: {
       isVisible: false,
     },
