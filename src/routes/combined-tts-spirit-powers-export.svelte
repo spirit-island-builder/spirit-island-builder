@@ -6,8 +6,11 @@
   export let emptyCombinedTTS;
   export let currentPage;
   export let exportPlayTTS = () => {};
+  export let exportPlayImage = () => {};
   export let exportLoreTTS = () => {};
+  export let exportLoreImage = () => {};
   export let exportPowersTTS = () => {};
+  export let exportPowersImage = () => {};
 
   import bagTemplate from "$lib/bag-template.json";
 
@@ -41,6 +44,19 @@
     combinedTTS.powers.tts.saved = true;
     console.log(playTTS);
     console.log(combinedTTS);
+  }
+
+  function getPlayImage() {
+    console.log("fix later");
+    // let powersImageURLs = exportPlayImage();
+  }
+  function getLoreImage() {
+    console.log("fix later");
+    // let powersImageURLs = exportPlayImage();
+  }
+  function getPowersImage() {
+    console.log("fix later");
+    // let powersImageURLs = exportPlayImage();
   }
 
   function buildBag() {
@@ -125,7 +141,7 @@
           <button
             class="button is-success is-small"
             disabled={currentPage !== "spiritBoardFront"}
-            on:click={() => (combinedTTS.spiritBoardFront.image.saved = true)}>Save</button>
+            on:click={() => getPlayImage()}>Save</button>
         {/if}
       </div>
       <div class="field combined-tts-buttons">
@@ -157,7 +173,7 @@
           <button
             class="button is-success is-small"
             disabled={currentPage !== "spiritBoardBack"}
-            on:click={() => (combinedTTS.spiritBoardBack.image.saved = true)}>Save</button>
+            on:click={() => getLoreImage()}>Save</button>
         {/if}
       </div>
       <div class="field combined-tts-buttons">
@@ -189,7 +205,7 @@
           <button
             class="button is-success is-small"
             disabled={currentPage !== "powerCards"}
-            on:click={() => (combinedTTS.powers.image.saved = true)}>Save</button>
+            on:click={() => getPowersImage()}>Save</button>
         {/if}
       </div>
     </div>

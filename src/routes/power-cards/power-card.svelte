@@ -10,7 +10,7 @@
     card.speed = powerSpeed;
     powerCards = powerCards;
 
-    //update tempalte
+    //update template
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let templateCard = previewFrame.document.getElementById("card" + card.id);
     templateCard.removeAttribute("class");
@@ -21,7 +21,7 @@
     card.targetTitle = targetTitle;
     powerCards = powerCards;
 
-    //update tempalte
+    //update template
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let templateCard = previewFrame.document.getElementById("card" + card.id + "targettitle");
     templateCard.innerHTML = targetTitle;
