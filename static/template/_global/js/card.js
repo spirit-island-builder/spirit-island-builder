@@ -36,11 +36,16 @@ function startMain() {
 
 function constructCard(data, cardIndex) {
   var card = document.createElement("card");
+  let lang = data.lang;
   card.id = `card${cardIndex}`;
   card.className = data.speed;
   if (data.type) {
     card.classList.add(data.type);
     console.log(data);
+  }
+  let targetType = "spirit";
+  if (data.targetTitle === "TARGET LAND") {
+    targetType = "land";
   }
   card.innerHTML = `
   <card-art><div class="image" style="background-image:url(${data.image});"></div></card-art>
@@ -56,9 +61,9 @@ function constructCard(data, cardIndex) {
   ${getElementHtml(data.elements)}
 
   <info-title>
-    <info-title-speed>SPEED</info-title-speed>
-    <info-title-range>RANGE</info-title-range>
-    <info-title-target id='${card.id}targettitle'>${data.targetTitle}</info-title-target>
+    <info-title-speed>${localize[lang]["speed"]}</info-title-speed>
+    <info-title-range>${localize[lang]["range"]}</info-title-range>
+    <info-title-target id='${card.id}targettitle'>${localize[lang][targetType]}</info-title-target>
   </info-title>
 
   <info>
@@ -77,7 +82,7 @@ function constructCard(data, cardIndex) {
 
   <artist-name>${data.artistName}</artist-name>
   `;
-
+  card.setAttribute("lang", lang);
   setThreshold(card, cardIndex);
   return card;
 }
@@ -125,7 +130,7 @@ function resize() {
 
 function setThreshold(card) {
   var thresholds = card.querySelectorAll("threshold");
-
+  let lang = card.getAttribute("lang");
   if (thresholds.length) {
     // deal with custom text
     var threshold = thresholds[0];
@@ -153,10 +158,11 @@ function setThreshold(card) {
       threshold.innerHTML += addConditionText + secondThreshold.innerHTML;
       secondThreshold.remove();
     }
-
+    if (lang !== "en" && !customThresholdText) {
+      customThresholdText = localize[lang]["threshold"];
+    }
     if (customThresholdText) {
       threshold.className = "threshold-custom";
-      // threshold.setAttribute("data-before", customThresholdText);
       let customThresholdElement = `<custom-threshold-flex><arrow-left></arrow-left><custom-threshold-text>${customThresholdText}</custom-threshold-text><arrow-right></arrow-right></custom-threshold-flex>`;
       threshold.innerHTML = customThresholdElement + threshold.innerHTML;
     }
@@ -169,19 +175,11 @@ function getThresholdElements(conditions) {
   for (let i = 0; i < condition.length; i++) {
     var number = condition[i].split("-")[0];
     var element = condition[i].split("-")[1];
-    // result += `${number}<icon class="${element}"></icon>`;
     if (i === condition.length - 1) {
       result += `${number}<icon class="${element} last"></icon>`;
     } else {
       result += `${number}<icon class="${element}"></icon>`;
     }
-
-    /* for(var condition of conditions.split(','))
-	  {
-		var number = condition.split('-')[0];
-		var element = condition.split('-')[1];
-		result += `${number}<icon class="${element}"></icon>`;
-	  } */
   }
   return result;
 }
@@ -211,14 +209,9 @@ function getData(quickCard, cardIndex) {
     printFriendly: quickCard.getAttribute("print-friendly") === "yes",
     innerHTML: getRulesNew(quickCard, cardIndex),
     subtitle: quickCard.getAttribute("subtitle"),
+    lang: quickCard.getAttribute("lang") || "en",
   };
 }
-
-/* function getRulesHTML(html)
-{
-  var result = replaceIcon(html);
-  return result;
-} */
 
 function getRulesNew(quickCard, cardIndex) {
   var rules = quickCard.querySelectorAll("rules")[0];
@@ -295,14 +288,40 @@ function dynamicSizing(el, maxSize = el.offsetHeight) {
   }
 }
 
-// function checkOverflow(el, maxSize = el.clientHeight) {
-//   let curOverflow = el.style.overflow;
-//   console.log('Check Overflow: '+el.tagName)
-//   if (!curOverflow || curOverflow === "visible") {
-//     el.style.overflow = "auto";
-//   }
-//   let isOverflowing = maxSize < el.scrollHeight;
-//   el.style.overflow = curOverflow;
-
-//   return isOverflowing;
-// }
+let localize = {
+  en: {
+    speed: "SPEED",
+    range: "RANGE",
+    land: "TARGET LAND",
+    spirit: "TARGET",
+    threshold: "IF YOU HAVE",
+  },
+  de: {
+    speed: "WANN",
+    range: "WIE WEIT",
+    land: "WO",
+    spirit: "WEN",
+    threshold: "",
+  },
+  pl: {
+    speed: "SZYBKOŚĆ",
+    range: "ZASIĘG",
+    land: "CEL (KRAINA)",
+    spirit: "CEL",
+    threshold: "JEŚLI MASZ",
+  },
+  ar: {
+    speed: "سرعة",
+    range: "مدى",
+    land: "الأرض المستهدفة",
+    spirit: "هدف",
+    threshold: "",
+  },
+  zh: {
+    speed: "速度",
+    range: "距離",
+    land: "目標區域",
+    spirit: "目標精靈",
+    threshold: "",
+  },
+};

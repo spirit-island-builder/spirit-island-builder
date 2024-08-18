@@ -578,6 +578,10 @@ or {
   margin-bottom: 5px;
 }
 
+.or:lang(pl) {
+  background-image: url("../images/or_pl.png");
+}
+
 icon {
   width: 25px;
   height: 25px;

@@ -80,6 +80,7 @@
       newPowerCard.setAttribute("artist-name", card.cardArtist);
       newPowerCard.setAttribute("subtitle", card.aspectSubtitle);
       newPowerCard.setAttribute("stack-view", card.isVisible);
+      newPowerCard.setAttribute("lang", powerCards.language);
 
       let elementalList = card.powerElements;
       let elementListHTML = [];
@@ -152,6 +153,9 @@
     //Reads the Template HTML file into the Form
     const powerCardsHTML = htmlElement.querySelectorAll("quick-card");
     console.log("Loading " + powerCardsHTML.length + " cards...");
+
+    //Language
+    powerCards.language = powerCardsHTML[0].getAttribute("lang") || "en";
 
     //Clear the form first
     powerCards.cards.splice(0, powerCards.cards.length); //Clear the Form first

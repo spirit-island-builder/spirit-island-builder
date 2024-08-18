@@ -147,7 +147,6 @@
   {/if}
   <!-- Overwriting Headings -->
   <label class="label mb-0" for="spiritNameInput">Translation Support Features</label>
-  <label class="label is-small " for="spiritNameInput">Headings</label>
   <!-- Languages -->
   <div class="buttons has-addons mb-0">
     <button

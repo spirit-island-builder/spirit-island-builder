@@ -393,7 +393,6 @@ board.printer-clean lore-overlay {
 
 board.printer-clean img.spirit-image {
   width: 48%;
-  height: 100%;
   object-fit: cover;
 }
 
