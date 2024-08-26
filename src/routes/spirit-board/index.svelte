@@ -96,7 +96,6 @@
       loadHTMLFromURL(demoURL).then(() => {
         spiritBoard.demoBoardWasLoaded = true;
         emptySpiritBoard.demoBoardWasLoaded = true;
-        reloadPreview();
       });
     } else {
       reloadPreview();

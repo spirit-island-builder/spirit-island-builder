@@ -573,6 +573,7 @@
       bind:combinedTTS
       bind:currentPage
       bind:emptyCombinedTTS
+      bind:powerCards
       exportPowersTTS={packagePowersTTSforExport} />
   </div>
 </div>

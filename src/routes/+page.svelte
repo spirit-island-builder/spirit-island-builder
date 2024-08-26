@@ -269,6 +269,7 @@
       image: {
         content: [],
         saved: false,
+        back: "",
       },
       tts: {
         content: "",
