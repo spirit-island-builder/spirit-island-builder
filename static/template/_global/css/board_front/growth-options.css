@@ -536,6 +536,7 @@ repeat-growth.energy-cost value {
 
 repeat-wrapper {
   height: 90px;
+  display: flex;
 }
 
 /* Gaining Flat Energy */
@@ -1436,10 +1437,10 @@ push-gather {
   font-size: 26.66px;
   font-weight: bold;
   display: block;
-  margin-top: 4px;
+  margin-top: 10px;
   width: auto;
   height: 110px;
-  margin-bottom: -22px;
+  margin-bottom: -30px;
 }
 
 push-gather icon.terrain-gather {

@@ -263,7 +263,7 @@ table.powers-summary.has-uses {
 }
 
 table.powers-summary.has-uses power-bar {
-  margin-left: 14px;
+  margin: auto;
 }
 
 table.powers-summary.has-uses td.power-divider {
