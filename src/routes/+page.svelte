@@ -101,6 +101,9 @@
     previewBoard: {
       isVisible: false,
     },
+    languageOptions: {
+      isVisible: false,
+    },
     isClickable: true,
     nameAndArt: {
       isVisible: false,
@@ -292,6 +295,9 @@
       isVisible: false,
     },
     language: "en",
+    languageOptions: {
+      isVisible: false,
+    },
     nameImage: {
       name: "",
       img: "",
@@ -330,6 +336,9 @@
     spiritName: "",
     stackView: false,
     language: "en",
+    languageOptions: {
+      isVisible: false,
+    },
     previewBoard: {
       isVisible: false,
     },
@@ -755,6 +764,7 @@
     class="container"
     class:is-sideMenu={currentPage === "spiritBoardFront" ||
       currentPage === "spiritBoardBack" ||
+      currentPage === "powerCards" ||
       currentPage === "adversary" ||
       currentPage === "scenario" ||
       currentPage === "incarnaToken" ||

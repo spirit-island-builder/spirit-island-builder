@@ -3800,7 +3800,6 @@ function growthHeadersAndTitles() {
         const growthActionsTitles = group.getElementsByTagName("growth-cell");
         let growthGroupWidth = 0;
         for (const action of growthActionsTitles) {
-          console.log(action.style.width);
           growthGroupWidth += parseFloat(action.style.width.replace(/px/, ""));
         }
         growthGroupWidth = Math.ceil(growthGroupWidth);
@@ -4316,6 +4315,7 @@ function dynamicResizing() {
 
   console.log("RESIZING: INNATE NOTES (IF NEEDED)");
   // Size Innate Power box
+  debug = true;
   const presenceTracks = board.getElementsByTagName("presence-tracks")[0];
   const innatePowers = board.getElementsByTagName("innate-power");
 
@@ -4326,22 +4326,42 @@ function dynamicResizing() {
   let moveFlag = false;
   let k = 0;
 
-  // First give left innate more horizontal room
-  if (checkOverflowHeight(innatePowerBox)) {
+  // First, if overflowing, check if its just one Innate Power and has a note, and move over the note if so
+  if (checkOverflowHeight(innatePowerBox, 0)) {
+    console.log("# of Innate Powers = " + innatePowers.length);
+    if (innatePowers.length === 1) {
+      const note = innatePowers[0].getElementsByTagName("note")[0];
+      if (note) {
+        note.classList.add("single-squish");
+        if (debug) {
+          console.log("  > Single power note detected. Moving note to side.");
+        }
+        moveFlag = true;
+      }
+    }
+  }
+
+  // Next give left innate more horizontal room
+  if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
       console.log("  > Innate Power 1 overflowing, giving more room to IP1");
     }
     innatePowers[0].classList.add("ip1-wide");
   }
   // Then tighten up the power levels
-  if (checkOverflowHeight(innatePowerBox)) {
+  if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
       console.log("  > Innate Powers overflowing, shrinking space between levels");
     }
     innatePowerBoxCheck.classList.add("tight-levels");
   }
+  // If one power & overflowing, make it wrap
+  if (checkOverflowHeight(innatePowerBox, 0) && innatePowers.length === 1) {
+    innatePowers[0].classList.add("two-column");
+  }
+
   // Then tighten up the power level font spacing
-  if (checkOverflowHeight(innatePowerBox)) {
+  if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
       console.log("  > Innate Powers overflowing, shrinking level description line height");
     }
@@ -4350,23 +4370,11 @@ function dynamicResizing() {
       effect.style.lineHeight = "1";
     });
   }
-  if (checkOverflowHeight(innatePowerBox)) {
+
+  if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
       console.log("Innate Powers overflowing, shrinking notes (if applicable)...");
     }
-
-    // First, check if its just one IP, and if so, move its note to the side (see Ember-Eyed)
-    if (innatePowers.length === 1) {
-      const note = innatePowers[0].getElementsByTagName("note")[0];
-      if (note) {
-        note.classList.add("single-squish");
-        if (debug) {
-          console.log("Single power note detected. Moving note to side.");
-        }
-        moveFlag = true;
-      }
-    }
-
     const descriptionContainers = innatePowerBox.getElementsByTagName("description-container");
     let tallest = 0;
     let tallest_index = 0;
@@ -4386,7 +4394,7 @@ function dynamicResizing() {
       if (debug) {
         console.log("notebox detected, attempting to shrink");
       }
-      while (checkOverflowHeight(innatePowerBox)) {
+      while (checkOverflowHeight(innatePowerBox, 0)) {
         const style = window.getComputedStyle(noteBox, null).getPropertyValue("font-size");
         const fontSize = parseFloat(style);
         noteBox.style.fontSize = fontSize - 1 + "px";
@@ -4561,6 +4569,7 @@ function balanceText(el, lineHeight = 23) {
 
 function reduceLines(el) {
   const initialHeight = el.offsetHeight;
+  let debug = false;
   let currentHeight = initialHeight;
   let j = 0;
   let k = Math.trunc(el.offsetWidth);
@@ -4571,13 +4580,17 @@ function reduceLines(el) {
     currentHeight = el.offsetHeight;
     j += 1;
     if (j > 50) {
-      console.log("Max line reduction reached for");
+      if (debug) {
+        console.log("Max line reduction reached for");
+      }
       console.log(el);
       break;
     }
   }
   el.style.width = el.offsetWidth + "px";
-  console.log(el.textContent + ": final height = " + currentHeight);
+  if (debug) {
+    console.log(el.textContent + ": final height = " + currentHeight);
+  }
 }
 
 function addLine(el) {

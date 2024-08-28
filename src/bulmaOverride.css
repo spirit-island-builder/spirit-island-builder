@@ -123,18 +123,6 @@ ion-icon {
   text-decoration-style: solid;
 }
 
-.is-power-cards {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.is-power-cards > section {
-  flex: 50%;
-  flex-grow: 0;
-  padding-right: 5px;
-}
-
 input.is-small.small-power,
 textarea.is-small.small-power {
   padding: 1px 1px 1px 2px;

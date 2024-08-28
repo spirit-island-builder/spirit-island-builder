@@ -11,6 +11,7 @@
   import CustomIcons from "../custom-icons.svelte";
   import CombinedTTS from "../combined-tts-spirit-powers-export.svelte";
   import InstructionsLink from "$lib/instructions/link.svelte";
+  import LanguageOptions from "./language-options.svelte";
 
   export let spiritBoardBack;
   export let emptySpiritBoardBack;
@@ -284,7 +285,9 @@
   <div class="column is-one-third pt-0">
     <NameArtLore bind:spiritBoardBack />
     <SetupPlaystyleComplexityPowers bind:spiritBoardBack />
+    <div class="content mb-0 mt-2">Options</div>
     <CustomIcons bind:customIcons />
+    <LanguageOptions bind:spiritBoardBack />
     <CombinedTTS
       bind:combinedTTS
       bind:currentPage
