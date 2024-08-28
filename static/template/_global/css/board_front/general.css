@@ -46,6 +46,7 @@ board {
   padding-left: 16px;
   padding-top: 17.75px;
   padding-bottom: 15px;
+  padding-right: 16px;
   justify-content: end;
   flex-direction: column;
   cursor: pointer;

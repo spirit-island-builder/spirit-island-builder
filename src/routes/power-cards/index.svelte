@@ -16,6 +16,7 @@
   import jsone from "json-e";
   import { createTTSSave, getThresholdTTSJSON, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
   import InstructionsLink from "$lib/instructions/link.svelte";
+  import LanguageOptions from "./language-options.svelte";
 
   export let powerCards;
   export let emptyPowerCards;
@@ -507,74 +508,83 @@
   }
 </script>
 
-<PreviewFrame
-  id="power-cards-preview"
-  bind:this={previewFrame}
-  on:hot-reload={reloadPreview}
-  clickFunction={() => openEditorHeading}>
-  <svelte:fragment slot="head">
-    <link href="/template/_global/css/global.css" rel="stylesheet" />
-    <link href="/template/_global/css/card.css" rel="stylesheet" />
-    <script type="text/javascript" src="/template/_global/js/common.js"></script>
-    <script type="text/javascript" src="/template/_global/js/card.js"></script>
-  </svelte:fragment>
-</PreviewFrame>
-<div class="field has-addons mb-0 is-flex-wrap-wrap">
-  <button class="button is-info js-modal-trigger mr-1 mt-1" on:click={exampleModal.open}>
-    Examples
-  </button>
-  <LoadButton accept=".html" class="button is-success mr-1 mt-1" loadObjectURL={loadHTMLFromURL}>
-    Load
-  </LoadButton>
-  <button class="button is-success mt-1 mr-1" on:click={exportPowerCards}> Save </button>
-  <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
-    >Update Preview</button>
-  <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
-    >Toggle Preview Size</button>
-  <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  <InstructionsLink class="button is-info mt-1 mr-1" anchor="power-cards" />
-</div>
-<div class="field has-addons mb-0 is-flex-wrap-wrap">
-  <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}>Download Image</button>
-  <button class="button is-success mt-1  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
-  <div class="dropdown is-hoverable is-up">
-    <div class="dropdown-trigger">
-      <button
-        class="button mt-1 mr-1 is-success"
-        aria-haspopup="true"
-        aria-controls="dropdown-menu4">
-        <span>Create PDF...</span>
-      </button>
-    </div>
-    <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-      <div class="dropdown-content">
-        <button class="button is-success mr-1 dropdown-item" on:click={printToPDFLetter}
-          >Letter size</button>
-        <button class="button is-success mt-1 mr-1 dropdown-item" on:click={printToPDFA4}
-          >A4 size</button>
-      </div>
-    </div>
-  </div>
-  <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
-    >Printer-Friendly</button>
-  {#if !powerCards.stackView}
-    <button class="button is-warning mt-1 mr-1 is-small" on:click={setStackView}
-      >Enable Stack View</button>
-  {:else}
-    <button class="button is-warning mt-1 mr-1 is-small" on:click={unsetStackView}
-      >Disable Stack View</button>
-  {/if}
-</div>
-<div class="columns mt-0 mb-1">
-  <div class="column pt-0">
+<div class="columns ml-4 mt-0 mb-1">
+  <div class="column is-one-third pt-0">
     <PowerCard bind:powerCards />
+    <div class="content mb-0 mt-2">Options</div>
     <CustomIcons bind:customIcons />
+    <LanguageOptions bind:powerCards />
     <CombinedTTS
       bind:combinedTTS
       bind:currentPage
       bind:emptyCombinedTTS
       bind:powerCards
       exportPowersTTS={packagePowersTTSforExport} />
+  </div>
+  <div class="column pt-0">
+    <PreviewFrame
+      id="power-cards-preview"
+      bind:this={previewFrame}
+      on:hot-reload={reloadPreview}
+      clickFunction={() => openEditorHeading}>
+      <svelte:fragment slot="head">
+        <link href="/template/_global/css/global.css" rel="stylesheet" />
+        <link href="/template/_global/css/card.css" rel="stylesheet" />
+        <script type="text/javascript" src="/template/_global/js/common.js"></script>
+        <script type="text/javascript" src="/template/_global/js/card.js"></script>
+      </svelte:fragment>
+    </PreviewFrame>
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
+      <button class="button is-info js-modal-trigger mr-1 mt-1" on:click={exampleModal.open}>
+        Examples
+      </button>
+      <LoadButton
+        accept=".html"
+        class="button is-success mr-1 mt-1"
+        loadObjectURL={loadHTMLFromURL}>
+        Load
+      </LoadButton>
+      <button class="button is-success mt-1 mr-1" on:click={exportPowerCards}> Save </button>
+      <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
+        >Update Preview</button>
+      <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
+        >Toggle Preview Size</button>
+      <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
+      <InstructionsLink class="button is-info mt-1 mr-1" anchor="power-cards" />
+    </div>
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
+      <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}
+        >Download Image</button>
+      <button class="button is-success mt-1  mr-1" on:click={downloadTTSJSON}
+        >Export TTS file</button>
+      <div class="dropdown is-hoverable is-up">
+        <div class="dropdown-trigger">
+          <button
+            class="button mt-1 mr-1 is-success"
+            aria-haspopup="true"
+            aria-controls="dropdown-menu4">
+            <span>Create PDF...</span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+          <div class="dropdown-content">
+            <button class="button is-success mr-1 dropdown-item" on:click={printToPDFLetter}
+              >Letter size</button>
+            <button class="button is-success mt-1 mr-1 dropdown-item" on:click={printToPDFA4}
+              >A4 size</button>
+          </div>
+        </div>
+      </div>
+      <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
+        >Printer-Friendly</button>
+      {#if !powerCards.stackView}
+        <button class="button is-warning mt-1 mr-1 is-small" on:click={setStackView}
+          >Enable Stack View</button>
+      {:else}
+        <button class="button is-warning mt-1 mr-1 is-small" on:click={unsetStackView}
+          >Disable Stack View</button>
+      {/if}
+    </div>
   </div>
 </div>
 <Examples bind:this={exampleModal} {loadExample} title="Load Examples" {examples} />

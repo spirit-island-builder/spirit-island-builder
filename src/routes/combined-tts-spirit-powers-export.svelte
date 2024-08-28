@@ -108,7 +108,7 @@
 <Section title="TTS Spirit & Powers Export" bind:isVisible={combinedTTS.isVisible}>
   <div class="mb-1 p-1 note">
     Use this to export a combined TTS object ready to go in the TTS mod. You will need to save
-    content from other tabs as well, then click export when you have all the content desired.
+    content from other tabs as well, then click export when you have all the content.
     <InstructionsLink anchor="combined-tts" />
   </div>
   <div class="field is-flex is-flex-direction-column is-justify-content-space-around">
@@ -131,7 +131,7 @@
       </div>
       <div class="field" class:is-hidden={currentPage !== "spiritBoardFront"}>
         <div class="content is-small mb-0">
-          Insert a URL from an image hosing website (such as imgur):.
+          Insert a URL for the Play side from an image hosing website (such as imgur):.
         </div>
         <div class="control">
           <input
@@ -159,7 +159,7 @@
       </div>
       <div class="field" class:is-hidden={currentPage !== "spiritBoardBack"}>
         <div class="content is-small mb-0">
-          Insert a URL from an image hosing website (such as imgur):.
+          Insert a URL for the Lore side from an image hosing website (such as imgur):.
         </div>
         <div class="control">
           <input
@@ -169,22 +169,6 @@
             bind:value={combinedTTS.spiritBoardBack.image.content} />
         </div>
       </div>
-      <!-- <div class="field combined-tts-buttons">
-        <div class="field-label is-small">
-          <label class="label combined-tts-buttons">Spirit Lore - Image:</label>
-        </div>
-        {#if combinedTTS.spiritBoardBack.image.saved}
-          <button
-            class="button is-info is-small"
-            disabled={currentPage !== "spiritBoardBack"}
-            on:click={() => console.log(combinedTTS)}>Saved</button>
-        {:else}
-          <button
-            class="button is-success is-small"
-            disabled={currentPage !== "spiritBoardBack"}
-            on:click={() => (combinedTTS.spiritBoardBack.image.saved = true)}>Save</button>
-        {/if}
-      </div> -->
       <div class="field combined-tts-buttons">
         <div class="field-label is-small">
           <label class="label combined-tts-buttons">Power Cards:</label>
@@ -203,7 +187,7 @@
       </div>
       <div class="field" class:is-hidden={currentPage !== "powerCards"}>
         <div class="content is-small mb-0">
-          Insert a URL from an image hosing website (such as imgur):.
+          Insert URL(s) for each power card from an image hosing website (such as imgur):.
         </div>
         {#if powerCards}
           {#each powerCards.cards as card, i (card.id)}
@@ -238,25 +222,14 @@
           {/if}
         {/if}
       </div>
-      <!-- <div class="field combined-tts-buttons">
-        <div class="field-label is-small">
-          <label class="label combined-tts-buttons">Power Cards - Image:</label>
-        </div>
-        {#if combinedTTS.powers.image.saved}
-          <button
-            class="button is-info is-small"
-            disabled={currentPage !== "powerCards"}
-            on:click={() => console.log(combinedTTS)}>Saved</button>
-        {:else}
-          <button
-            class="button is-success is-small"
-            disabled={currentPage !== "powerCards"}
-            on:click={() => (combinedTTS.powers.image.saved = true)}>Save</button>
-        {/if}
-      </div> -->
     </div>
     <div class="field is-flex is-flex-direction-row is-justify-content-space-evenly">
-      <button class="button is-info big-buttons" on:click={() => buildBag()}>Export</button>
+      <button
+        class="button is-info big-buttons"
+        disabled={!combinedTTS.spiritBoardFront.tts.saved ||
+          !combinedTTS.spiritBoardBack.tts.saved ||
+          !combinedTTS.powers.tts.saved}
+        on:click={() => buildBag()}>Export</button>
       <button class="button is-warning big-buttons" on:click={() => clearAll()}>Restart</button>
     </div>
   </div>
