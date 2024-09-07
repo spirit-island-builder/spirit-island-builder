@@ -138,26 +138,31 @@ function replaceIcon(html) {
       }
     }
 
-    iconHtml +=
-      `<` +
-      HTMLTag +
-      ` class="` +
-      is_no +
-      iconName +
-      is_terrain +
-      `">` +
-      num_val +
-      no_icon +
-      `</` +
-      HTMLTag +
-      `>`;
-
+    // Output a line break, otherwise output normal
+    if (iconName.startsWith("line-break")) {
+      iconHtml = "<br>";
+    } else {
+      //FINAL OUTPUT
+      iconHtml +=
+        `<` +
+        HTMLTag +
+        ` class="` +
+        is_no +
+        iconName +
+        is_terrain +
+        `">` +
+        num_val +
+        no_icon +
+        `</` +
+        HTMLTag +
+        `>`;
+    }
     return iconHtml;
   }
 }
 
 function checkOverflowHeight(el, slack = 2) {
-  let debug = false;
+  let debug = true;
   let curOverflow = el.style.overflowY;
   if (!curOverflow || curOverflow === "visible") {
     el.style.overflowY = "auto";

@@ -14,7 +14,7 @@
   export let additionalOnBlurFunction = () => {};
 
   let showAutoCompleteList = false;
-  let showDetailAutoCompleteList = false;
+  let showDetailAutoCompleteList = false; //This is for the detailed growth options
   let valuesToShow;
   let selectedWord = "";
   // updateValuesToShow();
@@ -95,7 +95,7 @@
           startingCharacterPosition + currentAutoCompleteTermLength
         );
         valuesToShow = validAutoCompleteValues.filter((autoCompleteItem) =>
-          autoCompleteItem.value.startsWith(autoCompleteStartText)
+          autoCompleteItem.label.startsWith(autoCompleteStartText)
         );
       }
     } else {
@@ -210,9 +210,13 @@
     if (showListImmediately === true) {
       value = selectedWord;
     } else {
-      value = `${value.substring(0, startOfWordPosition)}${selectedWord}}${value.substring(
+      value = `${value.substring(0, startOfWordPosition - 1)}${selectedWord}${value.substring(
         startingCharacterPosition + currentAutoCompleteTermLength
       )}`;
+      // (above) Modified to not auto-include the {}
+      // value = `${value.substring(0, startOfWordPosition)}${selectedWord}}${value.substring(
+      //   startingCharacterPosition + currentAutoCompleteTermLength
+      // )}`;
     }
     closeAutoComplete();
   }

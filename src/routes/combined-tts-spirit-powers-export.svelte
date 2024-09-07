@@ -192,7 +192,7 @@
         {#if powerCards}
           {#each powerCards.cards as card, i (card.id)}
             <div
-              class="field mb-0 is-flex is-flex-direction-row is-justify-content-space-between"
+              class="field mb-0 is-flex is-flex-direction-column is-justify-content-space-between"
               style="width:50%;">
               <label class="label is-small " for="powerCard{i}ImageURL">{card.name}: </label>
               <div class="control">

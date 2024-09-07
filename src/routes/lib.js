@@ -270,6 +270,9 @@ export const nextNode = (event) => {
         if (document.getElementById(focusID) === null) {
           focusID = "addSpecialRule";
         }
+        if (event.shiftKey) {
+          focusID = "";
+        }
         break;
       //Board - Growth
       case "growthSetGroupAction":

@@ -54,7 +54,7 @@ function constructCard(data, cardIndex) {
   <cost></cost>
   <type-watermark></type-watermark>
   <cost id='${card.id}cost'>${data.cost}</cost>
-  <name id='${card.id}name'>${data.name}</name>
+  <name-holder><name id='${card.id}name'>${data.name}</name></name-holder>
   
   ${data.printFriendly ? "<element-background></element-background>" : ""}
 
@@ -90,15 +90,16 @@ function constructCard(data, cardIndex) {
 function resize() {
   //Name
   nameBlocks = document.querySelectorAll("name");
+  nameHolders = document.querySelectorAll("name-holder");
   for (let i = 0; i < nameBlocks.length; i++) {
-    dynamicSizing(nameBlocks[i]);
+    dynamicSizing(nameBlocks[i], nameHolders[i]);
+    balanceText(nameBlocks[i], 33);
   }
 
   //Rules & Threshold
   rulesContainers = document.querySelectorAll("rules-container");
 
   for (let i = 0; i < rulesContainers.length; i++) {
-    /* dynamicSizing(rulesBlocks[i]) */
     rulesBlock = rulesContainers[i].querySelectorAll("rules")[0];
     thresholdBlock = rulesContainers[i].querySelectorAll("threshold")[0];
     limitingBlock = thresholdBlock == undefined ? rulesContainers[i] : thresholdBlock;
@@ -270,9 +271,14 @@ function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
-function dynamicSizing(el, maxSize = el.offsetHeight) {
+function dynamicSizing(el, container, maxSize = container.offsetHeight) {
+  let debug = false;
+  if (debug) {
+    console.log("Shrinking: " + el.textContent);
+  }
+  //Shrink text to fit
   let j = 0;
-  while (checkOverflowHeight(el, maxSize)) {
+  while (checkOverflowHeight(container, 0)) {
     var style = window.getComputedStyle(el, null).getPropertyValue("font-size");
     var line = window.getComputedStyle(el, null).getPropertyValue("line-height");
     var fontSize = parseFloat(style);
@@ -284,6 +290,72 @@ function dynamicSizing(el, maxSize = el.offsetHeight) {
     if (j > 10) {
       console.log("safety");
       break;
+    }
+  }
+}
+
+function balanceText(el) {
+  // Balances text in an element
+  let debug = false;
+  const initialHeight = el.offsetHeight;
+  const initialWidth = el.offsetWidth;
+  const lineHeight = parseFloat(window.getComputedStyle(el, null).getPropertyValue("line-height"));
+  if (debug) {
+    console.log(
+      "Balancing: " +
+        el.textContent +
+        " H:" +
+        initialHeight +
+        ", W:" +
+        initialWidth +
+        ", LH:" +
+        lineHeight
+    );
+  }
+
+  if (initialHeight > lineHeight + 2) {
+    // No action needed for 1 liners (~19px growth, ~22px presence)
+    let currentHeight = initialHeight;
+    let j = 0;
+    let k = Math.trunc(initialWidth);
+    let overflow = false;
+    while (currentHeight <= initialHeight) {
+      overflow = checkOverflowWidth(el, 0);
+      if (overflow) {
+        if (debug) {
+          console.log("balance overflowing, j=" + j);
+        }
+        break;
+      }
+      // tighten until it changes something
+      k = k - 1;
+      el.style.width = k + "px";
+      currentHeight = el.offsetHeight;
+      j += 1;
+      if (debug) {
+        console.log(" H:" + currentHeight + ", W:" + k);
+      }
+      if (j > 200) {
+        if (debug) {
+          console.log("Max text reduction reached for");
+          console.log(el);
+        }
+        break;
+      }
+    }
+    if (debug) {
+      console.log(
+        "reset at w=" + el.offsetWidth + ",h=" + el.offsetHeight + ",overflow=" + overflow
+      );
+    }
+    k = k + 1;
+    el.style.width = k + "px";
+    if (debug) {
+      console.log("reset to w=" + el.offsetWidth + ",h=" + el.offsetHeight);
+    }
+  } else {
+    if (debug) {
+      console.log("No balance needed");
     }
   }
 }
