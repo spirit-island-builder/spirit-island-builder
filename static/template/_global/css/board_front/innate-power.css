@@ -76,6 +76,10 @@ innate-power.two-column {
   display: inline-flex;
 }
 
+innate-power.two-column description-container {
+  flex-wrap: wrap;
+}
+
 innate-power.two-column:only-child level {
   width: 500px;
   margin-bottom: 8px;
@@ -250,7 +254,7 @@ description-container {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   width: 465px;
   height: auto;
   margin-top: -5px;
