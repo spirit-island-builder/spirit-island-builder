@@ -43,12 +43,12 @@
       </div>
     </div>
     <div class="field is-flex is-align-items-center is-small mb-0">
-      <label class="label incarna-label" for="head">Color: </label>
+      <label class="label incarna-label" for="colorPickerIncarna">Color: </label>
       <div class="input-color-container">
         <input
           type="color"
           class="input-color"
-          id="head"
+          id="colorPickerIncarna"
           on:change={() => document.getElementById("updateButton").click()}
           bind:value={incarnaToken.incarna.color} />
       </div>

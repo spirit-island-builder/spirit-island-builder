@@ -8,7 +8,7 @@
     envisioning it as a website version.
   </p>
   <p>
-    My goal with this project is to lower the barrier to entry for aspiring homebrew Spriti Island
+    My goal with this project is to lower the barrier to entry for aspiring homebrew Spirit Island
     game designers. I hope the Builder makes custom content creation faster, more exciting, and more
     rewarding.
   </p>

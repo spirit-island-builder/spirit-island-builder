@@ -2,8 +2,18 @@
   import Section from "$lib/section.svelte";
   import ImageInput from "$lib/image-input.svelte";
   import InstructionsLink from "$lib/instructions/link.svelte";
+  import * as Lib from "../lib";
 
   export let spiritBoardBack;
+
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
+
+  function selectNode(event) {
+    let nodeID = event.target.id;
+    document.getElementById(nodeID).select();
+  }
 </script>
 
 <Section title="Name, Art, and Lore" bind:isVisible={spiritBoardBack.nameArtLore.isVisible}>
@@ -21,6 +31,8 @@
           class="input"
           type="text"
           placeholder="Name"
+          on:focus={selectNode}
+          on:keyup={nextNode}
           bind:value={spiritBoardBack.nameImage.name} />
       </div>
     </div>

@@ -48,8 +48,9 @@ Use these fields to modify your spirit's special rules. You can and should use t
 - Remove: Button to **permanently** delete the special rule.
 - Add Another Rule: Adds an additional special rule.
 - General Advice: Look at example spirits to see how some features are used.
-  - Serpent-style presence nodes: you can create presence nodes in the special rule using the following format:
-    - Example: <special-rules-track values="5,7,8,10,11,12,13"></special-rules-track>
+  - Serpent-style presence nodes in Special Rules: you can create presence nodes in the special rule using the following format:
+    - {special-presence-track} but you have to click the autofill
+    - Or just type: <special-rules-track values="5,7,8,10,11,12,13"></special-rules-track>
     - You should be able to use most of the options from [presence tracks](#presence-tracks) here.
 
 [Home](#index)
@@ -376,9 +377,9 @@ For now, your adversary must have 6 levels. If you want to do less, you'll have 
 Icons for invaders, elements, dahan, etc can be used by enclosing its name with "{}". For example, {dahan} or {fire}. Here is a list of what is available:
 
 - Elements (fire, water, earth, air, plant, animal, sun, moon)
-  - any: the Any element icon
-  - star: the Element icon (from Starlight)
-  - markerplus, markerminus: the Prepare Element Marker and Discard Element Marker (from Shifting Memory)
+  - the Any element icon (any)
+  - the Element icon (star)
+  - the Prepare Element Marker and Discard Element Marker (markerplus, markerminus)
 - Invaders (explorer, town, city)
 - Presence (presence, sacred-site, no-presence, no-own-presence, destroyed-presence, move-presence-1, move-presence-2, move-presence-3, move-presence-4)
 - Island icons (blight, dahan, beasts, wilds, disease, strife, badlands, vitality)
@@ -391,8 +392,12 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - Energy icons (energy-1, energy-2, energy-x where x is whatever number)
 - Growth icons (see [Growth](#growth) section and [Supported Growth Actions](#supported-growth-actions) for examples)
 - Presence track icons (see [Presence Track](#presence-tracks) section for examples)
-- Incarna icons: add "incarna-" to an icon and it will respond differently when called (typically "{incarna-custom1}")
+
+Also:
 - No-: Nearly every icon can have a red X over it by adding 'no-' such as {no-blight}.
+- Or/: You can cluster icons with a / to keep them together through line breaks {explorer/town}
+- Counts: You can add item counts like so {earth,2}. This only works in some contexts
+- Incarna icons: add "incarna-" to an icon and it will appear larger when used (typically "{incarna-custom1}")
 
 [Home](#index)
 
@@ -401,17 +406,5 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - The template uses html so you can use some html to customize your board:
 
   - For example, you can create a line break by typing \<br\> (useful in notes, levels, and special rules).
-
-  [Home](#index)
-
-### Fonts
-
-You can download additional fonts that will make your board look closer to the real deal. These fonts couldn't be included in the package, but you can get free previews.
-
-- DK Snemand Demo: Not included. You can download this font [here](https://www.dafont.com/dk-snemand.font).
-  - Used for: Headings and Spirit Name.
-- Gobold Extra2: Not included. You can download this font [here](https://www.dafont.com/fr/gobold.font).
-
-  - Used for: Energy Icons and Card Play text
 
   [Home](#index)

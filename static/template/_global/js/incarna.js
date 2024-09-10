@@ -79,7 +79,6 @@ function startMain() {
 
   //Color the Icons
   const rgb = hexToRgb(standardize_color(backgroundColor));
-  console.log(rgb);
   if (rgb.length !== 3) {
     alert("Invalid color format!");
   }
