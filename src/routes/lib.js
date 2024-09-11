@@ -469,6 +469,28 @@ export const nextNode = (event) => {
       case "incarnaTokenToken":
         focusID = "incarnaTokenEmpoweredToken";
         break;
+      // Scenarios
+      case "commentLore":
+        focusID = "panel0comment0Front";
+        break;
+      case "panelcommentFront":
+        focusID = "panel" + numMatches[0] + "comment" + (parseInt(numMatches[1]) + 1) + "Front";
+        if (document.getElementById(focusID) === null) {
+          focusID = "panel" + (parseInt(numMatches[0]) + 1) + "comment0Front";
+        }
+        console.log(focusID);
+        break;
+      case "commentBackLeft":
+        focusID = "comment" + (parseInt(numMatches[0]) + 1) + "BackLeft";
+        if (document.getElementById(focusID) === null) {
+          focusID = "comment0BackRight";
+        }
+        console.log(focusID);
+        break;
+      case "commentBackRight":
+        focusID = "comment" + (parseInt(numMatches[0]) + 1) + "BackRight";
+        console.log(focusID);
+        break;
     }
 
     document.getElementById(focusID).focus();
