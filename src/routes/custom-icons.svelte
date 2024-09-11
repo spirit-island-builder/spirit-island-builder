@@ -23,7 +23,7 @@
   }
 </script>
 
-<Section title="Custom Icons (optional)" bind:isVisible={customIcons.isVisible}>
+<Section title="Custom Icons" bind:isVisible={customIcons.isVisible}>
   <div class="mb-1 p-1 note">
     Custom Icons allow you to load and then use icons that aren't pre-built into the template.
     <InstructionsLink anchor="custom-icons" />

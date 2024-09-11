@@ -101,6 +101,9 @@
     previewBoard: {
       isVisible: false,
     },
+    languageOptions: {
+      isVisible: false,
+    },
     isClickable: true,
     nameAndArt: {
       isVisible: false,
@@ -241,6 +244,44 @@
     ],
   };
 
+  let emptyCombinedTTS = {
+    prop: "value",
+    isVisible: false,
+    spiritBoardFront: {
+      image: {
+        content: "",
+        saved: false,
+      },
+      tts: {
+        content: "",
+        saved: false,
+      },
+    },
+    spiritBoardBack: {
+      image: {
+        content: "",
+        saved: false,
+      },
+      tts: {
+        difficulty: "",
+        usesTokens: "",
+        saved: false,
+      },
+    },
+    powers: {
+      image: {
+        content: [],
+        saved: false,
+        back: "",
+      },
+      tts: {
+        content: "",
+        saved: false,
+      },
+    },
+  };
+  let combinedTTS = JSON.parse(JSON.stringify(emptyCombinedTTS));
+
   let emptySpiritBoardBack = {
     prop: "value",
     demoBoardWasLoaded: false,
@@ -251,6 +292,10 @@
       isVisible: false,
     },
     setupPlaystyleComplexityPowers: {
+      isVisible: false,
+    },
+    language: "en",
+    languageOptions: {
       isVisible: false,
     },
     nameImage: {
@@ -290,6 +335,10 @@
     demoBoardWasLoaded: false,
     spiritName: "",
     stackView: false,
+    language: "en",
+    languageOptions: {
+      isVisible: false,
+    },
     previewBoard: {
       isVisible: false,
     },
@@ -715,6 +764,7 @@
     class="container"
     class:is-sideMenu={currentPage === "spiritBoardFront" ||
       currentPage === "spiritBoardBack" ||
+      currentPage === "powerCards" ||
       currentPage === "adversary" ||
       currentPage === "scenario" ||
       currentPage === "incarnaToken" ||
@@ -723,11 +773,29 @@
       currentPage === "eventCard" ||
       currentPage === "fearCard"}>
     {#if currentPage === "spiritBoardFront"}
-      <SpiritBoard bind:spiritBoard bind:emptySpiritBoard bind:customIcons />
+      <SpiritBoard
+        bind:spiritBoard
+        bind:emptySpiritBoard
+        bind:customIcons
+        bind:combinedTTS
+        bind:emptyCombinedTTS
+        bind:currentPage />
     {:else if currentPage === "spiritBoardBack"}
-      <SpiritBoardBack bind:spiritBoardBack bind:emptySpiritBoardBack bind:customIcons />
+      <SpiritBoardBack
+        bind:spiritBoardBack
+        bind:emptySpiritBoardBack
+        bind:customIcons
+        bind:combinedTTS
+        bind:emptyCombinedTTS
+        bind:currentPage />
     {:else if currentPage === "powerCards"}
-      <PowerCards bind:powerCards bind:emptyPowerCards bind:customIcons />
+      <PowerCards
+        bind:powerCards
+        bind:emptyPowerCards
+        bind:customIcons
+        bind:combinedTTS
+        bind:emptyCombinedTTS
+        bind:currentPage />
     {:else if currentPage === "aspect"}
       <Aspect bind:aspect bind:emptyAspect bind:customIcons />
     {:else if currentPage === "adversary"}

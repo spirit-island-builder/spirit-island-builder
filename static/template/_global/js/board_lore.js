@@ -1,8 +1,15 @@
+let lang = "en";
+
 function startMain() {
   let board = document.querySelectorAll("board")[0];
+
+  if (board.getAttribute("lang")) {
+    lang = board.getAttribute("lang");
+    console.log("found language " + lang);
+  }
+
   board.innerHTML = replaceIcon(board.innerHTML);
-  adjustComplexityValue();
-  createPowerProperties();
+  buildLoreBoard();
   let right = document.createElement("right");
   let lore = document.querySelectorAll("lore-description")[0];
   let secondContainer = document.querySelectorAll("second-section-container")[0];
@@ -56,16 +63,16 @@ function resize() {
   dynamicSizing(document.querySelectorAll("spirit-name")[0]);
 }
 
-function adjustComplexityValue() {
+function buildLoreBoard() {
   //Quick Complexity
   var quickComplexity = document.getElementsByTagName("complexity")[0].getAttribute("value");
   if (quickComplexity) {
     var quickDescriptor = document.getElementsByTagName("complexity")[0].getAttribute("descriptor");
     var inner = `<complexity-line></complexity-line>
-                <complexity-title>COMPLEXITY</complexity-title>
-                <complexity-value value="${quickComplexity}" style="width: 300px;">${quickDescriptor}</complexity-value>
-                <red-box></red-box>
-                <complexity-line></complexity-line>`;
+                  <complexity-title>${localize[lang]["complexity"]}</complexity-title>
+                  <complexity-value value="${quickComplexity}" style="width: 300px;">${quickDescriptor}</complexity-value>
+                  <red-box></red-box>
+                  <complexity-line></complexity-line>`;
     document.getElementsByTagName("complexity")[0].innerHTML = inner;
   }
 
@@ -75,9 +82,7 @@ function adjustComplexityValue() {
   var addedPixels = complexityValue * 45;
   var totalPixels = basePixels + addedPixels + "px";
   document.getElementsByTagName("complexity-value")[0].style.width = totalPixels;
-}
 
-function createPowerProperties() {
   // Quick Summary of Powers
   var valueSummary = document.getElementsByTagName("summary-of-powers")[0].getAttribute("values");
   if (valueSummary) {
@@ -88,11 +93,12 @@ function createPowerProperties() {
     var defenseValue = values[3];
     var utilityValue = values[4];
     var powerTable = document.createElement("table");
+
     powerTable.className = "powers-summary";
     powerTable.innerHTML = `
                     <tbody><tr class="power-bars">
                         <td>
-                            <div class="summary-of-powers-title">Summary of Powers
+                            <div class="summary-of-powers-title">${localize[lang]["summary"]}
                         </div></td>
                         <td valign="bottom">
                             <power-bar class="offense" value="${offenseValue}"></power-bar>
@@ -113,19 +119,19 @@ function createPowerProperties() {
                     <tr>
                         <td></td>
                         <td>
-                            <div>OFFENSE</div>
+                            <div>${localize[lang]["offense"]}</div>
                         </td>
                         <td>
-                            <div>CONTROL</div>
+                            <div>${localize[lang]["control"]}</div>
                         </td>
                         <td>
-                            <div>FEAR</div>
+                            <div>${localize[lang]["fear"]}</div>
                         </td>
                         <td>
-                            <div>DEFENSE</div>
+                            <div>${localize[lang]["defense"]}</div>
                         </td>
                         <td>
-                            <div>UTILITY</div>
+                            <div>${localize[lang]["utility"]}</div>
                         </td>
                     </tr>
                 </tbody>
@@ -186,7 +192,7 @@ function createPowerProperties() {
     usesCol = document.createElement("td");
     usesCol.rowSpan = countRows; //if we added a note, span that column too
     usesCol.className = "uses-icon";
-    usesCol.append("USES");
+    usesCol.append(localize[lang]["uses"]);
     usesList = uses.split(",");
     iconHolder = document.createElement("uses-icon-holder");
     for (let i = 0; i < usesList.length; i++) {
@@ -197,6 +203,14 @@ function createPowerProperties() {
     usesCol.append(iconHolder);
     topRow.append(lineCol);
     topRow.append(usesCol);
+  }
+
+  //Translate other non-english headings
+  if (lang !== "en") {
+    setupText = document.getElementsByTagName("setup-title")[0];
+    setupText.innerHTML = localize[lang]["setup"] + ":";
+    playstyleText = document.getElementsByTagName("play-style-title")[0];
+    playstyleText.innerHTML = localize[lang]["playstyle"] + ":";
   }
 }
 
@@ -225,3 +239,66 @@ function checkOverflowHeight(el) {
   el.style.overflow = curOverflow;
   return isOverflowing;
 }
+
+let localize = {
+  en: {
+    setup: "SETUP",
+    playstyle: "PLAY STYLE",
+    complexity: "COMPLEXITY",
+    summary: "Summary of Powers",
+    offense: "OFFENSE",
+    control: "CONTROL",
+    fear: "FEAR",
+    defense: "DEFENSE",
+    utility: "UTILITY",
+    uses: "USES",
+  },
+  de: {
+    setup: "",
+    playstyle: "",
+    complexity: "",
+    summary: "",
+    offense: "",
+    control: "",
+    fear: "",
+    defense: "",
+    utility: "",
+    uses: "",
+  },
+  pl: {
+    setup: "PRZYGOTOWANIE GRY",
+    playstyle: "STYL GRY",
+    complexity: "ZŁOŻONOŚĆ",
+    summary: "PODSUMOWANIE MOCY",
+    offense: "ATAK",
+    control: "KONTROLA",
+    fear: "STRACH",
+    defense: "OBRONA",
+    utility: "WSZECHSTRONNOŚĆ",
+    uses: "UŻYWA",
+  },
+  ar: {
+    setup: "",
+    playstyle: "",
+    complexity: "",
+    summary: "",
+    offense: "",
+    control: "",
+    fear: "",
+    defense: "",
+    utility: "",
+    uses: "",
+  },
+  zh: {
+    setup: "",
+    playstyle: "",
+    complexity: "",
+    summary: "",
+    offense: "",
+    control: "",
+    fear: "",
+    defense: "",
+    utility: "",
+    uses: "",
+  },
+};

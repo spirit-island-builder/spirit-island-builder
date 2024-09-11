@@ -92,9 +92,6 @@ function buildLevel(quickLevel) {
 
   let name2 = quickLevel.getAttribute("name2");
   let rules2 = quickLevel.getAttribute("rules2");
-  console.log(quickLevel);
-  console.log(name2);
-  console.log(rules2);
   let rule2HTML = "";
   if (name2 && rules2) {
     console.log("second rule detected");

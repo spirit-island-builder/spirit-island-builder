@@ -14,7 +14,7 @@
   export let additionalOnBlurFunction = () => {};
 
   let showAutoCompleteList = false;
-  let showDetailAutoCompleteList = false;
+  let showDetailAutoCompleteList = false; //This is for the detailed growth options
   let valuesToShow;
   let selectedWord = "";
   // updateValuesToShow();
@@ -29,20 +29,22 @@
   afterUpdate(() => {
     // Refocus the input element that was just completed
     if (inputElementThatWasCompleted) {
-      console.log("Element completed:");
-      console.log(inputElementThatWasCompleted);
+      // console.log("Element completed:");
+      // console.log(inputElementThatWasCompleted);
       inputElementThatWasCompleted.focus();
       // In textarea/input with multiple autocompletes set cursor position the end of the autocomplete term that was inserted. Without this the cursor goes to the end of the input.
       if (!showListImmediately) {
-        console.log("icon autocomplete detected");
-        console.log("selectedWord: " + selectedWord);
-        console.log("startOfWordPosition: " + startOfWordPosition);
-        inputElementThatWasCompleted.selectionEnd = startOfWordPosition + selectedWord.length + 1;
+        // console.log("icon autocomplete detected");
+        // console.log("selectedWord: " + selectedWord);
+        // console.log("selectedWordLength: " + selectedWord.length);
+        // console.log("startOfWordPosition: " + startOfWordPosition);
+        // console.log("positionCalc: " + (startOfWordPosition + selectedWord.length - 1));
+        inputElementThatWasCompleted.selectionEnd = startOfWordPosition + selectedWord.length - 1;
       } else if (selectedWord.endsWith(")")) {
         // If its the 'growth' autocomplete, move cursor to between the ()
         inputElementThatWasCompleted.selectionEnd = startOfWordPosition + selectedWord.length - 1;
         // showDetailAutoCompleteList = true;
-        console.log("show detail:" + showDetailAutoCompleteList);
+        // console.log("show detail:" + showDetailAutoCompleteList);
       }
 
       // Prevent further refocus and cursor positioning
@@ -95,7 +97,7 @@
           startingCharacterPosition + currentAutoCompleteTermLength
         );
         valuesToShow = validAutoCompleteValues.filter((autoCompleteItem) =>
-          autoCompleteItem.value.startsWith(autoCompleteStartText)
+          autoCompleteItem.label.startsWith(autoCompleteStartText)
         );
       }
     } else {
@@ -171,6 +173,13 @@
           }
         }
       }
+    } else {
+      if (event.key === "Enter" && !event.shiftKey) {
+        // Enter does not line break
+        // Enter moves to next node (see NextNode)
+        // Shift enter behaves normally (line break)
+        event.preventDefault();
+      }
     }
   }
 
@@ -210,9 +219,13 @@
     if (showListImmediately === true) {
       value = selectedWord;
     } else {
-      value = `${value.substring(0, startOfWordPosition)}${selectedWord}}${value.substring(
+      value = `${value.substring(0, startOfWordPosition - 1)}${selectedWord}${value.substring(
         startingCharacterPosition + currentAutoCompleteTermLength
       )}`;
+      // (above) Modified to not auto-include the {}
+      // value = `${value.substring(0, startOfWordPosition)}${selectedWord}}${value.substring(
+      //   startingCharacterPosition + currentAutoCompleteTermLength
+      // )}`;
     }
     closeAutoComplete();
   }

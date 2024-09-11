@@ -14,7 +14,9 @@
   import Growth from "./growth.svelte";
   import PresenceTracks from "./presence-tracks.svelte";
   import InnatePowers from "./innate-powers.svelte";
+  import LanguageOptions from "./language-options.svelte";
   import CustomIcons from "../custom-icons.svelte";
+  import CombinedTTS from "../combined-tts-spirit-powers-export.svelte";
 
   import { createTTSSave, toFixedNumber, ttsSaveMIMEType, getThresholdTTSJSON } from "$lib/tts.js";
 
@@ -25,6 +27,9 @@
   export let spiritBoard;
   export let emptySpiritBoard;
   export let customIcons;
+  export let combinedTTS;
+  export let emptyCombinedTTS;
+  export let currentPage;
 
   function clearAllFields() {
     if (
@@ -42,10 +47,10 @@
     spiritBoard.presenceTrack.isVisible = false;
     spiritBoard.innatePowers.isVisible = false;
     customIcons.isVisible = false;
+    combinedTTS.isVisible = false;
   }
 
   const openEditorHeading = (e) => {
-    console.log(e.target.tagName);
     let outcome;
     e.stopPropagation(); // we stop the event from propegating up to 'board', which would cause this to trigger twice
     if (e.target.tagName === "SPECIAL-RULES-CONTAINER") {
@@ -508,7 +513,6 @@
     }
     if (spiritBoard.nameAndArt.energyBannerScale === spiritBoard.nameAndArt.playsBannerScale) {
       if (!spiritBoard.nameAndArt.combinedBannerPath) {
-        console.log(!spiritBoard.nameAndArt.combinedBannerPath);
         spiritBoard.nameAndArt.isOneBanner = true;
         spiritBoard.nameAndArt.unifiedBannerScale = spiritBoard.nameAndArt.energyBannerScale;
       }
@@ -565,7 +569,6 @@
             if (!customIconName) {
               customIconName = "custom" + (i + 1);
             }
-            console.log(customIconName);
             customIconURI = iconProperties[1].replaceAll("'", "").replaceAll('"', "");
           } else {
             customIconName = "custom" + (i + 1);
@@ -596,7 +599,8 @@
     hideAll();
   }
 
-  async function downloadTTSJSON() {
+  const packagePlayTTSforExport = () => {
+    let debug = false;
     let previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
     const board = previewFrameDoc.querySelectorAll("board")[0];
     const boardRect = board.getBoundingClientRect();
@@ -604,7 +608,9 @@
     //Snap Points
     let presenceNodes = Array.from(board.getElementsByTagName("presence-node"));
     let snapPoints = [];
-    console.log(presenceNodes);
+    if (debug) {
+      console.log(presenceNodes);
+    }
     presenceNodes.forEach((node) => {
       let rect = node.getElementsByTagName("ring-icon")[0].getBoundingClientRect();
       if (node.classList.contains("first")) {
@@ -790,6 +796,11 @@
     });
     let ttsSave = createTTSSave([spiritBoardJson]);
 
+    return ttsSave;
+  };
+
+  async function downloadTTSJSON() {
+    let ttsSave = packagePlayTTSforExport();
     const jsonFileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_TTS.json";
     downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
@@ -857,7 +868,14 @@
     <Growth bind:spiritBoard />
     <PresenceTracks bind:spiritBoard />
     <InnatePowers bind:spiritBoard />
+    <div class="content mb-0 mt-2">Options</div>
     <CustomIcons bind:customIcons />
+    <LanguageOptions bind:spiritBoard />
+    <CombinedTTS
+      bind:combinedTTS
+      bind:currentPage
+      bind:emptyCombinedTTS
+      exportPlayTTS={packagePlayTTSforExport} />
   </div>
   <div class="column pt-0">
     <PreviewFrame

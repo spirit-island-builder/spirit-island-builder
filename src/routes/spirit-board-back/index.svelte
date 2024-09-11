@@ -9,11 +9,16 @@
   import NameArtLore from "./name-art-lore.svelte";
   import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";
   import CustomIcons from "../custom-icons.svelte";
+  import CombinedTTS from "../combined-tts-spirit-powers-export.svelte";
   import InstructionsLink from "$lib/instructions/link.svelte";
+  import LanguageOptions from "./language-options.svelte";
 
   export let spiritBoardBack;
   export let emptySpiritBoardBack;
   export let customIcons;
+  export let combinedTTS;
+  export let emptyCombinedTTS;
+  export let currentPage;
 
   function clearAllFields() {
     if (
@@ -57,6 +62,12 @@
 
     const loreBoardHTML = document.createElement("board");
     fragment.append(loreBoardHTML);
+
+    if (spiritBoardBack.language) {
+      loreBoardHTML.setAttribute("lang", spiritBoardBack.language);
+    } else {
+      loreBoardHTML.setAttribute("lang", "en");
+    }
 
     //Set Spirit Image
     const loreImage = document.createElement("img");
@@ -159,6 +170,11 @@
 
     spiritBoardBack.nameImage.name = loreName.innerHTML.trim();
 
+    const language = loreBoardHTML.getAttribute("lang");
+    if (language) {
+      spiritBoardBack.language = language;
+    }
+
     //Set Spirit Image
     const loreImage = loreBoardHTML.querySelectorAll("img")[0];
     if (loreImage) {
@@ -259,13 +275,24 @@
     let spiritBoard = previewFrame.document.getElementsByTagName("board")[0];
     spiritBoard.classList.add("printer-clean");
   }
+
+  const packageLoreTTSforExport = () => {
+    return spiritBoardBack;
+  };
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
   <div class="column is-one-third pt-0">
     <NameArtLore bind:spiritBoardBack />
     <SetupPlaystyleComplexityPowers bind:spiritBoardBack />
+    <div class="content mb-0 mt-2">Options</div>
     <CustomIcons bind:customIcons />
+    <LanguageOptions bind:spiritBoardBack />
+    <CombinedTTS
+      bind:combinedTTS
+      bind:currentPage
+      bind:emptyCombinedTTS
+      exportLoreTTS={packageLoreTTSforExport} />
   </div>
   <div class="column pt-0">
     <PreviewFrame id="lore-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>

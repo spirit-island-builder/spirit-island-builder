@@ -250,7 +250,8 @@ export const selectNode = (event) => {
 };
 
 export const nextNode = (event) => {
-  if (event.key === "Enter") {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
     let currentID = event.target.id;
     let numlessID = currentID.replace(/\d/g, "");
     let focusID = "";
@@ -342,7 +343,41 @@ export const nextNode = (event) => {
           focusID = "power" + numMatches[0] + "addLevel";
         }
         break;
-      // Card
+      // Lore
+      case "spiritLoreNameInput":
+        focusID = "spiritLoreInput";
+        break;
+      case "spiritLoreSetup":
+        focusID = "spiritLorePlaystyle";
+        break;
+      case "spiritLorePlaystyle":
+        focusID = "spiritLoreComplexity";
+        break;
+      case "spiritLoreComplexity":
+        focusID = "spiritLoreComplexityValue";
+        break;
+      case "spiritLoreComplexityValue":
+        focusID = "spiritLoreOffense";
+        break;
+      case "spiritLoreOffense":
+        focusID = "spiritLoreControl";
+        break;
+      case "spiritLoreControl":
+        focusID = "spiritLoreFear";
+        break;
+      case "spiritLoreFear":
+        focusID = "spiritLoreDefense";
+        break;
+      case "spiritLoreDefense":
+        focusID = "spiritLoreUtility";
+        break;
+      case "spiritLoreUtility":
+        focusID = "spiritLoreUses";
+        break;
+      case "spiritLoreUses":
+        focusID = "spiritLoreNote";
+        break;
+      // Power Card
       case "cardName":
         focusID = "cardCost" + numMatches[0];
         break;
@@ -365,6 +400,9 @@ export const nextNode = (event) => {
       case "LossConditionInput":
         focusID = "lossConditionEffectInput";
         break;
+      case "lossConditionEffectInput":
+        focusID = "EscalationInput";
+        break;
       case "EscalationInput":
         focusID = "escalationEffectInput";
         break;
@@ -377,8 +415,23 @@ export const nextNode = (event) => {
       case "levelFearInput":
         focusID = "levelEffectInput" + numMatches[0];
         break;
+      case "levelEffectInput":
+        focusID = "levelSecondNameInput" + numMatches[0];
+        if (document.getElementById(focusID) === null) {
+          focusID = "levelNameInput" + numMatches[0];
+          focusID = focusID.replace(/\d+$/, function (m) {
+            return parseInt(m) + 1;
+          });
+        }
+        break;
       case "levelSecondNameInput":
         focusID = "levelSecondEffectInput" + numMatches[0];
+        break;
+      case "levelSecondEffectInput":
+        focusID = "levelNameInput" + numMatches[0];
+        focusID = focusID.replace(/\d+$/, function (m) {
+          return parseInt(m) + 1;
+        });
         break;
       // Aspect
       case "aspectInput":
@@ -405,6 +458,38 @@ export const nextNode = (event) => {
         break;
       case "blightCardBlightPerPlayer":
         focusID = "blightCardEffect";
+        break;
+      // Incarna Token
+      case "incarnaTokenName":
+        focusID = "incarnaTokenIcon";
+        break;
+      case "incarnaTokenIcon":
+        focusID = "incarnaTokenToken";
+        break;
+      case "incarnaTokenToken":
+        focusID = "incarnaTokenEmpoweredToken";
+        break;
+      // Scenarios
+      case "commentLore":
+        focusID = "panel0comment0Front";
+        break;
+      case "panelcommentFront":
+        focusID = "panel" + numMatches[0] + "comment" + (parseInt(numMatches[1]) + 1) + "Front";
+        if (document.getElementById(focusID) === null) {
+          focusID = "panel" + (parseInt(numMatches[0]) + 1) + "comment0Front";
+        }
+        console.log(focusID);
+        break;
+      case "commentBackLeft":
+        focusID = "comment" + (parseInt(numMatches[0]) + 1) + "BackLeft";
+        if (document.getElementById(focusID) === null) {
+          focusID = "comment0BackRight";
+        }
+        console.log(focusID);
+        break;
+      case "commentBackRight":
+        focusID = "comment" + (parseInt(numMatches[0]) + 1) + "BackRight";
+        console.log(focusID);
         break;
     }
 

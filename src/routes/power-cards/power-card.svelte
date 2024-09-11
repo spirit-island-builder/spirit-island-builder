@@ -192,25 +192,19 @@
   }
 
   const elements = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
-
-  function togglePrinterClean() {
-    let previewFrame = document.getElementById("preview-iframe").contentWindow;
-    let cards = Array.from(previewFrame.document.getElementsByTagName("card"));
-    cards.forEach((card) => {
-      card.classList.add("printer-clean");
-    });
-  }
 </script>
 
 <div class="is-power-cards">
   {#each powerCards.cards as card, i (card.id)}
-    <Section
-      title={`Power Card ${i + 1}: ${card.name}`}
-      bind:isVisible={card.isVisible}
-      style="width:50%">
+    <Section title={`Power Card ${i + 1}: ${card.name}`} bind:isVisible={card.isVisible}>
       <div class="field mt-2">
-        <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
-          >{`Power Card ${i + 1}`}</label>
+        <div class="is-flex is-flex-direction-row is-justify-content-space-between">
+          <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
+            >{`Power Card ${i + 1}`}</label>
+          <button
+            class="button is-primary is-light is-warning is-small"
+            on:click={removePowerCard(i)}>Remove Power Card</button>
+        </div>
         <div class="is-flex is-flex-direction-row">
           <div class="control" style="width:100%">
             <input
@@ -223,12 +217,25 @@
               on:focus={selectNode}
               bind:value={card.name} />
           </div>
-          <button class="button is-primary is-light is-warning" on:click={removePowerCard(i)}
-            >Remove Power Card</button>
         </div>
       </div>
 
-      <div class="field has-addons">
+      <div class="field has-addons mb-0">
+        <div class="field has-addons is-align-items-center mr-2 mb-0">
+          <label class="label is-unselectable mr-1 mt-1" for="">Cost: </label>
+          <div class="control">
+            <input
+              id={`cardCost${i}`}
+              class="input is-small"
+              style="width:3rem; text-align:center;"
+              type="text"
+              placeholder="Cost"
+              on:blur={updatePowerName(card, i, "cost")}
+              on:keyup={nextNode}
+              on:focus={selectNode}
+              bind:value={card.cost} />
+          </div>
+        </div>
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
           <button
             class:is-light={card.type !== "unique"}
@@ -266,22 +273,7 @@
           </div>
         </div>
       {/if}
-      <div class="field has-addons mt-2 mb-0">
-        <div class="field has-addons mr-2">
-          <label class="label is-unselectable mr-1 mt-1" for="">Cost: </label>
-          <div class="control">
-            <input
-              id={`cardCost${i}`}
-              class="input"
-              style="width:3rem; text-align:center;"
-              type="text"
-              placeholder="Cost"
-              on:blur={updatePowerName(card, i, "cost")}
-              on:keyup={nextNode}
-              on:focus={selectNode}
-              bind:value={card.cost} />
-          </div>
-        </div>
+      <div class="field has-addons mb-0">
         <div class="field has-addons">
           <label class="label is-unselectable mr-1 mt-1" for="">Elements: </label>
           {#each elements as element}
@@ -301,29 +293,29 @@
           <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
             {#if card.speed === ""}
               <button
-                class="button is-danger is-light button-hold mb-0"
+                class="button is-small is-danger is-light button-hold mb-0"
                 id="fast-button"
                 on:click={setSpeedTextbox("Fast", card)}>Fast</button>
               <button
-                class="button is-info is-light button-hold mb-0"
+                class="button is-small is-info is-light button-hold mb-0"
                 id="slow-button"
                 on:click={setSpeedTextbox("Slow", card)}>Slow</button>
             {:else if card.speed === "Fast" || card.speed === "fast"}
               <button
-                class="button is-danger button-hold mb-0"
+                class="button is-small is-danger button-hold mb-0"
                 id="fast-button"
                 on:click={setSpeedTextbox("Fast", card)}>Fast</button>
               <button
-                class="button is-info is-light button-hold mb-0"
+                class="button is-small is-info is-light button-hold mb-0"
                 id="slow-button"
                 on:click={setSpeedTextbox("Slow", card)}>Slow</button>
             {:else}
               <button
-                class="button is-danger is-light button-hold mb-0"
+                class="button is-small is-danger is-light button-hold mb-0"
                 id="fast-button"
                 on:click={setSpeedTextbox("Fast", card)}>Fast</button>
               <button
-                class="button is-info button-hold mb-0"
+                class="button is-small is-info button-hold mb-0"
                 id="slow-button"
                 on:click={setSpeedTextbox("Slow", card)}>Slow</button>
             {/if}
@@ -334,7 +326,7 @@
           <div class="control">
             <input
               id={`cardRange${i}`}
-              class="input"
+              class="input is-small"
               type="text"
               placeholder="Range"
               on:keyup={nextNode}
@@ -346,11 +338,12 @@
         </div>
         <div class="is-flex is-flex-direction-column-reverse is-flex-wrap-nowrap">
           <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-            <div class="control">
+            <div class="control" style="width: 100%;">
               <AutoComplete
                 id={`cardTarget${i}`}
                 elementType="input"
                 placeholder="Target"
+                classNames="is-small"
                 validAutoCompleteValues={iconValuesSorted}
                 additionalOnBlurFunction={() => updatePowerName(card, i, "target")}
                 bind:value={card.target} />
@@ -488,32 +481,26 @@
     </Section>
   {/each}
 </div>
-<div class="pt-1 pb-2">
-  <button class="button is-primary is-light" on:click={addEmptyPowerCard}>Add Power Card</button>
+<div class="mb-1 mt-1 is-flex is-justify-content-right">
+  <button class="button is-small is-primary is-light" on:click={addEmptyPowerCard}
+    >Add Power Card</button>
 </div>
-<div class="is-flex is-flex-direction-column is-flex-wrap-nowrap mb-0">
-  <div class="field has-addons mr-3 ml-1">
-    <label class="label is-unselectable mr-1" for="">Spirit or Card Set Name: </label>
-    <div class="control">
-      <input
-        id="spiritNameInput"
-        class="input is-small"
-        type="text"
-        style="min-width:20rem"
-        placeholder="optional - for output only"
-        bind:value={powerCards.spiritName} />
-    </div>
-  </div>
-</div>
-<Section title={`Card Back & Options`} bind:isVisible={powerCards.cardBackImageIsVisible}>
+<Section
+  title={`Card Back Image & Spirit/Set Name`}
+  bind:isVisible={powerCards.cardBackImageIsVisible}>
   <ImageInput
     id="powerCardBack"
     title="Power Card Back Art"
     bind:imageURL={powerCards.cardBackImage} />
-  <label class="label mb-0" for="spiritNameInput">Options</label>
+  <label class="label is-unselectable mr-1" for="">Spirit or Card Set Name: </label>
   <div class="control">
-    <button class="button is-warning is-light is-small row-button" on:click={togglePrinterClean}
-      >Click for Printer-Friendly</button>
+    <input
+      id="spiritNameInput"
+      class="input is-small"
+      type="text"
+      style="min-width:20rem"
+      placeholder="optional - for output only"
+      bind:value={powerCards.spiritName} />
   </div>
 </Section>
 
@@ -524,6 +511,7 @@
     background: transparent;
     border: 0;
     padding: 0;
+    cursor: pointer;
   }
   .element-toggle img {
     display: block;
@@ -532,5 +520,8 @@
   }
   .element-toggle[aria-pressed="false"] img {
     filter: opacity(0.2);
+  }
+  div.field {
+    margin-bottom: 0px;
   }
 </style>

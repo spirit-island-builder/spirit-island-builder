@@ -156,13 +156,9 @@
       if (iconList) {
         iconList.forEach((customIcon) => {
           customIcons = Lib.addCustomIcon(customIcons, customIcon);
-          console.log(customIcon);
         });
       }
     }
-    // } else {
-    //   console.log("SKIPPING ICON LOAD");
-    // }
 
     console.log("incarnaToken HTML loaded into form");
     console.log(incarnaToken);

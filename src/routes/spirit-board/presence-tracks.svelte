@@ -179,7 +179,8 @@
     let newPresenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight;
     if (newPresenceTrackHeight !== presenceTrackHeight) {
       console.log('Recommend Re-running the whole board (click "Update Preview")');
-      document.getElementById("updateButton").classList.add("is-flashy");
+      // document.getElementById("updateButton").classList.add("is-flashy");
+      document.getElementById("updateButton").click();
     }
   }
 
