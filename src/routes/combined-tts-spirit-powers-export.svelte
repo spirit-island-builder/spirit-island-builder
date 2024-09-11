@@ -108,7 +108,8 @@
 <Section title="TTS Spirit & Powers Export" bind:isVisible={combinedTTS.isVisible}>
   <div class="mb-1 p-1 note">
     Use this to export a combined TTS object ready to go in the TTS mod. You will need to save
-    content from other tabs as well, then click export when you have all the content.
+    content from other tabs and image hosting websites as well, then click export when you have all
+    the content.
     <InstructionsLink anchor="combined-tts" />
   </div>
   <div class="field is-flex is-flex-direction-column is-justify-content-space-around">
@@ -131,7 +132,7 @@
       </div>
       <div class="field" class:is-hidden={currentPage !== "spiritBoardFront"}>
         <div class="content is-small mb-0">
-          Insert a URL for the Play side from an image hosing website (such as imgur):.
+          Insert a URL for the Play Side image from an image hosing website (such as imgur):.
         </div>
         <div class="control">
           <input
@@ -159,7 +160,7 @@
       </div>
       <div class="field" class:is-hidden={currentPage !== "spiritBoardBack"}>
         <div class="content is-small mb-0">
-          Insert a URL for the Lore side from an image hosing website (such as imgur):.
+          Insert a URL for the Lore Side image from an image hosing website (such as imgur):.
         </div>
         <div class="control">
           <input
@@ -187,7 +188,7 @@
       </div>
       <div class="field" class:is-hidden={currentPage !== "powerCards"}>
         <div class="content is-small mb-0">
-          Insert URL(s) for each power card from an image hosing website (such as imgur):.
+          Insert URL(s) for each power card image from an image hosing website (such as imgur):.
         </div>
         {#if powerCards}
           {#each powerCards.cards as card, i (card.id)}
