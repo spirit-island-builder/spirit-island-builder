@@ -245,8 +245,12 @@
   }
 
   function screenshotSetUp() {
-    const fileNames = [scenario.info.name.replaceAll(" ", "_") + "_Scenario.png"];
-    const elementNamesInIframe = ["scenario"];
+    const fileNames = [
+      scenario.info.name.replaceAll(" ", "_") + "_ScenarioFront.png",
+      scenario.info.name.replaceAll(" ", "_") + "_ScenarioBack.png",
+    ];
+    const elementNamesInIframe = ["scenario-front", "scenario-back"];
+
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 
