@@ -174,7 +174,7 @@
         }
       }
     } else {
-      if (event.key === "Enter" && !event.shiftKey) {
+      if (event.key === "Enter" && event.shiftKey) {
         // Enter does not line break
         // Enter moves to next node (see NextNode)
         // Shift enter behaves normally (line break)
