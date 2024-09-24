@@ -105,7 +105,7 @@
   }
 </script>
 
-<Section title="TTS Spirit & Powers Export" bind:isVisible={combinedTTS.isVisible}>
+<Section title="TTS Spirit & Powers Combined Export" bind:isVisible={combinedTTS.isVisible}>
   <div class="mb-1 p-1 note">
     Use this to export a combined TTS object ready to go in the TTS mod. You will need to save
     content from other tabs and image hosting websites as well, then click export when you have all
