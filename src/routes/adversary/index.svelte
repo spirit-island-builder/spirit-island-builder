@@ -245,7 +245,6 @@
         Load
       </LoadButton>
       <button class="button is-success mt-1 mr-1" on:click={exportAdversary}> Save </button>
-      <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
