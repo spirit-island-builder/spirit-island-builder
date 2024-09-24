@@ -57,9 +57,9 @@ export const getThresholdTTSJSON = (
 
     childNodesArray.forEach((child) => {
       if (child.tagName === "THRESHOLD-NUM") {
-        lastNum = child.innerHTML;
+        lastNum = child.innerHTML.trim();
       } else if (child.tagName === "ICON") {
-        let findIndex = elementNames.findIndex((el) => el === child.className);
+        let findIndex = elementNames.findIndex((el) => el === child.className.trim());
         elCountArrays[j][findIndex] = lastNum;
         lastNum = 0;
       } else if (child.tagName === "THRESHOLD-OR") {

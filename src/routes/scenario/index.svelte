@@ -11,7 +11,7 @@
   import NameDifficultyImage from "./name-difficulty-image.svelte";
   import BackScenario from "./back-scenario.svelte";
   import CustomIcons from "../custom-icons.svelte";
-  import InstructionsLink from "$lib/instructions/link.svelte";
+  // import InstructionsLink from "$lib/instructions/link.svelte";
   // import Examples from "$lib/example-modal.svelte";
 
   export let scenario;
@@ -245,8 +245,12 @@
   }
 
   function screenshotSetUp() {
-    const fileNames = [scenario.info.name.replaceAll(" ", "_") + "_Scenario.png"];
-    const elementNamesInIframe = ["scenario"];
+    const fileNames = [
+      scenario.info.name.replaceAll(" ", "_") + "_ScenarioFront.png",
+      scenario.info.name.replaceAll(" ", "_") + "_ScenarioBack.png",
+    ];
+    const elementNamesInIframe = ["scenario-front", "scenario-back"];
+
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 
@@ -304,7 +308,6 @@
       </svelte:fragment>
     </PreviewFrame>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
-      <InstructionsLink class="button is-info mt-1 mr-1" anchor="scenario" />
       <LoadButton
         accept=".html"
         class="button is-success mt-1 mr-1"
@@ -312,7 +315,6 @@
         Load
       </LoadButton>
       <button class="button is-success mt-1 mr-1" on:click={exportScenario}> Save </button>
-      <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

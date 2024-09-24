@@ -3681,6 +3681,8 @@ function ListLocalize(list, conjuction = "and") {
         }
       }
       break;
+    case "de":
+      break;
   }
   return listText;
 }
