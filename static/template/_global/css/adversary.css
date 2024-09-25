@@ -75,7 +75,8 @@ adversary-title {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   padding-right: 265px;
-  padding-top: 40px;
+  padding-top: 28px;
+  word-spacing: -5px;
 }
 
 adversary rule {
@@ -165,8 +166,8 @@ section-title {
 }
 
 loss-condition {
-  margin-right: 5px;
-  flex: 1 0 238px;
+  margin-right: 15px;
+  flex: 1 0 228px;
 }
 
 escalation {
