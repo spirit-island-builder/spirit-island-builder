@@ -162,7 +162,22 @@ footer {
   background-color: #f5f5f5;
 }
 
-@media (prefers-color-scheme: dark) {
+button.side-menu {
+  /* reset */
+  padding: unset;
+  border: unset;
+  font: unset;
+  color: unset;
+  background: unset;
+  /* sizing */
+  width: 100%;
+  /* color and highlight */
+  background-color: #eff1fa;
+  border-inline-start: 0.25rem solid #bfc0c5;
+}
+button.side-menu:hover {
+  background-color: #bfc0c575;
+  cursor: pointer;
 }
 
 [data-theme="dark"],
@@ -171,6 +186,7 @@ footer {
   background-color: black;
   /*  I have this here for some reason. */
   html {
+    background-color: black;
   }
   .navbar,
   footer,
@@ -186,15 +202,21 @@ footer {
   body {
     color: #e6e6e6;
   }
-  .growth-group-title {
-    background-color: #595a5e96;
+  .growth-group-title,
+  .note,
+  footer {
+    background-color: #544f4f96;
     color: #ffffff;
-  }
-  .note {
-    background-color: #3f3c3c96;
-    color: white;
   }
   .growth-action-handle {
     filter: invert(1);
+  }
+  button {
+    /* color and highlight */
+    background-color: #595a5e96;
+    border-inline-start: 0.25rem solid #bfc0c5;
+  }
+  button:hover {
+    background-color: #56575a;
   }
 }

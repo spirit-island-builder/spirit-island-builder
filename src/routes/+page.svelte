@@ -760,12 +760,17 @@
 
 <div class="body">
   <header>
-    <div style="display:flex;align-items: baseline;flex-wrap: wrap;">
+    <div style="display:flex;align-items: baseline;flex-wrap: wrap;width:100%;">
       <h1 class="title is-1 ml-5">Spirit Island Builder</h1>
       <h2 class="subtitle is-6 ml-5">
         The unofficial tool for creating custom content for Spirit Island by Greater Than Games.
       </h2>
-      <label id="theme-switch" class="theme-switch" for="checkbox_theme">
+      <label
+        id="theme-switch"
+        class="theme-switch"
+        for="checkbox_theme"
+        style="margin-left: auto;margin-right: 25px;">
+        Dark Mode:
         <input type="checkbox" id="checkbox_theme" />
       </label>
     </div>
