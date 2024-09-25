@@ -45,4 +45,14 @@
     background-color: #bfc0c575;
     cursor: pointer;
   }
+  @media (prefers-color-scheme: dark) {
+    button {
+      /* color and highlight */
+      background-color: #595a5e96;
+      border-inline-start: 0.25rem solid #bfc0c5;
+    }
+    button:hover {
+      background-color: #56575a;
+    }
+  }
 </style>
