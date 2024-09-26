@@ -96,7 +96,8 @@ div.growth-action-container input {
   padding-left: calc(0.75em + 8px);
 }
 
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"],
+.theme-dark {
   .growth-group-title {
     background-color: #595a5e96;
     color: white;

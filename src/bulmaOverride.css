@@ -183,23 +183,25 @@ button.side-menu:hover {
 [data-theme="dark"],
 .theme-dark {
   /* Update CSS variables */
-  background-color: black;
+  background-color: #121212;
   /*  I have this here for some reason. */
   html {
-    background-color: black;
+    background-color: #121212;
   }
   .navbar,
   footer,
   .input,
-  .textarea {
-    background-color: black;
+  .textarea,
+  .box {
+    background-color: #121212;
   }
   .title,
   .subtitle,
   .label,
   .input,
   .textarea,
-  body {
+  body,
+  .box {
     color: #e6e6e6;
   }
   .growth-group-title,
@@ -214,7 +216,8 @@ button.side-menu:hover {
   button {
     /* color and highlight */
     background-color: #595a5e96;
-    border-inline-start: 0.25rem solid #bfc0c5;
+    color: white;
+    /* border-inline-start: 0.25rem solid #bfc0c5; */
   }
   button:hover {
     background-color: #56575a;
