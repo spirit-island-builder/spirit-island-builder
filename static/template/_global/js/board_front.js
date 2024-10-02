@@ -2904,6 +2904,16 @@ function IconName(str, iconNum = 1) {
       };
       subText = localize[lang];
       break;
+    case "reclaim-custom":
+      localize = {
+        en: "Reclaim " + txt,
+        de: "",
+        pl: "Odzyskaj " + txt,
+        ar: "",
+        zh: "",
+      };
+      subText = localize[lang];
+      break;
     case "forget-power-card":
       localize = {
         en: "Forget Power Card",

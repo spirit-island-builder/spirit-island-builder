@@ -600,7 +600,7 @@
   }
 
   const packagePlayTTSforExport = () => {
-    let debug = false;
+    let debug = true;
     let previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
     const board = previewFrameDoc.querySelectorAll("board")[0];
     const boardRect = board.getBoundingClientRect();
@@ -609,12 +609,14 @@
     let presenceNodes = Array.from(board.getElementsByTagName("presence-node"));
     let snapPoints = [];
     if (debug) {
+      console.log("TTS Export");
       console.log(presenceNodes);
+      console.log("Snap Points");
     }
     presenceNodes.forEach((node) => {
       let rect = node.getElementsByTagName("ring-icon")[0].getBoundingClientRect();
       if (node.classList.contains("first")) {
-        console.log("skip");
+        console.log("skip first");
       } else {
         snapPoints.push({
           Position: {
@@ -636,9 +638,15 @@
     });
 
     //Lua scripting - thresholds (see tts.js)
+    if (debug) {
+      console.log("IP Thresholds (on lib.js)");
+    }
     let thresholds = getThresholdTTSJSON(board);
 
     //Lua scripting - track energy & elements
+    if (debug) {
+      console.log("Elements");
+    }
     let trackElements = [];
     let formNodes = spiritBoard.presenceTrack.energyNodes.concat(
       spiritBoard.presenceTrack.playsNodes
@@ -707,19 +715,40 @@
       }
     });
 
+    if (debug) {
+      console.log("Energy & Bonus Energy");
+    }
     let trackEnergy = [];
     let bonusEnergy = [];
     let energyNodes = spiritBoard.presenceTrack.energyNodes.slice();
     let formEnergyNodes = Array.from(
       board.getElementsByClassName("energy-track")[0].getElementsByTagName("presence-node")
     );
-
+    if (debug) {
+      console.log("Energy Nodes & Form Energy Nodes");
+      console.log(energyNodes);
+      console.log(formEnergyNodes);
+    }
     let lowestEnergy = -1;
     energyNodes.forEach((node, i) => {
-      let nodeEffectText = node.effect;
-      let matches = regExpOuterParentheses.exec(nodeEffectText);
-      if (matches) {
-        nodeEffectText = matches[1];
+      if (debug) {
+        console.log("processing node...");
+        console.log(node);
+      }
+      let nodeEffectText = node.effect.toLowerCase();
+
+      // Detect Middle or Bonus
+      if (nodeEffectText.startsWith("middle") || nodeEffectText.startsWith("bonus")) {
+        let matches = regExpOuterParentheses.exec(nodeEffectText);
+        if (matches) {
+          nodeEffectText = matches[1];
+          if (debug) {
+            console.log("removing middle/bonus");
+          }
+        }
+      }
+      if (debug) {
+        console.log(nodeEffectText);
       }
 
       const nameCounts = {};
@@ -734,13 +763,15 @@
       });
 
       let namesList = Object.keys(nameCounts);
-
+      console.log(namesList);
       for (let j = 0; j < namesList.length; j++) {
         if (!isNaN(namesList[j])) {
+          console.log("bonus node?");
           let rect = formEnergyNodes[i]
             .getElementsByTagName("ring-icon")[0]
             .getBoundingClientRect();
           if (namesList[j][0] === "+") {
+            console.log("bonus node!");
             bonusEnergy.push({
               count: Number(namesList[j]),
               position: {
@@ -759,6 +790,8 @@
               },
             });
           } else if (namesList[j] > lowestEnergy) {
+            console.log("Adding Energy to TTS...");
+            console.log(namesList[j]);
             lowestEnergy = namesList[j];
             trackEnergy.push({
               count: Number(lowestEnergy),
