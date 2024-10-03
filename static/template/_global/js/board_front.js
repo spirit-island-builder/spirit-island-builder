@@ -980,7 +980,7 @@ function getGrowthActionTextAndIcons(growthAction) {
             let cur_element =
               elementOptions.at(-1) === "and" ? elementOptions[i] : elementOptions[0];
             elementIcons +=
-              "<icon-multi-element><icon class='" +
+              "<icon-multi-element><icon class='element " +
               cur_element +
               "'" +
               element_loc +
@@ -990,7 +990,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           growthIcons = "<gain>" + elementIcons + "</gain>";
         }
       } else {
-        growthIcons = "<gain>{" + gainedElement + "}</gain>";
+        growthIcons = "<gain><icon class='element " + gainedElement + "'></icon></gain>";
       }
       growthText = IconName(growthAction);
       break;
@@ -2445,6 +2445,18 @@ function IconName(str, iconNum = 1) {
   if (str.startsWith("incarna-")) {
     str = str.replace("incarna-", "");
     console.log("removing incarna from icon name");
+  }
+  if (str.startsWith("large-")) {
+    str = str.replace("large-", "");
+    console.log("removing large from icon name");
+  }
+  if (str.startsWith("medium-")) {
+    str = str.replace("medium-", "");
+    console.log("removing medium from icon name");
+  }
+  if (str.startsWith("small-")) {
+    str = str.replace("small-", "");
+    console.log("removing small from icon name");
   }
   // if (str.startsWith("custom")) {
   //   str = getCustomIconName(str);

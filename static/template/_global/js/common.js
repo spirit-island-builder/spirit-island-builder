@@ -89,6 +89,17 @@ function replaceIcon(html) {
       iconName = "incarna " + iconName.substring(8);
     }
 
+    // Check for Size
+    if (iconName.startsWith("large-")) {
+      iconName = "large " + iconName.substring(6);
+    }
+    if (iconName.startsWith("medium-")) {
+      iconName = "medium " + iconName.substring(7);
+    }
+    if (iconName.startsWith("small-")) {
+      iconName = "small " + iconName.substring(6);
+    }
+
     // Check for Range
     let range_num = "";
     let num_val = "";
