@@ -600,7 +600,7 @@
   }
 
   const packagePlayTTSforExport = () => {
-    let debug = true;
+    let debug = false;
     let previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
     const board = previewFrameDoc.querySelectorAll("board")[0];
     const boardRect = board.getBoundingClientRect();
@@ -654,11 +654,7 @@
     let boardNodes = Array.from(board.getElementsByTagName("presence-node"));
     let regExpOuterParentheses = /\(\s*(.+)\s*\)/;
     formNodes.forEach((node, j) => {
-      let nodeEffectText = node.effect;
-      let matches = regExpOuterParentheses.exec(nodeEffectText);
-      if (matches) {
-        nodeEffectText = matches[1];
-      }
+      let nodeEffectText = processNodeEffectsForTTS(node.effect);
 
       const nameCounts = {};
       nodeEffectText.split("+").forEach(function (x) {
@@ -735,18 +731,8 @@
         console.log("processing node...");
         console.log(node);
       }
-      let nodeEffectText = node.effect.toLowerCase();
+      let nodeEffectText = processNodeEffectsForTTS(node.effect);
 
-      // Detect Middle or Bonus
-      if (nodeEffectText.startsWith("middle") || nodeEffectText.startsWith("bonus")) {
-        let matches = regExpOuterParentheses.exec(nodeEffectText);
-        if (matches) {
-          nodeEffectText = matches[1];
-          if (debug) {
-            console.log("removing middle/bonus");
-          }
-        }
-      }
       if (debug) {
         console.log(nodeEffectText);
       }
@@ -817,6 +803,25 @@
 
     // trackEnergy needs to be logged in reverse order by convention
     trackEnergy.reverse();
+
+    function processNodeEffectsForTTS(nodeEffects) {
+      let nodeEffectText = nodeEffects.toLowerCase();
+
+      // Detect Middle or Bonus
+      if (nodeEffectText.startsWith("middle") || nodeEffectText.startsWith("bonus")) {
+        let matches = regExpOuterParentheses.exec(nodeEffectText);
+        if (matches) {
+          nodeEffectText = matches[1];
+          if (debug) {
+            console.log("removing middle/bonus");
+          }
+        }
+      }
+      //Strip any modifications
+      nodeEffectText = nodeEffectText.split("_")[0].split("^")[0].split("*")[0];
+
+      return nodeEffectText;
+    }
 
     let spiritBoardJson = jsone(spiritBoardJsonTemplate, {
       guid: spiritBoard.nameAndArt.name.replaceAll(" ", "_"),

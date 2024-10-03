@@ -1531,6 +1531,7 @@ push-gather-range-req {
 }
 
 /* Element Icons */
+/* DELETE IF NO ISSUE IN A LITTLE BIT 
 growth-cell gain icon.fire,
 growth-cell gain icon.any,
 growth-cell gain icon.water,
@@ -1543,6 +1544,12 @@ growth-cell gain icon.moon,
 growth-cell gain icon.star,
 growth-cell gain icon.markerminus,
 growth-cell gain icon.markerplus {
+  height: 60px;
+  width: 60px;
+  margin: -30px;
+} */
+
+growth-cell gain icon.element {
   height: 60px;
   width: 60px;
   margin: -30px;
@@ -1711,6 +1718,7 @@ custom-growth-icon {
   display: inline-flex;
   flex-direction: row;
   justify-content: space-around;
+  align-items: center;
 }
 
 custom-growth-icon icon.explorer {
@@ -1921,4 +1929,19 @@ board.starlight right-right level {
 
 board.starlight info-container {
   margin-bottom: 5px;
+}
+
+growth icon.large {
+  width: 100px;
+  height: 100px;
+}
+
+growth icon.medium {
+  width: 60px;
+  height: 60px;
+}
+
+growth icon.small {
+  width: 42px;
+  height: 42px;
 }

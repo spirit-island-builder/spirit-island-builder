@@ -830,3 +830,18 @@ icon.gain-power-card-blank > icon {
 presence-tracks.shadow subtext {
   text-shadow: 1px 0 #f1decc, 1px 1px 0 #f1decc, 1px -1px 0 #f1decc, -1px -1px 0 #f1decc;
 }
+
+presence-node icon.large {
+  width: 80px;
+  height: 80px;
+}
+
+presence-node icon.medium {
+  width: 68px;
+  height: 68px;
+}
+
+presence-node icon.small {
+  width: 42px;
+  height: 42px;
+}
