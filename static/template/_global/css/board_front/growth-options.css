@@ -1888,6 +1888,11 @@ board.starlight growth-table {
   margin-bottom: 0px;
 }
 
+board.starlight growth-table:first-of-type {
+  margin-top: 10px;
+  margin-bottom: -5px;
+}
+
 board.starlight growth-group {
   height: 150px;
 }

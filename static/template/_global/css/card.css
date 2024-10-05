@@ -223,6 +223,7 @@ name {
   white-space: normal;
   align-items: center;
   z-index: 6;
+  margin-bottom: 3px;
 }
 
 name-holder {
