@@ -64,6 +64,11 @@ function addImages(board) {
   const imageSize = board.getAttribute("spirit-image-scale");
   board.removeAttribute("spirit-image-scale");
 
+  const spiritNameText = document.createElement("spirit-name-text");
+  spiritNameText.innerHTML = spiritNamePanel.innerHTML;
+  spiritNamePanel.innerHTML = "";
+  spiritNamePanel.appendChild(spiritNameText);
+
   const specialRules = board.querySelectorAll("special-rules-container")[0];
   let height = specialRules.getAttribute("height");
   if (!height) {
@@ -73,11 +78,11 @@ function addImages(board) {
 
   //Scale Spirit Name if too large
   let nameFontSize = parseFloat(
-    window.getComputedStyle(spiritNamePanel, null).getPropertyValue("font-size")
+    window.getComputedStyle(spiritNameText, null).getPropertyValue("font-size")
   );
-  while (checkOverflowHeight(spiritNamePanel)) {
+  while (checkOverflowWidth(spiritNameText, 0)) {
     nameFontSize -= 1;
-    spiritNamePanel.style.fontSize = nameFontSize + "px";
+    spiritNameText.style.fontSize = nameFontSize + "px";
     if (nameFontSize < 32) {
       console.log("too small, break");
       break;
@@ -86,9 +91,11 @@ function addImages(board) {
 
   if (spiritBorder) {
     const spiritBorderSize = board.getAttribute("spirit-border-scale");
-    spiritNamePanel.style.backgroundImage = `url(${spiritBorder})`;
+    const spiritNameArt = document.createElement("spirit-name-art");
+    spiritNamePanel.appendChild(spiritNameArt);
+    spiritNameArt.style.backgroundImage = `url(${spiritBorder})`;
     const borderHeight = spiritBorderSize !== null ? spiritBorderSize : "100px";
-    spiritNamePanel.style.backgroundSize = `705px ${borderHeight}`;
+    spiritNameArt.style.backgroundSize = `705px ${borderHeight}`;
   }
   if (spiritImage) {
     //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
@@ -941,7 +948,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           //Icons
           let elementIcons = "<gain class='or'>";
           for (let i = 0; i < elementOptions.length; i++) {
-            elementIcons += "<icon class='orelement " + elementOptions[i] + "'></icon>";
+            elementIcons += "<icon class='orelement element " + elementOptions[i] + "'></icon>";
             if (i < elementOptions.length - 1) {
               elementIcons += "{backslash}";
             }
@@ -4468,6 +4475,23 @@ function innatePowerSizing(board) {
   let debug = false;
   if (debug) {
     console.log(board);
+  }
+
+  // Check for overflow in name
+  let powerTitles = board.getElementsByTagName("innate-power-title");
+  for (let i = 0; i < powerTitles.length; i++) {
+    let el = powerTitles[i];
+    let j = 0;
+    while (checkOverflowWidth(el, 0)) {
+      const style = window.getComputedStyle(powerTitles[i], null).getPropertyValue("font-size");
+      const fontSize = parseFloat(style);
+      powerTitles[i].style.fontSize = fontSize - 1 + "px";
+      // safety valve
+      j += 1;
+      if (j > 5) {
+        break;
+      }
+    }
   }
 
   // Innate Power Notes (scale font size)

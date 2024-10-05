@@ -79,7 +79,7 @@ aspect aspect-name {
   position: relative;
   top: 0px;
   right: 0px;
-  height: 41px;
+  height: 39px;
   font-size: 34px;
   font-family: "Name Headings";
   text-transform: uppercase;
@@ -112,8 +112,8 @@ aspect.profile aspect-subtext.has-complexity {
 }
 
 aspect.profile aspect-name {
-  height: 41px;
-  margin-bottom: 8px;
+  height: 38px;
+  margin-bottom: 11px;
 }
 
 /* aspect.profile aspect-name.has-complexity,
