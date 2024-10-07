@@ -31,6 +31,11 @@ function startMain() {
     resize();
   }, 200);
 
+  const stackView = document.querySelectorAll("stack-view-on")[0];
+  if (stackView) {
+    cardHolder.classList.add("enable-stack-view");
+  }
+
   return 2;
 }
 

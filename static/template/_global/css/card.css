@@ -56,6 +56,9 @@ card {
 
 cards.enable-stack-view card.stack-view {
   margin-right: -385px;
+}
+
+cards.enable-stack-view card {
   filter: drop-shadow(2px 4px 6px black);
 }
 

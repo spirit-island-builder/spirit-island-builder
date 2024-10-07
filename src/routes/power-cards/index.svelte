@@ -486,10 +486,10 @@
   function setStackView() {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let cardHolder = previewFrame.document.getElementsByTagName("cards")[0];
-    if (!cardHolder.classList.contains("enable-stack-view")) {
-      cardHolder.classList.add("enable-stack-view");
-      powerCards.stackView = true;
-    }
+    // if (!cardHolder.classList.contains("enable-stack-view")) {
+    cardHolder.classList.add("enable-stack-view");
+    powerCards.stackView = true;
+    // }
     let cards = Array.from(previewFrame.document.getElementsByTagName("card"));
     cards.forEach((card) => {
       if (!card.classList.contains("stack-view")) {
@@ -501,10 +501,8 @@
   function unsetStackView() {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let cardHolder = previewFrame.document.getElementsByTagName("cards")[0];
-    if (cardHolder.classList.contains("enable-stack-view")) {
-      cardHolder.classList.remove("enable-stack-view");
-      powerCards.stackView = false;
-    }
+    cardHolder.classList.remove("enable-stack-view");
+    powerCards.stackView = false;
   }
 </script>
 
