@@ -193,6 +193,7 @@ none {
 
 section-title {
   display: block;
+  position: relative;
   font-family: "Name Headings";
   text-transform: uppercase;
   font-size: 33.33px;
