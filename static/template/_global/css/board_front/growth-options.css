@@ -217,14 +217,20 @@ board.hide-text growth-text {
 growth sub-section-title > span {
   flex-grow: 0;
   flex-shrink: 0;
+  display: block;
+  position: relative;
 }
 
 growth sub-section-header {
   flex-grow: 0;
   flex-shrink: 0;
+  display: block;
+  position: relative;
 }
 
 growth sub-section-line {
+  display: block;
+  position: relative;
   background-image: url("../../images/board/growth_underline.png");
   height: 5px;
   width: 100%;
@@ -1531,6 +1537,7 @@ push-gather-range-req {
 }
 
 /* Element Icons */
+/* DELETE IF NO ISSUE IN A LITTLE BIT 
 growth-cell gain icon.fire,
 growth-cell gain icon.any,
 growth-cell gain icon.water,
@@ -1543,6 +1550,12 @@ growth-cell gain icon.moon,
 growth-cell gain icon.star,
 growth-cell gain icon.markerminus,
 growth-cell gain icon.markerplus {
+  height: 60px;
+  width: 60px;
+  margin: -30px;
+} */
+
+growth-cell gain icon.element {
   height: 60px;
   width: 60px;
   margin: -30px;
@@ -1711,6 +1724,7 @@ custom-growth-icon {
   display: inline-flex;
   flex-direction: row;
   justify-content: space-around;
+  align-items: center;
 }
 
 custom-growth-icon icon.explorer {
@@ -1880,6 +1894,11 @@ board.starlight growth-table {
   margin-bottom: 0px;
 }
 
+board.starlight growth-table:first-of-type {
+  margin-top: 10px;
+  margin-bottom: -5px;
+}
+
 board.starlight growth-group {
   height: 150px;
 }
@@ -1921,4 +1940,19 @@ board.starlight right-right level {
 
 board.starlight info-container {
   margin-bottom: 5px;
+}
+
+growth icon.large {
+  width: 100px;
+  height: 100px;
+}
+
+growth icon.medium {
+  width: 60px;
+  height: 60px;
+}
+
+growth icon.small {
+  width: 42px;
+  height: 42px;
 }

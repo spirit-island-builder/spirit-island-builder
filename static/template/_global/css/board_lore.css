@@ -42,7 +42,7 @@ board.round-border {
 spirit-name {
   position: absolute;
   display: flex;
-  height: 79px;
+  height: 67px;
   width: 100%;
   font-size: 40pt;
   font-family: "Name Headings";

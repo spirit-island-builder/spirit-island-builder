@@ -22,14 +22,6 @@
 </footer>
 
 <style>
-  footer {
-    font-size: 0.8rem;
-    padding-block-start: 0.25rem;
-    padding-block-end: 0.5rem;
-    padding-inline-start: 0.5rem;
-    background-color: #f5f5f5;
-  }
-
   a {
     text-decoration: underline;
   }

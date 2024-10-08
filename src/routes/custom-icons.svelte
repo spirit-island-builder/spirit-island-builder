@@ -29,6 +29,8 @@
     <InstructionsLink anchor="custom-icons" />
     <br />Add "incarna-" when using the icon to treat it like an incarna, ie.,
     &lbrace;incarna-custom1&rbrace;
+    <br />Add "large-","medium-","small-" when using the icon to get different sizes, ie.,
+    &lbrace;medium-custom1&rbrace;
   </div>
   {#each customIcons.icons as icon, i (icon.id)}
     <div class="field has-addons is-horizontal is-justify-content-left mb-0">

@@ -44,7 +44,7 @@
   </div>
   <div class="field has-addons">
     <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-      <div class="field mr-2">Board Type:</div>
+      <label class="label mr-2" for="starlight-board-button">Board Type:</label>
       <button
         class:is-light={spiritBoard.nameAndArt.starlight}
         class="button is-success is-small button-hold mb-0"

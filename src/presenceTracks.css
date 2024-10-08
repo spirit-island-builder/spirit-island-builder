@@ -35,6 +35,10 @@ button.button.presence-track-add-node {
   background-color: white !important;
 }
 
+[data-theme="dark"] button.button.presence-track-add-node {
+  background-color: black !important;
+}
+
 button.button.presence-track-remove-node {
   border-radius: 0rem;
   top: -30px;

@@ -43,6 +43,7 @@
     if (spiritBoardBack.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
         spiritBoardBack.demoBoardWasLoaded = true;
+        emptySpiritBoardBack.demoBoardWasLoaded = true;
       });
     } else {
       reloadPreview();

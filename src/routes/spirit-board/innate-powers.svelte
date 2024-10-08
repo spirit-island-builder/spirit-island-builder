@@ -344,10 +344,6 @@
         validAutoCompleteValues={iconValuesSorted}
         bind:value={innatePower.note} />
     </div>
-    <button
-      class="button is-primary is-light is-small"
-      id={`power${i}addLevel`}
-      on:click={addLevel(i)}>Add Level</button>
     {#each innatePower.levels as level, j (level.id)}
       <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
         <div class="control">
@@ -394,6 +390,10 @@
         </div>
       </div>
     {/each}
+    <button
+      class="button is-primary is-light is-small"
+      id={`power${i}addLevel`}
+      on:click={addLevel(i)}>Add Level</button>
   {/each}
   <div class="pt-1">
     <button class="button is-primary is-light" on:click={addInnatePower}>Add Innate Power</button>

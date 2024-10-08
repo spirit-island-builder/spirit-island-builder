@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from "svelte";
   import "bulma/css/bulma.css";
   import "../bulmaOverride.css";
   import "../growth.css";
@@ -89,6 +90,41 @@
       break;
     default:
       currentPage = "spiritBoardFront";
+  }
+
+  function onLoad() {
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (prefersDarkScheme) {
+      document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+
+    //identify the toggle switch HTML element
+    const toggleSwitch = document.querySelector('#theme-switch input[type="checkbox"]');
+
+    //listener for changing themes
+    toggleSwitch.addEventListener("change", switchTheme, false);
+
+    //pre-check the dark-theme checkbox if dark-theme is set
+    if (document.documentElement.getAttribute("data-theme") === "dark") {
+      toggleSwitch.checked = true;
+    }
+  }
+  onMount(onLoad);
+
+  //function that changes the theme, and sets a localStorage variable to track the theme between page loads
+  function switchTheme(e) {
+    const toggleSwitch = document.querySelector('#theme-switch input[type="checkbox"]');
+    if (toggleSwitch) {
+      if (e.target.checked) {
+        document.documentElement.setAttribute("data-theme", "dark");
+        toggleSwitch.checked = true;
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+        toggleSwitch.checked = false;
+      }
+    }
   }
 
   function setCurrentPage(page) {
@@ -724,11 +760,19 @@
 
 <div class="body">
   <header>
-    <div style="display:flex;align-items: baseline;flex-wrap: wrap;">
+    <div style="display:flex;align-items: baseline;flex-wrap: wrap;width:100%;">
       <h1 class="title is-1 ml-5">Spirit Island Builder</h1>
       <h2 class="subtitle is-6 ml-5">
         The unofficial tool for creating custom content for Spirit Island by Greater Than Games.
       </h2>
+      <label
+        id="theme-switch"
+        class="theme-switch"
+        for="checkbox_theme"
+        style="margin-left: auto;margin-right: 25px;">
+        Dark Mode:
+        <input type="checkbox" id="checkbox_theme" />
+      </label>
     </div>
     <nav class="navbar ml-5 mr-5">
       <div class="navbar-brand is-flex-wrap-wrap">
