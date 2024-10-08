@@ -4174,6 +4174,9 @@ function dynamicResizing() {
     if (debug) {
       console.log("relaxing growth texts");
     }
+    finalGrowthTexts[i].style.width = window
+      .getComputedStyle(finalGrowthTexts[i], null)
+      .getPropertyValue("width");
   }
 
   // Innate Power Sizing
@@ -4235,7 +4238,7 @@ function dynamicResizing() {
 
   // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
   let currentTrack;
-  debug = false;
+  debug = true;
   // let last_node_adjusted = false;
   if (tightFlag) {
     console.log("  Flag: tightening presence tracks");
@@ -4563,7 +4566,7 @@ function innatePowerSizing(board) {
 }
 
 function balanceText(el, lineHeight = 23) {
-  let debug = false;
+  let debug = true;
   const initialHeight = el.offsetHeight;
   const initialWidth = el.offsetWidth;
   if (debug) {

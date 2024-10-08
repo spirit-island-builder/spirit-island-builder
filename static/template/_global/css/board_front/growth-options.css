@@ -217,14 +217,20 @@ board.hide-text growth-text {
 growth sub-section-title > span {
   flex-grow: 0;
   flex-shrink: 0;
+  display: block;
+  position: relative;
 }
 
 growth sub-section-header {
   flex-grow: 0;
   flex-shrink: 0;
+  display: block;
+  position: relative;
 }
 
 growth sub-section-line {
+  display: block;
+  position: relative;
   background-image: url("../../images/board/growth_underline.png");
   height: 5px;
   width: 100%;
