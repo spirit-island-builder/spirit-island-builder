@@ -245,10 +245,8 @@
     });
 
     //Check for Null targeting
-    let targetTitleCheck = powerCardHTML.getAttribute("target-title");
-    if (!targetTitleCheck) {
-      targetTitleCheck = "target land";
-    }
+    let targetTitleCheck =
+      powerCardHTML.getAttribute("target-title").toUpperCase() || "TARGET LAND";
 
     //Add the card
     powerCards.cards.push({

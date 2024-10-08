@@ -49,7 +49,7 @@ function constructCard(data, cardIndex) {
     console.log(data);
   }
   let targetType = "spirit";
-  if (data.targetTitle === "TARGET LAND") {
+  if (data.targetTitle.toUpperCase() === "TARGET LAND") {
     targetType = "land";
   }
   card.innerHTML = `
