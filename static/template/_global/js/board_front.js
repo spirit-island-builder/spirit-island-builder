@@ -3817,7 +3817,9 @@ function growthHeadersAndTitles() {
     subHeaders[i].style.width =
       Math.ceil(
         parseFloat(window.getComputedStyle(header).getPropertyValue("width").replace(/px/, ""))
-      ) + "px";
+      ) +
+      1 +
+      "px";
   });
 
   // Create special titles
@@ -4174,9 +4176,10 @@ function dynamicResizing() {
     if (debug) {
       console.log("relaxing growth texts");
     }
-    finalGrowthTexts[i].style.width = window
-      .getComputedStyle(finalGrowthTexts[i], null)
-      .getPropertyValue("width");
+    finalGrowthTexts[i].style.width =
+      Math.ceil(
+        parseFloat(window.getComputedStyle(finalGrowthTexts[i], null).getPropertyValue("width"))
+      ) + "px";
   }
 
   // Innate Power Sizing
