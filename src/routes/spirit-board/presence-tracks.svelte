@@ -321,6 +321,7 @@
         elementType="input"
         placeholder="Presence Track Note (optional, like Finder)"
         classNames="is-small"
+        additionalOnBlurFunction={() => document.getElementById("updateButton").click()}
         validAutoCompleteValues={iconValuesSorted}
         bind:value={spiritBoard.presenceTrack.note} />
     </div>
