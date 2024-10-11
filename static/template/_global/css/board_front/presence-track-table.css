@@ -11,6 +11,9 @@ presence-tracks presence-note {
   font-size: 18.66px;
   margin-left: 8px;
   letter-spacing: -0.75px;
+  position: relative;
+  display: block;
+  margin-top: 10px;
 }
 
 presence-tracks {
@@ -44,9 +47,11 @@ presence-tracks presence-title {
   margin-left: 39px;
   margin-bottom: 12px;
   padding-top: 0px;
-  display: flex;
-  align-items: flex-end;
   pointer-events: none;
+  height: 37px;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
 }
 
 presence-tracks presence-title.tight {
