@@ -31,6 +31,11 @@ function startMain() {
     resize();
   }, 200);
 
+  const stackView = document.querySelectorAll("stack-view-on")[0];
+  if (stackView) {
+    cardHolder.classList.add("enable-stack-view");
+  }
+
   return 2;
 }
 
@@ -44,7 +49,7 @@ function constructCard(data, cardIndex) {
     console.log(data);
   }
   let targetType = "spirit";
-  if (data.targetTitle === "TARGET LAND") {
+  if (data.targetTitle.toUpperCase() === "TARGET LAND") {
     targetType = "land";
   }
   card.innerHTML = `
