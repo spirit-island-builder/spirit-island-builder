@@ -49,7 +49,7 @@ presence-tracks presence-title {
   padding-top: 0px;
   pointer-events: none;
   height: 37px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   position: relative;
 }

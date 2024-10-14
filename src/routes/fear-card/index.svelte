@@ -12,7 +12,6 @@
 
   export let fearCard;
   export let emptyFearCard;
-  export let customIcons;
 
   let previewFrame;
 
@@ -70,14 +69,10 @@
     }
 
     //Set Custom Icons
-    const spiritStyle = document.createElement("style");
-    fragment.prepend(spiritStyle);
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-    });
-    spiritStyle.textContent = customIconText;
+    let customIconText = Lib.getCustomIconHTML(fearCard.customIcons);
+    const fearCardStyle = document.createElement("style");
+    fragment.prepend(fearCardStyle);
+    fearCardStyle.textContent = customIconText;
 
     console.log("fearCard HTML generated");
     console.log(fearCard);
@@ -105,22 +100,11 @@
     });
 
     //Custom Icons
-    if (fearCard.demoBoardWasLoaded) {
-      const fearCardStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (fearCardStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = fearCardStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
-      }
-    } else {
-      console.log("SKIPPING ICON LOAD");
-    }
+    fearCard.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      fearCard.customIcons,
+      document.baseURI
+    );
 
     console.log("fearCard HTML loaded into form");
     console.log(fearCard);
@@ -171,7 +155,7 @@
 <div class="columns ml-4 mt-0 mb-1">
   <div class="column is-one-third pt-0">
     <NameEffects bind:fearCard />
-    <CustomIcons bind:customIcons />
+    <CustomIcons customIcons={fearCard.customIcons} />
   </div>
   <div class="column pt-0">
     <PreviewFrame id="fear-card-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
