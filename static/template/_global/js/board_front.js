@@ -2280,7 +2280,15 @@ function getPresenceNodeHtml(
           trackIcons += "<icon class='" + splitOptions[i] + " small'" + "></icon>";
           addEnergyRing = false;
         } else if (splitOptions[i].startsWith("gain-power-card")) {
-          trackIcons += "<icon class='" + splitOptions[i] + " small'" + "></icon>";
+          const matches = regExp.exec(splitOptions[i]);
+          if (matches) {
+            trackIcons +=
+              "<icon class='gain-power-card-blank small'><icon class='" +
+              matches[1] +
+              " small'></icon></icon>";
+          } else {
+            trackIcons += "<icon class='" + splitOptions[i] + " small'" + "></icon>";
+          }
         } else if (splitOptions[i].startsWith("move-presence")) {
           const matches = regExp.exec(splitOptions[i]);
           const moveRange = matches[1];

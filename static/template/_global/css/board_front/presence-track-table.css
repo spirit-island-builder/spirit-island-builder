@@ -290,12 +290,17 @@ card-icon.small {
 }
 
 .gain-card-play.small,
-.gain-power-card.small {
+.gain-power-card.small,
+.gain-power-card-blank.small {
   height: 80px;
   width: 80px;
   margin-left: -7px;
   margin-right: -5px;
   margin-top: -14px;
+}
+
+.gain-power-card-blank.small .small {
+  width: 38px;
 }
 
 presence-node energy-icon {
