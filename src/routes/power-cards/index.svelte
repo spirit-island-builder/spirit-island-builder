@@ -229,10 +229,8 @@
     });
 
     //Check for Null targeting
-    let targetTitleCheck = powerCardHTML.getAttribute("target-title");
-    if (!targetTitleCheck) {
-      targetTitleCheck = "target land";
-    }
+    let targetTitleCheck =
+      powerCardHTML.getAttribute("target-title").toUpperCase() || "TARGET LAND";
 
     //Add the card
     powerCards.cards.push({
@@ -471,10 +469,10 @@
   function setStackView() {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let cardHolder = previewFrame.document.getElementsByTagName("cards")[0];
-    if (!cardHolder.classList.contains("enable-stack-view")) {
-      cardHolder.classList.add("enable-stack-view");
-      powerCards.stackView = true;
-    }
+    // if (!cardHolder.classList.contains("enable-stack-view")) {
+    cardHolder.classList.add("enable-stack-view");
+    powerCards.stackView = true;
+    // }
     let cards = Array.from(previewFrame.document.getElementsByTagName("card"));
     cards.forEach((card) => {
       if (!card.classList.contains("stack-view")) {
@@ -486,10 +484,8 @@
   function unsetStackView() {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let cardHolder = previewFrame.document.getElementsByTagName("cards")[0];
-    if (cardHolder.classList.contains("enable-stack-view")) {
-      cardHolder.classList.remove("enable-stack-view");
-      powerCards.stackView = false;
-    }
+    cardHolder.classList.remove("enable-stack-view");
+    powerCards.stackView = false;
   }
 </script>
 
