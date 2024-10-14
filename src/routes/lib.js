@@ -244,6 +244,45 @@ export const addCustomIcon = (customIcons, iconName = "", customIconName = "") =
   return customIcons;
 };
 
+export const loadCustomIconsFromHTML = (htmlElement, customIcons, baseURI) => {
+  const spiritStyle = htmlElement.querySelectorAll("style")[0];
+  if (spiritStyle) {
+    console.log("Loading Custom Icons from HTML (Lib)");
+    customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
+    if (spiritStyle.sheet.cssRules) {
+      let iconStyles = Array.from(spiritStyle.sheet.cssRules);
+      let iconsText = spiritStyle.textContent.split(/icon.custom\d+{/);
+      iconsText.shift();
+      iconStyles.forEach((iconStyle, i) => {
+        let customIconURI = iconStyle.style.backgroundImage.split(/['"]/)[1];
+        let customIconName = "";
+        if (iconsText[i].includes("data-iconname")) {
+          customIconName = iconsText[i]
+            .split("data-iconname:")[1]
+            .trim()
+            .split(";")[0]
+            .replaceAll("'", "");
+        }
+        let customIcon = maybeResolveURL(customIconURI, baseURI);
+        customIcons = addCustomIcon(customIcons, customIcon, customIconName);
+      });
+    }
+  }
+  return customIcons;
+};
+
+export const getCustomIconHTML = (customIcons) => {
+  console.log("Saving Custom Icons to HTML...");
+  let customIconText = "";
+  customIcons.icons.forEach((icon) => {
+    customIconText +=
+      "icon.custom" +
+      (icon.id + 1) +
+      `{data-iconname:'${icon.displayName}'; background-image: url('${icon.name}'); }\n`;
+  });
+  return customIconText;
+};
+
 export const selectNode = (event) => {
   let nodeID = event.target.id;
   document.getElementById(nodeID).select();
