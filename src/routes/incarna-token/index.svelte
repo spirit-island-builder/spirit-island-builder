@@ -11,7 +11,6 @@
 
   export let incarnaToken;
   export let emptyIncarnaToken;
-  export let customIcons;
 
   let previewFrame;
 
@@ -84,14 +83,10 @@
     }
 
     //Set Custom Icons
-    const spiritStyle = document.createElement("style");
-    fragment.prepend(spiritStyle);
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-    });
-    spiritStyle.textContent = customIconText;
+    let customIconText = Lib.getCustomIconHTML(incarnaToken.customIcons);
+    const incarnaTokenStyle = document.createElement("style");
+    fragment.prepend(incarnaTokenStyle);
+    incarnaTokenStyle.textContent = customIconText;
 
     console.log("incarnaToken HTML generated");
 
@@ -147,18 +142,11 @@
     }
 
     //Custom Icons
-    // if (incarnaToken.demoBoardWasLoaded) {
-    const incarnaTokenStyle = htmlElement.querySelectorAll("style")[0];
-    customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-    if (incarnaTokenStyle) {
-      const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-      let iconList = incarnaTokenStyle.textContent.match(regExp);
-      if (iconList) {
-        iconList.forEach((customIcon) => {
-          customIcons = Lib.addCustomIcon(customIcons, customIcon);
-        });
-      }
-    }
+    incarnaToken.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      incarnaToken.customIcons,
+      document.baseURI
+    );
 
     console.log("incarnaToken HTML loaded into form");
     console.log(incarnaToken);
@@ -196,7 +184,7 @@
 <div class="columns ml-4 mt-0 mb-1">
   <div class="column is-one-third pt-0">
     <NameEffects bind:incarnaToken />
-    <CustomIcons bind:customIcons />
+    <CustomIcons customIcons={incarnaToken.customIcons} />
   </div>
   <div class="column pt-0">
     <PreviewFrame id="incarna-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>

@@ -15,7 +15,6 @@
 
   export let spiritBoardBack;
   export let emptySpiritBoardBack;
-  export let customIcons;
   export let combinedTTS;
   export let emptyCombinedTTS;
   export let currentPage;
@@ -149,14 +148,10 @@
     thirdSection.append(summaryPowersHeader);
 
     //Set Custom Icons
-    const spiritStyle = document.createElement("style");
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-    });
-    spiritStyle.textContent = customIconText;
-    fragment.prepend(spiritStyle);
+    let customIconText = Lib.getCustomIconHTML(spiritBoardBack.customIcons);
+    const spiritBackStyle = document.createElement("style");
+    fragment.prepend(spiritBackStyle);
+    spiritBackStyle.textContent = customIconText;
 
     return fragment;
   }
@@ -223,23 +218,11 @@
     spiritBoardBack.summary.usesTokens = summaryPowersHeader.getAttribute("uses");
 
     //Custom Icons
-    if (spiritBoardBack.demoBoardWasLoaded) {
-      const spiritStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (spiritStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = spiritStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcon = Lib.maybeResolveURL(customIcon, baseURI);
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
-      }
-    } else {
-      console.log("SKIPPING ICON LOAD");
-    }
+    spiritBoardBack.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      spiritBoardBack.customIcons,
+      document.baseURI
+    );
   }
 
   function exportSpiritBoardBack() {
@@ -287,7 +270,7 @@
     <NameArtLore bind:spiritBoardBack />
     <SetupPlaystyleComplexityPowers bind:spiritBoardBack />
     <div class="content mb-0 mt-2">Options</div>
-    <CustomIcons bind:customIcons />
+    <CustomIcons customIcons={spiritBoardBack.customIcons} />
     <LanguageOptions bind:spiritBoardBack />
     <CombinedTTS
       bind:combinedTTS

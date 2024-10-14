@@ -17,7 +17,6 @@
 
   export let blightCard;
   export let emptyBlightCard;
-  export let customIcons;
 
   let previewFrame;
 
@@ -69,14 +68,10 @@
     blightEffect.innerHTML = blightCard.card.cardEffect;
 
     //Set Custom Icons
-    const spiritStyle = document.createElement("style");
-    fragment.prepend(spiritStyle);
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-    });
-    spiritStyle.textContent = customIconText;
+    let customIconText = Lib.getCustomIconHTML(blightCard.customIcons);
+    const blightCardStyle = document.createElement("style");
+    fragment.prepend(blightCardStyle);
+    blightCardStyle.textContent = customIconText;
 
     console.log("blightCard HTML generated");
     console.log(blightCard);
@@ -107,22 +102,11 @@
     blightCard.card.cardEffect = blightEffect.innerHTML;
 
     //Custom Icons
-    if (blightCard.demoBoardWasLoaded) {
-      const blightCardStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (blightCardStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = blightCardStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
-      }
-    } else {
-      console.log("SKIPPING ICON LOAD");
-    }
+    blightCard.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      blightCard.customIcons,
+      document.baseURI
+    );
 
     console.log("blightCard HTML loaded into form");
     console.log(blightCard);
@@ -168,7 +152,7 @@
 <div class="columns ml-4 mt-0 mb-1">
   <div class="column is-one-third pt-0">
     <NameEffects bind:blightCard />
-    <CustomIcons bind:customIcons />
+    <CustomIcons customIcons={blightCard.customIcons} />
   </div>
   <div class="column pt-0">
     <PreviewFrame id="blight-card-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>

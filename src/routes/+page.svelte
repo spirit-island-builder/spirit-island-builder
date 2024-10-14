@@ -257,28 +257,23 @@
     },
     customIcons: {
       isVisible: false,
-      icons: [
-        {
-          id: 0,
-          name: "",
-        },
-      ],
+      icons: [],
     },
   };
   let spiritBoard = JSON.parse(JSON.stringify(emptySpiritBoard));
 
-  let customIcons = {
-    prop: "value",
-    isVisible: false,
-    icons: [
-      {
-        id: 0,
-        name: "",
-        displayName: "",
-        incarna: false,
-      },
-    ],
-  };
+  // let customIcons = {
+  //   prop: "value",
+  //   isVisible: false,
+  //   icons: [
+  //     {
+  //       id: 0,
+  //       name: "",
+  //       displayName: "",
+  //       incarna: false,
+  //     },
+  //   ],
+  // };
 
   let emptyCombinedTTS = {
     prop: "value",
@@ -363,6 +358,10 @@
       utilityValue: "",
       usesTokens: "",
     },
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
   };
   let spiritBoardBack = JSON.parse(JSON.stringify(emptySpiritBoardBack));
 
@@ -417,6 +416,10 @@
     ],
     cardBackImage: "",
     cardBackImageIsVisible: false,
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
   };
   let powerCards = JSON.parse(JSON.stringify(emptyPowerCards));
 
@@ -488,6 +491,10 @@
         has: false,
         effect: "",
       },
+    },
+    customIcons: {
+      isVisible: false,
+      icons: [],
     },
   };
   let aspect = JSON.parse(JSON.stringify(emptyAspect));
@@ -578,6 +585,10 @@
         },
       ],
     },
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
   };
   let adversary = JSON.parse(JSON.stringify(emptyAdversary));
 
@@ -632,6 +643,10 @@
         ],
       },
     },
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
   };
   let scenario = JSON.parse(JSON.stringify(emptyScenario));
 
@@ -647,6 +662,10 @@
       cardEffect: "",
       blightPerPlayer: "",
       isStillHealthy: false,
+    },
+    customIcons: {
+      isVisible: false,
+      icons: [],
     },
   };
   let blightCard = JSON.parse(JSON.stringify(emptyBlightCard));
@@ -665,6 +684,10 @@
       level3: "",
     },
     showBack: false,
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
   };
   let fearCard = JSON.parse(JSON.stringify(emptyFearCard));
 
@@ -683,6 +706,10 @@
       empoweredOnlyToken: false,
       empoweredToken: "",
       color: "",
+    },
+    customIcons: {
+      isVisible: false,
+      icons: [],
     },
   };
   let incarnaToken = JSON.parse(JSON.stringify(emptyIncarnaToken));
@@ -740,6 +767,10 @@
       ],
     },
     showBack: false,
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
   };
   let eventCard = JSON.parse(JSON.stringify(emptyEventCard));
 
@@ -820,7 +851,6 @@
       <SpiritBoard
         bind:spiritBoard
         bind:emptySpiritBoard
-        bind:customIcons
         bind:combinedTTS
         bind:emptyCombinedTTS
         bind:currentPage />
@@ -828,7 +858,6 @@
       <SpiritBoardBack
         bind:spiritBoardBack
         bind:emptySpiritBoardBack
-        bind:customIcons
         bind:combinedTTS
         bind:emptyCombinedTTS
         bind:currentPage />
@@ -836,24 +865,23 @@
       <PowerCards
         bind:powerCards
         bind:emptyPowerCards
-        bind:customIcons
         bind:combinedTTS
         bind:emptyCombinedTTS
         bind:currentPage />
     {:else if currentPage === "aspect"}
-      <Aspect bind:aspect bind:emptyAspect bind:customIcons />
+      <Aspect bind:aspect bind:emptyAspect />
     {:else if currentPage === "adversary"}
-      <Adversary bind:adversary bind:emptyAdversary bind:customIcons />
+      <Adversary bind:adversary bind:emptyAdversary />
     {:else if currentPage === "scenario"}
-      <Scenario bind:scenario bind:emptyScenario bind:customIcons />
+      <Scenario bind:scenario bind:emptyScenario />
     {:else if currentPage === "incarnaToken"}
-      <IncarnaToken bind:incarnaToken bind:emptyIncarnaToken bind:customIcons />
+      <IncarnaToken bind:incarnaToken bind:emptyIncarnaToken />
     {:else if currentPage === "blightCard"}
-      <BlightCard bind:blightCard bind:emptyBlightCard bind:customIcons />
+      <BlightCard bind:blightCard bind:emptyBlightCard />
     {:else if currentPage === "fearCard"}
-      <FearCard bind:fearCard bind:emptyFearCard bind:customIcons />
+      <FearCard bind:fearCard bind:emptyFearCard />
     {:else if currentPage === "eventCard"}
-      <EventCard bind:eventCard bind:emptyEventCard bind:customIcons />
+      <EventCard bind:eventCard bind:emptyEventCard />
     {:else if currentPage === "about"}
       <About />
     {/if}
