@@ -42,7 +42,7 @@ board.round-border {
 spirit-name {
   position: absolute;
   display: flex;
-  height: 79px;
+  height: 67px;
   width: 100%;
   font-size: 40pt;
   font-family: "Name Headings";
@@ -263,7 +263,7 @@ table.powers-summary.has-uses {
 }
 
 table.powers-summary.has-uses power-bar {
-  margin-left: 14px;
+  margin: auto;
 }
 
 table.powers-summary.has-uses td.power-divider {
@@ -393,7 +393,6 @@ board.printer-clean lore-overlay {
 
 board.printer-clean img.spirit-image {
   width: 48%;
-  height: 100%;
   object-fit: cover;
 }
 

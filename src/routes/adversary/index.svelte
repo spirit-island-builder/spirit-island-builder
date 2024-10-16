@@ -15,7 +15,6 @@
 
   export let adversary;
   export let emptyAdversary;
-  export let customIcons;
 
   let exampleModal;
   let previewFrame;
@@ -30,7 +29,7 @@
   function hideAll() {
     adversary.nameLossEscalation.isVisible = false;
     adversary.levelSummary.isVisible = false;
-    customIcons.isVisible = false;
+    adversary.customIcons.isVisible = false;
   }
 
   const demoURL = "/template/MyCustomContent/MyAdversary/THE_IBERIAN_UNION_Adversary.html";
@@ -94,14 +93,10 @@
     });
 
     //Set Custom Icons
-    const spiritStyle = document.createElement("style");
-    fragment.prepend(spiritStyle);
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-    });
-    spiritStyle.textContent = customIconText;
+    let customIconText = Lib.getCustomIconHTML(adversary.customIcons);
+    const adversaryStyle = document.createElement("style");
+    fragment.prepend(adversaryStyle);
+    adversaryStyle.textContent = customIconText;
 
     return fragment;
   }
@@ -147,22 +142,11 @@
     }
 
     //Custom Icons
-    if (adversary.demoBoardWasLoaded) {
-      const adversaryStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (adversaryStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = adversaryStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
-      }
-    } else {
-      console.log("SKIPPING ICON LOAD");
-    }
+    adversary.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      adversary.customIcons,
+      document.baseURI
+    );
   }
 
   function exportAdversary() {
@@ -222,7 +206,7 @@
   <div class="column is-one-third pt-0">
     <NameLossAndEscalation bind:adversary />
     <AdversaryLevels bind:adversary />
-    <CustomIcons bind:customIcons />
+    <CustomIcons customIcons={adversary.customIcons} />
   </div>
   <div class="column pt-0">
     <PreviewFrame id="adversary-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
@@ -245,7 +229,6 @@
         Load
       </LoadButton>
       <button class="button is-success mt-1 mr-1" on:click={exportAdversary}> Save </button>
-      <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

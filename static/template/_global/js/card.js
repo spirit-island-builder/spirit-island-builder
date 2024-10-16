@@ -31,16 +31,26 @@ function startMain() {
     resize();
   }, 200);
 
+  const stackView = document.querySelectorAll("stack-view-on")[0];
+  if (stackView) {
+    cardHolder.classList.add("enable-stack-view");
+  }
+
   return 2;
 }
 
 function constructCard(data, cardIndex) {
   var card = document.createElement("card");
+  let lang = data.lang;
   card.id = `card${cardIndex}`;
   card.className = data.speed;
   if (data.type) {
     card.classList.add(data.type);
     console.log(data);
+  }
+  let targetType = "spirit";
+  if (data.targetTitle.toUpperCase() === "TARGET LAND") {
+    targetType = "land";
   }
   card.innerHTML = `
   <card-art><div class="image" style="background-image:url(${data.image});"></div></card-art>
@@ -49,16 +59,16 @@ function constructCard(data, cardIndex) {
   <cost></cost>
   <type-watermark></type-watermark>
   <cost id='${card.id}cost'>${data.cost}</cost>
-  <name id='${card.id}name'>${data.name}</name>
+  <name-holder><name id='${card.id}name'>${data.name}</name></name-holder>
   
   ${data.printFriendly ? "<element-background></element-background>" : ""}
 
   ${getElementHtml(data.elements)}
 
   <info-title>
-    <info-title-speed>SPEED</info-title-speed>
-    <info-title-range>RANGE</info-title-range>
-    <info-title-target id='${card.id}targettitle'>${data.targetTitle}</info-title-target>
+    <info-title-speed>${localize[lang]["speed"]}</info-title-speed>
+    <info-title-range>${localize[lang]["range"]}</info-title-range>
+    <info-title-target id='${card.id}targettitle'>${localize[lang][targetType]}</info-title-target>
   </info-title>
 
   <info>
@@ -77,7 +87,7 @@ function constructCard(data, cardIndex) {
 
   <artist-name>${data.artistName}</artist-name>
   `;
-
+  card.setAttribute("lang", lang);
   setThreshold(card, cardIndex);
   return card;
 }
@@ -85,15 +95,16 @@ function constructCard(data, cardIndex) {
 function resize() {
   //Name
   nameBlocks = document.querySelectorAll("name");
+  nameHolders = document.querySelectorAll("name-holder");
   for (let i = 0; i < nameBlocks.length; i++) {
-    dynamicSizing(nameBlocks[i]);
+    dynamicSizing(nameBlocks[i], nameHolders[i]);
+    balanceText(nameBlocks[i], 33);
   }
 
   //Rules & Threshold
   rulesContainers = document.querySelectorAll("rules-container");
 
   for (let i = 0; i < rulesContainers.length; i++) {
-    /* dynamicSizing(rulesBlocks[i]) */
     rulesBlock = rulesContainers[i].querySelectorAll("rules")[0];
     thresholdBlock = rulesContainers[i].querySelectorAll("threshold")[0];
     limitingBlock = thresholdBlock == undefined ? rulesContainers[i] : thresholdBlock;
@@ -125,7 +136,7 @@ function resize() {
 
 function setThreshold(card) {
   var thresholds = card.querySelectorAll("threshold");
-
+  let lang = card.getAttribute("lang");
   if (thresholds.length) {
     // deal with custom text
     var threshold = thresholds[0];
@@ -153,10 +164,11 @@ function setThreshold(card) {
       threshold.innerHTML += addConditionText + secondThreshold.innerHTML;
       secondThreshold.remove();
     }
-
+    if (lang !== "en" && !customThresholdText) {
+      customThresholdText = localize[lang]["threshold"];
+    }
     if (customThresholdText) {
       threshold.className = "threshold-custom";
-      // threshold.setAttribute("data-before", customThresholdText);
       let customThresholdElement = `<custom-threshold-flex><arrow-left></arrow-left><custom-threshold-text>${customThresholdText}</custom-threshold-text><arrow-right></arrow-right></custom-threshold-flex>`;
       threshold.innerHTML = customThresholdElement + threshold.innerHTML;
     }
@@ -169,19 +181,11 @@ function getThresholdElements(conditions) {
   for (let i = 0; i < condition.length; i++) {
     var number = condition[i].split("-")[0];
     var element = condition[i].split("-")[1];
-    // result += `${number}<icon class="${element}"></icon>`;
     if (i === condition.length - 1) {
       result += `${number}<icon class="${element} last"></icon>`;
     } else {
       result += `${number}<icon class="${element}"></icon>`;
     }
-
-    /* for(var condition of conditions.split(','))
-	  {
-		var number = condition.split('-')[0];
-		var element = condition.split('-')[1];
-		result += `${number}<icon class="${element}"></icon>`;
-	  } */
   }
   return result;
 }
@@ -211,14 +215,9 @@ function getData(quickCard, cardIndex) {
     printFriendly: quickCard.getAttribute("print-friendly") === "yes",
     innerHTML: getRulesNew(quickCard, cardIndex),
     subtitle: quickCard.getAttribute("subtitle"),
+    lang: quickCard.getAttribute("lang") || "en",
   };
 }
-
-/* function getRulesHTML(html)
-{
-  var result = replaceIcon(html);
-  return result;
-} */
 
 function getRulesNew(quickCard, cardIndex) {
   var rules = quickCard.querySelectorAll("rules")[0];
@@ -277,9 +276,14 @@ function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
-function dynamicSizing(el, maxSize = el.offsetHeight) {
+function dynamicSizing(el, container, maxSize = container.offsetHeight) {
+  let debug = false;
+  if (debug) {
+    console.log("Shrinking: " + el.textContent);
+  }
+  //Shrink text to fit
   let j = 0;
-  while (checkOverflowHeight(el, maxSize)) {
+  while (checkOverflowHeight(container, 0)) {
     var style = window.getComputedStyle(el, null).getPropertyValue("font-size");
     var line = window.getComputedStyle(el, null).getPropertyValue("line-height");
     var fontSize = parseFloat(style);
@@ -295,14 +299,106 @@ function dynamicSizing(el, maxSize = el.offsetHeight) {
   }
 }
 
-// function checkOverflow(el, maxSize = el.clientHeight) {
-//   let curOverflow = el.style.overflow;
-//   console.log('Check Overflow: '+el.tagName)
-//   if (!curOverflow || curOverflow === "visible") {
-//     el.style.overflow = "auto";
-//   }
-//   let isOverflowing = maxSize < el.scrollHeight;
-//   el.style.overflow = curOverflow;
+function balanceText(el) {
+  // Balances text in an element
+  let debug = false;
+  const initialHeight = el.offsetHeight;
+  const initialWidth = el.offsetWidth;
+  const lineHeight = parseFloat(window.getComputedStyle(el, null).getPropertyValue("line-height"));
+  if (debug) {
+    console.log(
+      "Balancing: " +
+        el.textContent +
+        " H:" +
+        initialHeight +
+        ", W:" +
+        initialWidth +
+        ", LH:" +
+        lineHeight
+    );
+  }
 
-//   return isOverflowing;
-// }
+  if (initialHeight > lineHeight + 2) {
+    // No action needed for 1 liners (~19px growth, ~22px presence)
+    let currentHeight = initialHeight;
+    let j = 0;
+    let k = Math.trunc(initialWidth);
+    let overflow = false;
+    while (currentHeight <= initialHeight) {
+      overflow = checkOverflowWidth(el, 0);
+      if (overflow) {
+        if (debug) {
+          console.log("balance overflowing, j=" + j);
+        }
+        break;
+      }
+      // tighten until it changes something
+      k = k - 1;
+      el.style.width = k + "px";
+      currentHeight = el.offsetHeight;
+      j += 1;
+      if (debug) {
+        console.log(" H:" + currentHeight + ", W:" + k);
+      }
+      if (j > 200) {
+        if (debug) {
+          console.log("Max text reduction reached for");
+          console.log(el);
+        }
+        break;
+      }
+    }
+    if (debug) {
+      console.log(
+        "reset at w=" + el.offsetWidth + ",h=" + el.offsetHeight + ",overflow=" + overflow
+      );
+    }
+    k = k + 1;
+    el.style.width = k + "px";
+    if (debug) {
+      console.log("reset to w=" + el.offsetWidth + ",h=" + el.offsetHeight);
+    }
+  } else {
+    if (debug) {
+      console.log("No balance needed");
+    }
+  }
+}
+
+let localize = {
+  en: {
+    speed: "SPEED",
+    range: "RANGE",
+    land: "TARGET LAND",
+    spirit: "TARGET",
+    threshold: "IF YOU HAVE",
+  },
+  de: {
+    speed: "WANN",
+    range: "WIE WEIT",
+    land: "WO",
+    spirit: "WEN",
+    threshold: "",
+  },
+  pl: {
+    speed: "SZYBKOŚĆ",
+    range: "ZASIĘG",
+    land: "CEL (KRAINA)",
+    spirit: "CEL",
+    threshold: "JEŚLI MASZ",
+  },
+  ar: {
+    speed: "سرعة",
+    range: "مدى",
+    land: "الأرض المستهدفة",
+    spirit: "هدف",
+    threshold: "",
+  },
+  zh: {
+    speed: "速度",
+    range: "距離",
+    land: "目標區域",
+    spirit: "目標精靈",
+    threshold: "",
+  },
+};

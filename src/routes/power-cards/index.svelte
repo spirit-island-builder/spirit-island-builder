@@ -16,10 +16,10 @@
   import jsone from "json-e";
   import { createTTSSave, getThresholdTTSJSON, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
   import InstructionsLink from "$lib/instructions/link.svelte";
+  import LanguageOptions from "./language-options.svelte";
 
   export let powerCards;
   export let emptyPowerCards;
-  export let customIcons;
   export let combinedTTS;
   export let emptyCombinedTTS;
   export let currentPage;
@@ -80,6 +80,7 @@
       newPowerCard.setAttribute("artist-name", card.cardArtist);
       newPowerCard.setAttribute("subtitle", card.aspectSubtitle);
       newPowerCard.setAttribute("stack-view", card.isVisible);
+      newPowerCard.setAttribute("lang", powerCards.language);
 
       let elementalList = card.powerElements;
       let elementListHTML = [];
@@ -117,14 +118,10 @@
     }
 
     //Set Custom Icons
-    const spiritStyle = document.createElement("style");
-    fragment.prepend(spiritStyle);
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-    });
-    spiritStyle.textContent = customIconText;
+    let customIconText = Lib.getCustomIconHTML(powerCards.customIcons);
+    const cardsStyle = document.createElement("style");
+    fragment.prepend(cardsStyle);
+    cardsStyle.textContent = customIconText;
 
     // Card Back
     if (powerCards.cardBackImage) {
@@ -153,6 +150,9 @@
     const powerCardsHTML = htmlElement.querySelectorAll("quick-card");
     console.log("Loading " + powerCardsHTML.length + " cards...");
 
+    //Language
+    powerCards.language = powerCardsHTML[0].getAttribute("lang") || "en";
+
     //Clear the form first
     powerCards.cards.splice(0, powerCards.cards.length); //Clear the Form first
 
@@ -161,23 +161,12 @@
       addPowerCard(powerCards, powerCardHTML, baseURI);
     });
 
-    //Custom Icons
-    if (powerCards.demoBoardWasLoaded) {
-      const cardsStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (cardsStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = cardsStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
-      }
-    } else {
-      console.log("SKIPPING ICON LOAD");
-    }
+    //Load Custom Icons
+    powerCards.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      powerCards.customIcons,
+      document.baseURI
+    );
 
     const cardBack = htmlElement.querySelectorAll("card-back")[0];
     if (cardBack) {
@@ -240,10 +229,8 @@
     });
 
     //Check for Null targeting
-    let targetTitleCheck = powerCardHTML.getAttribute("target-title");
-    if (!targetTitleCheck) {
-      targetTitleCheck = "target land";
-    }
+    let targetTitleCheck =
+      powerCardHTML.getAttribute("target-title").toUpperCase() || "TARGET LAND";
 
     //Add the card
     powerCards.cards.push({
@@ -435,6 +422,7 @@
 
   function hideAll() {
     powerCards.cards.forEach((card) => (card.isVisible = false));
+    powerCards.customIcons.isVisible = false;
   }
 
   async function loadExample(example) {
@@ -481,10 +469,10 @@
   function setStackView() {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let cardHolder = previewFrame.document.getElementsByTagName("cards")[0];
-    if (!cardHolder.classList.contains("enable-stack-view")) {
-      cardHolder.classList.add("enable-stack-view");
-      powerCards.stackView = true;
-    }
+    // if (!cardHolder.classList.contains("enable-stack-view")) {
+    cardHolder.classList.add("enable-stack-view");
+    powerCards.stackView = true;
+    // }
     let cards = Array.from(previewFrame.document.getElementsByTagName("card"));
     cards.forEach((card) => {
       if (!card.classList.contains("stack-view")) {
@@ -496,80 +484,88 @@
   function unsetStackView() {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let cardHolder = previewFrame.document.getElementsByTagName("cards")[0];
-    if (cardHolder.classList.contains("enable-stack-view")) {
-      cardHolder.classList.remove("enable-stack-view");
-      powerCards.stackView = false;
-    }
+    cardHolder.classList.remove("enable-stack-view");
+    powerCards.stackView = false;
   }
 </script>
 
-<PreviewFrame
-  id="power-cards-preview"
-  bind:this={previewFrame}
-  on:hot-reload={reloadPreview}
-  clickFunction={() => openEditorHeading}>
-  <svelte:fragment slot="head">
-    <link href="/template/_global/css/global.css" rel="stylesheet" />
-    <link href="/template/_global/css/card.css" rel="stylesheet" />
-    <script type="text/javascript" src="/template/_global/js/common.js"></script>
-    <script type="text/javascript" src="/template/_global/js/card.js"></script>
-  </svelte:fragment>
-</PreviewFrame>
-<div class="field has-addons mb-0 is-flex-wrap-wrap">
-  <button class="button is-info js-modal-trigger mr-1 mt-1" on:click={exampleModal.open}>
-    Examples
-  </button>
-  <LoadButton accept=".html" class="button is-success mr-1 mt-1" loadObjectURL={loadHTMLFromURL}>
-    Load
-  </LoadButton>
-  <button class="button is-success mt-1 mr-1" on:click={exportPowerCards}> Save </button>
-  <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
-    >Update Preview</button>
-  <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
-    >Toggle Preview Size</button>
-  <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
-  <InstructionsLink class="button is-info mt-1 mr-1" anchor="power-cards" />
-</div>
-<div class="field has-addons mb-0 is-flex-wrap-wrap">
-  <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}>Download Image</button>
-  <button class="button is-success mt-1  mr-1" on:click={downloadTTSJSON}>Export TTS file</button>
-  <div class="dropdown is-hoverable is-up">
-    <div class="dropdown-trigger">
-      <button
-        class="button mt-1 mr-1 is-success"
-        aria-haspopup="true"
-        aria-controls="dropdown-menu4">
-        <span>Create PDF...</span>
-      </button>
-    </div>
-    <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-      <div class="dropdown-content">
-        <button class="button is-success mr-1 dropdown-item" on:click={printToPDFLetter}
-          >Letter size</button>
-        <button class="button is-success mt-1 mr-1 dropdown-item" on:click={printToPDFA4}
-          >A4 size</button>
-      </div>
-    </div>
-  </div>
-  <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
-    >Printer-Friendly</button>
-  {#if !powerCards.stackView}
-    <button class="button is-warning mt-1 mr-1 is-small" on:click={setStackView}
-      >Enable Stack View</button>
-  {:else}
-    <button class="button is-warning mt-1 mr-1 is-small" on:click={unsetStackView}
-      >Disable Stack View</button>
-  {/if}
-</div>
-<div class="columns mt-0 mb-1">
-  <div class="column pt-0">
+<div class="columns ml-4 mt-0 mb-1">
+  <div class="column is-one-third pt-0">
     <PowerCard bind:powerCards />
-    <CustomIcons bind:customIcons />
+    <div class="content mb-0 mt-2">Options</div>
+    <CustomIcons customIcons={powerCards.customIcons} />
+    <LanguageOptions bind:powerCards />
     <CombinedTTS
       bind:combinedTTS
       bind:currentPage
       bind:emptyCombinedTTS
+      bind:powerCards
       exportPowersTTS={packagePowersTTSforExport} />
+  </div>
+  <div class="column pt-0">
+    <PreviewFrame
+      id="power-cards-preview"
+      bind:this={previewFrame}
+      on:hot-reload={reloadPreview}
+      clickFunction={() => openEditorHeading}>
+      <svelte:fragment slot="head">
+        <link href="/template/_global/css/global.css" rel="stylesheet" />
+        <link href="/template/_global/css/card.css" rel="stylesheet" />
+        <script type="text/javascript" src="/template/_global/js/common.js"></script>
+        <script type="text/javascript" src="/template/_global/js/card.js"></script>
+      </svelte:fragment>
+    </PreviewFrame>
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
+      <button class="button is-info js-modal-trigger mr-1 mt-1" on:click={exampleModal.open}>
+        Examples
+      </button>
+      <LoadButton
+        accept=".html"
+        class="button is-success mr-1 mt-1"
+        loadObjectURL={loadHTMLFromURL}>
+        Load
+      </LoadButton>
+      <button class="button is-success mt-1 mr-1" on:click={exportPowerCards}> Save </button>
+      <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
+        >Update Preview</button>
+      <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
+        >Toggle Preview Size</button>
+      <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
+      <InstructionsLink class="button is-info mt-1 mr-1" anchor="power-cards" />
+    </div>
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
+      <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}
+        >Download Image</button>
+      <button class="button is-success mt-1  mr-1" on:click={downloadTTSJSON}
+        >Export TTS file</button>
+      <div class="dropdown is-hoverable is-up">
+        <div class="dropdown-trigger">
+          <button
+            class="button mt-1 mr-1 is-success"
+            aria-haspopup="true"
+            aria-controls="dropdown-menu4">
+            <span>Create PDF...</span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+          <div class="dropdown-content">
+            <button class="button is-success mr-1 dropdown-item" on:click={printToPDFLetter}
+              >Letter size</button>
+            <button class="button is-success mt-1 mr-1 dropdown-item" on:click={printToPDFA4}
+              >A4 size</button>
+          </div>
+        </div>
+      </div>
+      <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
+        >Printer-Friendly</button>
+      {#if !powerCards.stackView}
+        <button class="button is-warning mt-1 mr-1 is-small" on:click={setStackView}
+          >Enable Stack View</button>
+      {:else}
+        <button class="button is-warning mt-1 mr-1 is-small" on:click={unsetStackView}
+          >Disable Stack View</button>
+      {/if}
+    </div>
   </div>
 </div>
 <Examples bind:this={exampleModal} {loadExample} title="Load Examples" {examples} />

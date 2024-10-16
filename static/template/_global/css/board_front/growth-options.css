@@ -217,14 +217,20 @@ board.hide-text growth-text {
 growth sub-section-title > span {
   flex-grow: 0;
   flex-shrink: 0;
+  display: block;
+  position: relative;
 }
 
 growth sub-section-header {
   flex-grow: 0;
   flex-shrink: 0;
+  display: block;
+  position: relative;
 }
 
 growth sub-section-line {
+  display: block;
+  position: relative;
   background-image: url("../../images/board/growth_underline.png");
   height: 5px;
   width: 100%;
@@ -484,7 +490,8 @@ presence-node.growth.blank {
 }
 
 plus-presence {
-  display: block;
+  display: flex;
+  position: relative;
   line-height: 20px;
   margin-bottom: 1px;
 }
@@ -536,6 +543,7 @@ repeat-growth.energy-cost value {
 
 repeat-wrapper {
   height: 90px;
+  display: flex;
 }
 
 /* Gaining Flat Energy */
@@ -977,8 +985,7 @@ div.gain-card-second-modifier icon {
 }
 
 token-wrap {
-  display: inline-flex;
-  flex-wrap: wrap;
+  display: flex;
   vertical-align: bottom;
   align-content: flex-end;
   padding-bottom: 2px;
@@ -1052,6 +1059,8 @@ custom-icon2 icon.move-range-4 {
 }
 
 growth-text {
+  display: flex;
+  position: relative;
   font-family: "Lato SemiBold";
   font-size: 18.66px;
   font-style: italic;
@@ -1436,10 +1445,10 @@ push-gather {
   font-size: 26.66px;
   font-weight: bold;
   display: block;
-  margin-top: 4px;
+  margin-top: 10px;
   width: auto;
   height: 110px;
-  margin-bottom: -22px;
+  margin-bottom: -30px;
 }
 
 push-gather icon.terrain-gather {
@@ -1530,6 +1539,7 @@ push-gather-range-req {
 }
 
 /* Element Icons */
+/* DELETE IF NO ISSUE IN A LITTLE BIT 
 growth-cell gain icon.fire,
 growth-cell gain icon.any,
 growth-cell gain icon.water,
@@ -1542,6 +1552,12 @@ growth-cell gain icon.moon,
 growth-cell gain icon.star,
 growth-cell gain icon.markerminus,
 growth-cell gain icon.markerplus {
+  height: 60px;
+  width: 60px;
+  margin: -30px;
+} */
+
+growth-cell gain icon.element {
   height: 60px;
   width: 60px;
   margin: -30px;
@@ -1710,6 +1726,7 @@ custom-growth-icon {
   display: inline-flex;
   flex-direction: row;
   justify-content: space-around;
+  align-items: center;
 }
 
 custom-growth-icon icon.explorer {
@@ -1879,6 +1896,11 @@ board.starlight growth-table {
   margin-bottom: 0px;
 }
 
+board.starlight growth-table:first-of-type {
+  margin-top: 10px;
+  margin-bottom: -5px;
+}
+
 board.starlight growth-group {
   height: 150px;
 }
@@ -1920,4 +1942,19 @@ board.starlight right-right level {
 
 board.starlight info-container {
   margin-bottom: 5px;
+}
+
+growth icon.large {
+  width: 100px;
+  height: 100px;
+}
+
+growth icon.medium {
+  width: 60px;
+  height: 60px;
+}
+
+growth icon.small {
+  width: 42px;
+  height: 42px;
 }

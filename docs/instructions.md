@@ -4,22 +4,28 @@ Welcome to the Spirit Island Spirit Board Builder! This document will help you u
 
 ## Table of Contents {#index}
 
-## Spirit Board Play Side
+## Getting Started
+The best place to start with the Builder is to look at the Examples. The Builder loads with the Volcano spirit panel as an initial example. Open the various tabs (Growth or Presence Tracks) to see how the Volcano spirit panel is made. You can click the Examples button to load other official Spirits.
 
-### Interface
+## Interface
 
 - Examples: Click this button to load the official spirits into the Builder, as an example.
+- Instructions: Click this button to open the Instructions pop-up.
 - Load: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage.
-- Save: Click this button to immediately download save file for your Spirit
-- Download Image: Click this button to download a PNG of your Spirit Board or other content.
-- Export TTS file: Click this button to download an object file for the popular Spirit Island Tabletop Simulator mod.
-  - Check out [this video](https://www.youtube.com/watch?v=q7zS8x9dO4s) for instructions on how to set up your spirit in TTS. - Thank you James from MissingTriggers for the video.
+- Save: Click this button to immediately download the save file for your content (careful: each component is a different save file).
 - Update Preview: Click this button to load a new preview board and see your changes.
 - Toggle Board Size: Click this to change the size of the preview. NOTE: While you can download images of Spirit Boards, you can also use a screen capture to get a higher resolution.
 - Clear All Fields: Click this to delete everything in the Builder form. It will ask for confirmation.
-- Instructions: Pulls up an instructions overlay.
+- Download Image: Click this button to download a PNG of your Spirit Board or other content.
+- Export TTS file: Click this button to download an object file for the popular Spirit Island Tabletop Simulator mod.
+  - Check out [this video](https://www.youtube.com/watch?v=q7zS8x9dO4s) for instructions on how to set up your spirit in TTS. - Thank you James from MissingTriggers for the video.
+- Create PDF...: Click this button to download a pdf (in letter or A4) that is properly scaled for printing
+- Printer Friendly: Click this button to remove backgrounds that use up printer ink.
+- Transparent: Click this button to make the spirit board panels transparent so the spirit art is visible through the Growth and Innate Power panels.
 
 [Home](#index)
+
+## Spirit Board Play Side
 
 ### Spirit Name and Art
 
@@ -42,19 +48,10 @@ Use these fields to modify your spirit's special rules. You can and should use t
 - Remove: Button to **permanently** delete the special rule.
 - Add Another Rule: Adds an additional special rule.
 - General Advice: Look at example spirits to see how some features are used.
-  - Serpent-style presence nodes: you can create presence nodes in the special rule using the following format:
-    - Example: <special-rules-track values="5,7,8,10,11,12,13"></special-rules-track>
+  - Serpent-style presence nodes in Special Rules: you can create presence nodes in the special rule using the following format:
+    - {special-presence-track} but you have to click the autofill
+    - Or just type: <special-rules-track values="5,7,8,10,11,12,13"></special-rules-track>
     - You should be able to use most of the options from [presence tracks](#presence-tracks) here.
-
-[Home](#index)
-
-### Custom Icons
-
-This field allows you to upload and use your own custom icons. Reference these icons using {custom1}, {custom2}, etc. Custom icons are usable across all components (ie. spirit board, cards, aspects, etc)
-
-- Add Custom Icon: Adds an additional custom icon field.
-- Load: Allows you to chose a file from your computer to be a custom icon.
-- Remove: Removes the custom icon. WARNING: deleting a custom icon will re-number the remaining ones, so be careful.
 
 [Home](#index)
 
@@ -276,6 +273,16 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 
 [Home](#index)
 
+### Custom Icons
+
+This field allows you to upload and use your own custom icons. Reference these icons using {custom1}, {custom2}, etc. Custom icons are usable across all components (ie. spirit board, cards, aspects, etc)
+
+- Add Custom Icon: Adds an additional custom icon field.
+- Load: Allows you to chose a file from your computer to be a custom icon.
+- Remove: Removes the custom icon. WARNING: deleting a custom icon will re-number the remaining ones, so be careful.
+
+[Home](#index)
+
 ## Spirit Board Lore Side
 
 ### Spirit Name, Art and Lore {#spirit-lore-name}
@@ -365,14 +372,14 @@ For now, your adversary must have 6 levels. If you want to do less, you'll have 
 
 [Home](#index)
 
-## <a name="general-icons"></a>General Icons
+## General Icons
 
 Icons for invaders, elements, dahan, etc can be used by enclosing its name with "{}". For example, {dahan} or {fire}. Here is a list of what is available:
 
 - Elements (fire, water, earth, air, plant, animal, sun, moon)
-  - any: the Any element icon
-  - star: the Element icon (from Starlight)
-  - markerplus, markerminus: the Prepare Element Marker and Discard Element Marker (from Shifting Memory)
+  - the Any element icon (any)
+  - the Element icon (star)
+  - the Prepare Element Marker and Discard Element Marker (markerplus, markerminus)
 - Invaders (explorer, town, city)
 - Presence (presence, sacred-site, no-presence, no-own-presence, destroyed-presence, move-presence-1, move-presence-2, move-presence-3, move-presence-4)
 - Island icons (blight, dahan, beasts, wilds, disease, strife, badlands, vitality)
@@ -385,8 +392,12 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - Energy icons (energy-1, energy-2, energy-x where x is whatever number)
 - Growth icons (see [Growth](#growth) section and [Supported Growth Actions](#supported-growth-actions) for examples)
 - Presence track icons (see [Presence Track](#presence-tracks) section for examples)
-- Incarna icons: add "incarna-" to an icon and it will respond differently when called (typically "{incarna-custom1}")
+
+Also:
 - No-: Nearly every icon can have a red X over it by adding 'no-' such as {no-blight}.
+- Or/: You can cluster icons with a / to keep them together through line breaks {explorer/town}
+- Counts: You can add item counts like so {earth,2}. This only works in some contexts
+- Incarna icons: add "incarna-" to an icon and it will appear larger when used (typically "{incarna-custom1}")
 
 [Home](#index)
 
@@ -395,17 +406,5 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - The template uses html so you can use some html to customize your board:
 
   - For example, you can create a line break by typing \<br\> (useful in notes, levels, and special rules).
-
-  [Home](#index)
-
-### Fonts
-
-You can download additional fonts that will make your board look closer to the real deal. These fonts couldn't be included in the package, but you can get free previews.
-
-- DK Snemand Demo: Not included. You can download this font [here](https://www.dafont.com/dk-snemand.font).
-  - Used for: Headings and Spirit Name.
-- Gobold Extra2: Not included. You can download this font [here](https://www.dafont.com/fr/gobold.font).
-
-  - Used for: Energy Icons and Card Play text
 
   [Home](#index)

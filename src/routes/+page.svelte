@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from "svelte";
   import "bulma/css/bulma.css";
   import "../bulmaOverride.css";
   import "../growth.css";
@@ -91,6 +92,41 @@
       currentPage = "spiritBoardFront";
   }
 
+  function onLoad() {
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (prefersDarkScheme) {
+      document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+
+    //identify the toggle switch HTML element
+    const toggleSwitch = document.querySelector('#theme-switch input[type="checkbox"]');
+
+    //listener for changing themes
+    toggleSwitch.addEventListener("change", switchTheme, false);
+
+    //pre-check the dark-theme checkbox if dark-theme is set
+    if (document.documentElement.getAttribute("data-theme") === "dark") {
+      toggleSwitch.checked = true;
+    }
+  }
+  onMount(onLoad);
+
+  //function that changes the theme, and sets a localStorage variable to track the theme between page loads
+  function switchTheme(e) {
+    const toggleSwitch = document.querySelector('#theme-switch input[type="checkbox"]');
+    if (toggleSwitch) {
+      if (e.target.checked) {
+        document.documentElement.setAttribute("data-theme", "dark");
+        toggleSwitch.checked = true;
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+        toggleSwitch.checked = false;
+      }
+    }
+  }
+
   function setCurrentPage(page) {
     currentPage = page;
     console.log(">--|--< Switching to " + page + " >--|--<");
@@ -99,6 +135,9 @@
   let emptySpiritBoard = {
     demoBoardWasLoaded: false,
     previewBoard: {
+      isVisible: false,
+    },
+    languageOptions: {
       isVisible: false,
     },
     isClickable: true,
@@ -218,28 +257,23 @@
     },
     customIcons: {
       isVisible: false,
-      icons: [
-        {
-          id: 0,
-          name: "",
-        },
-      ],
+      icons: [],
     },
   };
   let spiritBoard = JSON.parse(JSON.stringify(emptySpiritBoard));
 
-  let customIcons = {
-    prop: "value",
-    isVisible: false,
-    icons: [
-      {
-        id: 0,
-        name: "",
-        displayName: "",
-        incarna: false,
-      },
-    ],
-  };
+  // let customIcons = {
+  //   prop: "value",
+  //   isVisible: false,
+  //   icons: [
+  //     {
+  //       id: 0,
+  //       name: "",
+  //       displayName: "",
+  //       incarna: false,
+  //     },
+  //   ],
+  // };
 
   let emptyCombinedTTS = {
     prop: "value",
@@ -269,6 +303,7 @@
       image: {
         content: [],
         saved: false,
+        back: "",
       },
       tts: {
         content: "",
@@ -288,6 +323,10 @@
       isVisible: false,
     },
     setupPlaystyleComplexityPowers: {
+      isVisible: false,
+    },
+    language: "en",
+    languageOptions: {
       isVisible: false,
     },
     nameImage: {
@@ -319,6 +358,10 @@
       utilityValue: "",
       usesTokens: "",
     },
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
   };
   let spiritBoardBack = JSON.parse(JSON.stringify(emptySpiritBoardBack));
 
@@ -327,6 +370,10 @@
     demoBoardWasLoaded: false,
     spiritName: "",
     stackView: false,
+    language: "en",
+    languageOptions: {
+      isVisible: false,
+    },
     previewBoard: {
       isVisible: false,
     },
@@ -369,6 +416,10 @@
     ],
     cardBackImage: "",
     cardBackImageIsVisible: false,
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
   };
   let powerCards = JSON.parse(JSON.stringify(emptyPowerCards));
 
@@ -440,6 +491,10 @@
         has: false,
         effect: "",
       },
+    },
+    customIcons: {
+      isVisible: false,
+      icons: [],
     },
   };
   let aspect = JSON.parse(JSON.stringify(emptyAspect));
@@ -530,6 +585,10 @@
         },
       ],
     },
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
   };
   let adversary = JSON.parse(JSON.stringify(emptyAdversary));
 
@@ -584,6 +643,10 @@
         ],
       },
     },
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
   };
   let scenario = JSON.parse(JSON.stringify(emptyScenario));
 
@@ -599,6 +662,10 @@
       cardEffect: "",
       blightPerPlayer: "",
       isStillHealthy: false,
+    },
+    customIcons: {
+      isVisible: false,
+      icons: [],
     },
   };
   let blightCard = JSON.parse(JSON.stringify(emptyBlightCard));
@@ -617,6 +684,10 @@
       level3: "",
     },
     showBack: false,
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
   };
   let fearCard = JSON.parse(JSON.stringify(emptyFearCard));
 
@@ -635,6 +706,10 @@
       empoweredOnlyToken: false,
       empoweredToken: "",
       color: "",
+    },
+    customIcons: {
+      isVisible: false,
+      icons: [],
     },
   };
   let incarnaToken = JSON.parse(JSON.stringify(emptyIncarnaToken));
@@ -692,6 +767,10 @@
       ],
     },
     showBack: false,
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
   };
   let eventCard = JSON.parse(JSON.stringify(emptyEventCard));
 
@@ -712,11 +791,19 @@
 
 <div class="body">
   <header>
-    <div style="display:flex;align-items: baseline;flex-wrap: wrap;">
+    <div style="display:flex;align-items: baseline;flex-wrap: wrap;width:100%;">
       <h1 class="title is-1 ml-5">Spirit Island Builder</h1>
       <h2 class="subtitle is-6 ml-5">
         The unofficial tool for creating custom content for Spirit Island by Greater Than Games.
       </h2>
+      <label
+        id="theme-switch"
+        class="theme-switch"
+        for="checkbox_theme"
+        style="margin-left: auto;margin-right: 25px;">
+        Dark Mode:
+        <input type="checkbox" id="checkbox_theme" />
+      </label>
     </div>
     <nav class="navbar ml-5 mr-5">
       <div class="navbar-brand is-flex-wrap-wrap">
@@ -752,6 +839,7 @@
     class="container"
     class:is-sideMenu={currentPage === "spiritBoardFront" ||
       currentPage === "spiritBoardBack" ||
+      currentPage === "powerCards" ||
       currentPage === "adversary" ||
       currentPage === "scenario" ||
       currentPage === "incarnaToken" ||
@@ -763,7 +851,6 @@
       <SpiritBoard
         bind:spiritBoard
         bind:emptySpiritBoard
-        bind:customIcons
         bind:combinedTTS
         bind:emptyCombinedTTS
         bind:currentPage />
@@ -771,7 +858,6 @@
       <SpiritBoardBack
         bind:spiritBoardBack
         bind:emptySpiritBoardBack
-        bind:customIcons
         bind:combinedTTS
         bind:emptyCombinedTTS
         bind:currentPage />
@@ -779,24 +865,23 @@
       <PowerCards
         bind:powerCards
         bind:emptyPowerCards
-        bind:customIcons
         bind:combinedTTS
         bind:emptyCombinedTTS
         bind:currentPage />
     {:else if currentPage === "aspect"}
-      <Aspect bind:aspect bind:emptyAspect bind:customIcons />
+      <Aspect bind:aspect bind:emptyAspect />
     {:else if currentPage === "adversary"}
-      <Adversary bind:adversary bind:emptyAdversary bind:customIcons />
+      <Adversary bind:adversary bind:emptyAdversary />
     {:else if currentPage === "scenario"}
-      <Scenario bind:scenario bind:emptyScenario bind:customIcons />
+      <Scenario bind:scenario bind:emptyScenario />
     {:else if currentPage === "incarnaToken"}
-      <IncarnaToken bind:incarnaToken bind:emptyIncarnaToken bind:customIcons />
+      <IncarnaToken bind:incarnaToken bind:emptyIncarnaToken />
     {:else if currentPage === "blightCard"}
-      <BlightCard bind:blightCard bind:emptyBlightCard bind:customIcons />
+      <BlightCard bind:blightCard bind:emptyBlightCard />
     {:else if currentPage === "fearCard"}
-      <FearCard bind:fearCard bind:emptyFearCard bind:customIcons />
+      <FearCard bind:fearCard bind:emptyFearCard />
     {:else if currentPage === "eventCard"}
-      <EventCard bind:eventCard bind:emptyEventCard bind:customIcons />
+      <EventCard bind:eventCard bind:emptyEventCard />
     {:else if currentPage === "about"}
       <About />
     {/if}

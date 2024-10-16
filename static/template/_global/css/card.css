@@ -56,6 +56,9 @@ card {
 
 cards.enable-stack-view card.stack-view {
   margin-right: -385px;
+}
+
+cards.enable-stack-view card {
   filter: drop-shadow(2px 4px 6px black);
 }
 
@@ -209,11 +212,8 @@ card.minor type-watermark {
 }
 
 name {
-  position: absolute;
-  left: 133px;
-  top: 25px;
-  height: 68px;
-  width: 320px;
+  position: relative;
+  width: 100%;
   font-size: 28px;
   line-height: 32px;
   word-spacing: -3px;
@@ -226,14 +226,22 @@ name {
   white-space: normal;
   align-items: center;
   z-index: 6;
+  margin-bottom: 3px;
 }
 
-/* name:hover {
-  text-shadow: -1px 1px 0 #000000, 1px 1px 0 #000000, 1px -1px 0 #000000, -1px -1px 0 #000000;
+name-holder {
+  position: absolute;
+  left: 133px;
+  top: 25px;
+  height: 68px;
+  width: 320px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  white-space: normal;
+  align-items: center;
+  z-index: 6;
 }
-name:hover {
-  cursor: pointer;
-} */
 
 card:hover name {
   text-shadow: -1px 1px 0 #000000, 1px 1px 0 #000000, 1px -1px 0 #000000, -1px -1px 0 #000000;
@@ -576,6 +584,10 @@ or {
   background-position: center;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+.or:lang(pl) {
+  background-image: url("../images/or_pl.png");
 }
 
 icon {

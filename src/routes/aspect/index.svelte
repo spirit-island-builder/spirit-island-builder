@@ -23,7 +23,6 @@
 
   export let aspect;
   export let emptyAspect;
-  export let customIcons;
 
   let previewFrame;
 
@@ -165,14 +164,10 @@
     }
 
     //Set Custom Icons
-    const spiritStyle = document.createElement("style");
-    fragment.prepend(spiritStyle);
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-    });
-    spiritStyle.textContent = customIconText;
+    let customIconText = Lib.getCustomIconHTML(aspect.customIcons);
+    const aspectStyle = document.createElement("style");
+    fragment.prepend(aspectStyle);
+    aspectStyle.textContent = customIconText;
 
     return fragment;
   }
@@ -307,21 +302,11 @@
     }
 
     //Custom Icons
-    // if (aspect.demoBoardWasLoaded) {
-    const aspectStyle = htmlElement.querySelectorAll("style")[0];
-    customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-    if (aspectStyle) {
-      const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-      let iconList = aspectStyle.textContent.match(regExp);
-      if (iconList) {
-        iconList.forEach((customIcon) => {
-          customIcons = Lib.addCustomIcon(customIcons, customIcon);
-        });
-      }
-    }
-    // } else {
-    //   console.log("SKIPPING ICON LOAD");
-    // }
+    aspect.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      aspect.customIcons,
+      document.baseURI
+    );
   }
 
   function exportAspect() {
@@ -354,7 +339,7 @@
   function hideAll() {
     aspect.nameReplacements.isVisible = false;
     aspect.aspectEffects.isVisible = false;
-    customIcons.isVisible = false;
+    aspect.customIcons.isVisible = false;
   }
 
   async function downloadTTSJSON() {
@@ -490,7 +475,7 @@
   <div class="column is-one-third pt-0">
     <NameReplacements bind:aspect />
     <AspectEffects bind:aspect />
-    <CustomIcons bind:customIcons />
+    <CustomIcons customIcons={aspect.customIcons} />
   </div>
   <div class="column pt-0">
     <PreviewFrame

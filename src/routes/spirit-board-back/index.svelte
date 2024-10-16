@@ -11,10 +11,10 @@
   import CustomIcons from "../custom-icons.svelte";
   import CombinedTTS from "../combined-tts-spirit-powers-export.svelte";
   import InstructionsLink from "$lib/instructions/link.svelte";
+  import LanguageOptions from "./language-options.svelte";
 
   export let spiritBoardBack;
   export let emptySpiritBoardBack;
-  export let customIcons;
   export let combinedTTS;
   export let emptyCombinedTTS;
   export let currentPage;
@@ -42,6 +42,7 @@
     if (spiritBoardBack.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
         spiritBoardBack.demoBoardWasLoaded = true;
+        emptySpiritBoardBack.demoBoardWasLoaded = true;
       });
     } else {
       reloadPreview();
@@ -61,6 +62,12 @@
 
     const loreBoardHTML = document.createElement("board");
     fragment.append(loreBoardHTML);
+
+    if (spiritBoardBack.language) {
+      loreBoardHTML.setAttribute("lang", spiritBoardBack.language);
+    } else {
+      loreBoardHTML.setAttribute("lang", "en");
+    }
 
     //Set Spirit Image
     const loreImage = document.createElement("img");
@@ -141,14 +148,10 @@
     thirdSection.append(summaryPowersHeader);
 
     //Set Custom Icons
-    const spiritStyle = document.createElement("style");
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-    });
-    spiritStyle.textContent = customIconText;
-    fragment.prepend(spiritStyle);
+    let customIconText = Lib.getCustomIconHTML(spiritBoardBack.customIcons);
+    const spiritBackStyle = document.createElement("style");
+    fragment.prepend(spiritBackStyle);
+    spiritBackStyle.textContent = customIconText;
 
     return fragment;
   }
@@ -162,6 +165,11 @@
     const loreName = loreBoardHTML.querySelectorAll("spirit-name")[0];
 
     spiritBoardBack.nameImage.name = loreName.innerHTML.trim();
+
+    const language = loreBoardHTML.getAttribute("lang");
+    if (language) {
+      spiritBoardBack.language = language;
+    }
 
     //Set Spirit Image
     const loreImage = loreBoardHTML.querySelectorAll("img")[0];
@@ -210,23 +218,11 @@
     spiritBoardBack.summary.usesTokens = summaryPowersHeader.getAttribute("uses");
 
     //Custom Icons
-    if (spiritBoardBack.demoBoardWasLoaded) {
-      const spiritStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (spiritStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = spiritStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcon = Lib.maybeResolveURL(customIcon, baseURI);
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
-      }
-    } else {
-      console.log("SKIPPING ICON LOAD");
-    }
+    spiritBoardBack.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      spiritBoardBack.customIcons,
+      document.baseURI
+    );
   }
 
   function exportSpiritBoardBack() {
@@ -273,7 +269,9 @@
   <div class="column is-one-third pt-0">
     <NameArtLore bind:spiritBoardBack />
     <SetupPlaystyleComplexityPowers bind:spiritBoardBack />
-    <CustomIcons bind:customIcons />
+    <div class="content mb-0 mt-2">Options</div>
+    <CustomIcons customIcons={spiritBoardBack.customIcons} />
+    <LanguageOptions bind:spiritBoardBack />
     <CombinedTTS
       bind:combinedTTS
       bind:currentPage
