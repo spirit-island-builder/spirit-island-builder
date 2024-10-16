@@ -16,7 +16,6 @@
 
   export let scenario;
   export let emptyScenario;
-  export let customIcons;
 
   // let exampleModal;
   let previewFrame;
@@ -132,14 +131,10 @@
     });
 
     //Set Custom Icons
-    const spiritStyle = document.createElement("style");
-    fragment.prepend(spiritStyle);
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-    });
-    spiritStyle.textContent = customIconText;
+    let customIconText = Lib.getCustomIconHTML(scenario.customIcons);
+    const scenarioStyle = document.createElement("style");
+    fragment.prepend(scenarioStyle);
+    scenarioStyle.textContent = customIconText;
 
     return fragment;
   }
@@ -214,22 +209,11 @@
     console.log(scenario);
 
     //Custom Icons
-    if (scenario.demoBoardWasLoaded) {
-      const scenarioStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (scenarioStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = scenarioStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
-      }
-    } else {
-      console.log("SKIPPING ICON LOAD");
-    }
+    scenario.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      scenario.customIcons,
+      document.baseURI
+    );
   }
 
   function exportScenario() {
@@ -296,7 +280,7 @@
     <NameDifficultyImage bind:scenario />
     <FrontScenario bind:scenario />
     <BackScenario bind:scenario />
-    <CustomIcons bind:customIcons />
+    <CustomIcons customIcons={scenario.customIcons} />
   </div>
   <div class="column pt-0">
     <PreviewFrame id="scenario-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>

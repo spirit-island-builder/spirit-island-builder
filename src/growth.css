@@ -11,7 +11,7 @@
 .growth-group-title {
   display: flex;
   flex-direction: column-reverse;
-  background-color: #eff1fa !important;
+  background-color: #eff1fa;
   width: 1.8em;
   flex-wrap: wrap;
   align-content: center;
@@ -94,4 +94,12 @@
 
 div.growth-action-container input {
   padding-left: calc(0.75em + 8px);
+}
+
+[data-theme="dark"],
+.theme-dark {
+  .growth-group-title {
+    background-color: #595a5e96;
+    color: white;
+  }
 }

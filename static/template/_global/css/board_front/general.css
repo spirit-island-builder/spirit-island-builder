@@ -53,7 +53,7 @@ board {
   overflow: hidden;
 }
 
-spirit-name:hover {
+spirit-name-text:hover {
   text-shadow: -2px 2px 0 #ffffff, 2px 2px 0 #ffffff, 2px -2px 0 #ffffff, -2px -2px 0 #ffffff;
   color: #000;
   cursor: pointer;
@@ -66,29 +66,34 @@ board.round-border {
 spirit-name {
   display: flex;
   align-items: center;
-  margin-left: 0px;
-  height: 100px;
-  width: 666.25px;
+  z-index: 2;
+  position: relative;
+}
+
+spirit-name-text {
+  display: block;
+  position: absolute;
   font-family: "Name Headings";
   text-transform: uppercase;
   color: white;
   text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
-  vertical-align: middle;
   text-align: left;
   z-index: 2;
-  white-space: normal;
-  position: relative;
-  background-repeat: no-repeat;
-  background-position: left center;
-  text-indent: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-bottom: -50px;
-  margin-top: -50px;
-
+  white-space: nowrap;
   letter-spacing: 3px;
   word-spacing: -10px;
   font-size: 45px;
+  text-indent: 20px;
+  margin-bottom: 16px;
+  width: 650px;
+}
+
+spirit-name-art {
+  display: block;
+  position: absolute;
+  margin-left: 0px;
+  height: 100px;
+  width: 666.25px;
 }
 
 artist-name {
@@ -188,6 +193,7 @@ none {
 
 section-title {
   display: block;
+  position: relative;
   font-family: "Name Headings";
   text-transform: uppercase;
   font-size: 33.33px;

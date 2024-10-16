@@ -64,6 +64,11 @@ function addImages(board) {
   const imageSize = board.getAttribute("spirit-image-scale");
   board.removeAttribute("spirit-image-scale");
 
+  const spiritNameText = document.createElement("spirit-name-text");
+  spiritNameText.innerHTML = spiritNamePanel.innerHTML;
+  spiritNamePanel.innerHTML = "";
+  spiritNamePanel.appendChild(spiritNameText);
+
   const specialRules = board.querySelectorAll("special-rules-container")[0];
   let height = specialRules.getAttribute("height");
   if (!height) {
@@ -73,11 +78,11 @@ function addImages(board) {
 
   //Scale Spirit Name if too large
   let nameFontSize = parseFloat(
-    window.getComputedStyle(spiritNamePanel, null).getPropertyValue("font-size")
+    window.getComputedStyle(spiritNameText, null).getPropertyValue("font-size")
   );
-  while (checkOverflowHeight(spiritNamePanel)) {
+  while (checkOverflowWidth(spiritNameText, 0)) {
     nameFontSize -= 1;
-    spiritNamePanel.style.fontSize = nameFontSize + "px";
+    spiritNameText.style.fontSize = nameFontSize + "px";
     if (nameFontSize < 32) {
       console.log("too small, break");
       break;
@@ -86,9 +91,11 @@ function addImages(board) {
 
   if (spiritBorder) {
     const spiritBorderSize = board.getAttribute("spirit-border-scale");
-    spiritNamePanel.style.backgroundImage = `url(${spiritBorder})`;
+    const spiritNameArt = document.createElement("spirit-name-art");
+    spiritNamePanel.appendChild(spiritNameArt);
+    spiritNameArt.style.backgroundImage = `url(${spiritBorder})`;
     const borderHeight = spiritBorderSize !== null ? spiritBorderSize : "100px";
-    spiritNamePanel.style.backgroundSize = `705px ${borderHeight}`;
+    spiritNameArt.style.backgroundSize = `705px ${borderHeight}`;
   }
   if (spiritImage) {
     //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
@@ -941,7 +948,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           //Icons
           let elementIcons = "<gain class='or'>";
           for (let i = 0; i < elementOptions.length; i++) {
-            elementIcons += "<icon class='orelement " + elementOptions[i] + "'></icon>";
+            elementIcons += "<icon class='orelement element " + elementOptions[i] + "'></icon>";
             if (i < elementOptions.length - 1) {
               elementIcons += "{backslash}";
             }
@@ -980,7 +987,7 @@ function getGrowthActionTextAndIcons(growthAction) {
             let cur_element =
               elementOptions.at(-1) === "and" ? elementOptions[i] : elementOptions[0];
             elementIcons +=
-              "<icon-multi-element><icon class='" +
+              "<icon-multi-element><icon class='element " +
               cur_element +
               "'" +
               element_loc +
@@ -990,7 +997,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           growthIcons = "<gain>" + elementIcons + "</gain>";
         }
       } else {
-        growthIcons = "<gain>{" + gainedElement + "}</gain>";
+        growthIcons = "<gain><icon class='element " + gainedElement + "'></icon></gain>";
       }
       growthText = IconName(growthAction);
       break;
@@ -2273,7 +2280,15 @@ function getPresenceNodeHtml(
           trackIcons += "<icon class='" + splitOptions[i] + " small'" + "></icon>";
           addEnergyRing = false;
         } else if (splitOptions[i].startsWith("gain-power-card")) {
-          trackIcons += "<icon class='" + splitOptions[i] + " small'" + "></icon>";
+          const matches = regExp.exec(splitOptions[i]);
+          if (matches) {
+            trackIcons +=
+              "<icon class='gain-power-card-blank small'><icon class='" +
+              matches[1] +
+              " small'></icon></icon>";
+          } else {
+            trackIcons += "<icon class='" + splitOptions[i] + " small'" + "></icon>";
+          }
         } else if (splitOptions[i].startsWith("move-presence")) {
           const matches = regExp.exec(splitOptions[i]);
           const moveRange = matches[1];
@@ -2445,6 +2460,18 @@ function IconName(str, iconNum = 1) {
   if (str.startsWith("incarna-")) {
     str = str.replace("incarna-", "");
     console.log("removing incarna from icon name");
+  }
+  if (str.startsWith("large-")) {
+    str = str.replace("large-", "");
+    console.log("removing large from icon name");
+  }
+  if (str.startsWith("medium-")) {
+    str = str.replace("medium-", "");
+    console.log("removing medium from icon name");
+  }
+  if (str.startsWith("small-")) {
+    str = str.replace("small-", "");
+    console.log("removing small from icon name");
   }
   // if (str.startsWith("custom")) {
   //   str = getCustomIconName(str);
@@ -2901,6 +2928,16 @@ function IconName(str, iconNum = 1) {
         pl: "Odzyskaj połowę <em>(zaokrąglając w górę)</em>",
         ar: "",
         zh: "回收一半法術牌",
+      };
+      subText = localize[lang];
+      break;
+    case "reclaim-custom":
+      localize = {
+        en: "Reclaim " + txt,
+        de: "",
+        pl: "Odzyskaj " + txt,
+        ar: "",
+        zh: "",
       };
       subText = localize[lang];
       break;
@@ -3788,7 +3825,9 @@ function growthHeadersAndTitles() {
     subHeaders[i].style.width =
       Math.ceil(
         parseFloat(window.getComputedStyle(header).getPropertyValue("width").replace(/px/, ""))
-      ) + "px";
+      ) +
+      1 +
+      "px";
   });
 
   // Create special titles
@@ -4145,6 +4184,10 @@ function dynamicResizing() {
     if (debug) {
       console.log("relaxing growth texts");
     }
+    finalGrowthTexts[i].style.width =
+      Math.ceil(
+        parseFloat(window.getComputedStyle(finalGrowthTexts[i], null).getPropertyValue("width"))
+      ) + "px";
   }
 
   // Innate Power Sizing
@@ -4206,7 +4249,7 @@ function dynamicResizing() {
 
   // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
   let currentTrack;
-  debug = false;
+  debug = true;
   // let last_node_adjusted = false;
   if (tightFlag) {
     console.log("  Flag: tightening presence tracks");
@@ -4448,6 +4491,23 @@ function innatePowerSizing(board) {
     console.log(board);
   }
 
+  // Check for overflow in name
+  let powerTitles = board.getElementsByTagName("innate-power-title");
+  for (let i = 0; i < powerTitles.length; i++) {
+    let el = powerTitles[i];
+    let j = 0;
+    while (checkOverflowWidth(el, 0)) {
+      const style = window.getComputedStyle(powerTitles[i], null).getPropertyValue("font-size");
+      const fontSize = parseFloat(style);
+      powerTitles[i].style.fontSize = fontSize - 1 + "px";
+      // safety valve
+      j += 1;
+      if (j > 5) {
+        break;
+      }
+    }
+  }
+
   // Innate Power Notes (scale font size)
   const noteBlocks = board.getElementsByTagName("note");
 
@@ -4517,7 +4577,7 @@ function innatePowerSizing(board) {
 }
 
 function balanceText(el, lineHeight = 23) {
-  let debug = false;
+  let debug = true;
   const initialHeight = el.offsetHeight;
   const initialWidth = el.offsetWidth;
   if (debug) {

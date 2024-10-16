@@ -26,7 +26,6 @@
 
   export let spiritBoard;
   export let emptySpiritBoard;
-  export let customIcons;
   export let combinedTTS;
   export let emptyCombinedTTS;
   export let currentPage;
@@ -46,7 +45,7 @@
     spiritBoard.growth.isVisible = false;
     spiritBoard.presenceTrack.isVisible = false;
     spiritBoard.innatePowers.isVisible = false;
-    customIcons.isVisible = false;
+    spiritBoard.customIcons.isVisible = false;
     combinedTTS.isVisible = false;
   }
 
@@ -73,7 +72,7 @@
       hideAll();
       spiritBoard.innatePowers.isVisible = outcome;
     }
-    if (e.target.tagName === "SPIRIT-IMAGE" || e.target.tagName === "SPIRIT-NAME") {
+    if (e.target.tagName === "SPIRIT-IMAGE" || e.target.tagName === "SPIRIT-NAME-TEXT") {
       outcome = !spiritBoard.nameAndArt.isVisible;
       hideAll();
       spiritBoard.nameAndArt.isVisible = outcome;
@@ -326,15 +325,9 @@
     }
 
     //Set Custom Icons
+    let customIconText = Lib.getCustomIconHTML(spiritBoard.customIcons);
     const spiritStyle = document.createElement("style");
     fragment.prepend(spiritStyle);
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" +
-        (icon.id + 1) +
-        `{data-iconname:'${icon.displayName}'; background-image: url('${icon.name}'); }\n`;
-    });
     spiritStyle.textContent = customIconText;
 
     return fragment;
@@ -551,34 +544,11 @@
       : "";
 
     //Load Custom Icons
-    const spiritStyle = htmlElement.querySelectorAll("style")[0];
-    customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-    if (spiritStyle) {
-      const regExp = new RegExp(/(["'])(?:(?=(\\?))\2.)*?\1/, "g");
-      // let iconList = spiritStyle.textContent.match(regExp);
-      let iconList = spiritStyle.textContent.split("icon.custom");
-      iconList.shift();
-
-      if (iconList) {
-        iconList.forEach((customIcon, i) => {
-          let iconProperties = customIcon.match(regExp);
-          let customIconName = "";
-          let customIconURI = "";
-          if (customIcon.includes("data-iconname")) {
-            customIconName = iconProperties[0].replaceAll("'", "").replaceAll('"', "");
-            if (!customIconName) {
-              customIconName = "custom" + (i + 1);
-            }
-            customIconURI = iconProperties[1].replaceAll("'", "").replaceAll('"', "");
-          } else {
-            customIconName = "custom" + (i + 1);
-            customIconURI = iconProperties[0].replaceAll("'", "").replaceAll('"', "");
-          }
-          customIcon = Lib.maybeResolveURL(customIconURI, baseURI);
-          customIcons = Lib.addCustomIcon(customIcons, customIcon, customIconName);
-        });
-      }
-    }
+    spiritBoard.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      spiritBoard.customIcons,
+      document.baseURI
+    );
   }
 
   function reloadPreview() {
@@ -609,12 +579,14 @@
     let presenceNodes = Array.from(board.getElementsByTagName("presence-node"));
     let snapPoints = [];
     if (debug) {
+      console.log("TTS Export");
       console.log(presenceNodes);
+      console.log("Snap Points");
     }
     presenceNodes.forEach((node) => {
       let rect = node.getElementsByTagName("ring-icon")[0].getBoundingClientRect();
       if (node.classList.contains("first")) {
-        console.log("skip");
+        console.log("skip first");
       } else {
         snapPoints.push({
           Position: {
@@ -636,9 +608,15 @@
     });
 
     //Lua scripting - thresholds (see tts.js)
+    if (debug) {
+      console.log("IP Thresholds (on lib.js)");
+    }
     let thresholds = getThresholdTTSJSON(board);
 
     //Lua scripting - track energy & elements
+    if (debug) {
+      console.log("Elements");
+    }
     let trackElements = [];
     let formNodes = spiritBoard.presenceTrack.energyNodes.concat(
       spiritBoard.presenceTrack.playsNodes
@@ -646,11 +624,7 @@
     let boardNodes = Array.from(board.getElementsByTagName("presence-node"));
     let regExpOuterParentheses = /\(\s*(.+)\s*\)/;
     formNodes.forEach((node, j) => {
-      let nodeEffectText = node.effect;
-      let matches = regExpOuterParentheses.exec(nodeEffectText);
-      if (matches) {
-        nodeEffectText = matches[1];
-      }
+      let nodeEffectText = processNodeEffectsForTTS(node.effect);
 
       const nameCounts = {};
       nodeEffectText.split("+").forEach(function (x) {
@@ -707,19 +681,30 @@
       }
     });
 
+    if (debug) {
+      console.log("Energy & Bonus Energy");
+    }
     let trackEnergy = [];
     let bonusEnergy = [];
     let energyNodes = spiritBoard.presenceTrack.energyNodes.slice();
     let formEnergyNodes = Array.from(
       board.getElementsByClassName("energy-track")[0].getElementsByTagName("presence-node")
     );
-
+    if (debug) {
+      console.log("Energy Nodes & Form Energy Nodes");
+      console.log(energyNodes);
+      console.log(formEnergyNodes);
+    }
     let lowestEnergy = -1;
     energyNodes.forEach((node, i) => {
-      let nodeEffectText = node.effect;
-      let matches = regExpOuterParentheses.exec(nodeEffectText);
-      if (matches) {
-        nodeEffectText = matches[1];
+      if (debug) {
+        console.log("processing node...");
+        console.log(node);
+      }
+      let nodeEffectText = processNodeEffectsForTTS(node.effect);
+
+      if (debug) {
+        console.log(nodeEffectText);
       }
 
       const nameCounts = {};
@@ -734,13 +719,15 @@
       });
 
       let namesList = Object.keys(nameCounts);
-
+      console.log(namesList);
       for (let j = 0; j < namesList.length; j++) {
         if (!isNaN(namesList[j])) {
+          console.log("bonus node?");
           let rect = formEnergyNodes[i]
             .getElementsByTagName("ring-icon")[0]
             .getBoundingClientRect();
           if (namesList[j][0] === "+") {
+            console.log("bonus node!");
             bonusEnergy.push({
               count: Number(namesList[j]),
               position: {
@@ -759,6 +746,8 @@
               },
             });
           } else if (namesList[j] > lowestEnergy) {
+            console.log("Adding Energy to TTS...");
+            console.log(namesList[j]);
             lowestEnergy = namesList[j];
             trackEnergy.push({
               count: Number(lowestEnergy),
@@ -784,6 +773,25 @@
 
     // trackEnergy needs to be logged in reverse order by convention
     trackEnergy.reverse();
+
+    function processNodeEffectsForTTS(nodeEffects) {
+      let nodeEffectText = nodeEffects.toLowerCase();
+
+      // Detect Middle or Bonus
+      if (nodeEffectText.startsWith("middle") || nodeEffectText.startsWith("bonus")) {
+        let matches = regExpOuterParentheses.exec(nodeEffectText);
+        if (matches) {
+          nodeEffectText = matches[1];
+          if (debug) {
+            console.log("removing middle/bonus");
+          }
+        }
+      }
+      //Strip any modifications
+      nodeEffectText = nodeEffectText.split("_")[0].split("^")[0].split("*")[0];
+
+      return nodeEffectText;
+    }
 
     let spiritBoardJson = jsone(spiritBoardJsonTemplate, {
       guid: spiritBoard.nameAndArt.name.replaceAll(" ", "_"),
@@ -869,7 +877,7 @@
     <PresenceTracks bind:spiritBoard />
     <InnatePowers bind:spiritBoard />
     <div class="content mb-0 mt-2">Options</div>
-    <CustomIcons bind:customIcons />
+    <CustomIcons customIcons={spiritBoard.customIcons} />
     <LanguageOptions bind:spiritBoard />
     <CombinedTTS
       bind:combinedTTS

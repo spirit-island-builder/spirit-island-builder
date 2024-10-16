@@ -11,6 +11,9 @@ presence-tracks presence-note {
   font-size: 18.66px;
   margin-left: 8px;
   letter-spacing: -0.75px;
+  position: relative;
+  display: block;
+  margin-top: 10px;
 }
 
 presence-tracks {
@@ -44,9 +47,11 @@ presence-tracks presence-title {
   margin-left: 39px;
   margin-bottom: 12px;
   padding-top: 0px;
-  display: flex;
-  align-items: flex-end;
   pointer-events: none;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 presence-tracks presence-title.tight {
@@ -285,12 +290,17 @@ card-icon.small {
 }
 
 .gain-card-play.small,
-.gain-power-card.small {
+.gain-power-card.small,
+.gain-power-card-blank.small {
   height: 80px;
   width: 80px;
   margin-left: -7px;
   margin-right: -5px;
   margin-top: -14px;
+}
+
+.gain-power-card-blank.small .small {
+  width: 38px;
 }
 
 presence-node energy-icon {
@@ -829,4 +839,19 @@ icon.gain-power-card-blank > icon {
 
 presence-tracks.shadow subtext {
   text-shadow: 1px 0 #f1decc, 1px 1px 0 #f1decc, 1px -1px 0 #f1decc, -1px -1px 0 #f1decc;
+}
+
+presence-node icon.large {
+  width: 80px;
+  height: 80px;
+}
+
+presence-node icon.medium {
+  width: 68px;
+  height: 68px;
+}
+
+presence-node icon.small {
+  width: 42px;
+  height: 42px;
 }
