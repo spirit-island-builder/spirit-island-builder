@@ -444,6 +444,7 @@
     padding: 0px 1px 0px 4px;
     border-bottom: none;
     cursor: default;
+    pointer-events: none;
   }
 
   .autocomplete-items.detail div:last-of-type {

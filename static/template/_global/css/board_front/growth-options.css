@@ -330,10 +330,10 @@ growth-cell icon {
 }
 
 growth-cell icon.presence {
-  margin-left: 8px;
+  /* margin-left: 8px;
   width: 43px;
   height: 26px;
-  margin-bottom: 0px;
+  margin-bottom: 0px; */
 }
 
 growth-cell icon.destroyed-presence,
@@ -487,6 +487,13 @@ plus-presence {
   display: block;
   line-height: 20px;
   margin-bottom: 1px;
+}
+
+plus-presence icon.presence {
+  margin-left: 8px;
+  width: 43px;
+  height: 26px;
+  margin-bottom: 0px;
 }
 
 custom-presence plus-presence {
@@ -1186,15 +1193,15 @@ growth-cell icon.gather-into {
   display: inline-block;
   height: 62px;
   width: 100px;
-  margin-right: 20px;
-  margin-bottom: 7px;
+  margin: 0px;
 }
 
 growth-cell icon.gather-into > icon {
-  position: relative;
+  position: absolute;
+  display: block;
   text-align: unset;
-  left: 70px;
-  top: 15px;
+  left: 82px;
+  top: 12px;
   width: 30px;
   height: 25px;
   margin: 0px;
@@ -1202,7 +1209,7 @@ growth-cell icon.gather-into > icon {
 }
 
 growth-cell icon.gather-into > .into {
-  left: -30px;
+  left: 16px;
   top: 10px;
   width: 35px;
 }
@@ -1211,6 +1218,32 @@ growth-cell icon.gather-into > icon.explorer {
   height: 35px;
   margin-top: -10px;
   margin-bottom: -6px;
+}
+
+icon-holder {
+  margin: 0px;
+  display: flex;
+  position: relative;
+  left: 86px;
+  top: 12px;
+  width: 55px;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-evenly;
+}
+
+icon-holder icon {
+  position: relative;
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  margin: 0px;
+}
+
+.terrain-gather > icon-holder {
+  left: 94px;
+  top: -10px;
 }
 
 growth-cost {
@@ -1437,10 +1470,9 @@ push-gather {
   font-size: 26.66px;
   font-weight: bold;
   display: block;
-  margin-top: 10px;
+  position: relative;
   width: auto;
-  height: 110px;
-  margin-bottom: -30px;
+  height: 90px;
 }
 
 push-gather icon.terrain-gather {
@@ -1463,9 +1495,10 @@ push-gather icon.terrain-push {
   margin-left: 0px;
 }
 
-push-gather icon.terrain-gather > icon.into {
-  left: 58px;
-  top: -8px;
+push-gather icon.terrain-gather > icon {
+  left: 90px;
+  top: -10px;
+  display: block;
   position: relative;
   text-align: unset;
   width: 30px;
@@ -1474,9 +1507,9 @@ push-gather icon.terrain-gather > icon.into {
   padding: 0px;
 }
 
-push-gather icon.terrain-push > icon.from {
-  left: -26px;
-  top: 13px;
+push-gather icon.terrain-push > icon {
+  left: -11px;
+  top: -14px;
   position: relative;
   text-align: unset;
   width: 30px;
