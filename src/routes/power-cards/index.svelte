@@ -20,7 +20,6 @@
 
   export let powerCards;
   export let emptyPowerCards;
-  export let customIcons;
   export let combinedTTS;
   export let emptyCombinedTTS;
   export let currentPage;
@@ -119,14 +118,10 @@
     }
 
     //Set Custom Icons
-    const spiritStyle = document.createElement("style");
-    fragment.prepend(spiritStyle);
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-    });
-    spiritStyle.textContent = customIconText;
+    let customIconText = Lib.getCustomIconHTML(powerCards.customIcons);
+    const cardsStyle = document.createElement("style");
+    fragment.prepend(cardsStyle);
+    cardsStyle.textContent = customIconText;
 
     // Card Back
     if (powerCards.cardBackImage) {
@@ -166,23 +161,12 @@
       addPowerCard(powerCards, powerCardHTML, baseURI);
     });
 
-    //Custom Icons
-    if (powerCards.demoBoardWasLoaded) {
-      const cardsStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (cardsStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = cardsStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
-      }
-    } else {
-      console.log("SKIPPING ICON LOAD");
-    }
+    //Load Custom Icons
+    powerCards.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      powerCards.customIcons,
+      document.baseURI
+    );
 
     const cardBack = htmlElement.querySelectorAll("card-back")[0];
     if (cardBack) {
@@ -245,10 +229,8 @@
     });
 
     //Check for Null targeting
-    let targetTitleCheck = powerCardHTML.getAttribute("target-title");
-    if (!targetTitleCheck) {
-      targetTitleCheck = "target land";
-    }
+    let targetTitleCheck =
+      powerCardHTML.getAttribute("target-title").toUpperCase() || "TARGET LAND";
 
     //Add the card
     powerCards.cards.push({
@@ -440,6 +422,7 @@
 
   function hideAll() {
     powerCards.cards.forEach((card) => (card.isVisible = false));
+    powerCards.customIcons.isVisible = false;
   }
 
   async function loadExample(example) {
@@ -486,10 +469,10 @@
   function setStackView() {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let cardHolder = previewFrame.document.getElementsByTagName("cards")[0];
-    if (!cardHolder.classList.contains("enable-stack-view")) {
-      cardHolder.classList.add("enable-stack-view");
-      powerCards.stackView = true;
-    }
+    // if (!cardHolder.classList.contains("enable-stack-view")) {
+    cardHolder.classList.add("enable-stack-view");
+    powerCards.stackView = true;
+    // }
     let cards = Array.from(previewFrame.document.getElementsByTagName("card"));
     cards.forEach((card) => {
       if (!card.classList.contains("stack-view")) {
@@ -501,10 +484,8 @@
   function unsetStackView() {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let cardHolder = previewFrame.document.getElementsByTagName("cards")[0];
-    if (cardHolder.classList.contains("enable-stack-view")) {
-      cardHolder.classList.remove("enable-stack-view");
-      powerCards.stackView = false;
-    }
+    cardHolder.classList.remove("enable-stack-view");
+    powerCards.stackView = false;
   }
 </script>
 
@@ -512,7 +493,7 @@
   <div class="column is-one-third pt-0">
     <PowerCard bind:powerCards />
     <div class="content mb-0 mt-2">Options</div>
-    <CustomIcons bind:customIcons />
+    <CustomIcons customIcons={powerCards.customIcons} />
     <LanguageOptions bind:powerCards />
     <CombinedTTS
       bind:combinedTTS

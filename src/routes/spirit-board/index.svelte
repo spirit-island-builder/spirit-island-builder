@@ -26,7 +26,6 @@
 
   export let spiritBoard;
   export let emptySpiritBoard;
-  export let customIcons;
   export let combinedTTS;
   export let emptyCombinedTTS;
   export let currentPage;
@@ -46,7 +45,7 @@
     spiritBoard.growth.isVisible = false;
     spiritBoard.presenceTrack.isVisible = false;
     spiritBoard.innatePowers.isVisible = false;
-    customIcons.isVisible = false;
+    spiritBoard.customIcons.isVisible = false;
     combinedTTS.isVisible = false;
   }
 
@@ -326,15 +325,9 @@
     }
 
     //Set Custom Icons
+    let customIconText = Lib.getCustomIconHTML(spiritBoard.customIcons);
     const spiritStyle = document.createElement("style");
     fragment.prepend(spiritStyle);
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" +
-        (icon.id + 1) +
-        `{data-iconname:'${icon.displayName}'; background-image: url('${icon.name}'); }\n`;
-    });
     spiritStyle.textContent = customIconText;
 
     return fragment;
@@ -551,34 +544,11 @@
       : "";
 
     //Load Custom Icons
-    const spiritStyle = htmlElement.querySelectorAll("style")[0];
-    customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-    if (spiritStyle) {
-      const regExp = new RegExp(/(["'])(?:(?=(\\?))\2.)*?\1/, "g");
-      // let iconList = spiritStyle.textContent.match(regExp);
-      let iconList = spiritStyle.textContent.split("icon.custom");
-      iconList.shift();
-
-      if (iconList) {
-        iconList.forEach((customIcon, i) => {
-          let iconProperties = customIcon.match(regExp);
-          let customIconName = "";
-          let customIconURI = "";
-          if (customIcon.includes("data-iconname")) {
-            customIconName = iconProperties[0].replaceAll("'", "").replaceAll('"', "");
-            if (!customIconName) {
-              customIconName = "custom" + (i + 1);
-            }
-            customIconURI = iconProperties[1].replaceAll("'", "").replaceAll('"', "");
-          } else {
-            customIconName = "custom" + (i + 1);
-            customIconURI = iconProperties[0].replaceAll("'", "").replaceAll('"', "");
-          }
-          customIcon = Lib.maybeResolveURL(customIconURI, baseURI);
-          customIcons = Lib.addCustomIcon(customIcons, customIcon, customIconName);
-        });
-      }
-    }
+    spiritBoard.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      spiritBoard.customIcons,
+      document.baseURI
+    );
   }
 
   function reloadPreview() {
@@ -907,7 +877,7 @@
     <PresenceTracks bind:spiritBoard />
     <InnatePowers bind:spiritBoard />
     <div class="content mb-0 mt-2">Options</div>
-    <CustomIcons bind:customIcons />
+    <CustomIcons customIcons={spiritBoard.customIcons} />
     <LanguageOptions bind:spiritBoard />
     <CombinedTTS
       bind:combinedTTS

@@ -217,14 +217,20 @@ board.hide-text growth-text {
 growth sub-section-title > span {
   flex-grow: 0;
   flex-shrink: 0;
+  display: block;
+  position: relative;
 }
 
 growth sub-section-header {
   flex-grow: 0;
   flex-shrink: 0;
+  display: block;
+  position: relative;
 }
 
 growth sub-section-line {
+  display: block;
+  position: relative;
   background-image: url("../../images/board/growth_underline.png");
   height: 5px;
   width: 100%;
@@ -484,7 +490,8 @@ presence-node.growth.blank {
 }
 
 plus-presence {
-  display: block;
+  display: flex;
+  position: relative;
   line-height: 20px;
   margin-bottom: 1px;
 }
@@ -985,8 +992,7 @@ div.gain-card-second-modifier icon {
 }
 
 token-wrap {
-  display: inline-flex;
-  flex-wrap: wrap;
+  display: flex;
   vertical-align: bottom;
   align-content: flex-end;
   padding-bottom: 2px;
@@ -1060,6 +1066,8 @@ custom-icon2 icon.move-range-4 {
 }
 
 growth-text {
+  display: flex;
+  position: relative;
   font-family: "Lato SemiBold";
   font-size: 18.66px;
   font-style: italic;

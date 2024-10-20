@@ -18,7 +18,6 @@
 
   export let eventCard;
   export let emptyEventCard;
-  export let customIcons;
 
   let previewFrame;
 
@@ -89,14 +88,10 @@
     });
 
     //Set Custom Icons
-    const spiritStyle = document.createElement("style");
-    fragment.prepend(spiritStyle);
-    let customIconText = "";
-    customIcons.icons.forEach((icon) => {
-      customIconText +=
-        "icon.custom" + (icon.id + 1) + "{background-image: url('" + icon.name + "'); }\n";
-    });
-    spiritStyle.textContent = customIconText;
+    let customIconText = Lib.getCustomIconHTML(eventCard.customIcons);
+    const eventCardStyle = document.createElement("style");
+    fragment.prepend(eventCardStyle);
+    eventCardStyle.textContent = customIconText;
 
     console.log("eventCard HTML generated");
     console.log(fragment);
@@ -147,22 +142,11 @@
     });
 
     //Custom Icons
-    if (eventCard.demoBoardWasLoaded) {
-      const eventCardStyle = htmlElement.querySelectorAll("style")[0];
-      customIcons.icons.splice(0, customIcons.icons.length); //Clear the Form first
-      if (eventCardStyle) {
-        const regExp = new RegExp(/(?<=(["']))(?:(?=(\\?))\2.)*?(?=\1)/, "g");
-        let iconList = eventCardStyle.textContent.match(regExp);
-        if (iconList) {
-          iconList.forEach((customIcon) => {
-            customIcons = Lib.addCustomIcon(customIcons, customIcon);
-            console.log(customIcon);
-          });
-        }
-      }
-    } else {
-      console.log("SKIPPING ICON LOAD");
-    }
+    eventCard.customIcons = Lib.loadCustomIconsFromHTML(
+      htmlElement,
+      eventCard.customIcons,
+      document.baseURI
+    );
 
     console.log("eventCard HTML loaded into form");
     console.log(eventCard);
@@ -200,7 +184,7 @@
     eventCard.card.isVisible = false;
     eventCard.subevents.isVisible = false;
     eventCard.tokenevents.isVisible = false;
-    customIcons.isVisible = false;
+    eventCard.customIcons.isVisible = false;
   }
 
   let overlayImage;
@@ -217,7 +201,7 @@
   <div class="column is-one-third pt-0">
     <EventType bind:eventCard />
     <TokeneventType bind:eventCard />
-    <CustomIcons bind:customIcons />
+    <CustomIcons customIcons={eventCard.customIcons} />
   </div>
   <div class="column pt-0">
     <PreviewFrame id="event-card-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
