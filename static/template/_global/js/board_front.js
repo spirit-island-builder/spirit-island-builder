@@ -809,7 +809,6 @@ function getGrowthActionTextAndIcons(growthAction) {
       let moveArrowOrCondition = ``;
       let landClass = growthActionType;
       let shift = moveRange > 0 ? 1 : 0;
-
       if (moveOptions[1 + shift]) {
         console.log("conditions discovered");
         moveCondition = moveOptions[1 + shift];
@@ -3258,52 +3257,85 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "push":
-      if (txt && !isNaN(txt)) {
-        // second option is a number - P/G at range
+      num = num === "undefined" ? "" : num * 1;
+      txt = txt === "undefined" ? "" : txt;
+      opt3 = opt3 === "undefined" ? "" : opt3;
+      opt4 = opt4 === "undefined" ? "" : opt4;
+
+      if (num > 0 && !opt3) {
+        // Range, no conditions
+        // ie. Gather up to 1 Beasts into a Land
         localize = {
-          en: `Push up to 1 ${IconName(num)} from a Land`,
+          en: `Push up to ${IconName(opt4)} ${IconName(txt)} from a Land`,
           de: ``,
-          pl: `Wypchnij do 1 ${IconName(num)} z krainy`,
+          pl: `Wypchnij do ${IconName(opt4)} ${IconName(txt)} z krainy`,
           ar: ``,
           zh: ``,
         };
-      } else if (opt3 && !isNaN(opt3)) {
-        // third option is a number - Conditional P/G at multiple sites
+      } else if (num > 0 && opt3) {
+        // Range, with conditions
+        // ie. Push 1 Beasts from Jungle
+        // ie. Push 1 Beasts from a Land with Wilds
         localize = {
-          en: `Push ${IconName(opt3)} ${IconName(num)} from ${IconName(txt)}`,
+          en: landtypeNames[lang][opt3]
+            ? `Push ${IconName(opt4)} ${IconName(txt)} from a ${IconName(opt3)}`
+            : `Push ${IconName(opt4)} ${IconName(txt)} from a Land with ${IconName(opt3)}`,
           de: ``,
-          pl: `Wypchnij ${IconName(opt3)} ${IconName(num)} z ${IconName(txt)}`,
+          pl: landtypeNames[lang][opt3]
+            ? `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`
+            : `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
         };
-      } else if (opt3) {
+      } else if (num === 0 && !opt3) {
+        // ie. Push 1 Beasts from 1 of your Lands
+        // gather(0,presence,sacred-site,each)
+        localize = {
+          en: `Push ${IconName(opt4)} ${IconName(txt)} from 1 of your Lands`,
+          de: ``,
+          pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy`,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (num === 0 && !isNaN(opt4)) {
+        // ie. Push 3 Beasts from Mountain or Wetland
+        // push(0,presence,sacred-site,each)
+        localize = {
+          en: `Push ${IconName(opt4)} ${IconName(txt)} from ${IconName(opt3)}`,
+          de: ``,
+          pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (num === 0 && isNaN(opt4)) {
         // third option is text - Conditional P/G at TEXT
+        // ie. Push 1 Beasts from Each Wetland
         localize = {
-          en: `Push 1 ${IconName(num)} from ${IconName(opt3)} ${IconName(txt)}`,
+          en: `Push 1 ${IconName(txt)} from ${IconName(opt4)} ${IconName(opt3)}`,
           de: ``,
-          pl: `Wypchnij ${IconName(opt3)} ${IconName(num)} z ${IconName(txt)}`,
+          pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
         };
-      } else if (txt) {
+      } else if (num === 0 && opt3) {
         // only two options, the second is text - P/G
         localize = {
-          en: landtypeNames[lang][txt]
-            ? `Push 1 ${IconName(num)} from ${IconName(txt)}`
-            : `Push 1 ${IconName(num)} from 1 of your Lands with ${IconName(txt)}`,
+          en: landtypeNames[lang][opt3]
+            ? `Push ${IconName(opt4)} ${IconName(txt)} from ${IconName(opt3)}`
+            : `Push ${IconName(opt4)} ${IconName(txt)} from 1 of your Lands with ${IconName(opt3)}`,
           de: ``,
-          pl: landtypeNames[lang][txt]
-            ? `Wypchnij 1 ${IconName(num)} z ${IconName(txt)}`
-            : `Wypchnij 1 ${IconName(num)} z twojej krainy z ${IconName(txt)}`,
+          pl: landtypeNames[lang][opt3]
+            ? `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`
+            : `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
         };
       } else {
         // only one option
         localize = {
-          en: `Push 1 ${IconName(num)} from 1 of your Lands`,
+          en: `Push 1 ${IconName(txt)} from 1 of your Lands`,
           de: ``,
-          pl: `Wypchnij 1 ${IconName(num)} z twojej krainy`,
+          pl: `Wypchnij 1 ${IconName(txt)} z twojej krainy`,
           ar: ``,
           zh: ``,
         };
@@ -3359,11 +3391,11 @@ function IconName(str, iconNum = 1) {
         // ie. Gather 1 Beasts into Jungle
         // ie. Gather 1 Beasts into a Land with Wilds
         localize = {
-          en: landtypeNames[lang][txt]
+          en: landtypeNames[lang][opt3]
             ? `Gather ${IconName(opt4)} ${IconName(txt)} into a ${IconName(opt3)}`
             : `Gather ${IconName(opt4)} ${IconName(txt)} into a Land with ${IconName(opt3)}`,
           de: ``,
-          pl: landtypeNames[lang][txt]
+          pl: landtypeNames[lang][opt3]
             ? `Zgromadź ${IconName(opt4)} ${IconName(txt)} w ${IconName(opt3)}`
             : `Zgromadź ${IconName(opt4)} ${IconName(txt)} w krainie z ${IconName(opt3)}`,
           ar: ``,
@@ -4228,7 +4260,7 @@ function dynamicResizing() {
 
   // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
   let currentTrack;
-  debug = true;
+  debug = false;
   // let last_node_adjusted = false;
   if (tightFlag) {
     console.log("  Flag: tightening presence tracks");
@@ -4339,7 +4371,7 @@ function dynamicResizing() {
 
   console.log("RESIZING: INNATE NOTES (IF NEEDED)");
   // Size Innate Power box
-  debug = true;
+  debug = false;
   const presenceTracks = board.getElementsByTagName("presence-tracks")[0];
   const innatePowers = board.getElementsByTagName("innate-power");
 
@@ -4556,7 +4588,7 @@ function innatePowerSizing(board) {
 }
 
 function balanceText(el, lineHeight = 23) {
-  let debug = true;
+  let debug = false;
   const initialHeight = el.offsetHeight;
   const initialWidth = el.offsetWidth;
   if (debug) {
@@ -4614,7 +4646,9 @@ function reduceLines(el) {
   let currentHeight = initialHeight;
   let j = 0;
   let k = Math.trunc(el.offsetWidth);
-  console.log(el.textContent + ": starting height = " + initialHeight);
+  if (debug) {
+    console.log(el.textContent + ": starting height = " + initialHeight);
+  }
   while (currentHeight >= initialHeight) {
     k = k + 1;
     el.style.width = k + "px";

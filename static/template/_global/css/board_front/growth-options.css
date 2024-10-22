@@ -1159,14 +1159,15 @@ growth-cell icon.push {
 }
 
 growth-cell icon.push > icon {
-  left: -15px;
+  left: 16px;
   top: 17px;
+  display: block;
 }
 
 growth-cell icon.push-from > .from {
-  left: -20px;
-  top: 11px;
-  width: 35px;
+  left: 43px;
+  top: 8px;
+  width: 25px;
 }
 
 growth-cell icon.push-from {
@@ -1178,11 +1179,12 @@ growth-cell icon.push-from {
 
 growth-cell icon.push-from > icon {
   position: relative;
+  display: block;
   text-align: unset;
-  left: -10px;
-  top: 30px;
+  left: 8px;
+  top: -6px;
   width: 30px;
-  height: 25px;
+  height: 35px;
   margin: 0px;
   padding: 0px;
 }
@@ -1211,7 +1213,7 @@ growth-cell icon.gather-into > icon {
   left: 82px;
   top: 12px;
   width: 30px;
-  height: 25px;
+  height: 35px;
   margin: 0px;
   padding: 0px;
 }
@@ -1483,16 +1485,18 @@ push-gather {
   height: 90px;
 }
 
+push-gather-range-req icon.terrain-gather,
 push-gather icon.terrain-gather {
   display: inline-block;
   height: 62px;
   width: 108px;
   margin-right: 20px;
-  margin-bottom: 7px;
+  margin-bottom: 0px;
   margin-top: 0px;
   margin-left: 0px;
 }
 
+push-gather-range-req icon.terrain-push,
 push-gather icon.terrain-push {
   display: inline-block;
   height: 62px;
@@ -1503,6 +1507,7 @@ push-gather icon.terrain-push {
   margin-left: 0px;
 }
 
+push-gather-range-req icon.terrain-gather > icon,
 push-gather icon.terrain-gather > icon {
   left: 90px;
   top: -10px;
@@ -1515,9 +1520,10 @@ push-gather icon.terrain-gather > icon {
   padding: 0px;
 }
 
+push-gather-range-req icon.terrain-push > icon,
 push-gather icon.terrain-push > icon {
-  left: -11px;
-  top: -14px;
+  left: -22px;
+  top: 18px;
   position: relative;
   text-align: unset;
   width: 30px;
@@ -1526,11 +1532,13 @@ push-gather icon.terrain-push > icon {
   padding: 0px;
 }
 
+push-gather-range-req icon.terrain-push.ocean > icon.from,
 push-gather icon.terrain-push.ocean > icon.from {
   left: -8px;
   top: -8px;
 }
 
+push-gather-range-req icon.terrain-gather > icon.gather-arrow,
 push-gather icon.terrain-gather > icon.gather-arrow {
   left: 60px;
   top: 33px;
@@ -1542,8 +1550,9 @@ push-gather icon.terrain-gather > icon.gather-arrow {
   padding: 0px;
 }
 
+push-gather-range-req icon.terrain-push > icon.push-arrow,
 push-gather icon.terrain-push > icon.push-arrow {
-  left: 47px;
+  left: 60px;
   top: 38px;
   position: relative;
   text-align: unset;
@@ -1553,7 +1562,12 @@ push-gather icon.terrain-push > icon.push-arrow {
   padding: 0px;
 }
 
-push-gather icon.terrain-push.ocean > icon.push-arrow {
+push-gather-range-req
+  icon.terrain-push.ocean
+  > icon.push-arrow
+  push-gather
+  icon.terrain-push.ocean
+  > icon.push-arrow {
   left: 63px;
   top: 17px;
 }
@@ -1571,24 +1585,20 @@ push-gather-range-req {
   align-items: center;
 }
 
-/* Element Icons */
-/* DELETE IF NO ISSUE IN A LITTLE BIT 
-growth-cell gain icon.fire,
-growth-cell gain icon.any,
-growth-cell gain icon.water,
-growth-cell gain icon.air,
-growth-cell gain icon.earth,
-growth-cell gain icon.animal,
-growth-cell gain icon.plant,
-growth-cell gain icon.sun,
-growth-cell gain icon.moon,
-growth-cell gain icon.star,
-growth-cell gain icon.markerminus,
-growth-cell gain icon.markerplus {
-  height: 60px;
-  width: 60px;
-  margin: -30px;
-} */
+icon.terrain-push icon-holder,
+icon.push-from icon-holder,
+icon.push icon-holder {
+  left: 14px;
+  top: 17px;
+}
+
+growth-cell icon.terrain-push icon,
+growth-cell icon.push-from icon,
+growth-cell icon.push icon,
+growth-cell icon.push icon-holder icon {
+  filter: drop-shadow(-1px 0px 0px #e2d367) drop-shadow(1px 0px 0px #e2d367)
+    drop-shadow(0px -1px 0px #e2d367) drop-shadow(0px 1px 0px #e2d367);
+}
 
 growth-cell gain icon.element {
   height: 60px;
