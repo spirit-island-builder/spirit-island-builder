@@ -164,8 +164,10 @@ function addTrackBanners(board) {
         );
       }
       let banner = bannerArts[bannerTags.indexOf(trackType)];
-      banner.style.width = trackWidth + "px";
-      banner.style.top = trackTop + "px";
+      if (banner) {
+        banner.style.width = trackWidth + "px";
+        banner.style.top = trackTop + "px";
+      }
     });
   }
 }
@@ -795,111 +797,48 @@ function getGrowthActionTextAndIcons(growthAction) {
       const matches = regExp.exec(growthAction);
 
       let preposition = growthActionType === "push" ? "from" : "into";
-
-      let moveIcons = "";
-      let moveTarget = matches[1];
-      let moveOptions = moveTarget.split(",");
-      let moveRange = moveOptions[1];
-      let moveNum = moveOptions[2];
-      if (!moveNum) {
-        moveNum = 1;
-      } else if (isNaN(moveNum)) {
-        moveNum = moveNum.toUpperCase();
-      }
-      if (moveRange) {
-        moveTarget = moveOptions[0];
-        if (isNaN(moveRange)) {
-          let moveCondition = moveRange;
-          // Gather/Push into/from a sacred site, land with token, or terrain
-
-          switch (moveCondition) {
-            case "sacred-site":
-              moveIcons +=
-                "<push-gather><icon class='" +
-                growthActionType +
-                "-" +
-                preposition +
-                "'>{" +
-                moveTarget +
-                "}<icon class='" +
-                preposition +
-                " " +
-                moveCondition +
-                "'></icon></icon></push-gather>";
-              break;
-            case "wetland":
-            case "sand":
-            case "sands":
-            case "mountain":
-            case "jungle":
-            case "jungle-wetland":
-            case "jungle-sand":
-            case "jungle-sands":
-            case "jungle-mountain":
-            case "sand-wetland":
-            case "sands-wetland":
-            case "mountain-wetland":
-            case "mountain-sand":
-            case "mountain-sands":
-            case "mountain-jungle":
-            case "sand-jungle":
-            case "sands-jungle":
-            case "sand-mountain":
-            case "sands-mountain":
-            case "wetland-jugnle":
-            case "wetland-mountain":
-            case "wetland-sand":
-            case "wetland-sands":
-            case "ocean":
-              moveIcons +=
-                "<push-gather><icon class='" +
-                moveCondition +
-                " terrain-" +
-                growthActionType +
-                "'>{" +
-                growthActionType +
-                "-arrow}<icon class='" +
-                moveTarget +
-                " " +
-                preposition +
-                "'></icon></icon></push-gather>";
-              break;
-            default:
-              moveIcons +=
-                "<push-gather><icon class='" +
-                growthActionType +
-                "-" +
-                preposition +
-                "'>{" +
-                moveTarget +
-                "}<icon class='" +
-                preposition +
-                " " +
-                moveCondition +
-                "'></icon></icon></push-gather>";
-          }
+      let moveOptions = matches[1].split(",");
+      let moveTarget = isNaN(moveOptions[0]) ? moveOptions[0] : moveOptions[1];
+      let moveRange = isNaN(moveOptions[0]) ? 0 : moveOptions[0];
+      let moveTag = moveRange > 0 ? "push-gather-range-req" : "push-gather";
+      let rangeHTML =
+        moveRange > 0 ? `<range-growth><value>${moveRange}</value></range-growth>` : ``;
+      let targetHTML = `<icon class="${moveTarget}"></icon>`;
+      let moveCondition;
+      let iconNum = 1;
+      let moveArrowOrCondition = ``;
+      let landClass = growthActionType;
+      let shift = moveRange > 0 ? 1 : 0;
+      if (moveOptions[1 + shift]) {
+        console.log("conditions discovered");
+        moveCondition = moveOptions[1 + shift];
+        if (!isNaN(moveCondition)) {
+          iconNum = moveCondition;
+          moveCondition = ``;
+        } else if (terrains.has(moveCondition)) {
+          landClass = `${moveCondition} terrain-${growthActionType}`;
+          moveArrowOrCondition = `{${growthActionType}-arrow}`;
         } else {
-          // Gather/Push at range
-          moveIcons +=
-            "<push-gather-range-req><icon class='" +
-            growthActionType +
-            "'>{" +
-            moveTarget +
-            "}</icon>" +
-            "<range-growth><value>" +
-            moveRange +
-            "</value></range-growth></push-gather-range-req>";
+          landClass = `${growthActionType}-${preposition}`;
+          moveArrowOrCondition = `<icon class="${preposition} ${moveCondition}"></icon>`;
         }
-      } else {
-        moveIcons +=
-          "<push-gather><icon class='" +
-          growthActionType +
-          "'>{" +
-          moveTarget +
-          "}</icon></push-gather>";
+        if (moveOptions[2 + shift]) {
+          iconNum = moveOptions[2 + shift];
+        }
       }
-      growthIcons = moveIcons;
-      growthText = IconName(growthAction);
+
+      if (iconNum > 1) {
+        targetHTML = `<icon-holder>`;
+        for (let i = 0; i < iconNum; i++) {
+          targetHTML += `<icon class="${moveTarget}"></icon>`;
+        }
+        targetHTML += `</icon-holder>`;
+      }
+
+      growthIcons = `<${moveTag}><icon class="${landClass}">${moveArrowOrCondition}${targetHTML}</icon>${rangeHTML}</${moveTag}>`;
+      growthText = IconName(
+        `${growthActionType}(${moveRange},${moveTarget},${moveCondition},${iconNum})`
+      );
       break;
     }
     case "move-presence": {
@@ -2585,7 +2524,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Add a Presence to any Land`,
           de: ``,
-          pl: ``,
+          pl: `Dodaj Obecność do dowolnej Krainy`,
           ar: ``,
           zh: ``,
         };
@@ -2596,7 +2535,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Add a Presence ${opt3}`,
             de: ``,
-            pl: ``,
+            pl: `Dodaj Obecność ${opt3}`,
             ar: ``,
             zh: ``,
           };
@@ -2609,7 +2548,7 @@ function IconName(str, iconNum = 1) {
               localize = {
                 en: `Add a Presence and a ${IconName(opt3)}`,
                 de: ``,
-                pl: ``,
+                pl: `Dodaj Obecność i ${IconName(opt3)}`,
                 ar: ``,
                 zh: ``,
               };
@@ -2619,7 +2558,7 @@ function IconName(str, iconNum = 1) {
               localize = {
                 en: `Add a Presence or a ${IconName(opt3)}`,
                 de: ``,
-                pl: ``,
+                pl: `Dodaj Obecność lub ${IconName(opt3)}`,
                 ar: ``,
                 zh: ``,
               };
@@ -2639,7 +2578,7 @@ function IconName(str, iconNum = 1) {
               localize = {
                 en: `and `,
                 de: ``,
-                pl: ``,
+                pl: `i `,
                 ar: ``,
                 zh: ``,
               };
@@ -2647,7 +2586,7 @@ function IconName(str, iconNum = 1) {
               localize = {
                 en: `or `,
                 de: ``,
-                pl: ``,
+                pl: `lub `,
                 ar: ``,
                 zh: ``,
               };
@@ -2657,7 +2596,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: num === "any" ? `Add a Presence to any ` : `Add a Presence to `,
             de: ``,
-            pl: ``,
+            pl: num === "any" ? `Dodaj Obecność do dowolnej ` : `Dodaj Obecność do `,
             ar: ``,
             zh: ``,
           };
@@ -2704,7 +2643,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Add a Presence`,
           de: ``,
-          pl: ``,
+          pl: `Dodaj Obecność`,
           ar: ``,
           zh: ``,
         };
@@ -2717,7 +2656,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gain ${IconName(num, txt)}`,
           de: ``,
-          pl: ``,
+          pl: `Zyskaj ${IconName(num, txt)}`,
           ar: ``,
           zh: ``,
         };
@@ -2725,7 +2664,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gain ${ListLocalize(options.slice(0, -1))}`,
           de: ``,
-          pl: ``,
+          pl: `Zyskaj ${ListLocalize(options.slice(0, -1))}`,
           ar: ``,
           zh: ``,
         };
@@ -2733,7 +2672,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gain ${ListLocalize(options, "or")}`,
           de: ``,
-          pl: ``,
+          pl: `Zyskaj ${ListLocalize(options, "lub")}`,
           ar: ``,
           zh: ``,
         };
@@ -3102,7 +3041,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Move a Presence and ${IconName(txt)} together`,
             de: ``,
-            pl: ``,
+            pl: `Przesuń Obecność i ${IconName(txt)} jednocześnie`,
             ar: ``,
             zh: ``,
           };
@@ -3199,7 +3138,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: `Your Powers gain +${num} Range this turn`,
               de: ``,
-              pl: ``,
+              pl: `W tej turze twoje Moce zyskują +${num} zasięgu`,
               ar: ``,
               zh: ``,
             };
@@ -3208,7 +3147,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: `Your Power Cards gain +${num} Range this turn`,
               de: ``,
-              pl: ``,
+              pl: `W tej turze twoje Karty Mocy zyskują +${num} zasięgu`,
               ar: ``,
               zh: ``,
             };
@@ -3217,7 +3156,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: `+${num} Range on everything this turn`,
               de: ``,
-              pl: ``,
+              pl: `+${num} zasięgu dla wszystkich twoich akcji w tej turze`,
               ar: ``,
               zh: ``,
             };
@@ -3228,7 +3167,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: `Your Innate Powers gain +${num} Range this turn`,
               de: ``,
-              pl: ``,
+              pl: `W tej turze twoje Wrodzone Moce zyskują +${num} zasięgu`,
               ar: ``,
               zh: ``,
             };
@@ -3237,7 +3176,7 @@ function IconName(str, iconNum = 1) {
             localize = {
               en: `+${num} Range on ${txt} this turn`,
               de: ``,
-              pl: ``,
+              pl: `W tej turze ${txt} zyskuje +${num} zasięgu`,
               ar: ``,
               zh: ``,
             };
@@ -3246,7 +3185,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Your Powers gain +${num} Range this turn`,
           de: ``,
-          pl: ``,
+          pl: `W tej turze twoje Moce zyskują +${num} zasięgu`,
           ar: ``,
           zh: ``,
         };
@@ -3318,52 +3257,85 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "push":
-      if (txt && !isNaN(txt)) {
-        // second option is a number - P/G at range
+      num = num === "undefined" ? "" : num * 1;
+      txt = txt === "undefined" ? "" : txt;
+      opt3 = opt3 === "undefined" ? "" : opt3;
+      opt4 = opt4 === "undefined" ? "" : opt4;
+
+      if (num > 0 && !opt3) {
+        // Range, no conditions
+        // ie. Gather up to 1 Beasts into a Land
         localize = {
-          en: `Push up to 1 ${IconName(num)} from a Land`,
+          en: `Push up to ${IconName(opt4)} ${IconName(txt)} from a Land`,
           de: ``,
-          pl: `Wypchnij do 1 ${IconName(num)} z krainy`,
+          pl: `Wypchnij do ${IconName(opt4)} ${IconName(txt)} z krainy`,
           ar: ``,
           zh: ``,
         };
-      } else if (opt3 && !isNaN(opt3)) {
-        // third option is a number - Conditional P/G at multiple sites
+      } else if (num > 0 && opt3) {
+        // Range, with conditions
+        // ie. Push 1 Beasts from Jungle
+        // ie. Push 1 Beasts from a Land with Wilds
         localize = {
-          en: `Push ${IconName(opt3)} ${IconName(num)} from ${IconName(txt)}`,
+          en: landtypeNames[lang][opt3]
+            ? `Push ${IconName(opt4)} ${IconName(txt)} from a ${IconName(opt3)}`
+            : `Push ${IconName(opt4)} ${IconName(txt)} from a Land with ${IconName(opt3)}`,
           de: ``,
-          pl: `Wypchnij ${IconName(opt3)} ${IconName(num)} z ${IconName(txt)}`,
+          pl: landtypeNames[lang][opt3]
+            ? `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`
+            : `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
         };
-      } else if (opt3) {
+      } else if (num === 0 && !opt3) {
+        // ie. Push 1 Beasts from 1 of your Lands
+        // gather(0,presence,sacred-site,each)
+        localize = {
+          en: `Push ${IconName(opt4)} ${IconName(txt)} from 1 of your Lands`,
+          de: ``,
+          pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy`,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (num === 0 && !isNaN(opt4)) {
+        // ie. Push 3 Beasts from Mountain or Wetland
+        // push(0,presence,sacred-site,each)
+        localize = {
+          en: `Push ${IconName(opt4)} ${IconName(txt)} from ${IconName(opt3)}`,
+          de: ``,
+          pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (num === 0 && isNaN(opt4)) {
         // third option is text - Conditional P/G at TEXT
+        // ie. Push 1 Beasts from Each Wetland
         localize = {
-          en: `Push 1 ${IconName(num)} from ${IconName(opt3)} ${IconName(txt)}`,
+          en: `Push 1 ${IconName(txt)} from ${IconName(opt4)} ${IconName(opt3)}`,
           de: ``,
-          pl: `Wypchnij ${IconName(opt3)} ${IconName(num)} z ${IconName(txt)}`,
+          pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
         };
-      } else if (txt) {
+      } else if (num === 0 && opt3) {
         // only two options, the second is text - P/G
         localize = {
-          en: landtypeNames[lang][txt]
-            ? `Push 1 ${IconName(num)} from ${IconName(txt)}`
-            : `Push 1 ${IconName(num)} from 1 of your Lands with ${IconName(txt)}`,
+          en: landtypeNames[lang][opt3]
+            ? `Push ${IconName(opt4)} ${IconName(txt)} from ${IconName(opt3)}`
+            : `Push ${IconName(opt4)} ${IconName(txt)} from 1 of your Lands with ${IconName(opt3)}`,
           de: ``,
-          pl: landtypeNames[lang][txt]
-            ? `Wypchnij 1 ${IconName(num)} z ${IconName(txt)}`
-            : `Wypchnij 1 ${IconName(num)} z twojej krainy z ${IconName(txt)}`,
+          pl: landtypeNames[lang][opt3]
+            ? `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`
+            : `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
         };
       } else {
         // only one option
         localize = {
-          en: `Push 1 ${IconName(num)} from 1 of your Lands`,
+          en: `Push 1 ${IconName(txt)} from 1 of your Lands`,
           de: ``,
-          pl: `Wypchnij 1 ${IconName(num)} z twojej krainy`,
+          pl: `Wypchnij 1 ${IconName(txt)} z twojej krainy`,
           ar: ``,
           zh: ``,
         };
@@ -3395,52 +3367,91 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "gather":
-      if (txt && !isNaN(txt)) {
-        // second option is a number - P/G at range
+      //IconName(`${growthActionType}(${moveRange},${moveTarget},${moveCondition})`);
+      //num=moveRange,txt=moveTarget,opt3=moveCondition
+      //gather(0,presence,sacred-site,each)
+      //Gather 1 Your Presence into Each Sacred Site
+      num = num === "undefined" ? "" : num * 1;
+      txt = txt === "undefined" ? "" : txt;
+      opt3 = opt3 === "undefined" ? "" : opt3;
+      opt4 = opt4 === "undefined" ? "" : opt4;
+      console.log(`${num},${txt},${opt3},${opt4}`);
+      if (num > 0 && !opt3) {
+        // Range, no conditions
+        // ie. Gather up to 1 Beasts into a Land
         localize = {
-          en: `Gather up to 1 ${IconName(num)} into a Land`,
+          en: `Gather up to ${IconName(opt4)} ${IconName(txt)} into a Land`,
           de: ``,
-          pl: `Zgromadź do 1 ${IconName(num)} w krainie`,
+          pl: `Zgromadź do ${IconName(opt4)} ${IconName(txt)} w krainie`,
           ar: ``,
           zh: ``,
         };
-      } else if (opt3 && !isNaN(opt3)) {
-        // third option is a number - Conditional P/G at multiple sites
+      } else if (num > 0 && opt3) {
+        // Range, with conditions
+        // ie. Gather 1 Beasts into Jungle
+        // ie. Gather 1 Beasts into a Land with Wilds
         localize = {
-          en: `Gather ${IconName(opt3)} ${IconName(num)} into ${IconName(txt)}`,
+          en: landtypeNames[lang][opt3]
+            ? `Gather ${IconName(opt4)} ${IconName(txt)} into a ${IconName(opt3)}`
+            : `Gather ${IconName(opt4)} ${IconName(txt)} into a Land with ${IconName(opt3)}`,
           de: ``,
-          pl: `Zgromadź ${IconName(opt3)} ${IconName(num)} w ${IconName(txt)}`,
+          pl: landtypeNames[lang][opt3]
+            ? `Zgromadź ${IconName(opt4)} ${IconName(txt)} w ${IconName(opt3)}`
+            : `Zgromadź ${IconName(opt4)} ${IconName(txt)} w krainie z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
         };
-      } else if (opt3) {
+      } else if (num === 0 && !opt3) {
+        // ie. Gather 1 Beasts into 1 of your Lands
+        // gather(0,presence,sacred-site,each)
+        localize = {
+          en: `Gather ${IconName(opt4)} ${IconName(txt)} into 1 of your Lands`,
+          de: ``,
+          pl: `Zgromaź ${IconName(opt4)} ${IconName(txt)} w twojej krainie`,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (num === 0 && !isNaN(opt4)) {
+        // ie. Gather 3 Beasts into Mountain or Wetland
+        // gather(0,presence,sacred-site,each)
+        localize = {
+          en: `Gather ${IconName(opt4)} ${IconName(txt)} into ${IconName(opt3)}`,
+          de: ``,
+          pl: `Zgromadź ${IconName(opt4)} ${IconName(txt)} w ${IconName(opt3)}`,
+          ar: ``,
+          zh: ``,
+        };
+      } else if (num === 0 && isNaN(opt4)) {
         // third option is text - Conditional P/G at TEXT
+        // ie. Gather 1 Beasts into Each Wetland
         localize = {
-          en: `Gather 1 ${IconName(num)} into ${IconName(opt3)} ${IconName(txt)}`,
+          en: `Gather 1 ${IconName(txt)} into ${IconName(opt4)} ${IconName(opt3)}`,
           de: ``,
-          pl: `Zgromadź 1 ${IconName(num)} w ${IconName(opt3)} ${IconName(txt)}`,
+          pl: `Zgromadź 1 ${IconName(txt)} w ${IconName(opt4)} ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
         };
-      } else if (txt) {
+      } else if (num === 0 && opt3) {
         // only two options, the second is text - P/G
         localize = {
-          en: landtypeNames[lang][txt]
-            ? `Gather 1 ${IconName(num)} into ${IconName(txt)}`
-            : `Gather 1 ${IconName(num)} into 1 of your Lands with ${IconName(txt)}`,
+          en: landtypeNames[lang][opt3]
+            ? `Gather ${IconName(opt4)} ${IconName(txt)} into ${IconName(opt3)}`
+            : `Gather ${IconName(opt4)} ${IconName(txt)} into 1 of your Lands with ${IconName(
+                opt3
+              )}`,
           de: ``,
-          pl: landtypeNames[lang][txt]
-            ? `Zgromadź 1 ${IconName(num)} w ${IconName(txt)}`
-            : `Zgromadź 1 ${IconName(num)} w twojej krainie z ${IconName(txt)}`,
+          pl: landtypeNames[lang][opt3]
+            ? `Zgromadź ${IconName(opt4)} ${IconName(txt)} w ${IconName(opt3)}`
+            : `Zgromadź ${IconName(opt4)} ${IconName(txt)} w twojej krainie z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
         };
       } else {
         // only one option
         localize = {
-          en: `Gather 1 ${IconName(num)} into 1 of your Lands`,
+          en: `Gather 1 ${IconName(txt)} into 1 of your Lands`,
           de: ``,
-          pl: `Zgromaź 1 ${IconName(num)} w twojej krainie`,
+          pl: `Zgromaź 1 ${IconName(txt)} w twojej krainie`,
           ar: ``,
           zh: ``,
         };
@@ -3481,7 +3492,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Generate ${txt} Fear per ${opt4}`,
             de: ``,
-            pl: ``,
+            pl: `${num} Strachu za każde ${opt4}`,
             ar: ``,
             zh: ``,
           };
@@ -3490,7 +3501,7 @@ function IconName(str, iconNum = 1) {
           localize = {
             en: `Generate ${num} Fear and +${txt} more per ${opt4}`,
             de: ``,
-            pl: ``,
+            pl: `${num} Strachu i +${txt} Strachu za każde ${opt4} `,
             ar: ``,
             zh: ``,
           };
@@ -3524,7 +3535,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Generate Fear`,
           de: ``,
-          pl: ``,
+          pl: `Generujesz Strach`,
           ar: ``,
           zh: ``,
         };
@@ -4249,7 +4260,7 @@ function dynamicResizing() {
 
   // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
   let currentTrack;
-  debug = true;
+  debug = false;
   // let last_node_adjusted = false;
   if (tightFlag) {
     console.log("  Flag: tightening presence tracks");
@@ -4360,7 +4371,7 @@ function dynamicResizing() {
 
   console.log("RESIZING: INNATE NOTES (IF NEEDED)");
   // Size Innate Power box
-  debug = true;
+  debug = false;
   const presenceTracks = board.getElementsByTagName("presence-tracks")[0];
   const innatePowers = board.getElementsByTagName("innate-power");
 
@@ -4577,7 +4588,7 @@ function innatePowerSizing(board) {
 }
 
 function balanceText(el, lineHeight = 23) {
-  let debug = true;
+  let debug = false;
   const initialHeight = el.offsetHeight;
   const initialWidth = el.offsetWidth;
   if (debug) {
@@ -4635,7 +4646,9 @@ function reduceLines(el) {
   let currentHeight = initialHeight;
   let j = 0;
   let k = Math.trunc(el.offsetWidth);
-  console.log(el.textContent + ": starting height = " + initialHeight);
+  if (debug) {
+    console.log(el.textContent + ": starting height = " + initialHeight);
+  }
   while (currentHeight >= initialHeight) {
     k = k + 1;
     el.style.width = k + "px";
