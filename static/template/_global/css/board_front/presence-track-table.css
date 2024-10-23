@@ -855,3 +855,33 @@ presence-node icon.small {
   width: 42px;
   height: 42px;
 }
+
+presence-node.top-subtext {
+  flex-direction: column-reverse;
+}
+
+presence-node.top-subtext subtext {
+  position: absolute;
+  transform: translateY(-100%);
+  top: 0px;
+}
+
+presence-node.left-subtext {
+  flex-direction: row-reverse;
+}
+
+presence-node.left-subtext subtext {
+  position: absolute;
+  transform: translateX(-100%);
+  left: -5px;
+}
+
+presence-node.right-subtext {
+  flex-direction: row;
+}
+
+presence-node.right-subtext subtext {
+  position: absolute;
+  transform: translateX(100%);
+  right: 0px;
+}
