@@ -1499,68 +1499,6 @@ let CardPlays = {
 //   de: "",
 //   pl: "Większa",
 // };
-let elNames = {
-  en: {
-    sun: "sun",
-    moon: "moon",
-    fire: "fire",
-    air: "air",
-    plant: "plant",
-    water: "water",
-    earth: "earth",
-    animal: "animal",
-    star: "element",
-    any: "any",
-  },
-  de: {
-    sun: "Sonne",
-    moon: "Mond",
-    fire: "Feuer",
-    air: "Luft",
-    plant: "Pflanze",
-    water: "Wasser",
-    earth: "Erde",
-    animal: "Tier",
-    star: "Element",
-    any: "Beliebig",
-  },
-  pl: {
-    sun: "słońce",
-    moon: "księżyc",
-    fire: "ogień",
-    air: "powietrze",
-    plant: "roślinność",
-    water: "woda",
-    earth: "ziemia",
-    animal: "zwierzęcość",
-    star: "źródło mocy",
-    any: "dowolne",
-  },
-  ar: {
-    sun: "الشمس",
-    moon: "القمر",
-    fire: "نار",
-    air: "هواء",
-    plant: "نبات",
-    water: "ماء",
-    earth: "أرض",
-    animal: "حيوان",
-    star: "عنصر تقليدي",
-    any: "اي",
-  },
-  zh: {
-    sun: "日",
-    moon: "月",
-    fire: "火",
-    air: "氣",
-    plant: "植物",
-    water: "水",
-    earth: "土",
-    animal: "動物",
-    star: "元素",
-    any: "任意",
-  },
-};
 
 let landtypeNames = {
   en: {
@@ -1591,6 +1529,7 @@ let landtypeNames = {
     "sands-mountain": "Mountain or Sands",
     "inland": "Inland",
     "coastal": "Coastal",
+    "land": "land",
     "invaders": "Invaders",
   },
   de: {
@@ -1692,38 +1631,6 @@ const terrainDouble = new Set([
 ]);
 const terrainTypes = new Set(["coastal", "inland"]);
 const terrains = new Set([...terrainSingle, ...terrainDouble, ...terrainTypes]);
-// let tokenNames = {
-//   en: {
-//     beast: "beasts",
-//     beasts: "beasts",
-//     disease: "disease",
-//     wilds: "wilds",
-//     badland: "badlands",
-//     badlands: "badlands",
-//     strife: "strife",
-//     vitality: "vitality",
-//   },
-//   de: {
-//     beast: "beasts",
-//     beasts: "beasts",
-//     disease: "disease",
-//     wilds: "wilds",
-//     badland: "badlands",
-//     badlands: "badlands",
-//     strife: "strife",
-//     vitality: "vitality",
-//   },
-//   pl: {
-//     beast: "bestie",
-//     beasts: "bestie",
-//     disease: "choroba",
-//     wilds: "dzicz",
-//     badland: "pustkowia",
-//     badlands: "pustkowia",
-//     strife: "niezgoda",
-//     vitality: "witalność",
-//   },
-// };
 
 function getPresenceNodeHtml(
   nodeText,
@@ -1768,6 +1675,15 @@ function getPresenceNodeHtml(
     );
   }
 
+  let overrideText = "";
+  if (nodeText.split("*")[1]) {
+    overrideText = nodeText.split("*")[1].split("^")[0].split("_")[0].split("~")[0];
+    nodeText = nodeText.split("*")[0];
+    if (pnDebug) {
+      console.log("Override Text: " + overrideText);
+    }
+  }
+
   // Handle Splitpath nodes
   if (nodeText.includes("/")) {
     let splitNodes = nodeText.split("/");
@@ -1804,17 +1720,17 @@ function getPresenceNodeHtml(
   let addDeepLayers = false;
   let iconDeepLayers;
   if (nodeText.split("^")[1]) {
-    iconDeepLayers = nodeText.split("^")[1].split("_")[0].split("*")[0];
+    iconDeepLayers = nodeText.split("^")[1].split("_")[0].split("*")[0].split("~")[0];
     addDeepLayers = true;
     if (pnDebug) {
       console.log("Adding Icon: " + iconDeepLayers);
     }
   }
 
-  // Handle _ (force node backgroundss)
+  // Handle _ (force node backgrounds)
   let optionsNodeBack;
   if (nodeText.split("_")[1]) {
-    optionsNodeBack = nodeText.split("_")[1].split("^")[0].split("*")[0];
+    optionsNodeBack = nodeText.split("_")[1].split("^")[0].split("*")[0].split("~")[0];
     if (optionsNodeBack.includes("energy")) {
       forceEnergyRing = true;
     }
@@ -1830,12 +1746,23 @@ function getPresenceNodeHtml(
       first = true;
     }
   }
-  let overrideText = "";
-  if (nodeText.split("*")[1]) {
-    overrideText = nodeText.split("*")[1].split("^")[0].split("_")[0];
+
+  // Handle ~ (subtext location)
+  if (nodeText.split("~")[1]) {
+    let optionsSubtextLocation = nodeText.split("~")[1].split("^")[0].split("*")[0].split("_")[0];
+    if (optionsSubtextLocation.includes("top")) {
+      presenceNode.classList.add("top-subtext");
+    }
+    if (optionsSubtextLocation.includes("left")) {
+      presenceNode.classList.add("left-subtext");
+    }
+    if (optionsSubtextLocation.includes("right")) {
+      presenceNode.classList.add("right-subtext");
+    }
   }
 
-  nodeText = nodeText.split("_")[0].split("^")[0].split("*")[0];
+  //Clean the node text
+  nodeText = nodeText.split("_")[0].split("^")[0].split("*")[0].split("~")[0];
 
   // Setup node class
   if (trackType === "energy") {
@@ -3644,7 +3571,9 @@ function IconName(str, iconNum = 1) {
       break;
     case "inland":
     case "coastal":
-      subText = `${Capitalise(landtypeNames[lang][str])} land`;
+      subText = `${Capitalise(landtypeNames[lang][str])} ${Capitalise(
+        landtypeNames[lang]["land"]
+      )}`;
       break;
     case "empower-incarna":
       localize = {
@@ -3667,14 +3596,142 @@ function IconName(str, iconNum = 1) {
     case "animal":
     case "star":
     case "any":
-      str = Capitalise(elNames[lang][str]);
+      localize = {
+        en: {
+          sun: "sun",
+          moon: "moon",
+          fire: "fire",
+          air: "air",
+          plant: "plant",
+          water: "water",
+          earth: "earth",
+          animal: "animal",
+          star: "element",
+          any: "any",
+        },
+        de: {
+          sun: "Sonne",
+          moon: "Mond",
+          fire: "Feuer",
+          air: "Luft",
+          plant: "Pflanze",
+          water: "Wasser",
+          earth: "Erde",
+          animal: "Tier",
+          star: "Element",
+          any: "Beliebig",
+        },
+        pl: {
+          sun: "słońce",
+          moon: "księżyc",
+          fire: "ogień",
+          air: "powietrze",
+          plant: "roślinność",
+          water: "woda",
+          earth: "ziemia",
+          animal: "zwierzęcość",
+          star: "źródło mocy",
+          any: "dowolne",
+        },
+        ar: {
+          sun: "الشمس",
+          moon: "القمر",
+          fire: "نار",
+          air: "هواء",
+          plant: "نبات",
+          water: "ماء",
+          earth: "أرض",
+          animal: "حيوان",
+          star: "عنصر تقليدي",
+          any: "اي",
+        },
+        zh: {
+          sun: "日",
+          moon: "月",
+          fire: "火",
+          air: "氣",
+          plant: "植物",
+          water: "水",
+          earth: "土",
+          animal: "動物",
+          star: "元素",
+          any: "任意",
+        },
+      };
+      str = Capitalise(localize[lang][str]);
+      defaultProcessIcon();
+      break;
+    // Tokens
+    case "explorer":
+    case "town":
+    case "city":
+    case "blight":
+    case "beasts":
+    case "beast":
+    case "wilds":
+    case "disease":
+    case "strife":
+    case "badland":
+    case "badlands":
+    case "vitality":
+      localize = {
+        en: {
+          explorer: "explorer",
+          town: "town",
+          city: "city",
+          blight: "blight",
+          beast: "beasts",
+          beasts: "beasts",
+          disease: "disease",
+          wilds: "wilds",
+          badland: "badlands",
+          badlands: "badlands",
+          strife: "strife",
+          vitality: "vitality",
+        },
+        de: {
+          explorer: "",
+          town: "",
+          city: "",
+          blight: "",
+          beast: "beasts",
+          beasts: "beasts",
+          disease: "disease",
+          wilds: "wilds",
+          badland: "badlands",
+          badlands: "badlands",
+          strife: "strife",
+          vitality: "vitality",
+        },
+        pl: {
+          explorer: "",
+          town: "",
+          city: "",
+          blight: "",
+          beast: "bestie",
+          beasts: "bestie",
+          disease: "choroba",
+          wilds: "dzicz",
+          badland: "pustkowia",
+          badlands: "pustkowia",
+          strife: "niezgoda",
+          vitality: "witalność",
+        },
+      };
+      str = Capitalise(localize[lang][str]) || str;
+      defaultProcessIcon();
+      break;
     // eslint-disable-next-line no-fallthrough
     default:
-      subText =
-        iconNum && iconNum > 1
-          ? (numLocalize[lang][iconNum] || iconNum) + " " + Capitalise(str)
-          : Capitalise(str);
-      subText = numLocalize[lang][subText] || subText;
+      defaultProcessIcon();
+  }
+
+  function defaultProcessIcon() {
+    subText =
+      iconNum && iconNum > 1
+        ? (numLocalize[lang][iconNum] || iconNum) + " " + Capitalise(str)
+        : Capitalise(str);
+    subText = numLocalize[lang][subText] || subText;
   }
 
   if (debug) {
