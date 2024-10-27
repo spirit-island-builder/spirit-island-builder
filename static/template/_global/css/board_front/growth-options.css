@@ -682,7 +682,7 @@ move-growth {
   width: 106px;
   margin-top: 9px;
   margin-bottom: 0px;
-  display: inline-block;
+  display: block;
 }
 
 move-growth > textvalue {
@@ -922,6 +922,13 @@ custom-icon .destroyed-presence {
   height: 34px;
   margin-bottom: -3px;
   margin-left: 1px;
+}
+
+custom-icon icon.presence {
+  margin-left: 8px;
+  width: 43px;
+  height: 26px;
+  margin-bottom: 0px;
 }
 
 icon.gain-card-modifier {
