@@ -130,11 +130,17 @@ presence-node {
   position: relative;
 }
 
-tr.energy-track presence-node {
+#energy-track presence-node {
   margin-bottom: 43px;
 }
 
-tr.plays-track presence-node {
+#plays-track presence-node {
+  margin-bottom: 5px;
+}
+
+tr.vertical-tight presence-node,
+#plays-track.vertical-tight presence-node,
+#energy-track.vertical-tight presence-node {
   margin-bottom: 5px;
 }
 

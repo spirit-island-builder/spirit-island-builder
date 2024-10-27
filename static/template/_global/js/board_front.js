@@ -152,7 +152,7 @@ function addTrackBanners(board) {
     });
     tracks.forEach((track) => {
       let nodes = track.getElementsByTagName("td");
-      let trackType = track.classList[0];
+      let trackType = track.id;
       let trackWidth =
         nodes[nodes.length - 1].getBoundingClientRect().right -
         nodes[0].getBoundingClientRect().left;
@@ -1318,9 +1318,9 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
   //should add some kind of first check here
 
   //detect & correct first circles when using middle
-  const energyTrack = presenceTable.getElementsByClassName("energy-track")[0];
+  const energyTrack = document.getElementById("energy-track");
   const energyNodes = energyTrack.getElementsByTagName("td");
-  const playsTrack = presenceTable.getElementsByClassName("plays-track")[0];
+  const playsTrack = document.getElementById("plays-track");
   const playsNodes = playsTrack.getElementsByTagName("td");
   if (energyNodes[1].classList.contains("middle")) {
     if (energyNodes[2].classList.contains("middle")) {
@@ -1360,7 +1360,7 @@ function parseEnergyTrackTags() {
     createTrackBannerArt(energyBanner, energyTrackTemplate, "energy");
   }
 
-  let energyHTML = "<tr class='energy-track'>";
+  let energyHTML = "<tr id='energy-track'>";
 
   // This can be scaled to move the first presence icon.
   energyHTML += "<td class='spacer'></td>";
@@ -1416,7 +1416,7 @@ function parseCardPlayTrackTags() {
     createTrackBannerArt(cardPlayBanner, playsTrackTemplate, "plays");
   }
 
-  let cardPlayHTML = "<tr class='plays-track'>";
+  let cardPlayHTML = "<tr id='plays-track'>";
 
   // This can be scaled to move the first presence icon.
   cardPlayHTML += "<td class='spacer'></td>";
@@ -1442,7 +1442,7 @@ function parseAdditionalTrackTags(additionalTrack, i) {
     createTrackBannerArt(additionalTrackBanner, additionalTrackTemplate, "additional", i);
   }
 
-  let additionalTrackHTML = `<tr class='additional-track${i}'>`;
+  let additionalTrackHTML = `<tr id='additional-track${i}' class='additional-track'>`;
 
   // This can be scaled to move the first presence icon.
   additionalTrackHTML += "<td class='spacer'></td>";
@@ -1462,22 +1462,26 @@ let Energy = {
   de: "Energie",
   pl: "Energia",
   ar: "طاقة",
+  hu: ``,
 };
 let Turn = {
   en: "Turn",
   de: "Runde",
   pl: "Rundę",
   ar: "دور",
+  hu: ``,
 };
 let CardPlay = {
   en: "Card Play",
   de: "Karte ausspielen",
   pl: "Zagraj jedną",
+  hu: ``,
 };
 let CardPlays = {
   en: "Card Plays",
   de: "Karten ausspielen",
   pl: "Zagrane Karty",
+  hu: ``,
 };
 // let Gain = {
 //   en: "Gain",
@@ -1542,6 +1546,37 @@ let landtypeNames = {
     coastal: "nadbrzeżna",
     invaders: "najeźdźcy",
   },
+  hu: {
+    "ocean": "Ocean",
+    "oceans": "Ocean",
+    "mountain": "Mountain",
+    "jungle": "Jungle",
+    "sand": "Sands",
+    "sands": "Sands",
+    "wetland": "Wetland",
+    "jungle-wetland": "Jungle or Wetland",
+    "wetland-jungle": "Jungle or Wetland",
+    "jungle-sand": "Jungle or Sands",
+    "sand-jungle": "Jungle or Sands",
+    "jungle-sands": "Jungle or Sands",
+    "sands-jungle": "Jungle or Sands",
+    "sand-wetland": "Sands or Wetland",
+    "wetland-sand": "Sands or Wetland",
+    "sands-wetland": "Sands or Wetland",
+    "wetland-sands": "Sands or Wetland",
+    "mountain-jungle": "Mountain or Jungle",
+    "jungle-mountain": "Mountain or Jungle",
+    "mountain-wetland": "Mountain or Wetland",
+    "wetland-mountain": "Mountain or Wetland",
+    "mountain-sand": "Mountain or Sands",
+    "sand-mountain": "Mountain or Sands",
+    "mountain-sands": "Mountain or Sands",
+    "sands-mountain": "Mountain or Sands",
+    "inland": "Inland",
+    "coastal": "Coastal",
+    "land": "land",
+    "invaders": "Invaders",
+  },
 };
 
 let numLocalize = {
@@ -1594,6 +1629,7 @@ let numLocalize = {
     9: "٩",
   },
   zh: {
+    hu: ``,
     0: "零",
     1: "一",
     2: "二",
@@ -1604,6 +1640,18 @@ let numLocalize = {
     7: "七",
     8: "八",
     9: "九",
+  },
+  hu: {
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
   },
 };
 const elementNames = new Set(["sun", "moon", "fire", "air", "plant", "water", "earth", "animal"]);
@@ -2236,6 +2284,7 @@ function getPresenceNodeHtml(
         pl: ``,
         ar: ``,
         zh: ``,
+        hu: ``,
       };
       subText = localize[lang];
     }
@@ -2264,9 +2313,9 @@ function updatePresenceNodeIDs() {
   const board = document.querySelectorAll("board")[0];
   console.log(board);
   const presenceTable = document.getElementById("presence-table");
-  const energyTrack = presenceTable.getElementsByClassName("energy-track")[0];
+  const energyTrack = document.getElementById("energy-track");
   const energyNodes = energyTrack.getElementsByTagName("presence-node");
-  const playsTrack = presenceTable.getElementsByClassName("plays-track")[0];
+  const playsTrack = document.getElementById("plays-track");
   const playsNodes = playsTrack.getElementsByTagName("presence-node");
   for (let i = 0; i < energyNodes.length; i++) {
     energyNodes[i].id = "energy" + i;
@@ -2361,6 +2410,7 @@ function IconName(str, iconNum = 1) {
         pl: "twoją Obecnością",
         ar: "",
         zh: "你的靈跡",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2374,6 +2424,7 @@ function IconName(str, iconNum = 1) {
               pl: "Wzmocnij Inkarna",
               ar: ``,
               zh: ``,
+              hu: ``,
             };
             break;
           case "addmove":
@@ -2388,6 +2439,7 @@ function IconName(str, iconNum = 1) {
                 : `Dodaj/Przenieś Inkarna do Krainy z ${IconName("presence")}`,
               ar: ``,
               zh: ``,
+              hu: ``,
             };
             break;
           case "replace":
@@ -2397,6 +2449,7 @@ function IconName(str, iconNum = 1) {
               pl: `Możesz Zamienić ${IconName(txt)} na twoje Inkarna`,
               ar: ``,
               zh: ``,
+              hu: ``,
             };
             break;
           case "move":
@@ -2406,6 +2459,7 @@ function IconName(str, iconNum = 1) {
               pl: "Przesuń Inkarna",
               ar: ``,
               zh: ``,
+              hu: ``,
             };
             break;
           case "add-token":
@@ -2415,6 +2469,7 @@ function IconName(str, iconNum = 1) {
               pl: `Dodaj ${IconName(txt)} na twoje Inkarna`,
               ar: ``,
               zh: ``,
+              hu: ``,
             };
             break;
           default:
@@ -2424,6 +2479,7 @@ function IconName(str, iconNum = 1) {
               pl: "Wzmocnij Inkarna",
               ar: ``,
               zh: ``,
+              hu: ``,
             };
         }
       } else {
@@ -2433,6 +2489,7 @@ function IconName(str, iconNum = 1) {
           pl: "Twoje Inkarna",
           ar: "",
           zh: "你的化身",
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -2454,6 +2511,7 @@ function IconName(str, iconNum = 1) {
           pl: `Dodaj Obecność do dowolnej Krainy`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
         subText = localize[lang];
       } else if (options.length > 1) {
@@ -2465,6 +2523,7 @@ function IconName(str, iconNum = 1) {
             pl: `Dodaj Obecność ${opt3}`,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
           subText = localize[lang];
         } else if (txt === "token") {
@@ -2478,6 +2537,7 @@ function IconName(str, iconNum = 1) {
                 pl: `Dodaj Obecność i ${IconName(opt3)}`,
                 ar: ``,
                 zh: ``,
+                hu: ``,
               };
               break;
             case "or":
@@ -2488,6 +2548,7 @@ function IconName(str, iconNum = 1) {
                 pl: `Dodaj Obecność lub ${IconName(opt3)}`,
                 ar: ``,
                 zh: ``,
+                hu: ``,
               };
               break;
             case "instead":
@@ -2508,6 +2569,7 @@ function IconName(str, iconNum = 1) {
                 pl: `i `,
                 ar: ``,
                 zh: ``,
+                hu: ``,
               };
             } else {
               localize = {
@@ -2516,6 +2578,7 @@ function IconName(str, iconNum = 1) {
                 pl: `lub `,
                 ar: ``,
                 zh: ``,
+                hu: ``,
               };
             }
             operator = ` ${localize[lang]}`;
@@ -2526,6 +2589,7 @@ function IconName(str, iconNum = 1) {
             pl: num === "any" ? `Dodaj Obecność do dowolnej ` : `Dodaj Obecność do `,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
           subText = localize[lang];
 
@@ -2548,6 +2612,7 @@ function IconName(str, iconNum = 1) {
                 pl: ``,
                 ar: ``,
                 zh: ``,
+                hu: ``,
               };
               subText += localize[lang];
               landwith = 0;
@@ -2560,6 +2625,7 @@ function IconName(str, iconNum = 1) {
                 pl: ``,
                 ar: ``,
                 zh: ``,
+                hu: ``,
               };
               subText += localize[lang];
               landwith = 0;
@@ -2573,6 +2639,7 @@ function IconName(str, iconNum = 1) {
           pl: `Dodaj Obecność`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
         subText = localize[lang];
       }
@@ -2586,6 +2653,7 @@ function IconName(str, iconNum = 1) {
           pl: `Zyskaj ${IconName(num, txt)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else if (options.at(-1).toLowerCase() === "and") {
         localize = {
@@ -2594,6 +2662,7 @@ function IconName(str, iconNum = 1) {
           pl: `Zyskaj ${ListLocalize(options.slice(0, -1))}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else {
         localize = {
@@ -2602,6 +2671,7 @@ function IconName(str, iconNum = 1) {
           pl: `Zyskaj ${ListLocalize(options, "lub")}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -2613,6 +2683,7 @@ function IconName(str, iconNum = 1) {
         pl: "ALBO",
         ar: "",
         zh: "或",
+        hu: ``,
       };
       subText = `${IconName(num)} ${localize[lang]} ${IconName(txt)}`;
       break;
@@ -2624,6 +2695,7 @@ function IconName(str, iconNum = 1) {
           pl: "Pozyskaj Kartę Mocy",
           ar: "",
           zh: "獲得法術牌",
+          hu: ``,
         };
       } else if (num) {
         localize = {
@@ -2632,6 +2704,7 @@ function IconName(str, iconNum = 1) {
           pl: "Pozyskaj Kartę Mocy",
           ar: "",
           zh: "獲得法術牌",
+          hu: ``,
         };
       } else {
         localize = {
@@ -2640,6 +2713,7 @@ function IconName(str, iconNum = 1) {
           pl: "Pozyskaj Kartę Mocy",
           ar: "",
           zh: "獲得法術牌",
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -2652,6 +2726,7 @@ function IconName(str, iconNum = 1) {
           pl: "Weź Kartę Mocy",
           ar: "",
           zh: "拿取法術牌",
+          hu: ``,
         };
       } else if (num) {
         localize = {
@@ -2660,6 +2735,7 @@ function IconName(str, iconNum = 1) {
           pl: "Weź Kartę Mocy",
           ar: "",
           zh: "拿取法術牌",
+          hu: ``,
         };
       } else {
         localize = {
@@ -2668,6 +2744,7 @@ function IconName(str, iconNum = 1) {
           pl: "Weź Kartę Mocy",
           ar: "",
           zh: "拿取法術牌",
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -2685,6 +2762,7 @@ function IconName(str, iconNum = 1) {
             pl: `+${txt} Energii za każde ${opt4}`,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         } else {
           // custom text, with flat energy
@@ -2694,6 +2772,7 @@ function IconName(str, iconNum = 1) {
             pl: `+${num} Energii. +${txt} za każde ${opt4}`,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         }
       } else if (opt3) {
@@ -2707,6 +2786,7 @@ function IconName(str, iconNum = 1) {
             pl: ``,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         } else {
           // scaling w/ flat energy
@@ -2718,6 +2798,7 @@ function IconName(str, iconNum = 1) {
             pl: ``,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         }
       } else {
@@ -2728,6 +2809,7 @@ function IconName(str, iconNum = 1) {
           pl: `Zbierz Energię`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -2743,6 +2825,7 @@ function IconName(str, iconNum = 1) {
         pl: num > 1 ? "Zagrane Karty" : "Zagraj jedną",
         ar: ``,
         zh: ``,
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2755,6 +2838,7 @@ function IconName(str, iconNum = 1) {
           pl: "Odzyskaj wszystkie Karty z " + IconName(txt),
           ar: "",
           zh: "",
+          hu: ``,
         };
       } else {
         localize = {
@@ -2763,6 +2847,7 @@ function IconName(str, iconNum = 1) {
           pl: "Odzyskaj Karty",
           ar: "",
           zh: "回收法術牌",
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -2775,6 +2860,7 @@ function IconName(str, iconNum = 1) {
           pl: "Odzyskaj Jedną Kartę z " + IconName(txt),
           ar: "",
           zh: "",
+          hu: ``,
         };
       } else {
         localize = {
@@ -2783,6 +2869,7 @@ function IconName(str, iconNum = 1) {
           pl: "Odzyskaj Jedną",
           ar: "",
           zh: "回收1張法術牌",
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -2794,6 +2881,7 @@ function IconName(str, iconNum = 1) {
         pl: "Odzyskaj połowę <em>(zaokrąglając w górę)</em>",
         ar: "",
         zh: "回收一半法術牌",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2804,6 +2892,7 @@ function IconName(str, iconNum = 1) {
         pl: "Odzyskaj " + txt,
         ar: "",
         zh: "",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2814,6 +2903,7 @@ function IconName(str, iconNum = 1) {
         pl: "Zapomnij Kartę Mocy",
         ar: "",
         zh: "遺忘法術牌",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2825,6 +2915,7 @@ function IconName(str, iconNum = 1) {
           pl: "Odrzuć 1 Kartę Mocy z " + num,
           ar: "",
           zh: "",
+          hu: ``,
         };
       } else {
         localize = {
@@ -2833,6 +2924,7 @@ function IconName(str, iconNum = 1) {
           pl: "Odrzuć 1 Kartę Mocy",
           ar: "",
           zh: "棄置1張法術牌",
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -2845,6 +2937,7 @@ function IconName(str, iconNum = 1) {
         pl: "Zniszcz 1 ze swoich Obecności",
         ar: "",
         zh: "摧毀1個你的靈跡",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2855,6 +2948,7 @@ function IconName(str, iconNum = 1) {
         pl: "Zniszczona Obecność",
         ar: "",
         zh: "被摧毀的靈跡",
+        hu: ``,
       };
       if (iconNum > 1) {
         localize = {
@@ -2863,6 +2957,7 @@ function IconName(str, iconNum = 1) {
           pl: "do " + iconNum + " Zniszczonych Obecności",
           ar: "",
           zh: "至多" + numLocalize[lang][iconNum] || iconNum + " 被摧毀的靈跡",
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -2874,6 +2969,7 @@ function IconName(str, iconNum = 1) {
         pl: "Jedna z twoich Mocy może być Szybka",
         ar: "",
         zh: "可以將你的一個法術改為快速",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2884,6 +2980,7 @@ function IconName(str, iconNum = 1) {
         pl: "Wydaj 2 Energii, by Pozyskać Kartę Mocy",
         ar: "",
         zh: "支付2能來以獲得1張法術牌",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2894,6 +2991,7 @@ function IconName(str, iconNum = 1) {
         pl: "W tej turze możesz ignorować Zasięg Mocy",
         ar: "",
         zh: "這回合你可以無視距離上限",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2907,6 +3005,7 @@ function IconName(str, iconNum = 1) {
             : "Przygotuj 1 Znacznik Żywiołów",
         ar: "",
         zh: "",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2918,6 +3017,7 @@ function IconName(str, iconNum = 1) {
           iconNum > 1 ? "Odrzuć " + iconNum + " Znaczników Żywiołów" : "Odrzuć 1 Znacznik Żywiołów",
         ar: "",
         zh: "",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2929,6 +3029,7 @@ function IconName(str, iconNum = 1) {
           pl: "Izoluj Krainę",
           ar: "",
           zh: "",
+          hu: ``,
         };
       } else {
         localize = {
@@ -2937,6 +3038,7 @@ function IconName(str, iconNum = 1) {
           pl: iconNum > 1 ? "Izoluj " + iconNum + " twoje krainy" : "Izoluj 1 twoją krainę",
           ar: "",
           zh: "阻隔 " + numLocalize[lang][iconNum] || iconNum + " 你的區域",
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -2948,6 +3050,7 @@ function IconName(str, iconNum = 1) {
         pl: "Nie Odzyskuj Karty",
         ar: "",
         zh: "不回收法術牌",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2958,6 +3061,7 @@ function IconName(str, iconNum = 1) {
         pl: "+" + num + " Energii",
         ar: "",
         zh: "",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -2971,6 +3075,7 @@ function IconName(str, iconNum = 1) {
             pl: `Przesuń Obecność i ${IconName(txt)} jednocześnie`,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         } else {
           // Move x presence
@@ -2980,6 +3085,7 @@ function IconName(str, iconNum = 1) {
             pl: "Przesuń do " + txt + " Obecności jednocześnie",
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         }
       } else if (num) {
@@ -2991,6 +3097,7 @@ function IconName(str, iconNum = 1) {
             pl: "Przesuń Obecność do " + IconName(num),
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         } else {
           // its a number
@@ -3000,6 +3107,7 @@ function IconName(str, iconNum = 1) {
             pl: "Przenieś Obecność " + num,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         }
       } else {
@@ -3010,6 +3118,7 @@ function IconName(str, iconNum = 1) {
           pl: "Przesuń Obecność",
           ar: "",
           zh: "",
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -3022,6 +3131,7 @@ function IconName(str, iconNum = 1) {
           pl: `${txt} Obrażeń w Zasięgu ${num}`,
           ar: "",
           zh: "",
+          hu: ``,
         };
       } else {
         localize = {
@@ -3030,6 +3140,7 @@ function IconName(str, iconNum = 1) {
           pl: "1 Obrażenie w jednej z twoich Krain",
           ar: "",
           zh: "在你的1個區域造成1點傷害",
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -3044,6 +3155,7 @@ function IconName(str, iconNum = 1) {
         pl: `+${num} Zasięgu`,
         ar: ``,
         zh: ``,
+        hu: ``,
       };
       subText = localize[lang];
       if (txt) {
@@ -3053,6 +3165,7 @@ function IconName(str, iconNum = 1) {
           pl: ` na ${txt}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
         subText += localize[lang];
       }
@@ -3068,6 +3181,7 @@ function IconName(str, iconNum = 1) {
               pl: `W tej turze twoje Moce zyskują +${num} zasięgu`,
               ar: ``,
               zh: ``,
+              hu: ``,
             };
             break;
           case "power cards":
@@ -3077,6 +3191,7 @@ function IconName(str, iconNum = 1) {
               pl: `W tej turze twoje Karty Mocy zyskują +${num} zasięgu`,
               ar: ``,
               zh: ``,
+              hu: ``,
             };
             break;
           case "everything":
@@ -3086,6 +3201,7 @@ function IconName(str, iconNum = 1) {
               pl: `+${num} zasięgu dla wszystkich twoich akcji w tej turze`,
               ar: ``,
               zh: ``,
+              hu: ``,
             };
             break;
           case "innate":
@@ -3097,6 +3213,7 @@ function IconName(str, iconNum = 1) {
               pl: `W tej turze twoje Wrodzone Moce zyskują +${num} zasięgu`,
               ar: ``,
               zh: ``,
+              hu: ``,
             };
             break;
           default:
@@ -3106,6 +3223,7 @@ function IconName(str, iconNum = 1) {
               pl: `W tej turze ${txt} zyskuje +${num} zasięgu`,
               ar: ``,
               zh: ``,
+              hu: ``,
             };
         }
       } else {
@@ -3115,6 +3233,7 @@ function IconName(str, iconNum = 1) {
           pl: `W tej turze twoje Moce zyskują +${num} zasięgu`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -3129,6 +3248,7 @@ function IconName(str, iconNum = 1) {
           pl: `Dodaj 1 ${IconName(num)} do jednej z twoich Krain`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else {
         // its a growth token
@@ -3140,6 +3260,7 @@ function IconName(str, iconNum = 1) {
             pl: `Dodaj ${ListLocalize(options.slice(2), txt)} ${txt === "i" ? "jednocześnie" : ""}`,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         } else if (opt4) {
           //multiple tokens of the same type
@@ -3149,6 +3270,7 @@ function IconName(str, iconNum = 1) {
             pl: `Dodaj ${IconName(opt3, opt4)} jednocześnie`,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         } else {
           // one token
@@ -3158,6 +3280,7 @@ function IconName(str, iconNum = 1) {
             pl: `Dodaj ${IconName(opt3)}`,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         }
       }
@@ -3171,6 +3294,7 @@ function IconName(str, iconNum = 1) {
           pl: `Możesz Zamienić ${IconName(txt)} na ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else {
         localize = {
@@ -3179,6 +3303,7 @@ function IconName(str, iconNum = 1) {
           pl: `Możesz Zamienić 1 ${IconName(txt)} w jednej z Twoich krain z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -3198,6 +3323,7 @@ function IconName(str, iconNum = 1) {
           pl: `Wypchnij do ${IconName(opt4)} ${IconName(txt)} z krainy`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else if (num > 0 && opt3) {
         // Range, with conditions
@@ -3213,6 +3339,7 @@ function IconName(str, iconNum = 1) {
             : `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else if (num === 0 && !opt3) {
         // ie. Push 1 Beasts from 1 of your Lands
@@ -3223,6 +3350,7 @@ function IconName(str, iconNum = 1) {
           pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else if (num === 0 && !isNaN(opt4)) {
         // ie. Push 3 Beasts from Mountain or Wetland
@@ -3233,6 +3361,7 @@ function IconName(str, iconNum = 1) {
           pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else if (num === 0 && isNaN(opt4)) {
         // third option is text - Conditional P/G at TEXT
@@ -3243,6 +3372,7 @@ function IconName(str, iconNum = 1) {
           pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else if (num === 0 && opt3) {
         // only two options, the second is text - P/G
@@ -3256,6 +3386,7 @@ function IconName(str, iconNum = 1) {
             : `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else {
         // only one option
@@ -3265,6 +3396,7 @@ function IconName(str, iconNum = 1) {
           pl: `Wypchnij 1 ${IconName(txt)} z twojej krainy`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -3277,6 +3409,7 @@ function IconName(str, iconNum = 1) {
           pl: `Wypchnij ${IconName(num)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else {
         subText = IconName(num);
@@ -3289,6 +3422,7 @@ function IconName(str, iconNum = 1) {
           pl: `Wypchnij ${IconName(num)} z twojej krainy`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -3312,6 +3446,7 @@ function IconName(str, iconNum = 1) {
           pl: `Zgromadź do ${IconName(opt4)} ${IconName(txt)} w krainie`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else if (num > 0 && opt3) {
         // Range, with conditions
@@ -3327,6 +3462,7 @@ function IconName(str, iconNum = 1) {
             : `Zgromadź ${IconName(opt4)} ${IconName(txt)} w krainie z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else if (num === 0 && !opt3) {
         // ie. Gather 1 Beasts into 1 of your Lands
@@ -3337,6 +3473,7 @@ function IconName(str, iconNum = 1) {
           pl: `Zgromaź ${IconName(opt4)} ${IconName(txt)} w twojej krainie`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else if (num === 0 && !isNaN(opt4)) {
         // ie. Gather 3 Beasts into Mountain or Wetland
@@ -3347,6 +3484,7 @@ function IconName(str, iconNum = 1) {
           pl: `Zgromadź ${IconName(opt4)} ${IconName(txt)} w ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else if (num === 0 && isNaN(opt4)) {
         // third option is text - Conditional P/G at TEXT
@@ -3357,6 +3495,7 @@ function IconName(str, iconNum = 1) {
           pl: `Zgromadź 1 ${IconName(txt)} w ${IconName(opt4)} ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else if (num === 0 && opt3) {
         // only two options, the second is text - P/G
@@ -3372,6 +3511,7 @@ function IconName(str, iconNum = 1) {
             : `Zgromadź ${IconName(opt4)} ${IconName(txt)} w twojej krainie z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else {
         // only one option
@@ -3381,6 +3521,7 @@ function IconName(str, iconNum = 1) {
           pl: `Zgromaź 1 ${IconName(txt)} w twojej krainie`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -3393,6 +3534,7 @@ function IconName(str, iconNum = 1) {
           pl: `Zgromadź ${IconName(num)}`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       } else {
         subText = IconName(num);
@@ -3405,6 +3547,7 @@ function IconName(str, iconNum = 1) {
           pl: `Zgromadź 1 ${subText} w twojej krainie`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -3422,6 +3565,7 @@ function IconName(str, iconNum = 1) {
             pl: `${num} Strachu za każde ${opt4}`,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         } else {
           // custom text, with flat energy
@@ -3431,6 +3575,7 @@ function IconName(str, iconNum = 1) {
             pl: `${num} Strachu i +${txt} Strachu za każde ${opt4} `,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         }
       } else if (opt3) {
@@ -3444,6 +3589,7 @@ function IconName(str, iconNum = 1) {
             pl: ``,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         } else {
           // scaling w/ flat energy
@@ -3455,6 +3601,7 @@ function IconName(str, iconNum = 1) {
             pl: ``,
             ar: ``,
             zh: ``,
+            hu: ``,
           };
         }
       } else {
@@ -3465,6 +3612,7 @@ function IconName(str, iconNum = 1) {
           pl: `Generujesz Strach`,
           ar: ``,
           zh: ``,
+          hu: ``,
         };
       }
       subText = localize[lang];
@@ -3476,6 +3624,7 @@ function IconName(str, iconNum = 1) {
         pl: "1 Obrażenie w jednej z twoich Krain",
         ar: "",
         zh: "在你的1個區域造成1點傷害",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -3486,6 +3635,7 @@ function IconName(str, iconNum = 1) {
         pl: "2 Obrażenia w jednej z twoich Krain",
         ar: "",
         zh: "在你的1個區域造成2點傷害",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -3496,6 +3646,7 @@ function IconName(str, iconNum = 1) {
         pl: "Zyskaj 1 Jednostkę Czasu",
         ar: "",
         zh: "獲得1時間",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -3507,6 +3658,7 @@ function IconName(str, iconNum = 1) {
         pl: "Odrzuć 2 Karty Mocy",
         ar: "",
         zh: "棄置2張法術牌",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -3518,6 +3670,7 @@ function IconName(str, iconNum = 1) {
         pl: "Odrzuć 1 Kartę Mocy",
         ar: "",
         zh: "棄置1張法術牌",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -3528,6 +3681,7 @@ function IconName(str, iconNum = 1) {
         pl: "Zyskaj 2 Jednostki Czasu",
         ar: "",
         zh: "獲得2時間",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -3538,6 +3692,7 @@ function IconName(str, iconNum = 1) {
         pl: "Pozyskaj Kartę Mocy z Dni, Które Nigdy Nie Nadeszły",
         ar: "",
         zh: "從未現時日牌堆中獲得法術牌",
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -3582,6 +3737,7 @@ function IconName(str, iconNum = 1) {
         pl: "Wzmocnij Inkarna",
         ar: ``,
         zh: ``,
+        hu: ``,
       };
       subText = localize[lang];
       break;
@@ -3646,6 +3802,7 @@ function IconName(str, iconNum = 1) {
           any: "اي",
         },
         zh: {
+          hu: ``,
           sun: "日",
           moon: "月",
           fire: "火",
@@ -4266,8 +4423,9 @@ function dynamicResizing() {
   console.log("RESIZING: Presence Tracks");
   //Load tracks
   const presenceTrack = board.getElementsByTagName("presence-tracks")[0];
-  const energyTrack = board.getElementsByClassName("energy-track")[0];
-  const playsTrack = board.getElementsByClassName("plays-track")[0];
+  const energyTrack = document.getElementById("energy-track");
+  const playsTrack = document.getElementById("plays-track");
+  const additionalTracks = Array.from(board.getElementsByClassName("additional-track"));
   //Load board ojects
   const growth = board.getElementsByTagName("growth")[0];
 
@@ -4302,6 +4460,15 @@ function dynamicResizing() {
     }
   }
 
+  //Auto-tighten for Additional Tracks
+  if (additionalTracks.length) {
+    if (debug) {
+      console.log("Additional Tracks detected, vertical tightening all tracks");
+    }
+    energyTrack.classList.add("vertical-tight");
+    playsTrack.classList.add("vertical-tight");
+  }
+
   //Update Presence Track banners
   let presenceTableRows = Array.from(presenceTrack.getElementsByTagName("tr"));
   presenceTableRows.forEach((row) => {
@@ -4323,8 +4490,6 @@ function dynamicResizing() {
     console.log("  Flag: tightening presence tracks");
     board.getElementsByTagName("presence-title")[0].classList.add("tight");
   }
-
-  const allEnergyNodes = Array.from(energyTrack.getElementsByTagName("presence-node"));
 
   for (let j = 0; j < 2; j++) {
     // Do Energy Track then Plays Track
@@ -4407,11 +4572,40 @@ function dynamicResizing() {
   innatePowerBoxCheck.style.height =
     right.clientHeight - presenceTrack.clientHeight - growth.clientHeight + "px";
   if (checkOverflowHeight(innatePowerBoxCheck)) {
-    allEnergyNodes.forEach((node) => {
-      //should replace this with css
-      node.style.marginBottom = "5px";
-    });
+    energyTrack.classList.add("vertical-tight");
     console.log("  > Compressing Presence Tracks Vertically");
+  }
+
+  //Create space for top subtexts (if applicable)
+  const energyNodesWithTopSubtexts = Array.from(energyTrack.getElementsByClassName("top-subtext"));
+  const presenceNote = board.getElementsByTagName("presence-note")[0];
+  if (energyNodesWithTopSubtexts.length) {
+    console.log("found energy nodes with top subtexts");
+    const maxTopSubtextHeight = Math.max(
+      ...energyNodesWithTopSubtexts.map(
+        (node) => node.getElementsByTagName("subtext")[0].offsetHeight
+      )
+    );
+    const presenceTrackTitle = board.getElementsByTagName("presence-title")[0];
+    if (presenceNote) {
+      presenceTrackTitle.style.marginBottom = maxTopSubtextHeight + "px";
+    } else {
+      console.log("no note, can be more lenient");
+      const nodeWithLargestSubtext = energyNodesWithTopSubtexts.reduce((prev, current) => {
+        return prev.getElementsByTagName("subtext")[0].offsetHeight >
+          current.getElementsByTagName("subtext")[0].offsetHeight
+          ? prev
+          : current;
+      });
+      const nodeNum = nodeWithLargestSubtext.id.match(/\d+/)[0]; // "3"
+      if (nodeNum > 1) {
+        console.log("largest top subtext is not under presence heading");
+        presenceTrackTitle.style.marginBottom = Math.max(maxTopSubtextHeight - 25, 22) + "px";
+      } else {
+        console.log("large top subtext is under presence heading");
+        presenceTrackTitle.style.marginBottom = maxTopSubtextHeight + "px";
+      }
+    }
   }
 
   // Place middle presence nodes
@@ -4991,6 +5185,12 @@ function writeInnatePowerInfoBlock(
       land: "目標區域",
       spirit: "目標精靈",
     },
+    hu: {
+      speed: "",
+      range: "",
+      land: "",
+      spirit: "",
+    },
   };
 
   let newPowerHTML = "";
@@ -5128,6 +5328,12 @@ function tagSectionHeadings() {
       presence: "靈跡",
       innate: "天賦法術",
       special: "特殊規則",
+    },
+    hu: {
+      growth: "",
+      presence: "",
+      innate: "",
+      special: "",
     },
   };
 

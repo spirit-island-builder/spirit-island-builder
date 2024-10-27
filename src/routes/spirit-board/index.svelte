@@ -688,7 +688,7 @@
     let bonusEnergy = [];
     let energyNodes = spiritBoard.presenceTrack.energyNodes.slice();
     let formEnergyNodes = Array.from(
-      board.getElementsByClassName("energy-track")[0].getElementsByTagName("presence-node")
+      previewFrameDoc.getElementById("energy-track").getElementsByTagName("presence-node")
     );
     if (debug) {
       console.log("Energy Nodes & Form Energy Nodes");
