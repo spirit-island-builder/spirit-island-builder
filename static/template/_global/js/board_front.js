@@ -4588,7 +4588,7 @@ function dynamicResizing() {
     );
     const presenceTrackTitle = board.getElementsByTagName("presence-title")[0];
     if (presenceNote) {
-      presenceTrackTitle.style.marginBottom = maxTopSubtextHeight + "px";
+      presenceTrackTitle.style.marginBottom = maxTopSubtextHeight + 3 + "px";
     } else {
       console.log("no note, can be more lenient");
       const nodeWithLargestSubtext = energyNodesWithTopSubtexts.reduce((prev, current) => {
