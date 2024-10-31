@@ -301,4 +301,16 @@ let localize = {
     utility: "",
     uses: "",
   },
+  hu: {
+    setup: "ELŐKÉSZÜLETEK",
+    playstyle: "JÁTÉKSTÍLUS",
+    complexity: "ÖSSZETETTSÉG",
+    summary: "ERŐINEK ÖSSZEGZÉSE",
+    offense: "TÁMADÁS",
+    control: "IRÁNYÍTÁS",
+    fear: "FÉLELEM",
+    defense: "VÉDELEM",
+    utility: "EGYÉB",
+    uses: "HASZNÁL",
+  },
 };
