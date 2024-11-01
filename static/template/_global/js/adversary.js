@@ -37,6 +37,13 @@ function buildAdversary(quickAdversary) {
   if (lossConditionTitle) {
     lossConditionTitle = lossConditionTitle + "<strong>:</strong> ";
   }
+  let lossConditionRules = lossCondition.getAttribute("rules");
+  let topInfoClass = "";
+  if (!lossConditionRules || lossConditionRules === "None") {
+    // If none, create more space for escalation
+    topInfoClass = "class='no-loss-condition'";
+    lossConditionRules = "None";
+  }
   escalation = quickAdversary.querySelectorAll("escalation-effect")[0];
 
   levels = quickAdversary.querySelectorAll("level");
@@ -45,11 +52,11 @@ function buildAdversary(quickAdversary) {
     <adversary-title>${adversaryName}</adversary-title>
     <img class="flag" src="${flagImage}" />
     ${baseDifficultyText}
-    <top-info>
+    <top-info ${topInfoClass}>
       <loss-condition>
         <section-title>${lossConditionHeading}</section-title>
         <div>
-          <strong>${lossConditionTitle}</strong>${lossCondition.getAttribute("rules")}
+          <strong>${lossConditionTitle}</strong>${lossConditionRules}
         </div>
       </loss-condition>
       <escalation>
