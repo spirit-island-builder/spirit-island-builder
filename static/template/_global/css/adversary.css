@@ -425,3 +425,9 @@ adversary range-value {
   top: -6px;
   font-size: 32px;
 }
+
+top-info.no-loss-condition loss-condition {
+  margin-right: 30px;
+  flex: none;
+  display: block;
+}
