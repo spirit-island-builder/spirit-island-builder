@@ -4768,6 +4768,13 @@ function dynamicResizing() {
     }
     innatePowerBoxCheck.classList.add("tight-levels");
   }
+  // Then tighten up the power levels
+  if (checkOverflowHeight(innatePowerBox, 0)) {
+    if (debug) {
+      console.log("  > Innate Powers still overflowing, shrinking space between levels more");
+    }
+    innatePowerBoxCheck.classList.add("really-tight-levels");
+  }
   // If one power & overflowing, make it wrap
   if (checkOverflowHeight(innatePowerBox, 0) && innatePowers.length === 1) {
     innatePowers[0].classList.add("two-column");
