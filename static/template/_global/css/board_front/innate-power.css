@@ -265,6 +265,10 @@ description-container {
 }
 
 innate-powers.tight-levels level {
+  margin-bottom: 9px;
+}
+
+innate-powers.really-tight-levels level {
   margin-bottom: 2px;
 }
 
