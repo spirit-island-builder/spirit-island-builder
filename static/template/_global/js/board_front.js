@@ -2150,7 +2150,7 @@ function getPresenceNodeHtml(
         const y_loc = 0.4 * Math.sin(pos_angle) * 50 + 50;
         const track_icon_loc =
           // "style='transform: translateY(" + y_loc + "px) translateX(" + x_loc + "px)'";
-          "style='top: " + y_loc.toPrecision(2) + "%; left:" + x_loc.toPrecision(2) + "%;'";
+          `style='top:${y_loc.toPrecision(2)}%; left:${x_loc.toPrecision(2)}%;'`;
         if (pnDebug) {
           console.log("Multinode: " + splitOptions[i]);
         }
@@ -2158,69 +2158,54 @@ function getPresenceNodeHtml(
         if (!isNaN(splitOptions[i])) {
           let num = splitOptions[i];
           num = numLocalize[lang][num] || num;
-          trackIcons +=
-            "<" +
-            nodeClass +
-            "-icon class='small'" +
-            "><value>" +
-            num +
-            "</value></" +
-            nodeClass +
-            "-icon>";
+          trackIcons += `<${nodeClass}-icon><value>
+            ${num}</value></${nodeClass}-icon>`;
           if (nodeClass === "energy") {
             addEnergyRing = false;
           }
         } else if (splitOptions[i].startsWith("reclaim")) {
-          trackIcons += "<icon class='" + splitOptions[i] + " small-reclaim'" + "></icon>";
+          trackIcons += `<icon class='${splitOptions[i]}'></icon>`;
         } else if (splitOptions[i].startsWith("energy")) {
           const matches = regExp.exec(splitOptions[i]);
           let num = matches[1];
           num = numLocalize[lang][num] || num;
-          trackIcons += "<energy-icon class='small'" + "><value>" + num + "</value></energy-icon>";
+          trackIcons += `<energy-icon><value>${num}</value></energy-icon>`;
           addEnergyRing = false;
         } else if (splitOptions[i].startsWith("bonusenergy")) {
           const matches = regExp.exec(splitOptions[i]);
           let num = matches[1];
           num = numLocalize[lang][num] || num;
-          trackIcons += "<energy-icon class='small'" + "><value>+" + num + "</value></energy-icon>";
+          trackIcons += `<energy-icon><value>+${num}</value></energy-icon>`;
           addEnergyRing = false;
         } else if (splitOptions[i].startsWith("plays")) {
           const matches = regExp.exec(splitOptions[i]);
           let num = matches[1];
           num = numLocalize[lang][num] || num;
           addEnergyRing = false;
-          trackIcons += "<card-icon class='small'" + "><value>" + num + "</value></card-icon>";
+          trackIcons += `<card-icon><value>${num}</value></card-icon>`;
         } else if (splitOptions[i].startsWith("gain-card-play")) {
-          trackIcons += "<icon class='" + splitOptions[i] + " small'" + "></icon>";
+          trackIcons += `<icon class='${splitOptions[i]}'></icon>`;
           addEnergyRing = false;
         } else if (splitOptions[i].startsWith("gain-power-card")) {
           const matches = regExp.exec(splitOptions[i]);
           if (matches) {
-            trackIcons +=
-              "<icon class='gain-power-card-blank small'><icon class='" +
-              matches[1] +
-              " small'></icon></icon>";
+            trackIcons += `<icon class='gain-power-card-blank'>
+              <icon class='${matches[1]} small'>
+              </icon></icon>`;
           } else {
-            trackIcons += "<icon class='" + splitOptions[i] + " small'" + "></icon>";
+            trackIcons += `<icon class='${splitOptions[i]}'></icon>`;
           }
         } else if (splitOptions[i].startsWith("move-presence")) {
           const matches = regExp.exec(splitOptions[i]);
           const moveRange = matches[1];
-          trackIcons +=
-            "<track-move-presence class='small shadow'>{presence}<move-value>" +
-            moveRange +
-            "</move-value>{move-arrow}</track-move-presence>";
+          trackIcons += `<track-move-presence class='shadow'>{presence}<move-value>${moveRange}</move-value>{move-arrow}</track-move-presence>`;
           addEnergyRing = false;
           addIconShadow = false;
         } else if (splitOptions[i].startsWith("gain-range")) {
           const matches = regExp.exec(splitOptions[i]);
           let gainRange = matches[1];
           gainRange = gainRange.split(";")[0];
-          trackIcons +=
-            "<icon-shadow class = 'small'" +
-            "><range class='small'>+" +
-            gainRange +
-            "</range></icon-shadow>";
+          trackIcons += `<icon-shadow><range>+${gainRange}</range></icon-shadow>`;
           addEnergyRing = false;
           addIconShadow = false;
         } else if (splitOptions[i].startsWith("custom(")) {
@@ -2229,26 +2214,19 @@ function getPresenceNodeHtml(
           if (pnDebug) {
             console.log("Multinode custom: " + custom);
           }
-          trackIcons += "<icon class='" + custom + " small'" + "></icon>";
+          trackIcons += `<icon class='${custom}'></icon>"`;
         } else if (splitOptions[i].startsWith("elements")) {
           const matches = regExp.exec(splitOptions[i]);
           const elementList = matches[1].split(";");
           let elementIcons = "";
           if (elementList.length === 2) {
-            elementIcons +=
-              "<element-or-wrap class='small'" +
-              "><icon class='" +
-              elementList[0] +
-              " presence-or-first small'></icon>";
-            elementIcons += "<icon class='backslash small'></icon>";
-            elementIcons +=
-              "<icon class='" +
-              elementList[1] +
-              " presence-or-second small'></icon></element-or-wrap>";
+            elementIcons += `<element-or-wrap><icon class='${elementList[0]} presence-or-first'></icon>
+              <icon class='backslash'></icon>
+              <icon class='${elementList[1]} presence-or-second'></icon></element-or-wrap>`;
           }
           trackIcons += elementIcons;
         } else {
-          trackIcons += "<icon class='" + splitOptions[i] + "'" + "></icon>";
+          trackIcons += `<icon class='${splitOptions[i]}'></icon>`;
         }
         trackIcons = `<presence-node-multi ${track_icon_loc}>${trackIcons}</presence-node-multi>`;
         inner += trackIcons;
