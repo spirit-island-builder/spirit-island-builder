@@ -272,32 +272,21 @@ presence-node card-icon {
   justify-content: center;
 }
 
-.small-reclaim {
+presence-node-multi icon.reclaim-one {
   margin-left: -5px;
   margin-right: 0px;
   margin-top: -25px;
 }
 
-card-icon.small {
+presence-node-multi card-icon {
   margin-left: 0px;
   margin-right: 0px;
   margin-top: -10px;
 }
 
-.move-presence-1.small,
-.move-presence-2.small,
-.move-presence-3.small,
-.move-presence-4.small {
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-top: 0px;
-  width: 75px;
-  z-index: 2;
-}
-
-.gain-card-play.small,
-.gain-power-card.small,
-.gain-power-card-blank.small {
+presence-node-multi icon.gain-card-play,
+presence-node-multi icon.gain-power-card,
+presence-node-multi icon.gain-power-card-blank {
   height: 80px;
   width: 80px;
   margin-left: -7px;
@@ -305,7 +294,7 @@ card-icon.small {
   margin-top: -14px;
 }
 
-.gain-power-card-blank.small .small {
+presence-node-multi icon.gain-power-card-blank icon.small {
   width: 38px;
 }
 
@@ -320,7 +309,7 @@ presence-node energy-icon {
   justify-content: center;
 }
 
-energy-icon.small {
+presence-node-multi energy-icon {
   height: 90px;
   width: 90px;
   margin-left: -10px;
@@ -338,7 +327,7 @@ presence-node icon-shadow {
   justify-content: center;
 }
 
-icon-shadow.small {
+presence-node-multi icon-shadow {
   height: 94px;
   width: 94px;
   margin-left: -5px;
@@ -354,17 +343,6 @@ presence-node icon.gain-range-3 {
   height: 78px;
 }
 
-.gain-range-1.small,
-.gain-range-2.small,
-.gain-range-3.small,
-.gain-range-4.small {
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-top: -7px;
-  width: 70px;
-  z-index: 2;
-}
-
 icon.energy-blank {
   display: flex;
   align-items: center;
@@ -377,11 +355,11 @@ presence-node value {
   display: inline-block;
 }
 
-energy-icon.small value {
+presence-node-multi energy-icon value {
   font-size: 34.66px;
 }
 
-card-icon.small value {
+presence-node-multi card-icon value {
   font-size: 46.66px;
 }
 
@@ -510,7 +488,7 @@ track-move-presence {
   margin-bottom: 5px;
 }
 
-track-move-presence.small {
+presence-node-multi track-move-presence {
   scale: 0.9;
   position: absolute;
 }
@@ -598,7 +576,7 @@ presence-node range {
   background-position-y: 29px;
 }
 
-presence-node range.small {
+presence-node-multi range {
   width: 64px;
 }
 
@@ -676,62 +654,63 @@ icon.energy-deep-layers.any {
 
 element-or-wrap {
   display: flex;
+  justify-content: center;
   align-items: center;
-  flex-direction: row;
+  position: relative;
+  top: 5px;
+  left: 0px;
+}
+
+presence-node-multi element-or-wrap {
+  top: 8px;
+}
+
+element-or-wrap icon {
+  display: block;
+  position: absolute;
 }
 
 element-or-wrap icon.presence-or-first {
-  align-self: flex-start;
-  margin-right: -20px;
-  margin-top: 23px;
+  top: -20px;
+  left: -28px;
+  transform: translate(-50%, -50%);
   z-index: 3;
 }
 
 element-or-wrap icon.presence-or-second {
-  align-self: flex-end;
-  margin-left: -20px;
-  margin-bottom: 24px;
+  top: 24px;
+  left: 28px;
+  transform: translate(-50%, -50%);
   z-index: 3;
 }
 
-element-or-wrap.small {
-  position: absolute;
-  display: inline-block;
-  margin-left: 15px;
-  margin-top: 10px;
-}
-
-element-or-wrap icon.presence-or-first.small,
-element-or-wrap icon.presence-or-second.small {
+presence-node-multi element-or-wrap icon.presence-or-first,
+presence-node-multi element-or-wrap icon.presence-or-second {
   width: 40px;
   height: 40px;
   margin: 0px;
 }
 
-element-or-wrap icon.presence-or-first.small {
-  margin-left: -28px;
-  margin-top: 10px;
-  margin-right: -7px;
+presence-node-multi element-or-wrap icon.presence-or-first {
+  top: -3px;
+  left: -24px;
 }
 
-element-or-wrap icon.presence-or-second.small {
-  margin-left: -2px;
-  margin-top: 15px;
-}
-
-element-or-wrap icon.backslash.small {
-  margin-top: 6px;
-  margin-left: 4px;
-  width: 20px;
-  height: 55px;
-  margin-bottom: -8px;
+presence-node-multi element-or-wrap icon.presence-or-second {
+  top: 2px;
+  left: 23px;
 }
 
 element-or-wrap icon.backslash {
   width: 35px;
   height: 94px;
   z-index: 2;
-  margin-bottom: 30px;
+  margin: 0px;
+}
+
+presence-node-multi element-or-wrap icon.backslash {
+  width: 20px;
+  height: 55px;
 }
 
 presence-node add-move-lower icon {

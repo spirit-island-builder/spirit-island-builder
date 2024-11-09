@@ -1542,9 +1542,35 @@ let landtypeNames = {
     invaders: "invaders",
   },
   pl: {
-    inland: "wewnętrzna",
-    coastal: "nadbrzeżna",
-    invaders: "najeźdźcy",
+    "ocean": "Ocean",
+    "oceans": "Ocean",
+    "mountain": "Góry",
+    "jungle": "Dżungla",
+    "sand": "Pustynia",
+    "sands": "Pustynia",
+    "wetland": "Mokradła",
+    "jungle-wetland": "Dżungla lub Pustynia",
+    "wetland-jungle": "Mokradła lub Dżungla",
+    "jungle-sand": "Dżungla lub Pustynia",
+    "sand-jungle": "Dżungla lub Pustynia",
+    "jungle-sands": "Dżungla lub Pustynia",
+    "sands-jungle": "Dżungla lub Pustynia",
+    "sand-wetland": "Pustynia lub Mokradła",
+    "wetland-sand": "Pustynia lub Mokradła",
+    "sands-wetland": "Pustynia lub Mokradła",
+    "wetland-sands": "Pustynia lub Mokradła",
+    "mountain-jungle": "Góry lub Jungle",
+    "jungle-mountain": "Góry lub Jungle",
+    "mountain-wetland": "Góry lub Mokradła",
+    "wetland-mountain": "Góry lub Mokradła",
+    "mountain-sand": "Góry lub Pustynia",
+    "sand-mountain": "Góry lub Pustynia",
+    "mountain-sands": "Góry lub Pustynia",
+    "sands-mountain": "Góry lub Pustynia",
+    "inland": "Wewnętrzne",
+    "coastal": "Zewnętrzne",
+    "land": "kraina",
+    "invaders": "Najeźdźcy",
   },
   hu: {
     "ocean": "Óceán",
@@ -2150,7 +2176,7 @@ function getPresenceNodeHtml(
         const y_loc = 0.4 * Math.sin(pos_angle) * 50 + 50;
         const track_icon_loc =
           // "style='transform: translateY(" + y_loc + "px) translateX(" + x_loc + "px)'";
-          "style='top: " + y_loc.toPrecision(2) + "%; left:" + x_loc.toPrecision(2) + "%;'";
+          `style='top:${y_loc.toPrecision(2)}%; left:${x_loc.toPrecision(2)}%;'`;
         if (pnDebug) {
           console.log("Multinode: " + splitOptions[i]);
         }
@@ -2158,69 +2184,54 @@ function getPresenceNodeHtml(
         if (!isNaN(splitOptions[i])) {
           let num = splitOptions[i];
           num = numLocalize[lang][num] || num;
-          trackIcons +=
-            "<" +
-            nodeClass +
-            "-icon class='small'" +
-            "><value>" +
-            num +
-            "</value></" +
-            nodeClass +
-            "-icon>";
+          trackIcons += `<${nodeClass}-icon><value>
+            ${num}</value></${nodeClass}-icon>`;
           if (nodeClass === "energy") {
             addEnergyRing = false;
           }
         } else if (splitOptions[i].startsWith("reclaim")) {
-          trackIcons += "<icon class='" + splitOptions[i] + " small-reclaim'" + "></icon>";
+          trackIcons += `<icon class='${splitOptions[i]}'></icon>`;
         } else if (splitOptions[i].startsWith("energy")) {
           const matches = regExp.exec(splitOptions[i]);
           let num = matches[1];
           num = numLocalize[lang][num] || num;
-          trackIcons += "<energy-icon class='small'" + "><value>" + num + "</value></energy-icon>";
+          trackIcons += `<energy-icon><value>${num}</value></energy-icon>`;
           addEnergyRing = false;
         } else if (splitOptions[i].startsWith("bonusenergy")) {
           const matches = regExp.exec(splitOptions[i]);
           let num = matches[1];
           num = numLocalize[lang][num] || num;
-          trackIcons += "<energy-icon class='small'" + "><value>+" + num + "</value></energy-icon>";
+          trackIcons += `<energy-icon><value>+${num}</value></energy-icon>`;
           addEnergyRing = false;
         } else if (splitOptions[i].startsWith("plays")) {
           const matches = regExp.exec(splitOptions[i]);
           let num = matches[1];
           num = numLocalize[lang][num] || num;
           addEnergyRing = false;
-          trackIcons += "<card-icon class='small'" + "><value>" + num + "</value></card-icon>";
+          trackIcons += `<card-icon><value>${num}</value></card-icon>`;
         } else if (splitOptions[i].startsWith("gain-card-play")) {
-          trackIcons += "<icon class='" + splitOptions[i] + " small'" + "></icon>";
+          trackIcons += `<icon class='${splitOptions[i]}'></icon>`;
           addEnergyRing = false;
         } else if (splitOptions[i].startsWith("gain-power-card")) {
           const matches = regExp.exec(splitOptions[i]);
           if (matches) {
-            trackIcons +=
-              "<icon class='gain-power-card-blank small'><icon class='" +
-              matches[1] +
-              " small'></icon></icon>";
+            trackIcons += `<icon class='gain-power-card-blank'>
+              <icon class='${matches[1]} small'>
+              </icon></icon>`;
           } else {
-            trackIcons += "<icon class='" + splitOptions[i] + " small'" + "></icon>";
+            trackIcons += `<icon class='${splitOptions[i]}'></icon>`;
           }
         } else if (splitOptions[i].startsWith("move-presence")) {
           const matches = regExp.exec(splitOptions[i]);
           const moveRange = matches[1];
-          trackIcons +=
-            "<track-move-presence class='small shadow'>{presence}<move-value>" +
-            moveRange +
-            "</move-value>{move-arrow}</track-move-presence>";
+          trackIcons += `<track-move-presence class='shadow'>{presence}<move-value>${moveRange}</move-value>{move-arrow}</track-move-presence>`;
           addEnergyRing = false;
           addIconShadow = false;
         } else if (splitOptions[i].startsWith("gain-range")) {
           const matches = regExp.exec(splitOptions[i]);
           let gainRange = matches[1];
           gainRange = gainRange.split(";")[0];
-          trackIcons +=
-            "<icon-shadow class = 'small'" +
-            "><range class='small'>+" +
-            gainRange +
-            "</range></icon-shadow>";
+          trackIcons += `<icon-shadow><range>+${gainRange}</range></icon-shadow>`;
           addEnergyRing = false;
           addIconShadow = false;
         } else if (splitOptions[i].startsWith("custom(")) {
@@ -2229,26 +2240,19 @@ function getPresenceNodeHtml(
           if (pnDebug) {
             console.log("Multinode custom: " + custom);
           }
-          trackIcons += "<icon class='" + custom + " small'" + "></icon>";
+          trackIcons += `<icon class='${custom}'></icon>"`;
         } else if (splitOptions[i].startsWith("elements")) {
           const matches = regExp.exec(splitOptions[i]);
           const elementList = matches[1].split(";");
           let elementIcons = "";
           if (elementList.length === 2) {
-            elementIcons +=
-              "<element-or-wrap class='small'" +
-              "><icon class='" +
-              elementList[0] +
-              " presence-or-first small'></icon>";
-            elementIcons += "<icon class='backslash small'></icon>";
-            elementIcons +=
-              "<icon class='" +
-              elementList[1] +
-              " presence-or-second small'></icon></element-or-wrap>";
+            elementIcons += `<element-or-wrap><icon class='${elementList[0]} presence-or-first'></icon>
+              <icon class='backslash'></icon>
+              <icon class='${elementList[1]} presence-or-second'></icon></element-or-wrap>`;
           }
           trackIcons += elementIcons;
         } else {
-          trackIcons += "<icon class='" + splitOptions[i] + "'" + "></icon>";
+          trackIcons += `<icon class='${splitOptions[i]}'></icon>`;
         }
         trackIcons = `<presence-node-multi ${track_icon_loc}>${trackIcons}</presence-node-multi>`;
         inner += trackIcons;
@@ -2433,7 +2437,9 @@ function IconName(str, iconNum = 1) {
               en: txt
                 ? `Add/Move Incarna to Land with ${IconName(txt)}`
                 : `Add/Move Incarna to Land with ${IconName("presence")}`,
-              de: ``,
+              de: txt
+                ? `Füge hinzu/Verschiebe Incarna in ein Gebiet mit ${IconName(txt)}`
+                : `Füge hinzu/Verschiebe Incarna in ein Gebiet mit${IconName("presence")}`,
               pl: txt
                 ? `Dodaj/Przenieś Inkarna do Krainy z ${IconName(txt)}`
                 : `Dodaj/Przenieś Inkarna do Krainy z ${IconName("presence")}`,
@@ -2449,7 +2455,7 @@ function IconName(str, iconNum = 1) {
           case "replace":
             localize = {
               en: `You may Replace ${IconName(txt)} with your Incarna`,
-              de: ``,
+              de: `Du darfst ${IconName(txt)} durch dein Incarna ersetzen`,
               pl: `Możesz Zamienić ${IconName(txt)} na twoje Inkarna`,
               ar: ``,
               zh: ``,
@@ -2459,7 +2465,7 @@ function IconName(str, iconNum = 1) {
           case "move":
             localize = {
               en: "Move Incarna",
-              de: "",
+              de: "Bewege Incarna",
               pl: "Przesuń Inkarna",
               ar: ``,
               zh: ``,
@@ -2469,7 +2475,7 @@ function IconName(str, iconNum = 1) {
           case "add-token":
             localize = {
               en: `Add a ${IconName(txt)} at your Incarna`,
-              de: "",
+              de: `Füge ein ${IconName(txt)} zu deinem Incarna hinzu`,
               pl: `Dodaj ${IconName(txt)} na twoje Inkarna`,
               ar: ``,
               zh: ``,
@@ -2511,7 +2517,7 @@ function IconName(str, iconNum = 1) {
       if (num === "any" && options.length === 1) {
         localize = {
           en: `Add a Presence to any Land`,
-          de: ``,
+          de: `Füge eine Präsenz auf einem beliebigen Land hinzu`,
           pl: `Dodaj Obecność do dowolnej Krainy`,
           ar: ``,
           zh: ``,
@@ -2523,7 +2529,7 @@ function IconName(str, iconNum = 1) {
           // User wants a custom text presence addition
           localize = {
             en: `Add a Presence ${opt3}`,
-            de: ``,
+            de: `Füge eine Präsenz hinzu ${opt3}`,
             pl: `Dodaj Obecność ${opt3}`,
             ar: ``,
             zh: ``,
@@ -2537,7 +2543,7 @@ function IconName(str, iconNum = 1) {
               //add presence and token
               localize = {
                 en: `Add a Presence and a ${IconName(opt3)}`,
-                de: ``,
+                de: `Füge eine Präsenz und ein ${IconName(opt3)} hinzu`,
                 pl: `Dodaj Obecność i ${IconName(opt3)}`,
                 ar: ``,
                 zh: ``,
@@ -2548,7 +2554,7 @@ function IconName(str, iconNum = 1) {
               //add presence or token
               localize = {
                 en: `Add a Presence or a ${IconName(opt3)}`,
-                de: ``,
+                de: `Füge eine Präsenh oder eine ${IconName(opt3)} hinzu`,
                 pl: `Dodaj Obecność lub ${IconName(opt3)}`,
                 ar: ``,
                 zh: ``,
@@ -2569,7 +2575,7 @@ function IconName(str, iconNum = 1) {
             if (options.at(-1) === "and") {
               localize = {
                 en: `and `,
-                de: ``,
+                de: `und`,
                 pl: `i `,
                 ar: ``,
                 zh: ``,
@@ -2578,7 +2584,7 @@ function IconName(str, iconNum = 1) {
             } else {
               localize = {
                 en: `or `,
-                de: ``,
+                de: `oder`,
                 pl: `lub `,
                 ar: ``,
                 zh: ``,
@@ -2589,7 +2595,7 @@ function IconName(str, iconNum = 1) {
           }
           localize = {
             en: num === "any" ? `Add a Presence to any ` : `Add a Presence to `,
-            de: ``,
+            de: num === "any" ? `Ergänze um eine Präsenz ` : `Füge eine Präsenz hinzu `,
             pl: num === "any" ? `Dodaj Obecność do dowolnej ` : `Dodaj Obecność do `,
             ar: ``,
             zh: ``,
@@ -2612,7 +2618,9 @@ function IconName(str, iconNum = 1) {
                 en: landwith
                   ? `Land without ${IconName(req.substring(3))} `
                   : `no ${IconName(req.substring(3))} `,
-                de: ``,
+                de: landwith
+                  ? `Land ohne ${IconName(req.substring(3))} `
+                  : `keine ${IconName(req.substring(3))} `,
                 pl: ``,
                 ar: ``,
                 zh: ``,
@@ -2627,7 +2635,7 @@ function IconName(str, iconNum = 1) {
             } else {
               localize = {
                 en: landwith ? `Land with ${IconName(req)}` : `${IconName(req)}`,
-                de: ``,
+                de: landwith ? `Land mit ${IconName(req)}` : `${IconName(req)}`,
                 pl: ``,
                 ar: ``,
                 zh: ``,
@@ -2641,7 +2649,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: `Add a Presence`,
-          de: ``,
+          de: `Füge eine Präsenz hinzu`,
           pl: `Dodaj Obecność`,
           ar: ``,
           zh: ``,
@@ -2655,7 +2663,7 @@ function IconName(str, iconNum = 1) {
       if (txt && !isNaN(txt)) {
         localize = {
           en: `Gain ${IconName(num, txt)}`,
-          de: ``,
+          de: `Erhalte ${IconName(num, txt)}`,
           pl: `Zyskaj ${IconName(num, txt)}`,
           ar: ``,
           zh: ``,
@@ -2664,7 +2672,7 @@ function IconName(str, iconNum = 1) {
       } else if (options.at(-1).toLowerCase() === "and") {
         localize = {
           en: `Gain ${ListLocalize(options.slice(0, -1))}`,
-          de: ``,
+          de: `Erhalte ${ListLocalize(options.slice(0, -1))}`,
           pl: `Zyskaj ${ListLocalize(options.slice(0, -1))}`,
           ar: ``,
           zh: ``,
@@ -2673,7 +2681,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: `Gain ${ListLocalize(options, "or")}`,
-          de: ``,
+          de: `Erhalte ${ListLocalize(options, "or")}`,
           pl: `Zyskaj ${ListLocalize(options, "lub")}`,
           ar: ``,
           zh: ``,
@@ -2698,7 +2706,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: `Gain ${IconName(num)} Power Card ${txt}`,
           de: "Fähigkeitenkare erhalten",
-          pl: "Pozyskaj Kartę Mocy",
+          pl: `Pozyskaj ${IconName(num)} Kartę Mocy ${txt}`,
           ar: "",
           zh: "獲得法術牌",
           hu: "${IconName(num)} Erőkártya szerzése ${txt}",
@@ -2764,7 +2772,7 @@ function IconName(str, iconNum = 1) {
           // custom text, no flat energy
           localize = {
             en: `Gain ${txt} Energy per ${opt4}`,
-            de: ``,
+            de: `Erhalte ${txt} Energie pro ${opt4} `,
             pl: `+${txt} Energii za każde ${opt4}`,
             ar: ``,
             zh: ``,
@@ -2774,7 +2782,7 @@ function IconName(str, iconNum = 1) {
           // custom text, with flat energy
           localize = {
             en: `Gain ${num} Energy and +${txt} more per ${opt4}`,
-            de: ``,
+            de: `Erhalte ${num} Energie und +${txt} mehr pro ${opt4}`,
             pl: `+${num} Energii. +${txt} za każde ${opt4}`,
             ar: ``,
             zh: ``,
@@ -2788,7 +2796,9 @@ function IconName(str, iconNum = 1) {
             en: elementNames.has(opt3)
               ? `Gain ${txt} Energy per ${IconName(opt3)} Showing`
               : `Gain ${txt} Energy per ${IconName(opt3)}`,
-            de: ``,
+            de: elementNames.has(opt3)
+              ? `Erhalte ${txt} Energie pro ausliegendem ${IconName(opt3)}`
+              : `Erhalte ${txt} Energie pro ${IconName(opt3)}`,
             pl: ``,
             ar: ``,
             zh: ``,
@@ -2802,7 +2812,9 @@ function IconName(str, iconNum = 1) {
             en: elementNames.has(opt3)
               ? `Gain ${num} Energy and +${txt} more per ${IconName(opt3)} Showing`
               : `Gain ${num} Energy and +${txt} more per ${IconName(opt3)}`,
-            de: ``,
+            de: elementNames.has(opt3)
+              ? `Erhalte ${num} Energie und +${txt} mehr pro ausliegender ${IconName(opt3)} `
+              : `Erhalte ${num} Energie und +${txt} mehr pro ${IconName(opt3)}`,
             pl: ``,
             ar: ``,
             zh: ``,
@@ -2815,7 +2827,7 @@ function IconName(str, iconNum = 1) {
         // flat energy
         localize = {
           en: `Gain Energy`,
-          de: ``,
+          de: `Erhalte Energie`,
           pl: `Zbierz Energię`,
           ar: ``,
           zh: ``,
@@ -2847,7 +2859,7 @@ function IconName(str, iconNum = 1) {
       if (txt) {
         localize = {
           en: "Reclaim All Cards with " + IconName(txt),
-          de: "",
+          de: "Nimm alle Karten wieder auf " + IconName(txt),
           pl: "Odzyskaj wszystkie Karty z " + IconName(txt),
           ar: "",
           zh: "",
@@ -2869,7 +2881,7 @@ function IconName(str, iconNum = 1) {
       if (txt) {
         localize = {
           en: "Reclaim One Card with " + IconName(txt),
-          de: "",
+          de: "Nimm eine Karte mit wieder auf " + IconName(txt),
           pl: "Odzyskaj Jedną Kartę z " + IconName(txt),
           ar: "",
           zh: "",
@@ -2901,7 +2913,7 @@ function IconName(str, iconNum = 1) {
     case "reclaim-custom":
       localize = {
         en: "Reclaim " + txt,
-        de: "",
+        de: "Karten wiedererlangen " + txt,
         pl: "Odzyskaj " + txt,
         ar: "",
         zh: "",
@@ -2924,7 +2936,7 @@ function IconName(str, iconNum = 1) {
       if (num) {
         localize = {
           en: "Discard a Power Card with " + num,
-          de: "",
+          de: "Wirf eine Fähigkeitenkarte ab mit " + num,
           pl: "Odrzuć 1 Kartę Mocy z " + num,
           ar: "",
           zh: "",
@@ -3038,7 +3050,7 @@ function IconName(str, iconNum = 1) {
       if (num) {
         localize = {
           en: "Isolate a Land",
-          de: "",
+          de: "Isoliere ein Land",
           pl: "Izoluj Krainę",
           ar: "",
           zh: "",
@@ -3084,7 +3096,7 @@ function IconName(str, iconNum = 1) {
           // Move a presence and a token together
           localize = {
             en: `Move a Presence and ${IconName(txt)} together`,
-            de: ``,
+            de: `Verschiebe gemeinsam 1 Präsenz und 1 ${IconName(txt)}`,
             pl: `Przesuń Obecność i ${IconName(txt)} jednocześnie`,
             ar: ``,
             zh: ``,
@@ -3094,7 +3106,7 @@ function IconName(str, iconNum = 1) {
           // Move x presence
           localize = {
             en: "Move up to " + txt + " Presence together",
-            de: ``,
+            de: "Bewege bis zu " + txt + " Präsenzen gemeinsam",
             pl: "Przesuń do " + txt + " Obecności jednocześnie",
             ar: ``,
             zh: ``,
@@ -3106,7 +3118,7 @@ function IconName(str, iconNum = 1) {
           // its text
           localize = {
             en: "Move a Presence to " + IconName(num) + " land",
-            de: ``,
+            de: "Verschiebe eine Präsenz in das Gebiet " + IconName(num),
             pl: "Przesuń Obecność do " + IconName(num),
             ar: ``,
             zh: ``,
@@ -3190,7 +3202,7 @@ function IconName(str, iconNum = 1) {
           case "power":
             localize = {
               en: `Your Powers gain +${num} Range this turn`,
-              de: ``,
+              de: `Deine Fähigkeiten erhalten +${num} Reichweite in diesem Zug`,
               pl: `W tej turze twoje Moce zyskują +${num} zasięgu`,
               ar: ``,
               zh: ``,
@@ -3200,7 +3212,7 @@ function IconName(str, iconNum = 1) {
           case "power cards":
             localize = {
               en: `Your Power Cards gain +${num} Range this turn`,
-              de: ``,
+              de: `Deine Fähigkeiten erhalten +${num} Reichweite in diesem Zug`,
               pl: `W tej turze twoje Karty Mocy zyskują +${num} zasięgu`,
               ar: ``,
               zh: ``,
@@ -3210,7 +3222,7 @@ function IconName(str, iconNum = 1) {
           case "everything":
             localize = {
               en: `+${num} Range on everything this turn`,
-              de: ``,
+              de: `+${num} Reichweite in diesem Zug`,
               pl: `+${num} zasięgu dla wszystkich twoich akcji w tej turze`,
               ar: ``,
               zh: ``,
@@ -3222,7 +3234,7 @@ function IconName(str, iconNum = 1) {
           case "innate powers":
             localize = {
               en: `Your Innate Powers gain +${num} Range this turn`,
-              de: ``,
+              de: `Deine Basisfähigkeiten erhalten +${num} Reichweite während diesem Zug`,
               pl: `W tej turze twoje Wrodzone Moce zyskują +${num} zasięgu`,
               ar: ``,
               zh: ``,
@@ -3232,7 +3244,7 @@ function IconName(str, iconNum = 1) {
           default:
             localize = {
               en: `+${num} Range on ${txt} this turn`,
-              de: ``,
+              de: `+${num} Reichweite auf ${txt} in diesem Zug`,
               pl: `W tej turze ${txt} zyskuje +${num} zasięgu`,
               ar: ``,
               zh: ``,
@@ -3242,7 +3254,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: `Your Powers gain +${num} Range this turn`,
-          de: ``,
+          de: `Deine Fähigkeiten erhalten +${num} Reichweite in diesem Zug`,
           pl: `W tej turze twoje Moce zyskują +${num} zasięgu`,
           ar: ``,
           zh: ``,
@@ -3257,7 +3269,7 @@ function IconName(str, iconNum = 1) {
         // its a presence track token
         localize = {
           en: `Add 1 ${IconName(num)} to 1 of your Lands`,
-          de: "",
+          de: `Füge 1 ${IconName(num)} auf eines deiner Gebiete mit einer Präsenz hinzu`,
           pl: `Dodaj 1 ${IconName(num)} do jednej z twoich Krain`,
           ar: ``,
           zh: ``,
@@ -3269,7 +3281,9 @@ function IconName(str, iconNum = 1) {
           //multiple tokens of different types
           localize = {
             en: `Add a ${ListLocalize(options.slice(2), txt)} ${txt === "and" ? "together" : ""}`,
-            de: ``,
+            de: `Lege ein ${ListLocalize(options.slice(2), txt)} ${
+              txt === "und" ? "zusammen" : ""
+            }`,
             pl: `Dodaj ${ListLocalize(options.slice(2), txt)} ${txt === "i" ? "jednocześnie" : ""}`,
             ar: ``,
             zh: ``,
@@ -3281,7 +3295,7 @@ function IconName(str, iconNum = 1) {
           //multiple tokens of the same type
           localize = {
             en: `Add ${IconName(opt3, opt4)} together`,
-            de: ``,
+            de: `Füge ${IconName(opt3, opt4)} zusammen`,
             pl: `Dodaj ${IconName(opt3, opt4)} jednocześnie`,
             ar: ``,
             zh: ``,
@@ -3291,7 +3305,7 @@ function IconName(str, iconNum = 1) {
           // one token
           localize = {
             en: `Add a ${IconName(opt3)}`,
-            de: ``,
+            de: `Füge ein ${IconName(opt3)} hinzu`,
             pl: `Dodaj ${IconName(opt3)}`,
             ar: ``,
             zh: ``,
@@ -3305,7 +3319,7 @@ function IconName(str, iconNum = 1) {
       if (num > 0) {
         localize = {
           en: `You may Replace ${IconName(txt)} with ${IconName(opt3)}`,
-          de: ``,
+          de: `Du darfst ${IconName(txt)} durch ${IconName(opt3)} ersetzen`,
           pl: `Możesz Zamienić ${IconName(txt)} na ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
@@ -3314,7 +3328,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: `You may Replace 1 ${IconName(txt)} in your Lands with ${IconName(opt3)}`,
-          de: ``,
+          de: `Du darfst 1 ${IconName(txt)} in einem deiner Gebiete mit ${IconName(opt3)} ersetzen`,
           pl: `Możesz Zamienić 1 ${IconName(txt)} w jednej z Twoich krain z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
@@ -3336,7 +3350,7 @@ function IconName(str, iconNum = 1) {
         // ie. Gather up to 1 Beasts into a Land
         localize = {
           en: `Push up to ${IconName(opt4)} ${IconName(txt)} from a Land`,
-          de: ``,
+          de: `Verschiebe bis zu ${IconName(opt4)} ${IconName(txt)} aus einem Gebiet`,
           pl: `Wypchnij do ${IconName(opt4)} ${IconName(txt)} z krainy`,
           ar: ``,
           zh: ``,
@@ -3350,7 +3364,9 @@ function IconName(str, iconNum = 1) {
           en: landtypeNames[lang][opt3]
             ? `Push ${IconName(opt4)} ${IconName(txt)} from a ${IconName(opt3)}`
             : `Push ${IconName(opt4)} ${IconName(txt)} from a Land with ${IconName(opt3)}`,
-          de: ``,
+          de: landtypeNames[lang][opt3]
+            ? `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus einem ${IconName(opt3)}`
+            : `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus einem Land mit ${IconName(opt3)}`,
           pl: landtypeNames[lang][opt3]
             ? `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`
             : `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy z ${IconName(opt3)}`,
@@ -3367,7 +3383,7 @@ function IconName(str, iconNum = 1) {
         // gather(0,presence,sacred-site,each)
         localize = {
           en: `Push ${IconName(opt4)} ${IconName(txt)} from 1 of your Lands`,
-          de: ``,
+          de: `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus 1 deiner Gebiete`,
           pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy`,
           ar: ``,
           zh: ``,
@@ -3378,7 +3394,7 @@ function IconName(str, iconNum = 1) {
         // push(0,presence,sacred-site,each)
         localize = {
           en: `Push ${IconName(opt4)} ${IconName(txt)} from ${IconName(opt3)}`,
-          de: ``,
+          de: `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus ${IconName(opt3)}`,
           pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
@@ -3389,7 +3405,7 @@ function IconName(str, iconNum = 1) {
         // ie. Push 1 Beasts from Each Wetland
         localize = {
           en: `Push 1 ${IconName(txt)} from ${IconName(opt4)} ${IconName(opt3)}`,
-          de: ``,
+          de: `Verschiebe 1 ${IconName(txt)} aus ${IconName(opt4)} ${IconName(opt3)}`,
           pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
@@ -3401,7 +3417,11 @@ function IconName(str, iconNum = 1) {
           en: landtypeNames[lang][opt3]
             ? `Push ${IconName(opt4)} ${IconName(txt)} from ${IconName(opt3)}`
             : `Push ${IconName(opt4)} ${IconName(txt)} from 1 of your Lands with ${IconName(opt3)}`,
-          de: ``,
+          de: landtypeNames[lang][opt3]
+            ? `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus ${IconName(opt3)}`
+            : `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus 1 deiner Gebiete mit ${IconName(
+                opt3
+              )}`,
           pl: landtypeNames[lang][opt3]
             ? `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`
             : `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy z ${IconName(opt3)}`,
@@ -3417,7 +3437,7 @@ function IconName(str, iconNum = 1) {
         // only one option
         localize = {
           en: `Push 1 ${IconName(txt)} from 1 of your Lands`,
-          de: ``,
+          de: `Verschiebe 1 ${IconName(txt)} aus 1 deiner Gebiete`,
           pl: `Wypchnij 1 ${IconName(txt)} z twojej krainy`,
           ar: ``,
           zh: ``,
@@ -3430,7 +3450,7 @@ function IconName(str, iconNum = 1) {
       if (num === "incarna") {
         localize = {
           en: `Push ${IconName(num)}`,
-          de: ``,
+          de: `Verschiebe ${IconName(num)}`,
           pl: `Wypchnij ${IconName(num)}`,
           ar: ``,
           zh: ``,
@@ -3443,7 +3463,7 @@ function IconName(str, iconNum = 1) {
         }
         localize = {
           en: `Push 1 ${subText} from 1 of your Lands`,
-          de: ``,
+          de: `Verschiebe 1 ${subText} aus 1 deiner Gebiete`,
           pl: `Wypchnij ${IconName(num)} z twojej krainy`,
           ar: ``,
           zh: ``,
@@ -3467,7 +3487,7 @@ function IconName(str, iconNum = 1) {
         // ie. Gather up to 1 Beasts into a Land
         localize = {
           en: `Gather up to ${IconName(opt4)} ${IconName(txt)} into a Land`,
-          de: ``,
+          de: `Versammele bis zu ${IconName(opt4)} ${IconName(txt)} in einem Gebiet`,
           pl: `Zgromadź do ${IconName(opt4)} ${IconName(txt)} w krainie`,
           ar: ``,
           zh: ``,
@@ -3481,7 +3501,9 @@ function IconName(str, iconNum = 1) {
           en: landtypeNames[lang][opt3]
             ? `Gather ${IconName(opt4)} ${IconName(txt)} into a ${IconName(opt3)}`
             : `Gather ${IconName(opt4)} ${IconName(txt)} into a Land with ${IconName(opt3)}`,
-          de: ``,
+          de: landtypeNames[lang][opt3]
+            ? `Versammele ${IconName(opt4)} ${IconName(txt)} im ${IconName(opt3)}`
+            : `Versammele ${IconName(opt4)} ${IconName(txt)} in ein Gebiet mit ${IconName(opt3)}`,
           pl: landtypeNames[lang][opt3]
             ? `Zgromadź ${IconName(opt4)} ${IconName(txt)} w ${IconName(opt3)}`
             : `Zgromadź ${IconName(opt4)} ${IconName(txt)} w krainie z ${IconName(opt3)}`,
@@ -3500,7 +3522,7 @@ function IconName(str, iconNum = 1) {
         // gather(0,presence,sacred-site,each)
         localize = {
           en: `Gather ${IconName(opt4)} ${IconName(txt)} into 1 of your Lands`,
-          de: ``,
+          de: `Versammele ${IconName(opt4)} ${IconName(txt)} in einem deiner Gebiete`,
           pl: `Zgromaź ${IconName(opt4)} ${IconName(txt)} w twojej krainie`,
           ar: ``,
           zh: ``,
@@ -3511,7 +3533,7 @@ function IconName(str, iconNum = 1) {
         // gather(0,presence,sacred-site,each)
         localize = {
           en: `Gather ${IconName(opt4)} ${IconName(txt)} into ${IconName(opt3)}`,
-          de: ``,
+          de: `Versammele ${IconName(opt4)} ${IconName(txt)} im ${IconName(opt3)}`,
           pl: `Zgromadź ${IconName(opt4)} ${IconName(txt)} w ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
@@ -3522,7 +3544,7 @@ function IconName(str, iconNum = 1) {
         // ie. Gather 1 Beasts into Each Wetland
         localize = {
           en: `Gather 1 ${IconName(txt)} into ${IconName(opt4)} ${IconName(opt3)}`,
-          de: ``,
+          de: `Versammele 1 ${IconName(txt)} in ${IconName(opt4)} ${IconName(opt3)}`,
           pl: `Zgromadź 1 ${IconName(txt)} w ${IconName(opt4)} ${IconName(opt3)}`,
           ar: ``,
           zh: ``,
@@ -3536,7 +3558,11 @@ function IconName(str, iconNum = 1) {
             : `Gather ${IconName(opt4)} ${IconName(txt)} into 1 of your Lands with ${IconName(
                 opt3
               )}`,
-          de: ``,
+          de: landtypeNames[lang][opt3]
+            ? `Versammele ${IconName(opt4)} ${IconName(txt)} in ${IconName(opt3)}`
+            : `Vresammele ${IconName(opt4)} ${IconName(txt)} in 1 deiner Gebiete mit ${IconName(
+                opt3
+              )}`,
           pl: landtypeNames[lang][opt3]
             ? `Zgromadź ${IconName(opt4)} ${IconName(txt)} w ${IconName(opt3)}`
             : `Zgromadź ${IconName(opt4)} ${IconName(txt)} w twojej krainie z ${IconName(opt3)}`,
@@ -3554,7 +3580,7 @@ function IconName(str, iconNum = 1) {
         // only one option
         localize = {
           en: `Gather 1 ${IconName(txt)} into 1 of your Lands`,
-          de: ``,
+          de: `Versammele 1 ${IconName(txt)} in 1 deiner Gebiete`,
           pl: `Zgromaź 1 ${IconName(txt)} w twojej krainie`,
           ar: ``,
           zh: ``,
@@ -3567,7 +3593,7 @@ function IconName(str, iconNum = 1) {
       if (num === "incarna") {
         localize = {
           en: `Gather ${IconName(num)}`,
-          de: ``,
+          de: `Versammele ${IconName(num)}`,
           pl: `Zgromadź ${IconName(num)}`,
           ar: ``,
           zh: ``,
@@ -3580,7 +3606,7 @@ function IconName(str, iconNum = 1) {
         }
         localize = {
           en: `Gather 1 ${subText} into 1 of your Lands`,
-          de: ``,
+          de: `Versammele 1 ${subText} in 1 deiner Gebiete`,
           pl: `Zgromadź 1 ${subText} w twojej krainie`,
           ar: ``,
           zh: ``,
@@ -3598,7 +3624,7 @@ function IconName(str, iconNum = 1) {
           // custom text, no flat energy
           localize = {
             en: `Generate ${txt} Fear per ${opt4}`,
-            de: ``,
+            de: `Erzeuge ${txt} Furcht pro ${opt4}`,
             pl: `${num} Strachu za każde ${opt4}`,
             ar: ``,
             zh: ``,
@@ -3608,7 +3634,7 @@ function IconName(str, iconNum = 1) {
           // custom text, with flat energy
           localize = {
             en: `Generate ${num} Fear and +${txt} more per ${opt4}`,
-            de: ``,
+            de: `Erzeuge ${num} Furcht und +${txt} mehr pro ${opt4}`,
             pl: `${num} Strachu i +${txt} Strachu za każde ${opt4} `,
             ar: ``,
             zh: ``,
@@ -3622,7 +3648,9 @@ function IconName(str, iconNum = 1) {
             en: elementNames.has(opt3)
               ? `Generate ${txt} Fear per ${IconName(opt3)} Showing`
               : `Generate ${txt} Fear per ${IconName(opt3)}`,
-            de: ``,
+            de: elementNames.has(opt3)
+              ? `Erzeuge ${txt} Furcht pro ausliegendes ${IconName(opt3)}`
+              : `Erzeuge ${txt} Furcht pro ${IconName(opt3)}`,
             pl: ``,
             ar: ``,
             zh: ``,
@@ -3636,7 +3664,9 @@ function IconName(str, iconNum = 1) {
             en: elementNames.has(opt3)
               ? `Generate ${num} Fear and +${txt} more per ${IconName(opt3)} Showing`
               : `Generate ${num} Fear and +${txt} more per ${IconName(opt3)}`,
-            de: ``,
+            de: elementNames.has(opt3)
+              ? `Erzeuge ${num} Furcht und +${txt} mehr pro ausliegenden ${IconName(opt3)}`
+              : `Erzeuge ${num} Furcht und +${txt} mehr pro ${IconName(opt3)}`,
             pl: ``,
             ar: ``,
             zh: ``,
@@ -3649,7 +3679,7 @@ function IconName(str, iconNum = 1) {
         // flat energy
         localize = {
           en: `Generate Fear`,
-          de: ``,
+          de: `Erzeuge Furcht`,
           pl: `Generujesz Strach`,
           ar: ``,
           zh: ``,
@@ -3887,9 +3917,9 @@ function IconName(str, iconNum = 1) {
           unique: "",
         },
         pl: {
-          major: "",
-          minor: "",
-          unique: "",
+          major: "Większą",
+          minor: "Mniejszą",
+          unique: "Unikalną",
         },
         ar: {
           major: "",
@@ -3939,18 +3969,18 @@ function IconName(str, iconNum = 1) {
           vitality: "vitality",
         },
         de: {
-          explorer: "",
-          town: "",
-          city: "",
-          blight: "",
-          beast: "beasts",
-          beasts: "beasts",
-          disease: "disease",
-          wilds: "wilds",
-          badland: "badlands",
-          badlands: "badlands",
-          strife: "strife",
-          vitality: "vitality",
+          explorer: "Entdecker",
+          town: "Siedlung",
+          city: "Stadt",
+          blight: "Seuche",
+          beast: "Bestie",
+          beasts: "Bestien",
+          disease: "Krankheit",
+          wilds: "Wildnis",
+          badland: "Ödland",
+          badlands: "Ödlande",
+          strife: "Zwist",
+          vitality: "Lebenskraft",
         },
         pl: {
           explorer: "",
@@ -3984,7 +4014,6 @@ function IconName(str, iconNum = 1) {
       str = Capitalise(localize[lang][str]) || str;
       defaultProcessIcon();
       break;
-    // eslint-disable-next-line no-fallthrough
     default:
       defaultProcessIcon();
   }
