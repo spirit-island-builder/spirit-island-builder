@@ -375,10 +375,15 @@ growth-cell icon.empower-incarna {
 }
 
 growth-cell icon.incarna {
-  width: 80px;
+  width: 65px;
   height: 45px;
   margin-bottom: 0px;
   margin-top: -24px;
+}
+
+growth-cell icon.incarna.move {
+  left: -24px;
+  top: 15px;
 }
 
 growth-cell icon.incarna.add-move {
@@ -647,6 +652,7 @@ custom-presence icon.range-4 {
   margin-bottom: 10px;
 }
 
+growth-cell range,
 range-growth {
   background-image: url("../../images/board/range_arrow.png");
   background-repeat: no-repeat;
@@ -659,6 +665,7 @@ range-growth {
   display: inline-block;
 }
 
+growth-cell range > range-value,
 range-growth > value {
   font-size: 40px;
   font-family: "Antropos";
@@ -667,6 +674,7 @@ range-growth > value {
   position: relative;
   text-align: center;
   font-weight: normal;
+  top: unset;
 }
 
 move-growth {
@@ -691,7 +699,7 @@ move-growth > textvalue {
   font-family: "NAME HEADINGS";
 }
 
-growth-cell range {
+/* growth-cell range {
   background-image: url("../../images/board/range_arrow.png");
   background-repeat: no-repeat;
   background-size: contain;
@@ -704,7 +712,7 @@ growth-cell range {
   margin-top: 42px;
   margin-bottom: 4px;
   display: inline-block;
-}
+} */
 
 range-growth-any {
   background-image: none;
@@ -2007,4 +2015,12 @@ growth icon.medium {
 growth icon.small {
   width: 42px;
   height: 42px;
+}
+
+/* For adding presence relative to other presence */
+add-relative {
+  display: flex;
+  position: relative;
+  height: 50px;
+  margin-top: 7px;
 }

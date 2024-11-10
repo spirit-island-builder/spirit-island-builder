@@ -83,7 +83,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 #### Supported Growth Actions
 
 | Category | Action | Usage | Details | Examples |
-| ------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| -------- | --------------- | --------------- | ----------------------------- | --------------- |
 | Reclaim | Reclaim All, Reclaim One, Reclaim Half | relcaim(x) | x can be all, one, half, or custom |  |
 |  | Reclaim Element Specific | relcaim(x,y) | Reclaim x (all or one) cards with element y | Ember-Eyed Behemoth: reclaim(all,fire) |
 |  | Reclaim Custom | reclaim(custom,_your custom reclaim text_) | Custom reclaim text with a unique icon. | reclaim(custom,your Unique Power Cards) |
@@ -91,6 +91,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 |  | Add Presence with Condition | add-presence(x,y) | At range x, add a Presence to a land with y conditions. y can be terrains, tokens, invaders, invader pieces, dahan, blight, etc. |  |
 |  | Add Presence with Multiple Conditions | add-presence(x,y,z,...,and/or) | At range x, add a Presence with multiple conditions y, z, etc, the last parameter must be 'or' or 'and'. | Sharp Fangs: <br>add-presence(3,jungle,beast,or)<br>Vengeance: <br>add-presence(2,town,city,blight,or) |
 |  | Add Presence and/or Tokens | add-presence(x,token,y,and/or) | At range x, add a Presence and/or a token y (beasts, disease, etc). Use add-token if only adding tokens. | Many Minds: <br>add-presence(3,token,beast,and)<br>Vengeance: <br>add-presence(1,token,disease,or) |
+|  | Add Presence relative to an Entity | add-presence(x,relative,y) | At range x relative to y, add a Presence. | Covets (Apocrypha ): add-presence(1,relative,custom1) where custom1 is Lair |
 |  | Add Presence with Custom Text | add-presence(x,text,*your_text_here*) | At range x, add a Presence with text 'Add a Presence *your_text*'. No icon. |  |
 |  | Add Presence with Custom Text and Icon(s) | add-presence(x,text,*your_text_here*,y,...) | At range x, add a Presence with text 'Add a Presence *your_text*'. The growth icon will be y and any number of additional icons separated by commas |  |
 | Gaining Elements | Gain One Element | gain-element(x) | Gain Element x, which can be any of the elements or 'any' or 'star' | 'star' is the Starlight element icon |
