@@ -677,39 +677,36 @@ function getGrowthActionTextAndIcons(growthAction) {
       }
       let presenceOptions = matches[1].split(",");
       let presenceRange = presenceOptions[0];
-      let presenceReqOpen = "<custom-presence>";
-      let presenceReqClose = "</custom-presence>";
+      let addPresenceOpen = "<custom-presence>";
+      let addPresenceClose = "</custom-presence>";
       let presenceReq = "none";
-      let presenceIcon = "";
-      let presenceRangeOpen = "<range-growth><value>";
-      let presenceRangeClose = "</value></range-growth>";
+      let presenceReqsIcons = "";
+      let presenceRangeHTML = `{range-${presenceRange}}`;
 
       if (presenceRange === "any" && presenceOptions.length === 1) {
-        presenceReqOpen = "<custom-presence-no-range>";
-        presenceReqClose = "</custom-presence-no-range>";
-        presenceRangeOpen = "<range-growth-any>";
-        presenceRangeClose = "</range-growth-any>";
+        addPresenceOpen = "<custom-presence-no-range>";
+        addPresenceClose = "</custom-presence-no-range>";
+        presenceRangeHTML = "<range-growth-any></range-growth-any>";
       } else if (presenceOptions.length > 1) {
-        presenceReqOpen = "<custom-presence-req>";
-        presenceReqClose = "</custom-presence-req>";
-        presenceIcon += "<presence-req>";
+        addPresenceOpen = "<custom-presence-req>";
+        addPresenceClose = "</custom-presence-req>";
+        presenceReqsIcons += "<presence-req>";
 
-        if (presenceRange === "any") {
-          presenceReqOpen += "<presence-req></presence-req>";
-          presenceRangeOpen = "<range-growth-any>";
-          presenceRangeClose = "</range-growth-any>";
+        if (isNaN(presenceRange)) {
+          addPresenceOpen += "<presence-req></presence-req>";
+          presenceRangeHTML = "<range-growth-any></range-growth-any>";
         }
 
         if (presenceOptions[1] === "text") {
           // User wants a custom text presence addition
           if (presenceOptions[3]) {
-            presenceIcon += "<display-custom>";
+            presenceReqsIcons += "<display-custom>";
             for (let i = 3; i < presenceOptions.length; i++) {
-              presenceIcon += "{" + presenceOptions[i] + "}";
+              presenceReqsIcons += "{" + presenceOptions[i] + "}";
             }
-            presenceIcon += "</display-custom>";
+            presenceReqsIcons += "</display-custom>";
           } else {
-            presenceIcon +=
+            presenceReqsIcons +=
               "<span style='font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;'></span>";
           }
         } else if (presenceOptions[1] === "token") {
@@ -717,33 +714,38 @@ function getGrowthActionTextAndIcons(growthAction) {
           switch (presenceOptions[3]) {
             case "and":
               //add presence and token
-              presenceIcon += "<span class='plus-text'>+ </span>";
-              presenceIcon += "<icon class='" + presenceOptions[2] + " add-token'></icon>";
+              presenceReqsIcons += "<span class='plus-text'>+ </span>";
+              presenceReqsIcons += "<icon class='" + presenceOptions[2] + " add-token'></icon>";
               break;
             case "or":
               //add presence or token
-              presenceReqOpen = "<custom-presence-req><custom-presence-or>";
-              presenceReqClose = "</custom-presence-req>";
-              presenceIcon = "{backslash}{" + presenceOptions[2] + "}</custom-presence-or>";
+              addPresenceOpen = "<custom-presence-req><custom-presence-or>";
+              addPresenceClose = "</custom-presence-req>";
+              presenceReqsIcons = "{backslash}{" + presenceOptions[2] + "}</custom-presence-or>";
               break;
             case "instead":
               // no option to add presence, just token
               break;
           }
+        } else if (presenceOptions[1] === "relative") {
+          presenceReqsIcons = "<add-relative>" + presenceReqsIcons;
+          presenceRangeHTML += "</add-relative>";
+          presenceReq = presenceOptions[2].toLowerCase().trim();
+          presenceReqsIcons += `{${presenceReq}}`;
         } else {
           // User wants an OR or an AND requirement
           let operator = "";
           if (presenceOptions.length > 4) {
-            operator = "/";
+            operator = presenceOptions.at(-1).toLowerCase() === "or" ? "/" : "&";
           } else {
-            operator = " " + presenceOptions.at(-1) + " ";
+            operator = " " + IconName(presenceOptions.at(-1)) + " ";
           }
 
           for (let i = 1; i < presenceOptions.length; i++) {
             presenceReq = presenceOptions[i].toLowerCase().trim();
 
             // Check to see if we've reached an 'or' or 'and', which shouldn't be parsed
-            if (presenceReq.toLowerCase() === "or" || presenceReq.toLowerCase() === "and") {
+            if (presenceReq === "or" || presenceReq === "and") {
               break;
             }
 
@@ -758,33 +760,31 @@ function getGrowthActionTextAndIcons(growthAction) {
               case "inland":
               case "coastal":
               case "invaders":
-                presenceIcon +=
+                presenceReqsIcons +=
                   presenceOptions.length < 3
                     ? "<span class='non-icon'>" + presenceReq.toUpperCase() + "</span>" // This do-nothing Icon just creates 50px of height to make everything line up. Other ideas?
                     : "<span class='non-icon small'>" + presenceReq.toUpperCase() + "</span>";
                 break;
               case "no-own-presence":
-                presenceIcon += "{no-presence}";
+                presenceReqsIcons += "{no-presence}";
                 break;
               default:
-                presenceIcon += "{" + presenceReq + "}";
+                presenceReqsIcons += "{" + presenceReq + "}";
             }
 
             if (i < presenceOptions.length - 2) {
-              presenceIcon += operator;
+              presenceReqsIcons += operator;
             }
           }
         }
-        presenceIcon += "</presence-req>";
+        presenceReqsIcons += "</presence-req>";
       }
       growthIcons =
-        presenceReqOpen +
+        addPresenceOpen +
         "<plus-presence>+{presence}</plus-presence>" +
-        presenceIcon +
-        presenceRangeOpen +
-        presenceRange +
-        presenceRangeClose +
-        presenceReqClose;
+        presenceReqsIcons +
+        presenceRangeHTML +
+        addPresenceClose;
       growthText = IconName(growthAction);
 
       if (overrideText) {
@@ -1118,7 +1118,7 @@ function getGrowthActionTextAndIcons(growthAction) {
             incarnaRangeOrToken = "<value>" + incarnaRangeOrToken + "</value>";
           }
           growthIcons =
-            '<custom-icon2><icon class="incarna ' +
+            '<custom-icon2><icon class="incarna move ' +
             customIncarnaIcon +
             '"></icon>' +
             "<move-growth>" +
@@ -2536,6 +2536,20 @@ function IconName(str, iconNum = 1) {
             hu: `Jelenlét lerakása ${opt3}`,
           };
           subText = localize[lang];
+        } else if (txt === "relative") {
+          let preposition = "at";
+          if (num > 0) {
+            preposition = "from";
+          }
+          localize = {
+            en: `Add a Presence ${IconName(preposition)} ${IconName(opt3)}`,
+            de: ``,
+            pl: ``,
+            ar: ``,
+            zh: ``,
+            hu: ``,
+          };
+          subText = localize[lang];
         } else if (txt === "token") {
           // User wants to add a token in growth
           switch (opt4) {
@@ -2571,27 +2585,9 @@ function IconName(str, iconNum = 1) {
           let operator = "";
           if (options.length > 4) {
             operator = "/";
+            operator = options.at(-1).toLowerCase() === "or" ? "/" : " & ";
           } else {
-            if (options.at(-1) === "and") {
-              localize = {
-                en: `and `,
-                de: `und`,
-                pl: `i `,
-                ar: ``,
-                zh: ``,
-                hu: `és`,
-              };
-            } else {
-              localize = {
-                en: `or `,
-                de: `oder`,
-                pl: `lub `,
-                ar: ``,
-                zh: ``,
-                hu: `vagy`,
-              };
-            }
-            operator = ` ${localize[lang]}`;
+            operator = ` ${IconName(options.at(-1))} `; //looking for 'or' or 'and'
           }
           localize = {
             en: num === "any" ? `Add a Presence to any ` : `Add a Presence to `,
@@ -4013,6 +4009,51 @@ function IconName(str, iconNum = 1) {
       };
       str = Capitalise(localize[lang][str]) || str;
       defaultProcessIcon();
+      break;
+    // and/or
+    case "and":
+    case "or":
+    case "at":
+    case "from":
+      localize = {
+        en: {
+          and: "and",
+          or: "or",
+          at: "at",
+          from: "from",
+        },
+        de: {
+          and: "und",
+          or: "oder",
+          at: "",
+          from: "",
+        },
+        pl: {
+          and: "i",
+          or: "lub",
+          at: "",
+          from: "",
+        },
+        ar: {
+          and: "",
+          or: "",
+          at: "",
+          from: "",
+        },
+        zh: {
+          and: "",
+          or: "或",
+          at: "",
+          from: "",
+        },
+        hu: {
+          and: "és",
+          or: `vagy`,
+          at: "",
+          from: "",
+        },
+      };
+      subText = localize[lang][str];
       break;
     default:
       defaultProcessIcon();
