@@ -425,3 +425,37 @@ adversary range-value {
   top: -6px;
   font-size: 32px;
 }
+
+top-info.no-loss-condition loss-condition {
+  margin-right: 30px;
+  flex: none;
+  display: block;
+}
+
+adversary range {
+  width: 40px;
+  height: 30px;
+  margin-top: -10px;
+  background-position-y: 22px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: row;
+  position: relative;
+  top: 3px;
+}
+
+adversary range-value {
+  position: absolute;
+  top: 1px;
+  font-size: 23px;
+}
+
+icon.range-small-icon {
+  width: 30px;
+  height: 20px;
+  position: absolute;
+  margin: 0px;
+  display: block;
+  top: 2px;
+}

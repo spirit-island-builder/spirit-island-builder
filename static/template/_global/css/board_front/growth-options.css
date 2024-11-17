@@ -336,10 +336,10 @@ growth-cell icon {
 }
 
 growth-cell icon.presence {
-  margin-left: 8px;
+  /* margin-left: 8px;
   width: 43px;
   height: 26px;
-  margin-bottom: 0px;
+  margin-bottom: 0px; */
 }
 
 growth-cell icon.destroyed-presence,
@@ -375,10 +375,15 @@ growth-cell icon.empower-incarna {
 }
 
 growth-cell icon.incarna {
-  width: 80px;
+  width: 65px;
   height: 45px;
   margin-bottom: 0px;
   margin-top: -24px;
+}
+
+growth-cell icon.incarna.move {
+  left: -24px;
+  top: 15px;
 }
 
 growth-cell icon.incarna.add-move {
@@ -494,6 +499,13 @@ plus-presence {
   position: relative;
   line-height: 20px;
   margin-bottom: 1px;
+}
+
+plus-presence icon.presence {
+  margin-left: 8px;
+  width: 43px;
+  height: 26px;
+  margin-bottom: 0px;
 }
 
 custom-presence plus-presence {
@@ -640,6 +652,7 @@ custom-presence icon.range-4 {
   margin-bottom: 10px;
 }
 
+growth-cell range,
 range-growth {
   background-image: url("../../images/board/range_arrow.png");
   background-repeat: no-repeat;
@@ -652,6 +665,7 @@ range-growth {
   display: inline-block;
 }
 
+growth-cell range > range-value,
 range-growth > value {
   font-size: 40px;
   font-family: "Antropos";
@@ -660,6 +674,7 @@ range-growth > value {
   position: relative;
   text-align: center;
   font-weight: normal;
+  top: unset;
 }
 
 move-growth {
@@ -675,7 +690,7 @@ move-growth {
   width: 106px;
   margin-top: 9px;
   margin-bottom: 0px;
-  display: inline-block;
+  display: block;
 }
 
 move-growth > textvalue {
@@ -684,7 +699,7 @@ move-growth > textvalue {
   font-family: "NAME HEADINGS";
 }
 
-growth-cell range {
+/* growth-cell range {
   background-image: url("../../images/board/range_arrow.png");
   background-repeat: no-repeat;
   background-size: contain;
@@ -697,7 +712,7 @@ growth-cell range {
   margin-top: 42px;
   margin-bottom: 4px;
   display: inline-block;
-}
+} */
 
 range-growth-any {
   background-image: none;
@@ -915,6 +930,13 @@ custom-icon .destroyed-presence {
   height: 34px;
   margin-bottom: -3px;
   margin-left: 1px;
+}
+
+custom-icon icon.presence {
+  margin-left: 8px;
+  width: 43px;
+  height: 26px;
+  margin-bottom: 0px;
 }
 
 icon.gain-card-modifier {
@@ -1152,14 +1174,15 @@ growth-cell icon.push {
 }
 
 growth-cell icon.push > icon {
-  left: -15px;
+  left: 16px;
   top: 17px;
+  display: block;
 }
 
 growth-cell icon.push-from > .from {
-  left: -20px;
-  top: 11px;
-  width: 35px;
+  left: 43px;
+  top: 8px;
+  width: 25px;
 }
 
 growth-cell icon.push-from {
@@ -1171,11 +1194,12 @@ growth-cell icon.push-from {
 
 growth-cell icon.push-from > icon {
   position: relative;
+  display: block;
   text-align: unset;
-  left: -10px;
-  top: 30px;
+  left: 8px;
+  top: -6px;
   width: 30px;
-  height: 25px;
+  height: 35px;
   margin: 0px;
   padding: 0px;
 }
@@ -1194,23 +1218,23 @@ growth-cell icon.gather-into {
   display: inline-block;
   height: 62px;
   width: 100px;
-  margin-right: 20px;
-  margin-bottom: 7px;
+  margin: 0px;
 }
 
 growth-cell icon.gather-into > icon {
-  position: relative;
+  position: absolute;
+  display: block;
   text-align: unset;
-  left: 70px;
-  top: 15px;
+  left: 82px;
+  top: 12px;
   width: 30px;
-  height: 25px;
+  height: 35px;
   margin: 0px;
   padding: 0px;
 }
 
 growth-cell icon.gather-into > .into {
-  left: -30px;
+  left: 16px;
   top: 10px;
   width: 35px;
 }
@@ -1219,6 +1243,32 @@ growth-cell icon.gather-into > icon.explorer {
   height: 35px;
   margin-top: -10px;
   margin-bottom: -6px;
+}
+
+icon-holder {
+  margin: 0px;
+  display: flex;
+  position: relative;
+  left: 86px;
+  top: 12px;
+  width: 55px;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-evenly;
+}
+
+icon-holder icon {
+  position: relative;
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  margin: 0px;
+}
+
+.terrain-gather > icon-holder {
+  left: 94px;
+  top: -10px;
 }
 
 growth-cost {
@@ -1445,22 +1495,23 @@ push-gather {
   font-size: 26.66px;
   font-weight: bold;
   display: block;
-  margin-top: 10px;
+  position: relative;
   width: auto;
-  height: 110px;
-  margin-bottom: -30px;
+  height: 90px;
 }
 
+push-gather-range-req icon.terrain-gather,
 push-gather icon.terrain-gather {
   display: inline-block;
   height: 62px;
   width: 108px;
   margin-right: 20px;
-  margin-bottom: 7px;
+  margin-bottom: 0px;
   margin-top: 0px;
   margin-left: 0px;
 }
 
+push-gather-range-req icon.terrain-push,
 push-gather icon.terrain-push {
   display: inline-block;
   height: 62px;
@@ -1471,9 +1522,11 @@ push-gather icon.terrain-push {
   margin-left: 0px;
 }
 
-push-gather icon.terrain-gather > icon.into {
-  left: 58px;
-  top: -8px;
+push-gather-range-req icon.terrain-gather > icon,
+push-gather icon.terrain-gather > icon {
+  left: 90px;
+  top: -10px;
+  display: block;
   position: relative;
   text-align: unset;
   width: 30px;
@@ -1482,9 +1535,10 @@ push-gather icon.terrain-gather > icon.into {
   padding: 0px;
 }
 
-push-gather icon.terrain-push > icon.from {
-  left: -26px;
-  top: 13px;
+push-gather-range-req icon.terrain-push > icon,
+push-gather icon.terrain-push > icon {
+  left: -22px;
+  top: 18px;
   position: relative;
   text-align: unset;
   width: 30px;
@@ -1493,11 +1547,13 @@ push-gather icon.terrain-push > icon.from {
   padding: 0px;
 }
 
+push-gather-range-req icon.terrain-push.ocean > icon.from,
 push-gather icon.terrain-push.ocean > icon.from {
   left: -8px;
   top: -8px;
 }
 
+push-gather-range-req icon.terrain-gather > icon.gather-arrow,
 push-gather icon.terrain-gather > icon.gather-arrow {
   left: 60px;
   top: 33px;
@@ -1509,8 +1565,9 @@ push-gather icon.terrain-gather > icon.gather-arrow {
   padding: 0px;
 }
 
+push-gather-range-req icon.terrain-push > icon.push-arrow,
 push-gather icon.terrain-push > icon.push-arrow {
-  left: 47px;
+  left: 60px;
   top: 38px;
   position: relative;
   text-align: unset;
@@ -1520,7 +1577,12 @@ push-gather icon.terrain-push > icon.push-arrow {
   padding: 0px;
 }
 
-push-gather icon.terrain-push.ocean > icon.push-arrow {
+push-gather-range-req
+  icon.terrain-push.ocean
+  > icon.push-arrow
+  push-gather
+  icon.terrain-push.ocean
+  > icon.push-arrow {
   left: 63px;
   top: 17px;
 }
@@ -1538,24 +1600,20 @@ push-gather-range-req {
   align-items: center;
 }
 
-/* Element Icons */
-/* DELETE IF NO ISSUE IN A LITTLE BIT 
-growth-cell gain icon.fire,
-growth-cell gain icon.any,
-growth-cell gain icon.water,
-growth-cell gain icon.air,
-growth-cell gain icon.earth,
-growth-cell gain icon.animal,
-growth-cell gain icon.plant,
-growth-cell gain icon.sun,
-growth-cell gain icon.moon,
-growth-cell gain icon.star,
-growth-cell gain icon.markerminus,
-growth-cell gain icon.markerplus {
-  height: 60px;
-  width: 60px;
-  margin: -30px;
-} */
+icon.terrain-push icon-holder,
+icon.push-from icon-holder,
+icon.push icon-holder {
+  left: 14px;
+  top: 17px;
+}
+
+growth-cell icon.terrain-push icon,
+growth-cell icon.push-from icon,
+growth-cell icon.push icon,
+growth-cell icon.push icon-holder icon {
+  filter: drop-shadow(-1px 0px 0px #e2d367) drop-shadow(1px 0px 0px #e2d367)
+    drop-shadow(0px -1px 0px #e2d367) drop-shadow(0px 1px 0px #e2d367);
+}
 
 growth-cell gain icon.element {
   height: 60px;
@@ -1957,4 +2015,12 @@ growth icon.medium {
 growth icon.small {
   width: 42px;
   height: 42px;
+}
+
+/* For adding presence relative to other presence */
+add-relative {
+  display: flex;
+  position: relative;
+  height: 50px;
+  margin-top: 7px;
 }

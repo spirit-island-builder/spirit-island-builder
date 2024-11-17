@@ -545,6 +545,13 @@ range-value {
   font-size: 24px;
 }
 
+icon.range-small-icon {
+  width: 33px;
+  height: 22px;
+  position: relative;
+  top: -4px;
+}
+
 no-range {
   width: 88px;
   height: 4px;

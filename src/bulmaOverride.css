@@ -237,6 +237,7 @@ button.side-menu:hover {
   padding: 0px 1px 0px 4px;
   border-bottom: none;
   cursor: default;
+  pointer-events: none;
 }
 
 .autocomplete-items.detail div:last-of-type {
@@ -290,6 +291,9 @@ button.side-menu:hover {
   .autocomplete-items div {
     background-color: #272727;
     border-bottom: 1px solid #d4d4d4;
+  }
+  .detail.autocomplete-items div {
+    border-bottom: 0px;
   }
   .autocomplete-active {
     /*when navigating through the items using the arrow keys:*/
