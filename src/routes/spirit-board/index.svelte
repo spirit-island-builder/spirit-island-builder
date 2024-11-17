@@ -573,10 +573,11 @@
     let debug = false;
     let previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
     const board = previewFrameDoc.querySelectorAll("board")[0];
+    const rightSide = previewFrameDoc.querySelectorAll("right")[0];
     const boardRect = board.getBoundingClientRect();
 
     //Snap Points
-    let presenceNodes = Array.from(board.getElementsByTagName("presence-node"));
+    let presenceNodes = Array.from(rightSide.getElementsByTagName("presence-node"));
     let snapPoints = [];
     if (debug) {
       console.log("TTS Export");
