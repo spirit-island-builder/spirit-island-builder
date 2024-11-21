@@ -129,7 +129,7 @@
             class="input"
             type="text"
             placeholder="Name"
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={rule.name} />
         </div>
@@ -196,7 +196,7 @@
             class="input"
             type="text"
             placeholder="Power Name"
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={power.name} />
         </div>
@@ -269,7 +269,7 @@
               class="input"
               type="text"
               placeholder="Range"
-              on:keyup={nextNode}
+              on:keydown={nextNode}
               on:focus={selectNode}
               bind:value={power.range} />
           </div>
@@ -305,7 +305,7 @@
             class="input is-small small-power"
             type="text"
             placeholder="Threshold"
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={level.threshold} />
         </div>
@@ -345,13 +345,13 @@
     <div class="mb-1 p-1 note">Note: will only show in 'landscape' layout.</div>
     <div class="field is-flex is-small mb-0">
       <label class="label incarna-label mr-1" for={`bonusNodeEffect`}>Effect: </label>
-      <div class="control">
+      <div class="control" style="width:100%;">
         <input
           id={`bonusNodeEffect`}
-          class="input"
+          class="input is-small"
           type="text"
           placeholder="Effect"
-          on:keyup={nextNode}
+          on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={aspect.aspectEffects.bonusNode.effect} />
       </div>

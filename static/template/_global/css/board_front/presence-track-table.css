@@ -548,20 +548,15 @@ icon-multi {
   position: absolute;
 }
 
-.custom-presence-track-icon {
+custom-presence-track-icon icon {
   width: 65px;
   height: 65px;
   margin-top: 0px;
 }
 
 custom-presence-track-icon {
-  width: 90px;
-  height: 65px;
-  margin-top: 0px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  display: block;
   font-family: "Energy Font";
   font-size: 32px;
   color: #431e0aff;
@@ -824,6 +819,11 @@ icon.gain-power-card-blank > icon {
 
 presence-tracks.shadow subtext {
   text-shadow: 1px 0 #f1decc, 1px 1px 0 #f1decc, 1px -1px 0 #f1decc, -1px -1px 0 #f1decc;
+}
+
+presence-node icon.huge {
+  width: 110px;
+  height: 110px;
 }
 
 presence-node icon.large {

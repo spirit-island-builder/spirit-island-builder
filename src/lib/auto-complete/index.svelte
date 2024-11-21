@@ -27,6 +27,7 @@
   let inputElementThatWasCompleted;
 
   afterUpdate(() => {
+    console.log("afterUpdate");
     // Refocus the input element that was just completed
     if (inputElementThatWasCompleted) {
       // console.log("Element completed:");
@@ -174,11 +175,17 @@
         }
       }
     } else {
-      if (event.key === "Enter" && event.shiftKey) {
-        // Enter does not line break
-        // Enter moves to next node (see NextNode)
-        // Shift enter behaves normally (line break)
-        event.preventDefault();
+      console.log("handleAuto... list not open... ");
+      // if (event.key === "Enter" && event.shiftKey) {
+      //   // Enter does not line break
+      //   // Enter moves to next node (see NextNode)
+      //   // Shift enter behaves normally (line break)
+      //   console.log("handleAuto... list not open... ")
+      //   event.preventDefault();
+      // } else
+      if (event.key === "Enter") {
+        console.log("got to nextNode");
+        nextNode(event);
       }
     }
   }
@@ -314,10 +321,12 @@
   }
 
   function nextNode(event) {
-    if (!isAutoCompleteListOpen()) {
-      // This isn't currently behaving as expected. Intent: if autocomplete is open, don't jump to the next node when user presses 'enter'
-      Lib.nextNode(event);
-    }
+    console.log("nextNode, isAutoCompleteListOpen() = " + isAutoCompleteListOpen());
+    Lib.nextNode(event);
+    // if (!isAutoCompleteListOpen()) {
+    //   // This isn't currently behaving as expected. Intent: if autocomplete is open, don't jump to the next node when user presses 'enter'
+    //   Lib.nextNode(event);
+    // }
   }
 </script>
 
@@ -333,7 +342,6 @@
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
-      on:keyup={nextNode}
       bind:value />
   {:else if elementType === "textarea"}
     <textarea
@@ -345,7 +353,6 @@
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
-      on:keyup={nextNode}
       bind:value />
     <!-- removing       on:keyup={nextNode} for now -->
   {/if}

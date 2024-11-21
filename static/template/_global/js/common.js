@@ -90,6 +90,9 @@ function replaceIcon(html) {
     }
 
     // Check for Size
+    if (iconName.startsWith("huge-")) {
+      iconName = "huge " + iconName.substring(5);
+    }
     if (iconName.startsWith("large-")) {
       iconName = "large " + iconName.substring(6);
     }
