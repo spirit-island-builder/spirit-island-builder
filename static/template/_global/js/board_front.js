@@ -2008,25 +2008,27 @@ function getPresenceNodeHtml(
           break;
         }
         case "custom": {
+          const matches = regExp.exec(splitOptions[0]);
           if (pnDebug) {
             console.log("Custom Node w/ Single Icon:" + splitOptions[0]);
+            console.log(matches);
           }
-          const matches = regExp.exec(splitOptions[0]);
           const custom_node = matches[1].split(";");
           const custom_text = custom_node[0];
           addEnergyRing = false;
           addIconShadow = true;
           if (custom_node[1]) {
+            inner = "<custom-presence-track-icon>";
             if (custom_node[1].split("{")[1]) {
               // User is using icon shorthand
-              inner =
-                "<custom-presence-track-icon>" + custom_node[1] + "</custom-presence-track-icon>";
+              inner += custom_node[1];
             } else {
-              // User is not using icon shorthand (only 1 icon allowed)
+              // User is not using icon shorthand
               for (let i = 1; i < custom_node.length; i++) {
-                inner += "<icon class='" + custom_node[i] + " custom-presence-track-icon'></icon>";
+                inner += `{${custom_node[i]}}`;
               }
             }
+            inner += "</custom-presence-track-icon>";
           } else {
             inner = "<" + nodeClass + "-icon><value></value></" + nodeClass + "-icon>";
             addEnergyRing = false;
@@ -2379,6 +2381,10 @@ function IconName(str, iconNum = 1) {
   if (str.startsWith("incarna-")) {
     str = str.replace("incarna-", "");
     console.log("removing incarna from icon name");
+  }
+  if (str.startsWith("huge-")) {
+    str = str.replace("huge-", "");
+    console.log("removing huge from icon name");
   }
   if (str.startsWith("large-")) {
     str = str.replace("large-", "");

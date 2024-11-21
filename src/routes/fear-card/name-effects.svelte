@@ -34,7 +34,7 @@
           class="input"
           type="text"
           placeholder="Name"
-          on:keyup={nextNode}
+          on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={fearCard.card.cardName} />
       </div>
