@@ -590,6 +590,10 @@ or {
   background-image: url("../images/or_pl.png");
 }
 
+.or:lang(de) {
+  background-image: url("../images/or_de.png");
+}
+
 icon {
   width: 25px;
   height: 25px;

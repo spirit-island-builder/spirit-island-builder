@@ -13,6 +13,8 @@
   export let showListImmediately = false;
   export let additionalOnBlurFunction = () => {};
 
+  let initialOnBlurFunction = () => {};
+
   let showAutoCompleteList = false;
   let showDetailAutoCompleteList = false; //This is for the detailed growth options
   let valuesToShow;
@@ -25,6 +27,7 @@
   let showActiveSelection = true;
   let currentAutoCompleteTermLength = 0;
   let inputElementThatWasCompleted;
+  let initialValue = "";
 
   afterUpdate(() => {
     console.log("afterUpdate");
@@ -55,7 +58,7 @@
 
   function handleInputAndFocus(event) {
     console.log("handleInputAndFocus");
-
+    initialValue = event.target.value;
     // select all for 'input' type fields
     if (event.target.tagName === "INPUT" && event.type === "focus") {
       document.getElementById(event.target.id).select();
@@ -268,7 +271,14 @@
 
     // since closeAutoComplete can be called from events other than "blur", we check to make sure this is a "blur" event before calling the function that might have been passed in from the parent
     if (event?.type === "blur") {
-      additionalOnBlurFunction();
+      if (additionalOnBlurFunction.toString() !== initialOnBlurFunction.toString()) {
+        additionalOnBlurFunction();
+      } else if (initialValue !== event.target.value) {
+        // If a custom blur isn't selected, do default update
+        // Update the initial value
+        document.getElementById("updateButton").click();
+      }
+      initialValue = event.target.value;
     }
   }
 
