@@ -377,7 +377,7 @@ let localize = {
     speed: "WANN",
     range: "WIE WEIT",
     land: "WO",
-    spirit: "WEN",
+    spirit: "WER",
     threshold: "HAST DU ...",
   },
   pl: {

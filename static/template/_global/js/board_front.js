@@ -5354,7 +5354,7 @@ function writeInnatePowerInfoBlock(
       speed: "WANN",
       range: "WIE WEIT",
       land: "WO",
-      spirit: "WEN",
+      spirit: "WER",
     },
     pl: {
       speed: "SZYBKOŚĆ",
@@ -5475,11 +5475,33 @@ function parseSpecialRules(board) {
   specialRulesArray.forEach((specialRule) => {
     let separateLines = specialRule.innerHTML.split(/\r?\n|\r|\n/g);
     specialRule.innerHTML = "";
+    let listOpen = false;
+    let inlineList;
     separateLines.forEach((line) => {
       if (line.replace(/\W/g, "").length > 0) {
+        // If the line isn't blank
         let specialRuleLine = document.createElement("special-rule-line");
-        specialRuleLine.innerHTML = line;
-        specialRule.appendChild(specialRuleLine);
+        console.log(line);
+        if (line.trim().startsWith("*")) {
+          console.log("line detected");
+          if (!listOpen) {
+            // List hasn't been opened, open list and add it to document
+            let specialRuleList = document.createElement("special-rule-line");
+            inlineList = document.createElement("ul");
+            specialRuleList.appendChild(inlineList);
+            specialRule.appendChild(specialRuleList);
+            listOpen = true;
+          }
+          // Add list item to list (that either existed or was opened)
+          let listItem = document.createElement("li");
+          listItem.innerHTML = line.substring(1).trim();
+          inlineList.appendChild(listItem);
+        } else {
+          listOpen = false; // next item isn't part of list, so close list
+          // New line is not part of a list, so just add it.
+          specialRuleLine.innerHTML = line;
+          specialRule.appendChild(specialRuleLine);
+        }
       }
     });
   });
