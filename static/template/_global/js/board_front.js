@@ -289,6 +289,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   growthGroupHTML +=
     `<growth-group` + headerText + newRowFlag + specialTitleText + specialTitleTextLeft + `>`;
 
+  // Costs
   const cost = growthGroup.getAttribute("cost");
   if (cost) {
     const costSplit = cost.split(",");
@@ -296,12 +297,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
       // Non-numerical cost (ie. forget a card)
       if (costSplit[1]) {
         // Non-numerical cost with text
-        growthGroupHTML +=
-          "<growth-cost class='custom nonscaling'>{" +
-          costSplit[0] +
-          "}<growth-cost-custom-nonscaling-description>" +
-          costSplit[1] +
-          "</growth-cost-custom-nonscaling-description></growth-cost>";
+        growthGroupHTML += `<growth-cost class='custom nonscaling'>{${costSplit[0]}}<growth-cost-custom-nonscaling-description>${costSplit[1]}</growth-cost-custom-nonscaling-description></growth-cost>`;
       } else {
         // non-numerical cost by itself
         growthGroupHTML +=
@@ -314,12 +310,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
       if (debug) {
         console.log("Cost with custom icon");
       }
-      growthGroupHTML +=
-        "<growth-cost class='custom'><icon class='" +
-        costSplit[1] +
-        "'><value>-" +
-        costSplit[0] +
-        "</value></icon></growth-cost>";
+      growthGroupHTML += `<growth-cost class='custom'>{${costSplit[1]}}<value>-${costSplit[0]}</value></icon></growth-cost>`;
     } else {
       // Its just a number, so do energy cost
       growthGroupHTML += `<growth-cost>-${costSplit[0]}</growth-cost>`;
@@ -1537,9 +1528,35 @@ let landtypeNames = {
     "invaders": "Invaders",
   },
   de: {
-    inland: "inland",
-    coastal: "coastal",
-    invaders: "invaders",
+    "ocean": "Ozean",
+    "oceans": "Ozeane",
+    "mountain": "Berg",
+    "jungle": "Dschungel",
+    "sand": "Wüste",
+    "sands": "Wüste",
+    "wetland": "Sumpf",
+    "jungle-wetland": "Dschungel oder Sumpf",
+    "wetland-jungle": "Dschungel oder Sumpf",
+    "jungle-sand": "Dschungel oder Wüste",
+    "sand-jungle": "Dschungel oder Wüste",
+    "jungle-sands": "Dschungel oder Wüste",
+    "sands-jungle": "Dschungel oder Wüste",
+    "sand-wetland": "Wüste oder Sumpf",
+    "wetland-sand": "Wüste oder Sumpf",
+    "sands-wetland": "Wüste oder Sumpf",
+    "wetland-sands": "Wüste oder Sumpf",
+    "mountain-jungle": "Berg oder Dschungel",
+    "jungle-mountain": "Berg oder Dschungel",
+    "mountain-wetland": "Berg oder Sumpf",
+    "wetland-mountain": "Berg oder Sumpf",
+    "mountain-sand": "Berg oder Wüste",
+    "sand-mountain": "Berg oder Wüste",
+    "mountain-sands": "Berg oder Wüste",
+    "sands-mountain": "Berg oder Wüste",
+    "inland": "Binnengebiet",
+    "coastal": "Küste",
+    "land": "gebiet",
+    "invaders": "Invasoren",
   },
   pl: {
     "ocean": "Ocean",
@@ -1851,7 +1868,7 @@ function getPresenceNodeHtml(
     addEnergyRing = false;
   }
 
-  // Assess node
+  // Evaluate node for effect
   if (!isNaN(nodeText)) {
     //The value is only a number
     addEnergyRing = false;
@@ -2095,9 +2112,10 @@ function getPresenceNodeHtml(
           break;
         }
         case "gain-card-play": {
-          const cardplay_text = splitOptions[0];
-          inner = "<icon class='" + cardplay_text + "'></icon>";
-          subText = IconName(option);
+          const matches = regExp.exec(splitOptions[0]);
+          const gainPlays = matches ? matches[1] : 1;
+          inner = "<card-play-num><value>" + gainPlays + "</value></card-play-num>";
+          subText = IconName(splitOptions[0]);
           addEnergyRing = false;
           break;
         }
@@ -2140,9 +2158,22 @@ function getPresenceNodeHtml(
           subText = IconName(iconText);
           break;
         }
+        case "reclaim": {
+          const matches = regExp.exec(splitOptions[0]);
+          const iconText = splitOptions[0];
+          if (matches) {
+            const reclaimType = `reclaim-${matches[1]}`;
+            inner += `{${reclaimType}}`;
+            subText = IconName(reclaimType);
+          } else {
+            inner += `{${splitOptions[0]}}`;
+            subText = IconName(iconText);
+          }
+          break;
+        }
         default: {
           const iconText = splitOptions[0];
-          inner = "{" + iconText + "}";
+          inner = `{${iconText}}`;
           subText = IconName(iconText);
           break;
         }
@@ -2192,7 +2223,12 @@ function getPresenceNodeHtml(
             addEnergyRing = false;
           }
         } else if (splitOptions[i].startsWith("reclaim")) {
-          trackIcons += `<icon class='${splitOptions[i]}'></icon>`;
+          const matches = regExp.exec(splitOptions[i]);
+          if (matches) {
+            trackIcons += `{reclaim-${matches[1]}}`;
+          } else {
+            trackIcons += `{${splitOptions[i]}}`;
+          }
         } else if (splitOptions[i].startsWith("energy")) {
           const matches = regExp.exec(splitOptions[i]);
           let num = matches[1];
@@ -2212,16 +2248,15 @@ function getPresenceNodeHtml(
           addEnergyRing = false;
           trackIcons += `<card-icon><value>${num}</value></card-icon>`;
         } else if (splitOptions[i].startsWith("gain-card-play")) {
-          trackIcons += `<icon class='${splitOptions[i]}'></icon>`;
+          trackIcons += `{${splitOptions[i]}}`;
           addEnergyRing = false;
         } else if (splitOptions[i].startsWith("gain-power-card")) {
           const matches = regExp.exec(splitOptions[i]);
           if (matches) {
             trackIcons += `<icon class='gain-power-card-blank'>
-              <icon class='${matches[1]} small'>
-              </icon></icon>`;
+              {${matches[1]}}</icon>`;
           } else {
-            trackIcons += `<icon class='${splitOptions[i]}'></icon>`;
+            trackIcons += `{${splitOptions[i]}}`;
           }
         } else if (splitOptions[i].startsWith("move-presence")) {
           const matches = regExp.exec(splitOptions[i]);
@@ -2242,19 +2277,19 @@ function getPresenceNodeHtml(
           if (pnDebug) {
             console.log("Multinode custom: " + custom);
           }
-          trackIcons += `<icon class='${custom}'></icon>"`;
+          trackIcons += `{${custom}}`;
         } else if (splitOptions[i].startsWith("elements")) {
           const matches = regExp.exec(splitOptions[i]);
           const elementList = matches[1].split(";");
           let elementIcons = "";
           if (elementList.length === 2) {
             elementIcons += `<element-or-wrap><icon class='${elementList[0]} presence-or-first'></icon>
-              <icon class='backslash'></icon>
+              {backslash}
               <icon class='${elementList[1]} presence-or-second'></icon></element-or-wrap>`;
           }
           trackIcons += elementIcons;
         } else {
-          trackIcons += `<icon class='${splitOptions[i]}'></icon>`;
+          trackIcons += `{${splitOptions[i]}}`;
         }
         trackIcons = `<presence-node-multi ${track_icon_loc}>${trackIcons}</presence-node-multi>`;
         inner += trackIcons;
@@ -2707,7 +2742,7 @@ function IconName(str, iconNum = 1) {
       if (txt) {
         localize = {
           en: `Gain ${IconName(num)} Power Card ${txt}`,
-          de: "Fähigkeitenkare erhalten",
+          de: "Fähigkeiten-karte erhalten",
           pl: `Pozyskaj ${IconName(num)} Kartę Mocy ${txt}`,
           ar: "",
           zh: "獲得法術牌",
@@ -2716,7 +2751,7 @@ function IconName(str, iconNum = 1) {
       } else if (num) {
         localize = {
           en: `Gain ${IconName(num)} Power Card`,
-          de: "Fähigkeitenkare erhalten",
+          de: "Fähigkeiten-karte erhalten",
           pl: "Pozyskaj Kartę Mocy",
           ar: "",
           zh: "獲得法術牌",
@@ -2725,7 +2760,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: "Gain Power Card",
-          de: "Fähigkeitenkare erhalten",
+          de: "Fähigkeiten-karte erhalten",
           pl: "Pozyskaj Kartę Mocy",
           ar: "",
           zh: "獲得法術牌",
@@ -2738,7 +2773,7 @@ function IconName(str, iconNum = 1) {
       if (txt) {
         localize = {
           en: `Take ${IconName(num)} Power Card ${txt}`,
-          de: "Fähigkeitenkarte nehmen",
+          de: "Fähigkeiten-karte nehmen",
           pl: "Weź Kartę Mocy",
           ar: "",
           zh: "拿取法術牌",
@@ -2747,7 +2782,7 @@ function IconName(str, iconNum = 1) {
       } else if (num) {
         localize = {
           en: `Take ${IconName(num)} Power Card`,
-          de: "Fähigkeitenkarte nehmen",
+          de: "Fähigkeiten-karte nehmen",
           pl: "Weź Kartę Mocy",
           ar: "",
           zh: "拿取法術牌",
@@ -2756,7 +2791,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: "Take Power Card",
-          de: "Fähigkeitenkarte nehmen",
+          de: "Fähigkeiten-karte nehmen",
           pl: "Weź Kartę Mocy",
           ar: "",
           zh: "拿取法術牌",
@@ -2839,7 +2874,10 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "gain-card-play":
-      subText = `+1 ${CardPlay[lang]}/${Turn[lang]}`;
+      subText =
+        num && num > 1
+          ? `+${num} ${CardPlays[lang]}/${Turn[lang]}`
+          : `+1 ${CardPlay[lang]}/${Turn[lang]}`;
       break;
     case "growth-gain-card-play":
       num = num || 1;
@@ -2926,7 +2964,7 @@ function IconName(str, iconNum = 1) {
     case "forget-power-card":
       localize = {
         en: "Forget Power Card",
-        de: "Fähigkeitenkarte vergessen",
+        de: "Fähigkeiten-karte vergessen",
         pl: "Zapomnij Kartę Mocy",
         ar: "",
         zh: "遺忘法術牌",
@@ -2938,7 +2976,7 @@ function IconName(str, iconNum = 1) {
       if (num) {
         localize = {
           en: "Discard a Power Card with " + num,
-          de: "Wirf eine Fähigkeitenkarte ab mit " + num,
+          de: "Wirf eine Fähigkeiten-karte ab mit " + num,
           pl: "Odrzuć 1 Kartę Mocy z " + num,
           ar: "",
           zh: "",
@@ -2947,7 +2985,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: "Discard a Card",
-          de: "1 Fähigkeitenkarte abwerfen",
+          de: "1 Fähigkeiten-karte abwerfen",
           pl: "Odrzuć 1 Kartę Mocy",
           ar: "",
           zh: "棄置1張法術牌",
@@ -3003,7 +3041,7 @@ function IconName(str, iconNum = 1) {
     case "gain-card-pay-2":
       localize = {
         en: "Pay 2 Energy to Gain a Power Card",
-        de: "Zahle 2 Energie, um 1 Fähigkeitenkarte zu erlangen",
+        de: "Zahle 2 Energie, um 1 Fähigkeiten-karte zu erlangen",
         pl: "Wydaj 2 Energii, by Pozyskać Kartę Mocy",
         ar: "",
         zh: "支付2能來以獲得1張法術牌",
@@ -3727,7 +3765,7 @@ function IconName(str, iconNum = 1) {
     case "discard-2-cards":
       localize = {
         en: "Discard 2 Power Cards",
-        de: "2 Fähigkeitenkarten abwerfen",
+        de: "2 Fähigkeiten-karten abwerfen",
         pl: "Odrzuć 2 Karty Mocy",
         ar: "",
         zh: "棄置2張法術牌",
@@ -3739,7 +3777,7 @@ function IconName(str, iconNum = 1) {
     case "discard-1-card":
       localize = {
         en: "Discard 1 Power Card",
-        de: "1 Fähigkeitenkarte abwerfen",
+        de: "1 Fähigkeiten-karte abwerfen",
         pl: "Odrzuć 1 Kartę Mocy",
         ar: "",
         zh: "棄置1張法術牌",
@@ -3761,7 +3799,7 @@ function IconName(str, iconNum = 1) {
     case "days-never-were":
       localize = {
         en: "Gain Power Card from Days That Never Were",
-        de: "Fähigkeitenkarte von Tage die nie waren erlangen",
+        de: "Fähigkeiten-karte von Tage die nie waren erlangen",
         pl: "Pozyskaj Kartę Mocy z Dni, Które Nigdy Nie Nadeszły",
         ar: "",
         zh: "從未現時日牌堆中獲得法術牌",

@@ -294,7 +294,7 @@ presence-node-multi icon.gain-power-card-blank {
   margin-top: -14px;
 }
 
-presence-node-multi icon.gain-power-card-blank icon.small {
+presence-node-multi icon.gain-power-card-blank icon {
   width: 38px;
 }
 
@@ -869,4 +869,22 @@ presence-node.right-subtext subtext {
   position: absolute;
   transform: translateX(100%);
   right: 0px;
+}
+
+presence-node card-play-num {
+  width: 90px;
+  height: 90px;
+  margin: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 3px;
+}
+
+presence-node card-play-num value {
+  display: block;
+  position: absolute;
+  margin: 0px;
+  font-size: 36px;
+  top: 29px;
 }
