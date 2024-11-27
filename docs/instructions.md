@@ -44,7 +44,7 @@ The best place to start with the Builder is to look at the Examples. The Builder
 Use these fields to modify your spirit's special rules. You can and should use the [icon shortcuts](#general-icons) here (such as {dahan}). Shortcuts will trigger autocomplete when you type "{". Press tab to finish the autocomplete.
 
 - Name: The name of the Special Rule.
-- Effect: The special rule effect. Use icon shortcuts here.
+- Effect: The special rule effect. Use icon shortcuts here. Use * for bulleted lists
 - Remove: Button to **permanently** delete the special rule.
 - Add Another Rule: Adds an additional special rule.
 - General Advice: Look at example spirits to see how some features are used.

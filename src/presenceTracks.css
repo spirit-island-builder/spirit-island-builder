@@ -64,7 +64,8 @@ button.presence-track-remove {
 .presence-input-block {
   z-index: 2;
 }
-div.presence-track-row .presence-input-block:focus {
+div.presence-track-row .presence-input-block:focus,
+#bonusNodeEffect:focus {
   min-width: 180px;
   z-index: 5;
 }

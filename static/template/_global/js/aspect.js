@@ -29,6 +29,8 @@ function startMain() {
   setTimeout(function () {
     resizeAspect(aspects[0]);
   }, 200);
+
+  return 3;
 }
 
 function parseSubNodes(aspect) {

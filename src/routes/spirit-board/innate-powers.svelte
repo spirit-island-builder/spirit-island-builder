@@ -244,7 +244,7 @@
             class="input"
             type="text"
             placeholder="Power Name"
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={innatePower.name} />
         </div>
@@ -317,7 +317,7 @@
               class="input is-small"
               type="text"
               placeholder="Range"
-              on:keyup={nextNode}
+              on:keydown={nextNode}
               on:focus={selectNode}
               on:blur={updateInnatePowerRange(innatePower, `ip${i}range`)}
               bind:value={innatePower.range} />
@@ -354,7 +354,7 @@
             placeholder="Threshold"
             on:focus={selectNode}
             on:blur={updateInnatePowerThreshold(level, `ip${i}L${j}t`)}
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             bind:value={level.threshold} />
         </div>
         <div class="control" style="width:100%">

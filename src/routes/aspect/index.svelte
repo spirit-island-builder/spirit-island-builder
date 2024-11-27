@@ -58,6 +58,27 @@
     // }
   }
 
+  const openEditorHeading = (e) => {
+    let outcome;
+    console.log("openeditorheading");
+    e.stopPropagation(); // we stop the event from propegating up to 'board', which would cause this to trigger twice
+    if (e.target.tagName === "ASPECT-CONTAINER") {
+      outcome = !aspect.aspectEffects.isVisible;
+      hideAll();
+      aspect.aspectEffects.isVisible = outcome;
+    }
+    if (e.target.tagName === "ASPECT-NAME") {
+      outcome = !aspect.nameReplacements.isVisible;
+      hideAll();
+      aspect.nameReplacements.isVisible = outcome;
+    }
+    if (e.target.tagName === "ASPECT-SUBTEXT") {
+      outcome = !aspect.nameReplacements.isVisible;
+      hideAll();
+      aspect.nameReplacements.isVisible = outcome;
+    }
+  };
+
   function generateHTML(aspect) {
     const fragment = new DocumentFragment();
 
@@ -482,6 +503,7 @@
       id="aspect-preview"
       bind:this={previewFrame}
       on:hot-reload={reloadPreview}
+      clickFunction={() => openEditorHeading}
       class={aspect.profile ? "portrait" : ""}>
       <svelte:fragment slot="head">
         <link href="/template/_global/css/global.css" rel="stylesheet" />

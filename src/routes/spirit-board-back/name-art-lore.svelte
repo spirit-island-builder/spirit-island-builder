@@ -32,7 +32,7 @@
           type="text"
           placeholder="Name"
           on:focus={selectNode}
-          on:keyup={nextNode}
+          on:keydown={nextNode}
           bind:value={spiritBoardBack.nameImage.name} />
       </div>
     </div>

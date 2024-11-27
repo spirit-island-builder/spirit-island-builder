@@ -133,6 +133,19 @@
         card.addEventListener("click", clickFunction());
       });
     }
+    if (status === 3) {
+      const aspectEffectsElement =
+        previewIframe.contentDocument.getElementsByTagName("aspect-container")[0];
+      aspectEffectsElement.addEventListener("click", clickFunction());
+
+      const aspectSubtextElement =
+        previewIframe.contentDocument.getElementsByTagName("aspect-name")[0];
+      aspectSubtextElement.addEventListener("click", clickFunction());
+
+      const aspectNameElement =
+        previewIframe.contentDocument.getElementsByTagName("aspect-subtext")[0];
+      aspectNameElement.addEventListener("click", clickFunction());
+    }
   };
 
   export const writeGrowthAction = (action) => {

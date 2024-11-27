@@ -84,7 +84,7 @@
             class="input"
             type="text"
             placeholder="Name"
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={aspect.nameReplacements.aspectName} />
         </div>
@@ -106,7 +106,7 @@
                   class="input is-small"
                   type="text"
                   placeholder="ie. Replaces Special Rule"
-                  on:keyup={nextNode}
+                  on:keydown={nextNode}
                   on:focus={selectNode}
                   bind:value={replacement.aspectRelacement} />
               </div>
@@ -127,7 +127,7 @@
                   class="input is-small"
                   type="text"
                   placeholder="ie. The Name of a Spirit's Special Rule"
-                  on:keyup={nextNode}
+                  on:keydown={nextNode}
                   on:focus={selectNode}
                   bind:value={replacement.rulesReplaced} />
               </div>
@@ -197,7 +197,7 @@
             class="input"
             type="text"
             placeholder="The Name of a Spirit"
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={aspect.nameReplacements.spiritName} />
         </div>

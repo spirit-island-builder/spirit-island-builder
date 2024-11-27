@@ -73,7 +73,6 @@ const iconValues = [
     value: "<special-rules-track values='5,7,8,10,11,12,13'></special-rules-track>",
   },
   { label: "spirit", value: "{spirit}" },
-  { label: "spirit", value: "{spirit}" },
   { label: "star", value: "{star}" },
   { label: "strife", value: "{strife}" },
   { label: "sun", value: "{sun}" },
