@@ -377,7 +377,7 @@ let localize = {
     speed: "WANN",
     range: "WIE WEIT",
     land: "WO",
-    spirit: "WER",
+    spirit: "WEN",
     threshold: "HAST DU ...",
   },
   pl: {
@@ -400,5 +400,12 @@ let localize = {
     land: "目標區域",
     spirit: "目標精靈",
     threshold: "",
+  },
+  hu: {
+    speed: "SEBESSÉG",
+    range: "TÁVOLSÁG",
+    land: "CÉLTERÜLET",
+    spirit: "CÉLPONT",
+    threshold: "Ha kijátszottál",
   },
 };

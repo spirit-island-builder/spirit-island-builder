@@ -3,7 +3,7 @@
   // import ImageInput from "$lib/image-input.svelte";
   import AutoComplete from "$lib/auto-complete/index.svelte";
   import { iconValuesSorted } from "$lib/auto-complete/autoCompleteValues";
-  // import * as Lib from "../lib";
+  import * as Lib from "../lib";
 
   export let eventCard;
 
@@ -92,9 +92,9 @@
   //   document.getElementById(nodeID).select();
   // }
 
-  // function nextNode(event) {
-  //   Lib.nextNode(event);
-  // }
+  function nextNode(event) {
+    Lib.nextNode(event);
+  }
 </script>
 
 <Section title="Main Event" bind:isVisible={eventCard.card.isVisible}>
@@ -137,6 +137,7 @@
             class="input "
             type="text"
             placeholder="Overall event name"
+            on:keydown={nextNode}
             bind:value={eventCard.card.name} />
         </div>
       </div>
@@ -231,23 +232,26 @@
         </div>
         <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap pb-4">
           <div class="field pr-2">
-            <label class="label is-small" for="eventCardName">Name: </label>
+            <label class="label is-small" for={`subeventName${i}`}>Name: </label>
           </div>
           <div class="control" style="width:90%;">
             <input
-              id="eventCardName"
+              id={`subeventName${i}`}
               class="input  is-small"
               type="text"
               placeholder="Overall event name"
+              on:keydown={nextNode}
               bind:value={event.name} />
           </div>
         </div>
         <div class="field">
-          <label class="label is-flex is-justify-content-space-between is-small" for="eventCardLore"
+          <label
+            class="label is-flex is-justify-content-space-between is-small"
+            for={`subeventEffect${i}`}
             >Effect:
           </label>
           <AutoComplete
-            id="eventCardLore"
+            id={`subeventEffect${i}`}
             elementType="textarea"
             classNames="is-small"
             placeholder="Lore description of the event"

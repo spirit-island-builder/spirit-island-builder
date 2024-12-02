@@ -918,11 +918,30 @@ custom-icon {
   justify-content: flex-end;
 }
 
-custom-icon .token {
+/* custom-icon .token {
   width: 40px;
   height: 35px;
   margin-bottom: -3px;
   margin-left: 0px;
+} */
+
+token-wrap > icon {
+  width: 40px;
+  height: 35px;
+  margin-bottom: -3px;
+  margin-left: 0px;
+}
+
+icon.your-land.add-token {
+  height: 56px;
+  width: 73px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+icon.your-land.add-token icon {
+  top: unset;
+  left: unset;
 }
 
 custom-icon .destroyed-presence {
@@ -2000,6 +2019,11 @@ board.starlight right-right level {
 
 board.starlight info-container {
   margin-bottom: 5px;
+}
+
+growth icon.huge {
+  width: 120px;
+  height: 120px;
 }
 
 growth icon.large {

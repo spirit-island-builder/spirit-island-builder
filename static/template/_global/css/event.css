@@ -277,16 +277,17 @@ subevent:first-child subevent-header {
 
 subevent-header.choice {
   color: #000000;
+  text-shadow: 0.5px 0px 0 #000000;
   padding-left: 13px;
   text-align: left;
-  font-size: 16pt;
+  font-size: 17pt;
   padding-top: 10px;
   height: unset;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  letter-spacing: -0.2px;
-  word-spacing: -5px;
+  letter-spacing: 0.6px;
+  word-spacing: -3px;
 }
 
 /* subevent-header.blighted,
@@ -296,9 +297,9 @@ subevent-header.healthy {
 event-header {
   font-family: "Short Name Headings";
   color: #3f2e24;
-  font-size: 27px;
-  word-spacing: -2px;
-  letter-spacing: 0.5px;
+  font-size: 31px;
+  word-spacing: -4px;
+  letter-spacing: 1px;
   white-space: pre-line;
   position: relative;
   display: flex;
@@ -309,7 +310,7 @@ event-header {
   width: 400px;
   justify-content: center;
   min-height: 50px;
-  padding-top: 14px;
+  padding-top: 11px;
 }
 
 token-event-name {
