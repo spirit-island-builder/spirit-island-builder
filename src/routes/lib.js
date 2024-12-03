@@ -554,6 +554,28 @@ export const nextNode = (event) => {
           focusID = "comment" + (parseInt(numMatches[0]) + 1) + "BackRight";
           console.log(focusID);
           break;
+        // Event card
+        case "eventCardName":
+          focusID = "eventCardLore";
+          break;
+        case "eventCardLore":
+          focusID = "subeventName0";
+          break;
+        case "subeventName":
+          focusID = "subeventEffect" + numMatches[0];
+          break;
+        case "subeventEffect":
+          focusID = "subeventName" + (parseInt(numMatches[0]) + 1);
+          break;
+        case "tokenEventName":
+          focusID = "tokenEventTokens" + numMatches[0];
+          break;
+        case "tokenEventTokens":
+          focusID = "tokenEventEffects" + numMatches[0];
+          break;
+        case "tokenEventEffects":
+          focusID = "tokenEventName" + (parseInt(numMatches[0]) + 1);
+          break;
       }
 
       if (document.getElementById(focusID) === null) {

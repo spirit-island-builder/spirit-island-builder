@@ -1,14 +1,15 @@
 async function startMain() {
-  //remove the window.onload when transferring over to Builder
   console.log("Start Main: Event Card");
 
   templateEventCard = document.querySelectorAll("template-event-card")[0];
   let eventType = templateEventCard.getAttribute("type");
   if (templateEventCard) {
-    let eventCard = buildBuildCard(templateEventCard);
+    let eventCard = buildCard(templateEventCard);
     templateEventCard.parentNode.insertBefore(eventCard, templateEventCard.nextSibling);
     templateEventCard.remove();
   }
+
+  processEffects();
 
   var html = document.querySelectorAll("event-card")[0].innerHTML;
   document.querySelectorAll("event-card")[0].innerHTML = replaceIcon(html);
@@ -36,7 +37,7 @@ function resize(eventType) {
   }
 }
 
-function buildBuildCard(template) {
+function buildCard(template) {
   let eventCard = document.createElement("event-card");
   template.parentNode.insertBefore(eventCard, templateEventCard.nextSibling);
   let eventName = template.getAttribute("name");
@@ -220,8 +221,8 @@ function parseSubevent(el, eventNumber, bannerType) {
 
   html += `
     <subevent-body>
-    <subevent-header class = ${bannerType}> ${name} </subevent-header>
-    <effect> ${effect} </effect> 
+    <subevent-header class = ${bannerType}>${name}</subevent-header>
+    <effect>${effect}</effect> 
   `;
   if (bannerType != "choice" && eventNumber != 1) {
     html += `<event-line> </event-line>`;
@@ -275,19 +276,16 @@ function parseTokenEvent(el, bottomOffset) {
       <token-event style="bottom: ${bottomOffset}px; background: ${background}">
       <token-event-icon-container>
       `;
-  tokensArray
-    .slice()
-    .reverse()
-    .forEach((token) => {
-      html += `
+  tokensArray.slice().forEach((token) => {
+    html += `
         <token-event-icon class="${token}"> </token-event-icon>
         `;
-    });
+  });
 
   html += `
       </token-event-icon-container>
       <token-event-texture> </token-event-texture>
-      <token-event-effect><token-event-name>${name}</token-event-name><b>:</b> ${effect}</token-event-effect>
+      <token-event-effect><token-event-name>${name}</token-event-name><b>: </b>${effect}</token-event-effect>
       
       </token-event class="${tokens}">
       `;
@@ -331,4 +329,13 @@ function checkOverflow(el) {
   let isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
   el.style.overflow = curOverflow;
   return isOverflowing;
+}
+
+function processEffects() {
+  const eventCard = document.querySelectorAll("event-card")[0];
+  const effects = eventCard.getElementsByTagName("effect");
+  let effectsArray = Array.from(effects);
+  effectsArray.forEach((effect) => {
+    processRulesText(effect, "effect-line");
+  });
 }

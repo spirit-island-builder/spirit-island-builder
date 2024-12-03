@@ -47,6 +47,9 @@
 
         // update node
         findSpecialRuleTempalte.innerHTML = previewFrame.replaceIcon(newSpecialRuleText);
+        if (type === "effect") {
+          previewFrame.processRulesText(findSpecialRuleTempalte);
+        }
       }
     }
   }

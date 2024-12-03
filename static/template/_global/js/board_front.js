@@ -5,6 +5,7 @@
 /* global replaceIcon */
 /* global checkOverflowHeight */
 /* global checkOverflowWidth */
+/* global processRulesText */
 
 let lang = "en";
 
@@ -652,6 +653,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       break;
     }
     case "add-presence-custom": {
+      //no longer needed since the *wildcard was added
       console.log(growthAction);
       const fullMatch = regExpOuterParentheses.exec(growthAction);
       let initialOptions = fullMatch[1].split(",");
@@ -1152,41 +1154,66 @@ function getGrowthActionTextAndIcons(growthAction) {
       const matches = regExp.exec(growthAction);
       let tokenOptions = matches[1].split(",");
       let range = tokenOptions[0];
-      let tokenRange = "<range-growth><value>" + range + "</value></range-growth>";
+      let tokenRange = `<range-growth><value>${range}</value></range-growth>`;
       let token = tokenOptions[1];
       let tokenNum = tokenOptions[2];
       let tokenReqOpen = "<custom-icon>";
       let tokenReqClose = "</custom-icon>";
       let tokenIcons = "";
+      let tokenConditional = "";
+      let operator = tokenOptions.at(-1);
       let iconNameVars = range;
       if (!tokenNum) {
-        tokenIcons = "+<icon class='" + token + " token'></icon>";
+        tokenIcons = `+{${token}}`;
         iconNameVars += `,${"and"},${token}`;
       } else if (!isNaN(tokenNum)) {
         // multiple of the same token
         tokenIcons += "+";
         if (tokenNum > 3) {
-          tokenIcons += tokenNum + "<icon class='" + token + " token'></icon>";
+          tokenIcons += tokenNum + `{${token}}`;
         } else {
           for (let i = 0; i < tokenNum; i++) {
-            tokenIcons += "<icon class='" + token + " token'></icon>";
+            tokenIcons += `{${token}}`;
           }
         }
         iconNameVars += `,${"and"},${token},${tokenNum}`;
-      } else {
+      } else if (operator === "and" || operator === "or") {
         // two or more different tokens
         const operator = tokenOptions.at(-1);
-        tokenIcons += "+<icon class='" + token + " token'></icon>";
+        tokenIcons += `+{${token}}`;
         if (operator === "and" || operator === "or") {
           for (let i = 2; i < tokenOptions.length - 1; i++) {
             tokenIcons += operator === "or" ? "/" : "";
-            tokenIcons += "<icon class='" + tokenOptions[i] + " token'></icon>";
+            tokenIcons += `{${tokenOptions[i]}}`;
           }
         }
         iconNameVars += `,${operator},${tokenOptions.slice(1, -1)}`;
+      } else {
+        // conditional
+        tokenIcons = `+{${token}}`;
+        let condition = tokenNum.toLowerCase();
+        if (terrainSingle.has(condition)) {
+          tokenConditional = `<presence-req><icon class="${condition} terrain-single"></icon></presence-req>`;
+        } else if (terrainDouble.has(condition)) {
+          tokenConditional = `<presence-req><icon class="${condition} terrain-double"></icon></presence-req>`;
+        } else if (terrainNoIcons.has(condition)) {
+          //coastal,inland,invaders
+          tokenConditional = `<presence-req><span class="non-icon">${condition}</span></presence-req>`;
+        } else {
+          //a land with a particular token
+          tokenConditional = `<presence-req><icon class="your-land add-token"><icon class="${condition}"></icon></icon></presence-req>`;
+        }
+        operator = "conditional";
+        iconNameVars += `,${operator},${token},${condition}`;
       }
       growthIcons =
-        tokenReqOpen + "<token-wrap>" + tokenIcons + "</token-wrap>" + tokenRange + tokenReqClose;
+        tokenReqOpen +
+        "<token-wrap>" +
+        tokenIcons +
+        "</token-wrap>" +
+        tokenConditional +
+        tokenRange +
+        tokenReqClose;
       growthText = IconName(`add-token(${iconNameVars})`);
       break;
     }
@@ -1721,6 +1748,7 @@ const terrainDouble = new Set([
   "sands-mountain",
 ]);
 const terrainTypes = new Set(["coastal", "inland"]);
+const terrainNoIcons = new Set(["coastal", "inland", "invaders"]);
 const terrains = new Set([...terrainSingle, ...terrainDouble, ...terrainTypes]);
 
 function getPresenceNodeHtml(
@@ -3304,7 +3332,7 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "add-token":
-      //add-token(range#/token,and/or,token,num/[othertokens])
+      //add-token(range#/token,and/or/conditional,token,num/[othertokens])
       if (isNaN(num)) {
         // its a presence track token
         localize = {
@@ -3318,19 +3346,41 @@ function IconName(str, iconNum = 1) {
       } else {
         // its a growth token
         if (opt4 && isNaN(opt4)) {
-          //multiple tokens of different types
-          localize = {
-            en: `Add a ${ListLocalize(options.slice(2), txt)} ${txt === "and" ? "together" : ""}`,
-            de: `Lege ein ${ListLocalize(options.slice(2), txt)} ${
-              txt === "und" ? "zusammen" : ""
-            }`,
-            pl: `Dodaj ${ListLocalize(options.slice(2), txt)} ${txt === "i" ? "jednocześnie" : ""}`,
-            ar: ``,
-            zh: ``,
-            hu: `Rakj le egy ${ListLocalize(options.slice(2), txt)} ${
-              txt === "és" ? "együtt" : ""
-            }`,
-          };
+          if (txt === "conditional") {
+            //condition
+            localize = {
+              en: landtypeNames[lang][opt4]
+                ? `Add a ${IconName(opt3)} to a ${IconName(opt4)}`
+                : `Add a ${IconName(opt3)} to a Land with ${IconName(opt4)}`,
+              de: landtypeNames[lang][opt4]
+                ? `Add a ${IconName(opt3)} to a ${IconName(opt4)}`
+                : `Add a ${IconName(opt3)} to a Land with ${IconName(opt4)}`,
+              pl: landtypeNames[lang][opt4]
+                ? `Add a ${IconName(opt3)} to a ${IconName(opt4)}`
+                : `Add a ${IconName(opt3)} to a Land with ${IconName(opt4)}`,
+              ar: ``,
+              zh: ``,
+              hu: landtypeNames[lang][opt4]
+                ? `Add a ${IconName(opt3)} to a ${IconName(opt4)}`
+                : `Add a ${IconName(opt3)} to a Land with ${IconName(opt4)}`,
+            };
+          } else {
+            //multiple tokens of different types
+            localize = {
+              en: `Add a ${ListLocalize(options.slice(2), txt)} ${txt === "and" ? "together" : ""}`,
+              de: `Lege ein ${ListLocalize(options.slice(2), txt)} ${
+                txt === "und" ? "zusammen" : ""
+              }`,
+              pl: `Dodaj ${ListLocalize(options.slice(2), txt)} ${
+                txt === "i" ? "jednocześnie" : ""
+              }`,
+              ar: ``,
+              zh: ``,
+              hu: `Rakj le egy ${ListLocalize(options.slice(2), txt)} ${
+                txt === "és" ? "együtt" : ""
+              }`,
+            };
+          }
         } else if (opt4) {
           //multiple tokens of the same type
           localize = {
@@ -5392,7 +5442,7 @@ function writeInnatePowerInfoBlock(
       speed: "WANN",
       range: "WIE WEIT",
       land: "WO",
-      spirit: "WER",
+      spirit: "WEN",
     },
     pl: {
       speed: "SZYBKOŚĆ",
@@ -5511,37 +5561,7 @@ function parseSpecialRules(board) {
   const specialRuleList = board.getElementsByTagName("special-rule");
   let specialRulesArray = Array.from(specialRuleList);
   specialRulesArray.forEach((specialRule) => {
-    let separateLines = specialRule.innerHTML.split(/\r?\n|\r|\n/g);
-    specialRule.innerHTML = "";
-    let listOpen = false;
-    let inlineList;
-    separateLines.forEach((line) => {
-      if (line.replace(/\W/g, "").length > 0) {
-        // If the line isn't blank
-        let specialRuleLine = document.createElement("special-rule-line");
-        console.log(line);
-        if (line.trim().startsWith("*")) {
-          console.log("line detected");
-          if (!listOpen) {
-            // List hasn't been opened, open list and add it to document
-            let specialRuleList = document.createElement("special-rule-line");
-            inlineList = document.createElement("ul");
-            specialRuleList.appendChild(inlineList);
-            specialRule.appendChild(specialRuleList);
-            listOpen = true;
-          }
-          // Add list item to list (that either existed or was opened)
-          let listItem = document.createElement("li");
-          listItem.innerHTML = line.substring(1).trim();
-          inlineList.appendChild(listItem);
-        } else {
-          listOpen = false; // next item isn't part of list, so close list
-          // New line is not part of a list, so just add it.
-          specialRuleLine.innerHTML = line;
-          specialRule.appendChild(specialRuleLine);
-        }
-      }
-    });
+    processRulesText(specialRule);
   });
 }
 
