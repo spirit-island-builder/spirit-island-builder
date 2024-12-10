@@ -792,11 +792,22 @@ function getGrowthActionTextAndIcons(growthAction) {
       let preposition = growthActionType === "push" ? "from" : "into";
       let moveOptions = matches[1].split(",");
       let moveTarget = isNaN(moveOptions[0]) ? moveOptions[0] : moveOptions[1];
+      let targetHTML = `{${moveTarget}}`;
+      if (moveTarget.includes("/")) {
+        // "Or" targets
+        let moveTargets = moveTarget.split("/");
+        targetHTML = "<icon-holder>";
+        moveTargets.forEach((target) => {
+          targetHTML += `{${target}}/`;
+        });
+        targetHTML = targetHTML.slice(0, -1); // Remove the last "/"
+        targetHTML = targetHTML.replaceAll("/", `{backslash}`);
+        targetHTML += "</icon-holder>";
+      }
       let moveRange = isNaN(moveOptions[0]) ? 0 : moveOptions[0];
       let moveTag = moveRange > 0 ? "push-gather-range-req" : "push-gather";
       let rangeHTML =
         moveRange > 0 ? `<range-growth><value>${moveRange}</value></range-growth>` : ``;
-      let targetHTML = `<icon class="${moveTarget}"></icon>`;
       let moveCondition;
       let iconNum = 1;
       let moveArrowOrCondition = ``;
@@ -2473,6 +2484,13 @@ function IconName(str, iconNum = 1) {
     if (iconNum > 1) {
       console.log("iconNum =" + iconNum);
     }
+  }
+
+  if (str.includes("/")) {
+    // If it is a split icon, unsplit it.
+    localize = {};
+    subText = `${IconName(str.split("/")[0])}/${IconName(str.split("/")[1])}`;
+    return subText;
   }
 
   switch (str) {

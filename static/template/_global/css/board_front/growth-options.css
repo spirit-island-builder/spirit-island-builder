@@ -1270,8 +1270,8 @@ icon-holder {
   position: relative;
   left: 86px;
   top: 12px;
-  width: 55px;
-  flex-direction: row-reverse;
+  width: 60px;
+  flex-direction: row;
   flex-wrap: wrap;
   align-content: center;
   justify-content: space-evenly;
@@ -1282,6 +1282,10 @@ icon-holder icon {
   display: inline-block;
   width: 25px;
   height: 25px;
+  margin: 0px;
+}
+
+icon-holder icon.backslash {
   margin: 0px;
 }
 

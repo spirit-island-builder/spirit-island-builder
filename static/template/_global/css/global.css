@@ -619,26 +619,33 @@ icon.noforget {
 range {
   width: 50px;
   height: 32px;
-  display: inline-block;
+  margin-top: -20px;
+  margin-bottom: -20px;
+  display: inline-flex;
+  position: relative;
   text-align: center;
   background-image: url("../images/50px-Rangeicon.png");
   background-repeat: no-repeat;
-  background-position-y: 23px;
+  background-position-y: 20px;
   background-size: contain;
   font-family: "Antropos";
   font-size: 40px;
+  justify-content: center;
 }
 
 range-value {
   position: relative;
-  top: -2px;
+  top: -5px;
+  left: -1px;
   font-size: 24px;
 }
 
-icon.range-small-icon {
+range > icon.range-small-icon,
+range.range > icon.range-small-icon {
   width: 33px;
   height: 22px;
   position: relative;
+  margin: 0px;
   top: -4px;
 }
 

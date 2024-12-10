@@ -377,7 +377,7 @@ info-range {
   font-size: 26px;
   font-family: "Antropos";
   line-height: 24px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
@@ -615,7 +615,8 @@ info-range icon {
 info-range range {
   width: 60px;
   font-size: 34px;
-  line-height: 22px;
+  line-height: 16px;
+  top: 2px;
 }
 
 info-target icon {

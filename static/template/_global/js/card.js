@@ -257,11 +257,16 @@ function getRangeModel(rangeString) {
     return "<no-range></no-range>";
   } else {
     var result = "";
+    let rangeItems = rangeString.split(",");
+    let numberCount = rangeItems.filter((x) => !isNaN(x)).length;
+    let rangeClass = numberCount > 1 ? "class='multi-range'" : "";
     for (var item of rangeString.split(",")) {
       if (!isNaN(item)) {
-        result += `<range>${item}</range>`;
+        result += `<range ${rangeClass}>${item}</range>`;
+      } else if (item.startsWith("{")) {
+        result += item;
       } else {
-        result += `<icon class="${item}"></icon>`;
+        result += `{${item}}`;
       }
     }
     return result;
