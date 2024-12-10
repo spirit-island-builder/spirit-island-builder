@@ -80,6 +80,8 @@ adversary-title {
 }
 
 adversary rule {
+  display: block;
+  position: relative;
   white-space: pre-line;
 }
 
@@ -415,17 +417,6 @@ adversary.printer-clean {
   box-sizing: border-box;
 }
 
-adversary range {
-  width: 60px;
-  margin-top: -3px;
-}
-
-adversary range-value {
-  position: relative;
-  top: -6px;
-  font-size: 32px;
-}
-
 top-info.no-loss-condition loss-condition {
   margin-right: 30px;
   flex: none;
@@ -434,21 +425,11 @@ top-info.no-loss-condition loss-condition {
 
 adversary range {
   width: 40px;
-  height: 30px;
-  margin-top: -10px;
-  background-position-y: 22px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: flex-end;
-  flex-direction: row;
-  position: relative;
-  top: 3px;
 }
 
 adversary range-value {
-  position: absolute;
-  top: 1px;
-  font-size: 23px;
+  top: -1px;
+  left: 0px;
 }
 
 icon.range-small-icon {

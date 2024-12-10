@@ -255,9 +255,9 @@ subevent-header {
   width: 100%;
   font-family: "Short Name Headings";
   color: #3d2919;
-  text-shadow: 1px 0px 0 #3d2919;
+  text-shadow: 0.2px 0px 0 #3d2919;
   font-size: 27px;
-  word-spacing: -7px;
+  word-spacing: -3px;
   letter-spacing: 0.25px;
   white-space: pre-line;
   position: relative;
@@ -315,10 +315,10 @@ event-header {
 
 token-event-name {
   font-family: "Short Name Headings";
-  letter-spacing: -0.1px;
+  letter-spacing: 1px;
   word-spacing: -3px;
-  font-size: 20px;
-  text-shadow: 0.5px 0px 0 #000000;
+  font-size: 22px;
+  text-shadow: 0.1px 0px 0 #000000;
 }
 
 effect {
@@ -420,4 +420,11 @@ event-card dev-overlay {
   filter: invert(1) saturate(0);
   pointer-events: none;
   z-index: 101;
+}
+
+event-card range {
+  width: 40px;
+}
+event-card range-value {
+  top: -2px;
 }
