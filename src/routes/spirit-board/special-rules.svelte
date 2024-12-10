@@ -47,6 +47,9 @@
 
         // update node
         findSpecialRuleTempalte.innerHTML = previewFrame.replaceIcon(newSpecialRuleText);
+        if (type === "effect") {
+          previewFrame.processRulesText(findSpecialRuleTempalte);
+        }
       }
     }
   }
@@ -84,7 +87,7 @@
             type="text"
             placeholder="Name"
             on:focus={selectNode}
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:blur={() => updateSpecialRule(rule, i, "name")}
             bind:value={spiritBoard.specialRules.rules[i].name} />
         </div>

@@ -65,7 +65,7 @@
           type="text"
           placeholder="Complexity Description"
           on:focus={selectNode}
-          on:keyup={nextNode}
+          on:keydown={nextNode}
           bind:value={spiritBoardBack.complexity.complexityDescriptor} />
       </div>
       <div class="control" style="width:30%; min-width:2rem;">
@@ -75,7 +75,7 @@
           type="text"
           placeholder="Complexity Value (1-10)"
           on:focus={selectNode}
-          on:keyup={nextNode}
+          on:keydown={nextNode}
           bind:value={spiritBoardBack.complexity.complexityValue} />
       </div>
     </div>
@@ -98,7 +98,7 @@
             type="text"
             placeholder="Offense Value (1-10)"
             on:focus={selectNode}
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             bind:value={spiritBoardBack.summary.offenseValue} />
         </div>
       </div>
@@ -116,7 +116,7 @@
             type="text"
             placeholder="Control Value (1-10)"
             on:focus={selectNode}
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             bind:value={spiritBoardBack.summary.controlValue} />
         </div>
       </div>
@@ -134,7 +134,7 @@
             type="text"
             placeholder="Fear Value (1-10)"
             on:focus={selectNode}
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             bind:value={spiritBoardBack.summary.fearValue} />
         </div>
       </div>
@@ -152,7 +152,7 @@
             type="text"
             placeholder="Defense Value (1-10)"
             on:focus={selectNode}
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             bind:value={spiritBoardBack.summary.defenseValue} />
         </div>
       </div>
@@ -170,7 +170,7 @@
             type="text"
             placeholder="Utility Value (1-10)"
             on:focus={selectNode}
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             bind:value={spiritBoardBack.summary.utilityValue} />
         </div>
       </div>
@@ -189,7 +189,7 @@
             type="text"
             placeholder="Uses tokens/icons ie. 'badlands,wilds'"
             on:focus={selectNode}
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             bind:value={spiritBoardBack.summary.usesTokens} />
         </div>
       </div>
@@ -208,7 +208,7 @@
             type="text"
             placeholder="A note, like on Shifting Memory"
             on:focus={selectNode}
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             bind:value={spiritBoardBack.note.noteText} />
         </div>
       </div>

@@ -30,7 +30,7 @@
           class="input"
           type="text"
           placeholder="Name"
-          on:keyup={nextNode}
+          on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={scenario.info.name} />
       </div>
@@ -40,7 +40,7 @@
           class="input"
           type="text"
           placeholder="Difficulty"
-          on:keyup={nextNode}
+          on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={scenario.info.difficulty} />
       </div>

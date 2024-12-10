@@ -257,11 +257,16 @@ function getRangeModel(rangeString) {
     return "<no-range></no-range>";
   } else {
     var result = "";
+    let rangeItems = rangeString.split(",");
+    let numberCount = rangeItems.filter((x) => !isNaN(x)).length;
+    let rangeClass = numberCount > 1 ? "class='multi-range'" : "";
     for (var item of rangeString.split(",")) {
       if (!isNaN(item)) {
-        result += `<range>${item}</range>`;
+        result += `<range ${rangeClass}>${item}</range>`;
+      } else if (item.startsWith("{")) {
+        result += item;
       } else {
-        result += `<icon class="${item}"></icon>`;
+        result += `{${item}}`;
       }
     }
     return result;
@@ -400,5 +405,12 @@ let localize = {
     land: "目標區域",
     spirit: "目標精靈",
     threshold: "",
+  },
+  hu: {
+    speed: "SEBESSÉG",
+    range: "TÁVOLSÁG",
+    land: "CÉLTERÜLET",
+    spirit: "CÉLPONT",
+    threshold: "Ha kijátszottál",
   },
 };

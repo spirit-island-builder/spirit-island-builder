@@ -13,6 +13,8 @@
   export let showListImmediately = false;
   export let additionalOnBlurFunction = () => {};
 
+  let initialOnBlurFunction = () => {};
+
   let showAutoCompleteList = false;
   let showDetailAutoCompleteList = false; //This is for the detailed growth options
   let valuesToShow;
@@ -25,8 +27,10 @@
   let showActiveSelection = true;
   let currentAutoCompleteTermLength = 0;
   let inputElementThatWasCompleted;
+  let initialValue = "";
 
   afterUpdate(() => {
+    console.log("afterUpdate");
     // Refocus the input element that was just completed
     if (inputElementThatWasCompleted) {
       // console.log("Element completed:");
@@ -54,7 +58,7 @@
 
   function handleInputAndFocus(event) {
     console.log("handleInputAndFocus");
-
+    initialValue = event.target.value;
     // select all for 'input' type fields
     if (event.target.tagName === "INPUT" && event.type === "focus") {
       document.getElementById(event.target.id).select();
@@ -174,11 +178,17 @@
         }
       }
     } else {
-      if (event.key === "Enter" && event.shiftKey) {
-        // Enter does not line break
-        // Enter moves to next node (see NextNode)
-        // Shift enter behaves normally (line break)
-        event.preventDefault();
+      console.log("handleAuto... list not open... ");
+      // if (event.key === "Enter" && event.shiftKey) {
+      //   // Enter does not line break
+      //   // Enter moves to next node (see NextNode)
+      //   // Shift enter behaves normally (line break)
+      //   console.log("handleAuto... list not open... ")
+      //   event.preventDefault();
+      // } else
+      if (event.key === "Enter") {
+        console.log("got to nextNode");
+        nextNode(event);
       }
     }
   }
@@ -261,7 +271,14 @@
 
     // since closeAutoComplete can be called from events other than "blur", we check to make sure this is a "blur" event before calling the function that might have been passed in from the parent
     if (event?.type === "blur") {
-      additionalOnBlurFunction();
+      if (additionalOnBlurFunction.toString() !== initialOnBlurFunction.toString()) {
+        additionalOnBlurFunction();
+      } else if (initialValue !== event.target.value) {
+        // If a custom blur isn't selected, do default update
+        // Update the initial value
+        document.getElementById("updateButton").click();
+      }
+      initialValue = event.target.value;
     }
   }
 
@@ -314,10 +331,12 @@
   }
 
   function nextNode(event) {
-    if (!isAutoCompleteListOpen()) {
-      // This isn't currently behaving as expected. Intent: if autocomplete is open, don't jump to the next node when user presses 'enter'
-      Lib.nextNode(event);
-    }
+    console.log("nextNode, isAutoCompleteListOpen() = " + isAutoCompleteListOpen());
+    Lib.nextNode(event);
+    // if (!isAutoCompleteListOpen()) {
+    //   // This isn't currently behaving as expected. Intent: if autocomplete is open, don't jump to the next node when user presses 'enter'
+    //   Lib.nextNode(event);
+    // }
   }
 </script>
 
@@ -333,7 +352,6 @@
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
-      on:keyup={nextNode}
       bind:value />
   {:else if elementType === "textarea"}
     <textarea
@@ -345,7 +363,6 @@
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
-      on:keyup={nextNode}
       bind:value />
     <!-- removing       on:keyup={nextNode} for now -->
   {/if}

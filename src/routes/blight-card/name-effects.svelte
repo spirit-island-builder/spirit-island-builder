@@ -37,7 +37,7 @@
           class="input"
           type="text"
           placeholder="Name"
-          on:keyup={nextNode}
+          on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={blightCard.card.cardName} />
       </div>
@@ -47,7 +47,7 @@
           class="input"
           type="text"
           placeholder="Blight Per Player"
-          on:keyup={nextNode}
+          on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={blightCard.card.blightPerPlayer} />
       </div>
