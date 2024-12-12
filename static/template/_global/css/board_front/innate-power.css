@@ -571,7 +571,7 @@ info-container range {
   margin-bottom: unset;
 }
 
-innate-power range-value {
+innate-power description-container range-value {
   top: -4px;
   font-size: 25.33px;
 }
@@ -981,4 +981,13 @@ innate-power:only-child level {
 
 innate-power:only-child note {
   width: 1000px;
+}
+
+innate-power innate-info-range range-value {
+  top: 0px;
+  left: 0px;
+  font-size: 40px;
+}
+
+innate-power innate-info-range range {
 }
