@@ -252,26 +252,26 @@ function getFormatRulesText(rulesHTML) {
   return rulesFormatted;
 }
 
-function getRangeModel(rangeString) {
-  if (rangeString === "none") {
-    return "<no-range></no-range>";
-  } else {
-    var result = "";
-    let rangeItems = rangeString.split(",");
-    let numberCount = rangeItems.filter((x) => !isNaN(x)).length;
-    let rangeClass = numberCount > 1 ? "class='multi-range'" : "";
-    for (var item of rangeString.split(",")) {
-      if (!isNaN(item)) {
-        result += `<range ${rangeClass}>${item}</range>`;
-      } else if (item.startsWith("{")) {
-        result += item;
-      } else {
-        result += `{${item}}`;
-      }
-    }
-    return result;
-  }
-}
+// function getRangeModel(rangeString) {
+//   if (rangeString === "none") {
+//     return "<no-range></no-range>";
+//   } else {
+//     var result = "";
+//     let rangeItems = rangeString.split(",");
+//     let numberCount = rangeItems.filter((x) => !isNaN(x)).length;
+//     let rangeClass = numberCount > 1 ? "class='multi-range'" : "";
+//     for (var item of rangeString.split(",")) {
+//       if (!isNaN(item)) {
+//         result += `<range ${rangeClass}>${item}</range>`;
+//       } else if (item.startsWith("{")) {
+//         result += item;
+//       } else {
+//         result += `{${item}}`;
+//       }
+//     }
+//     return result;
+//   }
+// }
 
 function getTargetModel(targetString) {
   return replaceIcon(targetString);

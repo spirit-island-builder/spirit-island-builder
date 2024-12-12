@@ -311,3 +311,24 @@ function processRulesText(element, lineTagName = "special-rule-line") {
     }
   });
 }
+
+function getRangeModel(rangeString) {
+  if (rangeString === "none") {
+    return "<no-range></no-range>";
+  } else {
+    let result = "";
+    let rangeItems = rangeString.split(",");
+    let numberCount = rangeItems.filter((x) => !isNaN(x)).length;
+    let rangeClass = numberCount > 1 ? "class='multi-range'" : "";
+    for (let item of rangeString.split(",")) {
+      if (!isNaN(item)) {
+        result += `<range ${rangeClass}>${item}</range>`;
+      } else if (item.startsWith("{")) {
+        result += item;
+      } else {
+        result += `{${item}}`;
+      }
+    }
+    return result;
+  }
+}

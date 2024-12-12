@@ -6,6 +6,7 @@
 /* global checkOverflowHeight */
 /* global checkOverflowWidth */
 /* global processRulesText */
+/* global getRangeModel */
 
 let lang = "en";
 
@@ -5308,21 +5309,21 @@ function parseInnatePower(innatePowerHTML, index = 0) {
   return currentPowerHTML;
 }
 
-function getRangeModel(rangeString) {
-  if (rangeString === "none" || rangeString === "") {
-    return "<no-range></no-range>";
-  } else {
-    let result = "";
-    for (const item of rangeString.split(",")) {
-      if (!isNaN(item)) {
-        result += `<range>${item}</range>`;
-      } else {
-        result += `<icon class="${item}"></icon>`;
-      }
-    }
-    return result;
-  }
-}
+// function getRangeModel(rangeString) {
+//   if (rangeString === "none" || rangeString === "") {
+//     return "<no-range></no-range>";
+//   } else {
+//     let result = "";
+//     for (const item of rangeString.split(",")) {
+//       if (!isNaN(item)) {
+//         result += `<range>${item}</range>`;
+//       } else {
+//         result += `<icon class="${item}"></icon>`;
+//       }
+//     }
+//     return result;
+//   }
+// }
 
 function writeInnateLevel(currentLevel, levelID) {
   let debug = false;
