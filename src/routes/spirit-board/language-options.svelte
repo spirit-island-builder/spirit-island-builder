@@ -52,7 +52,7 @@
     <button
       class="button is-small is-success"
       class:is-light={spiritBoard.nameAndArt.language !== "zh"}
-      on:click={setLanguage("zh", spiritBoard)}>中国人</button>
+      on:click={setLanguage("zh", spiritBoard)}>中文</button>
     <button
       class="button is-small is-success"
       class:is-light={spiritBoard.nameAndArt.language !== "hu"}

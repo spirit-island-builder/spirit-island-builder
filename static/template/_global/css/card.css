@@ -401,6 +401,59 @@ info-range icon.ocean {
   width: 45px;
 }
 
+info-range icon.jungle-wetland,
+info-range icon.wetland-jungle {
+  background-image: url("../images/board/junglewetland-presence.png");
+}
+info-range icon.jungle-wetlands,
+info-range icon.wetlands-jungle {
+  background-image: url("../images/board/junglewetland-presence.png");
+}
+info-range icon.jungle-sand,
+info-range icon.sand-jungle {
+  background-image: url("../images/board/junglesand-presence.png");
+}
+info-range icon.jungle-sands,
+info-range icon.sands-jungle {
+  background-image: url("../images/board/junglesand-presence.png");
+}
+info-range icon.sand-wetland,
+info-range icon.wetland-sand {
+  background-image: url("../images/board/sandwetland-presence.png");
+}
+info-range icon.sand-wetlands,
+info-range icon.wetlands-sand {
+  background-image: url("../images/board/sandwetland-presence.png");
+}
+info-range icon.sands-wetland,
+info-range icon.wetland-sands {
+  background-image: url("../images/board/sandwetland-presence.png");
+}
+info-range icon.sands-wetlands,
+info-range icon.wetlands-sands {
+  background-image: url("../images/board/sandwetland-presence.png");
+}
+info-range icon.mountain-jungle,
+info-range icon.jungle-mountain {
+  background-image: url("../images/board/mountainjungle-presence.png");
+}
+info-range icon.mountain-wetland,
+info-range icon.wetland-mountain {
+  background-image: url("../images/board/mountainwetland-presence.png");
+}
+info-range icon.mountain-wetlands,
+info-range icon.wetlands-mountain {
+  background-image: url("../images/board/mountainwetland-presence.png");
+}
+info-range icon.mountain-sand,
+info-range icon.sand-mountain {
+  background-image: url("../images/board/mountainsand-presence.png");
+}
+info-range icon.mountain-sands,
+info-range icon.sands-mountain {
+  background-image: url("../images/board/mountainsand-presence.png");
+}
+
 info-target {
   display: flex;
   align-items: center;
@@ -575,7 +628,6 @@ artist-name {
 or {
   background-image: url("../images/or.png");
   background-size: 45%;
-  mix-blend-mode: multiply;
 
   display: block;
   height: 35px;

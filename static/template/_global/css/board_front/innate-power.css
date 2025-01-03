@@ -828,7 +828,7 @@ cost-threshold value {
 threshold icon {
   width: 50px;
   height: 50px;
-  margin-bottom: -8px;
+  margin-bottom: 0px;
   margin-left: 5px;
   margin-right: 5px;
   background-position: bottom;
