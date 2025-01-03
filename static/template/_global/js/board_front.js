@@ -4190,7 +4190,6 @@ function IconName(str, iconNum = 1) {
           any: "اي",
         },
         zh: {
-          hu: ``,
           sun: "日",
           moon: "月",
           fire: "火",
