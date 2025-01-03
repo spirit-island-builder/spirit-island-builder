@@ -47,8 +47,8 @@
       on:click={setLanguage("pl", spiritBoard)}>Polski</button>
     <button
       class="button is-small is-success"
-      class:is-light={spiritBoard.nameAndArt.language !== "ar"}
-      on:click={setLanguage("ar", spiritBoard)}>عربي</button>
+      class:is-light={spiritBoard.nameAndArt.language !== "fr"}
+      on:click={setLanguage("fr", spiritBoard)}>Français</button>
     <button
       class="button is-small is-success"
       class:is-light={spiritBoard.nameAndArt.language !== "zh"}
@@ -57,6 +57,10 @@
       class="button is-small is-success"
       class:is-light={spiritBoard.nameAndArt.language !== "hu"}
       on:click={setLanguage("hu", spiritBoard)}>Magyar</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={spiritBoard.nameAndArt.language !== "ar"}
+      on:click={setLanguage("ar", spiritBoard)}>عربي</button>
   </div>
   <label class="label mt-1 mb-0" for="spiritNameInput">Remove Auto-Generated Text</label>
   <div class="content is-small mb-1">
