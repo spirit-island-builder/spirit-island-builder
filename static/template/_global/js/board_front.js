@@ -2558,7 +2558,7 @@ function IconName(str, iconNum = 1) {
     case "presence":
       localize = {
         en: "Your Presence",
-        fr: ``,
+        fr: `Votre Présence`,
         de: "Deine Präsenz",
         pl: "twoją Obecnością",
         ar: "",
@@ -2573,7 +2573,7 @@ function IconName(str, iconNum = 1) {
           case "empower":
             localize = {
               en: "Empower Incarna",
-              fr: ``,
+              fr: `Renforcer Incarna`,
               de: "Incarna verstärken",
               pl: "Wzmocnij Inkarna",
               ar: ``,
@@ -2587,7 +2587,9 @@ function IconName(str, iconNum = 1) {
               en: txt
                 ? `Add/Move Incarna to Land with ${IconName(txt)}`
                 : `Add/Move Incarna to Land with ${IconName("presence")}`,
-              fr: ``,
+              fr: txt
+                ? `Ajoutez/Déplacez Incarna vers une Région avec ${IconName(txt)}`
+                : `Ajoutez/Déplacez Incarna vers une Région avec ${IconName("presence")}`,
               de: txt
                 ? `Füge hinzu/Verschiebe Incarna in ein Gebiet mit ${IconName(txt)}`
                 : `Füge hinzu/Verschiebe Incarna in ein Gebiet mit${IconName("presence")}`,
@@ -2606,7 +2608,7 @@ function IconName(str, iconNum = 1) {
           case "replace":
             localize = {
               en: `You may Replace ${IconName(txt)} with your Incarna`,
-              fr: ``,
+              fr: `Vous pouvez remplacer ${IconName(txt)} avec votre Incarna`,
               de: `Du darfst ${IconName(txt)} durch dein Incarna ersetzen`,
               pl: `Możesz Zamienić ${IconName(txt)} na twoje Inkarna`,
               ar: ``,
@@ -2617,7 +2619,7 @@ function IconName(str, iconNum = 1) {
           case "move":
             localize = {
               en: "Move Incarna",
-              fr: ``,
+              fr: `Déplacez Incarna`,
               de: "Bewege Incarna",
               pl: "Przesuń Inkarna",
               ar: ``,
@@ -2628,7 +2630,7 @@ function IconName(str, iconNum = 1) {
           case "add-token":
             localize = {
               en: `Add a ${IconName(txt)} at your Incarna`,
-              fr: ``,
+              fr: `Ajoutez un ${IconName(txt)} à votre Incarna`,
               de: `Füge ein ${IconName(txt)} zu deinem Incarna hinzu`,
               pl: `Dodaj ${IconName(txt)} na twoje Inkarna`,
               ar: ``,
@@ -2639,7 +2641,7 @@ function IconName(str, iconNum = 1) {
           default:
             localize = {
               en: "Empower Incarna",
-              fr: ``,
+              fr: `Renforcer Incarna`,
               de: "Incarna verstärken",
               pl: "Wzmocnij Inkarna",
               ar: ``,
@@ -2650,7 +2652,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: "Your Incarna",
-          fr: ``,
+          fr: `Votre Incarna`,
           de: "Dein Incarna",
           pl: "Twoje Inkarna",
           ar: "",
@@ -2673,7 +2675,7 @@ function IconName(str, iconNum = 1) {
       if (num === "any" && options.length === 1) {
         localize = {
           en: `Add a Presence to any Land`,
-          fr: ``,
+          fr: `Ajoutez une Présence sur n'importe quelle Région`,
           de: `Füge eine Präsenz auf einem beliebigen Land hinzu`,
           pl: `Dodaj Obecność do dowolnej Krainy`,
           ar: ``,
@@ -2686,7 +2688,7 @@ function IconName(str, iconNum = 1) {
           // User wants a custom text presence addition
           localize = {
             en: `Add a Presence ${opt3}`,
-            fr: ``,
+            fr: `Ajoutez une Présence ${opt3}`,
             de: `Füge eine Präsenz hinzu ${opt3}`,
             pl: `Dodaj Obecność ${opt3}`,
             ar: ``,
@@ -2701,7 +2703,7 @@ function IconName(str, iconNum = 1) {
           }
           localize = {
             en: `Add a Presence ${IconName(preposition)} ${IconName(opt3)}`,
-            fr: ``,
+            fr: `Ajoutez une Présence ${IconName(preposition)} ${IconName(opt3)}`,
             de: ``,
             pl: ``,
             ar: ``,
@@ -2716,7 +2718,7 @@ function IconName(str, iconNum = 1) {
               //add presence and token
               localize = {
                 en: `Add a Presence and a ${IconName(opt3)}`,
-                fr: ``,
+                fr: `Ajoutez une Présence et un ${IconName(opt3)}`,
                 de: `Füge eine Präsenz und ein ${IconName(opt3)} hinzu`,
                 pl: `Dodaj Obecność i ${IconName(opt3)}`,
                 ar: ``,
@@ -2728,7 +2730,7 @@ function IconName(str, iconNum = 1) {
               //add presence or token
               localize = {
                 en: `Add a Presence or a ${IconName(opt3)}`,
-                fr: ``,
+                fr: `Ajoutez une Présence ou un ${IconName(opt3)}`,
                 de: `Füge eine Präsenh oder eine ${IconName(opt3)} hinzu`,
                 pl: `Dodaj Obecność lub ${IconName(opt3)}`,
                 ar: ``,
@@ -2752,7 +2754,8 @@ function IconName(str, iconNum = 1) {
           }
           localize = {
             en: num === "any" ? `Add a Presence to any ` : `Add a Presence to `,
-            fr: ``,
+            fr:
+              num === "any" ? `Ajoutez une Présence à n'importe quel ` : `Ajoutez une Présence à `,
             de: num === "any" ? `Ergänze um eine Präsenz ` : `Füge eine Präsenz hinzu `,
             pl: num === "any" ? `Dodaj Obecność do dowolnej ` : `Dodaj Obecność do `,
             ar: ``,
@@ -2776,7 +2779,9 @@ function IconName(str, iconNum = 1) {
                 en: landwith
                   ? `Land without ${IconName(req.substring(3))} `
                   : `no ${IconName(req.substring(3))} `,
-                fr: ``,
+                fr: landwith
+                  ? `Région sans ${IconName(req.substring(3))} `
+                  : `aucun ${IconName(req.substring(3))} `,
                 de: landwith
                   ? `Land ohne ${IconName(req.substring(3))} `
                   : `keine ${IconName(req.substring(3))} `,
@@ -2794,7 +2799,7 @@ function IconName(str, iconNum = 1) {
             } else {
               localize = {
                 en: landwith ? `Land with ${IconName(req)}` : `${IconName(req)}`,
-                fr: ``,
+                fr: landwith ? `Région avec ${IconName(req)}` : `${IconName(req)}`,
                 de: landwith ? `Land mit ${IconName(req)}` : `${IconName(req)}`,
                 pl: ``,
                 ar: ``,
@@ -2809,7 +2814,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: `Add a Presence`,
-          fr: ``,
+          fr: `Ajoutez une Présence`,
           de: `Füge eine Präsenz hinzu`,
           pl: `Dodaj Obecność`,
           ar: ``,
@@ -2824,7 +2829,7 @@ function IconName(str, iconNum = 1) {
       if (txt && !isNaN(txt)) {
         localize = {
           en: `Gain ${IconName(num, txt)}`,
-          fr: ``,
+          fr: `Gagnez ${IconName(num, txt)}`,
           de: `Erhalte ${IconName(num, txt)}`,
           pl: `Zyskaj ${IconName(num, txt)}`,
           ar: ``,
@@ -2834,7 +2839,7 @@ function IconName(str, iconNum = 1) {
       } else if (options.at(-1).toLowerCase() === "and") {
         localize = {
           en: `Gain ${ListLocalize(options.slice(0, -1))}`,
-          fr: ``,
+          fr: `Gagnez ${ListLocalize(options.slice(0, -1))}`,
           de: `Erhalte ${ListLocalize(options.slice(0, -1))}`,
           pl: `Zyskaj ${ListLocalize(options.slice(0, -1))}`,
           ar: ``,
@@ -2844,7 +2849,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: `Gain ${ListLocalize(options, "or")}`,
-          fr: ``,
+          fr: `Gagnez ${ListLocalize(options, "or")}`,
           de: `Erhalte ${ListLocalize(options, "or")}`,
           pl: `Zyskaj ${ListLocalize(options, "lub")}`,
           ar: ``,
@@ -2857,7 +2862,7 @@ function IconName(str, iconNum = 1) {
     case "elements":
       localize = {
         en: "OR",
-        fr: ``,
+        fr: `OU`,
         de: "ODER",
         pl: "ALBO",
         ar: "",
@@ -2870,7 +2875,7 @@ function IconName(str, iconNum = 1) {
       if (txt) {
         localize = {
           en: `Gain ${IconName(num)} Power Card ${txt}`,
-          fr: ``,
+          fr: `Gagnez ${IconName(num)} Carte Pouvoir ${txt}`,
           de: "Fähigkeiten-karte erhalten",
           pl: `Pozyskaj ${IconName(num)} Kartę Mocy ${txt}`,
           ar: "",
@@ -2880,7 +2885,7 @@ function IconName(str, iconNum = 1) {
       } else if (num) {
         localize = {
           en: `Gain ${IconName(num)} Power Card`,
-          fr: ``,
+          fr: `Gagnez ${IconName(num)} Carte Pouvoir`,
           de: "Fähigkeiten-karte erhalten",
           pl: "Pozyskaj Kartę Mocy",
           ar: "",
@@ -2890,7 +2895,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: "Gain Power Card",
-          fr: ``,
+          fr: `Gagnez Carte Pouvoir`,
           de: "Fähigkeiten-karte erhalten",
           pl: "Pozyskaj Kartę Mocy",
           ar: "",
@@ -2904,7 +2909,7 @@ function IconName(str, iconNum = 1) {
       if (txt) {
         localize = {
           en: `Take ${IconName(num)} Power Card ${txt}`,
-          fr: ``,
+          fr: `Prenez ${IconName(num)} Carte Pouvoir ${txt}`,
           de: "Fähigkeiten-karte nehmen",
           pl: "Weź Kartę Mocy",
           ar: "",
@@ -2914,7 +2919,7 @@ function IconName(str, iconNum = 1) {
       } else if (num) {
         localize = {
           en: `Take ${IconName(num)} Power Card`,
-          fr: ``,
+          fr: `Prenez ${IconName(num)} Carte Pouvoir`,
           de: "Fähigkeiten-karte nehmen",
           pl: "Weź Kartę Mocy",
           ar: "",
@@ -2924,7 +2929,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: "Take Power Card",
-          fr: ``,
+          fr: `Prenez Carte Pouvoir`,
           de: "Fähigkeiten-karte nehmen",
           pl: "Weź Kartę Mocy",
           ar: "",
@@ -2943,7 +2948,7 @@ function IconName(str, iconNum = 1) {
           // custom text, no flat energy
           localize = {
             en: `Gain ${txt} Energy per ${opt4}`,
-            fr: ``,
+            fr: `Gagnez ${txt} Energie par ${opt4}`,
             de: `Erhalte ${txt} Energie pro ${opt4} `,
             pl: `+${txt} Energii za każde ${opt4}`,
             ar: ``,
@@ -2954,7 +2959,7 @@ function IconName(str, iconNum = 1) {
           // custom text, with flat energy
           localize = {
             en: `Gain ${num} Energy and +${txt} more per ${opt4}`,
-            fr: ``,
+            fr: `Gagnez ${num} Energie et +${txt} plus par ${opt4}`,
             de: `Erhalte ${num} Energie und +${txt} mehr pro ${opt4}`,
             pl: `+${num} Energii. +${txt} za każde ${opt4}`,
             ar: ``,
@@ -2969,7 +2974,9 @@ function IconName(str, iconNum = 1) {
             en: elementNames.has(opt3)
               ? `Gain ${txt} Energy per ${IconName(opt3)} Showing`
               : `Gain ${txt} Energy per ${IconName(opt3)}`,
-            fr: ``,
+            fr: elementNames.has(opt3)
+              ? `Gagnez ${txt} Energie par ${IconName(opt3)} Présent`
+              : `Gagnez ${txt} Energie par ${IconName(opt3)}`,
             de: elementNames.has(opt3)
               ? `Erhalte ${txt} Energie pro ausliegendem ${IconName(opt3)}`
               : `Erhalte ${txt} Energie pro ${IconName(opt3)}`,
@@ -2986,7 +2993,9 @@ function IconName(str, iconNum = 1) {
             en: elementNames.has(opt3)
               ? `Gain ${num} Energy and +${txt} more per ${IconName(opt3)} Showing`
               : `Gain ${num} Energy and +${txt} more per ${IconName(opt3)}`,
-            fr: ``,
+            fr: elementNames.has(opt3)
+              ? `Gagnez ${num} Energie et +${txt} plus par ${IconName(opt3)} Présent`
+              : `Gagnez ${num} Energie et +${txt} plus par ${IconName(opt3)}`,
             de: elementNames.has(opt3)
               ? `Erhalte ${num} Energie und +${txt} mehr pro ausliegender ${IconName(opt3)} `
               : `Erhalte ${num} Energie und +${txt} mehr pro ${IconName(opt3)}`,
@@ -3002,7 +3011,7 @@ function IconName(str, iconNum = 1) {
         // flat energy
         localize = {
           en: `Gain Energy`,
-          fr: ``,
+          fr: `Gagnez Energie`,
           de: `Erhalte Energie`,
           pl: `Zbierz Energię`,
           ar: ``,
@@ -3022,7 +3031,7 @@ function IconName(str, iconNum = 1) {
       num = num || 1;
       localize = {
         en: num > 1 ? ` +${num} Card Plays this turn` : ` +${num} Card Play this turn`,
-        fr: ``,
+        fr: num > 1 ? ` +${num} Cartes jouées ce tour` : ` +${num} Cartes jouées ce tour`,
         de: num > 1 ? "Karte ausspielen" : "Karte ausspielen",
         pl: num > 1 ? "Zagrane Karty" : "Zagraj jedną",
         ar: ``,
@@ -3039,7 +3048,7 @@ function IconName(str, iconNum = 1) {
       if (txt) {
         localize = {
           en: "Reclaim All Cards with " + IconName(txt),
-          fr: ``,
+          fr: "Récupérez toutes les Cartes avec " + IconName(txt),
           de: "Nimm alle Karten wieder auf " + IconName(txt),
           pl: "Odzyskaj wszystkie Karty z " + IconName(txt),
           ar: "",
@@ -3049,7 +3058,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: "Reclaim Cards",
-          fr: ``,
+          fr: `Récupérez les Cartes`,
           de: "Alle Karten wiedererlangen",
           pl: "Odzyskaj Karty",
           ar: "",
@@ -3063,7 +3072,7 @@ function IconName(str, iconNum = 1) {
       if (txt) {
         localize = {
           en: "Reclaim One Card with " + IconName(txt),
-          fr: ``,
+          fr: "Récupérer une Carte avec " + IconName(txt),
           de: "Nimm eine Karte mit wieder auf " + IconName(txt),
           pl: "Odzyskaj Jedną Kartę z " + IconName(txt),
           ar: "",
@@ -3073,7 +3082,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: "Reclaim One",
-          fr: ``,
+          fr: "Récupérer une Carte",
           de: "1 Karte wiedererlangen",
           pl: "Odzyskaj Jedną",
           ar: "",
@@ -3086,7 +3095,7 @@ function IconName(str, iconNum = 1) {
     case "reclaim-half":
       localize = {
         en: "Reclaim Half <em>(round up)</em>",
-        fr: ``,
+        fr: "Récupérez la moitié <em>(arrondi vers le haut)</em>",
         de: "Hälfte der Karten wiedererlangen",
         pl: "Odzyskaj połowę <em>(zaokrąglając w górę)</em>",
         ar: "",
@@ -3098,7 +3107,7 @@ function IconName(str, iconNum = 1) {
     case "reclaim-custom":
       localize = {
         en: "Reclaim " + txt,
-        fr: ``,
+        fr: "Récupérez " + txt,
         de: "Karten wiedererlangen " + txt,
         pl: "Odzyskaj " + txt,
         ar: "",
@@ -3110,7 +3119,7 @@ function IconName(str, iconNum = 1) {
     case "forget-power-card":
       localize = {
         en: "Forget Power Card",
-        fr: ``,
+        fr: "Oubliez des Cartes Pouvoir",
         de: "Fähigkeiten-karte vergessen",
         pl: "Zapomnij Kartę Mocy",
         ar: "",
@@ -3123,7 +3132,7 @@ function IconName(str, iconNum = 1) {
       if (num) {
         localize = {
           en: "Discard a Power Card with " + num,
-          fr: ``,
+          fr: "Défaussez une Carte Pouvoir avec " + num,
           de: "Wirf eine Fähigkeiten-karte ab mit " + num,
           pl: "Odrzuć 1 Kartę Mocy z " + num,
           ar: "",
@@ -3133,7 +3142,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: "Discard a Card",
-          fr: ``,
+          fr: "Défaussez une Carte",
           de: "1 Fähigkeiten-karte abwerfen",
           pl: "Odrzuć 1 Kartę Mocy",
           ar: "",
@@ -3147,7 +3156,7 @@ function IconName(str, iconNum = 1) {
       num = num ? num : 1;
       localize = {
         en: `Destroy ${num} of your Presence`,
-        fr: ``,
+        fr: `Détruisez ${num} de votre Présence`,
         de: "Zerstöre 1 deiner Präsenzen",
         pl: "Zniszcz 1 ze swoich Obecności",
         ar: "",
@@ -3159,7 +3168,7 @@ function IconName(str, iconNum = 1) {
     case "destroyed-presence":
       localize = {
         en: "Destroyed Presence",
-        fr: ``,
+        fr: "Destruisez la Présence",
         de: "Zerstörte Präsenz",
         pl: "Zniszczona Obecność",
         ar: "",
@@ -3169,7 +3178,7 @@ function IconName(str, iconNum = 1) {
       if (iconNum > 1) {
         localize = {
           en: "up to " + iconNum + " Destroyed Presence",
-          fr: ``,
+          fr: "jusqu'à " + iconNum + " Présence Détruite",
           de: "bis zu " + iconNum + " zerstörte Präsenz",
           pl: "do " + iconNum + " Zniszczonych Obecności",
           ar: "",
@@ -3182,7 +3191,7 @@ function IconName(str, iconNum = 1) {
     case "make-fast":
       localize = {
         en: "One of your Powers may be Fast",
-        fr: ``,
+        fr: "Un de vos Pouvoirs peut être Rapide",
         de: "Eine deiner Fähigkeiten darf schnell sein",
         pl: "Jedna z twoich Mocy może być Szybka",
         ar: "",
@@ -3194,7 +3203,7 @@ function IconName(str, iconNum = 1) {
     case "gain-card-pay-2":
       localize = {
         en: "Pay 2 Energy to Gain a Power Card",
-        fr: ``,
+        fr: "Payez 2 Energie pour Gagnez une Carte Pouvoir",
         de: "Zahle 2 Energie, um 1 Fähigkeiten-karte zu erlangen",
         pl: "Wydaj 2 Energii, by Pozyskać Kartę Mocy",
         ar: "",
@@ -3206,7 +3215,7 @@ function IconName(str, iconNum = 1) {
     case "ignore-range":
       localize = {
         en: "You may ignore Range this turn",
-        fr: ``,
+        fr: "Vous pouvez ignorer la Portée ce tour-ci",
         de: "Ignoriere diese Runde Reichweite",
         pl: "W tej turze możesz ignorować Zasięg Mocy",
         ar: "",
@@ -3218,7 +3227,7 @@ function IconName(str, iconNum = 1) {
     case "markerplus":
       localize = {
         en: "Prepare " + iconNum + " Element Marker" + plural,
-        fr: ``,
+        fr: "Preparez " + iconNum + " Marqueur d'Element" + plural,
         de: iconNum + " Element-Marker vorbereiten",
         pl:
           iconNum > 1
@@ -3233,7 +3242,7 @@ function IconName(str, iconNum = 1) {
     case "markerminus":
       localize = {
         en: "Discard " + iconNum + " Element Marker" + plural,
-        fr: ``,
+        fr: "Défaussez " + iconNum + " Marqueur d'Element" + plural,
         de: iconNum + " Element-Marker ablegen",
         pl:
           iconNum > 1 ? "Odrzuć " + iconNum + " Znaczników Żywiołów" : "Odrzuć 1 Znacznik Żywiołów",
@@ -3247,7 +3256,7 @@ function IconName(str, iconNum = 1) {
       if (num) {
         localize = {
           en: "Isolate a Land",
-          fr: ``,
+          fr: "Isolez une Région",
           de: "Isoliere ein Land",
           pl: "Izoluj Krainę",
           ar: "",
@@ -3257,7 +3266,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: "Isolate " + iconNum + " of your Lands",
-          fr: ``,
+          fr: "Isolez " + iconNum + " de vos Régions",
           de: iconNum + " deiner Gebiete isolieren",
           pl: iconNum > 1 ? "Izoluj " + iconNum + " twoje krainy" : "Izoluj 1 twoją krainę",
           ar: "",
@@ -3270,7 +3279,7 @@ function IconName(str, iconNum = 1) {
     case "reclaim-none":
       localize = {
         en: "Reclaim None",
-        fr: ``,
+        fr: "Ne Récupérez Aucun",
         de: "Nichts wiedererlangen",
         pl: "Nie Odzyskuj Karty",
         ar: "",
@@ -3282,7 +3291,7 @@ function IconName(str, iconNum = 1) {
     case "increase-energy":
       localize = {
         en: "+" + num + " Energy",
-        fr: ``,
+        fr: "+" + num + " Energie",
         de: "+" + num + " Energie",
         pl: "+" + num + " Energii",
         ar: "",
@@ -3297,7 +3306,7 @@ function IconName(str, iconNum = 1) {
           // Move a presence and a token together
           localize = {
             en: `Move a Presence and ${IconName(txt)} together`,
-            fr: ``,
+            fr: `Déplacez une Présence et ${IconName(txt)} ensemble`,
             de: `Verschiebe gemeinsam 1 Präsenz und 1 ${IconName(txt)}`,
             pl: `Przesuń Obecność i ${IconName(txt)} jednocześnie`,
             ar: ``,
@@ -3308,7 +3317,7 @@ function IconName(str, iconNum = 1) {
           // Move x presence
           localize = {
             en: "Move up to " + txt + " Presence together",
-            fr: ``,
+            fr: "Déplacez jusqu'à " + txt + " Présences ensemble",
             de: "Bewege bis zu " + txt + " Präsenzen gemeinsam",
             pl: "Przesuń do " + txt + " Obecności jednocześnie",
             ar: ``,
@@ -3321,7 +3330,7 @@ function IconName(str, iconNum = 1) {
           // its text
           localize = {
             en: "Move a Presence to " + IconName(num) + " land",
-            fr: ``,
+            fr: "Déplacez une Présence vers " + IconName(num) + " Région",
             de: "Verschiebe eine Präsenz in das Gebiet " + IconName(num),
             pl: "Przesuń Obecność do " + IconName(num),
             ar: ``,
@@ -3332,7 +3341,7 @@ function IconName(str, iconNum = 1) {
           // its a number
           localize = {
             en: "Move a Presence " + num,
-            fr: ``,
+            fr: "Déplacez une Présence " + num,
             de: "Präsenz " + num + " bewegen",
             pl: "Przenieś Obecność " + num,
             ar: ``,
@@ -3344,7 +3353,7 @@ function IconName(str, iconNum = 1) {
         // its just move-presence text
         localize = {
           en: "Move a Presence",
-          fr: ``,
+          fr: "Déplacez une Presence",
           de: "Präsenz " + num + " bewegen",
           pl: "Przesuń Obecność",
           ar: "",
@@ -3358,7 +3367,7 @@ function IconName(str, iconNum = 1) {
       if (txt) {
         localize = {
           en: `${txt} Damage at Range ${num}`,
-          fr: ``,
+          fr: `${txt} Dégat à ${num} de portée`,
           de: `${txt} Schaden mit ${num} Reichweite`,
           pl: `${txt} Obrażeń w Zasięgu ${num}`,
           ar: "",
@@ -3368,7 +3377,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: `${num} Damage in one of your Lands`,
-          fr: ``,
+          fr: `${num} Dégat à une de vos Régions`,
           de: "1 Schaden in 1 deiner Gebiete",
           pl: "1 Obrażenie w jednej z twoich Krain",
           ar: "",
@@ -3384,7 +3393,7 @@ function IconName(str, iconNum = 1) {
     case "gain-range":
       localize = {
         en: `+${num} Range`,
-        fr: ``,
+        fr: `+${num} Portée`,
         de: `+${num} Reichweite`,
         pl: `+${num} Zasięgu`,
         ar: ``,
@@ -3395,7 +3404,7 @@ function IconName(str, iconNum = 1) {
       if (txt) {
         localize = {
           en: ` on ${txt}`,
-          fr: ``,
+          fr: ` sur ${txt}`,
           de: ` kein ${txt}`,
           pl: ` na ${txt}`,
           ar: ``,
@@ -3412,7 +3421,7 @@ function IconName(str, iconNum = 1) {
           case "power":
             localize = {
               en: `Your Powers gain +${num} Range this turn`,
-              fr: ``,
+              fr: `Vos Pouvoirs gagnent +${num} de Portée ce tour`,
               de: `Deine Fähigkeiten erhalten +${num} Reichweite in diesem Zug`,
               pl: `W tej turze twoje Moce zyskują +${num} zasięgu`,
               ar: ``,
@@ -3423,7 +3432,7 @@ function IconName(str, iconNum = 1) {
           case "power cards":
             localize = {
               en: `Your Power Cards gain +${num} Range this turn`,
-              fr: ``,
+              fr: `Vos Cartes Pouvoirs gagnent +${num} de Portée ce tour-ci`,
               de: `Deine Fähigkeiten erhalten +${num} Reichweite in diesem Zug`,
               pl: `W tej turze twoje Karty Mocy zyskują +${num} zasięgu`,
               ar: ``,
@@ -3434,7 +3443,7 @@ function IconName(str, iconNum = 1) {
           case "everything":
             localize = {
               en: `+${num} Range on everything this turn`,
-              fr: ``,
+              fr: `+${num} de Portée sur tout ce tour-ci`,
               de: `+${num} Reichweite in diesem Zug`,
               pl: `+${num} zasięgu dla wszystkich twoich akcji w tej turze`,
               ar: ``,
@@ -3447,7 +3456,7 @@ function IconName(str, iconNum = 1) {
           case "innate powers":
             localize = {
               en: `Your Innate Powers gain +${num} Range this turn`,
-              fr: ``,
+              fr: `Vos Pouvoirs Innés gagnent +${num} de Portée ce tour`,
               de: `Deine Basisfähigkeiten erhalten +${num} Reichweite während diesem Zug`,
               pl: `W tej turze twoje Wrodzone Moce zyskują +${num} zasięgu`,
               ar: ``,
@@ -3458,7 +3467,7 @@ function IconName(str, iconNum = 1) {
           default:
             localize = {
               en: `+${num} Range on ${txt} this turn`,
-              fr: ``,
+              fr: `+${num} de Portée sur ${txt} ce tour`,
               de: `+${num} Reichweite auf ${txt} in diesem Zug`,
               pl: `W tej turze ${txt} zyskuje +${num} zasięgu`,
               ar: ``,
@@ -3469,7 +3478,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: `Your Powers gain +${num} Range this turn`,
-          fr: ``,
+          fr: `Vos Pouvoirs gagnent +${num} de Portée ce tour`,
           de: `Deine Fähigkeiten erhalten +${num} Reichweite in diesem Zug`,
           pl: `W tej turze twoje Moce zyskują +${num} zasięgu`,
           ar: ``,
@@ -3485,7 +3494,7 @@ function IconName(str, iconNum = 1) {
         // its a presence track token
         localize = {
           en: `Add 1 ${IconName(num)} to 1 of your Lands`,
-          fr: ``,
+          fr: `Ajoutez 1 ${IconName(num)} sur 1 de vos Régions`,
           de: `Füge 1 ${IconName(num)} auf eines deiner Gebiete mit einer Präsenz hinzu`,
           pl: `Dodaj 1 ${IconName(num)} do jednej z twoich Krain`,
           ar: ``,
@@ -3501,7 +3510,9 @@ function IconName(str, iconNum = 1) {
               en: landtypeNames[lang][opt4]
                 ? `Add a ${IconName(opt3)} to a ${IconName(opt4)}`
                 : `Add a ${IconName(opt3)} to a Land with ${IconName(opt4)}`,
-              fr: ``,
+              fr: landtypeNames[lang][opt4]
+                ? `Ajoutez un ${IconName(opt3)} à un ${IconName(opt4)}`
+                : `Ajoutez un ${IconName(opt3)} à une Région avec ${IconName(opt4)}`,
               de: landtypeNames[lang][opt4]
                 ? `Add a ${IconName(opt3)} to a ${IconName(opt4)}`
                 : `Add a ${IconName(opt3)} to a Land with ${IconName(opt4)}`,
@@ -3518,7 +3529,9 @@ function IconName(str, iconNum = 1) {
             //multiple tokens of different types
             localize = {
               en: `Add a ${ListLocalize(options.slice(2), txt)} ${txt === "and" ? "together" : ""}`,
-              fr: ``,
+              fr: `Ajoutez un ${ListLocalize(options.slice(2), txt)} ${
+                txt === "et" ? "ensemble" : ""
+              }`,
               de: `Lege ein ${ListLocalize(options.slice(2), txt)} ${
                 txt === "und" ? "zusammen" : ""
               }`,
@@ -3536,7 +3549,7 @@ function IconName(str, iconNum = 1) {
           //multiple tokens of the same type
           localize = {
             en: `Add ${IconName(opt3, opt4)} together`,
-            fr: ``,
+            fr: `Ajoutez ${IconName(opt3, opt4)} ensemble`,
             de: `Füge ${IconName(opt3, opt4)} zusammen`,
             pl: `Dodaj ${IconName(opt3, opt4)} jednocześnie`,
             ar: ``,
@@ -3547,7 +3560,7 @@ function IconName(str, iconNum = 1) {
           // one token
           localize = {
             en: `Add a ${IconName(opt3)}`,
-            fr: ``,
+            fr: `Ajoutez un ${IconName(opt3)}`,
             de: `Füge ein ${IconName(opt3)} hinzu`,
             pl: `Dodaj ${IconName(opt3)}`,
             ar: ``,
@@ -3562,7 +3575,7 @@ function IconName(str, iconNum = 1) {
       if (num > 0) {
         localize = {
           en: `You may Replace ${IconName(txt)} with ${IconName(opt3)}`,
-          fr: ``,
+          fr: `Vous pouvez Remplacer ${IconName(txt)} par ${IconName(opt3)}`,
           de: `Du darfst ${IconName(txt)} durch ${IconName(opt3)} ersetzen`,
           pl: `Możesz Zamienić ${IconName(txt)} na ${IconName(opt3)}`,
           ar: ``,
@@ -3572,7 +3585,7 @@ function IconName(str, iconNum = 1) {
       } else {
         localize = {
           en: `You may Replace 1 ${IconName(txt)} in your Lands with ${IconName(opt3)}`,
-          fr: ``,
+          fr: `Vous pouvez Remplacer 1 ${IconName(txt)} dans votre Région par ${IconName(opt3)}`,
           de: `Du darfst 1 ${IconName(txt)} in einem deiner Gebiete mit ${IconName(opt3)} ersetzen`,
           pl: `Możesz Zamienić 1 ${IconName(txt)} w jednej z Twoich krain z ${IconName(opt3)}`,
           ar: ``,
@@ -3595,7 +3608,7 @@ function IconName(str, iconNum = 1) {
         // ie. Gather up to 1 Beasts into a Land
         localize = {
           en: `Push up to ${IconName(opt4)} ${IconName(txt)} from a Land`,
-          fr: ``,
+          fr: `Repoussez ${IconName(opt4)} ${IconName(txt)} d'une Région`,
           de: `Verschiebe bis zu ${IconName(opt4)} ${IconName(txt)} aus einem Gebiet`,
           pl: `Wypchnij do ${IconName(opt4)} ${IconName(txt)} z krainy`,
           ar: ``,
@@ -3610,7 +3623,9 @@ function IconName(str, iconNum = 1) {
           en: landtypeNames[lang][opt3]
             ? `Push ${IconName(opt4)} ${IconName(txt)} from a ${IconName(opt3)}`
             : `Push ${IconName(opt4)} ${IconName(txt)} from a Land with ${IconName(opt3)}`,
-          fr: ``,
+          fr: landtypeNames[lang][opt3]
+            ? `Repoussez ${IconName(opt4)} ${IconName(txt)} depuis ${IconName(opt3)}`
+            : `Repoussez ${IconName(opt4)} ${IconName(txt)} d'une Région avec ${IconName(opt3)}`,
           de: landtypeNames[lang][opt3]
             ? `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus einem ${IconName(opt3)}`
             : `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus einem Land mit ${IconName(opt3)}`,
@@ -3630,7 +3645,7 @@ function IconName(str, iconNum = 1) {
         // gather(0,presence,sacred-site,each)
         localize = {
           en: `Push ${IconName(opt4)} ${IconName(txt)} from 1 of your Lands`,
-          fr: ``,
+          fr: `Repoussez ${IconName(opt4)} ${IconName(txt)} depuis 1 de vos Région`,
           de: `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus 1 deiner Gebiete`,
           pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy`,
           ar: ``,
@@ -3642,7 +3657,7 @@ function IconName(str, iconNum = 1) {
         // push(0,presence,sacred-site,each)
         localize = {
           en: `Push ${IconName(opt4)} ${IconName(txt)} from ${IconName(opt3)}`,
-          fr: ``,
+          fr: `Repoussez ${IconName(opt4)} ${IconName(txt)} depuis ${IconName(opt3)}`,
           de: `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus ${IconName(opt3)}`,
           pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`,
           ar: ``,
@@ -3654,7 +3669,7 @@ function IconName(str, iconNum = 1) {
         // ie. Push 1 Beasts from Each Wetland
         localize = {
           en: `Push 1 ${IconName(txt)} from ${IconName(opt4)} ${IconName(opt3)}`,
-          fr: ``,
+          fr: `Repoussez 1 ${IconName(txt)} depuis ${IconName(opt4)} ${IconName(opt3)}`,
           de: `Verschiebe 1 ${IconName(txt)} aus ${IconName(opt4)} ${IconName(opt3)}`,
           pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`,
           ar: ``,
@@ -3667,7 +3682,11 @@ function IconName(str, iconNum = 1) {
           en: landtypeNames[lang][opt3]
             ? `Push ${IconName(opt4)} ${IconName(txt)} from ${IconName(opt3)}`
             : `Push ${IconName(opt4)} ${IconName(txt)} from 1 of your Lands with ${IconName(opt3)}`,
-          fr: ``,
+          fr: landtypeNames[lang][opt3]
+            ? `Repoussez ${IconName(opt4)} ${IconName(txt)} depuis ${IconName(opt3)}`
+            : `Repoussez ${IconName(opt4)} ${IconName(txt)} depuis 1 de vos Régions avec ${IconName(
+                opt3
+              )}`,
           de: landtypeNames[lang][opt3]
             ? `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus ${IconName(opt3)}`
             : `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus 1 deiner Gebiete mit ${IconName(
@@ -3688,7 +3707,7 @@ function IconName(str, iconNum = 1) {
         // only one option
         localize = {
           en: `Push 1 ${IconName(txt)} from 1 of your Lands`,
-          fr: ``,
+          fr: `Repoussez 1 ${IconName(txt)} depuis 1 de vos Régions`,
           de: `Verschiebe 1 ${IconName(txt)} aus 1 deiner Gebiete`,
           pl: `Wypchnij 1 ${IconName(txt)} z twojej krainy`,
           ar: ``,
@@ -3702,7 +3721,7 @@ function IconName(str, iconNum = 1) {
       if (num === "incarna") {
         localize = {
           en: `Push ${IconName(num)}`,
-          fr: ``,
+          fr: `Repoussez ${IconName(num)}`,
           de: `Verschiebe ${IconName(num)}`,
           pl: `Wypchnij ${IconName(num)}`,
           ar: ``,
@@ -3716,7 +3735,7 @@ function IconName(str, iconNum = 1) {
         }
         localize = {
           en: `Push 1 ${subText} from 1 of your Lands`,
-          fr: ``,
+          fr: `Repoussez 1 ${subText} depuis 1 de vos Régions`,
           de: `Verschiebe 1 ${subText} aus 1 deiner Gebiete`,
           pl: `Wypchnij ${IconName(num)} z twojej krainy`,
           ar: ``,
@@ -3741,7 +3760,7 @@ function IconName(str, iconNum = 1) {
         // ie. Gather up to 1 Beasts into a Land
         localize = {
           en: `Gather up to ${IconName(opt4)} ${IconName(txt)} into a Land`,
-          fr: ``,
+          fr: `Rassemblez jusqu'à ${IconName(opt4)} ${IconName(txt)} dans une Région`,
           de: `Versammele bis zu ${IconName(opt4)} ${IconName(txt)} in einem Gebiet`,
           pl: `Zgromadź do ${IconName(opt4)} ${IconName(txt)} w krainie`,
           ar: ``,
@@ -3756,7 +3775,9 @@ function IconName(str, iconNum = 1) {
           en: landtypeNames[lang][opt3]
             ? `Gather ${IconName(opt4)} ${IconName(txt)} into a ${IconName(opt3)}`
             : `Gather ${IconName(opt4)} ${IconName(txt)} into a Land with ${IconName(opt3)}`,
-          fr: ``,
+          fr: landtypeNames[lang][opt3]
+            ? `Rassemblez ${IconName(opt4)} ${IconName(txt)} dans un ${IconName(opt3)}`
+            : `Rassemblez ${IconName(opt4)} ${IconName(txt)} dans une Région ${IconName(opt3)}`,
           de: landtypeNames[lang][opt3]
             ? `Versammele ${IconName(opt4)} ${IconName(txt)} im ${IconName(opt3)}`
             : `Versammele ${IconName(opt4)} ${IconName(txt)} in ein Gebiet mit ${IconName(opt3)}`,
@@ -3778,7 +3799,7 @@ function IconName(str, iconNum = 1) {
         // gather(0,presence,sacred-site,each)
         localize = {
           en: `Gather ${IconName(opt4)} ${IconName(txt)} into 1 of your Lands`,
-          fr: ``,
+          fr: `Rassemblez ${IconName(opt4)} ${IconName(txt)} dans 1 de vos Régions`,
           de: `Versammele ${IconName(opt4)} ${IconName(txt)} in einem deiner Gebiete`,
           pl: `Zgromaź ${IconName(opt4)} ${IconName(txt)} w twojej krainie`,
           ar: ``,
@@ -3790,7 +3811,7 @@ function IconName(str, iconNum = 1) {
         // gather(0,presence,sacred-site,each)
         localize = {
           en: `Gather ${IconName(opt4)} ${IconName(txt)} into ${IconName(opt3)}`,
-          fr: ``,
+          fr: `Rassemblez ${IconName(opt4)} ${IconName(txt)} dans ${IconName(opt3)}`,
           de: `Versammele ${IconName(opt4)} ${IconName(txt)} im ${IconName(opt3)}`,
           pl: `Zgromadź ${IconName(opt4)} ${IconName(txt)} w ${IconName(opt3)}`,
           ar: ``,
@@ -3802,7 +3823,7 @@ function IconName(str, iconNum = 1) {
         // ie. Gather 1 Beasts into Each Wetland
         localize = {
           en: `Gather 1 ${IconName(txt)} into ${IconName(opt4)} ${IconName(opt3)}`,
-          fr: ``,
+          fr: `Rassemblez 1 ${IconName(txt)} dans ${IconName(opt4)} ${IconName(opt3)}`,
           de: `Versammele 1 ${IconName(txt)} in ${IconName(opt4)} ${IconName(opt3)}`,
           pl: `Zgromadź 1 ${IconName(txt)} w ${IconName(opt4)} ${IconName(opt3)}`,
           ar: ``,
@@ -3817,7 +3838,11 @@ function IconName(str, iconNum = 1) {
             : `Gather ${IconName(opt4)} ${IconName(txt)} into 1 of your Lands with ${IconName(
                 opt3
               )}`,
-          fr: ``,
+          fr: landtypeNames[lang][opt3]
+            ? `Rassemblez ${IconName(opt4)} ${IconName(txt)} dans ${IconName(opt3)}`
+            : `Rassemblez ${IconName(opt4)} ${IconName(txt)} dans 1 de vos Régions avec ${IconName(
+                opt3
+              )}`,
           de: landtypeNames[lang][opt3]
             ? `Versammele ${IconName(opt4)} ${IconName(txt)} in ${IconName(opt3)}`
             : `Vresammele ${IconName(opt4)} ${IconName(txt)} in 1 deiner Gebiete mit ${IconName(
@@ -3840,7 +3865,7 @@ function IconName(str, iconNum = 1) {
         // only one option
         localize = {
           en: `Gather 1 ${IconName(txt)} into 1 of your Lands`,
-          fr: ``,
+          fr: `Rassemblez 1 ${IconName(txt)} dans 1 de vos Régions`,
           de: `Versammele 1 ${IconName(txt)} in 1 deiner Gebiete`,
           pl: `Zgromaź 1 ${IconName(txt)} w twojej krainie`,
           ar: ``,
@@ -3854,7 +3879,7 @@ function IconName(str, iconNum = 1) {
       if (num === "incarna") {
         localize = {
           en: `Gather ${IconName(num)}`,
-          fr: ``,
+          fr: `Rassemblez ${IconName(num)}`,
           de: `Versammele ${IconName(num)}`,
           pl: `Zgromadź ${IconName(num)}`,
           ar: ``,
@@ -3868,7 +3893,7 @@ function IconName(str, iconNum = 1) {
         }
         localize = {
           en: `Gather 1 ${subText} into 1 of your Lands`,
-          fr: ``,
+          fr: `Rassemblez 1 ${subText} dans 1 de vos Régions`,
           de: `Versammele 1 ${subText} in 1 deiner Gebiete`,
           pl: `Zgromadź 1 ${subText} w twojej krainie`,
           ar: ``,
@@ -3887,7 +3912,7 @@ function IconName(str, iconNum = 1) {
           // custom text, no flat energy
           localize = {
             en: `Generate ${txt} Fear per ${opt4}`,
-            fr: ``,
+            fr: `Générez ${txt} Peur par ${opt4}`,
             de: `Erzeuge ${txt} Furcht pro ${opt4}`,
             pl: `${num} Strachu za każde ${opt4}`,
             ar: ``,
@@ -3898,7 +3923,7 @@ function IconName(str, iconNum = 1) {
           // custom text, with flat energy
           localize = {
             en: `Generate ${num} Fear and +${txt} more per ${opt4}`,
-            fr: ``,
+            fr: `Générez ${num} Peur et +${txt} de plus par ${opt4}`,
             de: `Erzeuge ${num} Furcht und +${txt} mehr pro ${opt4}`,
             pl: `${num} Strachu i +${txt} Strachu za każde ${opt4} `,
             ar: ``,
@@ -3913,7 +3938,9 @@ function IconName(str, iconNum = 1) {
             en: elementNames.has(opt3)
               ? `Generate ${txt} Fear per ${IconName(opt3)} Showing`
               : `Generate ${txt} Fear per ${IconName(opt3)}`,
-            fr: ``,
+            fr: elementNames.has(opt3)
+              ? `Générez ${txt} Peur par ${IconName(opt3)} Présent`
+              : `Générez ${txt} Peur par ${IconName(opt3)}`,
             de: elementNames.has(opt3)
               ? `Erzeuge ${txt} Furcht pro ausliegendes ${IconName(opt3)}`
               : `Erzeuge ${txt} Furcht pro ${IconName(opt3)}`,
@@ -3930,7 +3957,9 @@ function IconName(str, iconNum = 1) {
             en: elementNames.has(opt3)
               ? `Generate ${num} Fear and +${txt} more per ${IconName(opt3)} Showing`
               : `Generate ${num} Fear and +${txt} more per ${IconName(opt3)}`,
-            fr: ``,
+            fr: elementNames.has(opt3)
+              ? `Générez ${num} Peur et +${txt} de plus par ${IconName(opt3)} Présent`
+              : `Générez ${num} Peur et +${txt} de plus par ${IconName(opt3)}`,
             de: elementNames.has(opt3)
               ? `Erzeuge ${num} Furcht und +${txt} mehr pro ausliegenden ${IconName(opt3)}`
               : `Erzeuge ${num} Furcht und +${txt} mehr pro ${IconName(opt3)}`,
@@ -3946,7 +3975,7 @@ function IconName(str, iconNum = 1) {
         // flat energy
         localize = {
           en: `Generate Fear`,
-          fr: ``,
+          fr: `Générer de la peur`,
           de: `Erzeuge Furcht`,
           pl: `Generujesz Strach`,
           ar: ``,
@@ -3959,7 +3988,7 @@ function IconName(str, iconNum = 1) {
     case "damage-1":
       localize = {
         en: "1 Damage in one of your Lands",
-        fr: ``,
+        fr: "1 Dégat dans une de vos Régions",
         de: "1 Schaden in 1 deiner Gebiete",
         pl: "1 Obrażenie w jednej z twoich Krain",
         ar: "",
@@ -3971,7 +4000,7 @@ function IconName(str, iconNum = 1) {
     case "damage-2":
       localize = {
         en: "2 Damage in one of your Lands",
-        fr: ``,
+        fr: "2 Dégats dans une de vos Régions",
         de: "1 Schaden in 2 deiner Gebiete",
         pl: "2 Obrażenia w jednej z twoich Krain",
         ar: "",
@@ -3983,7 +4012,7 @@ function IconName(str, iconNum = 1) {
     case "gain-1-time":
       localize = {
         en: "Gain 1 Time",
-        fr: ``,
+        fr: "Gagnez 1 Fois",
         de: "Erhalte 1 Zeit",
         pl: "Zyskaj 1 Jednostkę Czasu",
         ar: "",
@@ -3996,7 +4025,7 @@ function IconName(str, iconNum = 1) {
     case "discard-2-cards":
       localize = {
         en: "Discard 2 Power Cards",
-        fr: ``,
+        fr: "Défaussez 2 Cartes Pouvoir",
         de: "2 Fähigkeiten-karten abwerfen",
         pl: "Odrzuć 2 Karty Mocy",
         ar: "",
@@ -4009,7 +4038,7 @@ function IconName(str, iconNum = 1) {
     case "discard-1-card":
       localize = {
         en: "Discard 1 Power Card",
-        fr: ``,
+        fr: "Défaussez 1 Carte Pouvoir",
         de: "1 Fähigkeiten-karte abwerfen",
         pl: "Odrzuć 1 Kartę Mocy",
         ar: "",
@@ -4021,7 +4050,7 @@ function IconName(str, iconNum = 1) {
     case "gain-2-time":
       localize = {
         en: "Gain 2 Time",
-        fr: ``,
+        fr: "Gagnez 2 Fois",
         de: "Erhalte 2 Zeit",
         pl: "Zyskaj 2 Jednostki Czasu",
         ar: "",
@@ -4079,7 +4108,7 @@ function IconName(str, iconNum = 1) {
     case "empower-incarna":
       localize = {
         en: "Empower Incarna",
-        fr: ``,
+        fr: "Renforcer Incarna",
         de: "Incarna verstärken",
         pl: "Wzmocnij Inkarna",
         ar: ``,
@@ -4113,16 +4142,16 @@ function IconName(str, iconNum = 1) {
           any: "any",
         },
         fr: {
-          sun: "",
-          moon: "",
-          fire: "",
-          air: "",
-          plant: "",
-          water: "",
-          earth: "",
-          animal: "",
-          star: "",
-          any: "",
+          sun: "Soleil",
+          moon: "Lune",
+          fire: "Feu",
+          air: "Air",
+          plant: "Flore",
+          water: "Eau",
+          earth: "Terre",
+          animal: "Faune",
+          star: "Elément",
+          any: "Au choix",
         },
         de: {
           sun: "Sonne",
@@ -4200,9 +4229,9 @@ function IconName(str, iconNum = 1) {
           unique: "unique",
         },
         fr: {
-          major: "",
-          minor: "",
-          unique: "",
+          major: "Majeur",
+          minor: "Mineur",
+          unique: "Unique",
         },
         de: {
           major: "",
@@ -4262,18 +4291,18 @@ function IconName(str, iconNum = 1) {
           vitality: "vitality",
         },
         fr: {
-          explorer: "",
-          town: "",
-          city: "",
-          blight: "",
-          beast: "",
-          beasts: "",
-          disease: "",
-          wilds: "",
-          badland: "",
-          badlands: "",
-          strife: "",
-          vitality: "",
+          explorer: "Explorateur",
+          town: "Village",
+          city: "Ville",
+          blight: "Désolation",
+          beast: "Bête",
+          beasts: "Bêtes",
+          disease: "Maladie",
+          wilds: "Ronces",
+          badland: "Terre Hostile",
+          badlands: "Terres Hostiles",
+          strife: "Discorde",
+          vitality: "Vitalité",
         },
         de: {
           explorer: "Entdecker",
@@ -4334,10 +4363,10 @@ function IconName(str, iconNum = 1) {
           from: "from",
         },
         fr: {
-          and: "",
-          or: "",
-          at: "",
-          from: "",
+          and: "et",
+          or: "ou",
+          at: "à",
+          from: "de",
         },
         de: {
           and: "und",
