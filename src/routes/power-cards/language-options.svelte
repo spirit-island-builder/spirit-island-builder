@@ -33,6 +33,6 @@
     <button
       class="button is-small is-success"
       class:is-light={powerCards.language !== "zh"}
-      on:click={setLanguage("zh", powerCards)}>中国人</button>
+      on:click={setLanguage("zh", powerCards)}>中文</button>
   </div>
 </Section>

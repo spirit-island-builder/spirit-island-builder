@@ -377,7 +377,7 @@ info-range {
   font-size: 26px;
   font-family: "Antropos";
   line-height: 24px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
@@ -399,6 +399,59 @@ info-range icon.jungle {
 info-range icon.ocean {
   background-image: url("../images/board/ocean-presence.png");
   width: 45px;
+}
+
+info-range icon.jungle-wetland,
+info-range icon.wetland-jungle {
+  background-image: url("../images/board/junglewetland-presence.png");
+}
+info-range icon.jungle-wetlands,
+info-range icon.wetlands-jungle {
+  background-image: url("../images/board/junglewetland-presence.png");
+}
+info-range icon.jungle-sand,
+info-range icon.sand-jungle {
+  background-image: url("../images/board/junglesand-presence.png");
+}
+info-range icon.jungle-sands,
+info-range icon.sands-jungle {
+  background-image: url("../images/board/junglesand-presence.png");
+}
+info-range icon.sand-wetland,
+info-range icon.wetland-sand {
+  background-image: url("../images/board/sandwetland-presence.png");
+}
+info-range icon.sand-wetlands,
+info-range icon.wetlands-sand {
+  background-image: url("../images/board/sandwetland-presence.png");
+}
+info-range icon.sands-wetland,
+info-range icon.wetland-sands {
+  background-image: url("../images/board/sandwetland-presence.png");
+}
+info-range icon.sands-wetlands,
+info-range icon.wetlands-sands {
+  background-image: url("../images/board/sandwetland-presence.png");
+}
+info-range icon.mountain-jungle,
+info-range icon.jungle-mountain {
+  background-image: url("../images/board/mountainjungle-presence.png");
+}
+info-range icon.mountain-wetland,
+info-range icon.wetland-mountain {
+  background-image: url("../images/board/mountainwetland-presence.png");
+}
+info-range icon.mountain-wetlands,
+info-range icon.wetlands-mountain {
+  background-image: url("../images/board/mountainwetland-presence.png");
+}
+info-range icon.mountain-sand,
+info-range icon.sand-mountain {
+  background-image: url("../images/board/mountainsand-presence.png");
+}
+info-range icon.mountain-sands,
+info-range icon.sands-mountain {
+  background-image: url("../images/board/mountainsand-presence.png");
 }
 
 info-target {
@@ -575,7 +628,6 @@ artist-name {
 or {
   background-image: url("../images/or.png");
   background-size: 45%;
-  mix-blend-mode: multiply;
 
   display: block;
   height: 35px;
@@ -588,6 +640,10 @@ or {
 
 .or:lang(pl) {
   background-image: url("../images/or_pl.png");
+}
+
+.or:lang(de) {
+  background-image: url("../images/or_de.png");
 }
 
 icon {
@@ -611,7 +667,8 @@ info-range icon {
 info-range range {
   width: 60px;
   font-size: 34px;
-  line-height: 22px;
+  line-height: 16px;
+  top: 2px;
 }
 
 info-target icon {

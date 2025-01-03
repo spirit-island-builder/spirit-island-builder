@@ -287,6 +287,11 @@ button.side-menu:hover {
   }
   button:hover {
     background-color: #56575a;
+    color: white;
+  }
+  dialog button:focus {
+    background-color: #56575a;
+    color: white;
   }
   .autocomplete-items div {
     background-color: #272727;

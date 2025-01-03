@@ -170,6 +170,20 @@
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 
+  function printToPDF(pageType = "letter") {
+    const fileNames = [incarnaToken.incarna.name.replaceAll(" ", "_") + "_incarnaToken.pdf"];
+    const elementNamesInIframe = ["incarna-wrapper"];
+    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 2, 2);
+  }
+
+  function printToPDFLetter() {
+    printToPDF("letter");
+  }
+
+  function printToPDFA4() {
+    printToPDF("a4");
+  }
+
   // async function loadExample(example) {
   //   await loadHTMLFromURL(example.url);
   //   hideAll();
@@ -209,6 +223,24 @@
       <button class="button is-success mt-1 mr-1" on:click={exportIncarnaToken}> Save </button>
       <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}
         >Download Image</button>
+      <div class="dropdown is-hoverable is-up">
+        <div class="dropdown-trigger">
+          <button
+            class="button mt-1 mr-1 is-success"
+            aria-haspopup="true"
+            aria-controls="dropdown-menu4">
+            <span>Create PDF...</span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+          <div class="dropdown-content">
+            <button class="button is-success mr-1 dropdown-item" on:click={printToPDFLetter}
+              >Letter size</button>
+            <button class="button is-success mt-1 mr-1 dropdown-item" on:click={printToPDFA4}
+              >A4 size</button>
+          </div>
+        </div>
+      </div>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

@@ -33,7 +33,7 @@
     <button
       class="button is-small is-success"
       class:is-light={spiritBoardBack.language !== "zh"}
-      on:click={setLanguage("zh", spiritBoardBack)}>中国人</button>
+      on:click={setLanguage("zh", spiritBoardBack)}>中文</button>
     <button
       class="button is-small is-success"
       class:is-light={spiritBoardBack.language !== "hu"}

@@ -326,6 +326,96 @@ icon.jungle-presence {
   background-image: url("../images/board/jungle-presence.png");
 }
 
+:lang(de) {
+  icon.sand {
+    background-image: url("../images/board/german-landtype/wuste.png");
+  }
+  icon.sands {
+    background-image: url("../images/board/german-landtype/wuste.png");
+  }
+  icon.mountain {
+    background-image: url("../images/board/german-landtype/berg.png");
+  }
+  icon.jungle {
+    background-image: url("../images/board/german-landtype/dschungel.png");
+  }
+  icon.wetland {
+    background-image: url("../images/board/german-landtype/sumpf.png");
+  }
+  icon.wetlands {
+    background-image: url("../images/board/german-landtype/sumpf.png");
+  }
+
+  icon.jungle-wetland,
+  icon.wetland-jungle {
+    background-image: url("../images/board/german-landtype/dschungel-sumpf.png");
+  }
+  icon.jungle-wetlands,
+  icon.wetlands-jungle {
+    background-image: url("../images/board/german-landtype/dschungel-sumpf.png");
+  }
+  icon.jungle-sand,
+  icon.sand-jungle {
+    background-image: url("../images/board/german-landtype/dschungel-wuste.png");
+  }
+  icon.jungle-sands,
+  icon.sands-jungle {
+    background-image: url("../images/board/german-landtype/dschungel-wuste.png");
+  }
+  icon.sand-wetland,
+  icon.wetland-sand {
+    background-image: url("../images/board/german-landtype/wuste-sumpf.png");
+  }
+  icon.sand-wetlands,
+  icon.wetlands-sand {
+    background-image: url("../images/board/german-landtype/wuste-sumpf.png");
+  }
+  icon.sands-wetland,
+  icon.wetland-sands {
+    background-image: url("../images/board/german-landtype/wuste-sumpf.png");
+  }
+  icon.sands-wetlands,
+  icon.wetlands-sands {
+    background-image: url("../images/board/german-landtype/wuste-sumpf.png");
+  }
+  icon.mountain-jungle,
+  icon.jungle-mountain {
+    background-image: url("../images/board/german-landtype/berg-dschungel.png");
+  }
+  icon.mountain-wetland,
+  icon.wetland-mountain {
+    background-image: url("../images/board/german-landtype/berg-sumpf.png");
+  }
+  icon.mountain-wetlands,
+  icon.wetlands-mountain {
+    background-image: url("../images/board/german-landtype/berg-sumpf.png");
+  }
+  icon.mountain-sand,
+  icon.sand-mountain {
+    background-image: url("../images/board/german-landtype/berg-wuste.png");
+  }
+  icon.mountain-sands,
+  icon.sands-mountain {
+    background-image: url("../images/board/german-landtype/berg-wuste.png");
+  }
+
+  icon.sands-presence {
+    background-image: url("../images/board/german-landtype/wuste-prasenz.png");
+  }
+  icon.sand-presence {
+    background-image: url("../images/board/german-landtype/wuste-prasenz.png");
+  }
+  icon.mountain-presence {
+    background-image: url("../images/board/german-landtype/berg-prasenz.png");
+  }
+  icon.wetland-presence {
+    background-image: url("../images/board/german-landtype/sumpf-prasenz.png");
+  }
+  icon.jungle-presence {
+    background-image: url("../images/board/german-landtype/dschungel-prasenz.png");
+  }
+}
+
 icon.damage-1 {
   background-image: url("../images/board/NewIcons/Damage 1.png");
 }
@@ -529,26 +619,33 @@ icon.noforget {
 range {
   width: 50px;
   height: 32px;
-  display: inline-block;
+  margin-top: -20px;
+  margin-bottom: -20px;
+  display: inline-flex;
+  position: relative;
   text-align: center;
   background-image: url("../images/50px-Rangeicon.png");
   background-repeat: no-repeat;
-  background-position-y: 23px;
+  background-position-y: 20px;
   background-size: contain;
   font-family: "Antropos";
   font-size: 40px;
+  justify-content: center;
 }
 
 range-value {
   position: relative;
-  top: -2px;
+  top: -5px;
+  left: -1px;
   font-size: 24px;
 }
 
-icon.range-small-icon {
+range > icon.range-small-icon,
+range.range > icon.range-small-icon {
   width: 33px;
   height: 22px;
   position: relative;
+  margin: 0px;
   top: -4px;
 }
 
@@ -622,4 +719,21 @@ info-title {
   text-transform: uppercase;
   text-align: center;
   letter-spacing: 0.5px;
+}
+
+icon.small {
+  width: 25px;
+  height: 25px;
+}
+icon.medium {
+  width: 30px;
+  height: 30px;
+}
+icon.large {
+  width: 40px;
+  height: 40px;
+}
+icon.huge {
+  width: 50px;
+  height: 50px;
 }

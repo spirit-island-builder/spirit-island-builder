@@ -90,6 +90,9 @@ function replaceIcon(html) {
     }
 
     // Check for Size
+    if (iconName.startsWith("huge-")) {
+      iconName = "huge " + iconName.substring(5);
+    }
     if (iconName.startsWith("large-")) {
       iconName = "large " + iconName.substring(6);
     }
@@ -257,5 +260,75 @@ function balanceText(el, lineHeight = 23) {
       console.log("reset to w=" + el.offsetWidth + ",h=" + el.offsetHeight);
     }
     // el.style.width = el.offsetWidth + "px";
+  }
+}
+
+function processRulesText(element, lineTagName = "special-rule-line") {
+  let separateLines = element.innerHTML.split(/\r?\n|\r|\n/g);
+  console.log(separateLines);
+  element.innerHTML = "";
+  let listOpen = false;
+  let ruleLine;
+  let inlineList;
+  separateLines.forEach((line) => {
+    if (line.replace(/\W/g, "").length > 0) {
+      // If the line isn't blank
+      console.log(line);
+      if (line.trim().startsWith("*")) {
+        console.log("bullet detected");
+        if (!ruleLine) {
+          console.log("starting rule line (none present)");
+          ruleLine = document.createElement(lineTagName);
+        }
+        if (!listOpen) {
+          console.log("opening new list");
+          // List hasn't been opened, open list and add it to document
+          // let ruleListItem = document.createElement(lineTagName);
+          inlineList = document.createElement("ul");
+          ruleLine.appendChild(inlineList);
+          // element.appendChild(ruleListItem);
+          listOpen = true;
+        }
+        console.log("adding item to list");
+        // Add list item to list (that either existed or was opened)
+        let listItem = document.createElement("li");
+        listItem.innerHTML = line.substring(1).trim();
+        inlineList.appendChild(listItem);
+      } else {
+        if (listOpen) {
+          listOpen = false;
+          ruleLine.innerHTML += line; // add the last line to the end, below the lines
+        } else {
+          // New line is not part of a list, so just add it.
+          ruleLine = document.createElement(lineTagName);
+          ruleLine.innerHTML = line;
+        }
+        element.appendChild(ruleLine);
+      }
+    } else if (listOpen) {
+      listOpen = false;
+      element.appendChild(ruleLine);
+    }
+  });
+}
+
+function getRangeModel(rangeString) {
+  if (rangeString === "none") {
+    return "<no-range></no-range>";
+  } else {
+    let result = "";
+    let rangeItems = rangeString.split(",");
+    let numberCount = rangeItems.filter((x) => !isNaN(x)).length;
+    let rangeClass = numberCount > 1 ? "class='multi-range'" : "";
+    for (let item of rangeString.split(",")) {
+      if (!isNaN(item)) {
+        result += `<range ${rangeClass}>${item}</range>`;
+      } else if (item.startsWith("{")) {
+        result += item;
+      } else {
+        result += `{${item}}`;
+      }
+    }
+    return result;
   }
 }

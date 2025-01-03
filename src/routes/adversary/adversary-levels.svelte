@@ -87,7 +87,7 @@
             class="input is-small"
             type="text"
             placeholder="Name"
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={level.name} />
         </div>
@@ -97,7 +97,7 @@
             class="input is-small"
             type="text"
             placeholder="Difficulty"
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={level.difficulty} />
         </div>
@@ -107,7 +107,7 @@
             class="input is-small"
             type="text"
             placeholder="Fear Cards"
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={level.fearCards} />
         </div>
@@ -128,7 +128,7 @@
               id={`levelSecondNameInput${i}`}
               class="input is-small"
               type="text"
-              on:keyup={nextNode}
+              on:keydown={nextNode}
               on:focus={selectNode}
               placeholder="2nd Rule Name"
               bind:value={level.name2} />

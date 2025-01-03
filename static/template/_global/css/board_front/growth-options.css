@@ -918,11 +918,30 @@ custom-icon {
   justify-content: flex-end;
 }
 
-custom-icon .token {
+/* custom-icon .token {
   width: 40px;
   height: 35px;
   margin-bottom: -3px;
   margin-left: 0px;
+} */
+
+token-wrap > icon {
+  width: 40px;
+  height: 35px;
+  margin-bottom: -3px;
+  margin-left: 0px;
+}
+
+icon.your-land.add-token {
+  height: 56px;
+  width: 73px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+icon.your-land.add-token icon {
+  top: unset;
+  left: unset;
 }
 
 custom-icon .destroyed-presence {
@@ -1251,8 +1270,8 @@ icon-holder {
   position: relative;
   left: 86px;
   top: 12px;
-  width: 55px;
-  flex-direction: row-reverse;
+  width: 60px;
+  flex-direction: row;
   flex-wrap: wrap;
   align-content: center;
   justify-content: space-evenly;
@@ -1263,6 +1282,10 @@ icon-holder icon {
   display: inline-block;
   width: 25px;
   height: 25px;
+  margin: 0px;
+}
+
+icon-holder icon.backslash {
   margin: 0px;
 }
 
@@ -2000,6 +2023,11 @@ board.starlight right-right level {
 
 board.starlight info-container {
   margin-bottom: 5px;
+}
+
+growth icon.huge {
+  width: 120px;
+  height: 120px;
 }
 
 growth icon.large {
