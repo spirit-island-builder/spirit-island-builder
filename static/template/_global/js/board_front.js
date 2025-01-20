@@ -1166,9 +1166,16 @@ function getGrowthActionTextAndIcons(growthAction) {
       const matches = regExp.exec(growthAction);
       let tokenOptions = matches[1].split(",");
       let range = tokenOptions[0];
-      let tokenRange = `<range-growth><value>${range}</value></range-growth>`;
       let token = tokenOptions[1];
       let tokenNum = tokenOptions[2];
+      if (isNaN(range)) {
+        // error handling if no range is input
+        console.log("no range input, setting to 0");
+        range = 0;
+        token = tokenOptions[0];
+        tokenNum = tokenOptions[1];
+      }
+      let tokenRange = `<range-growth><value>${range}</value></range-growth>`;
       let tokenReqOpen = "<custom-icon>";
       let tokenReqClose = "</custom-icon>";
       let tokenIcons = "";
@@ -2557,6 +2564,18 @@ function IconName(str, iconNum = 1) {
   switch (str) {
     case "presence":
       localize = {
+        en: "Presence",
+        fr: `Présence`,
+        de: "Präsenz",
+        pl: "Obecnością",
+        ar: "",
+        zh: "你的靈跡",
+        hu: "Jelenléted",
+      };
+      subText = localize[lang];
+      break;
+    case "your-presence":
+      localize = {
         en: "Your Presence",
         fr: `Votre Présence`,
         de: "Deine Präsenz",
@@ -2767,7 +2786,10 @@ function IconName(str, iconNum = 1) {
           let landwith = 1; // This flag is used to figure out if 'land with' has been said already. It comes up with add-presence(3,jungle,beasts,or)
           for (let i = 1; i < options.length; i++) {
             // Check to see if we've reached an 'or' or 'and', which shouldn't be parsed
-            const req = options[i];
+            let req = options[i];
+            if (req.toLowerCase() === "presence") {
+              req = `your-presence`;
+            }
             if (req.toLowerCase() === "or" || req.toLowerCase() === "and") {
               break;
             } else if (i > 1) {
@@ -5684,11 +5706,16 @@ function writeInnatePowerInfoBlock(
   // localize
   let infoTitles = {
     en: {
-      fr: ``,
       speed: "SPEED",
       range: "RANGE",
       land: "TARGET LAND",
       spirit: "TARGET",
+    },
+    fr: {
+      speed: "VITESSE",
+      range: "PORTEE",
+      land: "REGION CIBLE",
+      spirit: "CIBLE",
     },
     de: {
       speed: "WANN",
