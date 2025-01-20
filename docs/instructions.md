@@ -83,7 +83,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 #### Supported Growth Actions
 
 | Category | Action | Usage | Details | Examples |
-| -------- | --------------- | --------------- | ----------------------------- | --------------- |
+| ------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | Reclaim | Reclaim All, Reclaim One, Reclaim Half | relcaim(x) | x can be all, one, half, or custom |  |
 |  | Reclaim Element Specific | relcaim(x,y) | Reclaim x (all or one) cards with element y | Ember-Eyed Behemoth: reclaim(all,fire) |
 |  | Reclaim Custom | reclaim(custom,_your custom reclaim text_) | Custom reclaim text with a unique icon. | reclaim(custom,your Unique Power Cards) |
@@ -133,8 +133,9 @@ Growth is broken into Growth Sets, Groups, and Actions.
 |  | Gain Multiple Energy per Custom Item w/ Icon | gain-energy(text,*your_text*,y,z) | Gain z Energy per Entity y of your choosing. |  |
 |  | Gain Energy per Card Play | energy-per-play | Gain 1 Energy per Card Play. | As seen on Trickster |
 | Add Tokens | Add One Token | add-token(x,y) | At range x, add token type y | add-token(2,beast) |
-|  | Add Multiple Token of One Type | add-token(x,y, z) | At range x, add z tokens of y type | add-token(3,wilds,2) |
+|  | Add Multiple Token of One Type | add-token(x,y,z) | At range x, add z tokens of y type | add-token(3,wilds,2) |
 |  | Add Tokens of Different Types | add-token(x,y,z,...,and/or) | At range x, add tokens of type y, z, and/or more. The last parameter must be 'or' or 'and'. | add-token(3,wilds,beasts,disease,and); add-token(3,strife,badlands,or); |
+|  | Add Tokens Conditionally | add-token(x,y,z) | At range x, add token of type y to land with condition z (such as terrain or other token presence) | add-token(2,beasts,dahan); add-token(1,disease,wetland); |
 | Replacing | Replaces Token with another in one of your lands | replace(x,y) | In your land, Replace entity x with entity y. Entity can be presence or other things too. | replace(disease,presence) |
 |  | Replaces Token with another at range | replace(x,y,z) | At range x, Replace entity y with entity z. | replace(2,wilds,destroyed-presence) |
 | Gain Power Card | Gain a Power Card | gain-power-card() | Gain a Power Card |  |
