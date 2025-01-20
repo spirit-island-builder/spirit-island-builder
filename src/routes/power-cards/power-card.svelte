@@ -213,7 +213,7 @@
               type="text"
               placeholder="Power Name"
               on:blur={updatePowerName(card, i, "name")}
-              on:keyup={nextNode}
+              on:keydown={nextNode}
               on:focus={selectNode}
               bind:value={card.name} />
           </div>
@@ -231,7 +231,7 @@
               type="text"
               placeholder="Cost"
               on:blur={updatePowerName(card, i, "cost")}
-              on:keyup={nextNode}
+              on:keydown={nextNode}
               on:focus={selectNode}
               bind:value={card.cost} />
           </div>
@@ -267,7 +267,7 @@
               style="text-align:center;"
               type="text"
               placeholder="ie. Sparking (2 of 2)"
-              on:keyup={nextNode}
+              on:keydown={nextNode}
               on:focus={selectNode}
               bind:value={card.aspectSubtitle} />
           </div>
@@ -329,7 +329,7 @@
               class="input is-small"
               type="text"
               placeholder="Range"
-              on:keyup={nextNode}
+              on:keydown={nextNode}
               on:blur={updatePowerName(card, i, "range")}
               on:focus={selectNode}
               bind:value={card.range} />
@@ -400,6 +400,7 @@
               type="text"
               placeholder="Elemental Conditions"
               on:blur={updatePowerName(card, i, "thresholdCondition")}
+              on:keydown={nextNode}
               bind:value={card.thresholdCondition} />
             <label class="label is-unselectable mr-2 mb-0 mt-1" style="min-width:7rem" for=""
               >Custom Text:</label>
@@ -412,7 +413,7 @@
               bind:value={card.thresholdText} />
           </div>
           <AutoComplete
-            id={`cardRules${i}`}
+            id={`cardThreshold${i}`}
             elementType="textarea"
             placeholder="Threshold Effect"
             classNames="is-small"

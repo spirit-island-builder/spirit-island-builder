@@ -20,6 +20,7 @@
   function setSpeedTextbox(powerSpeed, innatePower) {
     innatePower.speed = powerSpeed;
     aspect = aspect;
+    document.getElementById("updateButton").click();
   }
 
   function setTargetTextbox(targetTitle, innatePower) {
@@ -99,6 +100,7 @@
   function selectNode(event) {
     let nodeID = event.target.id;
     document.getElementById(nodeID).select();
+    setCurrentValue(event);
   }
 
   function nextNode(event) {
@@ -107,6 +109,22 @@
 
   function toggleBonusNode() {
     aspect.aspectEffects.bonusNode.has = !aspect.aspectEffects.bonusNode.has;
+  }
+  let initialValue = "";
+  function setCurrentValue(event) {
+    initialValue = event.target.value;
+    console.log("initialvalue=" + initialValue);
+  }
+
+  function detectUpdate(event) {
+    const currentValue = event.target.value;
+    console.log("we made it to detect update");
+    if (initialValue !== currentValue) {
+      console.log("Value has changed!");
+      // Perform your desired actions here
+      initialValue = currentValue; // Update the initial value
+      document.getElementById("updateButton").click();
+    }
   }
 </script>
 
@@ -129,7 +147,7 @@
             class="input"
             type="text"
             placeholder="Name"
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={rule.name} />
         </div>
@@ -196,7 +214,7 @@
             class="input"
             type="text"
             placeholder="Power Name"
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={power.name} />
         </div>
@@ -205,34 +223,16 @@
     <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap">
       <div class="is-flex is-flex-direction-column-reverse">
         <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-          {#if power.speed === ""}
-            <button
-              class="button is-danger is-light button-hold mb-0"
-              id="fast-button"
-              on:click={setSpeedTextbox("Fast", power)}>Fast</button>
-            <button
-              class="button is-info is-light button-hold mb-0"
-              id="slow-button"
-              on:click={setSpeedTextbox("Slow", power)}>Slow</button>
-          {:else if power.speed === "Fast" || power.speed === "fast"}
-            <button
-              class="button is-danger button-hold mb-0"
-              id="fast-button"
-              on:click={setSpeedTextbox("Fast", power)}>Fast</button>
-            <button
-              class="button is-info is-light button-hold mb-0"
-              id="slow-button"
-              on:click={setSpeedTextbox("Slow", power)}>Slow</button>
-          {:else}
-            <button
-              class="button is-danger is-light button-hold mb-0"
-              id="fast-button"
-              on:click={setSpeedTextbox("Fast", power)}>Fast</button>
-            <button
-              class="button is-info button-hold mb-0"
-              id="slow-button"
-              on:click={setSpeedTextbox("Slow", power)}>Slow</button>
-          {/if}
+          <button
+            class="button is-danger button-hold mb-0 is-small"
+            class:is-light={power.speed === "Slow"}
+            id="fast-button"
+            on:click={setSpeedTextbox("Fast", power)}>Fast</button>
+          <button
+            class="button is-info button-hold mb-0 is-small"
+            id="slow-button"
+            class:is-light={power.speed !== "Slow"}
+            on:click={setSpeedTextbox("Slow", power)}>Slow</button>
         </div>
       </div>
       <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap">
@@ -266,17 +266,19 @@
           <div class="control">
             <input
               id={`powerRange${i}`}
-              class="input"
+              class="input is-small"
               type="text"
               placeholder="Range"
-              on:keyup={nextNode}
+              on:keydown={nextNode}
               on:focus={selectNode}
+              on:blur={detectUpdate}
               bind:value={power.range} />
           </div>
           <div class="control">
             <AutoComplete
               id={`powerTarget${i}`}
               elementType="input"
+              classNames="is-small"
               placeholder="Target"
               validAutoCompleteValues={iconValuesSorted}
               bind:value={power.target} />
@@ -305,8 +307,9 @@
             class="input is-small small-power"
             type="text"
             placeholder="Threshold"
-            on:keyup={nextNode}
+            on:keydown={nextNode}
             on:focus={selectNode}
+            on:blur={detectUpdate}
             bind:value={level.threshold} />
         </div>
         <div class="control" style="width:100%">
@@ -316,6 +319,7 @@
             placeholder="Effect"
             classNames="is-small small-power"
             validAutoCompleteValues={iconValuesSorted}
+            additionalOnBlurFunction={() => document.getElementById("updateButton").click()}
             bind:value={level.effect} />
         </div>
         {#if !level.isLong}
@@ -345,13 +349,13 @@
     <div class="mb-1 p-1 note">Note: will only show in 'landscape' layout.</div>
     <div class="field is-flex is-small mb-0">
       <label class="label incarna-label mr-1" for={`bonusNodeEffect`}>Effect: </label>
-      <div class="control">
+      <div class="control" style="width:100%;">
         <input
           id={`bonusNodeEffect`}
-          class="input"
+          class="input is-small"
           type="text"
           placeholder="Effect"
-          on:keyup={nextNode}
+          on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={aspect.aspectEffects.bonusNode.effect} />
       </div>

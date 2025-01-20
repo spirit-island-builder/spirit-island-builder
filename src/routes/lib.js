@@ -315,6 +315,18 @@ export const nextNode = (event) => {
           }
           break;
         //Board - Growth
+        case "growthDirections":
+          focusID = "growthSet0Group0Action0";
+          if (document.getElementById(focusID) === null) {
+            break;
+          }
+          break;
+        case "growthSetChoice":
+          focusID = "growthSet" + numMatches[0] + "Group0Action0";
+          if (document.getElementById(focusID) === null) {
+            break;
+          }
+          break;
         case "growthSetGroupAction":
           focusID = currentID.replace(/\d+$/, function (m) {
             return parseInt(m) + 1;
@@ -432,6 +444,12 @@ export const nextNode = (event) => {
         case "cardTarget":
           focusID = "cardRules" + numMatches[0];
           break;
+        case "cardRules":
+          focusID = "powerThresholdCondition" + numMatches[0];
+          break;
+        case "powerThresholdCondition":
+          focusID = "cardThreshold" + numMatches[0];
+          break;
         // Adversary
         case "adversaryNameInput":
           focusID = "baseDifficulty";
@@ -512,6 +530,9 @@ export const nextNode = (event) => {
           focusID = "incarnaTokenEmpoweredToken";
           break;
         // Scenarios
+        case "scenarioNameInput":
+          focusID = "baseDifficulty";
+          break;
         case "commentLore":
           focusID = "panel0comment0Front";
           break;
@@ -533,9 +554,35 @@ export const nextNode = (event) => {
           focusID = "comment" + (parseInt(numMatches[0]) + 1) + "BackRight";
           console.log(focusID);
           break;
+        // Event card
+        case "eventCardName":
+          focusID = "eventCardLore";
+          break;
+        case "eventCardLore":
+          focusID = "subeventName0";
+          break;
+        case "subeventName":
+          focusID = "subeventEffect" + numMatches[0];
+          break;
+        case "subeventEffect":
+          focusID = "subeventName" + (parseInt(numMatches[0]) + 1);
+          break;
+        case "tokenEventName":
+          focusID = "tokenEventTokens" + numMatches[0];
+          break;
+        case "tokenEventTokens":
+          focusID = "tokenEventEffects" + numMatches[0];
+          break;
+        case "tokenEventEffects":
+          focusID = "tokenEventName" + (parseInt(numMatches[0]) + 1);
+          break;
       }
 
-      document.getElementById(focusID).focus();
+      if (document.getElementById(focusID) === null) {
+        console.log("No next node");
+      } else {
+        document.getElementById(focusID).focus();
+      }
     }
   }
 };

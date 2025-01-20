@@ -44,7 +44,7 @@ The best place to start with the Builder is to look at the Examples. The Builder
 Use these fields to modify your spirit's special rules. You can and should use the [icon shortcuts](#general-icons) here (such as {dahan}). Shortcuts will trigger autocomplete when you type "{". Press tab to finish the autocomplete.
 
 - Name: The name of the Special Rule.
-- Effect: The special rule effect. Use icon shortcuts here.
+- Effect: The special rule effect. Use icon shortcuts here. Use * for bulleted lists
 - Remove: Button to **permanently** delete the special rule.
 - Add Another Rule: Adds an additional special rule.
 - General Advice: Look at example spirits to see how some features are used.
@@ -83,7 +83,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 #### Supported Growth Actions
 
 | Category | Action | Usage | Details | Examples |
-| -------- | --------------- | --------------- | ----------------------------- | --------------- |
+| ------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | Reclaim | Reclaim All, Reclaim One, Reclaim Half | relcaim(x) | x can be all, one, half, or custom |  |
 |  | Reclaim Element Specific | relcaim(x,y) | Reclaim x (all or one) cards with element y | Ember-Eyed Behemoth: reclaim(all,fire) |
 |  | Reclaim Custom | reclaim(custom,_your custom reclaim text_) | Custom reclaim text with a unique icon. | reclaim(custom,your Unique Power Cards) |
@@ -101,22 +101,22 @@ Growth is broken into Growth Sets, Groups, and Actions.
 | Preparing/Discarding Element Markers | Prepare One Element Marker | element-marker | Prepare 1 element marker |  |
 |  | Prepare Multiple Element Marker | element-marker(x) | If x is positive, Prepare x Element Markers | element-marker(2) |
 |  | Discard Element Markers | element-marker(-x) | If x is negative, Discard x Element Markers | element-marker(-2) |
-| Pushing | Push from Your Lands | push(x) | Push entity x (dahan, beasts, presence, etc) from 1 of your lands. |  |
-|  | Push with Conditions | push(x,y) | If y is a condition (terrain, sacred site, beasts, etc), Push entity x from 1 of your lands with y condition. |  |
-|  | Push Multiple Entities | push(x,y) | If y is a number, Push y of entity x from 1 of your lands. |  |
-|  | Push Multiple Entities with Conditions | push(x,y,z) | Push z of entity x from lands of condition y. y can be terrain types, sacred site, token types, etc. z can be a numeral or 'each' (or another word at your own risk). |  |
-|  | Push From Each Land with Condition | push(x,y,z) | If z is a word ('each'), Push x from z lands of condition y. | Ocean: push(presence,ocean,each) |
-|  | Push (Ranged) | push(x,y) | At range x, Push entity y (dahan, beasts, presence, etc) from a land. |  |
-|  | Push (Ranged) with Conditions | push(x,y,z) | At range x, Push entity y from a land with condition z. |  |
+| Pushing | Push from Your Lands | push(x) | Push entity x (dahan, beasts, presence, etc) from 1 of your lands. For 'or', x may be entity/entity. |  |
+|  | Push with Conditions | push(x,y) | If y is a condition (terrain, sacred site, beasts, etc), Push entity x from 1 of your lands with y condition.  For 'or', x may be entity/entity. |  |
+|  | Push Multiple Entities (same type) | push(x,y) | If y is a number, Push y of entity x from 1 of your lands. |  |
+|  | Push Multiple Entities with Conditions | push(x,y,z) | Push z of entity x from lands of condition y. For 'or', x may be entity/entity. y can be terrain types, sacred site, token types, etc. z can be a numeral or 'each' (or another word at your own risk). |  |
+|  | Push From Each Land with Condition | push(x,y,z) | If z is a word ('each'), Push x from z lands of condition y.  For 'or', x may be entity/entity. | Ocean: push(presence,ocean,each) |
+|  | Push (Ranged) | push(x,y) | At range x, Push entity y (dahan, beasts, presence, etc) from a land.  For 'or', y may be entity/entity. |  |
+|  | Push (Ranged) with Conditions | push(x,y,z) | At range x, Push entity y from a land with condition z. For 'or', y may be entity/entity. |  |
 |  | Push (Ranged) Multiple Entities | push(x,y,z) | At range x, Push numeral z of entity y from a land. |  |
-|  | Push (Ranged) Multiple Entities with Conditions | push(x,y,z,w) | At range x, Push numeral w of entity y from a land with condition w. |  |
-| Gathering | Gather into Your Lands | gather(x) | Gather entity x (dahan, beasts, presence, etc) into 1 of your lands. |  |
-|  | Gather with Conditions | gather(x,y) | If y is a condition (terrain, sacred site, beasts, etc), Gather entity x into 1 of your lands with y condition. |  |
+|  | Push (Ranged) Multiple Entities with Conditions | push(x,y,z,w) | At range x, Push numeral z of entity y from a land with condition w. |  |
+| Gathering | Gather into Your Lands | gather(x) | Gather entity x (dahan, beasts, presence, etc) into 1 of your lands.  For 'or', x may be entity/entity. |  |
+|  | Gather with Conditions | gather(x,y) | If y is a condition (terrain, sacred site, beasts, etc), Gather entity x into 1 of your lands with y condition.  For 'or', x may be entity/entity. |  |
 |  | Gather Multiple Entities | gather(x,y) | If y is a number, Gather y of entity x into 1 of your lands. |  |
-|  | Gather Multiple Entities with Conditions | gather(x,y,z) | Gather z of entity x into lands of condition y. y can be terrain types, sacred site, token types, etc. z can be a numeral or 'each' (or another word at your own risk). | Ocean: gather(presence,ocean,each) |
-|  | Gather into Each Land with Condition | gather(x,y,z) | If z is a word ('each'), Gather x into z lands of condition y. | Ocean: gather(presence,ocean,each) |
-|  | Gather (Ranged) | gather(x,y) | At range x, Gather entity y (dahan, beasts, presence, etc) into a land. | Many Minds: <br>gather(2,beasts) |
-|  | Gather (Ranged) with Conditions | gather(x,y,z) | At range x, Gather entity y into a land with condition z. |  |
+|  | Gather Multiple Entities with Conditions | gather(x,y,z) | Gather z of entity x into lands of condition y.  For 'or', x may be entity/entity. y can be terrain types, sacred site, token types, etc. z can be a numeral or 'each' (or another word at your own risk). | Ocean: gather(presence,ocean,each) |
+|  | Gather into Each Land with Condition | gather(x,y,z) | If z is a word ('each'), Gather x into z lands of condition y. For 'or', x may be entity/entity. | Ocean: gather(presence,ocean,each) |
+|  | Gather (Ranged) | gather(x,y) | At range x, Gather entity y (dahan, beasts, presence, etc) into a land.  For 'or', y may be entity/entity. | Many Minds: <br>gather(2,beasts) |
+|  | Gather (Ranged) with Conditions | gather(x,y,z) | At range x, Gather entity y into a land with condition z. For 'or', y may be entity/entity. |  |
 |  | Gather (Ranged) Multiple Entities | gather(x,y,z) | At range x, Gather numeral z of entity y into a land. |  |
 |  | Gather (Ranged) Multiple Entities with Conditions | gather(x,y,z,w) | At range x, Gather numeral w of entity y into a land with condition w. |  |
 | Move Presence | Move Presence | move-presence(x) | Move a Presence up to x range |  |
@@ -133,8 +133,9 @@ Growth is broken into Growth Sets, Groups, and Actions.
 |  | Gain Multiple Energy per Custom Item w/ Icon | gain-energy(text,*your_text*,y,z) | Gain z Energy per Entity y of your choosing. |  |
 |  | Gain Energy per Card Play | energy-per-play | Gain 1 Energy per Card Play. | As seen on Trickster |
 | Add Tokens | Add One Token | add-token(x,y) | At range x, add token type y | add-token(2,beast) |
-|  | Add Multiple Token of One Type | add-token(x,y, z) | At range x, add z tokens of y type | add-token(3,wilds,2) |
+|  | Add Multiple Token of One Type | add-token(x,y,z) | At range x, add z tokens of y type | add-token(3,wilds,2) |
 |  | Add Tokens of Different Types | add-token(x,y,z,...,and/or) | At range x, add tokens of type y, z, and/or more. The last parameter must be 'or' or 'and'. | add-token(3,wilds,beasts,disease,and); add-token(3,strife,badlands,or); |
+|  | Add Tokens Conditionally | add-token(x,y,z) | At range x, add token of type y to land with condition z (such as terrain or other token presence) | add-token(2,beasts,dahan); add-token(1,disease,wetland); |
 | Replacing | Replaces Token with another in one of your lands | replace(x,y) | In your land, Replace entity x with entity y. Entity can be presence or other things too. | replace(disease,presence) |
 |  | Replaces Token with another at range | replace(x,y,z) | At range x, Replace entity y with entity z. | replace(2,wilds,destroyed-presence) |
 | Gain Power Card | Gain a Power Card | gain-power-card() | Gain a Power Card |  |

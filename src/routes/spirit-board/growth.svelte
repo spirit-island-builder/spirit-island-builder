@@ -165,6 +165,7 @@
   }
 
   function nextNode(event) {
+    console.log("nextnodeingrowth");
     Lib.nextNode(event);
   }
 
@@ -333,6 +334,7 @@
         class="input is-small"
         type="text"
         placeholder="Growth Directions (ie. &quot;Pick Two&quot;)"
+        on:keydown={nextNode}
         bind:value={spiritBoard.growth.directions} />
     </div>
   {/if}
@@ -368,6 +370,7 @@
               style="width:70%;"
               type="text"
               placeholder="Growth Set Choice ie. (PICK ONE OF)"
+              on:keydown={nextNode}
               bind:value={growthSet.choiceText} />
           </div>
         {/if}
@@ -422,7 +425,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;2&quot; or &quot;3,dahan&quot;"
-                      on:keyup={nextNode}
+                      on:keydown={nextNode}
                       bind:value={growthGroup.cost} />
                   </div>
                   <button
@@ -439,7 +442,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;blue&quot; or &quot;#ff0058&quot;"
-                      on:keyup={nextNode}
+                      on:keydown={nextNode}
                       bind:value={growthGroup.tint} />
                   </div>
                   <button
@@ -456,7 +459,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;Max 1/Game&quot;"
-                      on:keyup={nextNode}
+                      on:keydown={nextNode}
                       bind:value={growthGroup.title} />
                   </div>
                   {#if !growthGroup.hasTitleLeft}

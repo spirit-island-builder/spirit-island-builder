@@ -29,6 +29,8 @@ function startMain() {
   setTimeout(function () {
     resizeAspect(aspects[0]);
   }, 200);
+
+  return 3;
 }
 
 function parseSubNodes(aspect) {
@@ -38,7 +40,7 @@ function parseSubNodes(aspect) {
       container.childNodes[i].nodeType === 1 &&
       container.childNodes[i].nodeName === "QUICK-INNATE-POWER"
     ) {
-      container.childNodes[i].outerHTML = parseInnatePower(container.childNodes[i]);
+      container.childNodes[i].outerHTML = parseInnatePower(container.childNodes[i]); //leveraging board_front.js
     }
   }
 }
@@ -123,26 +125,7 @@ function parseSpecialRulesAspect(aspect) {
   // copied 12/6/22
   console.log("BUILDING SPECIAL RULES");
   const aspectContainer = document.querySelectorAll("aspect-container")[0];
-  parseSpecialRules(aspectContainer);
-  // Enable snake-like presence track in special rules
-  // var specialTrack = aspectContainer.getElementsByTagName("special-rules-track")[0];
-  // if (specialTrack) {
-  //   var specialValues = specialTrack.getAttribute("values");
-  //   var specialOptions = specialValues.split(",");
-  //   var specialHTML = "";
-
-  //   for (i = 0; i < specialOptions.length; i++) {
-  //     let nodeText = specialOptions[i];
-  //     specialHTML += "<td>" + getPresenceNodeHtml(nodeText, i == 0, "special", true) + "</td>";
-  //   }
-  //   specialHTML += "</tr>";
-  //   aspectContainer.getElementsByTagName("special-rules-track")[0].removeAttribute("values");
-  //   specialTrack.innerHTML = specialHTML;
-  //   var subtextList = specialTrack.getElementsByTagName("subtext");
-  //   for (var i = subtextList.length - 1; i >= 0; --i) {
-  //     subtextList[i].remove();
-  //   }
-  // }
+  parseSpecialRules(aspectContainer); // Leveraging praseSpecialRules on board_front.js
 }
 
 function resizeAspect(aspect) {
@@ -203,25 +186,3 @@ function resizeAspect(aspect) {
     }
   }
 }
-
-// function checkOverflowHeight(el) {
-//   let curOverflow = el.style.overflow;
-//   if (!curOverflow || curOverflow === "visible") {
-//     el.style.overflow = "auto";
-//   }
-//   let isOverflowing = el.clientHeight < el.scrollHeight;
-//   el.style.overflow = curOverflow;
-
-//   return isOverflowing;
-// }
-
-// function checkOverflowWidth(el) {
-//   let curOverflow = el.style.overflow;
-//   if (!curOverflow || curOverflow === "visible") {
-//     el.style.overflow = "auto";
-//   }
-//   let isOverflowing = el.clientWidth < el.scrollWidth;
-//   el.style.overflow = curOverflow;
-
-//   return isOverflowing;
-// }

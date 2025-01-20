@@ -218,7 +218,7 @@
               type="text"
               on:focus={selectNode}
               on:blur={updatePresenceNodeLocal(i, "energy")}
-              on:keyup={nextNode}
+              on:keydown={nextNode}
               bind:value={spiritBoard.presenceTrack.energyNodes[i].effect} />
             <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
               <button
@@ -252,7 +252,7 @@
               type="text"
               on:blur={updatePresenceNodeLocal(i, "card")}
               on:focus={selectNode}
-              on:keyup={nextNode}
+              on:keydown={nextNode}
               bind:value={spiritBoard.presenceTrack.playsNodes[i].effect} />
             <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
               <button
@@ -291,7 +291,7 @@
                   class="input is-small presence-input-block"
                   type="text"
                   on:focus={selectNode}
-                  on:keyup={nextNode}
+                  on:keydown={nextNode}
                   bind:value={additionalNode.effect} />
                 <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
                   <button
@@ -329,13 +329,3 @@
   <button class="button is-primary is-small is-light mb-1" on:click={addPresenceTrack}
     >Add Additional Presence Track</button>
 </Section>
-
-<!-- on:blur={updatePresenceNodeLocal(i, "card")}
-          on:focus={selectNode}
-          on:keyup={nextNode} -->
-
-<!-- <button
-          class="button is-light presence-track-button presence-track-remove-node"
-          on:click={removeAdditionalTrackNode(i)}
-          ><span style="margin-top:-1px;pointer-events: none;font-size: 9px;">✖</span>
-        </button> -->

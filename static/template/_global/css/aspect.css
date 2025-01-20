@@ -234,6 +234,7 @@ aspect-rule {
   display: block;
   min-height: unset;
   width: 100%;
+  pointer-events: none;
 }
 
 aspect innate-power level,
@@ -343,6 +344,7 @@ icon.or {
 
 aspect innate-power {
   margin-left: 0px;
+  pointer-events: none;
 }
 
 aspect special-rule {
