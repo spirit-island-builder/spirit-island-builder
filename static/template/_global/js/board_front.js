@@ -2125,8 +2125,7 @@ function getPresenceNodeHtml(
         case "token": {
           const matches = regExp.exec(splitOptions[0]);
           const tokenAdd = matches[1];
-          inner =
-            "<icon class='your-land'>{misc-plus}<icon class='" + tokenAdd + "'></icon></icon>";
+          inner = `<icon class='your-land'>{misc-plus}${tokenAdd}</icon>`;
           subText = IconName(`add-token(${tokenAdd})`);
           break;
         }
@@ -2256,8 +2255,7 @@ function getPresenceNodeHtml(
           const iconText = splitOptions[0];
           const matches = regExp.exec(splitOptions[0]);
           if (matches) {
-            inner =
-              "<icon class='gain-power-card-blank'><icon class='" + matches[1] + "'></icon></icon>";
+            inner = `<icon class='gain-power-card-blank'>${matches[1]}</icon>`;
           } else {
             inner = "{" + iconText + "}";
           }
