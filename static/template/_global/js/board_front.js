@@ -1808,7 +1808,7 @@ function getPresenceNodeHtml(
 ) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
-  // const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
+  const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
   let pnDebug = false;
   let nodeClass = "";
 
@@ -1842,7 +1842,12 @@ function getPresenceNodeHtml(
 
   // Check splitpath nodes
   if (nodeText.startsWith("split(")) {
-    let splitNodes = nodeText.split(",");
+    if (pnDebug) {
+      console.log("Split Path node - version 1");
+    }
+    nodeText = regExpOuterParentheses.exec(nodeText)[1];
+    let splitNodes = nodeText.split(";");
+    console.log(splitNodes);
     let splitSubtext = "";
     for (let i = 0; i < splitNodes.length; i++) {
       let splitNodeHTML = getPresenceNodeHtml(
@@ -1879,38 +1884,6 @@ function getPresenceNodeHtml(
     if (pnDebug) {
       console.log("Override Text: " + overrideText);
     }
-  }
-
-  // Handle Splitpath nodes
-  if (nodeText.includes("/")) {
-    let splitNodes = nodeText.split("/");
-    let splitSubtext = "";
-    for (let i = 0; i < splitNodes.length; i++) {
-      let splitNodeHTML = getPresenceNodeHtml(
-        splitNodes[i],
-        first,
-        nodeIndex + "-" + i,
-        trackType,
-        addEnergyRing,
-        forceEnergyRing,
-        forceShadow,
-        forceNone
-      );
-      let holder = document.createElement("holder");
-      holder.innerHTML = splitNodeHTML;
-      let subtext = holder.getElementsByTagName("subtext")[0];
-      if (i === 0) {
-        splitSubtext += subtext.innerHTML;
-        subtext.remove();
-        inner += holder.innerHTML;
-      } else {
-        subtext.innerHTML = splitSubtext + "/" + subtext.innerHTML;
-        inner += holder.innerHTML;
-        holder.remove();
-      }
-    }
-    inner = `<split-presence-node>${inner}</split-presence-node>`;
-    return inner;
   }
 
   //Handle ^ (node notation)
@@ -5220,10 +5193,7 @@ function dynamicResizing() {
     if (debug) {
       console.log("  > Innate Powers overflowing, shrinking level description line height");
     }
-    let effects = Array.from(board.getElementsByTagName("effect"));
-    effects.forEach((effect) => {
-      effect.style.lineHeight = "1";
-    });
+    innatePowerBoxCheck.classList.add("tight-line-height");
   }
 
   if (checkOverflowHeight(innatePowerBox, 0)) {
@@ -5587,8 +5557,7 @@ function writeInnateLevel(currentLevel, levelID) {
   const currentThreshold = currentLevel.getAttribute("threshold");
   if (currentThreshold === "text") {
     // User wants a special text-only line
-    levelHTML += "<level><level-note>";
-    levelHTML += currentLevel.innerHTML + "</level-note></level>";
+    levelHTML += `<level><level-note>${currentLevel.innerHTML}</level-note></level>`;
   } else if (currentThreshold === "new-power") {
     const subpowerOptions = currentLevel.innerHTML.split(";");
     const subpowerName = subpowerOptions[0];
@@ -5671,17 +5640,11 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
     } else if (currentElement.toUpperCase().startsWith("COST")) {
       if (currentElement.split("(")[1]) {
         const customCost = regExp.exec(currentElement)[1];
-        currentThresholdPieces[k] =
-          "<cost-threshold>Cost<icon class='" +
-          customCost +
-          " cost-custom'><value>-" +
-          currentNumeral +
-          "</value></icon></cost-threshold>";
+        currentThresholdPieces[k] = `<cost-threshold>Cost<icon class='${customCost} cost-custom'>
+          <value>-${currentNumeral}</value></icon></cost-threshold>`;
       } else {
-        currentThresholdPieces[k] =
-          "<cost-threshold>Cost<cost-energy><value>-" +
-          currentNumeral +
-          "</value></cost-energy></cost-threshold>";
+        currentThresholdPieces[k] = `<cost-threshold>Cost<cost-energy><value>-${currentNumeral}
+          </value></cost-energy></cost-threshold>`;
       }
     } else {
       currentThresholdPieces[k] = currentNumeralHTML + "{" + currentElement + "}";
@@ -5753,12 +5716,9 @@ function writeInnatePowerInfoBlock(
   newPowerHTML += `<info-container><info-title><info-title-speed>${infoTitles[lang].speed}</info-title-speed><info-title-range>${infoTitles[lang].range}</info-title-range>`;
 
   //Innate Power Target Header
-  newPowerHTML +=
-    "<info-title-target id='" +
-    innatePowerID +
-    "targettitle'>" +
-    infoTitles[lang][targetTitle] +
-    "</info-title-target></info-title><innate-info>";
+  newPowerHTML += `<info-title-target id='${innatePowerID}targettitle'>
+    ${infoTitles[lang][targetTitle]}
+    </info-title-target></info-title><innate-info>`;
 
   //Innater Power Speed value
   newPowerHTML += `<innate-info-speed class="${powerSpeed.toLowerCase()}"></innate-info-speed>`;
