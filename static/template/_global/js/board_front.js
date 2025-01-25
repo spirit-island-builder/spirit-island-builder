@@ -1809,7 +1809,7 @@ function getPresenceNodeHtml(
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
   const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
-  let pnDebug = true;
+  let pnDebug = false;
   let nodeClass = "";
 
   // Every node will have a presence-node element with
@@ -1885,38 +1885,6 @@ function getPresenceNodeHtml(
       console.log("Override Text: " + overrideText);
     }
   }
-
-  // Handle Splitpath nodes
-  // if (nodeText.includes("/")) {
-  //   let splitNodes = nodeText.split("/");
-  //   let splitSubtext = "";
-  //   for (let i = 0; i < splitNodes.length; i++) {
-  //     let splitNodeHTML = getPresenceNodeHtml(
-  //       splitNodes[i],
-  //       first,
-  //       nodeIndex + "-" + i,
-  //       trackType,
-  //       addEnergyRing,
-  //       forceEnergyRing,
-  //       forceShadow,
-  //       forceNone
-  //     );
-  //     let holder = document.createElement("holder");
-  //     holder.innerHTML = splitNodeHTML;
-  //     let subtext = holder.getElementsByTagName("subtext")[0];
-  //     if (i === 0) {
-  //       splitSubtext += subtext.innerHTML;
-  //       subtext.remove();
-  //       inner += holder.innerHTML;
-  //     } else {
-  //       subtext.innerHTML = splitSubtext + "/" + subtext.innerHTML;
-  //       inner += holder.innerHTML;
-  //       holder.remove();
-  //     }
-  //   }
-  //   inner = `<split-presence-node>${inner}</split-presence-node>`;
-  //   return inner;
-  // }
 
   //Handle ^ (node notation)
   let addDeepLayers = false;
@@ -5225,10 +5193,7 @@ function dynamicResizing() {
     if (debug) {
       console.log("  > Innate Powers overflowing, shrinking level description line height");
     }
-    let effects = Array.from(board.getElementsByTagName("effect"));
-    effects.forEach((effect) => {
-      effect.style.lineHeight = "1";
-    });
+    innatePowerBoxCheck.classList.add("tight-line-height");
   }
 
   if (checkOverflowHeight(innatePowerBox, 0)) {
@@ -5623,9 +5588,11 @@ function writeInnateLevel(currentLevel, levelID) {
     }
 
     // Break the cost into a numeral and element piece (then do error handling to allow switching the order)
-    levelHTML += `<level>${writeInnateThreshold(currentThreshold, levelID)}
-                  <effect class='${isLong}' id='${levelID}'>
-                  ${currentLevel.innerHTML}</effect></level>`;
+    levelHTML += "<level>";
+    levelHTML += writeInnateThreshold(currentThreshold, levelID);
+    levelHTML += "<effect class='" + isLong + "' id='" + levelID + "'>";
+    const currentDescription = currentLevel.innerHTML;
+    levelHTML += currentDescription + "</effect></level>";
   }
 
   return levelHTML;
