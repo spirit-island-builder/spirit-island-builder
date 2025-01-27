@@ -5176,7 +5176,7 @@ function dynamicResizing() {
     }
     innatePowerBoxCheck.classList.add("tight-levels");
   }
-  // Then tighten up the power levels
+  // Then tighten up the power levels again
   if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
       console.log("  > Innate Powers still overflowing, shrinking space between levels more");
@@ -5188,7 +5188,7 @@ function dynamicResizing() {
     innatePowers[0].classList.add("two-column");
   }
 
-  // Then tighten up the power level font spacing
+  // Then tighten up the power level line spacing
   if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
       console.log("  > Innate Powers overflowing, shrinking level description line height");

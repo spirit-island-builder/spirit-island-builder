@@ -415,6 +415,7 @@ adversary.printer-clean adversary-background {
 adversary.printer-clean {
   border: black 3px solid;
   box-sizing: border-box;
+  background-color: white;
 }
 
 top-info.no-loss-condition loss-condition {
