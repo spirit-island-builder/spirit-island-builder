@@ -284,12 +284,16 @@ scenario.printer-clean scenario-background {
   border: black 3px solid;
   box-sizing: border-box;
   border-radius: 22px;
+  background-color: white;
 }
 scenario.printer-clean scenario-back-name,
 scenario.printer-clean scenario-front-name,
 scenario.printer-clean scenario-back-difficulty,
 scenario.printer-clean scenario-heading {
   color: black;
+}
+scenario.printer-clean scenario-art-holder {
+  z-index: -1;
 }
 
 scenario-back-difficulty {
