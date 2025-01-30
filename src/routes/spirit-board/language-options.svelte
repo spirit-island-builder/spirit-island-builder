@@ -30,7 +30,9 @@
   <label class="label mb-0" for="spiritNameInput">Translate Auto-Generated Text</label>
   <div class="content is-small mb-0">
     The Builder can translate the auto-generated text into some other languages (support is
-    incomplete, use the * wildcard described above to fill in the gaps)
+    incomplete, use the * wildcard described above to fill in the gaps). If you would like to see
+    other languages here and can help provide translations, please reach out to
+    resonant@spiritislandbuilder.com
   </div>
   <div class="buttons has-addons mb-0">
     <button

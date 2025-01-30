@@ -10,6 +10,8 @@ function startMain() {
     quickAdversary.remove();
   }
 
+  processRules();
+
   var html = document.querySelectorAll("adversary")[0].innerHTML;
   document.querySelectorAll("adversary")[0].innerHTML = replaceIcon(html);
   setTimeout(() => {
@@ -122,6 +124,15 @@ function buildLevel(quickLevel) {
   return levelHTML;
 }
 
+function processRules() {
+  // Capture lines to control line break heights
+  let rules = document.querySelectorAll("rule");
+  let rulesArray = Array.from(rules);
+  rulesArray.forEach((rule) => {
+    processRulesText(rule, "rule-line"); // Function from common
+  });
+}
+
 function resize() {
   dynamicSizing(document.querySelectorAll("top-info")[0], 55);
   dynamicSizingRules();
@@ -139,10 +150,7 @@ function dynamicSizing(el, maxSize = el.offsetHeight) {
     var fontSize = parseFloat(style);
     var lineHeight = parseFloat(line);
     el.style.lineHeight = lineHeight - 1 + "px";
-    // if (lineHeight < 15) {
-    //   // there's more room in line height first
     el.style.fontSize = fontSize - 1 + "px";
-    // }
     // safety valve
     j += 1;
     if (j > 20) {
@@ -179,17 +187,3 @@ function dynamicSizingRules() {
     }
   }
 }
-
-// function checkOverflow(el) {
-//   let debug = true;
-//   if (debug) {
-//     console.log(`Common: Check OverflowWidth (${el.tagName})`)
-//   }
-//   let curOverflow = el.style.overflow;
-//   if (!curOverflow || curOverflow === "visible") {
-//     el.style.overflow = "hidden";
-//   }
-//   let isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
-//   el.style.overflow = curOverflow;
-//   return isOverflowing;
-// }
