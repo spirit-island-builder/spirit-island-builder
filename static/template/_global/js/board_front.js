@@ -1496,7 +1496,7 @@ function parseAdditionalTrackTags(additionalTrack, i) {
 // Localize
 let Energy = {
   en: "Energy",
-  fr: ``,
+  fr: "Energie",
   de: "Energie",
   pl: "Energia",
   ar: "طاقة",
@@ -1504,7 +1504,7 @@ let Energy = {
 };
 let Turn = {
   en: "Turn",
-  fr: ``,
+  fr: "Tour",
   de: "Runde",
   pl: "Rundę",
   ar: "دور",
@@ -1512,14 +1512,14 @@ let Turn = {
 };
 let CardPlay = {
   en: "Card Play",
-  fr: ``,
+  fr: "Jouer une Carte",
   de: "Karte ausspielen",
   pl: "Zagraj jedną",
   hu: "Kártyakijátszás",
 };
 let CardPlays = {
   en: "Card Plays",
-  fr: ``,
+  fr: "Jouer des Cartes",
   de: "Karten ausspielen",
   pl: "Zagrane Karty",
   hu: "Kijátszható kártyák",
@@ -1558,35 +1558,35 @@ let landtypeNames = {
     "invaders": "Invaders",
   },
   fr: {
-    "ocean": "Ocean",
-    "oceans": "Ocean",
-    "mountain": "Mountain",
-    "jungle": "Jungle",
-    "sand": "Sands",
-    "sands": "Sands",
-    "wetland": "Wetland",
-    "jungle-wetland": "Jungle or Wetland",
-    "wetland-jungle": "Jungle or Wetland",
-    "jungle-sand": "Jungle or Sands",
-    "sand-jungle": "Jungle or Sands",
-    "jungle-sands": "Jungle or Sands",
-    "sands-jungle": "Jungle or Sands",
-    "sand-wetland": "Sands or Wetland",
-    "wetland-sand": "Sands or Wetland",
-    "sands-wetland": "Sands or Wetland",
-    "wetland-sands": "Sands or Wetland",
-    "mountain-jungle": "Mountain or Jungle",
-    "jungle-mountain": "Mountain or Jungle",
-    "mountain-wetland": "Mountain or Wetland",
-    "wetland-mountain": "Mountain or Wetland",
-    "mountain-sand": "Mountain or Sands",
-    "sand-mountain": "Mountain or Sands",
-    "mountain-sands": "Mountain or Sands",
-    "sands-mountain": "Mountain or Sands",
-    "inland": "Inland",
-    "coastal": "Coastal",
-    "land": "land",
-    "invaders": "Invaders",
+    "ocean": "océan",
+    "oceans": "océans",
+    "mountain": "montagne",
+    "jungle": "jungle",
+    "sand": "désert",
+    "sands": "déserts",
+    "wetland": "fange",
+    "jungle-wetland": "jungle ou fange",
+    "wetland-jungle": "fange ou jungle",
+    "jungle-sand": "jungle ou désert",
+    "sand-jungle": "désert ou jungle",
+    "jungle-sands": "jungle ou déserts",
+    "sands-jungle": "déserts ou jungle",
+    "sand-wetland": "désert ou fange",
+    "wetland-sand": "fange ou désert",
+    "sands-wetland": "déserts ou fange",
+    "wetland-sands": "fange ou déserts",
+    "mountain-jungle": "montagne ou jungle",
+    "jungle-mountain": "jungle ou montagne",
+    "mountain-wetland": "montagne ou fange",
+    "wetland-mountain": "fange ou montagne",
+    "mountain-sand": "montagne ou désert",
+    "sand-mountain": "désert ou montagne",
+    "mountain-sands": "montagne ou déserts",
+    "sands-mountain": "déserts ou montagne",
+    "inland": "Intérieures",
+    "coastal": "Côtières",
+    "land": "région",
+    "invaders": "Envahisseurs",
   },
   de: {
     "ocean": "Ozean",
@@ -5798,7 +5798,7 @@ function parseSpecialRules(board) {
   const specialRuleList = board.getElementsByTagName("special-rule");
   let specialRulesArray = Array.from(specialRuleList);
   specialRulesArray.forEach((specialRule) => {
-    processRulesText(specialRule);
+    processRulesText(specialRule); // Function from common
   });
 }
 
@@ -5812,10 +5812,10 @@ function tagSectionHeadings() {
       special: "SPECIAL RULES",
     },
     fr: {
-      growth: "",
-      presence: "",
-      innate: "",
-      special: "",
+      growth: "croissance",
+      presence: "pistes de présence",
+      innate: "pouvoirs innés",
+      special: "règles spéciales",
     },
     de: {
       growth: "WACHSTUM",
