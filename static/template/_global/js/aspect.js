@@ -113,7 +113,8 @@ function parseSpecialRulesAspect(aspect) {
         console.log("Writing Growth Group: " + growthGroups[j].outerHTML);
         let tableHolder = document.createElement("growth-table");
         tableHolder.innerHTML = writeGrowthGroup(growthGroups[j]);
-        growthGroups[j].outerHTML = tableHolder.outerHTML;
+        specialRule.insertAdjacentElement("afterend", tableHolder);
+        growthGroups[j].remove();
       }
     }
     if (i > 10) {

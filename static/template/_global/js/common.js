@@ -265,7 +265,6 @@ function balanceText(el, lineHeight = 23) {
 
 function processRulesText(element, lineTagName = "special-rule-line") {
   let separateLines = element.innerHTML.split(/\r?\n|\r|\n/g);
-  console.log(separateLines);
   element.innerHTML = "";
   let listOpen = false;
   let ruleLine;
