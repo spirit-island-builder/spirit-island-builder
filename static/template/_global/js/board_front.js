@@ -1496,7 +1496,7 @@ function parseAdditionalTrackTags(additionalTrack, i) {
 // Localize
 let Energy = {
   en: "Energy",
-  fr: ``,
+  fr: "Energie",
   de: "Energie",
   pl: "Energia",
   ar: "طاقة",
@@ -1504,7 +1504,7 @@ let Energy = {
 };
 let Turn = {
   en: "Turn",
-  fr: ``,
+  fr: "Tour",
   de: "Runde",
   pl: "Rundę",
   ar: "دور",
@@ -1512,14 +1512,14 @@ let Turn = {
 };
 let CardPlay = {
   en: "Card Play",
-  fr: ``,
+  fr: "Jouer une Carte",
   de: "Karte ausspielen",
   pl: "Zagraj jedną",
   hu: "Kártyakijátszás",
 };
 let CardPlays = {
   en: "Card Plays",
-  fr: ``,
+  fr: "Jouer des Cartes",
   de: "Karten ausspielen",
   pl: "Zagrane Karty",
   hu: "Kijátszható kártyák",
@@ -1558,35 +1558,35 @@ let landtypeNames = {
     "invaders": "Invaders",
   },
   fr: {
-    "ocean": "Ocean",
-    "oceans": "Ocean",
-    "mountain": "Mountain",
-    "jungle": "Jungle",
-    "sand": "Sands",
-    "sands": "Sands",
-    "wetland": "Wetland",
-    "jungle-wetland": "Jungle or Wetland",
-    "wetland-jungle": "Jungle or Wetland",
-    "jungle-sand": "Jungle or Sands",
-    "sand-jungle": "Jungle or Sands",
-    "jungle-sands": "Jungle or Sands",
-    "sands-jungle": "Jungle or Sands",
-    "sand-wetland": "Sands or Wetland",
-    "wetland-sand": "Sands or Wetland",
-    "sands-wetland": "Sands or Wetland",
-    "wetland-sands": "Sands or Wetland",
-    "mountain-jungle": "Mountain or Jungle",
-    "jungle-mountain": "Mountain or Jungle",
-    "mountain-wetland": "Mountain or Wetland",
-    "wetland-mountain": "Mountain or Wetland",
-    "mountain-sand": "Mountain or Sands",
-    "sand-mountain": "Mountain or Sands",
-    "mountain-sands": "Mountain or Sands",
-    "sands-mountain": "Mountain or Sands",
-    "inland": "Inland",
-    "coastal": "Coastal",
-    "land": "land",
-    "invaders": "Invaders",
+    "ocean": "océan",
+    "oceans": "océans",
+    "mountain": "montagne",
+    "jungle": "jungle",
+    "sand": "désert",
+    "sands": "déserts",
+    "wetland": "fange",
+    "jungle-wetland": "jungle ou fange",
+    "wetland-jungle": "fange ou jungle",
+    "jungle-sand": "jungle ou désert",
+    "sand-jungle": "désert ou jungle",
+    "jungle-sands": "jungle ou déserts",
+    "sands-jungle": "déserts ou jungle",
+    "sand-wetland": "désert ou fange",
+    "wetland-sand": "fange ou désert",
+    "sands-wetland": "déserts ou fange",
+    "wetland-sands": "fange ou déserts",
+    "mountain-jungle": "montagne ou jungle",
+    "jungle-mountain": "jungle ou montagne",
+    "mountain-wetland": "montagne ou fange",
+    "wetland-mountain": "fange ou montagne",
+    "mountain-sand": "montagne ou désert",
+    "sand-mountain": "désert ou montagne",
+    "mountain-sands": "montagne ou déserts",
+    "sands-mountain": "déserts ou montagne",
+    "inland": "Intérieures",
+    "coastal": "Côtières",
+    "land": "région",
+    "invaders": "Envahisseurs",
   },
   de: {
     "ocean": "Ozean",
@@ -1808,7 +1808,7 @@ function getPresenceNodeHtml(
 ) {
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
-  // const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
+  const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
   let pnDebug = false;
   let nodeClass = "";
 
@@ -1842,7 +1842,12 @@ function getPresenceNodeHtml(
 
   // Check splitpath nodes
   if (nodeText.startsWith("split(")) {
-    let splitNodes = nodeText.split(",");
+    if (pnDebug) {
+      console.log("Split Path node - version 1");
+    }
+    nodeText = regExpOuterParentheses.exec(nodeText)[1];
+    let splitNodes = nodeText.split(";");
+    console.log(splitNodes);
     let splitSubtext = "";
     for (let i = 0; i < splitNodes.length; i++) {
       let splitNodeHTML = getPresenceNodeHtml(
@@ -1879,38 +1884,6 @@ function getPresenceNodeHtml(
     if (pnDebug) {
       console.log("Override Text: " + overrideText);
     }
-  }
-
-  // Handle Splitpath nodes
-  if (nodeText.includes("/")) {
-    let splitNodes = nodeText.split("/");
-    let splitSubtext = "";
-    for (let i = 0; i < splitNodes.length; i++) {
-      let splitNodeHTML = getPresenceNodeHtml(
-        splitNodes[i],
-        first,
-        nodeIndex + "-" + i,
-        trackType,
-        addEnergyRing,
-        forceEnergyRing,
-        forceShadow,
-        forceNone
-      );
-      let holder = document.createElement("holder");
-      holder.innerHTML = splitNodeHTML;
-      let subtext = holder.getElementsByTagName("subtext")[0];
-      if (i === 0) {
-        splitSubtext += subtext.innerHTML;
-        subtext.remove();
-        inner += holder.innerHTML;
-      } else {
-        subtext.innerHTML = splitSubtext + "/" + subtext.innerHTML;
-        inner += holder.innerHTML;
-        holder.remove();
-      }
-    }
-    inner = `<split-presence-node>${inner}</split-presence-node>`;
-    return inner;
   }
 
   //Handle ^ (node notation)
@@ -2125,8 +2098,7 @@ function getPresenceNodeHtml(
         case "token": {
           const matches = regExp.exec(splitOptions[0]);
           const tokenAdd = matches[1];
-          inner =
-            "<icon class='your-land'>{misc-plus}<icon class='" + tokenAdd + "'></icon></icon>";
+          inner = `<icon class='your-land'>{misc-plus}${tokenAdd}</icon>`;
           subText = IconName(`add-token(${tokenAdd})`);
           break;
         }
@@ -2256,8 +2228,7 @@ function getPresenceNodeHtml(
           const iconText = splitOptions[0];
           const matches = regExp.exec(splitOptions[0]);
           if (matches) {
-            inner =
-              "<icon class='gain-power-card-blank'><icon class='" + matches[1] + "'></icon></icon>";
+            inner = `<icon class='gain-power-card-blank'>${matches[1]}</icon>`;
           } else {
             inner = "{" + iconText + "}";
           }
@@ -5205,7 +5176,7 @@ function dynamicResizing() {
     }
     innatePowerBoxCheck.classList.add("tight-levels");
   }
-  // Then tighten up the power levels
+  // Then tighten up the power levels again
   if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
       console.log("  > Innate Powers still overflowing, shrinking space between levels more");
@@ -5217,15 +5188,12 @@ function dynamicResizing() {
     innatePowers[0].classList.add("two-column");
   }
 
-  // Then tighten up the power level font spacing
+  // Then tighten up the power level line spacing
   if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
       console.log("  > Innate Powers overflowing, shrinking level description line height");
     }
-    let effects = Array.from(board.getElementsByTagName("effect"));
-    effects.forEach((effect) => {
-      effect.style.lineHeight = "1";
-    });
+    innatePowerBoxCheck.classList.add("tight-line-height");
   }
 
   if (checkOverflowHeight(innatePowerBox, 0)) {
@@ -5589,8 +5557,7 @@ function writeInnateLevel(currentLevel, levelID) {
   const currentThreshold = currentLevel.getAttribute("threshold");
   if (currentThreshold === "text") {
     // User wants a special text-only line
-    levelHTML += "<level><level-note>";
-    levelHTML += currentLevel.innerHTML + "</level-note></level>";
+    levelHTML += `<level><level-note>${currentLevel.innerHTML}</level-note></level>`;
   } else if (currentThreshold === "new-power") {
     const subpowerOptions = currentLevel.innerHTML.split(";");
     const subpowerName = subpowerOptions[0];
@@ -5673,17 +5640,11 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
     } else if (currentElement.toUpperCase().startsWith("COST")) {
       if (currentElement.split("(")[1]) {
         const customCost = regExp.exec(currentElement)[1];
-        currentThresholdPieces[k] =
-          "<cost-threshold>Cost<icon class='" +
-          customCost +
-          " cost-custom'><value>-" +
-          currentNumeral +
-          "</value></icon></cost-threshold>";
+        currentThresholdPieces[k] = `<cost-threshold>Cost<icon class='${customCost} cost-custom'>
+          <value>-${currentNumeral}</value></icon></cost-threshold>`;
       } else {
-        currentThresholdPieces[k] =
-          "<cost-threshold>Cost<cost-energy><value>-" +
-          currentNumeral +
-          "</value></cost-energy></cost-threshold>";
+        currentThresholdPieces[k] = `<cost-threshold>Cost<cost-energy><value>-${currentNumeral}
+          </value></cost-energy></cost-threshold>`;
       }
     } else {
       currentThresholdPieces[k] = currentNumeralHTML + "{" + currentElement + "}";
@@ -5755,12 +5716,9 @@ function writeInnatePowerInfoBlock(
   newPowerHTML += `<info-container><info-title><info-title-speed>${infoTitles[lang].speed}</info-title-speed><info-title-range>${infoTitles[lang].range}</info-title-range>`;
 
   //Innate Power Target Header
-  newPowerHTML +=
-    "<info-title-target id='" +
-    innatePowerID +
-    "targettitle'>" +
-    infoTitles[lang][targetTitle] +
-    "</info-title-target></info-title><innate-info>";
+  newPowerHTML += `<info-title-target id='${innatePowerID}targettitle'>
+    ${infoTitles[lang][targetTitle]}
+    </info-title-target></info-title><innate-info>`;
 
   //Innater Power Speed value
   newPowerHTML += `<innate-info-speed class="${powerSpeed.toLowerCase()}"></innate-info-speed>`;
@@ -5840,7 +5798,7 @@ function parseSpecialRules(board) {
   const specialRuleList = board.getElementsByTagName("special-rule");
   let specialRulesArray = Array.from(specialRuleList);
   specialRulesArray.forEach((specialRule) => {
-    processRulesText(specialRule);
+    processRulesText(specialRule); // Function from common
   });
 }
 
@@ -5854,10 +5812,10 @@ function tagSectionHeadings() {
       special: "SPECIAL RULES",
     },
     fr: {
-      growth: "",
-      presence: "",
-      innate: "",
-      special: "",
+      growth: "croissance",
+      presence: "pistes de présence",
+      innate: "pouvoirs innés",
+      special: "règles spéciales",
     },
     de: {
       growth: "WACHSTUM",

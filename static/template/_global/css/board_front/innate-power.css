@@ -383,6 +383,10 @@ effect {
   display: block;
 }
 
+innate-powers.tight-line-height effect {
+  line-height: 1;
+}
+
 effect icon.city {
   width: 35px;
   height: 35px;
