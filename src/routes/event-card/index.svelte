@@ -165,9 +165,31 @@
   }
 
   function screenshotSetUp() {
-    const fileNames = [eventCard.card.name.replaceAll(" ", "_") + "_EventCard.png"];
+    let eventName = eventCard.card.name;
+    if (eventName === "none" || eventName === "") {
+      eventName = eventCard.subevents.event[0].name;
+    }
+    const fileNames = [`${eventName.replaceAll(" ", "_")}_EventCard.png`];
     const elementNamesInIframe = ["event-card"];
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
+  }
+
+  function printToPDF(pageType = "letter") {
+    let eventName = eventCard.card.name;
+    if (eventName === "none" || eventName === "") {
+      eventName = eventCard.subevents.event[0].name;
+    }
+    const fileNames = [`${eventName.replaceAll(" ", "_")}_EventCard.pdf`];
+    const elementNamesInIframe = ["event-card"];
+    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 2.48, 3.465);
+  }
+
+  function printToPDFLetter() {
+    printToPDF("letter");
+  }
+
+  function printToPDFA4() {
+    printToPDF("a4");
   }
 
   async function loadExample(example) {
@@ -213,7 +235,7 @@
       </svelte:fragment>
     </PreviewFrame>
 
-    <div class="field has-addons mb-1 is-flex-wrap-wrap">
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
       <button class="button is-info js-modal-trigger mr-1 mt-1" on:click={exampleModal.open}>
         Examples
       </button>
@@ -224,13 +246,33 @@
         Load
       </LoadButton>
       <button class="button is-success  mt-1 mr-1" on:click={exportEventCard}> Save </button>
-      <button class="button is-success  mt-1 mr-1" on:click={screenshotSetUp}
-        >Download Image</button>
       <button class="button is-warning  mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
         >Toggle Zoom</button>
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
+    </div>
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
+      <button class="button is-success  mt-1 mr-1" on:click={screenshotSetUp}
+        >Download Image</button>
+      <div class="dropdown is-hoverable is-up">
+        <div class="dropdown-trigger">
+          <button
+            class="button mt-1 mr-1 is-success"
+            aria-haspopup="true"
+            aria-controls="dropdown-menu4">
+            <span>Create PDF...</span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+          <div class="dropdown-content">
+            <button class="button is-success mr-1 dropdown-item" on:click={printToPDFLetter}
+              >Letter size</button>
+            <button class="button is-success mt-1 mr-1 dropdown-item" on:click={printToPDFA4}
+              >A4 size</button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="field has-addons mt-1 mb-0 is-flex-wrap-wrap">
       {#if dev}

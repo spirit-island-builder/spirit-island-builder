@@ -2375,7 +2375,7 @@ function getPresenceNodeHtml(
   }
 
   if (!forceNone) {
-    if (addEnergyRing || forceEnergyRing) {
+    if ((addEnergyRing || forceEnergyRing) && !forceShadow) {
       inner = "<energy-icon>" + inner + "</energy-icon>";
     }
     if (addIconShadow || forceShadow) {
@@ -5643,8 +5643,8 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
         currentThresholdPieces[k] = `<cost-threshold>Cost<icon class='${customCost} cost-custom'>
           <value>-${currentNumeral}</value></icon></cost-threshold>`;
       } else {
-        currentThresholdPieces[k] = `<cost-threshold>Cost<cost-energy><value>-${currentNumeral}
-          </value></cost-energy></cost-threshold>`;
+        currentThresholdPieces[k] = `<cost-threshold>Cost<cost-energy><value>- ${currentNumeral}
+        </value></cost-energy></cost-threshold>`;
       }
     } else {
       currentThresholdPieces[k] = currentNumeralHTML + "{" + currentElement + "}";
