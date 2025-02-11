@@ -405,11 +405,17 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 - Growth icons (see [Growth](#growth) section and [Supported Growth Actions](#supported-growth-actions) for examples)
 - Presence track icons (see [Presence Track](#presence-tracks) section for examples)
 
-Also:
-- No-: Nearly every icon can have a red X over it by adding 'no-' such as {no-blight}.
+### Modifying Icons
+Some options for changing how an icon displays:
+- no-: Nearly every icon can have a red X over it by adding 'no-' such as {no-blight}.
 - Or/: You can cluster icons with a / to keep them together through line breaks {explorer/town}
 - Counts: You can add item counts like so {earth,2}. This only works in some contexts
 - Incarna icons: add "incarna-" to an icon and it will appear larger when used (typically "{incarna-custom1}")
+- Size options: add small-, medium-, large-, or huge- to an icon name to change its size (ie. "{large-dahan})
+
+### Custom Icons
+You can load your own icon into the Builder. These will always be called custom1, custom2, etc. You can modify these icons as described above.
+- Display Name: This is not required. A few  growth and presence track options will try to identify the icon's name. This will set the name in those instances. Typically, this isn't needed until you start to see the text 'custom1' appear on your board.
 
 [Home](#index)
 
