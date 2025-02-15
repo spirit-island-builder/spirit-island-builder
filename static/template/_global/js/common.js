@@ -66,9 +66,33 @@ function replaceIcon(html) {
     }
 
     let HTMLTag = "icon";
+    let iconClass = [];
+
+    // Check for Size
+    let sizeClass = "";
+    if (iconName.startsWith("huge-")) {
+      iconName = iconName.substring(5);
+      sizeClass = " huge ";
+      iconClass.push("huge");
+    }
+    if (iconName.startsWith("large-")) {
+      iconName = iconName.substring(6);
+      sizeClass = " large ";
+      iconClass.push("large");
+    }
+    if (iconName.startsWith("medium-")) {
+      iconName = iconName.substring(7);
+      sizeClass = " medium ";
+      iconClass.push("medium");
+    }
+    if (iconName.startsWith("small-")) {
+      iconName = iconName.substring(6);
+      sizeClass = " small ";
+      iconClass.push("small");
+    }
 
     // Check for 'no'
-    let is_no = "";
+    // let is_no = "";
     let no_icon = "";
     if (iconName.startsWith("no-")) {
       // is_no = "no ";
@@ -80,27 +104,25 @@ function replaceIcon(html) {
     let is_terrain = "";
     if (terrainSingle.has(iconName)) {
       is_terrain = " terrain-single";
+      iconClass.push("terrain-single");
     } else if (terrainDouble.has(iconName)) {
       is_terrain = " terrain-double";
+      iconClass.push("terrain-double");
     }
 
     // Check for Incarna
     if (iconName.startsWith("incarna-")) {
       iconName = "incarna " + iconName.substring(8);
+      iconClass.push("incarna");
     }
 
-    // Check for Size
-    if (iconName.startsWith("huge-")) {
-      iconName = "huge " + iconName.substring(5);
-    }
-    if (iconName.startsWith("large-")) {
-      iconName = "large " + iconName.substring(6);
-    }
-    if (iconName.startsWith("medium-")) {
-      iconName = "medium " + iconName.substring(7);
-    }
-    if (iconName.startsWith("small-")) {
-      iconName = "small " + iconName.substring(6);
+    // Check for Custom
+    let isCustom = "";
+    let regex = /custom(\d+)/;
+    const matches = regex.exec(iconName);
+    if (matches) {
+      isCustom = " custom-icon ";
+      iconClass.push("custom-icon");
     }
 
     // Check for Range
@@ -157,13 +179,12 @@ function replaceIcon(html) {
       iconHtml = "<br>";
     } else {
       //FINAL OUTPUT
+      iconClass.push(iconName);
       iconHtml +=
         `<` +
         HTMLTag +
         ` class="` +
-        is_no +
-        iconName +
-        is_terrain +
+        iconClass.join(" ") +
         `">` +
         num_val +
         no_icon +
