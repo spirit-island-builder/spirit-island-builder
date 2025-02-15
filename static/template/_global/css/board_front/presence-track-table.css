@@ -369,17 +369,13 @@ presence-node icon {
 }
 
 presence-node icon.isolate,
-presence-node icon.custom1,
-presence-node icon.custom2,
-presence-node icon.custom3 {
+presence-node icon.custom-icon {
   height: 90px;
   width: 90px;
   margin-top: -3px;
 }
 
-presence-node-multi icon.custom1,
-presence-node-multi icon.custom2,
-presence-node-multi icon.custom3 {
+presence-node-multi icon.custom-icon {
   height: 65px;
   width: 65px;
   margin-top: -3px;
