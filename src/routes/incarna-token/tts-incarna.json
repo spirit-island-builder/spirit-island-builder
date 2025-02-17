@@ -1,0 +1,66 @@
+{
+  "GUID": "${guid}",
+  "Name": "Custom_Model",
+  "Transform": {
+    "posX": -6.534672,
+    "posY": 0.967099,
+    "posZ": -23.8,
+    "rotX": -2.85772359e-7,
+    "rotY": 180.0,
+    "rotZ": 2.2417035e-7,
+    "scaleX": 1.4,
+    "scaleY": 2.8,
+    "scaleZ": 1.4
+  },
+  "Nickname": "Incarna",
+  "Description": "${spiritName}",
+  "GMNotes": "",
+  "AltLookAngle": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "ColorDiffuse": {
+    "r": 0.956862748,
+    "g": 0.4352941,
+    "b": 0.8039216
+  },
+  "Tags": ["Presence"],
+  "LayoutGroupSortIndex": 0,
+  "Value": 0,
+  "Locked": false,
+  "Grid": false,
+  "Snap": false,
+  "IgnoreFoW": false,
+  "MeasureMovement": false,
+  "DragSelectable": true,
+  "Autoraise": true,
+  "Sticky": true,
+  "Tooltip": true,
+  "GridProjection": false,
+  "HideWhenFaceDown": false,
+  "Hands": false,
+  "CustomMesh": {
+    "MeshURL": "https://steamusercontent-a.akamaihd.net/ugc/2301965672787312336/2C91003E8C4CDDC5AB126A349EAD097139157E79/",
+    "DiffuseURL": "https://steamusercontent-a.akamaihd.net/ugc/2301964313844188015/6A4F370C0FDF595F658870EABA11F82397CB3A37/",
+    "NormalURL": "",
+    "ColliderURL": "https://steamusercontent-a.akamaihd.net/ugc/2301965672787312336/2C91003E8C4CDDC5AB126A349EAD097139157E79/",
+    "Convex": false,
+    "MaterialIndex": 3,
+    "TypeIndex": 0,
+    "CustomShader": {
+      "SpecularColor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0
+      },
+      "SpecularIntensity": 0.0,
+      "SpecularSharpness": 2.0,
+      "FresnelStrength": 0.0
+    },
+    "CastShadows": true
+  },
+  "LuaScript": "function onRotate(_, flip)\n    if flip == 180.0 then\n        Wait.condition(function()\n            Global.call(\"makeSacredSite\", {obj = self})\n        end, function() return not self.isSmoothMoving() end)\n    else\n        self.setDecals({})\n    end\nend",
+  "LuaScriptState": "",
+  "XmlUI": ""
+}

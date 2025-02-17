@@ -9,7 +9,9 @@
   }
 </script>
 
-<Section title="Language & Options" bind:isVisible={spiritBoardBack.languageOptions.isVisible}>
+<Section
+  title="Language and Accessibility"
+  bind:isVisible={spiritBoardBack.languageOptions.isVisible}>
   <!-- Overwriting Headings -->
   <label class="label mb-0" for="spiritNameInput">Translation Support Features</label>
   <!-- Languages -->
