@@ -92,6 +92,12 @@
   //   document.getElementById(nodeID).select();
   // }
 
+  function toggleBack(val) {
+    eventCard.showBack = val;
+    eventCard = eventCard;
+    document.getElementById("updateButton").click();
+  }
+
   function nextNode(event) {
     Lib.nextNode(event);
   }
@@ -260,5 +266,17 @@
         </div>
       {/each}
     </div>
+    <div class="field has-addons">
+      <label class="label is-unselectable mr-1 mt-1" for="">Event Back: </label>
+    </div>
+    {#if eventCard.showBack === true}
+      <button
+        class="button is-warning is-small is-light mb-0"
+        on:click={toggleBack(false, eventCard)}>Hide Back</button>
+    {:else}
+      <button
+        class="button is-success is-small is-light mb-0"
+        on:click={toggleBack(true, eventCard)}>Show Back</button>
+    {/if}
   </div>
 </Section>

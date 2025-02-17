@@ -10,6 +10,7 @@
   export let powerCards;
   export let exportPlayTTS = () => {};
   export let exportLoreTTS = () => {};
+  export let exportIncarnaTTS = () => {};
   export let exportPowersTTS = () => {};
 
   import bagTemplate from "$lib/bag-template.json";
@@ -46,6 +47,15 @@
     let playTTS = exportPowersTTS();
     combinedTTS.powers.tts.content = JSON.parse(playTTS);
     combinedTTS.powers.tts.saved = true;
+  }
+
+  function getIncarnaTTS() {
+    let playTTS = exportIncarnaTTS();
+    combinedTTS.incarna.tts.content = JSON.parse(playTTS);
+    combinedTTS.incarna.tts.saved = true;
+    if (combinedTTS.incarna.image.content) {
+      combinedTTS.incarna.image.saved = true;
+    }
   }
 
   function buildBag() {
@@ -96,6 +106,15 @@
       });
       console.log(powerCardsJSON);
     }
+    if (combinedTTS.incarna.tts.saved) {
+      let incarnaJSON = combinedTTS.incarna.tts.content;
+      incarnaJSON = incarnaJSON.ObjectStates[0];
+      if (combinedTTS.incarna.image.saved) {
+        incarnaJSON["CustomMesh"]["DiffuseURL"] = combinedTTS.incarna.image.content;
+      }
+      bagTemplate.ObjectStates[0]["ContainedObjects"].push(incarnaJSON);
+      console.log(incarnaJSON);
+    }
     let saveFile = createTTSSave(bagTemplate.ObjectStates);
     console.log(saveFile);
     console.log([saveFile]);
@@ -107,9 +126,9 @@
 
 <Section title="TTS Spirit & Powers Combined Export" bind:isVisible={combinedTTS.isVisible}>
   <div class="mb-1 p-1 note">
-    Use this to export a combined TTS object ready to go in the TTS mod. You will need to save
-    content from other tabs and image hosting websites as well, then click export when you have all
-    the content.
+    Use this to export Spirit (front, back & powers) as a combined TTS object ready to go in the TTS
+    mod. You will need to save content from other tabs and image hosting websites as well, then
+    click export when you have all the content.
     <InstructionsLink anchor="combined-tts" />
   </div>
   <div class="field is-flex is-flex-direction-column is-justify-content-space-around">
@@ -132,7 +151,7 @@
       </div>
       <div class="field" class:is-hidden={currentPage !== "spiritBoardFront"}>
         <div class="content is-small mb-0">
-          Insert a URL for the Play Side image from an image hosing website (such as imgur):.
+          Insert a URL from an image hosing website (such as imgur) for the Play Side image:
         </div>
         <div class="control">
           <input
@@ -222,6 +241,34 @@
             </div>
           {/if}
         {/if}
+      </div>
+      <div class="field combined-tts-buttons">
+        <div class="field-label is-small">
+          <label class="label combined-tts-buttons">Incarna token (optional):</label>
+        </div>
+        {#if combinedTTS.incarna.tts.saved}
+          <button
+            class="button is-info is-small"
+            disabled={currentPage !== "incarnaToken"}
+            on:click={() => console.log("click")}>Saved</button>
+        {:else}
+          <button
+            class="button is-success is-small"
+            disabled={currentPage !== "incarnaToken"}
+            on:click={() => getIncarnaTTS()}>Save TTS & Image URL</button>
+        {/if}
+      </div>
+      <div class="field" class:is-hidden={currentPage !== "incarnaToken"}>
+        <div class="content is-small mb-0">
+          Insert a URL from an image hosing website (such as imgur) for the Incarna token:
+        </div>
+        <div class="control">
+          <input
+            id="spiritPlayImage"
+            class="input is-small"
+            type="text"
+            bind:value={combinedTTS.incarna.image.content} />
+        </div>
       </div>
     </div>
     <div class="field is-flex is-flex-direction-row is-justify-content-space-evenly">

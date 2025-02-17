@@ -7,10 +7,18 @@
 
   import NameEffects from "./name-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
+  import CombinedTTS from "../combined-tts-spirit-powers-export.svelte";
+  import incarnaJsonTemplate from "./tts-incarna.json";
+  import jsone from "json-e";
+  import { createTTSSave } from "$lib/tts.js";
+
   import { downloadHTML } from "$lib/download";
 
   export let incarnaToken;
   export let emptyIncarnaToken;
+  export let combinedTTS;
+  export let emptyCombinedTTS;
+  export let currentPage;
 
   let previewFrame;
 
@@ -184,6 +192,22 @@
     printToPDF("a4");
   }
 
+  const packageIncarnaTTSforExport = () => {
+    let incarnaJson = jsone(incarnaJsonTemplate, {
+      guid: incarnaToken.incarna.name.replaceAll(" ", "_"),
+      spiritName: incarnaToken.incarna.name,
+    });
+    let ttsSave = createTTSSave([incarnaJson]);
+
+    return ttsSave;
+  };
+
+  // async function downloadTTSJSON() {
+  //   let ttsSave = packageIncarnaTTSforExport();
+  //   const jsonFileName = incarnaToken.incarna.name.replaceAll(" ", "_") + "_TTS.json";
+  //   downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
+  // }
+
   // async function loadExample(example) {
   //   await loadHTMLFromURL(example.url);
   //   hideAll();
@@ -198,7 +222,13 @@
 <div class="columns ml-4 mt-0 mb-1">
   <div class="column is-one-third pt-0">
     <NameEffects bind:incarnaToken />
+    <div class="content mb-0 mt-2">Options</div>
     <CustomIcons customIcons={incarnaToken.customIcons} />
+    <CombinedTTS
+      bind:combinedTTS
+      bind:currentPage
+      bind:emptyCombinedTTS
+      exportIncarnaTTS={packageIncarnaTTSforExport} />
   </div>
   <div class="column pt-0">
     <PreviewFrame id="incarna-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
