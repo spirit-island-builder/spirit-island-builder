@@ -310,6 +310,16 @@
         saved: false,
       },
     },
+    incarna: {
+      image: {
+        content: "",
+        saved: false,
+      },
+      tts: {
+        content: "",
+        saved: false,
+      },
+    },
   };
   let combinedTTS = JSON.parse(JSON.stringify(emptyCombinedTTS));
 
@@ -875,7 +885,12 @@
     {:else if currentPage === "scenario"}
       <Scenario bind:scenario bind:emptyScenario />
     {:else if currentPage === "incarnaToken"}
-      <IncarnaToken bind:incarnaToken bind:emptyIncarnaToken />
+      <IncarnaToken
+        bind:incarnaToken
+        bind:emptyIncarnaToken
+        bind:combinedTTS
+        bind:emptyCombinedTTS
+        bind:currentPage />
     {:else if currentPage === "blightCard"}
       <BlightCard bind:blightCard bind:emptyBlightCard />
     {:else if currentPage === "fearCard"}

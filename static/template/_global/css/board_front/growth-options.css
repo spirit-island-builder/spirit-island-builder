@@ -734,6 +734,7 @@ custom-presence-req icon.dahan {
   margin-bottom: -2px;
 }
 
+.non-icon icon,
 presence-req icon.presence {
   display: inline-block;
   height: 45px;
@@ -742,6 +743,7 @@ presence-req icon.presence {
   margin-bottom: -5px;
 }
 
+.non-icon icon,
 presence-req icon {
   height: 37px;
   width: 37px;
@@ -1771,9 +1773,7 @@ gain-per-element icon.destroyed-presence,
 gain-per-element icon.explorer,
 gain-per-element icon.town,
 gain-per-element icon.city,
-gain-per-element icon.custom1,
-gain-per-element icon.custom2,
-gain-per-element icon.custom3 {
+gain-per-element icon.custom-icon {
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
@@ -1918,9 +1918,7 @@ gain-per-fear icon.destroyed-presence,
 gain-per-fear icon.explorer,
 gain-per-fear icon.town,
 gain-per-fear icon.city,
-gain-per-fear icon.custom1,
-gain-per-faer icon.custom2,
-gain-per-fear icon.custom3 {
+gain-per-fear icon.custom-icon {
   background-repeat: no-repeat;
   background-size: contain;
   display: block;

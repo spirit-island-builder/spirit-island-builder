@@ -87,6 +87,12 @@
       tokeneventHTML.setAttribute("effect", tokenevent.effect);
     });
 
+    //Show back?
+    if (eventCard.showBack) {
+      let eventBackHTML = document.createElement("event-back");
+      fragment.appendChild(eventBackHTML);
+    }
+
     //Set Custom Icons
     let customIconText = Lib.getCustomIconHTML(eventCard.customIcons);
     const eventCardStyle = document.createElement("style");
@@ -171,6 +177,10 @@
     }
     const fileNames = [`${eventName.replaceAll(" ", "_")}_EventCard.png`];
     const elementNamesInIframe = ["event-card"];
+    if (eventCard.showBack) {
+      fileNames.push(eventCard.card.name.replaceAll(" ", "_") + "_EventCardBack.png");
+      elementNamesInIframe.push("event-back");
+    }
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 
@@ -181,6 +191,9 @@
     }
     const fileNames = [`${eventName.replaceAll(" ", "_")}_EventCard.pdf`];
     const elementNamesInIframe = ["event-card"];
+    if (eventCard.showBack) {
+      elementNamesInIframe.push("event-back");
+    }
     previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 2.48, 3.465);
   }
 
