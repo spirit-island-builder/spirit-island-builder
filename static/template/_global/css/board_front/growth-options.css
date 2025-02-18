@@ -734,6 +734,7 @@ custom-presence-req icon.dahan {
   margin-bottom: -2px;
 }
 
+.non-icon icon,
 presence-req icon.presence {
   display: inline-block;
   height: 45px;
@@ -742,6 +743,7 @@ presence-req icon.presence {
   margin-bottom: -5px;
 }
 
+.non-icon icon,
 presence-req icon {
   height: 37px;
   width: 37px;
