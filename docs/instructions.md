@@ -139,8 +139,8 @@ Growth is broken into Growth Sets, Groups, and Actions.
 | Replacing | Replaces Token with another in one of your lands | replace(x,y) | In your land, Replace entity x with entity y. Entity can be presence or other things too. | replace(disease,presence) |
 |  | Replaces Token with another at range | replace(x,y,z) | At range x, Replace entity y with entity z. | replace(2,wilds,destroyed-presence) |
 | Gain Power Card | Gain a Power Card | gain-power-card() | Gain a Power Card |  |
-|  | Gain a Minor/Major/Other Power Card | gain-power-card(x) | Gain x Power Card. x is minor, major, or something else (icon appears in top left) | gain-power-card(minor) |
-|  | Gain a Minor/Major/Other Power Card with Other Note | gain-power-card(x,y) | Gain x Power Card with y condition. y is text to follow 'Gain x Power Card' | gain-power-card(minor, from discard) |
+|  | Gain a Minor/Major/Other Power Card | gain-power-card(x) | Gain x Power Card. x is minor, major, or something else (icon appears in top left). It can also be blank | gain-power-card(minor) |
+|  | Gain a Minor/Major/Other Power Card with Other Note | gain-power-card(x,y) | Gain x Power Card with y condition. y is text to follow 'Gain x Power Card y'. x can be blank. | gain-power-card(minor, from discard) |
 |  | Gain a Minor/Major/Other Power Card with Note&Icon | gain-power-card(x,y,z) | Gain x Power Card with y condition. z is an icon that appears in the top right of the Power Card | Dances Up Earthquakes: or(add-presence(2),gain-power-card(major, without Forgetting,noforget)) |
 | Repeating Growth Options | Repeat Growth Options | ^x | Added to other growth options. x is the number of repeats. As seen on Fractured Days | gain-power-card^2; gain-energy(2)^3 |
 | Discarding Cards | Discard a Card w/ an Element | discard(x) | Discard a card with element x (as seen on Ember-Eyed) |  |
