@@ -670,6 +670,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         console.log("ERROR in GROWTH: add-presence() cannot be empty");
       }
       let presenceOptions = matches[1].split(",");
+      presenceOptions = presenceOptions.map((str) => str.trim());
       let presenceRange = presenceOptions[0];
       let addPresenceOpen = "<custom-presence>";
       let addPresenceClose = "</custom-presence>";
@@ -2098,7 +2099,7 @@ function getPresenceNodeHtml(
         case "token": {
           const matches = regExp.exec(splitOptions[0]);
           const tokenAdd = matches[1];
-          inner = `<icon class='your-land'>{misc-plus}${tokenAdd}</icon>`;
+          inner = `<icon class='your-land'>{misc-plus}{${tokenAdd}}</icon>`;
           subText = IconName(`add-token(${tokenAdd})`);
           break;
         }
@@ -2470,6 +2471,7 @@ function IconName(str, iconNum = 1) {
     } else {
       options = matches[1].split(",");
     }
+    options = options.map((str) => str.trim());
     num = options[0];
     if (!isNaN(num)) {
       num = numLocalize[lang][num] || num;
@@ -2483,7 +2485,7 @@ function IconName(str, iconNum = 1) {
   str = str.split("(")[0];
 
   // if its a number, but it starts with +/-
-  if (!isNaN(str) && isNaN(str[0])) {
+  if (str && !isNaN(str) && isNaN(str[0])) {
     num = str[1];
     str = "increase-energy";
   }
@@ -2866,24 +2868,26 @@ function IconName(str, iconNum = 1) {
       break;
     case "gain-power-card":
       if (txt) {
+        let numName = IconName(num);
         localize = {
-          en: `Gain ${IconName(num)} Power Card ${txt}`,
-          fr: `Gagnez ${IconName(num)} Carte Pouvoir ${txt}`,
+          en: `Gain ${numName} Power Card ${txt}`,
+          fr: `Gagnez ${numName} Carte Pouvoir ${txt}`,
           de: "Fähigkeiten-karte erhalten",
-          pl: `Pozyskaj ${IconName(num)} Kartę Mocy ${txt}`,
+          pl: `Pozyskaj ${numName} Kartę Mocy ${txt}`,
           ar: "",
           zh: "獲得法術牌",
-          hu: "${IconName(num)} Erőkártya szerzése ${txt}",
+          hu: `${numName} Erőkártya szerzése ${txt}`,
         };
       } else if (num) {
+        let numName = IconName(num);
         localize = {
-          en: `Gain ${IconName(num)} Power Card`,
-          fr: `Gagnez ${IconName(num)} Carte Pouvoir`,
+          en: `Gain ${numName} Power Card`,
+          fr: `Gagnez ${numName} Carte Pouvoir`,
           de: "Fähigkeiten-karte erhalten",
           pl: "Pozyskaj Kartę Mocy",
           ar: "",
           zh: "獲得法術牌",
-          hu: "${IconName(num)} Erőkártya szerzése",
+          hu: `${numName} Erőkártya szerzése`,
         };
       } else {
         localize = {
@@ -2900,24 +2904,26 @@ function IconName(str, iconNum = 1) {
       break;
     case "take-power-card":
       if (txt) {
+        let numName = IconName(num);
         localize = {
-          en: `Take ${IconName(num)} Power Card ${txt}`,
-          fr: `Prenez ${IconName(num)} Carte Pouvoir ${txt}`,
+          en: `Take ${numName} Power Card ${txt}`,
+          fr: `Prenez ${numName} Carte Pouvoir ${txt}`,
           de: "Fähigkeiten-karte nehmen",
           pl: "Weź Kartę Mocy",
           ar: "",
           zh: "拿取法術牌",
-          hu: "${IconName(num)} Erőkártya elvétele ${txt}",
+          hu: `${numName} Erőkártya elvétele ${txt}`,
         };
       } else if (num) {
+        let numName = IconName(num);
         localize = {
-          en: `Take ${IconName(num)} Power Card`,
-          fr: `Prenez ${IconName(num)} Carte Pouvoir`,
+          en: `Take ${numName} Power Card`,
+          fr: `Prenez ${numName} Carte Pouvoir`,
           de: "Fähigkeiten-karte nehmen",
           pl: "Weź Kartę Mocy",
           ar: "",
           zh: "拿取法術牌",
-          hu: `${IconName(num)} Erőkártya elvétele`,
+          hu: `${numName} Erőkártya elvétele`,
         };
       } else {
         localize = {
@@ -2963,41 +2969,43 @@ function IconName(str, iconNum = 1) {
       } else if (opt3) {
         if (num === 0 || num === "0") {
           // scaling, no flat energy
+          let perIcon = IconName(opt3);
           localize = {
             en: elementNames.has(opt3)
-              ? `Gain ${txt} Energy per ${IconName(opt3)} Showing`
-              : `Gain ${txt} Energy per ${IconName(opt3)}`,
+              ? `Gain ${txt} Energy per ${perIcon} Showing`
+              : `Gain ${txt} Energy per ${perIcon}`,
             fr: elementNames.has(opt3)
-              ? `Gagnez ${txt} Energie par ${IconName(opt3)} Présent`
-              : `Gagnez ${txt} Energie par ${IconName(opt3)}`,
+              ? `Gagnez ${txt} Energie par ${perIcon} Présent`
+              : `Gagnez ${txt} Energie par ${perIcon}`,
             de: elementNames.has(opt3)
-              ? `Erhalte ${txt} Energie pro ausliegendem ${IconName(opt3)}`
-              : `Erhalte ${txt} Energie pro ${IconName(opt3)}`,
+              ? `Erhalte ${txt} Energie pro ausliegendem ${perIcon}`
+              : `Erhalte ${txt} Energie pro ${perIcon}`,
             pl: ``,
             ar: ``,
             zh: ``,
             hu: elementNames.has(opt3)
-              ? `Szerzel ${txt} Energiát minden látható ${IconName(opt3)} után`
-              : `Szerzel ${txt} Energiát minden ${IconName(opt3)} után`,
+              ? `Szerzel ${txt} Energiát minden látható ${perIcon} után`
+              : `Szerzel ${txt} Energiát minden ${perIcon} után`,
           };
         } else {
           // scaling w/ flat energy
+          let perIcon = IconName(opt3);
           localize = {
             en: elementNames.has(opt3)
-              ? `Gain ${num} Energy and +${txt} more per ${IconName(opt3)} Showing`
-              : `Gain ${num} Energy and +${txt} more per ${IconName(opt3)}`,
+              ? `Gain ${num} Energy and +${txt} more per ${perIcon} Showing`
+              : `Gain ${num} Energy and +${txt} more per ${perIcon}`,
             fr: elementNames.has(opt3)
-              ? `Gagnez ${num} Energie et +${txt} plus par ${IconName(opt3)} Présent`
-              : `Gagnez ${num} Energie et +${txt} plus par ${IconName(opt3)}`,
+              ? `Gagnez ${num} Energie et +${txt} plus par ${perIcon} Présent`
+              : `Gagnez ${num} Energie et +${txt} plus par ${perIcon}`,
             de: elementNames.has(opt3)
-              ? `Erhalte ${num} Energie und +${txt} mehr pro ausliegender ${IconName(opt3)} `
-              : `Erhalte ${num} Energie und +${txt} mehr pro ${IconName(opt3)}`,
+              ? `Erhalte ${num} Energie und +${txt} mehr pro ausliegender ${perIcon} `
+              : `Erhalte ${num} Energie und +${txt} mehr pro ${perIcon}`,
             pl: ``,
             ar: ``,
             zh: ``,
             hu: elementNames.has(opt3)
-              ? `Szerzel ${num} Energiát és +${txt} minden látható ${IconName(opt3)} után`
-              : `Szerzel ${num} Energiát és +${txt}-t minden ${IconName(opt3)} után`,
+              ? `Szerzel ${num} Energiát és +${txt} minden látható ${perIcon} után`
+              : `Szerzel ${num} Energiát és +${txt}-t minden ${perIcon} után`,
           };
         }
       } else {
@@ -4392,6 +4400,9 @@ function IconName(str, iconNum = 1) {
         },
       };
       subText = localize[lang][str];
+      break;
+    case "":
+      subText = "";
       break;
     default:
       defaultProcessIcon();
