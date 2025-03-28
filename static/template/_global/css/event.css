@@ -352,15 +352,7 @@ event-line {
   bottom: 0%;
 }
 
-icon.sun,
-icon.moon,
-icon.fire,
-icon.air,
-icon.water,
-icon.earth,
-icon.plant,
-icon.animal,
-icon.any-element {
+icon.element {
   width: 25px;
   height: 25px;
   margin-top: -7px;
