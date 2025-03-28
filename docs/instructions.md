@@ -19,6 +19,7 @@ The best place to start with the Builder is to look at the Examples. The Builder
 - Download Image: Click this button to download a PNG of your Spirit Board or other content.
 - Export TTS file: Click this button to download an object file for the popular Spirit Island Tabletop Simulator mod.
   - Check out [this video](https://www.youtube.com/watch?v=q7zS8x9dO4s) for instructions on how to set up your spirit in TTS. - Thank you James from MissingTriggers for the video.
+  - Also check out the combined TTS export option in the left column.
 - Create PDF...: Click this button to download a pdf (in letter or A4) that is properly scaled for printing
 - Printer Friendly: Click this button to remove backgrounds that use up printer ink.
 - Transparent: Click this button to make the spirit board panels transparent so the spirit art is visible through the Growth and Innate Power panels.
@@ -408,7 +409,7 @@ Icons for invaders, elements, dahan, etc can be used by enclosing its name with 
 ### Modifying Icons
 Some options for changing how an icon displays:
 - no-: Nearly every icon can have a red X over it by adding 'no-' such as {no-blight}.
-- Or/: You can cluster icons with a / to keep them together through line breaks {explorer/town}
+- Or/: You can cluster icons with a / to keep them together through line breaks: {explorer/town}
 - Counts: You can add item counts like so {earth,2}. This only works in some contexts
 - Incarna icons: add "incarna-" to an icon and it will appear larger when used (typically "{incarna-custom1}")
 - Size options: add small-, medium-, large-, or huge- to an icon name to change its size (ie. "{large-dahan})

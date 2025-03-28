@@ -472,15 +472,7 @@ effect icon.gain-range-X {
   margin-bottom: -9px;
 }
 
-effect icon.sun,
-effect icon.earth,
-effect icon.plant,
-effect icon.fire,
-effect icon.air,
-effect icon.moon,
-effect icon.animal,
-effect icon.water,
-effect icon.any {
+effect icon.element {
   width: 45px;
   height: 30px;
   margin-left: -9px;

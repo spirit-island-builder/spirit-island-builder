@@ -3,6 +3,19 @@ function replaceIcon(html) {
 
   var regEx = new RegExp("(\\{[^\\}]*\\})", "ig");
   var matchs = result.match(regEx);
+  const elementNames = new Set([
+    "sun",
+    "moon",
+    "fire",
+    "air",
+    "plant",
+    "water",
+    "earth",
+    "animal",
+    "any",
+    "markerplus",
+    "markerminus",
+  ]);
   const terrainSingle = new Set(["wetland", "wetlands", "mountain", "sand", "sands", "jungle"]);
   const terrainDouble = new Set([
     "ocean",
@@ -69,59 +82,52 @@ function replaceIcon(html) {
     let iconClass = [];
 
     // Check for Size
-    let sizeClass = "";
     if (iconName.startsWith("huge-")) {
       iconName = iconName.substring(5);
-      sizeClass = " huge ";
       iconClass.push("huge");
     }
     if (iconName.startsWith("large-")) {
       iconName = iconName.substring(6);
-      sizeClass = " large ";
       iconClass.push("large");
     }
     if (iconName.startsWith("medium-")) {
       iconName = iconName.substring(7);
-      sizeClass = " medium ";
       iconClass.push("medium");
     }
     if (iconName.startsWith("small-")) {
       iconName = iconName.substring(6);
-      sizeClass = " small ";
       iconClass.push("small");
     }
 
     // Check for 'no'
-    // let is_no = "";
     let no_icon = "";
     if (iconName.startsWith("no-")) {
-      // is_no = "no ";
       no_icon = "<no-icon></no-icon>";
       iconName = iconName.substring(3);
     }
 
     // Check for terrain types
-    let is_terrain = "";
     if (terrainSingle.has(iconName)) {
-      is_terrain = " terrain-single";
       iconClass.push("terrain-single");
     } else if (terrainDouble.has(iconName)) {
-      is_terrain = " terrain-double";
       iconClass.push("terrain-double");
+    }
+
+    // Check for elements
+    if (elementNames.has(iconName)) {
+      iconClass.push("element");
     }
 
     // Check for Incarna
     if (iconName.startsWith("incarna-")) {
-      iconName = "incarna " + iconName.substring(8);
+      iconName = iconName.substring(8);
       iconClass.push("incarna");
     }
 
     // Check for Custom
-    let isCustom = "";
     let regex = /custom(\d+)/;
     const matches = regex.exec(iconName);
     if (matches) {
-      isCustom = " custom-icon ";
       iconClass.push("custom-icon");
     }
 
@@ -132,21 +138,19 @@ function replaceIcon(html) {
       HTMLTag = "range";
       range_num = iconName.substring(6);
       if (isNaN(range_num)) {
-        range_num = '<icon class="range-small-icon ' + range_num + '"></icon>';
+        range_num = `<icon class="range-small-icon ${range_num}"></icon>`;
       } else {
-        range_num = "<range-value>" + range_num + "</range-value>";
+        range_num = `<range-value>${range_num}</range-value>`;
       }
       iconName = "range";
       num_val = range_num;
     } else if (iconName.startsWith("gain-range-")) {
       HTMLTag = "range";
-
       range_num = "+" + iconName.substring(11);
       iconName = "gain-range";
       num_val = range_num;
     } else if (iconName.startsWith("lose-range-")) {
       HTMLTag = "range";
-
       range_num = "-" + iconName.substring(11);
       iconName = "gain-range";
       num_val = range_num;
@@ -157,7 +161,7 @@ function replaceIcon(html) {
       if (isNaN(energy_num)) {
       } else {
         HTMLTag = "custom-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
-        energy_num = "<value>" + energy_num + "</value>";
+        energy_num = `<value>${energy_num}</value>`;
         iconName = "";
         num_val = energy_num;
         console.log("energy icon test");
@@ -167,7 +171,7 @@ function replaceIcon(html) {
       if (isNaN(energy_num)) {
       } else {
         HTMLTag = "custom-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
-        energy_num = "<value>" + energy_num + "</value>";
+        energy_num = `<value>${energy_num}</value>`;
         iconName = "gain";
         num_val = energy_num;
         console.log("energy gain icon test");
@@ -181,16 +185,7 @@ function replaceIcon(html) {
       //FINAL OUTPUT
       iconClass.push(iconName);
       iconHtml +=
-        `<` +
-        HTMLTag +
-        ` class="` +
-        iconClass.join(" ") +
-        `">` +
-        num_val +
-        no_icon +
-        `</` +
-        HTMLTag +
-        `>`;
+        `<${HTMLTag} class="${iconClass.join(" ")}">` + num_val + no_icon + `</${HTMLTag}>`;
     }
     return iconHtml;
   }

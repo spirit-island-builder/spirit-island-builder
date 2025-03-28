@@ -97,15 +97,7 @@ special-rule icon {
   margin-bottom: -7px;
 }
 
-special-rule icon.fire,
-special-rule icon.earth,
-special-rule icon.plant,
-special-rule icon.animal,
-special-rule icon.air,
-special-rule icon.water,
-special-rule icon.any,
-special-rule icon.moon,
-special-rule icon.sun {
+special-rule icon.element {
   height: 25px;
   width: 25px;
 }
@@ -277,18 +269,7 @@ special-rule em icon.dahan {
   margin-right: -4px;
 }
 
-special-rule icon.sun,
-special-rule icon.earth,
-special-rule icon.plant,
-special-rule icon.fire,
-special-rule icon.air,
-special-rule icon.moon,
-special-rule icon.animal,
-special-rule icon.water,
-special-rule icon.any,
-special-rule icon.markerplus,
-special-rule icon.markerminus,
-special-rule icon.markerquestion {
+special-rule icon.element {
   width: 35px;
   height: 35px;
   margin-left: 0px;
@@ -410,15 +391,7 @@ special-rules-track icon.any {
   background-image: url("../../images/board/Any.png");
 }
 
-special-rules-track icon.sun,
-special-rules-track icon.earth,
-special-rules-track icon.plant,
-special-rules-track icon.fire,
-special-rules-track icon.air,
-special-rules-track icon.moon,
-special-rules-track icon.animal,
-special-rules-track icon.water,
-special-rules-track icon.any {
+special-rules-track icon.element {
   width: 65px;
   height: 65px;
 }
@@ -479,4 +452,21 @@ special-rule icon.incarna {
   height: 40px;
   margin-top: -13px;
   margin-bottom: -10px;
+}
+
+special-rule icon.small {
+  width: 25px;
+  height: 25px;
+}
+special-rule icon.medium {
+  width: 35px;
+  height: 35px;
+}
+special-rule icon.large {
+  width: 45px;
+  height: 45px;
+}
+special-rule icon.huge {
+  width: 55px;
+  height: 55px;
 }
