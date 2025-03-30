@@ -820,20 +820,12 @@ threshold icon.any {
   background-image: url(../images/board/element_simple_any.png);
 }
 
-threshold icon.sun,
-threshold icon.moon,
-threshold icon.fire,
-threshold icon.air,
-threshold icon.water,
-threshold icon.earth,
-threshold icon.plant,
-threshold icon.animal,
-threshold icon.any {
+threshold icon.element {
   width: 32px;
   height: 32px;
   margin-bottom: -5px;
   margin-left: 1px;
-  margin-right: 5px;
+  margin-right: 1px;
 }
 
 threshold icon.last {
@@ -909,4 +901,14 @@ card.printer-clean name {
 
 card.printer-clean card-art {
   z-index: 1;
+}
+
+rules-container range.gain-range {
+  font-size: 24px;
+  background-position-y: 23px;
+  justify-content: flex-start;
+  padding-left: 10px;
+  width: 40px;
+  bottom: 4px;
+  margin-right: 4px;
 }

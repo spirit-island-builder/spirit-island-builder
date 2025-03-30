@@ -1759,15 +1759,7 @@ gain-per-element icon {
 }
 
 gain-per-element icon,
-gain-per-element icon.fire,
-gain-per-element icon.any,
-gain-per-element icon.water,
-gain-per-element icon.air,
-gain-per-element icon.earth,
-gain-per-element icon.animal,
-gain-per-element icon.plant,
-gain-per-element icon.sun,
-gain-per-element icon.moon,
+gain-per-element icon.element,
 gain-per-element icon.sacred-site,
 gain-per-element icon.destroyed-presence,
 gain-per-element icon.explorer,
@@ -1904,15 +1896,7 @@ gain-per-fear ring-icon {
 }
 
 gain-per-fear icon,
-gain-per-fear icon.fire,
-gain-per-fear icon.any,
-gain-per-fear icon.water,
-gain-per-fear icon.air,
-gain-per-fear icon.earth,
-gain-per-fear icon.animal,
-gain-per-fear icon.plant,
-gain-per-fear icon.sun,
-gain-per-fear icon.moon,
+gain-per-fear icon.element,
 gain-per-fear icon.sacred-site,
 gain-per-fear icon.destroyed-presence,
 gain-per-fear icon.explorer,

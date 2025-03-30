@@ -181,10 +181,10 @@ function getThresholdElements(conditions) {
   for (let i = 0; i < condition.length; i++) {
     var number = condition[i].split("-")[0].trim();
     var element = condition[i].split("-")[1].trim();
-    if (i === condition.length - 1) {
-      result += `${number}<icon class="${element} last"></icon>`;
+    if (i === 0) {
+      result += `${number}{${element}}`;
     } else {
-      result += `${number}<icon class="${element}"></icon>`;
+      result += ` ${number}{${element}}`;
     }
   }
   return result;
