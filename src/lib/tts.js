@@ -39,6 +39,7 @@ export const getThresholdTTSJSON = (
   let debug = true;
   let thresholds = [];
   if (debug) {
+    console.log("Threhsold from lib/tts.js");
     console.log(component);
     console.log(thresholdTags);
   }
@@ -47,7 +48,6 @@ export const getThresholdTTSJSON = (
   const thresholdsNodes = Array.from(thresholdTags);
   thresholdsNodes.forEach((threshold) => {
     let childNodesArray = Array.from(threshold.childNodes);
-
     const elementNames = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
     let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -59,7 +59,9 @@ export const getThresholdTTSJSON = (
       if (child.tagName === "THRESHOLD-NUM") {
         lastNum = child.innerHTML.trim();
       } else if (child.tagName === "ICON") {
-        let findIndex = elementNames.findIndex((el) => el === child.className.trim());
+        let findIndex = elementNames.findIndex(
+          (el) => el === child.classList.item(child.classList.length - 1)
+        );
         elCountArrays[j][findIndex] = lastNum;
         lastNum = 0;
       } else if (child.tagName === "THRESHOLD-OR") {
