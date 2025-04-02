@@ -179,3 +179,16 @@ blight-card dev-overlay {
   pointer-events: none;
   z-index: 101;
 }
+
+blight-back {
+  display: block;
+  background-image: url(../images/cards/Blight/Healthy_Back_Erratum.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 488px;
+  height: 682px;
+  border-radius: 22px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+}

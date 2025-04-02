@@ -15,6 +15,12 @@
     document.getElementById("updateButton").click();
   }
 
+  function toggleBack(val) {
+    blightCard.showBack = val;
+    blightCard = blightCard;
+    document.getElementById("updateButton").click();
+  }
+
   function selectNode(event) {
     let nodeID = event.target.id;
     document.getElementById(nodeID).select();
@@ -69,5 +75,12 @@
         validAutoCompleteValues={iconValuesSorted}
         bind:value={blightCard.card.cardEffect} />
     </div>
+    {#if blightCard.showBack === true}
+      <button class="button is-warning is-light mb-0" on:click={toggleBack(false, blightCard)}
+        >Hide Back</button>
+    {:else}
+      <button class="button is-success is-light mb-0" on:click={toggleBack(true, blightCard)}
+        >Show Back</button>
+    {/if}
   </div>
 </Section>

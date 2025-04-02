@@ -522,8 +522,10 @@ rules > div {
 
 threshold {
   position: relative;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
   width: 346px;
   padding-left: 5px;
   padding-right: 5px;
