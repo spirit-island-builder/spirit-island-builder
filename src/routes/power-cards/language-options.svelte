@@ -20,6 +20,10 @@
       on:click={setLanguage("en", powerCards)}>English</button>
     <button
       class="button is-small is-success"
+      class:is-light={powerCards.language !== "fr"}
+      on:click={setLanguage("fr", powerCards)}>Français</button>
+    <button
+      class="button is-small is-success"
       class:is-light={powerCards.language !== "de"}
       on:click={setLanguage("de", powerCards)}>Deutsch</button>
     <button
