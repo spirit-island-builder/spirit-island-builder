@@ -67,6 +67,12 @@
     blightCardHTML.appendChild(blightEffect);
     blightEffect.innerHTML = blightCard.card.cardEffect;
 
+    //Show back?
+    if (blightCard.showBack) {
+      let blightBackHTML = document.createElement("blight-back");
+      fragment.appendChild(blightBackHTML);
+    }
+
     //Set Custom Icons
     let customIconText = Lib.getCustomIconHTML(blightCard.customIcons);
     const blightCardStyle = document.createElement("style");
@@ -127,6 +133,10 @@
   function screenshotSetUp() {
     const fileNames = [blightCard.card.cardName.replaceAll(" ", "_") + "_BlightCard.png"];
     const elementNamesInIframe = ["blight-card"];
+    if (blightCard.showBack) {
+      fileNames.push(blightCard.card.cardName.replaceAll(" ", "_") + "_BlightCard.png");
+      elementNamesInIframe.push("blight-back");
+    }
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
   }
 
