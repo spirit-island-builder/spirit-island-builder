@@ -4,6 +4,7 @@
   export let accept;
   export let loadObjectURL;
   export let loadDataURL;
+  export let hovertext = "";
 
   let fileInput;
   let files;
@@ -31,4 +32,4 @@
 </script>
 
 <input hidden type="file" {accept} bind:files bind:this={fileInput} on:change={handleInput} />
-<button class={classList} on:click={() => fileInput.click()}> <slot /> </button>
+<button class={classList} title={hovertext} on:click={() => fileInput.click()}> <slot /> </button>
