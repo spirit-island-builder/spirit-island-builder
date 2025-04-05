@@ -516,6 +516,7 @@
       <button class="button is-info js-modal-trigger mr-1 mt-1" on:click={exampleModal.open}>
         Examples
       </button>
+      <InstructionsLink class="button is-info mt-1 mr-1" anchor="power-cards" />
       <LoadButton
         accept=".html"
         class="button is-success mr-1 mt-1"
@@ -524,6 +525,7 @@
       </LoadButton>
       <LoadButton
         accept=".html"
+        hovertext="Loads additional power cards into current set"
         class="button is-success mr-1 mt-1"
         loadObjectURL={additiveLoadHTMLFromURL}>
         Additive Load
@@ -534,7 +536,6 @@
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
         >Toggle Preview Size</button>
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
-      <InstructionsLink class="button is-info mt-1 mr-1" anchor="power-cards" />
     </div>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
       <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}
