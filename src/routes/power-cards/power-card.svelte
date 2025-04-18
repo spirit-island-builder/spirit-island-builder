@@ -6,8 +6,10 @@
   import ImageInput from "$lib/image-input.svelte";
   import * as Lib from "../lib";
   // import {exportSinglePowerCard} from "./index.svelte";
+  import LoadButton from "$lib/load-button.svelte";
 
   export let exportSingleCard = () => {};
+  export let additivePowerLoad = () => {};
 
   function setSpeedTextbox(powerSpeed, card) {
     card.speed = powerSpeed;
@@ -195,8 +197,6 @@
   }
 
   function saveSingleCard(card) {
-    console.log("saving single power card");
-    console.log(card);
     let powerCardsJSONCopy = JSON.parse(JSON.stringify(powerCards));
     powerCardsJSONCopy.cards.splice(0, powerCardsJSONCopy.cards.length);
     powerCardsJSONCopy.cards = powerCards.cards.filter((mycard) => mycard.id === card.id);
@@ -499,7 +499,14 @@
   {/each}
 </div>
 <div class="mb-1 mt-1 is-flex is-justify-content-right">
-  <button class="button is-small is-primary is-light" on:click={addEmptyPowerCard}
+  <LoadButton
+    accept=".html"
+    hovertext="Loads additional power cards into current set"
+    class="button is-primary is-light is-small"
+    loadObjectURL={additivePowerLoad}>
+    Additive Load
+  </LoadButton>
+  <button class="button is-small is-success is-light" on:click={addEmptyPowerCard}
     >Add Power Card</button>
 </div>
 <Section
