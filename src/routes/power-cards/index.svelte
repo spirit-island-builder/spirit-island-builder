@@ -34,6 +34,10 @@
     reloadPreview();
   }
 
+  const additiveLoadExportFunction = (url) => {
+    additiveLoadHTMLFromURL(url);
+  };
+
   async function additiveLoadHTMLFromURL(url) {
     url = new URL(url, document.baseURI);
     let loadedDocument = await Lib.loadHTML(url);
@@ -493,7 +497,10 @@
 
 <div class="columns ml-4 mt-0 mb-1">
   <div class="column is-one-third pt-0">
-    <PowerCard bind:powerCards exportSingleCard={exportSinglePowerCard} />
+    <PowerCard
+      bind:powerCards
+      exportSingleCard={exportSinglePowerCard}
+      additivePowerLoad={additiveLoadExportFunction} />
     <div class="content mb-0 mt-2">Options</div>
     <CustomIcons customIcons={powerCards.customIcons} />
     <LanguageOptions bind:powerCards />
@@ -527,13 +534,6 @@
         class="button is-success mr-1 mt-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
-      <LoadButton
-        accept=".html"
-        hovertext="Loads additional power cards into current set"
-        class="button is-success mr-1 mt-1"
-        loadObjectURL={additiveLoadHTMLFromURL}>
-        Additive Load
       </LoadButton>
       <button class="button is-success mt-1 mr-1" on:click={exportPowerCards}> Save </button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
