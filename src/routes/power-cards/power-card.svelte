@@ -5,6 +5,9 @@
   import Section from "$lib/section.svelte";
   import ImageInput from "$lib/image-input.svelte";
   import * as Lib from "../lib";
+  // import {exportSinglePowerCard} from "./index.svelte";
+
+  export let exportSingleCard = () => {};
 
   function setSpeedTextbox(powerSpeed, card) {
     card.speed = powerSpeed;
@@ -189,6 +192,15 @@
     card.type = type;
     powerCards = powerCards;
     document.getElementById("updateButton").click();
+  }
+
+  function saveSingleCard(card) {
+    console.log("saving single power card");
+    console.log(card);
+    let powerCardsJSONCopy = JSON.parse(JSON.stringify(powerCards));
+    powerCardsJSONCopy.cards.splice(0, powerCardsJSONCopy.cards.length);
+    powerCardsJSONCopy.cards = powerCards.cards.filter((mycard) => mycard.id === card.id);
+    exportSingleCard(powerCardsJSONCopy);
   }
 
   const elements = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
@@ -477,6 +489,10 @@
               bind:value={card.cardArtist} />
           </div>
         </div>
+      </div>
+      <div>
+        <button class="button is-success is-light mb-0" on:click={saveSingleCard(card)}
+          >Export Single Card</button>
       </div>
       <hr />
     </Section>

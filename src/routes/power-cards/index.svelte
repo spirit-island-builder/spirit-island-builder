@@ -264,6 +264,11 @@
     downloadHTML(generateHTML(powerCards), htmlFileName);
   }
 
+  const exportSinglePowerCard = (powerCardSingle) => {
+    const htmlFileName = powerCardSingle.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
+    downloadHTML(generateHTML(powerCardSingle), htmlFileName);
+  };
+
   function screenshotSetUp() {
     const fileNames = [];
     const elementNamesInIframe = [];
@@ -491,7 +496,7 @@
 
 <div class="columns ml-4 mt-0 mb-1">
   <div class="column is-one-third pt-0">
-    <PowerCard bind:powerCards />
+    <PowerCard bind:powerCards exportSingleCard={exportSinglePowerCard} />
     <div class="content mb-0 mt-2">Options</div>
     <CustomIcons customIcons={powerCards.customIcons} />
     <LanguageOptions bind:powerCards />
