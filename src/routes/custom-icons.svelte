@@ -41,7 +41,9 @@
         &lbrace;medium-custom1&rbrace;
       </li>
       <li>
-        Do NOT use a Display Name until you notice text like 'custom1' showing up on your board.
+        Display Name is optional and may cause errors. Do NOT use a Display Name until you notice
+        text like 'custom1' showing up on your board. Do not put brackets of any kind in the Display
+        Name.
       </li>
     </ul>
   </div>
@@ -72,7 +74,7 @@
       </div>
       <div class="field is-flex is-flex-direction-row mb-1">
         <div class="field-label is-small">
-          <label class="label">Display Name for custom{i + 1} (Optional):</label>
+          <label class="label">Display Name (optional):</label>
         </div>
         <div class="control">
           <input

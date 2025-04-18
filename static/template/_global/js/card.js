@@ -147,7 +147,7 @@ function setThreshold(card) {
     if (conditions) {
       threshold.innerHTML = `<threshold-condition id="${
         card.id
-      }thresholdCondition"><span>${getThresholdElements(conditions)}:</span></threshold-condition>${
+      }thresholdCondition">${getThresholdElements(conditions)}:</threshold-condition>${
         threshold.innerHTML
       }`;
     }
@@ -158,9 +158,7 @@ function setThreshold(card) {
       var addCondition = secondThreshold.getAttribute("condition");
       var addConditionText = `<threshold-condition id="${
         card.id
-      }thresholdCondition${1}"><span>${getThresholdElements(
-        addCondition
-      )}:</span></threshold-condition>`;
+      }thresholdCondition${1}">${getThresholdElements(addCondition)}:</threshold-condition>`;
       threshold.innerHTML += addConditionText + secondThreshold.innerHTML;
       secondThreshold.remove();
     }
@@ -377,6 +375,13 @@ let localize = {
     land: "TARGET LAND",
     spirit: "TARGET",
     threshold: "IF YOU HAVE",
+  },
+  fr: {
+    speed: "VITESSE",
+    range: "PORTEE",
+    land: "REGION CIBLE",
+    spirit: "CIBLE",
+    threshold: "SI VOUS AVEZ",
   },
   de: {
     speed: "WANN",

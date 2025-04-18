@@ -14,7 +14,7 @@
 
   import powerCardsJsonTemplate from "./tts-power-card.json";
   import jsone from "json-e";
-  import { createTTSSave, getThresholdTTSJSON, toFixedNumber, ttsSaveMIMEType } from "$lib/tts.js";
+  import { createTTSSave, getThresholdTTSJSON, ttsSaveMIMEType } from "$lib/tts.js";
   import InstructionsLink from "$lib/instructions/link.svelte";
   import LanguageOptions from "./language-options.svelte";
 
@@ -31,6 +31,13 @@
     url = new URL(url, document.baseURI);
     let loadedDocument = await Lib.loadHTML(url);
     readHTML(loadedDocument, url);
+    reloadPreview();
+  }
+
+  async function additiveLoadHTMLFromURL(url) {
+    url = new URL(url, document.baseURI);
+    let loadedDocument = await Lib.loadHTML(url);
+    additiveReadHTML(loadedDocument, url);
     reloadPreview();
   }
 
@@ -186,6 +193,18 @@
     }
   }
 
+  function additiveReadHTML(htmlElement, baseURI) {
+    console.log("Attempting additive load form (f=readHTML)");
+    //Reads the Template HTML file into the Form
+    const newPowerCardsHTML = htmlElement.querySelectorAll("quick-card");
+    console.log("Loading " + newPowerCardsHTML.length + " cards...");
+
+    //Iterate through the cards
+    newPowerCardsHTML.forEach((powerCardHTML) => {
+      addPowerCard(powerCards, powerCardHTML, baseURI);
+    });
+  }
+
   function addPowerCard(powerCards, powerCardHTML, baseURI) {
     let rulesHTML = powerCardHTML.querySelectorAll("rules")[0];
     let rulesPush = "";
@@ -291,7 +310,6 @@
     let powerCardsJson = [];
     powerCards.cards.forEach((card, index) => {
       let cardTemplate = cardsTemplate[index];
-      let cardRect = cardTemplate.getBoundingClientRect();
 
       let elements = "";
       elements += card.powerElements.sun ? 1 : 0;
@@ -312,13 +330,12 @@
 
       let thresholdText;
       let thresholds = [];
+      // let thresholdsOLD = [];
       if (card.hasThreshold && card.thresholdCondition.length > 0) {
         thresholdText =
           'function onLoad(saved_data)\n    if saved_data ~= "" then\n        local loaded_data = JSON.decode(saved_data)\n        self.setTable("thresholds", loaded_data.thresholds)\n    end\nend\n-- card loading end';
         //"{\"thresholds\": [{\"elements\": \"00030000\", \"position\": {\"x\": 0.07, \"y\": 0, \"z\": 1.09}}]}"
-        const thresholdNode = cardTemplate
-          .getElementsByTagName("threshold-condition")[0]
-          .getElementsByTagName("span")[0];
+        const thresholdNode = cardTemplate.getElementsByTagName("threshold-condition")[0];
 
         let icons = Array.from(thresholdNode.getElementsByTagName("icon"));
         let elementNums = thresholdNode.innerHTML
@@ -346,37 +363,17 @@
           }
         });
         console.log(elementCounts);
-        let thresholdSpan = thresholdNode.getBoundingClientRect();
-        thresholds.push({
-          elements: elementCounts.join(""),
-          position: {
-            x: toFixedNumber(
-              (-(cardRect.width / cardRect.height) *
-                (-43 + thresholdSpan.left - cardRect.x - cardRect.width / 2)) /
-                (cardRect.width / 2),
-              4
-            ),
-            y: 0,
-            z: toFixedNumber(
-              ((cardRect.height / cardRect.width) *
-                (thresholdSpan.y + thresholdSpan.height - cardRect.y - cardRect.height / 2)) /
-                (cardRect.height / 2),
-              // (thresholdSpan.y + thresholdSpan.height / 2 - cardRect.y - cardRect.height / 2) / (cardRect.height / 2),
-              4
-            ),
-          },
-        });
       } else {
         // No Threshold
         thresholdText = "";
       }
-      thresholds = JSON.stringify({ thresholds: thresholds });
-      let thresholds2 = getThresholdTTSJSON(
+      thresholds = getThresholdTTSJSON(
         cardTemplate,
-        cardTemplate.getElementsByTagName("threshold-condition")[0]
+        cardTemplate.getElementsByTagName("threshold-condition")
       );
+      thresholds = JSON.stringify({ thresholds });
+      // console.log(thresholdsOLD);
       console.log(thresholds);
-      console.log(thresholds2);
 
       let powerCardJson = jsone(powerCardsJsonTemplate, {
         guid: card.name.replaceAll(" ", "_"),
@@ -524,11 +521,19 @@
       <button class="button is-info js-modal-trigger mr-1 mt-1" on:click={exampleModal.open}>
         Examples
       </button>
+      <InstructionsLink class="button is-info mt-1 mr-1" anchor="power-cards" />
       <LoadButton
         accept=".html"
         class="button is-success mr-1 mt-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
+      </LoadButton>
+      <LoadButton
+        accept=".html"
+        hovertext="Loads additional power cards into current set"
+        class="button is-success mr-1 mt-1"
+        loadObjectURL={additiveLoadHTMLFromURL}>
+        Additive Load
       </LoadButton>
       <button class="button is-success mt-1 mr-1" on:click={exportPowerCards}> Save </button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
@@ -536,7 +541,6 @@
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
         >Toggle Preview Size</button>
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
-      <InstructionsLink class="button is-info mt-1 mr-1" anchor="power-cards" />
     </div>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
       <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}

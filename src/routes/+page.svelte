@@ -663,6 +663,7 @@
   let emptyBlightCard = {
     prop: "value",
     demoBoardWasLoaded: false,
+    showBack: false,
     previewBoard: {
       isVisible: false,
     },
