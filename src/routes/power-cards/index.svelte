@@ -34,6 +34,17 @@
     reloadPreview();
   }
 
+  const additiveLoadExportFunction = (url) => {
+    additiveLoadHTMLFromURL(url);
+  };
+
+  async function additiveLoadHTMLFromURL(url) {
+    url = new URL(url, document.baseURI);
+    let loadedDocument = await Lib.loadHTML(url);
+    additiveReadHTML(loadedDocument, url);
+    reloadPreview();
+  }
+
   const demoURL = "/template/MyCustomContent/MyPowerCard/Examples_PowerCards.html";
   function onLoad() {
     if (powerCards.demoBoardWasLoaded === false) {
@@ -186,6 +197,18 @@
     }
   }
 
+  function additiveReadHTML(htmlElement, baseURI) {
+    console.log("Attempting additive load form (f=readHTML)");
+    //Reads the Template HTML file into the Form
+    const newPowerCardsHTML = htmlElement.querySelectorAll("quick-card");
+    console.log("Loading " + newPowerCardsHTML.length + " cards...");
+
+    //Iterate through the cards
+    newPowerCardsHTML.forEach((powerCardHTML) => {
+      addPowerCard(powerCards, powerCardHTML, baseURI);
+    });
+  }
+
   function addPowerCard(powerCards, powerCardHTML, baseURI) {
     let rulesHTML = powerCardHTML.querySelectorAll("rules")[0];
     let rulesPush = "";
@@ -263,6 +286,11 @@
     const htmlFileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
     downloadHTML(generateHTML(powerCards), htmlFileName);
   }
+
+  const exportSinglePowerCard = (powerCardSingle) => {
+    const htmlFileName = powerCardSingle.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
+    downloadHTML(generateHTML(powerCardSingle), htmlFileName);
+  };
 
   function screenshotSetUp() {
     const fileNames = [];
@@ -469,7 +497,10 @@
 
 <div class="columns ml-4 mt-0 mb-1">
   <div class="column is-one-third pt-0">
-    <PowerCard bind:powerCards />
+    <PowerCard
+      bind:powerCards
+      exportSingleCard={exportSinglePowerCard}
+      additivePowerLoad={additiveLoadExportFunction} />
     <div class="content mb-0 mt-2">Options</div>
     <CustomIcons customIcons={powerCards.customIcons} />
     <LanguageOptions bind:powerCards />
@@ -497,6 +528,7 @@
       <button class="button is-info js-modal-trigger mr-1 mt-1" on:click={exampleModal.open}>
         Examples
       </button>
+      <InstructionsLink class="button is-info mt-1 mr-1" anchor="power-cards" />
       <LoadButton
         accept=".html"
         class="button is-success mr-1 mt-1"
@@ -509,7 +541,6 @@
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
         >Toggle Preview Size</button>
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
-      <InstructionsLink class="button is-info mt-1 mr-1" anchor="power-cards" />
     </div>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
       <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}
