@@ -1323,6 +1323,16 @@ growth-cost::after {
   top: 44px;
 }
 
+growth-cost::after:lang(de) {
+  content: "Kosten";
+}
+growth-cost::after:lang(fr) {
+  content: "Cost";
+}
+growth-cost::after:lang(hu) {
+  content: "Cost";
+}
+
 board.hide-text growth-cost::after {
   visibility: hidden;
 }
@@ -1333,19 +1343,23 @@ growth-cost.custom {
   top: -35px;
   padding-top: 1px;
   float: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 growth-cost.custom > icon {
   height: 45px;
   width: 45px;
-  display: inline-block;
+  display: block;
+  position: relative;
 }
 
 growth-cost.custom value {
   text-shadow: -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px -1.5px 0 #fff;
-  position: relative;
-  top: 4px;
-  left: -2px;
+  position: absolute;
+  top: -1px;
+  left: 5px;
 }
 
 growth-cost.custom::after {
@@ -1353,9 +1367,12 @@ growth-cost.custom::after {
   font-family: "Lato SemiBold";
   font-size: 18.66px;
   font-style: italic;
-  position: absolute;
-  left: 3px;
-  top: 44px;
+  display: flex;
+  top: 35px;
+}
+
+growth-cost.custom:lang(de)::after {
+  content: "Kosten";
 }
 
 board.hide-text growth-cost.custom::after {
@@ -1382,11 +1399,11 @@ growth-cost-custom-nonscaling-description {
   font-size: 14px;
   font-style: italic;
   width: 120px;
-  margin-top: -5px;
-  margin-left: 45px;
   line-height: 16px;
   text-align: center;
   position: absolute;
+  left: 45px;
+  top: -4px;
 }
 
 presence-special-req {

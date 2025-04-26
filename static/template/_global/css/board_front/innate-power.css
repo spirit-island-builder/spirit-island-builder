@@ -778,12 +778,14 @@ cost-threshold {
   font-style: italic;
   font-size: 20px;
   color: black;
-  top: 22px;
-  left: 6px;
   text-transform: capitalize;
   position: relative;
-  margin-right: -30px;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  flex-direction: column-reverse;
+  top: -2px;
+  flex-wrap: nowrap;
+  align-items: center;
 }
 
 board.hide-text cost-threshold {
@@ -797,12 +799,17 @@ cost-energy {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  display: inline-block;
+  display: block;
   z-index: 1;
   position: relative;
-  top: -40px;
-  left: -36px;
-  margin-bottom: -15px;
+  top: -8px;
+}
+
+cost-text {
+  display: block;
+  position: absolute;
+  top: 33px;
+  margin-right: 3px;
 }
 
 board.hide-text cost-energy {
@@ -908,13 +915,10 @@ cost-threshold icon.cost-custom {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  display: inline-block;
-  z-index: 1;
   position: relative;
-  top: -41px;
-  left: -38px;
-  margin-bottom: -15px;
-  margin-left: 1px;
+  display: block;
+  z-index: 1;
+  top: -4px;
 }
 
 .cost-custom > value {
