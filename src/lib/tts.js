@@ -66,7 +66,7 @@ export const getThresholdTTSJSON = (
         lastNum = 0;
       } else if (!isNaN(child.nodeValue)) {
         // Used in power card thresholds
-        lastNum = child.nodeValue.trim();
+        lastNum = child.nodeValue?.trim();
       } else if (child.tagName === "THRESHOLD-OR") {
         j++;
         elCountArrays.push([0, 0, 0, 0, 0, 0, 0, 0]);

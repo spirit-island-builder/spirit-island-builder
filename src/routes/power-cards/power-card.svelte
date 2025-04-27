@@ -117,6 +117,7 @@
     });
 
     powerCards = powerCards;
+    document.getElementById("updateButton").click();
   }
 
   function updatePowerName(card, ID, type) {

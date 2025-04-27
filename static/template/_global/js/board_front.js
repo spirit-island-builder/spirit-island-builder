@@ -1525,7 +1525,13 @@ let CardPlays = {
   pl: "Zagrane Karty",
   hu: "Kijátszható kártyák",
 };
-
+let Cost = {
+  en: "Cost",
+  fr: "",
+  de: "Kosten",
+  pl: "",
+  hu: "",
+};
 let landtypeNames = {
   en: {
     "ocean": "Ocean",
@@ -5651,10 +5657,14 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
     } else if (currentElement.toUpperCase().startsWith("COST")) {
       if (currentElement.split("(")[1]) {
         const customCost = regExp.exec(currentElement)[1];
-        currentThresholdPieces[k] = `<cost-threshold>Cost<icon class='${customCost} cost-custom'>
+        currentThresholdPieces[
+          k
+        ] = `<cost-threshold><cost-text>${Cost[lang]}</cost-text><icon class='${customCost} cost-custom'>
           <value>-${currentNumeral}</value></icon></cost-threshold>`;
       } else {
-        currentThresholdPieces[k] = `<cost-threshold>Cost<cost-energy><value>- ${currentNumeral}
+        currentThresholdPieces[
+          k
+        ] = `<cost-threshold><cost-text>${Cost[lang]}</cost-text><cost-energy><value>- ${currentNumeral}
         </value></cost-energy></cost-threshold>`;
       }
     } else {
