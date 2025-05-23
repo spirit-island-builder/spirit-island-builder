@@ -115,6 +115,7 @@ const growthValues = [
       "add-token(x,y,z) : At range x, add token of type y to land with condition z (such as terrain or other token presence)",
     ],
   },
+  { label: "blank", value: "blank()", detail: ["blank() : Creates a blank space"] },
   {
     label: "custom",
     value: "custom()",
@@ -309,7 +310,16 @@ const growthValues = [
       "replace(x,y,z) : At range x, Replace entity y with entity z.",
     ],
   },
-  { label: "blank", value: "blank()", detail: ["blank() : Creates a blank space"] },
+  {
+    label: "take-power-card",
+    value: "take-power-card()",
+    detail: [
+      "take-power-card() : Take a Power Card",
+      "take-power-card(x) : Take x Power Card. x is minor, major, or something else (icon appears in top left)",
+      "take-power-card(x,y) : Take x Power Card with y condition. y is text to follow 'Take x Power Card'",
+      "take-power-card(x,y,z) : Take x Power Card with y condition. z is an icon that appears in the top right of the Power Card",
+    ],
+  },
 ];
 
 export const growthValuesSorted = growthValues.sort((a, b) => {

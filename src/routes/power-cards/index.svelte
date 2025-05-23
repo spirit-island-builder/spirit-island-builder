@@ -42,6 +42,7 @@
     url = new URL(url, document.baseURI);
     let loadedDocument = await Lib.loadHTML(url);
     additiveReadHTML(loadedDocument, url);
+    powerCards = powerCards;
     reloadPreview();
   }
 
