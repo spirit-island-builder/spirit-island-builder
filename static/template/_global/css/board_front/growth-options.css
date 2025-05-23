@@ -1311,6 +1311,8 @@ growth-cost {
   margin-left: -45px;
   padding-top: 9px;
   transform: translateX(100%);
+  display: flex;
+  justify-content: center;
 }
 
 growth-cost::after {
@@ -1319,18 +1321,17 @@ growth-cost::after {
   font-size: 18.66px;
   font-style: italic;
   position: absolute;
-  left: 3px;
   top: 44px;
 }
 
-growth-cost::after:lang(de) {
+growth-cost:lang(de)::after {
   content: "Kosten";
 }
-growth-cost::after:lang(fr) {
-  content: "Cost";
+growth-cost:lang(hu)::after {
+  content: "Költség";
 }
-growth-cost::after:lang(hu) {
-  content: "Cost";
+growth-cost:lang(pl)::after {
+  content: "Koszt";
 }
 
 board.hide-text growth-cost::after {

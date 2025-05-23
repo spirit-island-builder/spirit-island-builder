@@ -441,3 +441,8 @@ icon.range-small-icon {
   display: block;
   top: 2px;
 }
+
+adversary rule-line {
+  display: inline-block;
+  width: 100%;
+}

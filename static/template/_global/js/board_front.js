@@ -1529,8 +1529,8 @@ let Cost = {
   en: "Cost",
   fr: "",
   de: "Kosten",
-  pl: "",
-  hu: "",
+  pl: "Koszt",
+  hu: "Költség",
 };
 let landtypeNames = {
   en: {
