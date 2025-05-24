@@ -37,6 +37,10 @@
     feedback via <a href="https://forms.gle/7EaVLHfAvhmLjEDn8">this Google form</a> or by emailing me
     directly at resonant@spiritislandbuilder.com
   </p>
+  <p>
+    You can support my time and the (minimal) maintenance cost of the website by
+    <a href="https://ko-fi.com/resonantbuilder" target="_blank" rel="noreferrer">donating</a>.
+  </p>
   <p><em>Resonant</em></p>
   <p>
     All materials belong to Greater Than Games, LLC. The Spirit Island Builder is unofficial and is
