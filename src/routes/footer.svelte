@@ -17,7 +17,9 @@
           .VITE_COMMIT_SHA}"
         target="_blank"
         rel="noreferrer">{import.meta.env.VITE_COMMIT_SHA.substring(0, 8)}</a
-      >){/if}.<br /></span>
+      >){/if}.<br />Free & non-monetized. Support with a
+    <a href="https://ko-fi.com/resonantbuilder" target="_blank" rel="noreferrer">donation</a
+    >.</span>
   <br />All materials belong to Greater Than Games, LLC.
 </footer>
 
