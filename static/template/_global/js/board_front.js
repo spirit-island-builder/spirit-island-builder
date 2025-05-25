@@ -1169,15 +1169,19 @@ function getGrowthActionTextAndIcons(growthAction) {
       let range = tokenOptions[0];
       let token = tokenOptions[1];
       let tokenNum = tokenOptions[2];
-      if (isNaN(range)) {
+      if (isNaN(range) && range !== "any") {
         // error handling if no range is input
         console.log("no range input, setting to 0");
         range = 0;
         token = tokenOptions[0];
         tokenNum = tokenOptions[1];
       }
-      let tokenRange = `<range-growth><value>${range}</value></range-growth>`;
-      let tokenReqOpen = "<custom-icon>";
+      let tokenRange = "";
+      if (range !== "any") {
+        tokenRange = `<range-growth><value>${range}</value></range-growth>`;
+        console.log("token range isn't any");
+      }
+      let tokenReqOpen = `<custom-icon class="add-token">`;
       let tokenReqClose = "</custom-icon>";
       let tokenIcons = "";
       let tokenConditional = "";
@@ -1884,6 +1888,7 @@ function getPresenceNodeHtml(
     return inner;
   }
 
+  //Handle text override
   let overrideText = "";
   if (nodeText.split("*")[1]) {
     overrideText = nodeText.split("*")[1].split("^")[0].split("_")[0].split("~")[0];
@@ -1892,6 +1897,9 @@ function getPresenceNodeHtml(
       console.log("Override Text: " + overrideText);
     }
   }
+
+  //Correct any inclusion of commas (now that override is done)
+  nodeText = nodeText.replace(",", ";");
 
   //Handle ^ (node notation)
   let addDeepLayers = false;
@@ -2104,9 +2112,19 @@ function getPresenceNodeHtml(
         }
         case "token": {
           const matches = regExp.exec(splitOptions[0]);
-          const tokenAdd = matches[1];
-          inner = `<icon class='your-land'>{misc-plus}{${tokenAdd}}</icon>`;
-          subText = IconName(`add-token(${tokenAdd})`);
+          const options = matches[1].split(";");
+          if (options[0] && isNaN(options[0])) {
+            const tokenAdd = options[0];
+            inner = `<icon class='your-land'>{misc-plus}{${tokenAdd}}</icon>`;
+            subText = IconName(`add-token(${tokenAdd})`);
+          } else {
+            const range = options[0];
+            const tokenAdd = options[1];
+            inner = `<icon class='range-token'><div>{misc-plus}{${tokenAdd}}</div><div>{range-${range}}</div></icon>`;
+            subText = IconName(`add-token(${range},and,${tokenAdd})`);
+            addEnergyRing = false;
+            addIconShadow = true;
+          }
           break;
         }
         case "custom": {
@@ -2235,7 +2253,7 @@ function getPresenceNodeHtml(
           const iconText = splitOptions[0];
           const matches = regExp.exec(splitOptions[0]);
           if (matches) {
-            inner = `<icon class='gain-power-card-blank'>${matches[1]}</icon>`;
+            inner = `<icon class='gain-power-card-blank'>{${matches[1]}}</icon>`;
           } else {
             inner = "{" + iconText + "}";
           }
@@ -3497,7 +3515,7 @@ function IconName(str, iconNum = 1) {
       break;
     case "add-token":
       //add-token(range#/token,and/or/conditional,token,num/[othertokens])
-      if (isNaN(num)) {
+      if (isNaN(num) && num !== "any") {
         // its a presence track token
         localize = {
           en: `Add 1 ${IconName(num)} to 1 of your Lands`,
@@ -3513,24 +3531,27 @@ function IconName(str, iconNum = 1) {
         if (opt4 && isNaN(opt4)) {
           if (txt === "conditional") {
             //condition
+            let token = IconName(opt3);
+            let landtype = IconName(opt4);
+            let particle = num === "any" ? "any" : "a";
             localize = {
               en: landtypeNames[lang][opt4]
-                ? `Add a ${IconName(opt3)} to a ${IconName(opt4)}`
-                : `Add a ${IconName(opt3)} to a Land with ${IconName(opt4)}`,
+                ? `Add a ${token} to ${particle} ${landtype}`
+                : `Add a ${token} to ${particle} Land with ${landtype}`,
               fr: landtypeNames[lang][opt4]
-                ? `Ajoutez un ${IconName(opt3)} à un ${IconName(opt4)}`
-                : `Ajoutez un ${IconName(opt3)} à une Région avec ${IconName(opt4)}`,
+                ? `Ajoutez un ${token} à un ${landtype}`
+                : `Ajoutez un ${token} à une Région avec ${landtype}`,
               de: landtypeNames[lang][opt4]
-                ? `Add a ${IconName(opt3)} to a ${IconName(opt4)}`
-                : `Add a ${IconName(opt3)} to a Land with ${IconName(opt4)}`,
+                ? `Add a ${token} to ${particle} ${landtype}`
+                : `Add a ${token} to ${particle} Land with ${landtype}`,
               pl: landtypeNames[lang][opt4]
-                ? `Add a ${IconName(opt3)} to a ${IconName(opt4)}`
-                : `Add a ${IconName(opt3)} to a Land with ${IconName(opt4)}`,
+                ? `Add a ${token} to ${particle} ${landtype}`
+                : `Add a ${token} to ${particle} Land with ${landtype}`,
               ar: ``,
               zh: ``,
               hu: landtypeNames[lang][opt4]
-                ? `Add a ${IconName(opt3)} to a ${IconName(opt4)}`
-                : `Add a ${IconName(opt3)} to a Land with ${IconName(opt4)}`,
+                ? `Add a ${token} to ${particle} ${landtype}`
+                : `Add a ${token} to ${particle} Land with ${landtype}`,
             };
           } else {
             //multiple tokens of different types
