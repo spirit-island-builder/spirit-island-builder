@@ -884,3 +884,29 @@ presence-node card-play-num value {
   font-size: 36px;
   top: 29px;
 }
+
+presence-node .range-token {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+}
+
+presence-node .range-token icon.misc-plus {
+  width: 14px;
+  height: 14px;
+  margin-bottom: 1px;
+}
+
+presence-node .range-token icon {
+  width: 40px;
+  height: 35px;
+}
+
+presence-node .range-token range-value {
+  top: 0px;
+  font-size: 40px;
+}
+
+presence-node .range-token range {
+  margin-top: 2px;
+}
