@@ -146,6 +146,18 @@
         previewIframe.contentDocument.getElementsByTagName("aspect-subtext")[0];
       aspectNameElement.addEventListener("click", clickFunction());
     }
+    if (status === 4) {
+      const adversaryLevelsEl =
+        previewIframe.contentDocument.getElementsByTagName("ADVERSARY-LEVELS")[0];
+      adversaryLevelsEl.addEventListener("click", clickFunction());
+
+      const adversaryTopInfoEl = previewIframe.contentDocument.getElementsByTagName("TOP-INFO")[0];
+      adversaryTopInfoEl.addEventListener("click", clickFunction());
+
+      const adversaryTitleEl =
+        previewIframe.contentDocument.getElementsByTagName("ADVERSARY-TITLE")[0];
+      adversaryTitleEl.addEventListener("click", clickFunction());
+    }
   };
 
   export const writeGrowthAction = (action) => {

@@ -17,6 +17,8 @@ function startMain() {
   setTimeout(() => {
     resize();
   }, 200);
+
+  return 4;
 }
 
 function buildAdversary(quickAdversary) {
