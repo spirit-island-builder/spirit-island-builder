@@ -227,6 +227,7 @@
   <div class="column is-one-third pt-0">
     <NameLossAndEscalation bind:adversary />
     <AdversaryLevels bind:adversary />
+    <div class="content mb-0 mt-2">Options</div>
     <CustomIcons customIcons={adversary.customIcons} />
   </div>
   <div class="column pt-0">
