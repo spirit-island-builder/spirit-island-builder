@@ -946,6 +946,20 @@ icon.your-land.add-token icon {
   left: unset;
 }
 
+custom-icon.add-token icon.terrain-single {
+  margin-top: 2px;
+  width: 45px;
+  height: 45px;
+}
+
+custom-icon.add-token icon.terrain-double {
+  margin-top: 1px;
+}
+
+custom-icon.add-token .non-icon {
+  margin-bottom: 8px;
+}
+
 custom-icon .destroyed-presence {
   width: 55px;
   height: 34px;

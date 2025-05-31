@@ -786,8 +786,8 @@
   let eventCard = JSON.parse(JSON.stringify(emptyEventCard));
 
   let pages = [
-    ["spiritBoardFront", "Spirit Board Play Side"],
-    ["spiritBoardBack", "Spirit Board Lore Side"],
+    ["spiritBoardFront", "Spirit - Play Side"],
+    ["spiritBoardBack", "Spirit - Lore Side"],
     ["powerCards", "Power Cards"],
     ["aspect", "Aspect"],
     ["incarnaToken", "Incarna Token"],
@@ -803,9 +803,14 @@
 <div class="body">
   <header>
     <div style="display:flex;align-items: baseline;flex-wrap: wrap;width:100%;">
-      <h1 class="title is-1 ml-5">Spirit Island Builder</h1>
+      <h1 class="title is-1 ml-5 mb-4">
+        <span
+          style="
+    font-size: 26px;
+">The</span> Spirit Island Builder
+      </h1>
       <h2 class="subtitle is-6 ml-5">
-        The unofficial tool for creating custom content for Spirit Island by Greater Than Games.
+        An unofficial tool for creating custom content for Spirit Island by Greater Than Games.
       </h2>
       <label
         id="theme-switch"

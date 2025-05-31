@@ -45,6 +45,27 @@
   }
   onMount(onLoad);
 
+  const openEditorHeading = (e) => {
+    let outcome;
+    console.log("openeditorheading: " + e.target.tagName);
+    e.stopPropagation(); // we stop the event from propegating up to 'board', which would cause this to trigger twice
+    if (e.target.tagName === "ADVERSARY-LEVELS") {
+      outcome = !adversary.levelSummary.isVisible;
+      hideAll();
+      adversary.levelSummary.isVisible = outcome;
+    }
+    if (e.target.tagName === "TOP-INFO") {
+      outcome = !adversary.nameLossEscalation.isVisible;
+      hideAll();
+      adversary.nameLossEscalation.isVisible = outcome;
+    }
+    if (e.target.tagName === "ADVERSARY-TITLE") {
+      outcome = !adversary.nameLossEscalation.isVisible;
+      hideAll();
+      adversary.nameLossEscalation.isVisible = outcome;
+    }
+  };
+
   function reloadPreview() {
     console.log("Updating Preview Adversary (f=generateHTML)");
     previewFrame.copyHTMLFrom(generateHTML(adversary)).then(() => {
@@ -206,10 +227,15 @@
   <div class="column is-one-third pt-0">
     <NameLossAndEscalation bind:adversary />
     <AdversaryLevels bind:adversary />
+    <div class="content mb-0 mt-2">Options</div>
     <CustomIcons customIcons={adversary.customIcons} />
   </div>
   <div class="column pt-0">
-    <PreviewFrame id="adversary-preview" bind:this={previewFrame} on:hot-reload={reloadPreview}>
+    <PreviewFrame
+      id="adversary-preview"
+      bind:this={previewFrame}
+      clickFunction={() => openEditorHeading}
+      on:hot-reload={reloadPreview}>
       <svelte:fragment slot="head">
         <link href="/template/_global/css/global.css" rel="stylesheet" />
         <link href="/template/_global/css/adversary.css" rel="stylesheet" />

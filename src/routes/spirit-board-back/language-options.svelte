@@ -22,6 +22,10 @@
       on:click={setLanguage("en", spiritBoardBack)}>English</button>
     <button
       class="button is-small is-success"
+      class:is-light={spiritBoardBack.language !== "fr"}
+      on:click={setLanguage("fr", spiritBoardBack)}>Français</button>
+    <button
+      class="button is-small is-success"
       class:is-light={spiritBoardBack.language !== "de"}
       on:click={setLanguage("de", spiritBoardBack)}>Deutsch</button>
     <button

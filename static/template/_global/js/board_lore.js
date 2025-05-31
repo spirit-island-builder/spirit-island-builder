@@ -253,6 +253,18 @@ let localize = {
     utility: "UTILITY",
     uses: "USES",
   },
+  fr: {
+    setup: "MISE EN PLACE",
+    playstyle: "STYLE DE JEU",
+    complexity: "COMPLEXITÉ",
+    summary: "RÉSUMÉ DES FORCES",
+    offense: "ATTAQUE",
+    control: "CONTRÔLE",
+    fear: "PEUR",
+    defense: "DÉFENSE",
+    utility: "SOUTIEN",
+    uses: "UTILISE",
+  },
   de: {
     setup: "SPIELVORBEREITUNG",
     playstyle: "SPIELSTIL",

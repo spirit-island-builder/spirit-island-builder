@@ -170,11 +170,13 @@ section-title {
 loss-condition {
   margin-right: 15px;
   flex: 1 0 228px;
+  pointer-events: none;
 }
 
 escalation {
   margin-right: 5px;
   flex: 1 0 220px;
+  pointer-events: none;
 }
 
 header-level {
@@ -221,6 +223,20 @@ adversary-levels header {
   flex-wrap: nowrap;
   line-height: 29px;
   height: 40px;
+  pointer-events: none;
+}
+
+adversary-levels:hover header,
+adversary-levels:hover header div,
+top-info:hover section-title,
+adversary-title:hover {
+  text-shadow: -1px 1px 0 #ffffff, 1px 1px 0 #ffffff, 1px -1px 0 #ffffff, -1px -1px 0 #ffffff;
+}
+
+adversary-levels:hover,
+top-info:hover,
+adversary-title:hover {
+  cursor: pointer;
 }
 
 adversary-levels level:not(:last-child) {
@@ -258,6 +274,7 @@ adversary-levels level {
   flex-grow: 1;
   padding-top: 1px;
   padding-bottom: 1px;
+  pointer-events: none;
 }
 
 adversary-levels level div:first-child {
