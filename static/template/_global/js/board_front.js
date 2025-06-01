@@ -2113,10 +2113,9 @@ function getPresenceNodeInnerHTML(
   }
 
   if (pnDebug) {
-    console.log(splitOptions);
+    console.log(`Processing ${splitOptions}`);
   }
 
-  console.log(`Processing ${splitOptions}`);
   const numLocs = splitOptions.length;
   let innerFinal = "";
   let subTextFinal = "";
