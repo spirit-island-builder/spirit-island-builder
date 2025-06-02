@@ -1851,7 +1851,7 @@ function getPresenceNodeHtml(
   }
 
   // Blank nodes
-  if (nodeText.startsWith("split(")) {
+  if (nodeText.startsWith("blank")) {
     ring.classList.add("blank-ring");
   }
 
