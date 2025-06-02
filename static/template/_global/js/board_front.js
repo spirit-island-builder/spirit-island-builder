@@ -1851,7 +1851,7 @@ function getPresenceNodeHtml(
   }
 
   // Blank nodes
-  if (nodeText.startsWith("split(")) {
+  if (nodeText.startsWith("blank")) {
     ring.classList.add("blank-ring");
   }
 
@@ -1980,6 +1980,13 @@ function getPresenceNodeHtml(
       first = false;
     } else if (optionsNodeBack.includes("first")) {
       first = true;
+    }
+    if (optionsNodeBack.includes("shift(")) {
+      // let shiftReg = /\(\d+\)/;
+      const matches = regExp.exec(optionsNodeBack);
+      const shift = matches[1] ? matches[1] : 0;
+      console.log("shift detected = " + shift);
+      presenceNode.style.left = `${shift}%`;
     }
   }
 
