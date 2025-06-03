@@ -1983,17 +1983,14 @@ function getPresenceNodeHtml(
     }
     if (optionsNodeBack.includes("shift(")) {
       const matches = regExp.exec(optionsNodeBack);
-      const shift = matches[1] ? matches[1] : 0;
-      console.log("shift detected = " + shift);
+      const shiftOptions = matches[1].split(";");
+      let shift = shiftOptions[0] ? shiftOptions[0] : 0;
+      let slide = shiftOptions[1] ? shiftOptions[1] : 0;
       presenceNode.style.left = `${shift}%`;
-    }
-    if (optionsNodeBack.includes("slide(")) {
-      const matches = regExp.exec(optionsNodeBack);
-      let slide = matches[1] ? matches[1] : 0;
-      console.log("slide detected = " + slide);
-      slide = slide > 50 ? 50 : slide;
-      presenceNode.style.marginTop = `${slide}%`;
-      presenceNode.style.marginTop = `-100%`;
+      if (shiftOptions[1]) {
+        presenceNode.style.marginTop = `${-1 * slide}%`;
+        presenceNode.style.marginBottom = `-100%`;
+      }
     }
   }
 
