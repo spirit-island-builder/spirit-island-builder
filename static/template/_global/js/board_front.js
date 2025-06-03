@@ -1982,11 +1982,18 @@ function getPresenceNodeHtml(
       first = true;
     }
     if (optionsNodeBack.includes("shift(")) {
-      // let shiftReg = /\(\d+\)/;
       const matches = regExp.exec(optionsNodeBack);
       const shift = matches[1] ? matches[1] : 0;
       console.log("shift detected = " + shift);
       presenceNode.style.left = `${shift}%`;
+    }
+    if (optionsNodeBack.includes("slide(")) {
+      const matches = regExp.exec(optionsNodeBack);
+      let slide = matches[1] ? matches[1] : 0;
+      console.log("slide detected = " + slide);
+      slide = slide > 50 ? 50 : slide;
+      presenceNode.style.marginTop = `${slide}%`;
+      presenceNode.style.marginTop = `-100%`;
     }
   }
 
