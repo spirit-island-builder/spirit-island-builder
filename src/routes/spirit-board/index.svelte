@@ -234,7 +234,7 @@
     }
     checkTracksForCommas(); //swap commas for semicolons
 
-    if (spiritBoard.nameAndArt.combinedBannerPath) {
+    if (spiritBoard.nameAndArt.combinedBannerPath !== null) {
       console.log("combined banner being added:");
       console.log(spiritBoard.nameAndArt.combinedBannerPath);
       presenceTrackContainer.setAttribute("banner", spiritBoard.nameAndArt.combinedBannerPath);
@@ -444,7 +444,7 @@
 
     //Load Presence Tracks
     let presenceTracks = htmlElement.querySelectorAll("presence-tracks")[0];
-    if (presenceTracks.getAttribute("banner")) {
+    if (presenceTracks.getAttribute("banner") && presenceTracks.getAttribute("banner") !== "null") {
       console.log("combined banner detected:");
       console.log(presenceTracks.getAttribute("banner"));
       spiritBoard.nameAndArt.isOneBanner = false;
@@ -454,6 +454,10 @@
       );
       spiritBoard.nameAndArt.combinedBannerScaleV = presenceTracks.getAttribute("banner-v-scale");
       spiritBoard.nameAndArt.combinedBannerScaleH = presenceTracks.getAttribute("banner-h-scale");
+    } else {
+      spiritBoard.nameAndArt.combinedBannerPath = "";
+      spiritBoard.nameAndArt.combinedBannerScaleV = "";
+      spiritBoard.nameAndArt.combinedBannerScaleH = "";
     }
 
     let presenceNote = presenceTracks.getAttribute("note");

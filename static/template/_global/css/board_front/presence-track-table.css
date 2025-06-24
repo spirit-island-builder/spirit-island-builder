@@ -393,7 +393,8 @@ presence-node icon.gather {
 presence-node icon.gather > icon {
   left: 90px;
   top: -18px;
-  filter: drop-shadow(0px 0px 1px white);
+  filter: drop-shadow(0px 0px 0px #ead38d) drop-shadow(0px 0px 0px #ead38d)
+    drop-shadow(0px 0px 1px #ead38d) drop-shadow(0px 0px 1px #ead38d);
   height: 90px;
 }
 
@@ -489,7 +490,7 @@ presence-node-multi track-move-presence {
   position: absolute;
 }
 
-track-move-presence.shadow {
+presence-node-multi.add-shadow track-move-presence {
   background-image: url("../../images/customIcons/Presence Track Back.png");
   background-repeat: no-repeat;
   background-size: contain;
@@ -883,6 +884,19 @@ presence-node card-play-num value {
   margin: 0px;
   font-size: 36px;
   top: 29px;
+}
+
+presence-node-multi card-play-num {
+  height: 80px;
+  width: 80px;
+  margin-left: -15px;
+  margin-right: -5px;
+  margin-top: -8px;
+}
+
+presence-node-multi card-play-num value {
+  font-size: 32px;
+  top: 27px;
 }
 
 presence-node .range-token {

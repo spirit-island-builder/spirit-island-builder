@@ -115,7 +115,7 @@ function addImages(board) {
 }
 
 function addTrackBanners(board) {
-  let debug = false;
+  let debug = true;
   const presenceTracks = board.getElementsByTagName("presence-tracks")[0];
 
   // Check for Combined Banner
@@ -123,6 +123,7 @@ function addTrackBanners(board) {
   if (combinedBanner) {
     if (debug) {
       console.log("Combined banner");
+      console.log(combinedBanner);
     }
     presenceTracks.appendChild(combinedBanner);
     let table = document.getElementById("presence-table");
@@ -1338,9 +1339,10 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
 
   //detect combined-banners
   const combinedBanner = presenceTable.getAttribute("banner");
-  if (combinedBanner) {
+  if (combinedBanner && combinedBanner !== "null") {
     // Prepare banner
     console.log("preparing combined banner");
+    console.log(combinedBanner);
     if (combinedBanner) {
       createTrackBannerArt(combinedBanner, presenceTable, "combined");
     }
@@ -1531,7 +1533,7 @@ let CardPlays = {
 };
 let Cost = {
   en: "Cost",
-  fr: "",
+  fr: "Coût",
   de: "Kosten",
   pl: "Koszt",
   hu: "Költség",
@@ -1821,7 +1823,6 @@ function getPresenceNodeHtml(
   const regExp = /\(([^)]+)\)/;
   const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
   let pnDebug = false;
-  let nodeClass = "";
 
   // Every node will have a presence-node element with
   // a ring-icon element inside, so we can add these now.
@@ -1849,6 +1850,11 @@ function getPresenceNodeHtml(
         ", trackType: " +
         trackType
     );
+  }
+
+  // Blank nodes
+  if (nodeText.startsWith("blank")) {
+    ring.classList.add("blank-ring");
   }
 
   // Check splitpath nodes
@@ -1887,6 +1893,53 @@ function getPresenceNodeHtml(
     inner = `<split-presence-node>${inner}</split-presence-node>`;
     return inner;
   }
+
+  // Check OR nodes
+  // if (nodeText.startsWith("or(")) {
+  //   if (pnDebug) {
+  //     console.log("Or node - version 1");
+  //   }
+  //   nodeText = regExpOuterParentheses.exec(nodeText)[1];
+  //   let splitNodes = nodeText.split(";");
+  //   console.log(splitNodes);
+  //   let splitSubtext = "";
+  //   for (let i = 0; i < splitNodes.length; i++) {
+  //     let orNodeHTML = getPresenceNodeHtml(
+  //       splitNodes[i],
+  //       first,
+  //       nodeIndex + "-" + i,
+  //       trackType,
+  //       addEnergyRing,
+  //       forceEnergyRing,
+  //       forceShadow,
+  //       forceNone
+  //     );
+  //     if (pnDebug) {
+  //       console.log(orNodeHTML);
+  //     }
+  //     let holder = document.createElement("holder");
+  //     holder.innerHTML = orNodeHTML;
+  //     // grab the subtext
+  //     let subtext = holder.getElementsByTagName("subtext")[0];
+  //     // peel away outer elements
+  //     holder.innerHTML = holder.getElementsByTagName("energy-icon")[0] ? holder.getElementsByTagName("energy-icon")[0].innerHTML : holder.getElementsByTagName("ring-icon")[0].innerHTML;
+  //     if (pnDebug) {
+  //       console.log(holder);
+  //       console.log(subtext);
+  //     }
+  //     if (i === 0) {
+  //       splitSubtext += subtext.innerHTML;
+  //       subtext.remove();
+  //       inner += holder.innerHTML;
+  //     } else {
+  //       subtext.innerHTML = splitSubtext + " or " + subtext.innerHTML;
+  //       inner += holder.innerHTML;
+  //       holder.remove();
+  //     }
+  //   }
+  //   inner = `<split-presence-node>${inner}</split-presence-node>`;
+  //   return inner;
+  // }
 
   //Handle text override
   let overrideText = "";
@@ -1930,6 +1983,17 @@ function getPresenceNodeHtml(
     } else if (optionsNodeBack.includes("first")) {
       first = true;
     }
+    if (optionsNodeBack.includes("shift(")) {
+      const matches = regExp.exec(optionsNodeBack);
+      const shiftOptions = matches[1].split(";");
+      let shift = shiftOptions[0] ? shiftOptions[0] : 0;
+      let slide = shiftOptions[1] ? shiftOptions[1] : 0;
+      presenceNode.style.left = `${shift}%`;
+      if (shiftOptions[1]) {
+        presenceNode.style.marginTop = `${-1 * slide}%`;
+        presenceNode.style.marginBottom = `-100%`;
+      }
+    }
   }
 
   // Handle ~ (subtext location)
@@ -1949,455 +2013,17 @@ function getPresenceNodeHtml(
   //Clean the node text
   nodeText = nodeText.split("_")[0].split("^")[0].split("*")[0].split("~")[0];
 
-  // Setup node class
-  if (trackType === "energy") {
-    nodeClass = "energy";
-    subText = `${Energy[lang]}/${Turn[lang]}`;
-  } else if (trackType === "card") {
-    nodeClass = "card";
-    subText = `${CardPlays[lang]}`;
-  } else if (trackType === "special") {
-    nodeClass = "special-ring";
-    subText = "";
-    addEnergyRing = false;
+  //Check for first
+  if (first === true && trackType !== "special") {
+    presenceNode.classList.add("first");
   }
 
-  // Evaluate node for effect
-  if (!isNaN(nodeText)) {
-    //The value is only a number
-    addEnergyRing = false;
-    if (first === true && trackType !== "special") {
-      presenceNode.classList.add("first");
-    } else {
-      subText = nodeText;
-      if (pnDebug) {
-        console.log("setting nodetext:" + subText);
-      }
-      if (isNaN(nodeText[0])) {
-        subText += ` ${Energy[lang]}`;
-        nodeClass = "energy";
-      } else {
-        subText = numLocalize[lang][nodeText] || nodeText;
-      }
-    }
-    inner = `<${nodeClass}-icon><value>${
-      numLocalize[lang][nodeText] || nodeText
-    }</value></${nodeClass}-icon>`;
-  } else {
-    //It is either a single option or a mix of elements/numbers/other options
-
-    if (first === true && trackType !== "special") {
-      presenceNode.classList.add("first");
-    }
-
-    const plusRegex = /\+(?![^()]*(?:\([^()]*\))?\))/gm;
-    let splitOptions = nodeText.split(plusRegex);
-
-    //This code allows user to include +energy such as: +1
-    const plus_check = splitOptions.indexOf("");
-    if (plus_check !== -1) {
-      splitOptions.splice(plus_check, 1);
-      splitOptions[plus_check] = "+" + splitOptions[plus_check];
-      nodeClass = "energy";
-    }
-
-    //This code allows the user to include +energy in this way too: energy(+1)
-    if (nodeText.includes("energy(+")) {
-      let findInd = splitOptions.indexOf("energy(");
-      if (splitOptions.length > 2) {
-        // Multioption
-        splitOptions[findInd] = "bonusenergy(" + splitOptions[findInd + 1] + ")";
-        splitOptions[findInd] = splitOptions[findInd].substring(
-          0,
-          splitOptions[findInd].length - 1
-        );
-      } else {
-        // Single Option
-        splitOptions[findInd] = "bonus" + splitOptions[findInd] + splitOptions[findInd + 1];
-      }
-      splitOptions.splice(findInd + 1, 1);
-    }
-
-    if (splitOptions.length === 1) {
-      //It's just a single item
-      const option = splitOptions[0].split("(")[0];
-
-      if (pnDebug) {
-        console.log("Single Option: " + option + " with " + splitOptions[0]);
-      }
-
-      switch (option) {
-        case "push": {
-          const matches = regExp.exec(splitOptions[0]);
-          const moveTarget = matches[1];
-          let moveIcons = "<div class='push'>";
-          if (moveTarget.split(";")[0].toLocaleLowerCase() === "incarna") {
-            if (moveTarget.split(";")[1]) {
-              moveIcons += `<icon class="incarna ${moveTarget.split(";")[1]}"></icon>`;
-            } else {
-              moveIcons += "{incarna}";
-            }
-          } else {
-            for (let i = 0; i < moveTarget.split(";").length; i++) {
-              moveIcons += "{" + moveTarget.split(";")[i] + "}";
-              if (i < moveTarget.split(";").length - 1) {
-                moveIcons += "{backslash}";
-              }
-            }
-          }
-          moveIcons += "</div>";
-          inner = "<icon class='push'>" + moveIcons + "</icon>";
-          subText = IconName("track-" + splitOptions[0]);
-          break;
-        }
-        case "gather": {
-          const matches = regExp.exec(splitOptions[0]);
-          const moveTarget = matches[1];
-          inner = "<icon class='gather'><icon class='" + moveTarget + "'></icon></icon>";
-          subText = IconName("track-" + splitOptions[0]);
-          break;
-        }
-        case "energy": {
-          const matches = regExp.exec(splitOptions[0]);
-          const num = matches[1];
-          inner = "<energy-icon><value>" + num + "</value></energy-icon>";
-          subText = num;
-          addEnergyRing = true;
-          addIconShadow = false;
-          break;
-        }
-        case "bonusenergy": {
-          const matches = regExp.exec(splitOptions[0]);
-          const num = matches[1];
-          inner = "<energy-icon><value>+" + num + "</value></energy-icon>";
-          subText = `+${num} ${Energy[lang]}`;
-          addEnergyRing = true;
-          addIconShadow = false;
-          break;
-        }
-        case "plays": {
-          const matches = regExp.exec(splitOptions[0]);
-          const num = matches[1];
-          inner = "<card-icon><value>" + num + "</value></card-icon>";
-          subText = IconName(splitOptions[0]);
-          addEnergyRing = false;
-          addIconShadow = false;
-          break;
-        }
-        case "incarna": {
-          const matches = regExp.exec(splitOptions[0]);
-          const incarnaOptions = matches[1].split(";");
-          const incarnaAction = incarnaOptions[0];
-          const customIncarnaIcon = incarnaOptions[1];
-          let addMoveHelper;
-          switch (incarnaAction) {
-            case "empower":
-              inner = "{empower-incarna}";
-              break;
-            case "addmove":
-            case "add-move":
-              addMoveHelper = incarnaOptions[2] ? incarnaOptions[2] : "presence";
-              inner =
-                '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
-                customIncarnaIcon +
-                '"></icon><icon class="' +
-                addMoveHelper +
-                ' with-your"></icon></add-move-lower></custom-icon>';
-              break;
-            default:
-              inner = "{empower-incarna}";
-          }
-          subText = IconName(splitOptions[0]);
-          break;
-        }
-        case "token": {
-          const matches = regExp.exec(splitOptions[0]);
-          const options = matches[1].split(";");
-          if (options[0] && isNaN(options[0])) {
-            const tokenAdd = options[0];
-            inner = `<icon class='your-land'>{misc-plus}{${tokenAdd}}</icon>`;
-            subText = IconName(`add-token(${tokenAdd})`);
-          } else {
-            const range = options[0];
-            const tokenAdd = options[1];
-            inner = `<icon class='range-token'><div>{misc-plus}{${tokenAdd}}</div><div>{range-${range}}</div></icon>`;
-            subText = IconName(`add-token(${range},and,${tokenAdd})`);
-            addEnergyRing = false;
-            addIconShadow = true;
-          }
-          break;
-        }
-        case "custom": {
-          const matches = regExp.exec(splitOptions[0]);
-          if (pnDebug) {
-            console.log("Custom Node w/ Single Icon:" + splitOptions[0]);
-            console.log(matches);
-          }
-          const custom_node = matches[1].split(";");
-          const custom_text = custom_node[0];
-          addEnergyRing = false;
-          addIconShadow = true;
-          if (custom_node[1]) {
-            inner = "<custom-presence-track-icon>";
-            if (custom_node[1].split("{")[1]) {
-              // User is using icon shorthand
-              inner += custom_node[1];
-            } else {
-              // User is not using icon shorthand
-              for (let i = 1; i < custom_node.length; i++) {
-                inner += `{${custom_node[i]}}`;
-              }
-            }
-            inner += "</custom-presence-track-icon>";
-          } else {
-            inner = "<" + nodeClass + "-icon><value></value></" + nodeClass + "-icon>";
-            addEnergyRing = false;
-          }
-          subText = custom_text;
-          break;
-        }
-        case "move-presence": {
-          const matches = regExp.exec(splitOptions[0]);
-          let moveRange = 1;
-          inner =
-            "<track-move-presence>{presence}<move-value>" +
-            moveRange +
-            "</move-value>{move-arrow}</track-move-presence>";
-          if (matches[1]) {
-            moveRange = matches[1];
-            if (isNaN(moveRange)) {
-              inner =
-                "<track-move-presence>{presence}<move-text>" +
-                moveRange +
-                "</move-text>{move-arrow}</track-move-presence>";
-            } else {
-              inner =
-                "<track-move-presence>{presence}<move-value>" +
-                moveRange +
-                "</move-value>{move-arrow}</track-move-presence>";
-            }
-            addIconShadow = true;
-            if (addEnergyRing) {
-              addIconShadow = false;
-            }
-          }
-          subText = IconName(splitOptions[0]);
-          break;
-        }
-        case "elements":
-        case "or": {
-          const matches = regExp.exec(splitOptions[0]);
-          const elementList = matches[1].split(";");
-          let elementIcons = "";
-          let elementText = "";
-          if (elementList.length === 2) {
-            elementIcons += "<icon class='" + elementList[0] + " presence-or-first'></icon>";
-            elementIcons += "{backslash}";
-            elementIcons += "<icon class='" + elementList[1] + " presence-or-second'></icon>";
-            elementText = IconName(splitOptions[0]);
-            inner = "<element-or-wrap>" + elementIcons + "</element-or-wrap>";
-            subText = elementText;
-          } else {
-            const iconText = matches[1];
-            inner = "{" + iconText + "}";
-            subText = IconName(iconText);
-          }
-          break;
-        }
-        case "gain-range": {
-          const matches = regExp.exec(splitOptions[0]);
-          const gainRange = matches[1];
-          const custom_node = gainRange.split(";");
-          inner = "{gain-range-" + custom_node[0] + "}";
-          subText = IconName(splitOptions[0]);
-          addEnergyRing = false;
-          addIconShadow = true;
-          break;
-        }
-        case "gain-card-play": {
-          const matches = regExp.exec(splitOptions[0]);
-          const gainPlays = matches ? matches[1] : 1;
-          inner = "<card-play-num><value>" + gainPlays + "</value></card-play-num>";
-          subText = IconName(splitOptions[0]);
-          addEnergyRing = false;
-          break;
-        }
-        case "damage": {
-          const matches = regExp.exec(splitOptions[0]);
-          let damageOptions = matches[1].split(";");
-          if (damageOptions[1]) {
-            // damage at range
-            let range = damageOptions[0];
-            let damage = damageOptions[1];
-            inner = `<damage><track-damage><value>${damage}</value></track-damage><range class="small">${range}</range></damage>`;
-          } else {
-            // damage in one of your lands
-            let damage = damageOptions[0];
-            inner = `<track-damage><value>${damage}</value></track-damage>`;
-          }
-          subText = IconName(splitOptions[0]);
-          addIconShadow = true;
-          break;
-        }
-        case "blank": {
-          const matches = regExp.exec(splitOptions[0]);
-          const numSpace = matches !== null ? matches[1] : 1;
-          ring.classList.add("blank-ring");
-          subText = "<br>";
-          subText = subText.repeat(numSpace);
-          addEnergyRing = false;
-          addIconShadow = false;
-          break;
-        }
-        case "gain-power-card": {
-          const iconText = splitOptions[0];
-          const matches = regExp.exec(splitOptions[0]);
-          if (matches) {
-            inner = `<icon class='gain-power-card-blank'>{${matches[1]}}</icon>`;
-          } else {
-            inner = "{" + iconText + "}";
-          }
-          subText = IconName(iconText);
-          break;
-        }
-        case "reclaim": {
-          const matches = regExp.exec(splitOptions[0]);
-          const iconText = splitOptions[0];
-          if (matches) {
-            const reclaimType = `reclaim-${matches[1]}`;
-            inner += `{${reclaimType}}`;
-            subText = IconName(reclaimType);
-          } else {
-            inner += `{${splitOptions[0]}}`;
-            subText = IconName(iconText);
-          }
-          break;
-        }
-        default: {
-          const iconText = splitOptions[0];
-          inner = `{${iconText}}`;
-          subText = IconName(iconText);
-          break;
-        }
-      }
-    } else {
-      //It's multiple items
-      if (pnDebug) {
-        console.log("Multiple Items: ");
-        console.log(splitOptions);
-      }
-      subText = "";
-
-      // Find unique names and report multiples
-      const nameCounts = {};
-      splitOptions.forEach(function (x) {
-        nameCounts[x] = (nameCounts[x] || 0) + 1;
-      });
-      let namesList = Object.keys(nameCounts);
-      let countList = Object.values(nameCounts);
-      for (let i = 0; i < namesList.length; i++) {
-        subText += IconName(namesList[i], countList[i]);
-        if (i < namesList.length - 1) {
-          subText += ", ";
-        }
-      }
-
-      const numLocs = splitOptions.length;
-
-      for (let i = 0; i < numLocs; i++) {
-        let trackIcons = "";
-        const pos_angle = (i * 2 * Math.PI) / numLocs - Math.PI * (4.5 / 6);
-        const x_loc = 0.4 * Math.cos(pos_angle) * 50 + 50;
-        const y_loc = 0.4 * Math.sin(pos_angle) * 50 + 50;
-        const track_icon_loc =
-          // "style='transform: translateY(" + y_loc + "px) translateX(" + x_loc + "px)'";
-          `style='top:${y_loc.toPrecision(2)}%; left:${x_loc.toPrecision(2)}%;'`;
-        if (pnDebug) {
-          console.log("Multinode: " + splitOptions[i]);
-        }
-        // deal with cards and energy
-        if (!isNaN(splitOptions[i])) {
-          let num = splitOptions[i];
-          num = numLocalize[lang][num] || num;
-          trackIcons += `<${nodeClass}-icon><value>
-            ${num}</value></${nodeClass}-icon>`;
-          if (nodeClass === "energy") {
-            addEnergyRing = false;
-          }
-        } else if (splitOptions[i].startsWith("reclaim")) {
-          const matches = regExp.exec(splitOptions[i]);
-          if (matches) {
-            trackIcons += `{reclaim-${matches[1]}}`;
-          } else {
-            trackIcons += `{${splitOptions[i]}}`;
-          }
-        } else if (splitOptions[i].startsWith("energy")) {
-          const matches = regExp.exec(splitOptions[i]);
-          let num = matches[1];
-          num = numLocalize[lang][num] || num;
-          trackIcons += `<energy-icon><value>${num}</value></energy-icon>`;
-          addEnergyRing = false;
-        } else if (splitOptions[i].startsWith("bonusenergy")) {
-          const matches = regExp.exec(splitOptions[i]);
-          let num = matches[1];
-          num = numLocalize[lang][num] || num;
-          trackIcons += `<energy-icon><value>+${num}</value></energy-icon>`;
-          addEnergyRing = false;
-        } else if (splitOptions[i].startsWith("plays")) {
-          const matches = regExp.exec(splitOptions[i]);
-          let num = matches[1];
-          num = numLocalize[lang][num] || num;
-          addEnergyRing = false;
-          trackIcons += `<card-icon><value>${num}</value></card-icon>`;
-        } else if (splitOptions[i].startsWith("gain-card-play")) {
-          trackIcons += `{${splitOptions[i]}}`;
-          addEnergyRing = false;
-        } else if (splitOptions[i].startsWith("gain-power-card")) {
-          const matches = regExp.exec(splitOptions[i]);
-          if (matches) {
-            trackIcons += `<icon class='gain-power-card-blank'>
-              {${matches[1]}}</icon>`;
-          } else {
-            trackIcons += `{${splitOptions[i]}}`;
-          }
-        } else if (splitOptions[i].startsWith("move-presence")) {
-          const matches = regExp.exec(splitOptions[i]);
-          const moveRange = matches[1];
-          trackIcons += `<track-move-presence class='shadow'>{presence}<move-value>${moveRange}</move-value>{move-arrow}</track-move-presence>`;
-          addEnergyRing = false;
-          addIconShadow = false;
-        } else if (splitOptions[i].startsWith("gain-range")) {
-          const matches = regExp.exec(splitOptions[i]);
-          let gainRange = matches[1];
-          gainRange = gainRange.split(";")[0];
-          trackIcons += `<icon-shadow><range>+${gainRange}</range></icon-shadow>`;
-          addEnergyRing = false;
-          addIconShadow = false;
-        } else if (splitOptions[i].startsWith("custom(")) {
-          const matches = regExp.exec(splitOptions[i]);
-          const custom = matches[1].split(";")[1];
-          if (pnDebug) {
-            console.log("Multinode custom: " + custom);
-          }
-          trackIcons += `{${custom}}`;
-        } else if (splitOptions[i].startsWith("elements")) {
-          const matches = regExp.exec(splitOptions[i]);
-          const elementList = matches[1].split(";");
-          let elementIcons = "";
-          if (elementList.length === 2) {
-            elementIcons += `<element-or-wrap><icon class='${elementList[0]} presence-or-first'></icon>
-              {backslash}
-              <icon class='${elementList[1]} presence-or-second'></icon></element-or-wrap>`;
-          }
-          trackIcons += elementIcons;
-        } else {
-          trackIcons += `{${splitOptions[i]}}`;
-        }
-        trackIcons = `<presence-node-multi ${track_icon_loc}>${trackIcons}</presence-node-multi>`;
-        inner += trackIcons;
-      }
-    }
-  }
+  //Get the node inners and subtext
+  [inner, subText, addEnergyRing, addIconShadow] = getPresenceNodeInnerHTML(
+    nodeText,
+    trackType,
+    first
+  );
 
   if (!forceNone) {
     if ((addEnergyRing || forceEnergyRing) && !forceShadow) {
@@ -2437,7 +2063,7 @@ function getPresenceNodeHtml(
       "<icon class='" +
       iconDeepLayers +
       " " +
-      nodeClass +
+      trackType +
       "-deep-layers'>" +
       valueText +
       "</icon></deep-layers>" +
@@ -2450,6 +2076,383 @@ function getPresenceNodeHtml(
   }
   presenceNode.innerHTML += "<subtext>" + subText + "</subtext>";
   return presenceNode.outerHTML;
+}
+
+function getPresenceNodeInnerHTML(
+  nodeText,
+  trackType = "card",
+  first = false,
+  addEnergyRing = false
+) {
+  // Variables
+  let subText = "";
+  let inner = "";
+  const regExp = /\(([^)]+)\)/;
+  let pnDebug = true;
+  let addIconShadow = false;
+
+  // Setup node class
+  if (trackType === "special") {
+    trackType = "special-ring";
+    addEnergyRing = false;
+  }
+  if (trackType === "energy") {
+    addEnergyRing = true;
+  }
+
+  const plusRegex = /\+(?![^()]*(?:\([^()]*\))?\))/gm;
+  let splitOptions = nodeText.split(plusRegex);
+
+  //This code allows user to include +energy such as: +1
+  const plus_check = splitOptions.indexOf("");
+  if (plus_check !== -1) {
+    splitOptions.splice(plus_check, 1);
+    splitOptions[plus_check] = `bonusenergy(${splitOptions[plus_check]})`;
+    trackType = "energy";
+  }
+
+  //This code allows the user to include +energy in this way too: energy(+1)
+  if (nodeText.includes("energy(+")) {
+    let findInd = splitOptions.indexOf("energy(");
+    if (splitOptions.length > 2) {
+      // Multioption
+      splitOptions[findInd] = "bonusenergy(" + splitOptions[findInd + 1] + ")";
+      splitOptions[findInd] = splitOptions[findInd].substring(0, splitOptions[findInd].length - 1);
+    } else {
+      // Single Option
+      splitOptions[findInd] = "bonus" + splitOptions[findInd] + splitOptions[findInd + 1];
+    }
+    splitOptions.splice(findInd + 1, 1);
+  }
+
+  if (pnDebug) {
+    console.log(`Processing ${splitOptions}`);
+  }
+
+  const numLocs = splitOptions.length;
+  let innerFinal = "";
+  let subTextFinal = "";
+  for (let i = 0; i < splitOptions.length; i++) {
+    let option = splitOptions[i].split("(")[0];
+    let fullOption = splitOptions[i];
+
+    // Convert number values into energy/plays
+    if (!isNaN(option)) {
+      if (trackType === "energy") {
+        fullOption = `energy-default(${option})`;
+        option = `energy-default`;
+      } else {
+        fullOption = `plays-default(${option})`;
+        option = `plays-default`;
+      }
+    }
+
+    if (pnDebug) {
+      console.log(`Option(${i}):${option} with ${splitOptions[i]}`);
+    }
+
+    // process the node
+    switch (option) {
+      case "push": {
+        const matches = regExp.exec(fullOption);
+        const moveTarget = matches[1];
+        let moveIcons = "<div class='push'>";
+        if (moveTarget.split(";")[0].toLocaleLowerCase() === "incarna") {
+          if (moveTarget.split(";")[1]) {
+            moveIcons += `<icon class="incarna ${moveTarget.split(";")[1]}"></icon>`;
+          } else {
+            moveIcons += "{incarna}";
+          }
+        } else {
+          for (let i = 0; i < moveTarget.split(";").length; i++) {
+            moveIcons += "{" + moveTarget.split(";")[i] + "}";
+            if (i < moveTarget.split(";").length - 1) {
+              moveIcons += "{backslash}";
+            }
+          }
+        }
+        moveIcons += "</div>";
+        inner = "<icon class='push'>" + moveIcons + "</icon>";
+        splitOptions[i] = "track-" + fullOption; // rename the option
+        break;
+      }
+      case "gather": {
+        const matches = regExp.exec(fullOption);
+        const moveTarget = matches[1];
+        inner = "<icon class='gather'><icon class='" + moveTarget + "'></icon></icon>";
+        splitOptions[i] = "track-" + fullOption; // rename the option
+        break;
+      }
+      case "energy": {
+        const matches = regExp.exec(fullOption);
+        const num = matches[1];
+        inner = `<energy-icon><value>${num}</value></energy-icon>`;
+        splitOptions[i] = `energy-special(${num})`; // rename the option
+        addEnergyRing = false; //adds its own
+        addIconShadow = false;
+        break;
+      }
+      case "energy-default": {
+        const matches = regExp.exec(fullOption);
+        const num = matches[1];
+        inner = `<energy-icon><value>${num}</value></energy-icon>`;
+        splitOptions[i] = first ? `energy-first(${num})` : num; // rename the option
+        addEnergyRing = false; //adds its own
+        addIconShadow = false;
+        break;
+      }
+      case "bonusenergy": {
+        const matches = regExp.exec(fullOption);
+        const num = matches[1];
+        inner = `<energy-icon><value>+${num}</value></energy-icon>`;
+        addEnergyRing = false; //adds its own
+        addIconShadow = false;
+        break;
+      }
+      case "plays": {
+        const matches = regExp.exec(fullOption);
+        const num = matches[1];
+        inner = `<card-icon><value>${numLocalize[lang][num] || num}</value></card-icon>`;
+        splitOptions[i] = `plays-special(${num})`;
+        addEnergyRing = false;
+        addIconShadow = false;
+        break;
+      }
+      case "plays-default": {
+        const matches = regExp.exec(fullOption);
+        const num = matches[1];
+        inner = `<card-icon><value>${numLocalize[lang][num] || num}</value></card-icon>`;
+        splitOptions[i] = first ? `plays-first(${num})` : num; // rename the option
+        addEnergyRing = false;
+        addIconShadow = false;
+        break;
+      }
+      case "incarna": {
+        const matches = regExp.exec(fullOption);
+        const incarnaOptions = matches[1].split(";");
+        const incarnaAction = incarnaOptions[0];
+        const customIncarnaIcon = incarnaOptions[1];
+        let addMoveHelper;
+        switch (incarnaAction) {
+          case "empower":
+            inner = "{empower-incarna}";
+            break;
+          case "addmove":
+          case "add-move":
+            addMoveHelper = incarnaOptions[2] ? incarnaOptions[2] : "presence";
+            inner =
+              '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
+              customIncarnaIcon +
+              '"></icon><icon class="' +
+              addMoveHelper +
+              ' with-your"></icon></add-move-lower></custom-icon>';
+            break;
+          default:
+            inner = "{empower-incarna}";
+        }
+        break;
+      }
+      case "token": {
+        const matches = regExp.exec(fullOption);
+        const options = matches[1].split(";");
+        if (options[0] && isNaN(options[0])) {
+          const tokenAdd = options[0];
+          inner = `<icon class='your-land'>{misc-plus}{${tokenAdd}}</icon>`;
+          splitOptions[i] = `add-token(${tokenAdd})`;
+        } else {
+          const range = options[0];
+          const tokenAdd = options[1];
+          inner = `<icon class='range-token'><div>{misc-plus}{${tokenAdd}}</div><div>{range-${range}}</div></icon>`;
+          splitOptions[i] = `add-token(${range},and,${tokenAdd})`;
+          addEnergyRing = false;
+          addIconShadow = true;
+        }
+        break;
+      }
+      case "custom": {
+        const matches = regExp.exec(fullOption);
+        if (pnDebug) {
+          console.log("Custom Node w/ Single Icon:" + fullOption);
+          console.log(matches);
+        }
+        const custom_node = matches[1].split(";");
+        // addEnergyRing = false;
+        addIconShadow = true;
+        if (custom_node[1]) {
+          inner = "<custom-presence-track-icon>";
+          if (custom_node[1].split("{")[1]) {
+            // User is using icon shorthand
+            inner += custom_node[1];
+          } else {
+            // User is not using icon shorthand
+            for (let i = 1; i < custom_node.length; i++) {
+              inner += `{${custom_node[i]}}`;
+            }
+          }
+          inner += "</custom-presence-track-icon>";
+        } else {
+          inner = "<" + trackType + "-icon><value></value></" + trackType + "-icon>";
+          addEnergyRing = false;
+        }
+        break;
+      }
+      case "move-presence": {
+        const matches = regExp.exec(fullOption);
+        let moveRange = 1;
+        inner =
+          "<track-move-presence>{presence}<move-value>" +
+          moveRange +
+          "</move-value>{move-arrow}</track-move-presence>";
+        if (matches[1]) {
+          moveRange = matches[1];
+          if (isNaN(moveRange)) {
+            inner =
+              "<track-move-presence>{presence}<move-text>" +
+              moveRange +
+              "</move-text>{move-arrow}</track-move-presence>";
+          } else {
+            inner =
+              "<track-move-presence>{presence}<move-value>" +
+              moveRange +
+              "</move-value>{move-arrow}</track-move-presence>";
+          }
+          addIconShadow = true;
+          if (addEnergyRing) {
+            addIconShadow = false;
+          }
+        }
+        break;
+      }
+      case "elements":
+      case "or": {
+        const matches = regExp.exec(fullOption);
+        const elementList = matches[1].split(";");
+        let elementIcons = "";
+        if (elementList.length === 2) {
+          elementIcons += "<icon class='" + elementList[0] + " presence-or-first'></icon>";
+          elementIcons += "{backslash}";
+          elementIcons += "<icon class='" + elementList[1] + " presence-or-second'></icon>";
+          inner = "<element-or-wrap>" + elementIcons + "</element-or-wrap>";
+        } else {
+          const iconText = matches[1];
+          inner = "{" + iconText + "}";
+        }
+        break;
+      }
+      case "gain-range": {
+        const matches = regExp.exec(fullOption);
+        const gainRange = matches[1];
+        const custom_node = gainRange.split(";");
+        inner = "{gain-range-" + custom_node[0] + "}";
+        addEnergyRing = false;
+        addIconShadow = true;
+        if (numLocs > 1) {
+          inner = "<icon-shadow>" + inner + "</icon-shadow>";
+        }
+        break;
+      }
+      case "gain-card-play": {
+        const matches = regExp.exec(fullOption);
+        const gainPlays = matches ? matches[1] : 1;
+        inner = "<card-play-num><value>" + gainPlays + "</value></card-play-num>";
+        addEnergyRing = false;
+        break;
+      }
+      case "damage": {
+        const matches = regExp.exec(fullOption);
+        let damageOptions = matches[1].split(";");
+        if (damageOptions[1]) {
+          // damage at range
+          let range = damageOptions[0];
+          let damage = damageOptions[1];
+          inner = `<damage><track-damage><value>${damage}</value></track-damage><range class="small">${range}</range></damage>`;
+        } else {
+          // damage in one of your lands
+          let damage = damageOptions[0];
+          inner = `<track-damage><value>${damage}</value></track-damage>`;
+        }
+        addIconShadow = true;
+        break;
+      }
+      case "gain-power-card": {
+        const iconText = fullOption;
+        const matches = regExp.exec(fullOption);
+        if (matches) {
+          inner = `<icon class='gain-power-card-blank'>{${matches[1]}}</icon>`;
+        } else {
+          inner = "{" + iconText + "}";
+        }
+        break;
+      }
+      case "reclaim": {
+        const matches = regExp.exec(fullOption);
+        if (matches) {
+          const reclaimType = `reclaim-${matches[1]}`;
+          inner += `{${reclaimType}}`;
+        } else {
+          inner += `{${fullOption}}`;
+        }
+        break;
+      }
+      case "blank": {
+        addEnergyRing = false;
+        addIconShadow = false;
+        break;
+      }
+      default: {
+        const iconText = fullOption;
+        inner = `{${iconText}}`;
+        break;
+      }
+    }
+
+    // placement
+    if (splitOptions.length === 1) {
+      innerFinal = inner;
+    } else {
+      const pos_angle = (i * 2 * Math.PI) / numLocs - Math.PI * (4.5 / 6);
+      const x_loc = 0.4 * Math.cos(pos_angle) * 50 + 50;
+      const y_loc = 0.4 * Math.sin(pos_angle) * 50 + 50;
+      const track_icon_loc = `style='top:${y_loc.toPrecision(2)}%; left:${x_loc.toPrecision(2)}%;'`;
+      let incShadow = "";
+      if (addIconShadow) {
+        incShadow = "class='add-shadow' ";
+        addIconShadow = false;
+      }
+      innerFinal += `<presence-node-multi ${incShadow}${track_icon_loc}>${inner}</presence-node-multi>`;
+    }
+  }
+
+  // subText - mostly handled in IconName
+  // Find unique names and report multiples
+  const nameCounts = {};
+  splitOptions.forEach(function (x) {
+    nameCounts[x] = (nameCounts[x] || 0) + 1;
+  });
+  let namesList = Object.keys(nameCounts);
+  let countList = Object.values(nameCounts);
+  subText = "";
+  for (let i = 0; i < namesList.length; i++) {
+    subText += IconName(namesList[i], countList[i]);
+    if (i < namesList.length - 1) {
+      subText += ", ";
+    }
+  }
+  subTextFinal = subText;
+
+  if (pnDebug) {
+    console.log(
+      "--Result-- Text:" +
+        subTextFinal +
+        ", Icon:" +
+        innerFinal +
+        ", addEnergyRing:" +
+        addEnergyRing +
+        ", addIconShadow: " +
+        addIconShadow
+    );
+  }
+  return [innerFinal, subTextFinal, addEnergyRing, addIconShadow];
 }
 
 /* exported updatePresenceNodeIDs */
@@ -2484,7 +2487,7 @@ function IconName(str, iconNum = 1) {
   let opt4 = "";
   let options;
   let localize;
-  let debug = false;
+  let debug = true;
 
   // identify if 'str' contains options
   const matches = regExp.exec(str);
@@ -2684,8 +2687,20 @@ function IconName(str, iconNum = 1) {
     case "bonusenergy":
       subText = `+${num} ${Energy[lang]}`;
       break;
+    case "energy-first":
+      subText = `${Energy[lang]}/${Turn[lang]}`;
+      break;
+    case "energy-special":
+      subText = `${num} ${Energy[lang]}`;
+      break;
     case "plays":
       subText = `${num} ${num > 1 ? CardPlays[lang] : CardPlay[lang]}`;
+      break;
+    case "plays-special":
+      subText = `${num} ${num > 1 ? CardPlays[lang] : CardPlay[lang]}`;
+      break;
+    case "plays-first":
+      subText = `${CardPlays[lang]}`;
       break;
     case "add-presence":
       if (num === "any" && options.length === 1) {
@@ -4098,6 +4113,10 @@ function IconName(str, iconNum = 1) {
         hu: "Erőkártya szerzése a Sosem Volt Napok pakliból",
       };
       subText = localize[lang];
+      break;
+    case "blank":
+      subText = "<br>";
+      subText = subText.repeat(num || 1);
       break;
     // Land types
     case "wetland":
