@@ -48,60 +48,13 @@ function buildCard(template) {
 
   const tokenEvents = document.querySelectorAll("token-event");
 
-  // const eventHeader = document.querySelector('event-header');
+  html = `<event-body class="${eventType} ${eventSubtype}">
+          <event-header class="title">${eventName}</event-header>
+          <effect class = "title"> ${eventLore} </effect>`;
 
-  html = `<event-body>         
-          `;
-
-  if (!(eventType === "blight" || eventType === "stage" || eventType === "terror")) {
-    if (!(eventName == "" || eventName == "none")) {
-      html += ` <event-header class = "title" >${eventName}</event-header>
-      `;
-      console.log(eventType);
-    }
-
-    if (!(eventLore == "" || eventLore == "none")) {
-      html += `<effect class = "title"> ${eventLore} </effect>
-      `;
-    }
-  }
-
-  let eventNumber = subEvents.length;
-
-  if (eventNumber == 2) {
-    if (eventType == "blight") {
-      html += parseSubevent(subEvents[0], 2, "healthy");
-      html += parseSubevent(subEvents[1], 1, "blighted");
-    }
-    if (eventType == "terror") {
-      if (eventSubtype == "terror12") {
-        html += parseSubevent(subEvents[0], 2, "terror12");
-        html += parseSubevent(subEvents[1], 1, "terror3");
-      } else {
-        html += parseSubevent(subEvents[0], 2, "terror1");
-        html += parseSubevent(subEvents[1], 1, "terror23");
-      }
-    }
-    if (eventType == "stage") {
-      if (eventSubtype == "stage12") {
-        html += parseSubevent(subEvents[0], 2, "stage12");
-        html += parseSubevent(subEvents[1], 1, "stage3");
-      } else {
-        html += parseSubevent(subEvents[0], 2, "stage1");
-        html += parseSubevent(subEvents[1], 1, "stage23");
-      }
-    }
-    if (!(eventType == "stage" || eventType == "blight" || eventType == "terror")) {
-      //default to choiche
-      html += parseSubevent(subEvents[0], 2, "choice");
-      html += parseSubevent(subEvents[1], 1, "choice");
-    }
-  } else {
-    subEvents.forEach((subEvent) => {
-      html += parseCustomSubevent(subEvent, eventNumber);
-      eventNumber--;
-    });
-  }
+  subEvents.forEach((subEvent, i) => {
+    html += parseSubevent(subEvents[i], i + 1, eventType);
+  });
 
   html += `</event-body>
           `;
@@ -131,103 +84,12 @@ function parseSubevent(el, eventNumber, bannerType) {
   let effect = el.getAttribute("effect");
   let bannerText = el.getAttribute("bannerText");
 
-  let html = `<subevent style = "z-index: ${eventNumber}">`;
-
-  if (bannerType != "none") {
-  }
-
-  switch (bannerType) {
-    case "choice":
-      break;
-
-    case "healthy":
-      html += `
-      <subevent-banner class="${bannerType}"> <subevent-banner-text> Healthy Island </subevent-banner-text> </subevent-banner>
-      `;
-      break;
-
-    case "blighted":
-      html += `
-        <subevent-banner class="${bannerType}"> <subevent-banner-text> Blighted Island </subevent-banner-text> </subevent-banner>
-      `;
-      break;
-
-    case "terror1":
-      html += `
-        <subevent-banner class="${bannerType}"> 
-        <subevent-banner-icon class="terror1"> </subevent-banner-icon>
-        </subevent-banner> 
-        `;
-      break;
-
-    case "terror12":
-      html += `
-        <subevent-banner class="${bannerType}"> 
-        <subevent-banner-icon class="terror1"> </subevent-banner-icon>
-        <subevent-banner-icon class="terror12"> </subevent-banner-icon>
-        </subevent-banner>
-        `;
-      break;
-
-    case "terror23":
-      html += `
-        <subevent-banner class="${bannerType}"> 
-        <subevent-banner-icon class="terror23"> </subevent-banner-icon>
-        <subevent-banner-icon class="terror3"> </subevent-banner-icon>
-        </subevent-banner>
-        `;
-      break;
-
-    case "terror3":
-      html += `
-        <subevent-banner class="${bannerType}"> 
-        <subevent-banner-icon class="terror3"> </subevent-banner-icon>
-        </subevent-banner>
-        `;
-      break;
-
-    case "stage1":
-      html += `
-        <subevent-banner class="stage1"> <subevent-banner-text> STAGE I </subevent-banner-text> </subevent-banner>
-        `;
-      break;
-
-    case "stage12":
-      html += `
-        <subevent-banner class="stage1"> <subevent-banner-text> STAGES I + II </subevent-banner-text> </subevent-banner>
-
-        `;
-      break;
-
-    case "stage23":
-      html += `
-        <subevent-banner class="stage3"> <subevent-banner-text> STAGES II + III </subevent-banner-text> </subevent-banner>
-        `;
-      break;
-
-    case "stage3":
-      html += `
-        <subevent-banner class="stage3"> <subevent-banner-text> STAGE III </subevent-banner-text> </subevent-banner>
-        `;
-      break;
-    case "custom":
-      html += `
-        <subevent-banner class="${bannerType}"> <subevent-banner-text> ${bannerText} </subevent-banner-text> </subevent-banner>
-        `;
-      break;
-    default:
-      break;
-  }
-
-  html += `
-    <subevent-body>
-    <subevent-header class = ${bannerType}>${name}</subevent-header>
-    <effect>${effect}</effect> 
-  `;
-  if (bannerType != "choice" && eventNumber != 1) {
-    html += `<event-line> </event-line>`;
-  }
-  html += `
+  let html = `<subevent class="${"sub" + eventNumber}" style="z-index:${4 - eventNumber}">
+  <subevent-banner></subevent-banner>
+  <subevent-body>
+  <subevent-header class = ${bannerType}>${name}</subevent-header>
+  <effect>${effect}</effect> 
+  ${bannerType != "choice" && eventNumber != 1 ? "<event-line></event-line>" : ""}
   </subevent-body>
   </subevent>
   `;

@@ -100,7 +100,7 @@
     eventCardStyle.textContent = customIconText;
 
     console.log("eventCard HTML generated");
-    console.log(fragment);
+    console.log(eventCard);
 
     return fragment;
   }
@@ -113,10 +113,10 @@
     eventCard = JSON.parse(JSON.stringify(emptyEventCard));
 
     const eventCardHTML = htmlElement.querySelectorAll("template-event-card")[0];
-    eventCard.card.name = eventCardHTML.getAttribute("name");
+    eventCard.card.name = eventCardHTML.getAttribute("name") || "";
     eventCard.card.type = eventCardHTML.getAttribute("type");
     eventCard.card.subtype = eventCardHTML.getAttribute("subtype");
-    eventCard.card.lore = eventCardHTML.getAttribute("lore");
+    eventCard.card.lore = eventCardHTML.getAttribute("lore") || "";
     const headerHTML = eventCardHTML.querySelectorAll("event-header")[0];
     if (headerHTML) {
       eventCard.card.hasHeader = headerHTML.getAttribute("hasHeader");
