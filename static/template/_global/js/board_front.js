@@ -115,7 +115,7 @@ function addImages(board) {
 }
 
 function addTrackBanners(board) {
-  let debug = false;
+  let debug = true;
   const presenceTracks = board.getElementsByTagName("presence-tracks")[0];
 
   // Check for Combined Banner
@@ -123,6 +123,7 @@ function addTrackBanners(board) {
   if (combinedBanner) {
     if (debug) {
       console.log("Combined banner");
+      console.log(combinedBanner);
     }
     presenceTracks.appendChild(combinedBanner);
     let table = document.getElementById("presence-table");
@@ -1338,9 +1339,10 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
 
   //detect combined-banners
   const combinedBanner = presenceTable.getAttribute("banner");
-  if (combinedBanner) {
+  if (combinedBanner && combinedBanner !== "null") {
     // Prepare banner
     console.log("preparing combined banner");
+    console.log(combinedBanner);
     if (combinedBanner) {
       createTrackBannerArt(combinedBanner, presenceTable, "combined");
     }
@@ -1531,7 +1533,7 @@ let CardPlays = {
 };
 let Cost = {
   en: "Cost",
-  fr: "",
+  fr: "Coût",
   de: "Kosten",
   pl: "Koszt",
   hu: "Költség",
@@ -1820,7 +1822,7 @@ function getPresenceNodeHtml(
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
   const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
-  let pnDebug = true;
+  let pnDebug = false;
 
   // Every node will have a presence-node element with
   // a ring-icon element inside, so we can add these now.
@@ -2086,7 +2088,7 @@ function getPresenceNodeInnerHTML(
   let subText = "";
   let inner = "";
   const regExp = /\(([^)]+)\)/;
-  let pnDebug = false;
+  let pnDebug = true;
   let addIconShadow = false;
 
   // Setup node class
@@ -2137,11 +2139,11 @@ function getPresenceNodeInnerHTML(
     // Convert number values into energy/plays
     if (!isNaN(option)) {
       if (trackType === "energy") {
-        fullOption = `energy(${option})`;
-        option = `energy`;
+        fullOption = `energy-default(${option})`;
+        option = `energy-default`;
       } else {
-        fullOption = `plays(${option})`;
-        option = `plays`;
+        fullOption = `plays-default(${option})`;
+        option = `plays-default`;
       }
     }
 
@@ -2184,10 +2186,17 @@ function getPresenceNodeInnerHTML(
       case "energy": {
         const matches = regExp.exec(fullOption);
         const num = matches[1];
-        console.log("in energy, num is " + num);
-        console.log("in energy, fullOption is " + fullOption);
         inner = `<energy-icon><value>${num}</value></energy-icon>`;
-        splitOptions[i] = first ? "energy-first" : num; // rename the option
+        splitOptions[i] = `energy-special(${num})`; // rename the option
+        addEnergyRing = false; //adds its own
+        addIconShadow = false;
+        break;
+      }
+      case "energy-default": {
+        const matches = regExp.exec(fullOption);
+        const num = matches[1];
+        inner = `<energy-icon><value>${num}</value></energy-icon>`;
+        splitOptions[i] = first ? `energy-first(${num})` : num; // rename the option
         addEnergyRing = false; //adds its own
         addIconShadow = false;
         break;
@@ -2204,8 +2213,16 @@ function getPresenceNodeInnerHTML(
         const matches = regExp.exec(fullOption);
         const num = matches[1];
         inner = `<card-icon><value>${numLocalize[lang][num] || num}</value></card-icon>`;
-        splitOptions[i] = trackType === "energy" ? `plays-first` : num;
-        splitOptions[i] = first ? `plays-first` : splitOptions[i]; // rename the option
+        splitOptions[i] = `plays-special(${num})`;
+        addEnergyRing = false;
+        addIconShadow = false;
+        break;
+      }
+      case "plays-default": {
+        const matches = regExp.exec(fullOption);
+        const num = matches[1];
+        inner = `<card-icon><value>${numLocalize[lang][num] || num}</value></card-icon>`;
+        splitOptions[i] = first ? `plays-first(${num})` : num; // rename the option
         addEnergyRing = false;
         addIconShadow = false;
         break;
@@ -2241,12 +2258,12 @@ function getPresenceNodeInnerHTML(
         if (options[0] && isNaN(options[0])) {
           const tokenAdd = options[0];
           inner = `<icon class='your-land'>{misc-plus}{${tokenAdd}}</icon>`;
-          subText = IconName(`add-token(${tokenAdd})`);
+          splitOptions[i] = `add-token(${tokenAdd})`;
         } else {
           const range = options[0];
           const tokenAdd = options[1];
           inner = `<icon class='range-token'><div>{misc-plus}{${tokenAdd}}</div><div>{range-${range}}</div></icon>`;
-          subText = IconName(`add-token(${range},and,${tokenAdd})`);
+          splitOptions[i] = `add-token(${range},and,${tokenAdd})`;
           addEnergyRing = false;
           addIconShadow = true;
         }
@@ -2470,7 +2487,7 @@ function IconName(str, iconNum = 1) {
   let opt4 = "";
   let options;
   let localize;
-  let debug = false;
+  let debug = true;
 
   // identify if 'str' contains options
   const matches = regExp.exec(str);
@@ -2670,11 +2687,17 @@ function IconName(str, iconNum = 1) {
     case "bonusenergy":
       subText = `+${num} ${Energy[lang]}`;
       break;
+    case "energy-first":
+      subText = `${Energy[lang]}/${Turn[lang]}`;
+      break;
+    case "energy-special":
+      subText = `${num} ${Energy[lang]}`;
+      break;
     case "plays":
       subText = `${num} ${num > 1 ? CardPlays[lang] : CardPlay[lang]}`;
       break;
-    case "energy-first":
-      subText = `${Energy[lang]}/${Turn[lang]}`;
+    case "plays-special":
+      subText = `${num} ${num > 1 ? CardPlays[lang] : CardPlay[lang]}`;
       break;
     case "plays-first":
       subText = `${CardPlays[lang]}`;

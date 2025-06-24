@@ -13,7 +13,8 @@
     if (val !== "choice") {
       eventCard.subevents.event = eventCard.subevents.event.slice(0, 2);
     } else {
-      eventCard.card.subtype = "choice";
+      eventCard.card.subtype = "ch2";
+      setSubeventType("ch2", eventCard.subevents);
     }
     if (val === "terror") {
       eventCard.card.subtype = "terror12";

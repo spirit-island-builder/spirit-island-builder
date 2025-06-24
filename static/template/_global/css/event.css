@@ -171,63 +171,136 @@ subevent-banner {
   overflow: hidden;
 }
 
-subevent-banner.healthy {
-  background-image: url(../images/cards/Event/EventBanners/HealthyBanner.png);
-}
-
-subevent-banner.blighted {
-  background-image: url(../images/cards/Event/EventBanners/BlightedBanner.png);
-}
-subevent-banner.stage1 {
-  background-image: url(../images/cards/Event/EventBanners/StageIBanner.png);
-}
-subevent-banner.stage3 {
-  background-image: url(../images/cards/Event/EventBanners/StageIIIBanner.png);
-}
-subevent-banner.terror1 {
-  background-image: url(../images/cards/Event/EventBanners/Terror1Banner.png);
-}
-subevent-banner.terror12 {
-  background-image: url(../images/cards/Event/EventBanners/Terror1Banner.png);
-}
-subevent-banner.terror23 {
-  background-image: url(../images/cards/Event/EventBanners/Terror23Banner.png);
-}
-subevent-banner.terror3 {
-  background-image: url(../images/cards/Event/EventBanners/Terror3Banner.png);
-}
-
-subevent-banner-icon {
-  display: flex;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-  width: 60px;
-  height: 60px;
-  left: 7px;
-}
-
-subevent-banner-icon.terror1 {
-  background-image: url(../images/cards/Event/EventBanners/Terror1.png);
-}
-subevent-banner-icon.terror12 {
-  background-image: url(../images/cards/Event/EventBanners/Terror12.png);
-}
-subevent-banner-icon.terror23 {
-  background-image: url(../images/cards/Event/EventBanners/Terror23.png);
-}
-subevent-banner-icon.terror3 {
-  background-image: url(../images/cards/Event/EventBanners/Terror3.png);
-}
-
-subevent-banner-text {
+subevent-banner:after {
   font-family: "Short Name Headings";
   font-size: 18pt;
   position: relative;
   display: block;
-  transform-origin: center;
-  transform: rotate(270deg) translateX(0%);
   width: max-content;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+/* Blight Banners */
+event-body.blight {
+  subevent-banner:after {
+    transform-origin: center;
+    transform: rotate(270deg) translateX(0%);
+  }
+  subevent.sub1 {
+    subevent-banner {
+      background-image: url(../images/cards/Event/EventBanners/HealthyBanner.png);
+    }
+
+    subevent-banner:after {
+      content: "Healthy Island";
+    }
+  }
+  subevent.sub2 {
+    subevent-banner {
+      background-image: url(../images/cards/Event/EventBanners/BlightedBanner.png);
+    }
+
+    subevent-banner:after {
+      content: "Blighted Island";
+    }
+  }
+}
+
+/* Terror Banners */
+event-body.terror subevent-banner:after {
+  content: "";
+  width: 60px;
+  height: 100%;
+  left: 7px;
+}
+
+event-body.terror1 {
+  subevent.sub1 {
+    subevent-banner {
+      background-image: url(../images/cards/Event/EventBanners/Terror1Banner.png);
+    }
+    subevent-banner:after {
+      background-image: url(../images/cards/Event/EventBanners/Terror1.png);
+    }
+  }
+  subevent.sub2 {
+    subevent-banner {
+      background-image: url(../images/cards/Event/EventBanners/Terror23Banner.png);
+    }
+    subevent-banner:after {
+      background-image: url(../images/cards/Event/EventBanners/Terror23_new.png);
+    }
+  }
+}
+
+event-body.terror12 {
+  subevent.sub1 {
+    subevent-banner {
+      background-image: url(../images/cards/Event/EventBanners/Terror1Banner.png);
+    }
+    subevent-banner:after {
+      background-image: url(../images/cards/Event/EventBanners/Terror12_new.png);
+    }
+  }
+  subevent.sub2 {
+    subevent-banner {
+      background-image: url(../images/cards/Event/EventBanners/Terror3Banner.png);
+    }
+    subevent-banner:after {
+      background-image: url(../images/cards/Event/EventBanners/Terror3.png);
+    }
+  }
+}
+
+/* Invader Stage banners */
+event-body.stage {
+  subevent-banner:after {
+    transform-origin: center;
+    transform: rotate(270deg) translateX(0%);
+  }
+  subevent.sub1 {
+    subevent-banner {
+      background-image: url(../images/cards/Event/EventBanners/StageIBanner.png);
+    }
+  }
+  subevent.sub2 {
+    subevent-banner {
+      background-image: url(../images/cards/Event/EventBanners/StageIIIBanner.png);
+    }
+  }
+}
+
+event-body.stage1 {
+  subevent.sub1 {
+    subevent-banner:after {
+      content: "STAGE I";
+    }
+  }
+  subevent.sub2 {
+    subevent-banner:after {
+      content: "STAGES II + III";
+    }
+  }
+}
+
+event-body.stage12 {
+  subevent.sub1 {
+    subevent-banner:after {
+      content: "STAGES I + II";
+    }
+  }
+  subevent.sub2 {
+    subevent-banner:after {
+      content: "STAGE III";
+    }
+  }
+}
+
+/* Choice Banners (none) */
+event-body.choice subevent-banner {
+  display: none;
 }
 
 subevent {
@@ -238,7 +311,7 @@ subevent {
   height: 100%;
 }
 
-subevent:first-child {
+subevent:first-of-type {
   margin-top: -10px;
 }
 
@@ -270,7 +343,7 @@ subevent-header {
   text-align: center;
 }
 
-subevent:first-child subevent-header {
+subevent:first-of-type subevent-header {
   height: 49px;
   padding-top: 17px;
 }
@@ -313,6 +386,18 @@ event-header {
   padding-top: 11px;
 }
 
+event-body.blight event-header,
+event-body.terror event-header,
+event-body.stage event-header {
+  display: none;
+}
+
+event-body.blight effect.title,
+event-body.terror effect.title,
+event-body.stage effect.title {
+  display: none;
+}
+
 token-event-name {
   font-family: "Short Name Headings";
   letter-spacing: 1px;
@@ -335,7 +420,7 @@ effect {
   padding-left: 11px;
 }
 
-subevent:first-child effect {
+subevent:first-of-type effect {
   padding-top: 4px;
   padding-right: 35px;
 }
