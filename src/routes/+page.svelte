@@ -27,6 +27,7 @@
   import FearCard from "./fear-card/index.svelte";
   import IncarnaToken from "./incarna-token/index.svelte";
   import EventCard from "./event-card/index.svelte";
+  import InvaderCard from "./invader-card/index.svelte";
   import About from "./about/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
   import Footer from "./footer.svelte";
@@ -87,6 +88,9 @@
     case "eventcard":
     case "event":
       currentPage = "eventCard";
+      break;
+    case "invader":
+      currentPage = "invaderCard";
       break;
     default:
       currentPage = "spiritBoardFront";
@@ -702,6 +706,36 @@
   };
   let fearCard = JSON.parse(JSON.stringify(emptyFearCard));
 
+  let emptyInvaderCard = {
+    prop: "value",
+    demoBoardWasLoaded: false,
+    previewBoard: {
+      isVisible: false,
+    },
+    card: {
+      isVisible: false,
+      type: "single",
+      top: "",
+      bottom: "",
+      fields: [
+        {
+          id: 0,
+          type: "",
+          text: "",
+          imgsrc: "",
+          color: "#3f1d1c",
+        },
+      ],
+    },
+    showBackOld: false,
+    showBackNew: false,
+    customIcons: {
+      isVisible: false,
+      icons: [],
+    },
+  };
+  let invaderCard = JSON.parse(JSON.stringify(emptyInvaderCard));
+
   let emptyIncarnaToken = {
     prop: "value",
     demoBoardWasLoaded: false,
@@ -796,6 +830,7 @@
     ["blightCard", "Blight Card"],
     ["fearCard", "Fear Card"],
     ["eventCard", "Event Card"],
+    ["invaderCard", "Invader Card"],
     ["about", "About"],
   ];
 </script>
@@ -862,6 +897,7 @@
       currentPage === "aspect" ||
       currentPage === "blightCard" ||
       currentPage === "eventCard" ||
+      currentPage === "invaderCard" ||
       currentPage === "fearCard"}>
     {#if currentPage === "spiritBoardFront"}
       <SpiritBoard
@@ -903,6 +939,8 @@
       <FearCard bind:fearCard bind:emptyFearCard />
     {:else if currentPage === "eventCard"}
       <EventCard bind:eventCard bind:emptyEventCard />
+    {:else if currentPage === "invaderCard"}
+      <InvaderCard bind:invaderCard bind:emptyInvaderCard />
     {:else if currentPage === "about"}
       <About />
     {/if}

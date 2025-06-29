@@ -1,0 +1,193 @@
+@font-face {
+  font-family: JosefinSans-Regular;
+  src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf) format("truetype");
+  font-weight: normal;
+}
+
+html,
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 14px;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  align-content: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+template-invader-card {
+  display: inline-flex;
+  width: 377px;
+  height: 575px;
+  border-radius: 22px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  flex-direction: column;
+}
+
+invader-card-mask {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+}
+
+invader-card-terrain {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  mask-size: contain;
+}
+
+template-invader-card.single {
+  invader-card-mask {
+    background-image: url(../images/cards/Invader/Invader_Card_Background_Single.png);
+  }
+  invader-card-terrain:first-of-type {
+    mask: url(../images/cards/Invader/Invader_Card_Terrain_Mask_Full.png);
+    mask-size: contain;
+  }
+}
+
+template-invader-card.double {
+  invader-card-mask {
+    background-image: url(../images/cards/Invader/Invader_Card_Background_Double.png);
+  }
+  invader-card-terrain:first-of-type {
+    mask: url(../images/cards/Invader/Invader_Card_Terrain_Mask_Top.png);
+    mask-size: contain;
+  }
+  invader-card-terrain {
+    mask: url(../images/cards/Invader/Invader_Card_Terrain_Mask_Bottom.png);
+    mask-size: contain;
+  }
+}
+
+template-invader-card.split {
+  invader-card-mask {
+    background-image: url(../images/cards/Invader/Invader_Card_Background_HME.png);
+  }
+  invader-card-terrain:first-of-type {
+    mask: url(../images/cards/Invader/Invader_Card_Terrain_Mask_HME.png);
+    mask-size: contain;
+  }
+}
+
+invader-field {
+  display: flex;
+  position: relative;
+  font-family: "Name Headings";
+  z-index: 2;
+  white-space: normal;
+  font-size: 30px;
+  width: 100%;
+  padding-left: 61px;
+  padding-right: 61px;
+  line-height: 1;
+  margin-bottom: 15px;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+invader-field.title {
+  font-family: "Antropos";
+  color: #c8c2b6;
+  text-shadow: -2px 2px 0 #3f1d1c, 2px 2px 0 #3f1d1c, 2px -2px 0 #3f1d1c, -2px -2px 0 #3f1d1c;
+  letter-spacing: 3px;
+  font-size: 110px;
+}
+
+invader-field.para {
+  font-family: "Name Headings";
+  color: #3f1d1c;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+invader-field.reminder {
+  font-family: "Name Headings";
+  color: #3f1d1c;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+invader-field.image {
+  height: 60px;
+  margin-bottom: 15px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+invader-field:first-child {
+  margin-top: 70px;
+}
+
+invader-field.spacer {
+  height: 30px;
+  margin-bottom: 0px;
+}
+
+invader-card-stitching-single {
+  background-image: url(../images/cards/Invader/Invader_Card_Stitching_Stage_I__II.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+invader-card-stitching-double {
+  background-image: url(../images/cards/Invader/Invader_Card_Stitching_Stage_III.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+template-invader-card dev-overlay {
+  display: block;
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-size: inherit;
+  opacity: 0.5;
+  filter: invert(1) saturate(0);
+  pointer-events: none;
+  z-index: 101;
+}
