@@ -1,6 +1,6 @@
 # Spirit Island Builder
 
-This is the code home for https://spiritislandbuilder.com/, a web app for building custom components for the boardgame [**Spirit Island**](https://boardgamegeek.com/boardgame/162886/spirit-island). It currently supports creating Spirit Boards, Power Cards, Adversaries, and Aspects. This is an unofficial project, all materials belong to Greater Than Games, LLC.
+This is the code home for https://spiritislandbuilder.com/, a web app for building custom components for the boardgame [**Spirit Island**](https://boardgamegeek.com/boardgame/162886/spirit-island). It currently supports creating content for nearly every aspect of the game. This is an unofficial project, all materials belong to Greater Than Games, LLC.
 
 ## Develop
 
