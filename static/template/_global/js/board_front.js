@@ -270,12 +270,6 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
 
   let growthGroupHTML = "";
 
-  const tint = growthGroup.getAttribute("tint");
-  let tint_text = "";
-  if (tint) {
-    tint_text += "<div class='tint' style='background-color:" + tint + ";'></div>";
-  }
-
   const headerText = !isNaN(headerIndex) ? ` header='${headerIndex}'` : "";
   const specialTitleText = growthGroup.getAttribute("special-title")
     ? ` special-title='${growthGroup.getAttribute("special-title")}'`
@@ -284,13 +278,26 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
     ? ` special-title-left='${growthGroup.getAttribute("special-title-left")}'`
     : "";
   const newRowFlag = growthGroup.getAttribute("new-row") ? ` new-row=true` : "";
+  const tint = growthGroup.getAttribute("tint");
+  const tintText = tint ? ` tint=${tint}` : ``;
 
   if (specialTitleTextLeft) {
     console.log("Found special title");
     console.log(growthGroup);
   }
   growthGroupHTML +=
-    `<growth-group` + headerText + newRowFlag + specialTitleText + specialTitleTextLeft + `>`;
+    `<growth-group` +
+    headerText +
+    newRowFlag +
+    specialTitleText +
+    specialTitleTextLeft +
+    tintText +
+    `>`;
+
+  // Tint
+  if (tint) {
+    growthGroupHTML += "<tint class='tint' style='background-color:" + tint + ";'></tint>";
+  }
 
   // Costs
   const cost = growthGroup.getAttribute("cost");
@@ -325,7 +332,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   let nextGrowthAction;
   for (let j = 0; j < growthActions.length; j++) {
     try {
-      nextGrowthAction = writeGrowthAction(growthActions[j], setIndex, groupIndex, j, tint_text);
+      nextGrowthAction = writeGrowthAction(growthActions[j], setIndex, groupIndex, j);
     } catch (e) {
       nextGrowthAction = writeGrowthAction("custom(error! check syntax)");
     }
@@ -337,13 +344,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   return growthGroupHTML;
 }
 
-function writeGrowthAction(
-  growthAction,
-  setIndex = 0,
-  groupIndex = 0,
-  actionIndex = 0,
-  tint_text = ""
-) {
+function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionIndex = 0) {
   let debug = false;
   const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
   const regExpCommaNoParentheses = /,(?![^(]*\))/;
@@ -385,7 +386,7 @@ function writeGrowthAction(
   }
 
   // Establish Growth HTML Openers and Closers
-  let growthOpen = "<growth-cell id='" + growthActionID + "'>" + tint_text;
+  let growthOpen = "<growth-cell id='" + growthActionID + "'>";
   let growthTextOpen = "<growth-text>";
   let growthTextClose = "</growth-text></growth-cell>";
   let growthIcons = "";
@@ -2088,7 +2089,7 @@ function getPresenceNodeInnerHTML(
   let subText = "";
   let inner = "";
   const regExp = /\(([^)]+)\)/;
-  let pnDebug = true;
+  let pnDebug = false;
   let addIconShadow = false;
 
   // Setup node class
@@ -2487,7 +2488,7 @@ function IconName(str, iconNum = 1) {
   let opt4 = "";
   let options;
   let localize;
-  let debug = true;
+  let debug = false;
 
   // identify if 'str' contains options
   const matches = regExp.exec(str);
@@ -4762,9 +4763,13 @@ function dynamicResizing() {
   if (debug) {
     console.log("ADJUSTING GROWTH TEXT");
   }
+
   const maxGrowthTextHeight = newGrowthTable !== undefined ? 50 : 75;
   for (let i = 0; i < growthTexts.length; i++) {
     // Add lines to very wide text (up to 3 lines total)
+    if (debug) {
+      console.log(`growthTexts[i]`);
+    }
     balanceText(growthTexts[i]); // First balance the text to give an accurate sense of what needs new lines
     if (
       growthTexts[i].offsetWidth > growthWidthByIcons[i] * 1.1 &&
@@ -4954,23 +4959,6 @@ function dynamicResizing() {
 
   // Adjust headers and titles
   growthHeadersAndTitles();
-
-  // Handle Tint (corners)
-  let growthGroupsTint = board.getElementsByTagName("growth-group");
-  if (growthGroupsTint) {
-    for (let group of growthGroupsTint) {
-      let growthTints = group.getElementsByClassName("tint");
-      if (growthTints.length === 1) {
-        if (debug) {
-          console.log("found solo tint");
-        }
-        growthTints[0].classList.add("solo-tint");
-      } else if (growthTints.length) {
-        growthTints[0].classList.add("start-tint");
-        growthTints[growthTints.length - 1].classList.add("end-tint");
-      }
-    }
-  }
 
   // Relax growth text
   const finalGrowthTexts = board.getElementsByTagName("growth-text");
@@ -5414,7 +5402,7 @@ function innatePowerSizing(board) {
 }
 
 function balanceText(el, lineHeight = 23) {
-  let debug = false;
+  let debug = true;
   const initialHeight = el.offsetHeight;
   const initialWidth = el.offsetWidth;
   if (debug) {
@@ -5463,6 +5451,8 @@ function balanceText(el, lineHeight = 23) {
       console.log("reset to w=" + el.offsetWidth + ",h=" + el.offsetHeight);
     }
     // el.style.width = el.offsetWidth + "px";
+  } else {
+    console.log("One line, no balancing possible");
   }
 }
 
