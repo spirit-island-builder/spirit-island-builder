@@ -195,6 +195,7 @@ growth .tint {
   height: 120%;
   top: -20%;
   left: 3px;
+  border-radius: 8px;
 }
 
 growth .start-tint {

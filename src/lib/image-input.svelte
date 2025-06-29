@@ -5,6 +5,7 @@
   export let imageScale;
   export let includeScale = false;
   export let info;
+  export let reload = false;
   export let includeInfo = false;
   export let examples = null;
   export let exampleDescription = "Example";
@@ -15,6 +16,12 @@
   async function loadExample(banner) {
     console.log(banner);
     imageURL = banner.imageURL;
+    console.log("here");
+    if (reload) {
+      console.log("attempting reload");
+      console.log(document);
+      document.getElementById("updateButton").click();
+    }
   }
 
   let files;
@@ -26,6 +33,12 @@
       const fileReader = new FileReader();
       fileReader.onload = (event) => {
         imageURL = event.target.result;
+        console.log("here");
+        if (reload) {
+          console.log("attempting reload");
+          console.log(document);
+          document.getElementById("updateButton").click();
+        }
       };
       console.log("reading new image");
       // This reads the file and then triggers the onload function above once it finishes
