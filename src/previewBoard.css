@@ -227,3 +227,14 @@
   --preview-large-frame-transform: scale(1);
   --preview-large-frame-width: 650px;
 }
+
+#invader-card-preview {
+  --scroll-amount: 295;
+
+  --board-width-px: 1250;
+  --board-height-px: 682px;
+
+  --preview-large-wrap-height: 710px;
+  --preview-large-frame-transform: scale(1);
+  --preview-large-frame-width: 650px;
+}

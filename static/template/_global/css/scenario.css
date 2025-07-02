@@ -296,6 +296,13 @@ scenario.printer-clean scenario-art-holder {
   z-index: -1;
 }
 
+scenario icon.escalation {
+  margin-bottom: -1px;
+  margin-right: 0px;
+  margin-left: -3px;
+  width: 20px;
+}
+
 scenario-back-difficulty {
   position: absolute;
   display: flex;

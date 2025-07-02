@@ -1,0 +1,26 @@
+[
+  {
+    "examples": [
+      {
+        "name": "Jungle",
+        "imageURL": "/template/_global/images/cards/Invader/Jungle_Terrain.png"
+      },
+      {
+        "name": "Sand",
+        "imageURL": "/template/_global/images/cards/Invader/Sand_Terrain.png"
+      },
+      {
+        "name": "Mountain",
+        "imageURL": "/template/_global/images/cards/Invader/Mountain_Terrain.png"
+      },
+      {
+        "name": "Wetland",
+        "imageURL": "/template/_global/images/cards/Invader/Wetland_Terrain.png"
+      },
+      {
+        "name": "Ocean",
+        "imageURL": "/template/_global/images/cards/Invader/Ocean_Terrain.png"
+      }
+    ]
+  }
+]

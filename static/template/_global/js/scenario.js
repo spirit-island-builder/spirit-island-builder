@@ -137,27 +137,46 @@ function buildScenario(quickScenario) {
 }
 
 function resize() {
-  // dynamicSizing(document.querySelectorAll("top-info")[0], 55);
+  dynamicSizing(
+    document.querySelectorAll("scenario-right")[0],
+    document.querySelectorAll("scenario-front")[0]
+  );
+  dynamicSizing(
+    document.querySelectorAll("back-left")[0],
+    document.querySelectorAll("scenario-back")[0]
+  );
+  dynamicSizing(
+    document.querySelectorAll("back-right")[0],
+    document.querySelectorAll("scenario-back")[0]
+  );
   // dynamicSizingRules();
 }
 
-function dynamicSizing(el, maxSize = el.offsetHeight) {
+function dynamicSizing(panel, scope, maxSize = panel.offsetHeight) {
   let debug = true;
   if (debug) {
-    console.log("Shinking: " + el.tagName);
+    console.log("Shinking: " + panel.tagName);
   }
   let j = 0;
-  while (checkOverflowHeight(el, 0)) {
-    var style = window.getComputedStyle(el, null).getPropertyValue("font-size");
-    var line = window.getComputedStyle(el, null).getPropertyValue("line-height");
-    var fontSize = parseFloat(style);
-    var lineHeight = parseFloat(line);
-    el.style.lineHeight = lineHeight - 1 + "px";
-    // if (lineHeight < 15) {
-    //   // there's more room in line height first
-    el.style.fontSize = fontSize - 1 + "px";
-    // }
-    // safety valve
+  let commentsPara = scope.querySelectorAll("comment.para");
+  let commentsBullet = scope.querySelectorAll("comment.bullets");
+  let commentsLead = commentsPara[0] ? commentsPara[0] : commentsBullet[0];
+
+  while (checkOverflowHeight(panel, 0)) {
+    var fontSizePara = parseFloat(
+      window.getComputedStyle(commentsLead, null).getPropertyValue("font-size")
+    );
+    var lineHeightPara = parseFloat(
+      window.getComputedStyle(commentsLead, null).getPropertyValue("line-height")
+    );
+    commentsPara.forEach((para) => {
+      para.style.lineHeight = lineHeightPara - 1 + "px";
+      para.style.fontSize = fontSizePara - 1 + "px";
+    });
+    commentsBullet.forEach((bullet) => {
+      bullet.style.lineHeight = lineHeightPara - 1 + "px";
+      bullet.style.fontSize = fontSizePara - 1 + "px";
+    });
     j += 1;
     if (j > 20) {
       console.log("safety");
