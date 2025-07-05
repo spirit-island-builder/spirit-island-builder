@@ -85,8 +85,8 @@ Growth is broken into Growth Sets, Groups, and Actions.
 
 | Category | Action | Usage | Details | Examples |
 | ------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Reclaim | Reclaim All, Reclaim One, Reclaim Half | relcaim(x) | x can be all, one, half, or custom |  |
-|  | Reclaim Element Specific | relcaim(x,y) | Reclaim x (all or one) cards with element y | Ember-Eyed Behemoth: reclaim(all,fire) |
+| Reclaim | Reclaim All, Reclaim One, Reclaim Half | reclaim(x) | x can be all, one, half, or custom |  |
+|  | Reclaim Element Specific | reclaim(x,y) | Reclaim x (all or one) cards with element y | Ember-Eyed Behemoth: reclaim(all,fire) |
 |  | Reclaim Custom | reclaim(custom,_your custom reclaim text_) | Custom reclaim text with a unique icon. | reclaim(custom,your Unique Power Cards) |
 | Adding Presence | Add Presence at Range | add-presence(x) | At range x, add a Presence. x can be a number or 'any' |  |
 |  | Add Presence with Condition | add-presence(x,y) | At range x, add a Presence to a land with y conditions. y can be terrains, tokens, invaders, invader pieces, dahan, blight, etc. |  |
