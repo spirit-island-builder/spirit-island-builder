@@ -101,9 +101,8 @@ function addImages(board) {
   }
   if (spiritImage) {
     //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
-    board.innerHTML =
-      `<spirit-image-holder><spirit-image class="spirit-image" style="height:${imageSize}; background-image: url(${spiritImage});" ></spirit-image></spirit-image-holder>` +
-      board.innerHTML;
+    board.innerHTML = `<spirit-image-holder><spirit-image class="spirit-image" style="height:${imageSize}; background-image: url(${spiritImage});" >
+      </spirit-image></spirit-image-holder>${board.innerHTML}`;
     artistCredit[0].style.display = "block";
     artistCredit[0].innerHTML = "Artist Credit: " + artistCredit[0].innerHTML;
   }
@@ -224,8 +223,7 @@ function buildGrowthPanel() {
 
         // Add single border
         if (nextSubElement && nextSubElement.nodeName.toLowerCase() === "growth-group") {
-          newGrowthCellHTML +=
-            "<growth-border" + ` header=${currentHeaderIndex}` + "></growth-border>";
+          newGrowthCellHTML += `<growth-border header=${currentHeaderIndex}></growth-border>`;
           groupIndex += 1;
         }
       }
@@ -296,7 +294,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
 
   // Tint
   if (tint) {
-    growthGroupHTML += "<tint class='tint' style='background-color:" + tint + ";'></tint>";
+    growthGroupHTML += `<tint class='tint' style='background-color:${tint};'></tint>`;
   }
 
   // Costs
@@ -351,7 +349,7 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
 
   let growthActionHTML = "";
   let growthActionType = growthAction.split("(")[0].split("^")[0];
-  let growthActionID = "s" + setIndex + "g" + groupIndex + "a" + actionIndex;
+  let growthActionID = `s${setIndex}g${groupIndex}a${actionIndex}`;
   if (debug) {
     console.log("Growth Action " + growthActionID + ": " + growthAction);
     console.log("Growth Action Type: " + growthActionType);
@@ -386,7 +384,7 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
   }
 
   // Establish Growth HTML Openers and Closers
-  let growthOpen = "<growth-cell id='" + growthActionID + "'>";
+  let growthOpen = `<growth-cell id='${growthActionID}'>`;
   let growthTextOpen = "<growth-text>";
   let growthTextClose = "</growth-text></growth-cell>";
   let growthIcons = "";
@@ -410,10 +408,8 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
   if (isPresenceNode) {
     console.log(growthIcons);
     if (growthAction.includes("blank")) {
-      growthIcons =
-        '<presence-node class="growth blank"><ring-icon>' +
-        growthIcons +
-        "</ring-icon></presence-node>";
+      growthIcons = `<presence-node class="growth blank"><ring-icon>${growthIcons}
+        </ring-icon></presence-node>`;
     } else {
       if (growthWasDefault) {
         // Assume user wants Presence Node options
@@ -427,10 +423,7 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
         growthIcons = div.outerHTML;
         growthText = "";
       } else {
-        growthIcons =
-          '<presence-node class="growth"><ring-icon>' +
-          growthIcons +
-          "</ring-icon></presence-node>";
+        growthIcons = `<presence-node class="growth"><ring-icon>${growthIcons}</ring-icon></presence-node>`;
         console.log("node in growth with: " + growthIcons);
       }
     }
@@ -439,7 +432,7 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
 
   //Handle Ors
   if (isOr) {
-    growthIcons = "<growth-cell-double>" + growthIcons + "</growth-cell-double>";
+    growthIcons = `<growth-cell-double>${growthIcons}</growth-cell-double>`;
   }
 
   growthActionHTML = growthOpen + growthIcons + growthTextOpen + growthText + growthTextClose;
@@ -464,8 +457,8 @@ function getGrowthActionTextAndIcons(growthAction) {
     const repeat = growthAction.split("^")[1];
     if (!isNaN(repeat)) {
       // Normal repeat
-      repeatOpen = "<repeat-growth><value>" + repeat + "</value></repeat-growth>";
-      repeatText = "x" + repeat + ": ";
+      repeatOpen = `<repeat-growth><value>${repeat}</value></repeat-growth>`;
+      repeatText = `x${repeat}: `;
     } else if (repeat.startsWith("cost(")) {
       // Energy Cost (syntax ^cost(-2) )
       const matches = regExp.exec(repeat);
@@ -542,25 +535,24 @@ function getGrowthActionTextAndIcons(growthAction) {
       break;
     }
     case "gain-card-pay-2": {
-      growthIcons = "<custom-icon>{" + growthActionType + "}</custom-icon>";
+      growthIcons = `<custom-icon>{${growthActionType}}</custom-icon>`;
       growthText = IconName(growthActionType);
       break;
     }
     case "take-power-card":
     case "gain-power-card": {
       const matches = regExp.exec(growthAction);
-      let gainPowerCardIcon = "{" + growthActionType + "}";
+      let gainPowerCardIcon = `{${growthActionType}}`;
       if (matches) {
         let gainPowerCardOptions = matches[1].split(",");
         let gainPowerCardType = gainPowerCardOptions[0] || "";
         let gainPCModifierIcon = gainPowerCardOptions[2];
-        gainPowerCardIcon = `<icon class='${growthActionType}'>`;
-        gainPowerCardIcon +=
-          "<icon class='" + gainPowerCardType.toLowerCase() + " gain-card-modifier'></icon>";
+        gainPowerCardIcon = `<icon class='${growthActionType}'>
+                            <icon class='${gainPowerCardType.toLowerCase()} gain-card-modifier'></icon>`;
         if (gainPCModifierIcon) {
           gainPowerCardIcon += `<div class="gain-card-second-modifier">{${gainPCModifierIcon}}</div>`;
         }
-        gainPowerCardIcon += "</icon>";
+        gainPowerCardIcon += `</icon>`;
       }
       growthIcons = gainPowerCardIcon;
       growthText = IconName(growthAction);
@@ -576,7 +568,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         let isolateRange = isolateOptions[0];
         isolateReqOpen = "<custom-icon>";
         isolateReqClose = "</custom-icon>";
-        isolateIcons += "<range-growth><value>" + isolateRange + "</value></range-growth>";
+        isolateIcons += `<range-growth><value>${isolateRange}</value></range-growth>`;
       }
       growthIcons = isolateReqOpen + isolateIcons + isolateReqClose;
       let isolateText = IconName(growthAction);
@@ -639,7 +631,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       let iconNamevars = "0";
       // Flat Energy
       if (x_is_flat) {
-        energyGrowthIcons = "<growth-energy><value>" + flatEnergy + "</value></growth-energy>";
+        energyGrowthIcons = `<growth-energy><value>${flatEnergy}</value></growth-energy>`;
         iconNamevars = flatEnergy + "";
       }
 
@@ -895,7 +887,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           //Icons
           let elementIcons = "<gain class='or'>";
           for (let i = 0; i < elementOptions.length; i++) {
-            elementIcons += "<icon class='orelement element " + elementOptions[i] + "'></icon>";
+            elementIcons += `<icon class='orelement element ${elementOptions[i]}'></icon>`;
             if (i < elementOptions.length - 1) {
               elementIcons += "{backslash}";
             }
@@ -925,26 +917,18 @@ function getGrowthActionTextAndIcons(growthAction) {
             const theta = -Math.PI / 12;
             const x_loc_prime = Math.cos(theta) * x_loc + Math.sin(theta) * y_loc;
             const y_loc_prime = -Math.sin(theta) * x_loc + Math.cos(theta) * y_loc;
-            let element_loc =
-              "style='transform: translateY(" +
-              y_loc_prime +
-              "px) translateX(" +
-              x_loc_prime +
-              "px)'";
+            let element_loc = `style='transform: translateY(${y_loc_prime}px) translateX(${x_loc_prime}px)'`;
             let cur_element =
               elementOptions.at(-1) === "and" ? elementOptions[i] : elementOptions[0];
-            elementIcons +=
-              "<icon-multi-element><icon class='element " +
-              cur_element +
-              "'" +
-              element_loc +
-              "></icon></icon-multi-element>";
+            elementIcons += `<icon-multi-element><icon class='element ${cur_element}'
+              ${element_loc}
+              ></icon></icon-multi-element>`;
           }
 
-          growthIcons = "<gain>" + elementIcons + "</gain>";
+          growthIcons = `<gain>${elementIcons}</gain>`;
         }
       } else {
-        growthIcons = "<gain><icon class='element " + gainedElement + "'></icon></gain>";
+        growthIcons = `<gain><icon class='element ${gainedElement}'></icon></gain>`;
       }
       growthText = IconName(growthAction);
       break;
@@ -1049,7 +1033,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       if (matches) {
         const cardplayOptions = matches[1].split(",");
         const num_card_plays = cardplayOptions[0];
-        growthIcons = "<card-play-num><value>" + num_card_plays + "</value></card-play-num>";
+        growthIcons = `<card-play-num><value>${num_card_plays}</value></card-play-num>`;
       }
       growthText = IconName("growth-" + growthAction);
       break;
@@ -2338,6 +2322,9 @@ function getPresenceNodeInnerHTML(
           const iconText = matches[1];
           inner = "{" + iconText + "}";
         }
+        if (option === "or") {
+          splitOptions[i] = `or-presence(${elementList[0]},${elementList[1]})`;
+        }
         break;
       }
       case "gain-range": {
@@ -2895,6 +2882,7 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "elements":
+    case "or-presence":
       localize = {
         en: "OR",
         fr: `OU`,
@@ -5565,7 +5553,7 @@ function parseInnatePower(innatePowerHTML, index = 0) {
   if (noteValue === null || noteValue === "") {
     noteValue = "";
   } else {
-    currentPowerHTML += "<note id='" + innatePowerID + "note'>" + noteValue + "</note>";
+    currentPowerHTML += `<note id='${innatePowerID}note'>${noteValue}</note>`;
   }
 
   //Innate Power Levels and Thresholds
