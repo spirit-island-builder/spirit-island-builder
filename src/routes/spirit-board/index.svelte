@@ -629,8 +629,8 @@
     let boardNodes = Array.from(board.getElementsByTagName("presence-node"));
     let regExpOuterParentheses = /\(\s*(.+)\s*\)/;
     formNodes.forEach((node, j) => {
-      let nodeEffectText = processNodeEffectsForTTS(node.effect);
-
+      let nodeEffectText = preprocessNodeEffectsForTTS(node.effect);
+      console.log("processing node effect:" + nodeEffectText);
       const nameCounts = {};
       nodeEffectText.split("+").forEach(function (x) {
         nameCounts[x] = (nameCounts[x] || 0) + 1;
@@ -639,31 +639,32 @@
       let countList = Object.values(nameCounts);
       let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
       for (let i = 0; i < namesList.length; i++) {
-        if (namesList[i] === "sun") {
+        if (namesList[i].startsWith("sun")) {
           elementCounts[0] = countList[i];
         }
-        if (namesList[i] === "moon") {
+        if (namesList[i].startsWith("moon")) {
           elementCounts[1] = countList[i];
         }
-        if (namesList[i] === "fire") {
+        if (namesList[i].startsWith("fire")) {
           elementCounts[2] = countList[i];
         }
-        if (namesList[i] === "air") {
+        if (namesList[i].startsWith("air")) {
           elementCounts[3] = countList[i];
         }
-        if (namesList[i] === "water") {
+        if (namesList[i].startsWith("water")) {
           elementCounts[4] = countList[i];
         }
-        if (namesList[i] === "earth") {
+        if (namesList[i].startsWith("earth")) {
           elementCounts[5] = countList[i];
         }
-        if (namesList[i] === "plant") {
+        if (namesList[i].startsWith("plant")) {
           elementCounts[6] = countList[i];
         }
-        if (namesList[i] === "animal") {
+        if (namesList[i].startsWith("animal")) {
           elementCounts[7] = countList[i];
         }
       }
+      console.log(elementCounts);
       if (elementCounts.reduce((partialSum, a) => partialSum + a, 0) > 0) {
         let rect = boardNodes[j].getElementsByTagName("ring-icon")[0].getBoundingClientRect();
         trackElements.push({
@@ -706,7 +707,7 @@
         console.log("processing node...");
         console.log(node);
       }
-      let nodeEffectText = processNodeEffectsForTTS(node.effect);
+      let nodeEffectText = preprocessNodeEffectsForTTS(node.effect);
 
       if (debug) {
         console.log(nodeEffectText);
@@ -779,7 +780,7 @@
     // trackEnergy needs to be logged in reverse order by convention
     trackEnergy.reverse();
 
-    function processNodeEffectsForTTS(nodeEffects) {
+    function preprocessNodeEffectsForTTS(nodeEffects) {
       let nodeEffectText = nodeEffects.toLowerCase();
 
       // Detect Middle or Bonus

@@ -705,11 +705,11 @@ icon-count {
 }
 
 binder icon:first-child {
-  margin-right: 2px;
+  margin-right: 2px !important;
 }
 
 binder icon:last-child {
-  margin-left: 2px;
+  margin-left: 2px !important;
 }
 
 info-title {
