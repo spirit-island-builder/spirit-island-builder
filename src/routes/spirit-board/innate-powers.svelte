@@ -285,7 +285,8 @@
       </div>
       <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap">
         <div class="is-flex is-flex-direction-row-reverse is-flex-wrap-nowrap">
-          <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+          <div
+            class="buttons target-type-buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
             {#if innatePower.targetTitle === ""}
               <button
                 class="button is-success is-light is-small mb-0"
@@ -405,5 +406,8 @@
     padding: 0px;
     height: 15px;
     width: 30px;
+  }
+  div.target-type-buttons button {
+    height: 20px;
   }
 </style>

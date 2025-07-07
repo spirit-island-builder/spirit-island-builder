@@ -343,7 +343,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
 }
 
 function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionIndex = 0) {
-  let debug = false;
+  let debug = true;
   const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
   const regExpCommaNoParentheses = /,(?![^(]*\))/;
 
@@ -410,6 +410,18 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
     if (growthAction.includes("blank")) {
       growthIcons = `<presence-node class="growth blank"><ring-icon>${growthIcons}
         </ring-icon></presence-node>`;
+    } else if (growthAction.includes("empty")) {
+      console.log("empty - getting presence node modifiers");
+      console.log(growthAction);
+      growthIcons = getPresenceNodeHtml(growthAction, false, 0, "growth-empty", false);
+      console.log(growthIcons);
+      let wrapper = document.createElement("div");
+      wrapper.innerHTML = growthIcons;
+      let div = wrapper.firstChild;
+      console.log(div);
+      div.classList.add("growth", "blank");
+      growthIcons = div.outerHTML;
+      growthText = "";
     } else {
       if (growthWasDefault) {
         // Assume user wants Presence Node options
@@ -2126,6 +2138,9 @@ function getPresenceNodeInnerHTML(
       if (trackType === "energy") {
         fullOption = `energy-default(${option})`;
         option = `energy-default`;
+      } else if (trackType === "special-ring") {
+        fullOption = `special-default(${option})`;
+        option = `special-default`;
       } else {
         fullOption = `plays-default(${option})`;
         option = `plays-default`;
@@ -2208,6 +2223,16 @@ function getPresenceNodeInnerHTML(
         const num = matches[1];
         inner = `<card-icon><value>${numLocalize[lang][num] || num}</value></card-icon>`;
         splitOptions[i] = first ? `plays-first(${num})` : num; // rename the option
+        addEnergyRing = false;
+        addIconShadow = false;
+        break;
+      }
+      case "special-default": {
+        const matches = regExp.exec(fullOption);
+        const num = matches[1];
+        inner = `<special-track-presence><value>${
+          numLocalize[lang][num] || num
+        }</value></special-track-presence>`;
         addEnergyRing = false;
         addIconShadow = false;
         break;
@@ -4107,6 +4132,9 @@ function IconName(str, iconNum = 1) {
       subText = "<br>";
       subText = subText.repeat(num || 1);
       break;
+    case "empty":
+      subText = "";
+      break;
     // Land types
     case "wetland":
     case "sand":
@@ -5390,7 +5418,7 @@ function innatePowerSizing(board) {
 }
 
 function balanceText(el, lineHeight = 23) {
-  let debug = true;
+  let debug = false;
   const initialHeight = el.offsetHeight;
   const initialWidth = el.offsetWidth;
   if (debug) {

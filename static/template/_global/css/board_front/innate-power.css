@@ -480,6 +480,14 @@ effect icon.element {
   margin-bottom: -7px;
 }
 
+innate-power effect icon.fast {
+  background-image: url("../../images/board/fast_power.png");
+}
+
+innate-power effect icon.slow {
+  background-image: url("../../images/board/slow_power.png");
+}
+
 innate-power icon.sun {
   background-image: url(../../images/board/element_simple_sun.png);
 }

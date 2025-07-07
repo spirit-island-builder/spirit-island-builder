@@ -460,7 +460,8 @@ deep-layers {
 }
 
 deep-layers > icon.energy-deep-layers,
-deep-layers > icon.card-deep-layers {
+deep-layers > icon.card-deep-layers,
+deep-layers > icon.growth-empty-deep-layers {
   position: absolute;
   height: 37px;
   width: 60px;

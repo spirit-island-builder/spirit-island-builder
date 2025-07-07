@@ -491,6 +491,18 @@ presence-node.growth {
   margin-top: -39px;
 }
 
+presence-node.growth icon {
+  margin-bottom: 0px;
+}
+
+presence-node.growth growth-energy {
+  margin-top: 0px;
+}
+
+presence-node.growth growth-energy value {
+  font-size: 32px;
+}
+
 presence-node.growth.blank {
   margin-top: -8px;
 }

@@ -699,6 +699,21 @@ rules icon.sacred-site {
   margin-bottom: -12px;
 }
 
+rules-container icon.fast,
+rules-container icon.slow {
+  height: 32px;
+  width: 40px;
+  margin-bottom: -7px;
+}
+
+rules-container icon.fast {
+  background-image: url("../images/board/fast_power.png");
+}
+
+rules-container icon.slow {
+  background-image: url("../images/board/slow_power.png");
+}
+
 icon.sun,
 icon.moon,
 icon.fire,
