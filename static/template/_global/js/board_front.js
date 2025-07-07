@@ -1035,7 +1035,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       const matches = regExp.exec(growthAction);
       let rangeOptions = matches[1].split(",");
       let range = rangeOptions[0];
-      growthIcons = `{gain-range-${range}}`;
+      growthIcons = `<growth-range>{gain-range-${range}}</growth-range>`;
       growthText = IconName(`growth-${growthAction}`);
       break;
     }
@@ -1067,20 +1067,14 @@ function getGrowthActionTextAndIcons(growthAction) {
           const pos_angle = (i * 2 * Math.PI) / numLocs - Math.PI * (1 - 1 / 6);
           const x_loc = rad_size * Math.cos(pos_angle);
           const y_loc = rad_size * Math.sin(pos_angle);
-          const marker_loc =
-            "style='transform: translateY(" + y_loc + "px) translateX(" + x_loc + "px)'";
-          markerIcons +=
-            "<icon-multi-element><icon class='" +
-            marker_type +
-            "'" +
-            marker_loc +
-            "></icon></icon-multi-element>";
-          // markerIcons += "<icon style='width:0px;height:99px'></icon>"; // This is a filler icon to make sure the spacing is right. Any idea for a better solution?
+          const marker_loc = `style='transform: translateY(${y_loc}px) translateX(${x_loc}px)'`;
+          markerIcons += `<icon-multi-element><icon class='element ${marker_type}' ${marker_loc}>
+            </icon></icon-multi-element>`;
         }
       } else {
         markerIcons = `{${marker_type}}`;
       }
-      growthIcons = "<gain>" + markerIcons + "</gain>";
+      growthIcons = `<gain>${markerIcons}</gain>`;
       growthText = IconName(marker_type, num_markers);
       break;
     }

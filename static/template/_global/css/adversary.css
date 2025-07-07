@@ -463,3 +463,25 @@ adversary rule-line {
   display: inline-block;
   width: 100%;
 }
+
+/* Icon sizing */
+adversary icon.tiny {
+  width: 20px;
+  height: 20px;
+}
+adversary icon.small {
+  width: 25px;
+  height: 25px;
+}
+adversary icon.medium {
+  width: 30px;
+  height: 30px;
+}
+adversary icon.large {
+  width: 40px;
+  height: 40px;
+}
+adversary icon.huge {
+  width: 50px;
+  height: 50px;
+}

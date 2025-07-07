@@ -147,6 +147,7 @@ function replaceIcon(html) {
     } else if (iconName.startsWith("gain-range-")) {
       HTMLTag = "range";
       range_num = "+" + iconName.substring(11);
+      range_num = `<range-value>${range_num}</range-value>`;
       iconName = "gain-range";
       num_val = range_num;
     } else if (iconName.startsWith("lose-range-")) {

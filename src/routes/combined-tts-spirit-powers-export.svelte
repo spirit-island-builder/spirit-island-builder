@@ -179,7 +179,7 @@
       </div>
       <div class="field" class:is-hidden={currentPage !== "spiritBoardBack"}>
         <div class="content is-small mb-0">
-          Insert a URL for the Lore Side image from an image hosing website (such as imgur):.
+          Insert a URL for the Lore Side image from an image hosing website (such as imgur):
         </div>
         <div class="control">
           <input
@@ -187,6 +187,17 @@
             class="input is-small"
             type="text"
             bind:value={combinedTTS.spiritBoardBack.image.content} />
+        </div>
+      </div>
+      <div class="field" class:is-hidden={currentPage !== "spiritBoardBack"}>
+        <div class="content is-small mb-0">Add tokens to bag (comma separated):.</div>
+        <div class="control">
+          <input
+            id="spiritLoreTokenList"
+            placeholder="ie. badland or beasts,beasts"
+            class="input is-small"
+            type="text"
+            bind:value={combinedTTS.spiritBoardBack.tts.tokenList} />
         </div>
       </div>
       <div class="field combined-tts-buttons">
