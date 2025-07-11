@@ -14,6 +14,13 @@
   export let exportPowersTTS = () => {};
 
   import bagTemplate from "$lib/bag-template.json";
+  import beastsJSON from "../routes/spirit-board-back/token-json/beasts.json";
+  import dahanJSON from "../routes/spirit-board-back/token-json/dahan.json";
+  import badlandsJSON from "../routes/spirit-board-back/token-json/badlands.json";
+  import diseaseJSON from "../routes/spirit-board-back/token-json/disease.json";
+  import wildsJSON from "../routes/spirit-board-back/token-json/wilds.json";
+  import blightJSON from "../routes/spirit-board-back/token-json/blight.json";
+  import vitalityJSON from "../routes/spirit-board-back/token-json/vitality.json";
 
   function clearAll() {
     if (window.confirm("Are you sure? This will clear the combined export.")) {
@@ -82,12 +89,41 @@
           combinedTTS.spiritBoardBack.image.content;
       }
       if (combinedTTS.spiritBoardBack.tts.saved) {
-        // Set the Difficulty, and Tags
+        // Set the Difficulty, and Token Tags, add Tokens to bag
         if (combinedTTS.spiritBoardBack.tts.difficulty) {
           bagTemplate.ObjectStates[0]["Tags"].push(combinedTTS.spiritBoardBack.tts.difficulty);
         }
         if (combinedTTS.spiritBoardBack.tts.usesTokens) {
           bagTemplate.ObjectStates[0]["Tags"].push(combinedTTS.spiritBoardBack.tts.usesTokens);
+        }
+        if (combinedTTS.spiritBoardBack.tts.tokenList) {
+          let tokens = combinedTTS.spiritBoardBack.tts.tokenList.split(",");
+          tokens.forEach((token) => {
+            switch (token) {
+              case "beasts":
+              case "beast":
+                bagTemplate.ObjectStates[0]["ContainedObjects"].push(beastsJSON);
+                break;
+              case "badlands":
+                bagTemplate.ObjectStates[0]["ContainedObjects"].push(badlandsJSON);
+                break;
+              case "blight":
+                bagTemplate.ObjectStates[0]["ContainedObjects"].push(blightJSON);
+                break;
+              case "dahan":
+                bagTemplate.ObjectStates[0]["ContainedObjects"].push(dahanJSON);
+                break;
+              case "disease":
+                bagTemplate.ObjectStates[0]["ContainedObjects"].push(diseaseJSON);
+                break;
+              case "vitality":
+                bagTemplate.ObjectStates[0]["ContainedObjects"].push(vitalityJSON);
+                break;
+              case "wilds":
+                bagTemplate.ObjectStates[0]["ContainedObjects"].push(wildsJSON);
+                break;
+            }
+          });
         }
       }
       bagTemplate.ObjectStates[0]["ContainedObjects"].push(spiritBoardJSON);
@@ -190,7 +226,7 @@
         </div>
       </div>
       <div class="field" class:is-hidden={currentPage !== "spiritBoardBack"}>
-        <div class="content is-small mb-0">Add tokens to bag (comma separated):.</div>
+        <div class="content is-small mb-0">Add tokens to bag (comma separated):</div>
         <div class="control">
           <input
             id="spiritLoreTokenList"
