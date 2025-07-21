@@ -138,7 +138,9 @@ function replaceIcon(html) {
       HTMLTag = "range";
       range_num = iconName.substring(6);
       if (isNaN(range_num)) {
-        range_num = `<icon class="range-small-icon ${range_num}"></icon>`;
+        // range_num = `<icon class="range-small-icon ${range_num}"></icon>`;
+        range_num = getIconHTML(`{${range_num}}`);
+        range_num = `<range-value class="range-icon">${range_num}</range-value>`;
       } else {
         range_num = `<range-value>${range_num}</range-value>`;
       }
@@ -160,13 +162,15 @@ function replaceIcon(html) {
     if (iconName.startsWith("energy-")) {
       energy_num = iconName.substring(7);
       if (isNaN(energy_num)) {
+        // energy_num = energy_num.charAt(0)
+        energy_num = `<value-text>${energy_num}</value-text>`;
       } else {
-        HTMLTag = "custom-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
         energy_num = `<value>${energy_num}</value>`;
-        iconName = "";
-        num_val = energy_num;
-        console.log("energy icon test");
       }
+      HTMLTag = "custom-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
+      iconName = "";
+      num_val = energy_num;
+      console.log("energy icon test");
     } else if (iconName.startsWith("gain-energy-")) {
       energy_num = iconName.substring(12);
       if (isNaN(energy_num)) {

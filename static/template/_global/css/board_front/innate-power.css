@@ -533,7 +533,8 @@ effect icon.sacred-site {
   margin-right: 0px;
 }
 
-effect icon.range-small-icon {
+effect icon.range-small-icon,
+effect range > range-value.range-icon > icon {
   width: 33px;
   height: 22px;
   position: relative;

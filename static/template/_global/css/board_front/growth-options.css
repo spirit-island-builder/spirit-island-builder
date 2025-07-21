@@ -700,6 +700,22 @@ range-growth > value {
   top: unset;
 }
 
+growth-cell range-value > custom-energy {
+  height: 50px;
+}
+
+growth-cell range-value > custom-energy > value,
+growth-cell range-value > custom-energy > value-text {
+  font-size: 24px;
+}
+
+growth-cell range > range-value.range-icon > icon {
+  width: 50px;
+  height: 35px;
+  position: relative;
+  top: 2px;
+}
+
 move-growth {
   background-image: url("../../images/board/move_arrow.png");
   background-repeat: no-repeat;

@@ -693,7 +693,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         addPresenceClose = "</custom-presence-req>";
         presenceReqsIcons += "<presence-req>";
 
-        if (isNaN(presenceRange)) {
+        if (presenceRange === "any") {
           addPresenceOpen += "<presence-req></presence-req>";
           presenceRangeHTML = "<range-growth-any></range-growth-any>";
         }
@@ -2321,7 +2321,7 @@ function getPresenceNodeInnerHTML(
               "</move-value>{move-arrow}</track-move-presence>";
           }
           addIconShadow = true;
-          if (addEnergyRing) {
+          if (addEnergyRing && splitOptions.length === 1) {
             addIconShadow = false;
           }
         }
@@ -2863,6 +2863,21 @@ function IconName(str, iconNum = 1) {
           hu: `Jelenlét lerakása`,
         };
         subText = localize[lang];
+      }
+      // variable range
+      if (isNaN(num) && num !== "any") {
+        localize = {
+          en: elementNames.has(num)
+            ? ` at Range ${IconName(num)} Showing`
+            : ` at Range ${IconName(num)}`,
+          fr: ``,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+          hu: ``,
+        };
+        subText = subText + localize[lang];
       }
       break;
     case "gain-element":
