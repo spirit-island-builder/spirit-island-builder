@@ -2868,7 +2868,7 @@ function IconName(str, iconNum = 1) {
       if (isNaN(num) && num !== "any") {
         localize = {
           en: elementNames.has(num)
-            ? ` at Range ${IconName(num)} Showing`
+            ? ` at Range equal to ${IconName(num)} Showing`
             : ` at Range ${IconName(num)}`,
           fr: ``,
           de: ``,
