@@ -227,10 +227,13 @@ custom-energy {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  display: inline-block;
-  height: 100px;
+  display: flex;
+  position: relative;
+  height: 55px;
   width: 100px;
-  margin-top: -10px;
+  top: 7px;
+  justify-content: center;
+  align-items: center;
 }
 
 custom-energy.gain {

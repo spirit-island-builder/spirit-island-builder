@@ -460,7 +460,8 @@ deep-layers {
 }
 
 deep-layers > icon.energy-deep-layers,
-deep-layers > icon.card-deep-layers {
+deep-layers > icon.card-deep-layers,
+deep-layers > icon.growth-empty-deep-layers {
   position: absolute;
   height: 37px;
   width: 60px;
@@ -819,23 +820,23 @@ presence-tracks.shadow subtext {
 }
 
 presence-node icon.huge {
-  width: 110px;
-  height: 110px;
+  width: 110px !important;
+  height: 110px !important;
 }
 
 presence-node icon.large {
-  width: 80px;
-  height: 80px;
+  width: 80px !important;
+  height: 80px !important;
 }
 
 presence-node icon.medium {
-  width: 68px;
-  height: 68px;
+  width: 68px !important;
+  height: 68px !important;
 }
 
 presence-node icon.small {
-  width: 42px;
-  height: 42px;
+  width: 42px !important;
+  height: 42px !important;
 }
 
 presence-node.top-subtext {

@@ -78,14 +78,15 @@
     //modify template
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let templateCard = previewFrame.document.getElementById("card" + card.id);
-    let elementsTemplate = templateCard.getElementsByClassName(element);
+    let elementsTemplate = templateCard.querySelectorAll(`element.${element}`)[0];
+    console.log(elementsTemplate);
 
     if (card.powerElements[element]) {
       let newElement = previewFrame.document.createElement("element");
       newElement.classList.add(element);
       templateCard.append(newElement);
     } else {
-      elementsTemplate[0].remove();
+      elementsTemplate.remove();
     }
   }
 

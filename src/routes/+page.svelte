@@ -300,6 +300,7 @@
       tts: {
         difficulty: "",
         usesTokens: "",
+        tokenList: "",
         saved: false,
       },
     },

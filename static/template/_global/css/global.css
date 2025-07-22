@@ -641,12 +641,13 @@ range-value {
 }
 
 range > icon.range-small-icon,
-range.range > icon.range-small-icon {
+range.range > icon.range-small-icon,
+range > range-value.range-icon > icon {
   width: 33px;
   height: 22px;
   position: relative;
   margin: 0px;
-  top: -4px;
+  top: 2px;
 }
 
 no-range {
@@ -695,6 +696,17 @@ custom-meeple {
   z-index: 4;
 }
 
+custom-energy {
+  background-image: url("../../images/board/EnergyBlank.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: inline-block;
+  height: 100px;
+  width: 100px;
+  margin-top: -10px;
+}
+
 binder {
   white-space: nowrap;
 }
@@ -705,11 +717,11 @@ icon-count {
 }
 
 binder icon:first-child {
-  margin-right: 2px;
+  margin-right: 2px !important;
 }
 
 binder icon:last-child {
-  margin-left: 2px;
+  margin-left: 2px !important;
 }
 
 info-title {
@@ -720,6 +732,8 @@ info-title {
   text-align: center;
   letter-spacing: 0.5px;
 }
+
+/* Size options */
 
 icon.small {
   width: 25px;

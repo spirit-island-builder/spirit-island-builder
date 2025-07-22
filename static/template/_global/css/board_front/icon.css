@@ -150,7 +150,7 @@ icon.energy-blank {
   background-image: url("../../images/board/EnergyBlank.png");
 }
 
-.energy-blank value {
+icon.energy-blank value {
   font-family: "Energy Font";
   font-size: 21.33px;
   display: inline-block;
@@ -166,7 +166,8 @@ icon.your-land {
   margin-bottom: -6px;
 }
 
-icon.your-land > icon {
+icon.your-land > icon,
+icon.your-land > icon.custom-icon {
   position: relative;
   text-align: unset;
   top: 17px;

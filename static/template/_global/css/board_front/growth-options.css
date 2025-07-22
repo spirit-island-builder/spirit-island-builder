@@ -491,6 +491,18 @@ presence-node.growth {
   margin-top: -39px;
 }
 
+presence-node.growth icon {
+  margin-bottom: 0px;
+}
+
+presence-node.growth growth-energy {
+  margin-top: 0px;
+}
+
+presence-node.growth growth-energy value {
+  font-size: 32px;
+}
+
 presence-node.growth.blank {
   margin-top: -8px;
 }
@@ -666,6 +678,16 @@ range-growth {
   display: inline-block;
 }
 
+growth-range {
+  height: 90px;
+  display: flex;
+  align-items: flex-end;
+}
+
+growth-cell range.gain-range {
+  margin-bottom: 20px;
+}
+
 growth-cell range > range-value,
 range-growth > value {
   font-size: 40px;
@@ -676,6 +698,22 @@ range-growth > value {
   text-align: center;
   font-weight: normal;
   top: unset;
+}
+
+growth-cell range-value > custom-energy {
+  height: 50px;
+}
+
+growth-cell range-value > custom-energy > value,
+growth-cell range-value > custom-energy > value-text {
+  font-size: 24px;
+}
+
+growth-cell range > range-value.range-icon > icon {
+  width: 50px;
+  height: 35px;
+  position: relative;
+  top: 2px;
 }
 
 move-growth {
@@ -1117,7 +1155,7 @@ custom-icon2 icon.move-range-4 {
 }
 
 growth-text {
-  display: flex;
+  display: inline-flex;
   position: relative;
   font-family: "Lato SemiBold";
   font-size: 18.66px;
@@ -1134,6 +1172,8 @@ growth-text {
   overflow-x: hidden;
   padding-left: 2px;
   padding-right: 2px;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 growth-text icon.explorer,

@@ -307,4 +307,7 @@ button.side-menu:hover {
   strong {
     color: #e6e6e6;
   }
+  input::placeholder {
+    color: #606060;
+  }
 }

@@ -73,10 +73,7 @@
       <!-- Showing that the image is available -->
       {#if examples}
         <div class="field  is-horizontal is-justify-content-left">
-          <button
-            class="button js-modal-trigger is-small"
-            style="background-color: rgb(239 239 239);"
-            on:click={examplesModal.open}>
+          <button class="button js-modal-trigger is-small" on:click={examplesModal.open}>
             or use {exampleDescription}
           </button>
           <ExampleModal
