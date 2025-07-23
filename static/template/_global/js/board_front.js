@@ -856,15 +856,18 @@ function getGrowthActionTextAndIcons(growthAction) {
     case "move-presence": {
       const matches = regExp.exec(growthAction);
       const moveOptions = matches[1].split(",");
-      const moveRange = moveOptions[0];
-      let moveText = IconName(growthAction);
+      let moveRange = moveOptions[0];
+      let moveText = IconName(`growth-${growthAction}`);
       let moveIcons = "";
+      if (isNaN(moveRange)) {
+        moveRange = `{${moveRange}}`;
+      }
       if (!moveOptions[1]) {
         // Move presence range X
         moveIcons = `<custom-icon>{presence}<move-growth><value>
           ${moveRange}
           </value></move-growth></custom-icon>`;
-        moveText = IconName(growthActionType);
+        // moveText = IconName(growthActionType);
       } else if (!isNaN(moveOptions[1])) {
         // Move X presence together
         moveIcons = "<custom-icon><token-wrap>";
@@ -3364,6 +3367,7 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "move-presence":
+    case "growth-move-presence":
       if (txt) {
         if (isNaN(txt)) {
           // Move a presence and a token together
@@ -3388,9 +3392,10 @@ function IconName(str, iconNum = 1) {
             hu: "Legfeljebb " + txt + " Jelenlét mozgatása együtt",
           };
         }
-      } else if (num) {
-        if (isNaN(num)) {
-          // its text
+      } else {
+        // only one parameter
+        if (isNaN(num) && !elementNames.has(num)) {
+          // its a terrain
           localize = {
             en: "Move a Presence to " + IconName(num) + " land",
             fr: "Déplacez une Présence vers " + IconName(num) + " Région",
@@ -3401,30 +3406,45 @@ function IconName(str, iconNum = 1) {
             hu: "Jelenlét mozgatása " + IconName(num) + " területre",
           };
         } else {
-          // its a number
-          localize = {
-            en: "Move a Presence " + num,
-            fr: "Déplacez une Présence " + num,
-            de: "Präsenz " + num + " bewegen",
-            pl: "Przenieś Obecność " + num,
-            ar: ``,
-            zh: ``,
-            hu: "Jelenlét mozgatása " + num,
-          };
+          // its a number or an element
+          if (str.includes("growth")) {
+            // no # in growth
+            localize = {
+              en: "Move a Presence",
+              fr: "Déplacez une Presence",
+              de: "Präsenz " + num + " bewegen",
+              pl: "Przesuń Obecność",
+              ar: "",
+              zh: "",
+              hu: "Jelenlét mozgatása",
+            };
+          } else {
+            localize = {
+              en: "Move a Presence " + num,
+              fr: "Déplacez une Présence " + num,
+              de: "Präsenz " + num + " bewegen",
+              pl: "Przenieś Obecność " + num,
+              ar: ``,
+              zh: ``,
+              hu: "Jelenlét mozgatása " + num,
+            };
+          }
         }
-      } else {
-        // its just move-presence text
-        localize = {
-          en: "Move a Presence",
-          fr: "Déplacez une Presence",
-          de: "Präsenz " + num + " bewegen",
-          pl: "Przesuń Obecność",
-          ar: "",
-          zh: "",
-          hu: "Jelenlét mozgatása",
-        };
       }
       subText = localize[lang];
+      // Check for element-range
+      if (elementNames.has(num)) {
+        localize = {
+          en: ` at Range equal to ${IconName(num)} Showing`,
+          fr: ``,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+          hu: ``,
+        };
+        subText += localize[lang];
+      }
       break;
     case "damage":
       if (txt) {

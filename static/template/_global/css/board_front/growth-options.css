@@ -738,6 +738,14 @@ move-growth > textvalue {
   font-family: "NAME HEADINGS";
 }
 
+move-growth > value > icon {
+  top: -4px;
+  left: 3px;
+  height: 35px;
+  width: 35px;
+  margin: 0px;
+}
+
 /* growth-cell range {
   background-image: url("../../images/board/range_arrow.png");
   background-repeat: no-repeat;
