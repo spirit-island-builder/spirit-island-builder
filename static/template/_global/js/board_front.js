@@ -1980,13 +1980,10 @@ function getPresenceNodeHtml(
     if (optionsNodeBack.includes("shift(")) {
       const matches = regExp.exec(optionsNodeBack);
       const shiftOptions = matches[1].split(";");
-      let shift = shiftOptions[0] ? shiftOptions[0] : 0;
-      let slide = shiftOptions[1] ? shiftOptions[1] : 0;
-      presenceNode.style.left = `${shift}%`;
-      if (shiftOptions[1]) {
-        presenceNode.style.marginTop = `${-1 * slide}%`;
-        presenceNode.style.marginBottom = `-100%`;
-      }
+      let shift = shiftOptions[0] ? shiftOptions[0] + "%" : "0%";
+      let slide = shiftOptions[1] ? -1 * shiftOptions[1] + "%" : "0%";
+      // store shift info for later
+      presenceNode.setAttribute("shift", `translate(${shift},${slide})`);
     }
   }
 
@@ -5327,6 +5324,15 @@ function dynamicResizing() {
       console.log("Unable to shrink notes - note not detected in tallest power");
     }
   }
+
+  // Shift presence nodes (per user input)
+  const presenceNodes = Array.from(presenceTracks.getElementsByTagName("presence-node"));
+  presenceNodes.forEach((node) => {
+    if (node.getAttribute("shift")) {
+      node.parentNode.style.transform = node.getAttribute("shift");
+      node.removeAttribute("shift");
+    }
+  });
 }
 
 function getGrowthTableWidth(growthTable) {
