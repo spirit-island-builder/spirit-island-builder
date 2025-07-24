@@ -1,3 +1,5 @@
+import { setCurrentPage } from "./+page.svelte";
+
 export const addSpecialRule = (spiritBoard, ruleName = "", ruleEffect = "") => {
   let focusId = "ruleNameInput" + spiritBoard.specialRules.rules.length;
   spiritBoard.specialRules.rules.push({
@@ -591,6 +593,59 @@ export async function loadHTML(url) {
   let response = await fetch(url);
   let parser = new DOMParser();
   return parser.parseFromString(await response.text(), "text/html");
+}
+
+export async function checkPageChange(loadedDocument, url, currentPage) {
+  let fileComponentType;
+  let bodyChildren = Array.from(loadedDocument.body.children);
+  console.log(loadedDocument.body.children);
+  if (bodyChildren.find((e) => e.tagName === "BOARD")) {
+    // Play side
+    fileComponentType = "spiritBoardFront";
+    // figure out lore side
+    console.log("found board");
+  } else if (bodyChildren.find((e) => e.tagName === "CARDS")) {
+    fileComponentType = "powerCards";
+  } else if (bodyChildren.find((e) => e.tagName === "ASPECT")) {
+    fileComponentType = "aspect";
+  } else if (bodyChildren.find((e) => e.tagName === "INCARNA-WRAPPER")) {
+    fileComponentType = "incarnaToken";
+  } else if (bodyChildren.find((e) => e.tagName === "ADVERSARY")) {
+    fileComponentType = "adversary";
+  } else if (bodyChildren.find((e) => e.tagName === "SCENARIO")) {
+    fileComponentType = "scenario";
+  } else if (bodyChildren.find((e) => e.tagName === "BLIGHT-CARD")) {
+    fileComponentType = "blightCard";
+  } else if (bodyChildren.find((e) => e.tagName === "TEMPLATE-FEAR-CARD")) {
+    fileComponentType = "fearCard";
+  } else if (bodyChildren.find((e) => e.tagName === "EVENT-CARD")) {
+    fileComponentType = "eventCard";
+  } else if (bodyChildren.find((e) => e.tagName === "TEMPLATE-INVADER-CARD")) {
+    fileComponentType = "invaderCard";
+  }
+  if (fileComponentType !== currentPage) {
+    // Confirm, change page then load
+    if (window.confirm("Loading a " + fileComponentType + " Are you sure?")) {
+      setCurrentPage(fileComponentType);
+      return 0;
+    }
+    return 1;
+  } else {
+    // matches, load the file
+    return 1;
+  }
+
+  //     ["spiritBoardFront", "Spirit - Play Side"],
+  // ["spiritBoardBack", "Spirit - Lore Side"],
+  // ["powerCards", "Power Cards"],
+  // ["aspect", "Aspect"],
+  // ["incarnaToken", "Incarna Token"],
+  // ["adversary", "Adversary"],
+  // ["scenario", "Scenario"],
+  // ["blightCard", "Blight Card"],
+  // ["fearCard", "Fear Card"],
+  // ["eventCard", "Event Card"],
+  // ["invaderCard", "Invader Card"],
 }
 
 /**

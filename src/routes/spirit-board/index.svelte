@@ -85,6 +85,10 @@
   async function loadHTMLFromURL(url) {
     url = new URL(url, document.baseURI);
     let loadedDocument = await Lib.loadHTML(url);
+    Lib.checkPageChange(loadedDocument, url, currentPage);
+    //     console.log(document.baseURI)
+
+    // let loadedDocument = await Lib.loadHTMLFromURL(url)
     readHTML(loadedDocument, url);
     reloadPreview();
   }

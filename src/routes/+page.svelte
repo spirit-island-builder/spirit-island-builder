@@ -131,10 +131,10 @@
     }
   }
 
-  function setCurrentPage(page) {
+  export const setCurrentPage = (page) => {
     currentPage = page;
     console.log(">--|--< Switching to " + page + " >--|--<");
-  }
+  };
 
   let emptySpiritBoard = {
     demoBoardWasLoaded: false,
