@@ -1000,3 +1000,24 @@ innate-power innate-info-range range-value {
 
 innate-power innate-info-range range {
 }
+
+effect icon.tiny {
+  width: 20px;
+  height: 20px;
+}
+effect icon.small {
+  width: 25px;
+  height: 25px;
+}
+effect icon.medium {
+  width: 35px;
+  height: 35px;
+}
+effect icon.large {
+  width: 45px;
+  height: 45px;
+}
+effect icon.huge {
+  width: 55px;
+  height: 55px;
+}

@@ -2547,6 +2547,10 @@ function IconName(str, iconNum = 1) {
     str = str.replace("small-", "");
     console.log("removing small from icon name");
   }
+  if (str.startsWith("tiny-")) {
+    str = str.replace("tiny-", "");
+    console.log("removing tiny from icon name");
+  }
   // if (str.startsWith("custom")) {
   //   str = getCustomIconName(str);
   // }
