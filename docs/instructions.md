@@ -88,7 +88,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 | Reclaim | Reclaim All, Reclaim One, Reclaim Half | reclaim(x) | x can be all, one, half, or custom |  |
 |  | Reclaim Element Specific | reclaim(x,y) | Reclaim x (all or one) cards with element y | Ember-Eyed Behemoth: reclaim(all,fire) |
 |  | Reclaim Custom | reclaim(custom,_your custom reclaim text_) | Custom reclaim text with a unique icon. | reclaim(custom,your Unique Power Cards) |
-| Adding Presence | Add Presence at Range | add-presence(x) | At range x, add a Presence. x can be a number or 'any' |  |
+| Adding Presence | Add Presence at Range | add-presence(x) | At range x, add a Presence. x can be a number, 'any', or any element (scaling range) |  |
 |  | Add Presence with Condition | add-presence(x,y) | At range x, add a Presence to a land with y conditions. y can be terrains, tokens, invaders, invader pieces, dahan, blight, etc. |  |
 |  | Add Presence with Multiple Conditions | add-presence(x,y,z,...,and/or) | At range x, add a Presence with multiple conditions y, z, etc, the last parameter must be 'or' or 'and'. | Sharp Fangs: <br>add-presence(3,jungle,beast,or)<br>Vengeance: <br>add-presence(2,town,city,blight,or) |
 |  | Add Presence and/or Tokens | add-presence(x,token,y,and/or) | At range x, add a Presence and/or a token y (beasts, disease, etc). Use add-token if only adding tokens. | Many Minds: <br>add-presence(3,token,beast,and)<br>Vengeance: <br>add-presence(1,token,disease,or) |
@@ -120,7 +120,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 |  | Gather (Ranged) with Conditions | gather(x,y,z) | At range x, Gather entity y into a land with condition z. For 'or', y may be entity/entity. |  |
 |  | Gather (Ranged) Multiple Entities | gather(x,y,z) | At range x, Gather numeral z of entity y into a land. |  |
 |  | Gather (Ranged) Multiple Entities with Conditions | gather(x,y,z,w) | At range x, Gather numeral w of entity y into a land with condition w. |  |
-| Move Presence | Move Presence | move-presence(x) | Move a Presence up to x range |  |
+| Move Presence | Move Presence | move-presence(x) | Move a Presence up to x range. x is a number or element (scaling) |  |
 |  | Move Multiple Presence | move-presence(x,y) | Move y Presence up to x range together | Relentless Gaze:  move-presence(3,3) |
 |  | Move Presence with Token | move-presence(x,y) | Move Presence and token y up to x range. y is a number |  |
 | Gaining Energy | Gain Energy | gain-energy(x) | Gain x Energy. x is a number. | gain-energy(2) |
@@ -240,7 +240,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 | Backgrounds: force nothing           | _none                                    | Prevents any icon behind a presence node                      |                                                                                                |
 | Backgrounds: force 'first' ring    | _first                                    | Force the complete 'first' ring, instead of the dashed ring                      | 2_first                                                                                               |
 | Backgrounds: prevent 'first' ring  | _nofirst                                    | Prevents the complete 'first' ring, instead uses the dashed ring                      | 1_nofirst                                                                                               |
-| Shift node left or right          | _shift(x)                                    | Shifts the node left or right by x.                       | 1_shift(50) or 1_shift(25)energy                                                                                               |
+| Move a node from default location  | _shift(x) or _shift(x;y)      | Shifts the node left (-) or right (+) by x, up (+) or down (-) by y.                       | 1_shift(50;50) or 1_shift(25)first
 | Subtext Placement  | ~top, ~left, ~right                                    | Changes where the node's text shows up in relation to the node                     | 1_~top, middle(earth~top)                                                                                               |
 | Blank space / empty presence track  | blank, blank(x)                            | Creates a blank presence node. Useful for creating space if you want to end the presence tracks elsewhere                        |                                                                                                                                                              |
 

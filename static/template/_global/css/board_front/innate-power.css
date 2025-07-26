@@ -533,13 +533,13 @@ effect icon.sacred-site {
   margin-right: 0px;
 }
 
-effect icon.range-small-icon,
+/* effect icon.range-small-icon,
 effect range > range-value.range-icon > icon {
   width: 33px;
   height: 22px;
   position: relative;
   top: -4px;
-}
+} */
 
 description-container range {
   width: 45px;
@@ -999,4 +999,25 @@ innate-power innate-info-range range-value {
 }
 
 innate-power innate-info-range range {
+}
+
+effect icon.tiny {
+  width: 20px;
+  height: 20px;
+}
+effect icon.small {
+  width: 25px;
+  height: 25px;
+}
+effect icon.medium {
+  width: 35px;
+  height: 35px;
+}
+effect icon.large {
+  width: 45px;
+  height: 45px;
+}
+effect icon.huge {
+  width: 55px;
+  height: 55px;
 }

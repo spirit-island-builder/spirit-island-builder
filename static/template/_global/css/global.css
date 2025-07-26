@@ -734,7 +734,10 @@ info-title {
 }
 
 /* Size options */
-
+icon.tiny {
+  width: 15px;
+  height: 15px;
+}
 icon.small {
   width: 25px;
   height: 25px;

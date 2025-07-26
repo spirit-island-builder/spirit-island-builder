@@ -98,6 +98,10 @@ function replaceIcon(html) {
       iconName = iconName.substring(6);
       iconClass.push("small");
     }
+    if (iconName.startsWith("tiny-")) {
+      iconName = iconName.substring(5);
+      iconClass.push("tiny");
+    }
 
     // Check for 'no'
     let no_icon = "";
