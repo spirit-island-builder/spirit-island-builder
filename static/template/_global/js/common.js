@@ -201,12 +201,13 @@ function replaceIcon(html) {
 }
 
 function checkOverflowHeight(el, slack = 2) {
-  let debug = false;
+  let debug = true;
   let curOverflow = el.style.overflowY;
   if (!curOverflow || curOverflow === "visible") {
     el.style.overflowY = "auto";
   }
   let isOverflowing = el.clientHeight + slack < el.scrollHeight;
+  console.log(el.style.overflowY);
   if (debug) {
     console.log(
       "check overflowY = " + (el.clientHeight + slack) + " " + slack + "," + el.scrollHeight

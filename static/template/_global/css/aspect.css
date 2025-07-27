@@ -238,6 +238,12 @@ aspect-rule {
   pointer-events: none;
 }
 
+aspect-rule.no-replacement {
+  font-family: "Short Name Headings";
+  font-size: 30px;
+  margin-top: -10px;
+}
+
 aspect innate-power level,
 aspect innate-power note,
 aspect innate-power description-container,
@@ -299,35 +305,50 @@ aspect-back img {
   border-radius: 22px;
 }
 
-.aspect-back-title {
-  position: absolute;
+div.aspect-back-title {
+  position: relative;
+  display: flex;
   left: 35px;
-  top: 37px;
+  top: 33px;
   width: 332px;
   height: 40px;
-  font-size: 35px;
-  font-family: "Short Name Headings";
-  color: white;
   text-align: center;
-  display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: flex-end;
 }
 
-.aspect-back-name {
+aspect-back-title {
+  font-size: 42px;
+  line-height: 42px;
+  font-family: "Short Name Headings";
+  color: white;
+  letter-spacing: 1px;
+}
+
+div.aspect-back-name {
   position: absolute;
   display: flex;
   top: 77px;
-  left: 35px;
-  width: 332px;
-  height: 31.33333px;
-  font-size: 26px;
+  left: 39px;
+  width: 324px;
+  /* height: 31.33333px; */
+}
+
+aspect-back-name {
+  position: relative;
+  display: flex;
+  height: auto;
+  width: 100%;
+  font-size: 28px;
+  line-height: 28px;
   font-family: "Name Headings";
   text-transform: uppercase;
   color: black;
   text-align: center;
   align-items: flex-end;
   justify-content: center;
+  letter-spacing: 1px;
+  text-shadow: 0.5px 0px 0 #000000;
 }
 
 icon.or {
