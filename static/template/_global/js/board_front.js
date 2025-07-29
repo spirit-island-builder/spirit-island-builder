@@ -1939,7 +1939,7 @@ function getPresenceNodeHtml(
   let overrideText = "";
   if (nodeText.split("*")[1]) {
     overrideText = nodeText.split("*")[1].split("^")[0].split("_")[0].split("~")[0];
-    nodeText = nodeText.split("*")[0];
+    // nodeText = nodeText.split("*")[0];
     if (pnDebug) {
       console.log("Override Text: " + overrideText);
     }
