@@ -856,15 +856,18 @@ function getGrowthActionTextAndIcons(growthAction) {
     case "move-presence": {
       const matches = regExp.exec(growthAction);
       const moveOptions = matches[1].split(",");
-      const moveRange = moveOptions[0];
-      let moveText = IconName(growthAction);
+      let moveRange = moveOptions[0];
+      let moveText = IconName(`growth-${growthAction}`);
       let moveIcons = "";
+      if (isNaN(moveRange)) {
+        moveRange = `{${moveRange}}`;
+      }
       if (!moveOptions[1]) {
         // Move presence range X
         moveIcons = `<custom-icon>{presence}<move-growth><value>
           ${moveRange}
           </value></move-growth></custom-icon>`;
-        moveText = IconName(growthActionType);
+        // moveText = IconName(growthActionType);
       } else if (!isNaN(moveOptions[1])) {
         // Move X presence together
         moveIcons = "<custom-icon><token-wrap>";
@@ -1936,7 +1939,7 @@ function getPresenceNodeHtml(
   let overrideText = "";
   if (nodeText.split("*")[1]) {
     overrideText = nodeText.split("*")[1].split("^")[0].split("_")[0].split("~")[0];
-    nodeText = nodeText.split("*")[0];
+    // nodeText = nodeText.split("*")[0];
     if (pnDebug) {
       console.log("Override Text: " + overrideText);
     }
@@ -1977,13 +1980,10 @@ function getPresenceNodeHtml(
     if (optionsNodeBack.includes("shift(")) {
       const matches = regExp.exec(optionsNodeBack);
       const shiftOptions = matches[1].split(";");
-      let shift = shiftOptions[0] ? shiftOptions[0] : 0;
-      let slide = shiftOptions[1] ? shiftOptions[1] : 0;
-      presenceNode.style.left = `${shift}%`;
-      if (shiftOptions[1]) {
-        presenceNode.style.marginTop = `${-1 * slide}%`;
-        presenceNode.style.marginBottom = `-100%`;
-      }
+      let shift = shiftOptions[0] ? shiftOptions[0] + "%" : "0%";
+      let slide = shiftOptions[1] ? -1 * shiftOptions[1] + "%" : "0%";
+      // store shift info for later
+      presenceNode.setAttribute("shift", `translate(${shift},${slide})`);
     }
   }
 
@@ -2546,6 +2546,10 @@ function IconName(str, iconNum = 1) {
   if (str.startsWith("small-")) {
     str = str.replace("small-", "");
     console.log("removing small from icon name");
+  }
+  if (str.startsWith("tiny-")) {
+    str = str.replace("tiny-", "");
+    console.log("removing tiny from icon name");
   }
   // if (str.startsWith("custom")) {
   //   str = getCustomIconName(str);
@@ -3364,6 +3368,7 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "move-presence":
+    case "growth-move-presence":
       if (txt) {
         if (isNaN(txt)) {
           // Move a presence and a token together
@@ -3388,9 +3393,10 @@ function IconName(str, iconNum = 1) {
             hu: "Legfeljebb " + txt + " Jelenlét mozgatása együtt",
           };
         }
-      } else if (num) {
-        if (isNaN(num)) {
-          // its text
+      } else {
+        // only one parameter
+        if (isNaN(num) && !elementNames.has(num)) {
+          // its a terrain
           localize = {
             en: "Move a Presence to " + IconName(num) + " land",
             fr: "Déplacez une Présence vers " + IconName(num) + " Région",
@@ -3401,30 +3407,45 @@ function IconName(str, iconNum = 1) {
             hu: "Jelenlét mozgatása " + IconName(num) + " területre",
           };
         } else {
-          // its a number
-          localize = {
-            en: "Move a Presence " + num,
-            fr: "Déplacez une Présence " + num,
-            de: "Präsenz " + num + " bewegen",
-            pl: "Przenieś Obecność " + num,
-            ar: ``,
-            zh: ``,
-            hu: "Jelenlét mozgatása " + num,
-          };
+          // its a number or an element
+          if (str.includes("growth")) {
+            // no # in growth
+            localize = {
+              en: "Move a Presence",
+              fr: "Déplacez une Presence",
+              de: "Präsenz " + num + " bewegen",
+              pl: "Przesuń Obecność",
+              ar: "",
+              zh: "",
+              hu: "Jelenlét mozgatása",
+            };
+          } else {
+            localize = {
+              en: "Move a Presence " + num,
+              fr: "Déplacez une Présence " + num,
+              de: "Präsenz " + num + " bewegen",
+              pl: "Przenieś Obecność " + num,
+              ar: ``,
+              zh: ``,
+              hu: "Jelenlét mozgatása " + num,
+            };
+          }
         }
-      } else {
-        // its just move-presence text
-        localize = {
-          en: "Move a Presence",
-          fr: "Déplacez une Presence",
-          de: "Präsenz " + num + " bewegen",
-          pl: "Przesuń Obecność",
-          ar: "",
-          zh: "",
-          hu: "Jelenlét mozgatása",
-        };
       }
       subText = localize[lang];
+      // Check for element-range
+      if (elementNames.has(num)) {
+        localize = {
+          en: ` at Range equal to ${IconName(num)} Showing`,
+          fr: ``,
+          de: ``,
+          pl: ``,
+          ar: ``,
+          zh: ``,
+          hu: ``,
+        };
+        subText += localize[lang];
+      }
       break;
     case "damage":
       if (txt) {
@@ -5307,6 +5328,15 @@ function dynamicResizing() {
       console.log("Unable to shrink notes - note not detected in tallest power");
     }
   }
+
+  // Shift presence nodes (per user input)
+  const presenceNodes = Array.from(presenceTracks.getElementsByTagName("presence-node"));
+  presenceNodes.forEach((node) => {
+    if (node.getAttribute("shift")) {
+      node.parentNode.style.transform = node.getAttribute("shift");
+      node.removeAttribute("shift");
+    }
+  });
 }
 
 function getGrowthTableWidth(growthTable) {

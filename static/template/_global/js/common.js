@@ -98,6 +98,10 @@ function replaceIcon(html) {
       iconName = iconName.substring(6);
       iconClass.push("small");
     }
+    if (iconName.startsWith("tiny-")) {
+      iconName = iconName.substring(5);
+      iconClass.push("tiny");
+    }
 
     // Check for 'no'
     let no_icon = "";
@@ -197,12 +201,13 @@ function replaceIcon(html) {
 }
 
 function checkOverflowHeight(el, slack = 2) {
-  let debug = false;
+  let debug = true;
   let curOverflow = el.style.overflowY;
   if (!curOverflow || curOverflow === "visible") {
     el.style.overflowY = "auto";
   }
   let isOverflowing = el.clientHeight + slack < el.scrollHeight;
+  console.log(el.style.overflowY);
   if (debug) {
     console.log(
       "check overflowY = " + (el.clientHeight + slack) + " " + slack + "," + el.scrollHeight

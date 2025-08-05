@@ -463,6 +463,10 @@ special-rule icon.incarna {
   margin-bottom: -10px;
 }
 
+special-rule icon.tiny {
+  width: 20px;
+  height: 20px;
+}
 special-rule icon.small {
   width: 25px;
   height: 25px;

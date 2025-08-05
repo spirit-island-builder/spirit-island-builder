@@ -738,6 +738,14 @@ move-growth > textvalue {
   font-family: "NAME HEADINGS";
 }
 
+move-growth > value > icon {
+  top: -4px;
+  left: 3px;
+  height: 35px;
+  width: 35px;
+  margin: 0px;
+}
+
 /* growth-cell range {
   background-image: url("../../images/board/range_arrow.png");
   background-repeat: no-repeat;
@@ -2019,6 +2027,14 @@ gain-per-fear icon.water {
   background-image: url(../../images/board/element_simple_water.png);
 }
 
+icon.slow {
+  background-image: url("../../images/board/slow_power.png");
+}
+
+icon.fast {
+  background-image: url("../../images/board/fast_power.png");
+}
+
 /* Starlight Type Nonsense */
 board.starlight growth {
   background-size: 100% 100%;
@@ -2080,6 +2096,7 @@ board.starlight info-container {
   margin-bottom: 5px;
 }
 
+/* sizing */
 growth icon.huge {
   width: 120px;
   height: 120px;

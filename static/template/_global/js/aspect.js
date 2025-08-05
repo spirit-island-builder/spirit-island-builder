@@ -29,6 +29,9 @@ function startMain() {
   setTimeout(function () {
     resizeAspect(aspects[0]);
   }, 200);
+  setTimeout(function () {
+    resizeAspectBack(backs[0]);
+  }, 200);
 
   return 3;
 }
@@ -46,30 +49,24 @@ function parseSubNodes(aspect) {
 }
 
 function parseSubtexts(aspect) {
-  var subtexts = aspect.getElementsByTagName("aspect-subtext");
-  if (subtexts && subtexts.length > 0) {
-    var finalsubtext = subtexts[0];
-    finalsubtext.innerHTML = `<aspect-rule>${finalsubtext.innerHTML}</aspect-rule>`;
-    if (subtexts.length > 1) {
-      for (var i = 1; i < subtexts.length; i++) {
-        finalsubtext.innerHTML += `<aspect-rule>${subtexts[i].innerHTML}</aspect-rule>`;
+  let subtexts = Array.from(aspect.getElementsByTagName("aspect-subtext"));
+  let replacementHTML = "";
+  if (subtexts.length) {
+    subtexts.forEach((subtext) => {
+      if (subtext.innerHTML.includes(":")) {
+        replacementHTML += `<aspect-rule>${subtext.innerHTML}</aspect-rule>`;
+      } else {
+        replacementHTML += `<aspect-rule class="no-replacement">${subtext.innerHTML}</aspect-rule>`;
       }
-      for (var i = subtexts.length - 1; i > 0; i--) {
-        subtexts[i].remove();
-      }
+    });
+    for (var i = subtexts.length - 1; i > 0; i--) {
+      subtexts[i].remove();
     }
+    subtexts[0].innerHTML = replacementHTML;
   } else {
-    var title = aspect.getElementsByTagName("aspect-name")[0];
+    let title = aspect.getElementsByTagName("aspect-name")[0];
     title.classList.add("no-subtext");
   }
-}
-
-function parseAspectBack(back) {
-  var html = '<img src="' + back.getAttribute("src") + '" />';
-  html += "<aspect-back-overlay/>";
-  html += '<div class="aspect-back-title">ASPECT</div>';
-  html += '<div class="aspect-back-name">' + back.getAttribute("spirit-name") + "</div>";
-  back.innerHTML = html;
 }
 
 function parseBonusNodes(aspect) {
@@ -184,6 +181,35 @@ function resizeAspect(aspect) {
       if (checkOverflowWidth(growthTables[i].parentNode, 0)) {
         growthTables[i].classList.add("tight");
       }
+    }
+  }
+}
+
+function parseAspectBack(back) {
+  var html = '<img src="' + back.getAttribute("src") + '" />';
+  html += "<aspect-back-overlay/>";
+  html += '<div class="aspect-back-title"><aspect-back-title>ASPECT</aspect-back-title></div>';
+  html +=
+    '<div class="aspect-back-name"><aspect-back-name>' +
+    back.getAttribute("spirit-name") +
+    "</aspect-back-name></div>";
+  back.innerHTML = html;
+}
+
+function resizeAspectBack(back) {
+  // Spirit Name / Card Heading
+  const aspectSpiritName = back.getElementsByTagName("aspect-back-name")[0];
+  console.log("resizing back");
+  console.log(aspectSpiritName);
+  let k = 0;
+  while (aspectSpiritName.clientHeight > 33) {
+    const style = window.getComputedStyle(aspectSpiritName, null).getPropertyValue("font-size");
+    const fontSize = parseFloat(style);
+    aspectSpiritName.style.fontSize = fontSize - 1 + "px";
+    k += 1;
+    if (k > 10) {
+      console.log("Notes shrunk as far as reasonable");
+      break;
     }
   }
 }
