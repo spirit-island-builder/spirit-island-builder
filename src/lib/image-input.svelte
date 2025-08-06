@@ -83,22 +83,19 @@
             {examples} />
         </div>
       {/if}
+      {#if imageURL}
+        <button
+          class="button is-warning is-light is-small row-button"
+          style="position:relative;"
+          on:click={removeImage}>
+          Remove
+        </button>
+      {/if}
     </div>
     {#if imageURL}
       <img src={imageURL} alt={title} />
     {/if}
-    <div class="field has-addons is-horizontal is-justify-content-left mb-0">
-      <input
-        id="{id}-input"
-        class="input is-small"
-        type="text"
-        placeholder="File Name"
-        disabled
-        bind:value={imageURL} />
-      <button class="button is-warning is-light is-small row-button" on:click={removeImage}>
-        Remove
-      </button>
-    </div>
+    <div class="field has-addons is-horizontal is-justify-content-left mb-0" />
     <!-- No need for a button because spiritBoard.nameAndArt.artPath is bound to this input already, and the image won't be loaded until the board gets generated again -->
   </div>
 </div>

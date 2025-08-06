@@ -64,6 +64,14 @@
   letter-spacing: -0.5px;
 }
 
+@font-face {
+  font-family: "JosefinSansLore";
+  src: url(../fonts/josefin-sans/JosefinSans-SemiBoldItalic.ttf) format("truetype");
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: -0.5px;
+}
+
 body {
   font-variant-ligatures: none;
 }
