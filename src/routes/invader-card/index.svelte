@@ -48,6 +48,7 @@
     let invaderCardHTML = document.createElement("template-invader-card");
     fragment.append(invaderCardHTML);
 
+    invaderCardHTML.setAttribute("name", invaderCard.card.name);
     invaderCardHTML.setAttribute("type", invaderCard.card.type);
     invaderCardHTML.setAttribute("top", invaderCard.card.top);
     invaderCardHTML.setAttribute("bottom", invaderCard.card.bottom);
@@ -100,6 +101,7 @@
     invaderCard = JSON.parse(JSON.stringify(emptyInvaderCard));
 
     const invaderCardHTML = htmlElement.querySelectorAll("template-invader-card")[0];
+    invaderCard.card.type = invaderCardHTML.getAttribute("name") || "";
     invaderCard.card.type = invaderCardHTML.getAttribute("type") || "single";
     invaderCard.card.top = invaderCardHTML.getAttribute("top");
     invaderCard.card.bottom = invaderCardHTML.getAttribute("bottom") || "";

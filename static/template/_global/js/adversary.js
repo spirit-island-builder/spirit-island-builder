@@ -32,7 +32,7 @@ function buildAdversary(quickAdversary) {
 
   lossCondition = quickAdversary.querySelectorAll("loss-condition")[0];
   let lossConditionTitle = lossCondition.getAttribute("name");
-  let lossConditionAlt = lossCondition.getAttribute("alternate") === "true" || false;
+  let lossConditionAlt = lossCondition.getAttribute("alternate") ? true : false;
   let lossConditionHeading = "Additional Loss Condition";
   if (lossConditionAlt) {
     console.log(lossConditionAlt);
