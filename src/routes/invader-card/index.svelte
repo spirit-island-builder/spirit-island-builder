@@ -152,10 +152,10 @@
   }
 
   function screenshotSetUp() {
-    const fileNames = [invaderCard.card.cardName.replaceAll(" ", "_") + "_invaderCard.png"];
+    const fileNames = [invaderCard.card.name.replaceAll(" ", "_") + "_invaderCard.png"];
     const elementNamesInIframe = ["template-invader-card"];
     if (invaderCard.showBack) {
-      fileNames.push(invaderCard.card.cardName.replaceAll(" ", "_") + "_invaderCardBack.png");
+      fileNames.push(invaderCard.card.name.replaceAll(" ", "_") + "_invaderCardBack.png");
       elementNamesInIframe.push("invader-back");
     }
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
