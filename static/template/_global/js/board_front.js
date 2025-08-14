@@ -4222,6 +4222,7 @@ function IconName(str, iconNum = 1) {
     case "animal":
     case "star":
     case "any":
+    case "copy":
       localize = {
         en: {
           sun: "sun",
@@ -4234,6 +4235,7 @@ function IconName(str, iconNum = 1) {
           animal: "animal",
           star: "element",
           any: "any",
+          copy: "Element you have at least 1 of",
         },
         fr: {
           sun: "Soleil",

@@ -232,6 +232,9 @@ icon.star {
 icon.any {
   background-image: url("../images/board/Any.png");
 }
+icon.copy {
+  background-image: url("../images/board/Copy.png");
+}
 
 icon.markerplus {
   background-image: url("../images/board/NewIcons/Element Marker Gain 1.png");
