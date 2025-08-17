@@ -64,6 +64,14 @@
   letter-spacing: -0.5px;
 }
 
+@font-face {
+  font-family: "JosefinSansLore";
+  src: url(../fonts/josefin-sans/JosefinSans-SemiBoldItalic.ttf) format("truetype");
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: -0.5px;
+}
+
 body {
   font-variant-ligatures: none;
 }
@@ -223,6 +231,9 @@ icon.star {
 }
 icon.any {
   background-image: url("../images/board/Any.png");
+}
+icon.copy {
+  background-image: url("../images/board/Copy.png");
 }
 
 icon.markerplus {
@@ -635,7 +646,7 @@ range {
 
 range-value {
   position: relative;
-  top: -5px;
+  top: -2px;
   left: -1px;
   font-size: 24px;
 }

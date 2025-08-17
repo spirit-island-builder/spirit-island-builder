@@ -387,6 +387,16 @@ innate-powers.tight-line-height effect {
   line-height: 1;
 }
 
+effect icon {
+  width: 27px;
+  height: 27px;
+  margin-bottom: -5px;
+  margin-top: -10px;
+  margin-left: -1px;
+  margin-right: -1px;
+  background-position: bottom;
+}
+
 effect icon.city {
   width: 35px;
   height: 35px;
@@ -519,7 +529,6 @@ innate-power icon.any {
 effect icon.presence {
   height: 25px;
   width: 32px;
-  margin-bottom: -8px;
   margin-left: 0px;
   margin-right: -1px;
 }

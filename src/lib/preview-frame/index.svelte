@@ -50,7 +50,8 @@
       let element = previewIframe.contentDocument.querySelector(elementNameInIframe);
       console.log(element);
       element.classList.add(options);
-      previewIframe.contentWindow.takeScreenshot(elementNameInIframe, 2).then((imageURL) => {
+      let scale = 1.8;
+      previewIframe.contentWindow.takeScreenshot(elementNameInIframe, scale).then((imageURL) => {
         downloadImage(imageURL, fileNames[index]);
         element.classList.remove(options);
       });

@@ -715,6 +715,7 @@
     },
     card: {
       isVisible: false,
+      name: "",
       type: "single",
       top: "",
       bottom: "",

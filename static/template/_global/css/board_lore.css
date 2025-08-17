@@ -77,9 +77,9 @@ right {
 lore-description {
   position: relative;
   display: block;
-  width: 780px;
+  width: 796px;
   height: 320px;
-  font-family: "Calibri";
+  font-family: "JosefinSansLore";
   font-size: 25px;
   font-weight: bold;
   font-style: italic;
@@ -87,6 +87,9 @@ lore-description {
   padding: 40px;
   padding-bottom: 0px;
   padding-top: 25px;
+  padding-right: 30px;
+  letter-spacing: -0.8px;
+  line-height: 1.2;
 }
 
 second-section-container {

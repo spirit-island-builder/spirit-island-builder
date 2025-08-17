@@ -32,7 +32,7 @@ function buildAdversary(quickAdversary) {
 
   lossCondition = quickAdversary.querySelectorAll("loss-condition")[0];
   let lossConditionTitle = lossCondition.getAttribute("name");
-  let lossConditionAlt = lossCondition.getAttribute("alternate") === "true" || false;
+  let lossConditionAlt = lossCondition.getAttribute("alternate") ? true : false;
   let lossConditionHeading = "Additional Loss Condition";
   if (lossConditionAlt) {
     console.log(lossConditionAlt);
@@ -91,15 +91,11 @@ function buildAdversary(quickAdversary) {
 
 function buildLevel(quickLevel) {
   fearCards = quickLevel.getAttribute("fear-cards");
-  fearCardList = fearCards.split(",");
-  if (!fearCardList[1]) {
-    fearCardList = fearCards.split("/");
-  }
-  let fearCardNum = 0;
-  for (var i = 0; i < fearCardList.length; i++) {
-    fearCardNum += parseInt(fearCardList[i]);
-  }
-  fearCards = fearCardList.join("/");
+  fearCards = fearCards.replaceAll(",", "/");
+  let pullNumbersRegex = /\d+/g;
+  let fearCardNum = fearCards
+    .match(pullNumbersRegex)
+    .reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0);
 
   let name2 = quickLevel.getAttribute("name2");
   let rules2 = quickLevel.getAttribute("rules2");

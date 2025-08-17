@@ -87,10 +87,12 @@
     const lossConditionHeader = document.createElement("loss-condition");
     lossConditionHeader.setAttribute("name", adversary.nameLossEscalation.lossCondition.name);
     lossConditionHeader.setAttribute("rules", adversary.nameLossEscalation.lossCondition.effect);
-    lossConditionHeader.setAttribute(
-      "alternate",
-      adversary.nameLossEscalation.lossCondition.alternate
-    );
+    if (adversary.nameLossEscalation.lossCondition.alternate) {
+      lossConditionHeader.setAttribute(
+        "alternate",
+        adversary.nameLossEscalation.lossCondition.alternate
+      );
+    }
     adversaryHeader.append(lossConditionHeader);
 
     //Set Escalation
@@ -140,8 +142,11 @@
     const lossConditionHeader = htmlElement.querySelectorAll("loss-condition")[0];
     adversary.nameLossEscalation.lossCondition.name = lossConditionHeader.getAttribute("name");
     adversary.nameLossEscalation.lossCondition.effect = lossConditionHeader.getAttribute("rules");
-    adversary.nameLossEscalation.lossCondition.alternate =
-      lossConditionHeader.getAttribute("alternate") || false;
+    adversary.nameLossEscalation.lossCondition.alternate = lossConditionHeader.getAttribute(
+      "alternate"
+    )
+      ? true
+      : false;
 
     //Load Escalation
     const escalationHeader = htmlElement.querySelectorAll("escalation-effect")[0];

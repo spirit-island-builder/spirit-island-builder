@@ -163,7 +163,8 @@ function replaceIcon(html) {
       num_val = range_num;
     }
 
-    if (iconName.startsWith("energy-")) {
+    // gain energy icons
+    if (iconName.startsWith("energy-") && !iconName.startsWith("energy-per")) {
       energy_num = iconName.substring(7);
       if (isNaN(energy_num)) {
         // energy_num = energy_num.charAt(0)
@@ -201,7 +202,7 @@ function replaceIcon(html) {
 }
 
 function checkOverflowHeight(el, slack = 2) {
-  let debug = true;
+  let debug = false;
   let curOverflow = el.style.overflowY;
   if (!curOverflow || curOverflow === "visible") {
     el.style.overflowY = "auto";
@@ -293,20 +294,27 @@ function processRulesText(element, lineTagName = "special-rule-line") {
   let separateLines = element.innerHTML.split(/\r?\n|\r|\n/g);
   element.innerHTML = "";
   let listOpen = false;
+  let debug = false;
   let ruleLine;
   let inlineList;
   separateLines.forEach((line) => {
     if (line.replace(/\W/g, "").length > 0) {
       // If the line isn't blank
-      console.log(line);
+      if (debug) {
+        console.log(line);
+      }
       if (line.trim().startsWith("*")) {
-        console.log("bullet detected");
+        if (debug) {
+          console.log("bullet detected");
+        }
         if (!ruleLine) {
           console.log("starting rule line (none present)");
           ruleLine = document.createElement(lineTagName);
         }
         if (!listOpen) {
-          console.log("opening new list");
+          if (debug) {
+            console.log("opening new list");
+          }
           // List hasn't been opened, open list and add it to document
           // let ruleListItem = document.createElement(lineTagName);
           inlineList = document.createElement("ul");
@@ -314,7 +322,9 @@ function processRulesText(element, lineTagName = "special-rule-line") {
           // element.appendChild(ruleListItem);
           listOpen = true;
         }
-        console.log("adding item to list");
+        if (debug) {
+          console.log("adding item to list");
+        }
         // Add list item to list (that either existed or was opened)
         let listItem = document.createElement("li");
         listItem.innerHTML = line.substring(1).trim();

@@ -60,18 +60,18 @@
   <!-- Loss Condition -->
   <div class="field">
     <div class="field is-flex is-justify-content-space-between mb-0">
-      {#if !adversary.nameLossEscalation.lossCondition.alternate}
-        <label class="label is-flex is-justify-content-space-between" for="LossConditionInput"
-          >Additional Loss Condition
-        </label>
-        <button class="button is-small" on:click={toggleLossToSpecialRule}
-          >Switch to Special Rule</button>
-      {:else}
+      {#if adversary.nameLossEscalation.lossCondition.alternate}
         <label class="label is-flex is-justify-content-space-between" for="LossConditionInput"
           >Special Rule
         </label>
         <button class="button is-small" on:click={toggleLossToSpecialRule}
           >Switch to Loss Condition</button>
+      {:else}
+        <label class="label is-flex is-justify-content-space-between" for="LossConditionInput"
+          >Additional Loss Condition
+        </label>
+        <button class="button is-small" on:click={toggleLossToSpecialRule}
+          >Switch to Special Rule</button>
       {/if}
     </div>
     <div class="field is-flex is-small mb-0">

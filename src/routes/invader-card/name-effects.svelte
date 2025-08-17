@@ -74,13 +74,16 @@
 <Section title="Name & Effects" bind:isVisible={invaderCard.card.isVisible}>
   <div class="field">
     <label class="label is-flex is-justify-content-space-between" for={`levelNameInput`}
-      >Invader Card Info
-    </label>
-    <label class="label is-flex is-justify-content-space-between" for={`levelNameInput`}
-      >Style
+      >Name (for export) & Style
     </label>
     <div
       class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap is-align-items-flex-end mb-1">
+      <input
+        id={`blightCardName`}
+        class="input is-small"
+        type="text"
+        placeholder="Name"
+        bind:value={invaderCard.card.name} />
       <button
         class:is-light={invaderCard.card.type !== "single"}
         class="button is-info button-hold mb-0 is-small"
@@ -94,6 +97,9 @@
         class="button is-info button-hold mb-0 is-small"
         on:click={setType("split", invaderCard.card)}>Split</button>
     </div>
+    <label class="label is-flex is-justify-content-space-between" for={`levelNameInput`}
+      >Text
+    </label>
     {#each invaderCard.card.fields as field, i (field.id)}
       <div class="field">
         <!-- Full Title and controls -->
@@ -198,7 +204,7 @@
           class="button is-primary is-light is-small"
           id="addNewField"
           on:click={addField(invaderCard.card.fields)}>
-          Add Another Field
+          Add Text Field
         </button>
       </div>
     </div>
