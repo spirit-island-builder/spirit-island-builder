@@ -163,7 +163,8 @@ function replaceIcon(html) {
       num_val = range_num;
     }
 
-    if (iconName.startsWith("energy-")) {
+    // gain energy icons
+    if (iconName.startsWith("energy-") && !iconName.startsWith("energy-per")) {
       energy_num = iconName.substring(7);
       if (isNaN(energy_num)) {
         // energy_num = energy_num.charAt(0)
