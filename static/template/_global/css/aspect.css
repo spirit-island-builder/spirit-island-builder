@@ -450,6 +450,42 @@ aspect-subtext icon.dahan {
   background-image: url("../images/board/aspect-white-icons/50px_dahan_white.png");
 } */
 
+aspect-subtext icon.sun {
+  background-image: url(../../images/board/element_simple_sun.png);
+}
+
+aspect-subtext icon.earth {
+  background-image: url(../../images/board/element_simple_earth.png);
+}
+
+aspect-subtext icon.plant {
+  background-image: url(../../images/board/element_simple_plant.png);
+}
+
+aspect-subtext icon.fire {
+  background-image: url(../../images/board/element_simple_fire.png);
+}
+
+aspect-subtext icon.air {
+  background-image: url(../../images/board/element_simple_air.png);
+}
+
+aspect-subtext icon.moon {
+  background-image: url(../../images/board/element_simple_moon.png);
+}
+
+aspect-subtext icon.animal {
+  background-image: url(../../images/board/element_simple_animal.png);
+}
+
+aspect-subtext icon.water {
+  background-image: url(../../images/board/element_simple_water.png);
+}
+
+aspect-subtext icon.any {
+  background-image: url(../../images/board/element_simple_any.png);
+}
+
 aspect.has-bonus-node aspect-container {
   width: 557px;
 }
