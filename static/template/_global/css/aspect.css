@@ -429,6 +429,10 @@ aspect-subtext icon.incarna {
   filter: invert(0);
 }
 
+aspect-subtext icon.element {
+  filter: invert(0);
+}
+
 aspect-subtext icon.presence {
   margin-left: 2px;
   /* background-image: url("../images/board/aspect-white-icons/50px_presence_white.png"); */

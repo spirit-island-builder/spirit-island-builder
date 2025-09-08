@@ -298,7 +298,18 @@
     const elementNamesInIframe = [];
     powerCards.cards.forEach((card, index) => {
       elementNamesInIframe.push(`#card${index}`);
-      fileNames.push(card.name.replaceAll(" ", "_") + "_PowerCard.png");
+      if (powerCards.type === "major" || powerCards.type === "minor") {
+        fileNames.push(powerCards.type + "_" + card.name.replaceAll(" ", "_") + "_PowerCard.png");
+      } else if (powerCards.spiritName) {
+        fileNames.push(
+          powerCards.spiritName.replaceAll(" ", "_") +
+            "_" +
+            card.name.replaceAll(" ", "_") +
+            "_PowerCard.png"
+        );
+      } else {
+        fileNames.push(card.name.replaceAll(" ", "_") + "_PowerCard.png");
+      }
     });
     console.log(powerCards.cardBackImage);
     if (powerCards.cardBackImage) {
