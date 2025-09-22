@@ -4,6 +4,7 @@
   import * as Lib from "../lib";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import LoadDropdown from "$lib/load-dropdown.svelte";
 
   import NameEffects from "./name-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
@@ -244,12 +245,12 @@
       <!-- <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
         Examples
       </button> -->
-      <LoadButton
-        accept=".html"
+      <LoadDropdown
+        accept="text/html"
         class="button is-success mt-1 mr-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
+      </LoadDropdown>
       <button class="button is-success mt-1 mr-1" on:click={exportIncarnaToken}> Save </button>
       <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}
         >Download Image</button>

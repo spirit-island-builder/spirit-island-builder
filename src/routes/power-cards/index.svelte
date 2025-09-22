@@ -5,6 +5,7 @@
   import { downloadHTML, downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import LoadDropdown from "$lib/load-dropdown.svelte";
   import Examples from "$lib/example-modal.svelte";
   import examples from "./examples.json";
 
@@ -530,12 +531,12 @@
         Examples
       </button>
       <InstructionsLink class="button is-info mt-1 mr-1" anchor="power-cards" />
-      <LoadButton
-        accept=".html"
-        class="button is-success mr-1 mt-1"
+      <LoadDropdown
+        accept="text/html"
+        class="button is-success mt-1 mr-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
+      </LoadDropdown>
       <button class="button is-success mt-1 mr-1" on:click={exportPowerCards}> Save </button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>

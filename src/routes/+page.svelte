@@ -31,11 +31,11 @@
   import About from "./about/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
   import Footer from "./footer.svelte";
-
-  import { divertDownload, downloadData } from "$lib/download";
+  import { divertDownload, SaveLocation, setSaveLocation, downloadData } from "$lib/download";
 
   let debugDownloads = false;
   $: divertDownload(debugDownloads);
+  let saveLocation = SaveLocation.LOCAL;
 
   let currentPage = $page.url.hash ? $page.url.hash.substring(1) : "spiritBoardFront";
   switch (currentPage.toLowerCase().replace(/\W/g, "")) {
@@ -114,6 +114,18 @@
     if (document.documentElement.getAttribute("data-theme") === "dark") {
       toggleSwitch.checked = true;
     }
+
+    //identify the toggle save location HTML element
+    const saveLocationToggle = document.querySelector('#save-location select');
+
+    //listener for changing save location
+    saveLocationToggle.addEventListener("change", switchSaveLocation, false);
+
+    //set the save location from localStorage if it exists
+    const attr = document.documentElement.getAttribute("data-save-location");
+    if (attr && Object.values(SaveLocation).includes(attr)) {
+      saveLocation = attr;
+    }
   }
   onMount(onLoad);
 
@@ -128,6 +140,16 @@
         document.documentElement.setAttribute("data-theme", "light");
         toggleSwitch.checked = false;
       }
+    }
+  }
+
+  // Save location toggle
+  function switchSaveLocation(e) {
+    const dropdown = document.querySelector('#save-location select');
+    if (dropdown) {
+      document.documentElement.setAttribute("data-save-location", e.target.value);
+      saveLocation = e.target.value;
+      setSaveLocation(saveLocation);
     }
   }
 
@@ -856,6 +878,18 @@
         style="margin-left: auto;margin-right: 25px;">
         Dark Mode:
         <input type="checkbox" id="checkbox_theme" />
+      </label>
+      <label
+        id="save-location"
+        class="save-location"
+        style="margin-left: 15px; margin-right: 25px;"
+      >
+        Save Location:
+        <select>
+          <option value={SaveLocation.LOCAL}>Local</option>
+          <option value={SaveLocation.DRIVE}>Google Drive</option>
+          <option value={SaveLocation.BOTH}>Both</option>
+        </select>
       </label>
     </div>
     <nav class="navbar ml-5 mr-5">

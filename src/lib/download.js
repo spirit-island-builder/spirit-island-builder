@@ -4,7 +4,20 @@
  */
 
 import { writable } from "svelte/store";
+import { saveToDrive } from "$lib/google-drive.js";
+
+/**
+ * @enum {string}
+ * The possible locations to save a file.
+ */
+export const SaveLocation = {
+  DRIVE: "drive",
+  LOCAL: "local",
+  BOTH: "both"
+};
+
 let shouldDivertDownload = false;
+let saveLocation = SaveLocation.LOCAL;
 
 /**
  * When downloads are divereted, contains the latest downloaded data.
@@ -14,11 +27,19 @@ let shouldDivertDownload = false;
 export const downloadData = writable({});
 
 /**
- * Set whether downloads should be stored in `downloadData` or actually downloaded.
+ * Set whether downloads should be stored in `downloadData` instead of saving.
  * @param {boolean} value
  */
 export const divertDownload = (value) => {
   shouldDivertDownload = value;
+};
+
+/**
+ * Set the save location.
+ * @param {SaveLocation} location
+ */
+export const setSaveLocation = (location) => {
+  saveLocation = location;
 };
 
 /**
@@ -29,7 +50,7 @@ export const divertDownload = (value) => {
  * than a string or image, you should add a wrapper that knows
  * how to divert that type download, rather than directly exporting
  * this function.
- *
+ * 
  * @param {string|URL} fileURL
  * @param {string} fileName
  */
@@ -68,7 +89,19 @@ export const downloadString = (mimeType, fileContent, fileName) => {
     downloadData.set({ fileContent, fileName });
     return;
   }
-  downloadFile(`data:${mimeType},${encodeURIComponent(fileContent)}`, fileName);
+
+  // Local download
+  if (saveLocation === SaveLocation.LOCAL || saveLocation === SaveLocation.BOTH) {
+    downloadFile(
+      `data:${mimeType},${encodeURIComponent(fileContent)}`,
+      fileName
+    );
+  }
+
+  // Google Drive upload
+  if (saveLocation === SaveLocation.DRIVE || saveLocation === SaveLocation.BOTH) {
+    saveToDrive(fileContent, fileName);
+  }
 };
 
 /**

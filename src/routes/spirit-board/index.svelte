@@ -23,6 +23,7 @@
   import examples from "./examples.json";
   import spiritBoardJsonTemplate from "./tts-spirit-board.json";
   import InstructionsLink from "$lib/instructions/link.svelte";
+  import LoadDropdown from "$lib/load-dropdown.svelte";
 
   export let spiritBoard;
   export let emptySpiritBoard;
@@ -910,12 +911,12 @@
         Examples
       </button>
       <InstructionsLink class="button is-info mt-1  mr-1" anchor="spirit-board-play-side" />
-      <LoadButton
-        accept=".html"
+      <LoadDropdown
+        accept="text/html"
         class="button is-success mt-1 mr-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
+      </LoadDropdown>
       <button class="button is-success mt-1 mr-1" on:click={exportSpiritBoard}>Save</button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>

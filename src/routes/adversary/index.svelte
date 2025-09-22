@@ -6,6 +6,7 @@
   import { dev } from "$app/environment";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import LoadDropdown from "$lib/load-dropdown.svelte";
   import examples from "./examples.json";
   import NameLossAndEscalation from "./name-loss-escalation.svelte";
   import AdversaryLevels from "./adversary-levels.svelte";
@@ -253,12 +254,12 @@
         Examples
       </button>
       <InstructionsLink class="button mt-1 is-info mr-1" anchor="adversary" />
-      <LoadButton
-        accept=".html"
-        class="button mt-1 is-success mr-1"
+      <LoadDropdown
+        accept="text/html"
+        class="button is-success mt-1 mr-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
+      </LoadDropdown>
       <button class="button is-success mt-1 mr-1" on:click={exportAdversary}> Save </button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>

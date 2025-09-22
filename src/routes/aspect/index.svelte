@@ -6,6 +6,7 @@
   import { downloadHTML, downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import LoadDropdown from "$lib/load-dropdown.svelte";
   import { dev } from "$app/environment";
 
   import NameReplacements from "./name-replacements.svelte";
@@ -517,12 +518,12 @@
       <button class="button is-info js-modal-trigger mt-1 mr-1" on:click={exampleModal.open}>
         Examples
       </button>
-      <LoadButton
-        accept=".html"
+      <LoadDropdown
+        accept="text/html"
         class="button is-success mt-1 mr-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
+      </LoadDropdown>
       <button class="button is-success mt-1 mr-1" on:click={exportAspect}> Save </button>
 
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}

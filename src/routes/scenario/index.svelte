@@ -6,6 +6,7 @@
   import { dev } from "$app/environment";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import LoadDropdown from "$lib/load-dropdown.svelte";
   // import examples from "./examples.json";
   import FrontScenario from "./front-scenario.svelte";
   import NameDifficultyImage from "./name-difficulty-image.svelte";
@@ -292,12 +293,12 @@
       </svelte:fragment>
     </PreviewFrame>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
-      <LoadButton
-        accept=".html"
+      <LoadDropdown
+        accept="text/html"
         class="button is-success mt-1 mr-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
+      </LoadDropdown>
       <button class="button is-success mt-1 mr-1" on:click={exportScenario}> Save </button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>

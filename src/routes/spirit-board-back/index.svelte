@@ -5,6 +5,7 @@
   import { downloadHTML } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import LoadDropdown from "$lib/load-dropdown.svelte";
 
   import NameArtLore from "./name-art-lore.svelte";
   import SetupPlaystyleComplexityPowers from "./setup-playstyle-complexity-powers.svelte";
@@ -285,12 +286,12 @@
     </PreviewFrame>
     <div class="field has-addons preview-buttons mb-0 is-flex-wrap-wrap">
       <InstructionsLink class="button is-info mt-1 mr-1" anchor="spirit-board-lore-side" />
-      <LoadButton
-        accept=".html"
+      <LoadDropdown
+        accept="text/html"
         class="button is-success mt-1 mr-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
+      </LoadDropdown>
       <button class="button is-success mt-1 mr-1" on:click={exportSpiritBoardBack}> Save </button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
