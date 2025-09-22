@@ -236,6 +236,39 @@ export async function savePDFToDrive(pdfContent, filename) {
   return uploadToDrive(contentBlob, filename, "application/pdf");
 }
 
+/**
+ * Save image (PNG/JPEG) file to Google Drive
+ * @param {string|Blob|Uint8Array} imageContent
+ * @param {string} filename
+ */
+export async function saveImageToDrive(imageContent, filename) {
+  let contentBlob;
+
+  if (typeof imageContent === "string") {
+    // If it's a dataURL like "data:image/png;base64,..."
+    if (imageContent.startsWith("data:")) {
+      const [header, base64] = imageContent.split(",");
+      const mimeType = header.match(/data:(.*);base64/)[1] || "image/png";
+      const binary = atob(base64);
+      const len = binary.length;
+      const buffer = new Uint8Array(len);
+      for (let i = 0; i < len; i++) buffer[i] = binary.charCodeAt(i);
+      contentBlob = [buffer];
+      return uploadToDrive(contentBlob, filename, mimeType);
+    } else {
+      throw new Error("Unsupported image string format (expected dataURL).");
+    }
+  } else if (imageContent instanceof Blob) {
+    contentBlob = [imageContent];
+    return uploadToDrive(contentBlob, filename, imageContent.type || "image/png");
+  } else if (imageContent instanceof Uint8Array || imageContent instanceof ArrayBuffer) {
+    contentBlob = [imageContent];
+    return uploadToDrive(contentBlob, filename, "image/png");
+  } else {
+    throw new Error("Unsupported image content type");
+  }
+}
+
 // Shared upload function
 async function uploadToDrive(fileContent, filename, mimeType) {
   if (!isSignedIn()) await signIn();

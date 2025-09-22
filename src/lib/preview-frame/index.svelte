@@ -17,7 +17,7 @@
   import { downloadImage } from "$lib/download";
 
   import { getSaveLocation, SaveLocation } from "$lib/download.js";
-  import { savePDFToDrive } from "$lib/google-drive.js";
+  import { savePDFToDrive, saveImageToDrive } from "$lib/google-drive.js";
 
   export let clickFunction = () => {};
 
@@ -49,13 +49,23 @@
     options = "for-image-download"
   ) => {
     console.log("screenshot with " + options);
+    let saveLocation = getSaveLocation();
     elementNamesInIframe.forEach((elementNameInIframe, index) => {
       let element = previewIframe.contentDocument.querySelector(elementNameInIframe);
       console.log(element);
       element.classList.add(options);
       let scale = 1.8;
-      previewIframe.contentWindow.takeScreenshot(elementNameInIframe, scale).then((imageURL) => {
-        downloadImage(imageURL, fileNames[index]);
+      previewIframe.contentWindow
+      .takeScreenshot(elementNameInIframe, scale)
+      .then((imageURL) => {
+        if (saveLocation === SaveLocation.LOCAL) {
+          downloadImage(imageURL, fileNames[index]);
+        } else if (saveLocation === SaveLocation.DRIVE) {
+          saveImageToDrive(imageURL, fileNames[index]);
+        } else if (saveLocation === SaveLocation.BOTH) {
+          downloadImage(imageURL, fileNames[index]);
+          saveImageToDrive(imageURL, fileNames[index]);
+        }
         element.classList.remove(options);
       });
     });
