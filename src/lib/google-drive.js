@@ -195,7 +195,49 @@ async function getUniqueFilename(folderId, originalFilename) {
   }
 }
 
+/**
+ * Original: Save HTML content to Google Drive
+ */
 export async function saveToDrive(htmlContent, filename) {
+  return saveHTMLToDrive(htmlContent, filename);
+}
+
+/**
+ * Save HTML file to Google Drive
+ * @param {string} htmlContent
+ * @param {string} filename
+ */
+export async function saveHTMLToDrive(htmlContent, filename) {
+  return uploadToDrive([htmlContent], filename, "text/html");
+}
+
+/**
+ * Save PDF file to Google Drive
+ * @param {Uint8Array|ArrayBuffer|string} pdfContent
+ * @param {string} filename
+ */
+export async function savePDFToDrive(pdfContent, filename) {
+  let contentBlob;
+  if (pdfContent instanceof Uint8Array || pdfContent instanceof ArrayBuffer) {
+    contentBlob = [pdfContent];
+  } else if (typeof pdfContent === "string") {
+    const base64 = pdfContent.startsWith("data:")
+      ? pdfContent.split(",")[1]
+      : pdfContent;
+    const binary = atob(base64);
+    const len = binary.length;
+    const buffer = new Uint8Array(len);
+    for (let i = 0; i < len; i++) buffer[i] = binary.charCodeAt(i);
+    contentBlob = [buffer];
+  } else {
+    throw new Error("Unsupported PDF content format");
+  }
+
+  return uploadToDrive(contentBlob, filename, "application/pdf");
+}
+
+// Shared upload function
+async function uploadToDrive(fileContent, filename, mimeType) {
   if (!isSignedIn()) await signIn();
   let attempts = 0;
   while (!isSignedIn() && attempts < 30) {
@@ -206,14 +248,12 @@ export async function saveToDrive(htmlContent, filename) {
 
   try {
     const folderId = await findOrCreateFolder();
-    
-    // Get a unique filename
     const uniqueFilename = await getUniqueFilename(folderId, filename);
-    
-    const metadata = { name: uniqueFilename, mimeType: "text/html", parents: [folderId] };
+    const metadata = { name: uniqueFilename, mimeType, parents: [folderId] };
+
     const form = new FormData();
     form.append("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }));
-    form.append("file", new Blob([htmlContent], { type: "text/html" }));
+    form.append("file", new Blob(fileContent, { type: mimeType }));
 
     const response = await fetch(
       "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink",

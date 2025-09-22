@@ -16,6 +16,9 @@
 
   import { downloadImage } from "$lib/download";
 
+  import { getSaveLocation, SaveLocation } from "$lib/download.js";
+  import { savePDFToDrive } from "$lib/google-drive.js";
+
   export let clickFunction = () => {};
 
   let previewIframe;
@@ -65,13 +68,14 @@
     wid = 9,
     hit = 6,
     flip = false,
-    orientation = "landscape"
+    orientation = "landscape",
   ) => {
     const doc = new jsPDF({
       orientation: orientation,
       unit: "in",
       format: pageType,
     });
+
     let i = 0;
     let xi = 0.5;
     let x = xi;
@@ -79,6 +83,8 @@
     let y = yi;
     let pw = doc.getPageWidth();
     let count = elementNamesInIframe.length;
+    let saveLocation = getSaveLocation();
+
     elementNamesInIframe.forEach((elementNameInIframe, n) => {
       previewIframe.contentWindow
         .takeScreenshot(elementNameInIframe, large ? 2 : 1.5)
@@ -87,13 +93,25 @@
           x = xi + col_n * wid;
           const row_n = Math.floor(((n + 1) * wid) / (pw - xi));
           y = yi + row_n * hit;
+
           if (flip) {
             x = pw - wid - xi;
           }
+
           doc.addImage(imageURL, "PNG", x, y, wid, hit);
           console.log("add card " + elementNameInIframe + " to " + x + "," + y);
+
           if (++i === count) {
-            doc.save(fileName);
+            if (saveLocation === SaveLocation.LOCAL) {
+              doc.save(fileName);
+            } else if (saveLocation === SaveLocation.DRIVE) {
+              const pdfData = doc.output("datauristring"); 
+              savePDFToDrive(pdfData, fileName);
+            } else if (saveLocation === SaveLocation.BOTH) {
+              doc.save(fileName);
+              const pdfData = doc.output("datauristring"); 
+              savePDFToDrive(pdfData, fileName);
+            }
           }
         });
     });

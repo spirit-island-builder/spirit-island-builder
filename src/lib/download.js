@@ -19,6 +19,8 @@ export const SaveLocation = {
 let shouldDivertDownload = false;
 let saveLocation = SaveLocation.LOCAL;
 
+export const getSaveLocation = () => saveLocation;
+
 /**
  * When downloads are divereted, contains the latest downloaded data.
  *
