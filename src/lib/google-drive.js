@@ -1,5 +1,6 @@
 // google-drive.js
 import { SaveLocation, setSaveLocation } from "./download.js";
+import { showToast } from "./alert.js";
 
 let signedIn = false;
 let accessToken = null;
@@ -293,7 +294,9 @@ async function uploadToDrive(fileContent, filename, mimeType) {
       { method: "POST", headers: { Authorization: `Bearer ${accessToken}` }, body: form }
     );
     if (!response.ok) throw new Error(await response.text());
-    return await response.json();
+    const result = await response.json();
+    showToast(`💾 File saved to Google Drive`);
+    return result;
   }
   catch (err) {
     throw new Error(`Failed to save file to Google Drive: ${err.message}`);
@@ -349,7 +352,7 @@ export async function openPickerAndLoadFile(accept) {
       const picker = new google.picker.PickerBuilder()
         .addView(view)
         .setAppId(import.meta.env.VITE_GOOGLE_CLIENT_ID.split('-')[0])
-        .setOAuthToken(accessToken) // FIXED: Use our stored token
+        .setOAuthToken(accessToken)
         .setCallback((data) => {
           if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
             const file = data[google.picker.Response.DOCUMENTS][0];

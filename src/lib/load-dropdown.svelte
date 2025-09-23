@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import * as GoogleDrive from "$lib/google-drive.js";
+  import { showToast } from "$lib/alert.js";
 
   const dispatch = createEventDispatcher();
 
@@ -15,6 +16,7 @@
   const handleInput = () => {
     const file = files.item(0);
     if (file) {
+      showToast(`📂 File loaded from system`);
       if (loadObjectURL) {
         let url = URL.createObjectURL(file);
         Promise.resolve(loadObjectURL(url)).finally(() => {
@@ -41,7 +43,7 @@
         // User cancelled the picker, do nothing
         return;
       }
-
+      showToast(`📂 File loaded from Google Drive`);
       if (loadObjectURL) {
         const url = URL.createObjectURL(blob);
         await loadObjectURL(url);
@@ -72,9 +74,9 @@
   <div class="dropdown-menu" id="dropdown-menu4" role="menu">
     <div class="dropdown-content">
       <!-- Google Drive Load -->
-      <div class="button is-success mr-1 dropdown-item" on:click={handleDriveLoad}>
-          Drive
-      </div>
+      <button class="button is-success mr-1 dropdown-item" on:click={handleDriveLoad}>
+        Drive
+      </button>
       <!-- Local Load -->
       <div>
         <input hidden type="file" {accept} bind:files bind:this={fileInput} on:change={handleInput} />

@@ -5,6 +5,7 @@
 
 import { writable } from "svelte/store";
 import { saveToDrive } from "$lib/google-drive.js";
+import { showToast } from "./alert.js";
 
 /**
  * @enum {string}
@@ -64,6 +65,7 @@ const downloadFile = (fileURL, fileName) => {
   document.body.appendChild(element);
   element.click();
   document.body.removeChild(element);
+  showToast(`💾 File saved locally}`);
 };
 
 /**
