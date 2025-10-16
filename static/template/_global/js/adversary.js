@@ -13,6 +13,18 @@ let localize = {
     level: "Level",
     gameEffects: "Game Effects",
   },
+  fr: {
+    baseDifficulty: "DIFFICULTÉ DE BASE",
+    additionalLossCondition: "Conditions supplémentaires de défaite",
+    specialRule: "Règles spéciales",
+    none: "Aucune",
+    difficulty: "Difficulté",
+    fearCards: "Cartes Peur",
+    cumulative: "cumulatifs",
+    escalation: "Escalade",
+    level: "Niveau",
+    gameEffects: "Effets",
+  },
 };
 
 function startMain() {

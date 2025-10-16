@@ -18,5 +18,9 @@
       class="button is-small is-success"
       class:is-light={adversary.languageOptions.language !== "en"}
       on:click={setLanguage("en", adversary)}>English</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={adversary.languageOptions.language !== "fr"}
+      on:click={setLanguage("fr", adversary)}>Français</button>
   </div>
 </Section>
