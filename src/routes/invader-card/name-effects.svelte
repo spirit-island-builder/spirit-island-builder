@@ -96,7 +96,24 @@
         class:is-light={invaderCard.card.type !== "split"}
         class="button is-info button-hold mb-0 is-small"
         on:click={setType("split", invaderCard.card)}>Split</button>
+      <button
+        class:is-light={invaderCard.card.type !== "reminder"}
+        class="button is-info button-hold mb-0 is-small"
+        on:click={setType("reminder", invaderCard.card)}>Reminder</button>
     </div>
+    {#if invaderCard.card.type === "reminder"}
+      <label class="label is-flex is-justify-content-space-between" for={`levelNameInput`}>
+        Banner
+      </label>
+      <div>
+        <input
+          id={`bannerText`}
+          class="input is-small"
+          type="text"
+          placeholder="Adversary: The Kingdom of France"
+          bind:value={invaderCard.card.banner} />
+      </div>
+    {/if}
     <label class="label is-flex is-justify-content-space-between" for={`levelNameInput`}
       >Text
     </label>

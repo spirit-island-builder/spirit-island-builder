@@ -44,7 +44,7 @@ template-invader-card {
   position: relative;
   top: 0px;
   left: 0px;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 invader-card-mask {
@@ -101,6 +101,32 @@ template-invader-card.split {
   }
 }
 
+template-invader-card.reminder {
+  invader-card-mask {
+    background-image: url(../images/cards/Invader/Reminder_Card_Background.png);
+  }
+}
+
+invader-banner {
+  background-color: #eee;
+  font-size: 18px;
+  text-align: center;
+  padding: 0 8px 0 30px;
+  writing-mode: vertical-lr;
+  font-family: "Name Headings";
+  height: 100%;
+  border-radius: 22px;
+  color: #555;
+  box-shadow: 5px 0px 10px #6666;
+}
+
+invader-field-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  flex: auto;
+}
+
 invader-field {
   display: flex;
   position: relative;
@@ -117,7 +143,7 @@ invader-field {
   justify-content: center;
   align-items: center;
   text-align: center;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 invader-field.title {

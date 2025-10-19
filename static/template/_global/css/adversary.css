@@ -426,7 +426,8 @@ adversary dev-overlay {
 adversary.printer-clean,
 adversary.printer-clean top-info,
 adversary.printer-clean adversary-title,
-adversary.printer-clean adversary-background {
+adversary.printer-clean adversary-background,
+adversary.printer-clean .flag {
   background-image: none;
 }
 adversary.printer-clean {
