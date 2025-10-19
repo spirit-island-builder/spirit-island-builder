@@ -124,8 +124,8 @@
     adversaryStyle.textContent = customIconText;
 
     // Set language
-    if (adversary.languageOptions.language) {
-      adversaryHeader.setAttribute("lang", adversary.languageOptions.language);
+    if (adversary.language) {
+      adversaryHeader.setAttribute("lang", adversary.language);
     } else {
       adversaryHeader.setAttribute("lang", "en");
     }
@@ -184,7 +184,9 @@
     );
 
     //Language
-    adversary.languageOptions.language = adversaryHeader.getAttribute("language");
+    if (adversaryHeader.getAttribute("lang")) {
+      adversary.language = adversaryHeader.getAttribute("lang");
+    }
   }
 
   function exportAdversary() {
