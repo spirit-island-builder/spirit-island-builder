@@ -1,4 +1,31 @@
 // const { base } = require("$app/paths");
+let lang = "en";
+let localize = {
+  en: {
+    baseDifficulty: "BASE DIFFICULTY",
+    additionalLossCondition: "Additional Loss Condition",
+    specialRule: "Special Rule",
+    none: "None",
+    difficulty: "Difficulty",
+    fearCards: "Fear Cards",
+    cumulative: "cumulative",
+    escalation: "Escalation",
+    level: "Level",
+    gameEffects: "Game Effects",
+  },
+  fr: {
+    baseDifficulty: "DIFFICULTÉ DE BASE",
+    additionalLossCondition: "Conditions supplémentaires de défaite",
+    specialRule: "Règles spéciales",
+    none: "Aucune",
+    difficulty: "Difficulté",
+    fearCards: "Cartes Peur",
+    cumulative: "cumulatifs",
+    escalation: "Escalade",
+    level: "Niveau",
+    gameEffects: "Effets",
+  },
+};
 
 function startMain() {
   quickAdversary = document.querySelectorAll("quick-adversary")[0];
@@ -22,21 +49,22 @@ function startMain() {
 }
 
 function buildAdversary(quickAdversary) {
+  lang = quickAdversary.getAttribute("lang");
   adversaryName = quickAdversary.getAttribute("name");
   flagImage = quickAdversary.getAttribute("flag-image");
   baseDifficulty = quickAdversary.getAttribute("base-difficulty");
   let baseDifficultyText = "";
   if (baseDifficulty) {
-    baseDifficultyText = `<adversary-base-dif>BASE DIFFICULTY <num>${baseDifficulty}</num></adversary-base-dif>`;
+    baseDifficultyText = `<adversary-base-dif>${localize[lang]["baseDifficulty"]}  <num>${baseDifficulty}</num></adversary-base-dif>`;
   }
 
   lossCondition = quickAdversary.querySelectorAll("loss-condition")[0];
   let lossConditionTitle = lossCondition.getAttribute("name");
   let lossConditionAlt = lossCondition.getAttribute("alternate") ? true : false;
-  let lossConditionHeading = "Additional Loss Condition";
+  let lossConditionHeading = localize[lang]["additionalLossCondition"];
   if (lossConditionAlt) {
     console.log(lossConditionAlt);
-    lossConditionHeading = "Special Rule";
+    lossConditionHeading = localize[lang]["specialRule"];
   }
   if (lossConditionTitle) {
     lossConditionTitle = lossConditionTitle + "<strong>:</strong> ";
@@ -46,7 +74,7 @@ function buildAdversary(quickAdversary) {
   if (!lossConditionRules || lossConditionRules === "None") {
     // If none, create more space for escalation
     topInfoClass = "class='no-loss-condition'";
-    lossConditionRules = "None";
+    lossConditionRules = localize[lang]["none"];
   }
   escalation = quickAdversary.querySelectorAll("escalation-effect")[0];
 
@@ -64,7 +92,9 @@ function buildAdversary(quickAdversary) {
         </div>
       </loss-condition>
       <escalation>
-        <section-title>Escalation <icon class="escalation"></icon></section-title>
+        <section-title>${
+          localize[lang]["escalation"]
+        } <icon class="escalation"></icon></section-title>
         <div>
           <strong>${escalation.getAttribute("name")}:</strong> ${escalation.getAttribute("rules")}
         </div>
@@ -72,9 +102,11 @@ function buildAdversary(quickAdversary) {
     </top-info>
     <adversary-levels>
       <header>
-        <header-level>Level<br>(Difficulty)</header-level>
-        <div>Fear Cards</div>
-        <div>Game Effects <span class="cumulative">(cumulative)</span></div>
+        <header-level>${localize[lang]["level"]}<br>(${localize[lang]["difficulty"]})</header-level>
+        <div>${localize[lang]["fearCards"]}</div>
+        <div>${localize[lang]["gameEffects"]} <span class="cumulative">(${
+    localize[lang]["cumulative"]
+  })</span></div>
       </header>`;
 
   html += buildLevel(quickAdversary.querySelectorAll("level-1")[0]);
