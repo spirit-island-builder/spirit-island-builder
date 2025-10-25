@@ -418,4 +418,18 @@ let localize = {
     spirit: "CÉLPONT",
     threshold: "Ha kijátszottál",
   },
+  ko: {
+    speed: "속도",
+    range: "거리",
+    land: "대상 지역",
+    spirit: "대상",
+    threshold: "필요 조건",
+  },
+  ja: {
+    speed: "速度",
+    range: "距離",
+    land: "対象の土地",
+    spirit: "対象",
+    threshold: "必要条件",
+  },
 };
