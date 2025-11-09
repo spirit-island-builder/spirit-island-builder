@@ -63,11 +63,14 @@
   }
 
   function removePowerCard(powerIndex) {
-    powerCards.cards.splice(powerIndex, 1);
-    powerCards.cards.forEach((power, i) => {
-      power.id = i;
-    });
-    powerCards = powerCards;
+    if (window.confirm("Are you sure? Removing: " + powerCards.cards[powerIndex].name)) {
+      powerCards.cards.splice(powerIndex, 1);
+      powerCards.cards.forEach((power, i) => {
+        power.id = i;
+      });
+      powerCards = powerCards;
+      document.getElementById("updateButton").click();
+    }
   }
 
   function toggleElement(card, element) {

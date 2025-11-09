@@ -2680,7 +2680,7 @@ function IconName(str, iconNum = 1) {
         ar: "حضور",
         zh: "你的靈跡",
         hu: "Jelenléted",
-        ko: `존재`,
+        ko: `현신`,
         ja: `プレゼンス`,
       };
       subText = localize[lang];
@@ -2694,7 +2694,7 @@ function IconName(str, iconNum = 1) {
         ar: "حضورك",
         zh: "你的靈跡",
         hu: "Jelenléted",
-        ko: `당신의 존재`,
+        ko: `당신의 현신`,
         ja: `あなたのプレゼンス`,
       };
       subText = localize[lang];
@@ -2847,7 +2847,7 @@ function IconName(str, iconNum = 1) {
           ar: `أضف حضوراً إلى أي أرض`,
           zh: `添加靈跡到任意區域`,
           hu: `Jelenlét lerakása`,
-          ko: `임의의 지역에 존재 추가`,
+          ko: `임의의 지역에 현신 추가`,
           ja: `任意の土地にプレゼンスを追加`,
         };
         subText = localize[lang];
@@ -2862,7 +2862,7 @@ function IconName(str, iconNum = 1) {
             ar: `أضف حضوراً ${opt3}`,
             zh: `添加靈跡 ${opt3}`,
             hu: `Jelenlét lerakása ${opt3}`,
-            ko: `존재 추가 ${opt3}`,
+            ko: `현신 추가 ${opt3}`,
             ja: `プレゼンスを追加 ${opt3}`,
           };
           subText = localize[lang];
@@ -2879,7 +2879,7 @@ function IconName(str, iconNum = 1) {
             ar: `أضف حضوراً ${IconName(preposition)} ${IconName(opt3)}`,
             zh: `添加靈跡 ${IconName(preposition)} ${IconName(opt3)}`,
             hu: `Jelenlét lerakása ${IconName(preposition)} ${IconName(opt3)}`,
-            ko: `${IconName(opt3)} ${IconName(preposition)} 존재 추가`,
+            ko: `${IconName(opt3)} ${IconName(preposition)} 현신 추가`,
             ja: `${IconName(opt3)} ${IconName(preposition)} プレゼンスを追加`,
           };
           subText = localize[lang];
@@ -2896,7 +2896,7 @@ function IconName(str, iconNum = 1) {
                 ar: `أضف حضوراً و ${IconName(opt3)}`,
                 zh: `添加靈跡和${IconName(opt3)}`,
                 hu: `Jelenlét és ${IconName(opt3)} lerakása`,
-                ko: `존재와 ${IconName(opt3)} 추가`,
+                ko: `현신와 ${IconName(opt3)} 추가`,
                 ja: `プレゼンスと${IconName(opt3)}を追加`,
               };
               break;
@@ -2910,7 +2910,7 @@ function IconName(str, iconNum = 1) {
                 ar: `أضف حضوراً أو ${IconName(opt3)}`,
                 zh: `添加靈跡或${IconName(opt3)}`,
                 hu: `Jelenlét vagy ${IconName(opt3)} lerakása`,
-                ko: `존재 또는 ${IconName(opt3)} 추가`,
+                ko: `현신 또는 ${IconName(opt3)} 추가`,
                 ja: `プレゼンスまたは${IconName(opt3)}を追加`,
               };
               break;
@@ -2937,7 +2937,7 @@ function IconName(str, iconNum = 1) {
             ar: num === "any" ? `أضف حضوراً إلى أي ` : `أضف حضوراً إلى `,
             zh: num === "any" ? `添加靈跡到任意` : `添加靈跡到`,
             hu: num === "any" ? `Jelenlét lerakása bármely ` : `Jelenlét lerakása `,
-            ko: num === "any" ? `임의의 지역에 존재 추가 ` : `존재 추가 `,
+            ko: num === "any" ? `임의의 지역에 현신 추가 ` : `현신 추가 `,
             ja: num === "any" ? `任意の土地にプレゼンスを追加 ` : `プレゼンスを追加 `,
           };
           subText = localize[lang];
@@ -3015,7 +3015,7 @@ function IconName(str, iconNum = 1) {
           ar: `أضف حضوراً`,
           zh: `添加靈跡`,
           hu: `Jelenlét lerakása`,
-          ko: `존재 추가`,
+          ko: `현신 추가`,
           ja: `プレゼンスを追加`,
         };
         subText = localize[lang];
@@ -3467,7 +3467,7 @@ function IconName(str, iconNum = 1) {
         ar: `دمّر ${num} من حضورك`,
         zh: `摧毀${num}個你的靈跡`,
         hu: `${num} Jelenléted Elpusztítása`,
-        ko: `당신의 존재 ${num}개 파괴`,
+        ko: `당신의 현신 ${num}개 파괴`,
         ja: `あなたのプレゼンス${num}個を破壊`,
       };
       subText = localize[lang];
@@ -3481,7 +3481,7 @@ function IconName(str, iconNum = 1) {
         ar: "حضور مدمّر",
         zh: "被摧毀的靈跡",
         hu: "Elpusztított Jelenlét",
-        ko: `파괴된 존재`,
+        ko: `파괴된 현신`,
         ja: `破壊されたプレゼンス`,
       };
       if (iconNum > 1) {
@@ -3493,7 +3493,7 @@ function IconName(str, iconNum = 1) {
           ar: "حتى " + iconNum + " حضور مدمّر",
           zh: "至多" + (numLocalize[lang][iconNum] || iconNum) + " 被摧毀的靈跡",
           hu: "legfeljebb " + iconNum + " Elpusztított Jelenlét",
-          ko: `최대 ` + iconNum + ` 파괴된 존재`,
+          ko: `최대 ` + iconNum + ` 파괴된 현신`,
           ja: `最大` + iconNum + `個の破壊されたプレゼンス`,
         };
       }
@@ -3642,7 +3642,7 @@ function IconName(str, iconNum = 1) {
             ar: `حرّك حضوراً و${IconName(txt)} معاً`,
             zh: `一起移動靈跡和${IconName(txt)}`,
             hu: `Jelenlét és ${IconName(txt)} mozgatása együtt`,
-            ko: `존재와 ${IconName(txt)}를 함께 이동`,
+            ko: `현신와 ${IconName(txt)}를 함께 이동`,
             ja: `プレゼンスと${IconName(txt)}を一緒に移動`,
           };
         } else {
@@ -3655,7 +3655,7 @@ function IconName(str, iconNum = 1) {
             ar: "حرّك حتى " + txt + " حضور معاً",
             zh: "一起移動最多" + txt + "個靈跡",
             hu: "Legfeljebb " + txt + " Jelenlét mozgatása együtt",
-            ko: "최대 " + txt + "개의 존재를 함께 이동",
+            ko: "최대 " + txt + "개의 현신를 함께 이동",
             ja: "最大" + txt + "個のプレゼンスを一緒に移動",
           };
         }
@@ -3671,7 +3671,7 @@ function IconName(str, iconNum = 1) {
             ar: "حرّك حضوراً إلى أرض " + IconName(num),
             zh: "移動靈跡到" + IconName(num) + "區域",
             hu: "Jelenlét mozgatása " + IconName(num) + " területre",
-            ko: IconName(num) + " 지역으로 존재 이동",
+            ko: IconName(num) + " 지역으로 현신 이동",
             ja: IconName(num) + "の土地にプレゼンスを移動",
           };
         } else {
@@ -3686,7 +3686,7 @@ function IconName(str, iconNum = 1) {
               ar: "حرّك حضوراً",
               zh: "移動靈跡",
               hu: "Jelenlét mozgatása",
-              ko: `존재 이동`,
+              ko: `현신 이동`,
               ja: `プレゼンスを移動`,
             };
           } else {
@@ -3698,7 +3698,7 @@ function IconName(str, iconNum = 1) {
               ar: "حرّك حضوراً " + num,
               zh: "移動靈跡" + num,
               hu: "Jelenlét mozgatása " + num,
-              ko: "존재 이동 " + num,
+              ko: "현신 이동 " + num,
               ja: "プレゼンスを移動 " + num,
             };
           }
@@ -6521,7 +6521,7 @@ function tagSectionHeadings() {
     },
     ko: {
       growth: "성장",
-      presence: "존재",
+      presence: "현신",
       innate: "고유 파워",
       special: "특별 규칙",
     },
