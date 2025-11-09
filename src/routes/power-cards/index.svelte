@@ -286,7 +286,9 @@
   }
 
   function exportPowerCards() {
-    const htmlFileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
+    const htmlFileName = powerCards.spiritName
+      ? powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html"
+      : "PowerCards.html";
     downloadHTML(generateHTML(powerCards), htmlFileName);
   }
 
