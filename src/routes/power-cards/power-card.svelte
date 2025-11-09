@@ -215,9 +215,13 @@
         <div class="is-flex is-flex-direction-row is-justify-content-space-between">
           <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
             >{`Power Card ${i + 1}`}</label>
-          <button
-            class="button is-primary is-light is-warning is-small"
-            on:click={removePowerCard(i)}>Remove Power Card</button>
+          <div class="is-flex">
+            <button class="button is-small is-success is-light mb-0" on:click={saveSingleCard(card)}
+              >Save Single Card</button>
+            <button
+              class="button is-primary is-light is-warning is-small"
+              on:click={removePowerCard(i)}>Remove Power Card</button>
+          </div>
         </div>
         <div class="is-flex is-flex-direction-row">
           <div class="control" style="width:100%">
@@ -462,10 +466,12 @@
               on:click={clearThresholds(card)}>Clear Power Thresholds (both)</button>
           {:else}
             <div class="is-flex is-justify-content-space-between">
-              <button class="button is-success is-light mb-0" on:click={add2ndThreshold(card)}
-                >Add Second Threshold</button>
-              <button class="button is-warning is-light mb-0" on:click={clearThreshold(card)}
-                >Clear Power Threshold</button>
+              <button
+                class="button is-small is-success is-light mb-0"
+                on:click={add2ndThreshold(card)}>Add Second Threshold</button>
+              <button
+                class="button is-small is-warning is-light mb-0"
+                on:click={clearThreshold(card)}>Clear Power Threshold</button>
             </div>
           {/if}
         {:else}
@@ -473,7 +479,7 @@
             >Add Power Threshold</button>
         {/if}
       </div>
-      <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap pb-4">
+      <div class="is-flex is-flex-direction-column is-flex-wrap-nowrap">
         <div class="field has-addons mr-2 ml-1">
           <ImageInput
             id="cardArt{i}"
@@ -491,10 +497,6 @@
               bind:value={card.cardArtist} />
           </div>
         </div>
-      </div>
-      <div>
-        <button class="button is-success is-light mb-0" on:click={saveSingleCard(card)}
-          >Export Single Card</button>
       </div>
       <hr />
     </Section>
