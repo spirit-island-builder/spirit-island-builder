@@ -2711,7 +2711,7 @@ function IconName(str, iconNum = 1) {
               ar: `تمكين التجسد`,
               zh: `強化化身`,
               hu: "Megtestesülés Megerősítése",
-              ko: `화신`,
+              ko: `화신의 권능 활성화`,
               ja: `インカルナ強化`,
             };
             break;
