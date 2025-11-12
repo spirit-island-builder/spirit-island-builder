@@ -20,7 +20,35 @@
       on:click={setLanguage("en", adversary)}>English</button>
     <button
       class="button is-small is-success"
+      class:is-light={adversary.language !== "de"}
+      on:click={setLanguage("de", adversary)}>Deutsch</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={adversary.language !== "pl"}
+      on:click={setLanguage("pl", adversary)}>Polski</button>
+    <button
+      class="button is-small is-success"
       class:is-light={adversary.language !== "fr"}
       on:click={setLanguage("fr", adversary)}>Français</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={adversary.language !== "zh"}
+      on:click={setLanguage("zh", adversary)}>中文</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={adversary.language !== "hu"}
+      on:click={setLanguage("hu", adversary)}>Magyar</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={adversary.language !== "ar"}
+      on:click={setLanguage("ar", adversary)}>عربي</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={adversary.language !== "ko"}
+      on:click={setLanguage("ko", adversary)}>한국인</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={adversary.language !== "ja"}
+      on:click={setLanguage("ja", adversary)}>日本語</button>
   </div>
 </Section>
