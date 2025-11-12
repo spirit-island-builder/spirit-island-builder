@@ -420,10 +420,10 @@ let localize = {
   },
   ko: {
     speed: "속도",
-    range: "거리",
+    range: "사정 거리",
     land: "대상 지역",
     spirit: "대상",
-    threshold: "필요 조건",
+    threshold: "조건 발동",
   },
   ja: {
     speed: "速度",

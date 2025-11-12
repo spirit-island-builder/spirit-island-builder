@@ -1512,7 +1512,7 @@ let Turn = {
   pl: "Rundę",
   ar: "دور",
   hu: "Forduló",
-  ko: `턴`,
+  ko: `차례`,
   ja: `ターン`,
 };
 let CardPlay = {
@@ -1521,7 +1521,7 @@ let CardPlay = {
   de: "Karte ausspielen",
   pl: "Zagraj jedną",
   hu: "Kártyakijátszás",
-  ko: `카드 플레이`,
+  ko: `카드 사용 횟수`,
   ja: `カードプレイ`,
 };
 let CardPlays = {
@@ -1530,7 +1530,7 @@ let CardPlays = {
   de: "Karten ausspielen",
   pl: "Zagrane Karty",
   hu: "Kijátszható kártyák",
-  ko: `카드 플레이`,
+  ko: `카드 사용 횟수`,
   ja: `カードプレイ`,
 };
 let Cost = {
@@ -1701,7 +1701,7 @@ let landtypeNames = {
   ko: {
     "ocean": "바다",
     "oceans": "바다",
-    "mountain": "산",
+    "mountain": "산악",
     "jungle": "정글",
     "sand": "사막",
     "sands": "사막",
@@ -1716,14 +1716,14 @@ let landtypeNames = {
     "wetland-sand": "사막 또는 습지",
     "sands-wetland": "사막 또는 습지",
     "wetland-sands": "사막 또는 습지",
-    "mountain-jungle": "산 또는 정글",
-    "jungle-mountain": "산 또는 정글",
-    "mountain-wetland": "산 또는 습지",
-    "wetland-mountain": "산 또는 습지",
-    "mountain-sand": "산 또는 사막",
-    "sand-mountain": "산 또는 사막",
-    "mountain-sands": "산 또는 사막",
-    "sands-mountain": "산 또는 사막",
+    "mountain-jungle": "산악 또는 정글",
+    "jungle-mountain": "산악 또는 정글",
+    "mountain-wetland": "산악 또는 습지",
+    "wetland-mountain": "산악 또는 습지",
+    "mountain-sand": "산악 또는 사막",
+    "sand-mountain": "산악 또는 사막",
+    "mountain-sands": "산악 또는 사막",
+    "sands-mountain": "산악 또는 사막",
     "inland": "내륙",
     "coastal": "해안",
     "land": "지역",
@@ -6366,10 +6366,10 @@ function writeInnatePowerInfoBlock(
     },
     ko: {
       speed: "속도",
-      range: "거리",
+      range: "사정 거리",
       land: "대상 지역",
       spirit: "대상",
-      threshold: "필요 조건",
+      threshold: "조건 발동",
     },
     ja: {
       speed: "速度",
@@ -6522,7 +6522,7 @@ function tagSectionHeadings() {
     ko: {
       growth: "성장",
       presence: "현신",
-      innate: "고유 파워",
+      innate: "타고난 능력",
       special: "특별 규칙",
     },
     ja: {

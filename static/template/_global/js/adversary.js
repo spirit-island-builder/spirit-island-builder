@@ -25,6 +25,30 @@ let localize = {
     level: "Niveau",
     gameEffects: "Effets",
   },
+  ja: {
+    baseDifficulty: "基本難易度",
+    additionalLossCondition: "追加の敗北条件",
+    specialRule: "特別ルール",
+    none: "なし",
+    difficulty: "難易度",
+    fearCards: "恐怖カード",
+    cumulative: "累積",
+    escalation: "激化",
+    level: "レベル",
+    gameEffects: "ゲーム効果",
+  },
+  ko: {
+    baseDifficulty: "기본 난이도",
+    additionalLossCondition: "추가 패배 조건",
+    specialRule: "특수 규칙",
+    none: "없음",
+    difficulty: "난이도",
+    fearCards: "공포 카드 구성",
+    cumulative: "누적",
+    escalation: "II단계 침략 확대",
+    level: "레벨",
+    gameEffects: "게임 효과",
+  },
 };
 
 function startMain() {
