@@ -225,6 +225,10 @@ adversary-levels header {
   height: 40px;
   pointer-events: none;
 }
+:lang(ko) adversary-levels header {
+  font-size: 22px;
+  line-height: 24px;
+}
 
 adversary-levels:hover header,
 adversary-levels:hover header div,

@@ -37,6 +37,13 @@
   font-family: "Name Headings";
   src: url(../fonts/DKSnemand/DKSnemandTall.otf),
     url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf);
+  unicode-range: U+000-5FF;
+}
+
+@font-face {
+  font-family: "Name Headings";
+  src: url(../fonts/Korean/Korean_Headings.otf);
+  unicode-range: U+AC00-D7A3; /* Korean glyphs */
 }
 
 @font-face {
