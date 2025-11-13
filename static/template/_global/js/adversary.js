@@ -54,7 +54,7 @@ let localize = {
     additionalLossCondition: "Zusätzliche Niederlage-Bedingungen",
     specialRule: "Sonderregel",
     none: "Keine",
-    difficulty: "Schwierigkeit",
+    difficulty: "",
     fearCards: "Furchtkarten",
     cumulative: "kumulativ",
     escalation: "Eskalation Stufe II",
@@ -116,6 +116,7 @@ function startMain() {
 
   if (quickAdversary) {
     var adversary = document.createElement("adversary");
+    adversary.setAttribute("lang", quickAdversary.getAttribute("lang"));
     adversary.innerHTML = buildAdversary(quickAdversary);
     quickAdversary.parentNode.insertBefore(adversary, quickAdversary.nextSibling);
     quickAdversary.remove();
@@ -186,7 +187,9 @@ function buildAdversary(quickAdversary) {
     </top-info>
     <adversary-levels>
       <header>
-        <header-level>${localize[lang]["level"]}<br>(${localize[lang]["difficulty"]})</header-level>
+        <header-level>${localize[lang]["level"]}<br>${
+    localize[lang]["difficulty"] ? "(" + localize[lang]["difficulty"] + ")" : ""
+  }</header-level>
         <div>${localize[lang]["fearCards"]}</div>
         <div>${localize[lang]["gameEffects"]} <span class="cumulative">(${
     localize[lang]["cumulative"]
