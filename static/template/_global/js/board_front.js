@@ -5902,6 +5902,8 @@ function parseSpecialRules(board) {
     }
   }
 
+  // Add code for tables.
+
   // Capture lines to control line break heights
   const specialRuleList = board.getElementsByTagName("special-rule");
   let specialRulesArray = Array.from(specialRuleList);
