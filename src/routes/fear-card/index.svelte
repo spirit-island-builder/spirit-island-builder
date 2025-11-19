@@ -5,6 +5,7 @@
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
   import LoadDropdown from "$lib/load-dropdown.svelte";
+  import SaveDropdown from "$lib/save-dropdown.svelte";
 
   import NameEffects from "./name-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
@@ -111,11 +112,6 @@
     console.log(fearCard);
   }
 
-  function exportFearCard() {
-    const htmlFileName = fearCard.card.cardName.replaceAll(" ", "_") + "_FearCard.html";
-    downloadHTML(generateHTML(fearCard), htmlFileName);
-  }
-
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Aspect.")) {
       fearCard = JSON.parse(JSON.stringify(emptyFearCard));
@@ -178,7 +174,11 @@
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
-      <button class="button is-success mt-1  mr-1" on:click={exportFearCard}> Save </button>
+      <SaveDropdown
+        saveAction={() => generateHTML(fearCard)}
+        fileName={`${fearCard.card.cardName.replaceAll(" ", "_")}_FearCard.html`}
+        saveType="html"
+      />
       <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}
         >Download Image</button>
       <button class="button is-warning mt-1  mr-1" id="updateButton" on:click={reloadPreview}

@@ -5,6 +5,7 @@
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
   import LoadDropdown from "$lib/load-dropdown.svelte";
+  import SaveDropdown from "$lib/save-dropdown.svelte";
   import { dev } from "$app/environment";
 
   import EventType from "./event-type.svelte";
@@ -159,11 +160,6 @@
     console.log(eventCard);
   }
 
-  function exportEventCard() {
-    const htmlFileName = eventCard.card.name.replaceAll(" ", "_") + "_EventCard.html";
-    downloadHTML(generateHTML(eventCard), htmlFileName);
-  }
-
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Aspect.")) {
       eventCard = JSON.parse(JSON.stringify(emptyEventCard));
@@ -259,7 +255,11 @@
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
-      <button class="button is-success  mt-1 mr-1" on:click={exportEventCard}> Save </button>
+      <SaveDropdown
+        saveAction={() => generateHTML(eventCard)}
+        fileName={`${eventCard.card.name.replaceAll(" ", "_")}_EventCard.html`}
+        saveType="html"
+      />
       <button class="button is-warning  mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

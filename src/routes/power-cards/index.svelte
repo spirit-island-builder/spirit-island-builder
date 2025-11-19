@@ -6,6 +6,7 @@
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
   import LoadDropdown from "$lib/load-dropdown.svelte";
+  import SaveDropdown from "$lib/save-dropdown.svelte";
   import Examples from "$lib/example-modal.svelte";
   import examples from "./examples.json";
 
@@ -284,11 +285,6 @@
     return powerCards;
   }
 
-  function exportPowerCards() {
-    const htmlFileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
-    downloadHTML(generateHTML(powerCards), htmlFileName);
-  }
-
   const exportSinglePowerCard = (powerCardSingle) => {
     const htmlFileName = powerCardSingle.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
     downloadHTML(generateHTML(powerCardSingle), htmlFileName);
@@ -537,7 +533,11 @@
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
-      <button class="button is-success mt-1 mr-1" on:click={exportPowerCards}> Save </button>
+      <SaveDropdown
+        saveAction={() => generateHTML(powerCards)}
+        fileName={`${powerCards.spiritName.replaceAll(" ", "_")}_PowerCards.html`}
+        saveType="html"
+      />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

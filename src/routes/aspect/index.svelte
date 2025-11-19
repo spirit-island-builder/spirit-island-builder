@@ -7,6 +7,7 @@
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
   import LoadDropdown from "$lib/load-dropdown.svelte";
+  import SaveDropdown from "$lib/save-dropdown.svelte";
   import { dev } from "$app/environment";
 
   import NameReplacements from "./name-replacements.svelte";
@@ -331,11 +332,6 @@
     );
   }
 
-  function exportAspect() {
-    const htmlFileName = aspect.nameReplacements.aspectName.replaceAll(" ", "_") + "_Aspect.html";
-    downloadHTML(generateHTML(aspect), htmlFileName);
-  }
-
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Aspect.")) {
       aspect = JSON.parse(JSON.stringify(emptyAspect));
@@ -524,7 +520,11 @@
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
-      <button class="button is-success mt-1 mr-1" on:click={exportAspect}> Save </button>
+      <SaveDropdown
+        saveAction={() => generateHTML(aspect)}
+        fileName={`${aspect.nameReplacements.aspectName.replaceAll(" ", "_")}_Aspect.html`}
+        saveType="html"
+      />
 
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>

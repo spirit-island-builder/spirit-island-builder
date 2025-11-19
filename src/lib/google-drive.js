@@ -2,6 +2,28 @@
 import { SaveLocation, setSaveLocation } from "./download.js";
 import { showToast } from "./alert.js";
 
+function injectDriveStyles() {
+  const css = `
+    .drive-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; display: flex; justify-content: center; align-items: center; }
+    .drive-modal { background: white; width: 400px; padding: 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-family: sans-serif; }
+    .drive-modal h3 { margin-top: 0; }
+    .drive-input-group { margin-bottom: 15px; }
+    .drive-input-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+    .drive-input-group input { width: 100%; padding: 8px; box-sizing: border-box; }
+    .folder-list-container { border: 1px solid #ccc; height: 200px; overflow-y: auto; margin-bottom: 15px; border-radius: 4px; }
+    .folder-item { padding: 8px 10px; border-bottom: 1px solid #eee; cursor: pointer; display: flex; align-items: center; }
+    .folder-item:hover { background-color: #f0f4ff; }
+    .folder-icon { margin-right: 8px; }
+    .breadcrumbs { font-size: 0.9em; color: #666; margin-bottom: 5px; cursor: pointer; }
+    .modal-actions { display: flex; justify-content: space-between; align-items: center; }
+    .btn-create { font-size: 0.85em; color: #007bff; background: none; border: none; cursor: pointer; }
+    .btn-group button { padding: 8px 15px; cursor: pointer; margin-left: 5px; }
+  `;
+  const style = document.createElement('style');
+  style.appendChild(document.createTextNode(css));
+  document.head.appendChild(style);
+}
+
 let signedIn = false;
 let accessToken = null;
 let spiritIslandFolderId = null;
@@ -67,7 +89,7 @@ export async function initializeGoogleDrive() {
 
     tokenClient = window.google.accounts.oauth2.initTokenClient({
       client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-      scope: "https://www.googleapis.com/auth/drive.file",
+      scope: "https://www.googleapis.com/auth/drive.file", // if we want to show all folders (also those not created by this app) we need to set this to https://www.googleapis.com/auth/drive)
       callback: (tokenResponse) => {
         if (!tokenResponse.error) {
           accessToken = tokenResponse.access_token;
@@ -167,17 +189,23 @@ async function getUniqueFilename(folderId, originalFilename) {
   let testFilename = originalFilename;
   
   while (true) {
-    // Check if file exists with current name
-    const searchRes = await fetch(
-      `https://www.googleapis.com/drive/v3/files?q=name='${encodeURIComponent(testFilename)}' and '${folderId}' in parents and trashed=false&fields=files(id,name)`,
-      { 
-        headers: { 
-          Authorization: `Bearer ${accessToken}`, 
-          'Content-Type': 'application/json' 
-        } 
-      }
-    );
+    // Construct URL with safe query parameters
+    const url = new URL("https://www.googleapis.com/drive/v3/files");
+    const safeName = testFilename.replace(/'/g, "\\'"); 
+    const query = `name = '${safeName}' and '${folderId}' in parents and trashed = false`;
     
+    url.searchParams.append("q", query);
+    url.searchParams.append("fields", "files(id,name)");
+
+    const searchRes = await fetch(url.toString(), { 
+      headers: { 
+        Authorization: `Bearer ${accessToken}`, 
+        'Content-Type': 'application/json' 
+      } 
+    });
+    
+    if (!searchRes.ok) throw new Error("Failed to check for existing files");
+
     const searchData = await searchRes.json();
     
     // If no files found with this name, we can use it
@@ -270,9 +298,42 @@ export async function saveImageToDrive(imageContent, filename) {
   }
 }
 
-// Shared upload function
-async function uploadToDrive(fileContent, filename, mimeType) {
+async function pickDestinationFolder() {
+  await loadPickerScript();
+  
+  return new Promise((resolve, reject) => {
+    try {
+      const view = new google.picker.DocsView(google.picker.ViewId.FOLDERS)
+        .setSelectFolderEnabled(true)
+        .setMimeTypes('application/vnd.google-apps.folder')
+        .setIncludeFolders(true);
+
+      const picker = new google.picker.PickerBuilder()
+        .addView(view)
+        .setAppId(import.meta.env.VITE_GOOGLE_CLIENT_ID.split('-')[0])
+        .setOAuthToken(accessToken)
+        .setCallback((data) => {
+          if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
+            const folder = data[google.picker.Response.DOCUMENTS][0];
+            resolve(folder.id);
+          } else if (data[google.picker.Response.ACTION] === google.picker.Action.CANCEL) {
+            resolve(null);
+          }
+        })
+        .build();
+
+      picker.setVisible(true);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+async function uploadToDrive(fileContent, defaultFilename, mimeType) {
+  injectDriveStyles();
   if (!isSignedIn()) await signIn();
+
+  // Wait for sign-in
   let attempts = 0;
   while (!isSignedIn() && attempts < 30) {
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -281,9 +342,24 @@ async function uploadToDrive(fileContent, filename, mimeType) {
   if (!isSignedIn()) throw new Error("Sign-in did not complete");
 
   try {
-    const folderId = await findOrCreateFolder();
-    const uniqueFilename = await getUniqueFilename(folderId, filename);
-    const metadata = { name: uniqueFilename, mimeType, parents: [folderId] };
+    const userSelection = await openCustomSaveDialog(defaultFilename);
+
+    if (!userSelection) {
+      console.log("Save cancelled by user.");
+      return null;
+    }
+
+    let { filename, folderId } = userSelection;
+
+    showToast("⏳ Uploading...");
+    
+    filename = await getUniqueFilename(folderId, filename);
+    
+    const metadata = { 
+      name: filename,
+      mimeType: mimeType, 
+      parents: [folderId] 
+    };
 
     const form = new FormData();
     form.append("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }));
@@ -293,17 +369,162 @@ async function uploadToDrive(fileContent, filename, mimeType) {
       "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink",
       { method: "POST", headers: { Authorization: `Bearer ${accessToken}` }, body: form }
     );
+
     if (!response.ok) throw new Error(await response.text());
     const result = await response.json();
-    showToast(`💾 File saved to Google Drive`);
+    
+    showToast(`💾 File saved as "${filename}"`);
     return result;
-  }
-  catch (err) {
-    throw new Error(`Failed to save file to Google Drive: ${err.message}`);
+
+  } catch (err) {
+    console.error(err);
+    alert(`Error: ${err.message}`);
+    throw err;
   }
 }
 
-// Function to load the Picker API script
+function openCustomSaveDialog(defaultFilename) {
+  return new Promise((resolve) => {
+    const overlay = document.createElement('div');
+    overlay.className = 'drive-modal-overlay';
+    
+    overlay.innerHTML = `
+      <div class="drive-modal">
+        <h3>Save to Google Drive</h3>
+        
+        <div class="drive-input-group">
+          <label>Filename:</label>
+          <input type="text" id="drive-filename" value="${defaultFilename}">
+        </div>
+
+        <div class="drive-input-group">
+          <label>Choose Folder:</label>
+          <div class="breadcrumbs" id="drive-breadcrumbs">Current: /</div>
+          <div class="folder-list-container" id="drive-folder-list">
+            <div style="padding:10px;">Loading folders...</div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-create" id="btn-new-folder">+ Create New Folder</button>
+          <div class="btn-group">
+            <button id="btn-cancel">Cancel</button>
+            <button id="btn-save">Save</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    let currentFolderId = 'root';
+    let currentFolderName = 'Root';
+    const filenameInput = overlay.querySelector('#drive-filename');
+    const folderListEl = overlay.querySelector('#drive-folder-list');
+    const breadcrumbsEl = overlay.querySelector('#drive-breadcrumbs');
+
+    // Fetch folders for the current parent
+    async function fetchFolders(parentId) {
+      folderListEl.innerHTML = '<div style="padding:10px; color:#666;">Loading...</div>';
+      const query = `'${parentId}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`;
+      const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=files(id,name)&orderBy=name`;
+      
+      try {
+        const res = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
+        const data = await res.json();
+        renderList(data.files || []);
+      } catch (e) {
+        folderListEl.innerHTML = '<div style="padding:10px; color:red;">Error loading folders.</div>';
+      }
+    }
+
+    // Create a new folder
+    async function createNewFolder() {
+      const name = prompt("Enter name for new folder:");
+      if (!name) return;
+
+      const metadata = {
+        name: name,
+        mimeType: 'application/vnd.google-apps.folder',
+        parents: [currentFolderId]
+      };
+
+      try {
+        const res = await fetch("https://www.googleapis.com/drive/v3/files", {
+          method: 'POST',
+          headers: { 
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(metadata)
+        });
+        if(res.ok) {
+          // Refresh list to show new folder
+          fetchFolders(currentFolderId); 
+        }
+      } catch (e) {
+        alert("Failed to create folder");
+      }
+    }
+
+    // Render the list of folders
+    function renderList(folders) {
+      folderListEl.innerHTML = '';
+      
+      if (currentFolderId !== 'root') {
+        const upDiv = document.createElement('div');
+        upDiv.className = 'folder-item';
+        upDiv.innerHTML = `<span class="folder-icon">⬆️</span> .. (Go Up)`;
+        upDiv.onclick = () => {
+           currentFolderId = 'root';
+           breadcrumbsEl.textContent = 'Current: /';
+           fetchFolders('root');
+        };
+        folderListEl.appendChild(upDiv);
+      }
+
+      if (folders.length === 0) {
+         const empty = document.createElement('div');
+         empty.style.padding = "10px";
+         empty.style.color = "#888";
+         empty.innerText = "No sub-folders found.";
+         folderListEl.appendChild(empty);
+      }
+
+      folders.forEach(folder => {
+        const div = document.createElement('div');
+        div.className = 'folder-item';
+        div.innerHTML = `<span class="folder-icon">📁</span> ${folder.name}`;
+        div.onclick = () => {
+          currentFolderId = folder.id;
+          currentFolderName = folder.name;
+          breadcrumbsEl.textContent = `Current: ... / ${folder.name}`;
+          fetchFolders(folder.id);
+        };
+        folderListEl.appendChild(div);
+      });
+    }
+
+    fetchFolders('root');
+
+    overlay.querySelector('#btn-new-folder').onclick = createNewFolder;
+    
+    overlay.querySelector('#btn-cancel').onclick = () => {
+      document.body.removeChild(overlay);
+      resolve(null);
+    };
+
+    overlay.querySelector('#btn-save').onclick = () => {
+      const finalFilename = filenameInput.value.trim();
+      if (!finalFilename) {
+        alert("Please enter a filename");
+        return;
+      }
+      document.body.removeChild(overlay);
+      resolve({ filename: finalFilename, folderId: currentFolderId });
+    };
+  });
+}
 async function loadPickerScript() {
   return new Promise((resolve, reject) => {
     if (window.google?.picker) return resolve();
@@ -336,39 +557,39 @@ export async function openPickerAndLoadFile(accept) {
 
   await loadPickerScript();
 
-  return new Promise(async (resolve, reject) => {
-    try {
-      if (!accessToken) {
-        throw new Error("No access token available.");
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (!accessToken) {
+          throw new Error("No access token available.");
+        }
+        
+        const view = new google.picker.DocsView(google.picker.ViewId.DOCS)
+          .setParent('root')
+          .setIncludeFolders(true)
+          .setMimeTypes(accept)
+          .setMode(google.picker.DocsViewMode.LIST); 
+
+        const picker = new google.picker.PickerBuilder()
+          .addView(view)
+          .enableFeature(google.picker.Feature.NAV_HIDDEN) 
+          .setAppId(import.meta.env.VITE_GOOGLE_CLIENT_ID.split('-')[0])
+          .setOAuthToken(accessToken)
+          .setCallback((data) => {
+            if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
+              const file = data[google.picker.Response.DOCUMENTS][0];
+              resolve(file);
+            } else if (data[google.picker.Response.ACTION] === google.picker.Action.CANCEL) {
+              resolve(null);
+            }
+          })
+          .build();
+        
+        picker.setVisible(true);
+      } catch (err) {
+        reject(err);
       }
-      
-      const folderId = await findOrCreateFolder();
-
-      const view = new google.picker.DocsView(google.picker.ViewId.DOCS)
-        .setParent(folderId)
-        .setMimeTypes(accept)
-        .setMode(google.picker.DocsViewMode.LIST); // Set to list view
-
-      const picker = new google.picker.PickerBuilder()
-        .addView(view)
-        .setAppId(import.meta.env.VITE_GOOGLE_CLIENT_ID.split('-')[0])
-        .setOAuthToken(accessToken)
-        .setCallback((data) => {
-          if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
-            const file = data[google.picker.Response.DOCUMENTS][0];
-            resolve(file);
-          } else if (data[google.picker.Response.ACTION] === google.picker.Action.CANCEL) {
-            resolve(null);
-          }
-        })
-        .build();
-      
-      picker.setVisible(true);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
+    });
+  }
 
 // Function to load a file's content from Google Drive given its metadata
 export async function loadFileFromDrive(accept) {
@@ -408,7 +629,7 @@ export async function loadFileFromDrive(accept) {
     console.error("Error loading file from Google Drive:", err);
     throw new Error(`Could not load file from Google Drive: ${err.message}`);
   } finally {
-    // Always reset the download state, even if there was an error
+        // Always reset the download state, even if there was an error
     isDownloadInProgress = false;
   }
 }

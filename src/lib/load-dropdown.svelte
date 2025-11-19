@@ -1,49 +1,69 @@
 <script>
-  import { createEventDispatcher } from "svelte";
   import * as GoogleDrive from "$lib/google-drive.js";
   import { showToast } from "$lib/alert.js";
-
-  const dispatch = createEventDispatcher();
+  import { SaveLocation, getSaveLocation, setSaveLocation, subscribeSaveLocation } from "$lib/download.js";
+  import { onMount, onDestroy } from "svelte";
 
   export let accept;
   export let loadObjectURL;
   export let loadDataURL;
-  export let hovertext = "";
 
   let fileInput;
   let files;
+  let currentMode = getSaveLocation();
+  let unsubscribe;
 
-  const handleInput = () => {
-    const file = files.item(0);
-    if (file) {
-      showToast(`📂 File loaded from system`);
-      if (loadObjectURL) {
-        let url = URL.createObjectURL(file);
-        Promise.resolve(loadObjectURL(url)).finally(() => {
-          URL.revokeObjectURL(url);
-        });
-      }
-      if (loadDataURL) {
-        const fileReader = new FileReader();
-        fileReader.onload = (event) => {
-          loadDataURL(event.target.result);
-        };
+  onMount(() => {
+    unsubscribe = subscribeSaveLocation((newLocation) => {
+      currentMode = newLocation;
+    });
+  });
 
-        // This reads the file and then triggers the onload function above once it finishes
-        fileReader.readAsDataURL(file);
-      }
+  onDestroy(() => {
+    if (unsubscribe) unsubscribe();
+  });
+
+  function runCurrentMode() {
+    if (currentMode === SaveLocation.LOCAL) {
+      fileInput.click();
+    } else {
+      loadFromDrive();
     }
-  };
+  }
 
-  async function handleDriveLoad() {
+  function switchAndRun(mode) {
+    setSaveLocation(mode);
+    currentMode = mode;
+    runCurrentMode();
+  }
+
+  function handleLocalInput() {
+    const file = files?.item(0);
+    if (!file) return;
+
+    showToast("📂 File loaded from system");
+
+    if (loadObjectURL) {
+      const url = URL.createObjectURL(file);
+      Promise.resolve(loadObjectURL(url)).finally(() =>
+        URL.revokeObjectURL(url)
+      );
+    }
+
+    if (loadDataURL) {
+      const reader = new FileReader();
+      reader.onload = (e) => loadDataURL(e.target.result);
+      reader.readAsDataURL(file);
+    }
+  }
+
+  async function loadFromDrive() {
     try {
       const blob = await GoogleDrive.loadFileFromDrive(accept);
+      if (!blob) return;
 
-      if (!blob) {
-        // User cancelled the picker, do nothing
-        return;
-      }
-      showToast(`📂 File loaded from Google Drive`);
+      showToast("📂 File loaded from Google Drive");
+
       if (loadObjectURL) {
         const url = URL.createObjectURL(blob);
         await loadObjectURL(url);
@@ -52,41 +72,62 @@
 
       if (loadDataURL) {
         const reader = new FileReader();
-        reader.onload = (event) => {
-          loadDataURL(event.target.result);
-        };
+        reader.onload = (e) => loadDataURL(e.target.result);
         reader.readAsDataURL(blob);
       }
     } catch (err) {
       alert("Google Drive load error: " + err.message);
     }
   }
-
 </script>
+
+<input
+  hidden
+  type="file"
+  {accept}
+  bind:files
+  bind:this={fileInput}
+  on:change={handleLocalInput}
+/>
 
 <div class="dropdown is-hoverable is-up">
   <div class="dropdown-trigger">
-    <button class="button is-success mt-1 mr-1" aria-haspopup="true" aria-controls="dropdown-menu4">
-      Load
+    <button
+      class="button is-success mt-1 mr-1"
+      on:click={runCurrentMode}
+    >
+      <span class="mr-2">Load</span>
+      {#if currentMode === "local"}
+        <img src="/src/icons/Local.png" alt="local" class="icon"/>
+      {:else}
+        <img src="/src/icons/Drive.png" alt="drive" class="icon"/>
+      {/if}
     </button>
   </div>
 
-  <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+  <div class="dropdown-menu">
     <div class="dropdown-content">
-      <!-- Google Drive Load -->
-      <button class="button is-success mr-1 dropdown-item" on:click={handleDriveLoad}>
-        Drive
-      </button>
-      <!-- Local Load -->
-      <div>
-        <input hidden type="file" {accept} bind:files bind:this={fileInput} on:change={handleInput} />
+
+      {#if currentMode === "local"}
+        <!-- Show only opposite mode -->
         <button
-          class="button is-success mt-1 mr-1 dropdown-item"
-          title={hovertext}
-          on:click={() => fileInput.click()}>
-          Local
+          class="button is-success mt-1 mr-1"
+          on:click|stopPropagation={() => switchAndRun("drive")}
+        >
+          <span class="ml-2">Load</span>
+          <img src="/src/icons/Drive.png" alt="drive" class="icon"/>
         </button>
-      </div>
+
+      {:else}
+        <button
+          class="button is-success mt-1 mr-1"
+          on:click|stopPropagation={() => switchAndRun("local")}
+        >
+          <span class="ml-2">Load</span>
+          <img src="/src/icons/Local.png" alt="local" class="icon"/>
+        </button>
+      {/if}
+
     </div>
   </div>
 </div>

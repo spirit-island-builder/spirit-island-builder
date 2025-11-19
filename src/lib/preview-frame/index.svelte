@@ -15,9 +15,7 @@
   import takeScreenshotURL from "./take-screenshot?worker&url";
 
   import { downloadImage } from "$lib/download";
-
-  import { getSaveLocation, SaveLocation } from "$lib/download.js";
-  import { savePDFToDrive, saveImageToDrive } from "$lib/google-drive.js";
+  import { showToast } from "$lib/alert.js";
 
   export let clickFunction = () => {};
 
@@ -49,7 +47,6 @@
     options = "for-image-download"
   ) => {
     console.log("screenshot with " + options);
-    let saveLocation = getSaveLocation();
     elementNamesInIframe.forEach((elementNameInIframe, index) => {
       let element = previewIframe.contentDocument.querySelector(elementNameInIframe);
       console.log(element);
@@ -58,14 +55,7 @@
       previewIframe.contentWindow
       .takeScreenshot(elementNameInIframe, scale)
       .then((imageURL) => {
-        if (saveLocation === SaveLocation.LOCAL) {
-          downloadImage(imageURL, fileNames[index]);
-        } else if (saveLocation === SaveLocation.DRIVE) {
-          saveImageToDrive(imageURL, fileNames[index]);
-        } else if (saveLocation === SaveLocation.BOTH) {
-          downloadImage(imageURL, fileNames[index]);
-          saveImageToDrive(imageURL, fileNames[index]);
-        }
+        downloadImage(imageURL, fileNames[index]);
         element.classList.remove(options);
       });
     });
@@ -93,7 +83,6 @@
     let y = yi;
     let pw = doc.getPageWidth();
     let count = elementNamesInIframe.length;
-    let saveLocation = getSaveLocation();
 
     elementNamesInIframe.forEach((elementNameInIframe, n) => {
       previewIframe.contentWindow
@@ -112,19 +101,11 @@
           console.log("add card " + elementNameInIframe + " to " + x + "," + y);
 
           if (++i === count) {
-            if (saveLocation === SaveLocation.LOCAL) {
-              doc.save(fileName);
-            } else if (saveLocation === SaveLocation.DRIVE) {
-              const pdfData = doc.output("datauristring"); 
-              savePDFToDrive(pdfData, fileName);
-            } else if (saveLocation === SaveLocation.BOTH) {
-              doc.save(fileName);
-              const pdfData = doc.output("datauristring"); 
-              savePDFToDrive(pdfData, fileName);
-            }
+            doc.save(fileName);
           }
         });
     });
+    showToast(`💾 Saving file locally`);
   };
 
   //startMain also handles clicks

@@ -13,14 +13,32 @@ import { showToast } from "./alert.js";
  */
 export const SaveLocation = {
   DRIVE: "drive",
-  LOCAL: "local",
-  BOTH: "both"
+  LOCAL: "local"
 };
 
 let shouldDivertDownload = false;
 let saveLocation = SaveLocation.LOCAL;
+let listeners = [];
 
 export const getSaveLocation = () => saveLocation;
+
+/**
+ * Set the save location.
+ * @param {SaveLocation} location
+ */
+export const setSaveLocation = (newLocation) => {
+  saveLocation = newLocation;
+  // Notify all listeners
+  listeners.forEach(listener => listener(saveLocation));
+};
+
+export const subscribeSaveLocation = (callback) => {
+  listeners.push(callback);
+  // Return unsubscribe function
+  return () => {
+    listeners = listeners.filter(listener => listener !== callback);
+  };
+};
 
 /**
  * When downloads are divereted, contains the latest downloaded data.
@@ -35,14 +53,6 @@ export const downloadData = writable({});
  */
 export const divertDownload = (value) => {
   shouldDivertDownload = value;
-};
-
-/**
- * Set the save location.
- * @param {SaveLocation} location
- */
-export const setSaveLocation = (location) => {
-  saveLocation = location;
 };
 
 /**
@@ -65,7 +75,7 @@ const downloadFile = (fileURL, fileName) => {
   document.body.appendChild(element);
   element.click();
   document.body.removeChild(element);
-  showToast(`💾 File saved locally}`);
+  showToast(`💾 File saved locally`);
 };
 
 /**
@@ -88,14 +98,16 @@ export const downloadImage = (imageURL, fileName) => {
  * @param {string} fileContent
  * @param {string} fileName
  */
-export const downloadString = (mimeType, fileContent, fileName) => {
+export const downloadString = (mimeType, fileContent, fileName, saveLocationOverride = SaveLocation.LOCAL) => {
   if (shouldDivertDownload) {
     downloadData.set({ fileContent, fileName });
     return;
   }
 
+  const location = saveLocationOverride ?? SaveLocation.LOCAL
+
   // Local download
-  if (saveLocation === SaveLocation.LOCAL || saveLocation === SaveLocation.BOTH) {
+  if (location === SaveLocation.LOCAL) {
     downloadFile(
       `data:${mimeType},${encodeURIComponent(fileContent)}`,
       fileName
@@ -103,8 +115,14 @@ export const downloadString = (mimeType, fileContent, fileName) => {
   }
 
   // Google Drive upload
-  if (saveLocation === SaveLocation.DRIVE || saveLocation === SaveLocation.BOTH) {
-    saveToDrive(fileContent, fileName);
+  if (location === SaveLocation.DRIVE) {
+    saveToDrive(fileContent, fileName).catch(err => {
+      if (err.message.includes("cancelled")) {
+        showToast("📁 Save cancelled");
+      } else {
+        showToast(`❌ Save failed: ${err.message}`);
+      }
+    });
   }
 };
 
@@ -114,8 +132,8 @@ export const downloadString = (mimeType, fileContent, fileName) => {
  * @param {DocumentFragment} fragment
  * @param {string} fileName
  */
-export const downloadHTML = (fragment, fileName) => {
+export const downloadHTML = (fragment, fileName, saveLocationOverride = SaveLocation.LOCAL) => {
   const helper = document.createElement("helper");
   helper.append(fragment);
-  downloadString("text/html;charset=utf-8", helper.innerHTML, fileName);
+  downloadString("text/html;charset=utf-8", helper.innerHTML, fileName, saveLocationOverride);
 };
