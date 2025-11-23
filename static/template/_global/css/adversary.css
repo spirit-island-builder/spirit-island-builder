@@ -450,8 +450,8 @@ adversary range {
 }
 
 adversary range-value {
-  top: -1px;
-  left: 0px;
+  font-size: 25px;
+  line-height: 1;
 }
 
 icon.range-small-icon {
