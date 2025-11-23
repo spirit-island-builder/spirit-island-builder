@@ -37,6 +37,13 @@
   font-family: "Name Headings";
   src: url(../fonts/DKSnemand/DKSnemandTall.otf),
     url(../fonts/Mouse_Memoirs/MouseMemoirs-Regular.ttf);
+  unicode-range: U+000-5FF;
+}
+
+@font-face {
+  font-family: "Name Headings";
+  src: url(../fonts/Korean/Korean_Headings.otf);
+  unicode-range: U+AC00-D7A3; /* Korean glyphs */
 }
 
 @font-face {
@@ -436,19 +443,19 @@ icon.damage-2 {
 
 icon.terror-1 {
   background-image: url("../images/board/NewIcons/TerrorLevel1.png");
-  width: 50px;
+  width: 25px;
   padding: 5px;
   margin-bottom: -8px;
 }
 icon.terror-2 {
   background-image: url("../images/board/NewIcons/TerrorLevel2.png");
-  width: 50px;
+  width: 25px;
   padding: 5px;
   margin-bottom: -8px;
 }
 icon.terror-3 {
   background-image: url("../images/board/NewIcons/TerrorLevel3.png");
-  width: 50px;
+  width: 25px;
   padding: 5px;
   margin-bottom: -8px;
 }

@@ -49,6 +49,7 @@
           type="color"
           class="input-color"
           id="colorPickerIncarna"
+          on:input={() => document.getElementById("updateButton").click()}
           on:change={() => document.getElementById("updateButton").click()}
           bind:value={incarnaToken.incarna.color} />
       </div>

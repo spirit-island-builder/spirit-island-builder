@@ -190,6 +190,8 @@
     const spiritNameHTML = htmlElement.querySelectorAll("spirit-name")[0];
     if (spiritNameHTML) {
       powerCards.spiritName = spiritNameHTML.innerHTML;
+    } else {
+      powerCards.spiritName = "";
     }
 
     const stackViewCheck = htmlElement.querySelectorAll("stack-view-on")[0];
@@ -284,12 +286,18 @@
   }
 
   function exportPowerCards() {
-    const htmlFileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
+    const htmlFileName = powerCards.spiritName
+      ? powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html"
+      : "PowerCards.html";
     downloadHTML(generateHTML(powerCards), htmlFileName);
   }
 
   const exportSinglePowerCard = (powerCardSingle) => {
-    const htmlFileName = powerCardSingle.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
+    const htmlFileName =
+      powerCardSingle.spiritName.replaceAll(" ", "_").slice(0, 8) +
+      "-" +
+      powerCardSingle.cards[0].name.replaceAll(" ", "_") +
+      "_PowerCards.html";
     downloadHTML(generateHTML(powerCardSingle), htmlFileName);
   };
 
@@ -298,7 +306,18 @@
     const elementNamesInIframe = [];
     powerCards.cards.forEach((card, index) => {
       elementNamesInIframe.push(`#card${index}`);
-      fileNames.push(card.name.replaceAll(" ", "_") + "_PowerCard.png");
+      if (powerCards.type === "major" || powerCards.type === "minor") {
+        fileNames.push(powerCards.type + "_" + card.name.replaceAll(" ", "_") + "_PowerCard.png");
+      } else if (powerCards.spiritName) {
+        fileNames.push(
+          powerCards.spiritName.replaceAll(" ", "_").slice(0, 8) +
+            "-" +
+            card.name.replaceAll(" ", "_") +
+            "_PowerCard.png"
+        );
+      } else {
+        fileNames.push(card.name.replaceAll(" ", "_") + "_PowerCard.png");
+      }
     });
     console.log(powerCards.cardBackImage);
     if (powerCards.cardBackImage) {

@@ -105,7 +105,7 @@
     }
 
     //identify the toggle switch HTML element
-    const toggleSwitch = document.querySelector('#theme-switch input[type="checkbox"]');
+    const toggleSwitch = document.querySelector("#checkbox_theme");
 
     //listener for changing themes
     toggleSwitch.addEventListener("change", switchTheme, false);
@@ -119,7 +119,7 @@
 
   //function that changes the theme, and sets a localStorage variable to track the theme between page loads
   function switchTheme(e) {
-    const toggleSwitch = document.querySelector('#theme-switch input[type="checkbox"]');
+    const toggleSwitch = document.querySelector("#checkbox_theme");
     if (toggleSwitch) {
       if (e.target.checked) {
         document.documentElement.setAttribute("data-theme", "dark");
@@ -517,6 +517,10 @@
   let emptyAdversary = {
     prop: "value",
     demoBoardWasLoaded: false,
+    language: "en",
+    languageOptions: {
+      isVisible: false,
+    },
     previewBoard: {
       isVisible: false,
     },
@@ -849,14 +853,10 @@
       <h2 class="subtitle is-6 ml-5">
         An unofficial tool for creating custom content for Spirit Island by Greater Than Games.
       </h2>
-      <label
-        id="theme-switch"
-        class="theme-switch"
-        for="checkbox_theme"
-        style="margin-left: auto;margin-right: 25px;">
-        Dark Mode:
-        <input type="checkbox" id="checkbox_theme" />
-      </label>
+      <div style="margin-left: auto;margin-right: 25px;">
+        <input type="checkbox" id="checkbox_theme" class="custom-checkbox" />
+        <label id="theme-switch" class="theme-switch custom-switch" for="checkbox_theme" />
+      </div>
     </div>
     <nav class="navbar ml-5 mr-5">
       <div class="navbar-brand is-flex-wrap-wrap">
@@ -979,5 +979,42 @@
   }
   .is-sideMenu {
     max-width: none !important;
+  }
+
+  /* Checkbox Styling for Dark Mode */
+  .custom-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .custom-switch::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-image: url(../element_simple_sun.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    top: 1px;
+    left: 1px;
+    transition: all 0.3s;
+  }
+
+  .custom-checkbox:checked + .custom-switch::after {
+    left: 20px;
+    background-image: url(../element_simple_moon.png);
+  }
+  .custom-checkbox:checked + .custom-switch {
+    background-color: #464758;
+  }
+  .custom-checkbox {
+    display: none;
   }
 </style>

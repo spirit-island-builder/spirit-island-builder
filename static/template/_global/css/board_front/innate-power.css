@@ -590,6 +590,15 @@ innate-power description-container range-value {
   font-size: 25.33px;
 }
 
+innate-power description-container note range-value {
+  top: 0px;
+}
+
+innate-power description-container note range {
+  top: 0px;
+  background-position-y: 23px;
+}
+
 icon-count {
   font-family: "Energy Font";
   font-size: 21px;

@@ -40,6 +40,10 @@
       on:click={setLanguage("ar", powerCards)}>عربي</button>
     <button
       class="button is-small is-success"
+      class:is-light={powerCards.language !== "ko"}
+      on:click={setLanguage("ko", powerCards)}>한국인</button>
+    <button
+      class="button is-small is-success"
       class:is-light={powerCards.language !== "zh"}
       on:click={setLanguage("zh", powerCards)}>中文</button>
   </div>
