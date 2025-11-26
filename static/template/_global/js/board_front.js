@@ -5833,6 +5833,17 @@ function dynamicResizing() {
     }
   }
 
+  // Set subtext widths to be their width (helps for image export)
+  const subtexts = presenceTrack.getElementsByTagName("subtext");
+  let subtextArray = Array.from(subtexts);
+
+  subtextArray.forEach((subtext, i) => {
+    subtextArray[i].style.width =
+      Math.ceil(
+        parseFloat(window.getComputedStyle(subtext).getPropertyValue("width").replace(/px/, ""))
+      ) + "px";
+  });
+
   // Place middle presence nodes
   const firstRow = energyTrack;
   const firstRowHeight = firstRow.offsetHeight;
