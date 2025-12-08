@@ -13,6 +13,7 @@
   import AdversaryLevels from "./adversary-levels.svelte";
   import CustomIcons from "../custom-icons.svelte";
   import InstructionsLink from "$lib/instructions/link.svelte";
+  import LanguageOptions from "./language-options.svelte";
   import Examples from "$lib/example-modal.svelte";
 
   export let adversary;
@@ -32,6 +33,7 @@
     adversary.nameLossEscalation.isVisible = false;
     adversary.levelSummary.isVisible = false;
     adversary.customIcons.isVisible = false;
+    adversary.languageOptions.isVisible = false;
   }
 
   const demoURL = "/template/MyCustomContent/MyAdversary/THE_IBERIAN_UNION_Adversary.html";
@@ -123,6 +125,13 @@
     fragment.prepend(adversaryStyle);
     adversaryStyle.textContent = customIconText;
 
+    // Set language
+    if (adversary.language) {
+      adversaryHeader.setAttribute("lang", adversary.language);
+    } else {
+      adversaryHeader.setAttribute("lang", "en");
+    }
+
     return fragment;
   }
 
@@ -175,6 +184,11 @@
       adversary.customIcons,
       document.baseURI
     );
+
+    //Language
+    if (adversaryHeader.getAttribute("lang")) {
+      adversary.language = adversaryHeader.getAttribute("lang");
+    }
   }
 
   function exportAdversary() {
@@ -236,6 +250,7 @@
     <AdversaryLevels bind:adversary />
     <div class="content mb-0 mt-2">Options</div>
     <CustomIcons customIcons={adversary.customIcons} />
+    <LanguageOptions bind:adversary />
   </div>
   <div class="column pt-0">
     <PreviewFrame

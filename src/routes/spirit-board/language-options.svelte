@@ -63,6 +63,14 @@
       class="button is-small is-success"
       class:is-light={spiritBoard.nameAndArt.language !== "ar"}
       on:click={setLanguage("ar", spiritBoard)}>عربي</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={spiritBoard.nameAndArt.language !== "ko"}
+      on:click={setLanguage("ko", spiritBoard)}>한국인</button>
+    <button
+      class="button is-small is-success"
+      class:is-light={spiritBoard.nameAndArt.language !== "ja"}
+      on:click={setLanguage("ja", spiritBoard)}>日本語</button>
   </div>
   <label class="label mt-1 mb-0" for="spiritNameInput">Remove Auto-Generated Text</label>
   <div class="content is-small mb-1">

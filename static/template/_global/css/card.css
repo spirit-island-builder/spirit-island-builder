@@ -896,7 +896,7 @@ card.aspect power-subtitle {
 }
 
 card rules-container range-value {
-  top: -7px;
+  top: 0px;
 }
 
 card.printer-clean card-frame {
@@ -920,12 +920,11 @@ card.printer-clean card-art {
   z-index: 1;
 }
 
-rules-container range.gain-range {
+rules-container range.gain-range,
+rules-container range.range {
   font-size: 24px;
   background-position-y: 23px;
-  justify-content: flex-start;
-  padding-left: 10px;
-  width: 40px;
+  justify-content: center;
+  width: 50px;
   bottom: 4px;
-  margin-right: 4px;
 }
