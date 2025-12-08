@@ -4,7 +4,7 @@
   import { dev } from "$app/environment";
 
   import * as Lib from "../lib";
-  import {downloadString } from "$lib/download";
+  import { downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import Examples from "$lib/example-modal.svelte";
   import LoadButton from "$lib/load-button.svelte";
@@ -916,8 +916,7 @@
       <SaveDropdown
         saveAction={() => generateHTML(spiritBoard)}
         fileName={`${spiritBoard.nameAndArt.name.replaceAll(" ", "_")}_SpiritBoard.html`}
-        saveType="html"
-      />
+        saveType="html" />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <!-- <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

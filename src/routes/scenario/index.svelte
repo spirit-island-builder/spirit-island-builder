@@ -2,7 +2,6 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
-  import { downloadHTML } from "$lib/download";
   import { dev } from "$app/environment";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
@@ -298,8 +297,7 @@
       <SaveDropdown
         saveAction={() => generateHTML(scenario)}
         fileName={`${scenario.info.name.replaceAll(" ", "_")}_Scenario.html`}
-        saveType="html"
-      />
+        saveType="html" />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

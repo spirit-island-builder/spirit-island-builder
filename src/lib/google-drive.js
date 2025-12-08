@@ -1,5 +1,4 @@
 // google-drive.js
-import { SaveLocation, setSaveLocation } from "./download.js";
 import { showToast } from "./alert.js";
 
 function injectDriveStyles() {
@@ -19,30 +18,32 @@ function injectDriveStyles() {
     .btn-create { font-size: 0.85em; color: #007bff; background: none; border: none; cursor: pointer; }
     .btn-group button { padding: 8px 15px; cursor: pointer; margin-left: 5px; }
   `;
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.appendChild(document.createTextNode(css));
   document.head.appendChild(style);
 }
 
 let signedIn = false;
 let accessToken = null;
-let spiritIslandFolderId = null;
 let error = null;
 let isDownloadInProgress = false;
 
 const hasCredentials = !!(
-  import.meta.env.VITE_GOOGLE_API_KEY &&
-  import.meta.env.VITE_GOOGLE_CLIENT_ID
+  import.meta.env.VITE_GOOGLE_API_KEY && import.meta.env.VITE_GOOGLE_CLIENT_ID
 );
-
-const folderName = "Spirit Island Builder";
 
 let tokenClient = null;
 let isInitialized = false;
 
-export function getError() { return error; }
-export function clearError() { error = null; }
-export function isSignedIn() { return signedIn; }
+export function getError() {
+  return error;
+}
+export function clearError() {
+  error = null;
+}
+export function isSignedIn() {
+  return signedIn;
+}
 
 export async function loadGisScript() {
   return new Promise((resolve, reject) => {
@@ -65,11 +66,14 @@ export async function loadGapiScript() {
     script.async = true;
     script.defer = true;
     script.onload = () => {
-      window.gapi.load('client', () => {
-        window.gapi.client.init({
-          apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-          discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-        }).then(resolve).catch(reject);
+      window.gapi.load("client", () => {
+        window.gapi.client
+          .init({
+            apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
+            discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+          })
+          .then(resolve)
+          .catch(reject);
       });
     };
     script.onerror = () => reject(new Error("Failed to load Google API library"));
@@ -94,7 +98,7 @@ export async function initializeGoogleDrive() {
         if (!tokenResponse.error) {
           accessToken = tokenResponse.access_token;
           window.gapi.client.setToken({
-            access_token: tokenResponse.access_token
+            access_token: tokenResponse.access_token,
           });
           signedIn = true;
           error = null;
@@ -115,7 +119,7 @@ export async function initializeGoogleDrive() {
 export async function signIn() {
   const initialized = await initializeGoogleDrive();
   if (!initialized || !tokenClient) throw new Error(error || "Initialization failed");
-  
+
   return new Promise((resolve, reject) => {
     const originalCallback = tokenClient.callback;
     const timeout = setTimeout(() => {
@@ -126,11 +130,11 @@ export async function signIn() {
     tokenClient.callback = (tokenResponse) => {
       clearTimeout(timeout);
       tokenClient.callback = originalCallback; // Restore original callback
-      
+
       if (!tokenResponse.error) {
         accessToken = tokenResponse.access_token;
         window.gapi.client.setToken({
-          access_token: tokenResponse.access_token
+          access_token: tokenResponse.access_token,
         });
         signedIn = true;
         error = null;
@@ -141,7 +145,7 @@ export async function signIn() {
       }
     };
 
-    tokenClient.requestAccessToken({ prompt: signedIn ? '' : 'consent' });
+    tokenClient.requestAccessToken({ prompt: signedIn ? "" : "consent" });
   });
 }
 
@@ -152,73 +156,52 @@ export function signOut() {
   }
   accessToken = null;
   signedIn = false;
-  spiritIslandFolderId = null;
   error = null;
   isDownloadInProgress = false; // Reset download state
 }
 
-async function findOrCreateFolder() {
-  if (spiritIslandFolderId) return spiritIslandFolderId;
-  try {
-    const searchRes = await fetch(
-      `https://www.googleapis.com/drive/v3/files?q=name='${encodeURIComponent(folderName)}' and mimeType='application/vnd.google-apps.folder' and trashed=false&fields=files(id,name)`,
-      { headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' } }
-    );
-    const searchData = await searchRes.json();
-    if (searchData.files?.length) return (spiritIslandFolderId = searchData.files[0].id);
-
-    const createRes = await fetch("https://www.googleapis.com/drive/v3/files", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ name: folderName, mimeType: "application/vnd.google-apps.folder" }),
-    });
-    const createData = await createRes.json();
-    return (spiritIslandFolderId = createData.id);
-  } catch (err) {
-    throw new Error(`Failed to find or create folder: ${err.message}`);
-  }
-}
-
 async function getUniqueFilename(folderId, originalFilename) {
   // Extract name and extension
-  const lastDotIndex = originalFilename.lastIndexOf('.');
+  const lastDotIndex = originalFilename.lastIndexOf(".");
   const name = lastDotIndex > 0 ? originalFilename.substring(0, lastDotIndex) : originalFilename;
-  const extension = lastDotIndex > 0 ? originalFilename.substring(lastDotIndex) : '';
-  
+  const extension = lastDotIndex > 0 ? originalFilename.substring(lastDotIndex) : "";
+
   let counter = 1;
   let testFilename = originalFilename;
-  
+  const MAX_ATTEMPTS = 999;
+
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     // Construct URL with safe query parameters
     const url = new URL("https://www.googleapis.com/drive/v3/files");
-    const safeName = testFilename.replace(/'/g, "\\'"); 
+    const safeName = testFilename.replace(/'/g, "\\'");
     const query = `name = '${safeName}' and '${folderId}' in parents and trashed = false`;
-    
+
     url.searchParams.append("q", query);
     url.searchParams.append("fields", "files(id,name)");
 
-    const searchRes = await fetch(url.toString(), { 
-      headers: { 
-        Authorization: `Bearer ${accessToken}`, 
-        'Content-Type': 'application/json' 
-      } 
+    const searchRes = await fetch(url.toString(), {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
     });
-    
+
     if (!searchRes.ok) throw new Error("Failed to check for existing files");
 
     const searchData = await searchRes.json();
-    
+
     // If no files found with this name, we can use it
     if (!searchData.files || searchData.files.length === 0) {
       return testFilename;
     }
-    
+
     // File exists, try next number
     testFilename = `${name} (${counter})${extension}`;
     counter++;
-    
+
     // Safety check to prevent infinite loop
-    if (counter > 999) {
+    if (counter > MAX_ATTEMPTS) {
       throw new Error("Too many duplicate files, cannot generate unique name");
     }
   }
@@ -250,9 +233,7 @@ export async function savePDFToDrive(pdfContent, filename) {
   if (pdfContent instanceof Uint8Array || pdfContent instanceof ArrayBuffer) {
     contentBlob = [pdfContent];
   } else if (typeof pdfContent === "string") {
-    const base64 = pdfContent.startsWith("data:")
-      ? pdfContent.split(",")[1]
-      : pdfContent;
+    const base64 = pdfContent.startsWith("data:") ? pdfContent.split(",")[1] : pdfContent;
     const binary = atob(base64);
     const len = binary.length;
     const buffer = new Uint8Array(len);
@@ -298,37 +279,6 @@ export async function saveImageToDrive(imageContent, filename) {
   }
 }
 
-async function pickDestinationFolder() {
-  await loadPickerScript();
-  
-  return new Promise((resolve, reject) => {
-    try {
-      const view = new google.picker.DocsView(google.picker.ViewId.FOLDERS)
-        .setSelectFolderEnabled(true)
-        .setMimeTypes('application/vnd.google-apps.folder')
-        .setIncludeFolders(true);
-
-      const picker = new google.picker.PickerBuilder()
-        .addView(view)
-        .setAppId(import.meta.env.VITE_GOOGLE_CLIENT_ID.split('-')[0])
-        .setOAuthToken(accessToken)
-        .setCallback((data) => {
-          if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
-            const folder = data[google.picker.Response.DOCUMENTS][0];
-            resolve(folder.id);
-          } else if (data[google.picker.Response.ACTION] === google.picker.Action.CANCEL) {
-            resolve(null);
-          }
-        })
-        .build();
-
-      picker.setVisible(true);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
 async function uploadToDrive(fileContent, defaultFilename, mimeType) {
   injectDriveStyles();
   if (!isSignedIn()) await signIn();
@@ -336,7 +286,7 @@ async function uploadToDrive(fileContent, defaultFilename, mimeType) {
   // Wait for sign-in
   let attempts = 0;
   while (!isSignedIn() && attempts < 30) {
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     attempts++;
   }
   if (!isSignedIn()) throw new Error("Sign-in did not complete");
@@ -352,13 +302,13 @@ async function uploadToDrive(fileContent, defaultFilename, mimeType) {
     let { filename, folderId } = userSelection;
 
     showToast("⏳ Uploading...");
-    
+
     filename = await getUniqueFilename(folderId, filename);
-    
-    const metadata = { 
+
+    const metadata = {
       name: filename,
-      mimeType: mimeType, 
-      parents: [folderId] 
+      mimeType: mimeType,
+      parents: [folderId],
     };
 
     const form = new FormData();
@@ -372,10 +322,9 @@ async function uploadToDrive(fileContent, defaultFilename, mimeType) {
 
     if (!response.ok) throw new Error(await response.text());
     const result = await response.json();
-    
+
     showToast(`💾 File saved as "${filename}"`);
     return result;
-
   } catch (err) {
     console.error(err);
     alert(`Error: ${err.message}`);
@@ -385,9 +334,9 @@ async function uploadToDrive(fileContent, defaultFilename, mimeType) {
 
 function openCustomSaveDialog(defaultFilename) {
   return new Promise((resolve) => {
-    const overlay = document.createElement('div');
-    overlay.className = 'drive-modal-overlay';
-    
+    const overlay = document.createElement("div");
+    overlay.className = "drive-modal-overlay";
+
     overlay.innerHTML = `
       <div class="drive-modal">
         <h3>Save to Google Drive</h3>
@@ -417,24 +366,26 @@ function openCustomSaveDialog(defaultFilename) {
 
     document.body.appendChild(overlay);
 
-    let currentFolderId = 'root';
-    let currentFolderName = 'Root';
-    const filenameInput = overlay.querySelector('#drive-filename');
-    const folderListEl = overlay.querySelector('#drive-folder-list');
-    const breadcrumbsEl = overlay.querySelector('#drive-breadcrumbs');
+    let currentFolderId = "root";
+    const filenameInput = overlay.querySelector("#drive-filename");
+    const folderListEl = overlay.querySelector("#drive-folder-list");
+    const breadcrumbsEl = overlay.querySelector("#drive-breadcrumbs");
 
     // Fetch folders for the current parent
     async function fetchFolders(parentId) {
       folderListEl.innerHTML = '<div style="padding:10px; color:#666;">Loading...</div>';
       const query = `'${parentId}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`;
-      const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=files(id,name)&orderBy=name`;
-      
+      const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(
+        query
+      )}&fields=files(id,name)&orderBy=name`;
+
       try {
         const res = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
         const data = await res.json();
         renderList(data.files || []);
       } catch (e) {
-        folderListEl.innerHTML = '<div style="padding:10px; color:red;">Error loading folders.</div>';
+        folderListEl.innerHTML =
+          '<div style="padding:10px; color:red;">Error loading folders.</div>';
       }
     }
 
@@ -445,22 +396,22 @@ function openCustomSaveDialog(defaultFilename) {
 
       const metadata = {
         name: name,
-        mimeType: 'application/vnd.google-apps.folder',
-        parents: [currentFolderId]
+        mimeType: "application/vnd.google-apps.folder",
+        parents: [currentFolderId],
       };
 
       try {
         const res = await fetch("https://www.googleapis.com/drive/v3/files", {
-          method: 'POST',
-          headers: { 
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(metadata)
+          body: JSON.stringify(metadata),
         });
-        if(res.ok) {
+        if (res.ok) {
           // Refresh list to show new folder
-          fetchFolders(currentFolderId); 
+          fetchFolders(currentFolderId);
         }
       } catch (e) {
         alert("Failed to create folder");
@@ -469,35 +420,34 @@ function openCustomSaveDialog(defaultFilename) {
 
     // Render the list of folders
     function renderList(folders) {
-      folderListEl.innerHTML = '';
-      
-      if (currentFolderId !== 'root') {
-        const upDiv = document.createElement('div');
-        upDiv.className = 'folder-item';
+      folderListEl.innerHTML = "";
+
+      if (currentFolderId !== "root") {
+        const upDiv = document.createElement("div");
+        upDiv.className = "folder-item";
         upDiv.innerHTML = `<span class="folder-icon">⬆️</span> .. (Go Up)`;
         upDiv.onclick = () => {
-           currentFolderId = 'root';
-           breadcrumbsEl.textContent = 'Current: /';
-           fetchFolders('root');
+          currentFolderId = "root";
+          breadcrumbsEl.textContent = "Current: /";
+          fetchFolders("root");
         };
         folderListEl.appendChild(upDiv);
       }
 
       if (folders.length === 0) {
-         const empty = document.createElement('div');
-         empty.style.padding = "10px";
-         empty.style.color = "#888";
-         empty.innerText = "No sub-folders found.";
-         folderListEl.appendChild(empty);
+        const empty = document.createElement("div");
+        empty.style.padding = "10px";
+        empty.style.color = "#888";
+        empty.innerText = "No sub-folders found.";
+        folderListEl.appendChild(empty);
       }
 
-      folders.forEach(folder => {
-        const div = document.createElement('div');
-        div.className = 'folder-item';
+      folders.forEach((folder) => {
+        const div = document.createElement("div");
+        div.className = "folder-item";
         div.innerHTML = `<span class="folder-icon">📁</span> ${folder.name}`;
         div.onclick = () => {
           currentFolderId = folder.id;
-          currentFolderName = folder.name;
           breadcrumbsEl.textContent = `Current: ... / ${folder.name}`;
           fetchFolders(folder.id);
         };
@@ -505,16 +455,16 @@ function openCustomSaveDialog(defaultFilename) {
       });
     }
 
-    fetchFolders('root');
+    fetchFolders("root");
 
-    overlay.querySelector('#btn-new-folder').onclick = createNewFolder;
-    
-    overlay.querySelector('#btn-cancel').onclick = () => {
+    overlay.querySelector("#btn-new-folder").onclick = createNewFolder;
+
+    overlay.querySelector("#btn-cancel").onclick = () => {
       document.body.removeChild(overlay);
       resolve(null);
     };
 
-    overlay.querySelector('#btn-save').onclick = () => {
+    overlay.querySelector("#btn-save").onclick = () => {
       const finalFilename = filenameInput.value.trim();
       if (!finalFilename) {
         alert("Please enter a filename");
@@ -528,15 +478,15 @@ function openCustomSaveDialog(defaultFilename) {
 async function loadPickerScript() {
   return new Promise((resolve, reject) => {
     if (window.google?.picker) return resolve();
-    
+
     if (!window.gapi) {
       reject(new Error("gapi not loaded"));
       return;
     }
-    
-    window.gapi.load('picker', {
+
+    window.gapi.load("picker", {
       callback: resolve,
-      onerror: () => reject(new Error("Failed to load Google Picker"))
+      onerror: () => reject(new Error("Failed to load Google Picker")),
     });
   });
 }
@@ -557,39 +507,46 @@ export async function openPickerAndLoadFile(accept) {
 
   await loadPickerScript();
 
-    return new Promise(async (resolve, reject) => {
-      try {
-        if (!accessToken) {
-          throw new Error("No access token available.");
-        }
-        
-        const view = new google.picker.DocsView(google.picker.ViewId.DOCS)
-          .setParent('root')
-          .setIncludeFolders(true)
-          .setMimeTypes(accept)
-          .setMode(google.picker.DocsViewMode.LIST); 
-
-        const picker = new google.picker.PickerBuilder()
-          .addView(view)
-          .enableFeature(google.picker.Feature.NAV_HIDDEN) 
-          .setAppId(import.meta.env.VITE_GOOGLE_CLIENT_ID.split('-')[0])
-          .setOAuthToken(accessToken)
-          .setCallback((data) => {
-            if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
-              const file = data[google.picker.Response.DOCUMENTS][0];
-              resolve(file);
-            } else if (data[google.picker.Response.ACTION] === google.picker.Action.CANCEL) {
-              resolve(null);
-            }
-          })
-          .build();
-        
-        picker.setVisible(true);
-      } catch (err) {
-        reject(err);
+  return new Promise((resolve, reject) => {
+    try {
+      if (!accessToken) {
+        throw new Error("No access token available.");
       }
-    });
-  }
+
+      // eslint-disable-next-line no-undef
+      const view = new google.picker.DocsView(google.picker.ViewId.DOCS)
+        .setParent("root")
+        .setIncludeFolders(true)
+        .setMimeTypes(accept)
+        // eslint-disable-next-line no-undef
+        .setMode(google.picker.DocsViewMode.LIST);
+
+      // eslint-disable-next-line no-undef
+      const picker = new google.picker.PickerBuilder()
+        .addView(view)
+        // eslint-disable-next-line no-undef
+        .enableFeature(google.picker.Feature.NAV_HIDDEN)
+        .setAppId(import.meta.env.VITE_GOOGLE_CLIENT_ID.split("-")[0])
+        .setOAuthToken(accessToken)
+        .setCallback((data) => {
+          // eslint-disable-next-line no-undef
+          if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
+            // eslint-disable-next-line no-undef
+            const file = data[google.picker.Response.DOCUMENTS][0];
+            resolve(file);
+            // eslint-disable-next-line no-undef
+          } else if (data[google.picker.Response.ACTION] === google.picker.Action.CANCEL) {
+            resolve(null);
+          }
+        })
+        .build();
+
+      picker.setVisible(true);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
 
 // Function to load a file's content from Google Drive given its metadata
 export async function loadFileFromDrive(accept) {
@@ -601,17 +558,17 @@ export async function loadFileFromDrive(accept) {
 
   try {
     isDownloadInProgress = true;
-    
+
     const file = await openPickerAndLoadFile(accept);
     if (!file) {
       // User closed the picker
       return null;
     }
-    
+
     if (!accessToken) {
       throw new Error("No access token available for file download.");
     }
-    
+
     const response = await fetch(`https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -624,12 +581,11 @@ export async function loadFileFromDrive(accept) {
 
     const blob = await response.blob();
     return blob;
-
   } catch (err) {
     console.error("Error loading file from Google Drive:", err);
     throw new Error(`Could not load file from Google Drive: ${err.message}`);
   } finally {
-        // Always reset the download state, even if there was an error
+    // Always reset the download state, even if there was an error
     isDownloadInProgress = false;
   }
 }

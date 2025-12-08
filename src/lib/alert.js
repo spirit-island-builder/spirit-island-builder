@@ -1,5 +1,5 @@
-  // alert.js
-  export function showToast(message, duration = 3000) {
+// alert.js
+export function showToast(message, duration = 3000) {
   // Create container if not exists
   let container = document.getElementById("drive-toast-container");
   if (!container) {

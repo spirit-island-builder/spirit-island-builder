@@ -2,7 +2,6 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
-  import { downloadHTML } from "$lib/download";
   import { dev } from "$app/environment";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
@@ -191,11 +190,6 @@
     }
   }
 
-  function exportAdversary() {
-    const htmlFileName = adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.html";
-    downloadHTML(generateHTML(adversary), htmlFileName);
-  }
-
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Adversary.")) {
       adversary = JSON.parse(JSON.stringify(emptyAdversary));
@@ -279,8 +273,7 @@
       <SaveDropdown
         saveAction={() => generateHTML(adversary)}
         fileName={`${adversary.nameLossEscalation.name.replaceAll(" ", "_")}_Adversary.html`}
-        saveType="html"
-      />
+        saveType="html" />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

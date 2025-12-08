@@ -13,7 +13,7 @@ import { showToast } from "./alert.js";
  */
 export const SaveLocation = {
   DRIVE: "drive",
-  LOCAL: "local"
+  LOCAL: "local",
 };
 
 let shouldDivertDownload = false;
@@ -29,14 +29,14 @@ export const getSaveLocation = () => saveLocation;
 export const setSaveLocation = (newLocation) => {
   saveLocation = newLocation;
   // Notify all listeners
-  listeners.forEach(listener => listener(saveLocation));
+  listeners.forEach((listener) => listener(saveLocation));
 };
 
 export const subscribeSaveLocation = (callback) => {
   listeners.push(callback);
   // Return unsubscribe function
   return () => {
-    listeners = listeners.filter(listener => listener !== callback);
+    listeners = listeners.filter((listener) => listener !== callback);
   };
 };
 
@@ -63,7 +63,7 @@ export const divertDownload = (value) => {
  * than a string or image, you should add a wrapper that knows
  * how to divert that type download, rather than directly exporting
  * this function.
- * 
+ *
  * @param {string|URL} fileURL
  * @param {string} fileName
  */
@@ -98,25 +98,27 @@ export const downloadImage = (imageURL, fileName) => {
  * @param {string} fileContent
  * @param {string} fileName
  */
-export const downloadString = (mimeType, fileContent, fileName, saveLocationOverride = SaveLocation.LOCAL) => {
+export const downloadString = (
+  mimeType,
+  fileContent,
+  fileName,
+  saveLocationOverride = SaveLocation.LOCAL
+) => {
   if (shouldDivertDownload) {
     downloadData.set({ fileContent, fileName });
     return;
   }
 
-  const location = saveLocationOverride ?? SaveLocation.LOCAL
+  const location = saveLocationOverride ?? SaveLocation.LOCAL;
 
   // Local download
   if (location === SaveLocation.LOCAL) {
-    downloadFile(
-      `data:${mimeType},${encodeURIComponent(fileContent)}`,
-      fileName
-    );
+    downloadFile(`data:${mimeType},${encodeURIComponent(fileContent)}`, fileName);
   }
 
   // Google Drive upload
   if (location === SaveLocation.DRIVE) {
-    saveToDrive(fileContent, fileName).catch(err => {
+    saveToDrive(fileContent, fileName).catch((err) => {
       if (err.message.includes("cancelled")) {
         showToast("📁 Save cancelled");
       } else {

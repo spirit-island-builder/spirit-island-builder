@@ -52,9 +52,7 @@
       console.log(element);
       element.classList.add(options);
       let scale = 1.8;
-      previewIframe.contentWindow
-      .takeScreenshot(elementNameInIframe, scale)
-      .then((imageURL) => {
+      previewIframe.contentWindow.takeScreenshot(elementNameInIframe, scale).then((imageURL) => {
         downloadImage(imageURL, fileNames[index]);
         element.classList.remove(options);
       });
@@ -68,7 +66,7 @@
     wid = 9,
     hit = 6,
     flip = false,
-    orientation = "landscape",
+    orientation = "landscape"
   ) => {
     const doc = new jsPDF({
       orientation: orientation,

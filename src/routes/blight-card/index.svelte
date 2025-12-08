@@ -10,7 +10,6 @@
   import NameEffects from "./name-effects.svelte";
   // import AspectEffects from "./aspect-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
-  import { downloadHTML } from "$lib/download";
   import { dev } from "$app/environment";
   // import examples from "./examples.json";
   // import Examples from "$lib/example-modal.svelte";
@@ -185,8 +184,7 @@
       <SaveDropdown
         saveAction={() => generateHTML(blightCard)}
         fileName={`${blightCard.card.cardName.replaceAll(" ", "_")}_BlightCard.html`}
-        saveType="html"
-      />
+        saveType="html" />
       <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>

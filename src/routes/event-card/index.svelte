@@ -12,7 +12,6 @@
   import TokeneventType from "./tokenevents.svelte";
   // import AspectEffects from "./aspect-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
-  import { downloadHTML } from "$lib/download";
   import Examples from "$lib/example-modal.svelte";
   import examples from "./examples.json";
 
@@ -258,8 +257,7 @@
       <SaveDropdown
         saveAction={() => generateHTML(eventCard)}
         fileName={`${eventCard.card.name.replaceAll(" ", "_")}_EventCard.html`}
-        saveType="html"
-      />
+        saveType="html" />
       <button class="button is-warning  mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

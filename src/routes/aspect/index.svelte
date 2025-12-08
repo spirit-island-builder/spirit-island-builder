@@ -3,7 +3,7 @@
   import jsone from "json-e";
 
   import * as Lib from "../lib";
-  import { downloadHTML, downloadString } from "$lib/download";
+  import { downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
   import LoadDropdown from "$lib/load-dropdown.svelte";
@@ -523,8 +523,7 @@
       <SaveDropdown
         saveAction={() => generateHTML(aspect)}
         fileName={`${aspect.nameReplacements.aspectName.replaceAll(" ", "_")}_Aspect.html`}
-        saveType="html"
-      />
+        saveType="html" />
 
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>

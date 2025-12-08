@@ -31,11 +31,10 @@
   import About from "./about/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
   import Footer from "./footer.svelte";
-  import { divertDownload, SaveLocation, setSaveLocation, downloadData } from "$lib/download";
+  import { divertDownload, downloadData } from "$lib/download";
 
   let debugDownloads = false;
   $: divertDownload(debugDownloads);
-  let saveLocation = SaveLocation.LOCAL;
 
   let currentPage = $page.url.hash ? $page.url.hash.substring(1) : "spiritBoardFront";
   switch (currentPage.toLowerCase().replace(/\W/g, "")) {

@@ -9,7 +9,6 @@
 
   import NameEffects from "./name-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
-  import { downloadHTML } from "$lib/download";
   import { dev } from "$app/environment";
 
   export let fearCard;
@@ -177,8 +176,7 @@
       <SaveDropdown
         saveAction={() => generateHTML(fearCard)}
         fileName={`${fearCard.card.cardName.replaceAll(" ", "_")}_FearCard.html`}
-        saveType="html"
-      />
+        saveType="html" />
       <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}
         >Download Image</button>
       <button class="button is-warning mt-1  mr-1" id="updateButton" on:click={reloadPreview}
