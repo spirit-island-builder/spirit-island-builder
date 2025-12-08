@@ -137,6 +137,8 @@ textarea.is-small.small-power {
 
 div.dropdown-content {
   padding: 0px;
+  position: relative;
+  left: -2px;
 }
 div.dropdown.is-up div.dropdown-menu {
   border-left: 3px #0ba14a solid;
@@ -151,7 +153,7 @@ div.dropdown-trigger .button.is-success:hover {
   color: white;
 }
 .dropdown-content button {
-  width: 80%;
+  width: 100%;
 }
 
 footer {
