@@ -3403,17 +3403,32 @@ function IconName(str, iconNum = 1) {
     case "reclaim-all":
     case "reclaim":
       if (txt) {
-        localize = {
-          en: "Reclaim All Cards with " + IconName(txt),
-          fr: "Récupérez toutes les Cartes avec " + IconName(txt),
-          de: "Nimm alle Karten wieder auf " + IconName(txt),
-          pl: "Odzyskaj wszystkie Karty z " + IconName(txt),
-          ar: "استعد جميع البطاقات مع " + IconName(txt),
-          zh: "回收所有有" + IconName(txt) + "的法術牌",
-          hu: "Kártyák visszavétele, amin van " + IconName(txt),
-          ko: IconName(txt) + "능력 카드 모두 회수 ",
-          ja: IconName(txt) + "を持つすべてのカードを回収",
-        };
+        if (elementNames.has(txt)) {
+          localize = {
+            en: "Reclaim All Cards with " + IconName(txt),
+            fr: "Récupérez toutes les Cartes avec " + IconName(txt),
+            de: "Nimm alle Karten wieder auf " + IconName(txt),
+            pl: "Odzyskaj wszystkie Karty z " + IconName(txt),
+            ar: "استعد جميع البطاقات مع " + IconName(txt),
+            zh: "回收所有有" + IconName(txt) + "的法術牌",
+            hu: "Kártyák visszavétele, amin van " + IconName(txt),
+            ko: IconName(txt) + "능력 카드 모두 회수 ",
+            ja: IconName(txt) + "を持つすべてのカードを回収",
+          };
+        } else {
+          // non-english need translation updates
+          localize = {
+            en: `Reclaim All ${IconName(txt)} Cards`,
+            fr: "Récupérez toutes les Cartes avec " + IconName(txt),
+            de: "Nimm alle Karten wieder auf " + IconName(txt),
+            pl: "Odzyskaj wszystkie Karty z " + IconName(txt),
+            ar: "استعد جميع البطاقات مع " + IconName(txt),
+            zh: "回收所有有" + IconName(txt) + "的法術牌",
+            hu: "Kártyák visszavétele, amin van " + IconName(txt),
+            ko: IconName(txt) + "능력 카드 모두 회수 ",
+            ja: IconName(txt) + "を持つすべてのカードを回収",
+          };
+        }
       } else {
         localize = {
           en: "Reclaim Cards",
@@ -3431,17 +3446,32 @@ function IconName(str, iconNum = 1) {
       break;
     case "reclaim-one":
       if (txt) {
-        localize = {
-          en: "Reclaim One Card with " + IconName(txt),
-          fr: "Récupérer une Carte avec " + IconName(txt),
-          de: "Nimm eine Karte mit wieder auf " + IconName(txt),
-          pl: "Odzyskaj Jedną Kartę z " + IconName(txt),
-          ar: "استعد بطاقة واحدة مع " + IconName(txt),
-          zh: "回收1張有" + IconName(txt) + "的法術牌",
-          hu: "Egy Erőkártya visszavétele, amin van " + IconName(txt),
-          ko: IconName(txt) + "카드 1장 회수",
-          ja: IconName(txt) + "を持つカード1枚を回収",
-        };
+        if (elementNames.has(txt)) {
+          localize = {
+            en: "Reclaim One Card with " + IconName(txt),
+            fr: "Récupérer une Carte avec " + IconName(txt),
+            de: "Nimm eine Karte mit wieder auf " + IconName(txt),
+            pl: "Odzyskaj Jedną Kartę z " + IconName(txt),
+            ar: "استعد بطاقة واحدة مع " + IconName(txt),
+            zh: "回收1張有" + IconName(txt) + "的法術牌",
+            hu: "Egy Erőkártya visszavétele, amin van " + IconName(txt),
+            ko: IconName(txt) + "카드 1장 회수",
+            ja: IconName(txt) + "を持つカード1枚を回収",
+          };
+        } else {
+          localize = {
+            // non-english need translation updates
+            en: `Reclaim One ${IconName(txt)} Card`,
+            fr: "Récupérer une Carte avec " + IconName(txt),
+            de: "Nimm eine Karte mit wieder auf " + IconName(txt),
+            pl: "Odzyskaj Jedną Kartę z " + IconName(txt),
+            ar: "استعد بطاقة واحدة مع " + IconName(txt),
+            zh: "回收1張有" + IconName(txt) + "的法術牌",
+            hu: "Egy Erőkártya visszavétele, amin van " + IconName(txt),
+            ko: IconName(txt) + "카드 1장 회수",
+            ja: IconName(txt) + "を持つカード1枚を回収",
+          };
+        }
       } else {
         localize = {
           en: "Reclaim One",
