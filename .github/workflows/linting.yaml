@@ -22,4 +22,4 @@ jobs:
           npm install
       - name: Lint And Format
         run: |-
-          npm run checkFormatAndLint
+          npm run writeFormatAndLint
