@@ -52,6 +52,15 @@
     invaderCardHTML.setAttribute("type", invaderCard.card.type);
     invaderCardHTML.setAttribute("top", invaderCard.card.top);
     invaderCardHTML.setAttribute("bottom", invaderCard.card.bottom);
+
+    if (invaderCard.card.type === "reminder" && invaderCard.card.banner) {
+      let banner = document.createElement("invader-banner");
+      banner.innerHTML = invaderCard.card.banner;
+      invaderCardHTML.appendChild(banner);
+    }
+
+    let invaderCardFieldContainer = document.createElement("invader-field-container");
+
     invaderCard.card.fields.forEach((field) => {
       let fieldHTML = document.createElement("invader-field");
       if (field.type) {
@@ -64,10 +73,12 @@
       if (field.color) {
         fieldHTML.setAttribute("color", field.color);
       }
-      invaderCardHTML.appendChild(fieldHTML);
+      invaderCardFieldContainer.appendChild(fieldHTML);
     });
     // invaderCardHTML.setAttribute("text-heading", invaderCard.card.textHeading);
     // invaderCardHTML.setAttribute("text-body", invaderCard.card.textBody);
+
+    invaderCardHTML.appendChild(invaderCardFieldContainer);
 
     //Show back?
     if (invaderCard.showBackOld) {
@@ -101,12 +112,16 @@
     invaderCard = JSON.parse(JSON.stringify(emptyInvaderCard));
 
     const invaderCardHTML = htmlElement.querySelectorAll("template-invader-card")[0];
-    invaderCard.card.type = invaderCardHTML.getAttribute("name") || "";
+    invaderCard.card.name = invaderCardHTML.getAttribute("name") || "";
     invaderCard.card.type = invaderCardHTML.getAttribute("type") || "single";
     invaderCard.card.top = invaderCardHTML.getAttribute("top");
     invaderCard.card.bottom = invaderCardHTML.getAttribute("bottom") || "";
     // invaderCard.card.textHeading = invaderCardHTML.getAttribute("text-heading") || "";
     // invaderCard.card.textBody = invaderCardHTML.getAttribute("text-body") || "";
+    const banner = invaderCardHTML.querySelectorAll("invader-banner")[0];
+    if (banner) {
+      invaderCard.card.banner = banner.innerHTML;
+    }
 
     const fields = invaderCardHTML.querySelectorAll("invader-field");
     invaderCard.card.fields.splice(0, invaderCard.card.fields.length); //Clear the Form first
@@ -141,8 +156,7 @@
   }
 
   function exportInvaderCard() {
-    const htmlFileName =
-      `${invaderCard.card.fields[0]}_InvaderCard.html` || "customInvaderCard.html";
+    const htmlFileName = `${invaderCard.card.name}_InvaderCard.html` || "customInvaderCard.html";
     downloadHTML(generateHTML(invaderCard), htmlFileName);
   }
 
