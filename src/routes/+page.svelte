@@ -31,7 +31,6 @@
   import About from "./about/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
   import Footer from "./footer.svelte";
-
   import { divertDownload, downloadData } from "$lib/download";
 
   let debugDownloads = false;

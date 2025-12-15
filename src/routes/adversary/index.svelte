@@ -2,10 +2,11 @@
   import { onMount } from "svelte";
 
   import * as Lib from "../lib";
-  import { downloadHTML } from "$lib/download";
   import { dev } from "$app/environment";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import LoadDropdown from "$lib/load-dropdown.svelte";
+  import SaveDropdown from "$lib/save-dropdown.svelte";
   import examples from "./examples.json";
   import NameLossAndEscalation from "./name-loss-escalation.svelte";
   import AdversaryLevels from "./adversary-levels.svelte";
@@ -189,11 +190,6 @@
     }
   }
 
-  function exportAdversary() {
-    const htmlFileName = adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.html";
-    downloadHTML(generateHTML(adversary), htmlFileName);
-  }
-
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Adversary.")) {
       adversary = JSON.parse(JSON.stringify(emptyAdversary));
@@ -268,13 +264,16 @@
         Examples
       </button>
       <InstructionsLink class="button mt-1 is-info mr-1" anchor="adversary" />
-      <LoadButton
-        accept=".html"
-        class="button mt-1 is-success mr-1"
+      <LoadDropdown
+        accept="text/html"
+        class="button is-success mt-1 mr-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
-      <button class="button is-success mt-1 mr-1" on:click={exportAdversary}> Save </button>
+      </LoadDropdown>
+      <SaveDropdown
+        saveAction={() => generateHTML(adversary)}
+        fileName={`${adversary.nameLossEscalation.name.replaceAll(" ", "_")}_Adversary.html`}
+        saveType="html" />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

@@ -4,13 +4,14 @@
   import * as Lib from "../lib";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import LoadDropdown from "$lib/load-dropdown.svelte";
+  import SaveDropdown from "$lib/save-dropdown.svelte";
   import { dev } from "$app/environment";
 
   import EventType from "./event-type.svelte";
   import TokeneventType from "./tokenevents.svelte";
   // import AspectEffects from "./aspect-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
-  import { downloadHTML } from "$lib/download";
   import Examples from "$lib/example-modal.svelte";
   import examples from "./examples.json";
 
@@ -158,11 +159,6 @@
     console.log(eventCard);
   }
 
-  function exportEventCard() {
-    const htmlFileName = eventCard.card.name.replaceAll(" ", "_") + "_EventCard.html";
-    downloadHTML(generateHTML(eventCard), htmlFileName);
-  }
-
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Aspect.")) {
       eventCard = JSON.parse(JSON.stringify(emptyEventCard));
@@ -252,13 +248,16 @@
       <button class="button is-info js-modal-trigger mr-1 mt-1" on:click={exampleModal.open}>
         Examples
       </button>
-      <LoadButton
-        accept=".html"
+      <LoadDropdown
+        accept="text/html"
         class="button is-success mt-1 mr-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
-      <button class="button is-success  mt-1 mr-1" on:click={exportEventCard}> Save </button>
+      </LoadDropdown>
+      <SaveDropdown
+        saveAction={() => generateHTML(eventCard)}
+        fileName={`${eventCard.card.name.replaceAll(" ", "_")}_EventCard.html`}
+        saveType="html" />
       <button class="button is-warning  mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

@@ -4,11 +4,12 @@
   import * as Lib from "../lib";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import LoadDropdown from "$lib/load-dropdown.svelte";
+  import SaveDropdown from "$lib/save-dropdown.svelte";
 
   import NameEffects from "./name-effects.svelte";
   // import AspectEffects from "./aspect-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
-  import { downloadHTML } from "$lib/download";
   import { dev } from "$app/environment";
   // import examples from "./examples.json";
   // import Examples from "$lib/example-modal.svelte";
@@ -118,11 +119,6 @@
     console.log(blightCard);
   }
 
-  function exportBlightCard() {
-    const htmlFileName = blightCard.card.cardName.replaceAll(" ", "_") + "_BlightCard.html";
-    downloadHTML(generateHTML(blightCard), htmlFileName);
-  }
-
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Aspect.")) {
       blightCard = JSON.parse(JSON.stringify(emptyBlightCard));
@@ -179,13 +175,16 @@
       <!-- <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
         Examples
       </button> -->
-      <LoadButton
-        accept=".html"
+      <LoadDropdown
+        accept="text/html"
         class="button is-success mt-1 mr-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
-      <button class="button is-success mt-1 mr-1" on:click={exportBlightCard}> Save </button>
+      </LoadDropdown>
+      <SaveDropdown
+        saveAction={() => generateHTML(blightCard)}
+        fileName={`${blightCard.card.cardName.replaceAll(" ", "_")}_BlightCard.html`}
+        saveType="html" />
       <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>

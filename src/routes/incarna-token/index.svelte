@@ -3,7 +3,8 @@
 
   import * as Lib from "../lib";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
-  import LoadButton from "$lib/load-button.svelte";
+  import LoadDropdown from "$lib/load-dropdown.svelte";
+  import SaveDropdown from "$lib/save-dropdown.svelte";
 
   import NameEffects from "./name-effects.svelte";
   import CustomIcons from "../custom-icons.svelte";
@@ -11,8 +12,6 @@
   import incarnaJsonTemplate from "./tts-incarna.json";
   import jsone from "json-e";
   import { createTTSSave } from "$lib/tts.js";
-
-  import { downloadHTML } from "$lib/download";
 
   export let incarnaToken;
   export let emptyIncarnaToken;
@@ -160,11 +159,6 @@
     console.log(incarnaToken);
   }
 
-  function exportIncarnaToken() {
-    const htmlFileName = incarnaToken.incarna.name.replaceAll(" ", "_") + "_incarnaToken.html";
-    downloadHTML(generateHTML(incarnaToken), htmlFileName);
-  }
-
   function clearAllFields() {
     if (window.confirm("Are you sure? This permanently clears all fields in Incarna.")) {
       incarnaToken = JSON.parse(JSON.stringify(emptyIncarnaToken));
@@ -244,13 +238,16 @@
       <!-- <button class="button is-info js-modal-trigger mr-1" on:click={exampleModal.open}>
         Examples
       </button> -->
-      <LoadButton
-        accept=".html"
+      <LoadDropdown
+        accept="text/html"
         class="button is-success mt-1 mr-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
-      <button class="button is-success mt-1 mr-1" on:click={exportIncarnaToken}> Save </button>
+      </LoadDropdown>
+      <SaveDropdown
+        saveAction={() => generateHTML(incarnaToken)}
+        fileName={`${incarnaToken.incarna.name.replaceAll(" ", "_")}_incarnaToken.html`}
+        saveType="html" />
       <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}
         >Download Image</button>
       <div class="dropdown is-hoverable is-up">
