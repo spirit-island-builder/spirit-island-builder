@@ -52,9 +52,9 @@
     <button class="button is-success mt-1 mr-1" on:click={runCurrentMode}>
       <span class="mr-2">Save</span>
       {#if currentMode === SaveLocation.LOCAL}
-        <img src="/src/icons/Local.png" alt="local" class="location-icon" />
+        <div alt="local" class="location-icon local" />
       {:else}
-        <img src="/src/icons/Drive.png" alt="drive" class="location-icon" />
+        <div alt="local" class="location-icon drive" />
       {/if}
     </button>
   </div>
@@ -67,14 +67,14 @@
           class="button is-success"
           on:click|stopPropagation={() => switchAndRun(SaveLocation.DRIVE)}>
           <span class="mr-2">Save</span>
-          <img src="/src/icons/Drive.png" alt="drive" class="location-icon" />
+          <div alt="local" class="location-icon drive" />
         </button>
       {:else}
         <button
           class="button is-success"
           on:click|stopPropagation={() => switchAndRun(SaveLocation.LOCAL)}>
           <span class="mr-2">Save</span>
-          <img src="/src/icons/Local.png" alt="local" class="location-icon" />
+          <div alt="local" class="location-icon local" />
         </button>
       {/if}
     </div>
@@ -82,9 +82,18 @@
 </div>
 
 <style>
-  img.location-icon {
+  div.location-icon {
     width: 25px;
     height: 25px;
     margin: 0px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
+  div.local {
+    background-image: url(../icons/Local.png);
+  }
+  div.drive {
+    background-image: url(../icons/Drive.png);
   }
 </style>
