@@ -1,6 +1,9 @@
 // google-drive.js
 import { showToast } from "./alert.js";
 
+const googleApiKey = process.env.VITE_GOOGLE_API_KEY || import.meta.env.VITE_GOOGLE_API_KEY;
+const googleClientId = process.env.VITE_GOOGLE_CLIENT_ID || import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
 function injectDriveStyles() {
   const css = `
     .drive-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; display: flex; justify-content: center; align-items: center; }
@@ -28,9 +31,7 @@ let accessToken = null;
 let error = null;
 let isDownloadInProgress = false;
 
-const hasCredentials = !!(
-  import.meta.env.VITE_GOOGLE_API_KEY && import.meta.env.VITE_GOOGLE_CLIENT_ID
-);
+const hasCredentials = !!(googleApiKey && googleClientId);
 
 let tokenClient = null;
 let isInitialized = false;
@@ -69,7 +70,7 @@ export async function loadGapiScript() {
       window.gapi.load("client", () => {
         window.gapi.client
           .init({
-            apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
+            apiKey: googleApiKey,
             discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
           })
           .then(resolve)
@@ -92,7 +93,7 @@ export async function initializeGoogleDrive() {
     await Promise.all([loadGisScript(), loadGapiScript()]);
 
     tokenClient = window.google.accounts.oauth2.initTokenClient({
-      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      client_id: googleClientId,
       scope: "https://www.googleapis.com/auth/drive.file", // if we want to show all folders (also those not created by this app) we need to set this to https://www.googleapis.com/auth/drive)
       callback: (tokenResponse) => {
         if (!tokenResponse.error) {
@@ -317,7 +318,7 @@ async function uploadToDrive(fileContent, defaultFilename, mimeType) {
 
     const response = await fetch(
       "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink",
-      { method: "POST", headers: { Authorization: `Bearer ${accessToken}` }, body: form }
+      { method: "POST", headers: { Authorization: `Bearer ${accessToken}` }, body: form },
     );
 
     if (!response.ok) throw new Error(await response.text());
@@ -376,7 +377,7 @@ function openCustomSaveDialog(defaultFilename) {
       folderListEl.innerHTML = '<div style="padding:10px; color:#666;">Loading...</div>';
       const query = `'${parentId}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`;
       const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(
-        query
+        query,
       )}&fields=files(id,name)&orderBy=name`;
 
       try {
@@ -526,7 +527,7 @@ export async function openPickerAndLoadFile(accept) {
         .addView(view)
         // eslint-disable-next-line no-undef
         .enableFeature(google.picker.Feature.NAV_HIDDEN)
-        .setAppId(import.meta.env.VITE_GOOGLE_CLIENT_ID.split("-")[0])
+        .setAppId(googleClientId.split("-")[0])
         .setOAuthToken(accessToken)
         .setCallback((data) => {
           // eslint-disable-next-line no-undef
