@@ -478,6 +478,16 @@
     printToPDF("a4");
   }
 
+  function getFileName(powerCards) {
+    let fileName = "";
+    if (powerCards.spiritName) {
+      fileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
+    } else {
+      fileName = "Custom_PowerCards.html";
+    }
+    return fileName;
+  }
+
   function togglePrinterClean() {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let cards = Array.from(previewFrame.document.getElementsByTagName("card"));
@@ -551,7 +561,7 @@
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(powerCards)}
-        fileName={`${powerCards.spiritName.replaceAll(" ", "_")}_PowerCards.html`}
+        fileName={getFileName(powerCards)}
         saveType="html" />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
