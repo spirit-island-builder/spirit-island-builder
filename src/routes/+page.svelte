@@ -388,6 +388,9 @@
     languageOptions: {
       isVisible: false,
     },
+    reorderCards: {
+      isVisible: false,
+    },
     previewBoard: {
       isVisible: false,
     },

@@ -9,7 +9,7 @@
   }
 </script>
 
-<Section title={`Language & Options`} bind:isVisible={powerCards.languageOptions.isVisible}>
+<Section title={`Language`} bind:isVisible={powerCards.languageOptions.isVisible}>
   <!-- Overwriting Headings -->
   <label class="label mb-0" for="spiritNameInput">Translation Support Features</label>
   <!-- Languages -->

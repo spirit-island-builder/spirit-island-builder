@@ -18,6 +18,7 @@
   import { createTTSSave, getThresholdTTSJSON, ttsSaveMIMEType } from "$lib/tts.js";
   import InstructionsLink from "$lib/instructions/link.svelte";
   import LanguageOptions from "./language-options.svelte";
+  import ReorderCards from "./reorder-cards.svelte";
 
   export let powerCards;
   export let emptyPowerCards;
@@ -528,6 +529,7 @@
     <div class="content mb-0 mt-2">Options</div>
     <CustomIcons customIcons={powerCards.customIcons} />
     <LanguageOptions bind:powerCards />
+    <ReorderCards bind:powerCards />
     <CombinedTTS
       bind:combinedTTS
       bind:currentPage

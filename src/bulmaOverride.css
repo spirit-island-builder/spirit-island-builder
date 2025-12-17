@@ -281,6 +281,12 @@ button.side-menu:hover {
   .growth-action-handle {
     filter: invert(1);
   }
+  .power-card-dnd-container {
+    filter: invert(1);
+  }
+  .power-card-dnd-container .label {
+    color: #141414;
+  }
   button {
     /* color and highlight */
     background-color: #595a5e96;
