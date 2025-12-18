@@ -1,8 +1,8 @@
 // google-drive.js
 import { showToast } from "./alert.js";
 
-const googleApiKey = process.env.VITE_GOOGLE_API_KEY || import.meta.env.VITE_GOOGLE_API_KEY;
-const googleClientId = process.env.VITE_GOOGLE_CLIENT_ID || import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const googleApiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 function injectDriveStyles() {
   const css = `
@@ -318,7 +318,7 @@ async function uploadToDrive(fileContent, defaultFilename, mimeType) {
 
     const response = await fetch(
       "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink",
-      { method: "POST", headers: { Authorization: `Bearer ${accessToken}` }, body: form },
+      { method: "POST", headers: { Authorization: `Bearer ${accessToken}` }, body: form }
     );
 
     if (!response.ok) throw new Error(await response.text());
@@ -377,7 +377,7 @@ function openCustomSaveDialog(defaultFilename) {
       folderListEl.innerHTML = '<div style="padding:10px; color:#666;">Loading...</div>';
       const query = `'${parentId}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`;
       const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(
-        query,
+        query
       )}&fields=files(id,name)&orderBy=name`;
 
       try {
