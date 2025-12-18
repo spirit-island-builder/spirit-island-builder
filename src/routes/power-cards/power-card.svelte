@@ -211,13 +211,7 @@
   const elements = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
 </script>
 
-<Section
-  title={`Card Set Information`}
-  bind:isVisible={powerCards.cardBackImageIsVisible}>
-  <ImageInput
-    id="powerCardBack"
-    title="Power Card Back Art"
-    bind:imageURL={powerCards.cardBackImage} />
+<Section title={`Card Set Information`} bind:isVisible={powerCards.cardBackImageIsVisible}>
   <label class="label is-unselectable mr-1" for="">Spirit or Card Set Name: </label>
   <div class="control">
     <input
@@ -228,6 +222,10 @@
       placeholder="optional - for output only"
       bind:value={powerCards.spiritName} />
   </div>
+  <ImageInput
+    id="powerCardBack"
+    title="Power Card Back Art"
+    bind:imageURL={powerCards.cardBackImage} />
 </Section>
 <div class="is-power-cards">
   {#each powerCards.cards as card, i (card.id)}
