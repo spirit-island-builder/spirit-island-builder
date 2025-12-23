@@ -388,11 +388,12 @@ presence-node icon.gather {
   height: 68px;
   position: relative;
   margin-right: 0px;
+  display: flex;
 }
 
 presence-node icon.gather > icon {
   left: 90px;
-  top: -18px;
+  top: -7px;
   filter: drop-shadow(0px 0px 0px #ead38d) drop-shadow(0px 0px 0px #ead38d)
     drop-shadow(0px 0px 1px #ead38d) drop-shadow(0px 0px 1px #ead38d);
   height: 90px;
