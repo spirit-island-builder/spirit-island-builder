@@ -12,6 +12,8 @@
   import CombinedTTS from "../combined-tts-spirit-powers-export.svelte";
   import InstructionsLink from "$lib/instructions/link.svelte";
   import LanguageOptions from "./language-options.svelte";
+  import LoadButton from "$lib/load-button.svelte";
+  import { dev } from "$app/environment";
 
   export let spiritBoardBack;
   export let emptySpiritBoardBack;
@@ -254,6 +256,15 @@
   const packageLoreTTSforExport = () => {
     return spiritBoardBack;
   };
+
+  let overlayImage;
+  function addOverlay() {
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let eventCardDOM = previewFrame.document.getElementsByTagName("board")[0];
+    const overlay = previewFrame.document.createElement("dev-overlay");
+    eventCardDOM.appendChild(overlay);
+    overlay.style.backgroundImage = `url('${overlayImage}')`;
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -318,6 +329,17 @@
       </div>
       <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
         >Printer-Friendly</button>
+    </div>
+    <div>
+      {#if dev}
+        <LoadButton
+          accept="image/png, image/jpeg"
+          class="button is-file-load is-small mt-1"
+          loadDataURL={(url) => {
+            overlayImage = url;
+          }}>Load Overlay</LoadButton>
+        <button class="button is-danger mt-1 mr-1" on:click={addOverlay}>Add Overlay</button>
+      {/if}
     </div>
   </div>
 </div>

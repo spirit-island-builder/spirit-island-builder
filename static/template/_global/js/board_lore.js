@@ -69,9 +69,8 @@ function buildLoreBoard() {
   if (quickComplexity) {
     var quickDescriptor = document.getElementsByTagName("complexity")[0].getAttribute("descriptor");
     var inner = `<complexity-line></complexity-line>
-                  <complexity-title>${localize[lang]["complexity"]}</complexity-title>
-                  <complexity-value value="${quickComplexity}" style="width: 300px;">${quickDescriptor}</complexity-value>
-                  <red-box></red-box>
+                  <com-box><complexity-title>${localize[lang]["complexity"]}</complexity-title>
+                  <complexity-value value="${quickComplexity}" style="width: 300px;">${quickDescriptor}</complexity-value></com-box>
                   <complexity-line></complexity-line>`;
     document.getElementsByTagName("complexity")[0].innerHTML = inner;
   }
