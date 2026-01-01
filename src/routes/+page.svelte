@@ -443,72 +443,74 @@
   let emptyAspect = {
     prop: "value",
     demoBoardWasLoaded: false,
-    profile: false,
     previewBoard: {
       isVisible: false,
     },
-    nameReplacements: {
+    info: {
       isVisible: false,
       aspectName: "",
-      replacements: [
-        {
-          id: 0,
-          aspectRelacement: "",
-          rulesReplaced: "",
-        },
-      ],
       complexity: "",
       spiritName: "",
       spiritImage: "",
+      showparts: false,
       hasBack: true,
     },
-    aspectEffects: {
-      isVisible: false,
-      specialRules: {
+    aspectEffects: [
+      {
+        id: 0,
         isVisible: false,
-        rules: [
+        profile: false,
+        replacements: [
           {
             id: 0,
-            name: "",
-            effect: "",
-            hasGrowth: false,
-            growthActions: [
-              {
-                id: 0,
-                effect: "",
-              },
-            ],
+            aspectRelacement: "",
+            rulesReplaced: "",
           },
         ],
+        specialRules: {
+          rules: [
+            {
+              id: 0,
+              name: "",
+              effect: "",
+              hasGrowth: false,
+              growthActions: [
+                {
+                  id: 0,
+                  effect: "",
+                },
+              ],
+            },
+          ],
+        },
+        innatePowers: {
+          powers: [
+            {
+              id: 0,
+              name: "",
+              speed: "",
+              range: "",
+              target: "",
+              targetTitle: "",
+              effect: "",
+              note: "",
+              noteShow: true,
+              levels: [
+                {
+                  id: 0,
+                  threshold: "",
+                  effect: "",
+                },
+              ],
+            },
+          ],
+        },
+        bonusNode: {
+          has: false,
+          effect: "",
+        },
       },
-      innatePowers: {
-        isVisible: false,
-        powers: [
-          {
-            id: 0,
-            name: "",
-            speed: "",
-            range: "",
-            target: "",
-            targetTitle: "",
-            effect: "",
-            note: "",
-            noteShow: true,
-            levels: [
-              {
-                id: 0,
-                threshold: "",
-                effect: "",
-              },
-            ],
-          },
-        ],
-      },
-      bonusNode: {
-        has: false,
-        effect: "",
-      },
-    },
+    ],
     customIcons: {
       isVisible: false,
       icons: [],

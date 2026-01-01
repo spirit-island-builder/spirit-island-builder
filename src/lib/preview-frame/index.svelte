@@ -142,17 +142,32 @@
       });
     }
     if (status === 3) {
-      const aspectEffectsElement =
-        previewIframe.contentDocument.getElementsByTagName("aspect-container")[0];
-      aspectEffectsElement.addEventListener("click", clickFunction());
+      const aspectEffectsElement = Array.from(
+        previewIframe.contentDocument.getElementsByTagName("aspect-background")
+      );
+      aspectEffectsElement.forEach((effectElement) => {
+        effectElement.addEventListener("click", clickFunction());
+      });
 
-      const aspectSubtextElement =
-        previewIframe.contentDocument.getElementsByTagName("aspect-name")[0];
-      aspectSubtextElement.addEventListener("click", clickFunction());
+      const aspectSubtextElement = Array.from(
+        previewIframe.contentDocument.getElementsByTagName("aspect-name")
+      );
+      aspectSubtextElement.forEach((subtextElement) => {
+        subtextElement.addEventListener("click", clickFunction());
+      });
 
-      const aspectNameElement =
-        previewIframe.contentDocument.getElementsByTagName("aspect-subtext")[0];
-      aspectNameElement.addEventListener("click", clickFunction());
+      const aspectNameElement = Array.from(
+        previewIframe.contentDocument.getElementsByTagName("aspect-subtext")
+      );
+      aspectNameElement.forEach((nameElement) => {
+        nameElement.addEventListener("click", clickFunction());
+      });
+
+      const aspectBackElement =
+        previewIframe.contentDocument.getElementsByTagName("aspect-back-overlay")[0];
+      if (aspectBackElement) {
+        aspectBackElement.addEventListener("click", clickFunction());
+      }
     }
     if (status === 4) {
       const adversaryLevelsEl =

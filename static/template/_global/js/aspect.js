@@ -9,6 +9,10 @@ function startMain() {
       aspects[i].classList.add("profile");
       aspects[i].removeAttribute("profile");
     }
+    let aspectname = aspects[i].querySelectorAll("aspect-name")[0];
+    if (aspectname.hasAttribute("showparts")) {
+      aspectname.innerHTML = `${aspectname.innerHTML} (${i + 1} of ${aspects.length})`;
+    }
     parseComplexity(aspects[i]);
     parseBonusNodes(aspects[i]);
     parseSubtexts(aspects[i]);
@@ -27,7 +31,7 @@ function startMain() {
   innatePowerSizing(document);
 
   setTimeout(function () {
-    resizeAspect(aspects[0]);
+    resizeAspect(aspects);
   }, 200);
   setTimeout(function () {
     resizeAspectBack(backs[0]);
@@ -126,63 +130,64 @@ function parseSpecialRulesAspect(aspect) {
   parseSpecialRules(aspectContainer); // Leveraging praseSpecialRules on board_front.js
 }
 
-function resizeAspect(aspect) {
+function resizeAspect(aspects) {
   let debug = true;
-  const aspectContainer = aspect.getElementsByTagName("aspect-container")[0];
-  const aspectName = aspect.getElementsByTagName("aspect-name")[0];
-  const aspectSubtext = aspect.getElementsByTagName("aspect-subtext")[0];
-  if (debug) {
-    console.log("resizing aspect");
-  }
-  if (checkOverflowHeight(aspect)) {
+  aspects.forEach((aspect, j) => {
+    const aspectContainer = aspect.getElementsByTagName("aspect-container")[0];
+    const aspectName = aspect.getElementsByTagName("aspect-name")[0];
+    const aspectSubtext = aspect.getElementsByTagName("aspect-subtext")[0];
     if (debug) {
-      console.log("aspect is overflowing");
+      console.log("resizing aspect");
     }
-  }
-  if (checkOverflowHeight(aspectContainer)) {
-    console.log("container is overflowing");
-    console.log(aspectContainer);
-
-    // Try smaller text
-    aspectContainer.classList.add("tight");
-    aspectContainer.style.height =
-      aspect.clientHeight - aspectName.clientHeight - aspectSubtext.clientHeight + "px";
-
-    const lastRuleType = aspectContainer.lastChild;
-    console.log(lastRuleType);
-    if (lastRuleType.tagName.toUpperCase() === "INNATE-POWER") {
-      console.log("last rule is IP");
-      if (checkOverflowHeight(lastRuleType)) {
-        console.log("Innate Powers overflowing, shrinking space between levels");
-        let levels = Array.from(aspect.getElementsByTagName("level"));
-        levels.forEach((level) => {
-          level.style.marginBottom = "2px";
-        });
-      }
-      // Then tighten up the power level font spacing
-      if (checkOverflowHeight(lastRuleType)) {
-        console.log("Innate Powers overflowing, shrinking level description line height");
-        let descriptions = Array.from(aspect.getElementsByClassName("description"));
-        descriptions.forEach((description) => {
-          description.style.lineHeight = "1";
-        });
+    if (checkOverflowHeight(aspect)) {
+      if (debug) {
+        console.log("aspect is overflowing");
       }
     }
-  }
+    if (checkOverflowHeight(aspectContainer)) {
+      console.log("container is overflowing");
 
-  const aspectRules = aspectSubtext.getElementsByTagName("aspect-rule");
-  for (i = 0; i < aspectRules.length; i++) {
-    balanceText(aspectRules[i]);
-  }
+      // Try smaller text
+      aspectContainer.classList.add("tight");
+      aspectContainer.style.height =
+        aspect.clientHeight - aspectName.clientHeight - aspectSubtext.clientHeight + "px";
 
-  const growthTables = aspect.getElementsByTagName("growth-table");
-  if (growthTables) {
-    for (i = 0; i < growthTables.length; i++) {
-      if (checkOverflowWidth(growthTables[i].parentNode, 0)) {
-        growthTables[i].classList.add("tight");
+      const lastRuleType = aspectContainer.lastChild;
+      if (lastRuleType.tagName.toUpperCase() === "INNATE-POWER") {
+        if (checkOverflowHeight(lastRuleType)) {
+          let levels = Array.from(aspect.getElementsByTagName("level"));
+          levels.forEach((level) => {
+            level.style.marginBottom = "2px";
+          });
+        }
+        // Then tighten up the power level font spacing
+        if (checkOverflowHeight(lastRuleType)) {
+          console.log("Innate Powers overflowing, shrinking level description line height");
+          let descriptions = Array.from(aspect.getElementsByClassName("description"));
+          descriptions.forEach((description) => {
+            description.style.lineHeight = "1";
+          });
+        }
       }
     }
-  }
+
+    const aspectRules = aspectSubtext.getElementsByTagName("aspect-rule");
+    for (i = 0; i < aspectRules.length; i++) {
+      balanceText(aspectRules[i]);
+    }
+
+    const growthTables = aspect.getElementsByTagName("growth-table");
+    if (growthTables) {
+      for (i = 0; i < growthTables.length; i++) {
+        if (checkOverflowWidth(growthTables[i].parentNode, 0)) {
+          growthTables[i].classList.add("tight");
+        }
+      }
+    }
+
+    aspectContainer.id = `effect-part${j}`;
+    aspect.id = `aspect-part${j}`;
+  });
 }
 
 function parseAspectBack(back) {
