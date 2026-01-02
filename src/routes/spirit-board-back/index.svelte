@@ -85,6 +85,10 @@
     loreName.innerHTML = spiritBoardBack.nameImage.name;
     loreBoardHTML.append(loreName);
 
+    if (spiritBoardBack.nameArtLore.finder) {
+      loreBoardHTML.setAttribute("finderstyle", spiritBoardBack.nameArtLore.finder);
+    }
+
     //Set Lore Description
     const loreDescription = document.createElement("lore-description");
     loreDescription.innerHTML = spiritBoardBack.lore.loreText;
@@ -187,6 +191,12 @@
     const loreDescription = loreBoardHTML.querySelectorAll("lore-description")[0];
 
     spiritBoardBack.lore.loreText = loreDescription.innerHTML.trim();
+
+    // Finder-style
+    spiritBoardBack.nameArtLore.finder = false;
+    if (loreBoardHTML.getAttribute("finder")) {
+      spiritBoardBack.nameArtLore.finder = loreBoardHTML.getAttribute("finder");
+    }
 
     //Set Lore Setup
     const loreSetup = loreBoardHTML.querySelectorAll("setup-description")[0];

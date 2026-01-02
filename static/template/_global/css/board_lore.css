@@ -130,7 +130,7 @@ div.summary-of-powers-title {
 }
 
 setup-title {
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 setup-description,
@@ -228,6 +228,25 @@ lore-overlay {
   height: 99.5%;
   width: 100%;
   position: absolute;
+}
+
+board.finderstyle lore-overlay {
+  background-image: url("../images/board/BlankLoreBoard-finder.png");
+}
+
+board.finderstyle lore-description {
+  position: absolute;
+  top: 683px;
+  left: -786px;
+}
+
+board.finderstyle second-section-container {
+  margin-left: 75px;
+  margin-top: 55px;
+}
+board.finderstyle div.summary-of-powers-title {
+  padding-left: 55px;
+  padding-right: 25px;
 }
 
 div.summary-of-powers-title {

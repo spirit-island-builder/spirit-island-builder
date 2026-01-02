@@ -322,6 +322,7 @@
     },
     nameArtLore: {
       isVisible: false,
+      finder: "",
     },
     setupPlaystyleComplexityPowers: {
       isVisible: false,

@@ -27,9 +27,16 @@ function startMain() {
 function resize() {
   dynamicSizing(document.querySelectorAll("lore-description")[0]);
 
+  board = document.querySelectorAll("board")[0];
   secondContainer = document.querySelectorAll("second-section-container")[0];
   setup = document.querySelectorAll("setup-description")[0];
   playstyle = document.querySelectorAll("play-style-description")[0];
+
+  //Optional: Finder type boards
+  let finder = board.getAttribute("finderstyle") ? true : false;
+  if (finder) {
+    board.classList.add("finderstyle");
+  }
 
   let j = 0;
   while (checkOverflowHeight(secondContainer)) {
