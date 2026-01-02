@@ -144,7 +144,12 @@
       const cardBackOverlay = document.createElement("card-back-overlay");
       fragment.append(cardBack);
       cardBack.append(cardBackArt);
-      cardBack.append(cardBackOverlay);
+      if (powerCards.defaultCardBack === true) {
+        cardBack.setAttribute("defaultimage", powerCards.defaultCardBack);
+      } else {
+        cardBack.append(cardBackOverlay);
+        cardBack.removeAttribute("defaultimage");
+      }
       cardBack.setAttribute("id", "cardBack");
       cardBackArt.classList.add("image-back");
       cardBackArt.setAttribute("src", powerCards.cardBackImage);
@@ -186,6 +191,7 @@
     if (cardBack) {
       let cardBackImage = cardBack.querySelectorAll("img")[0];
       powerCards.cardBackImage = Lib.maybeResolveURL(cardBackImage.getAttribute("src"), baseURI);
+      powerCards.defaultCardBack = cardBack.hasAttribute("defaultimage") ? true : false;
     }
 
     //Add spirit name
@@ -461,10 +467,7 @@
     }
     for (let i = 0; i < powerCards.cards.length; i++) {
       elementNamesInIframe.push(`#card${i}`);
-    }
-    if (powerCards.cardBackImage) {
-      // add a card back for each card
-      for (let i = 0; i < powerCards.cards.length; i++) {
+      if (powerCards.cardBackImage) {
         elementNamesInIframe.push(`#cardBack`);
       }
     }

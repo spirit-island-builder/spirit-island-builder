@@ -19,6 +19,7 @@
       Tom, Derrick, and Nils for development support, particularly on solving some tricky features
       such as image export and Google Drive integration.
     </li>
+    <li>MJ and others who have helped track down assets.</li>
     <li>
       The folks who worked on the Spirit Island Template, including Gudradain, LokiMidgard,
       LordMotas, and everyone else who contributed.

@@ -421,6 +421,7 @@
     ],
     cardBackImage: "",
     cardBackImageIsVisible: false,
+    defaultCardBack: false,
     customIcons: {
       isVisible: false,
       icons: [],

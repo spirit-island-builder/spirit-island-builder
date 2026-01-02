@@ -80,19 +80,38 @@
     let yi = 0.5;
     let y = yi;
     let pw = doc.getPageWidth();
+    let ph = doc.getPageHeight();
     let count = elementNamesInIframe.length;
+    console.log(`${pw},${ph}`);
+
+    //figure out number of pages and rows per page
+    let rowperpage = Math.floor((ph - 2 * yi) / hit);
+    let colperpage = Math.floor((pw - 2 * xi) / wid);
+    let cardperpage = rowperpage * colperpage;
+    let numpages = Math.ceil(elementNamesInIframe.length / cardperpage);
+    for (let i = 1; i < numpages; i++) {
+      doc.addPage();
+    }
+    doc.setPage(1);
 
     elementNamesInIframe.forEach((elementNameInIframe, n) => {
       previewIframe.contentWindow
         .takeScreenshot(elementNameInIframe, large ? 2 : 1.5)
         .then((imageURL) => {
-          const col_n = n % Math.floor((pw - xi) / wid);
+          //page focus
+          let pagefocus = Math.ceil((n + 1) / cardperpage);
+          doc.setPage(pagefocus);
+          console.log(`Focusing page ${pagefocus} for ${elementNameInIframe}, n=${n}`);
+
+          // x & y location
+          const col_n = n % Math.floor((pw - 2 * xi) / wid);
           x = xi + col_n * wid;
-          const row_n = Math.floor(((n + 1) * wid) / (pw - xi));
+
+          const row_n = Math.floor(n / colperpage) % rowperpage;
           y = yi + row_n * hit;
 
           if (flip) {
-            x = pw - wid - xi;
+            x = pw - wid - 2 * xi;
           }
 
           doc.addImage(imageURL, "PNG", x, y, wid, hit);

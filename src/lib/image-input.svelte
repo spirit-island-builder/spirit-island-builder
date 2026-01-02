@@ -2,6 +2,7 @@
   export let id;
   export let title;
   export let imageURL;
+  export let usedDefault;
   export let imageScale;
   export let includeScale = false;
   export let info;
@@ -16,6 +17,7 @@
   async function loadExample(banner) {
     console.log(banner);
     imageURL = banner.imageURL;
+    usedDefault = true;
     console.log("here");
     if (reload) {
       console.log("attempting reload");
@@ -33,6 +35,7 @@
       const fileReader = new FileReader();
       fileReader.onload = (event) => {
         imageURL = event.target.result;
+        usedDefault = false;
         console.log("here");
         if (reload) {
           console.log("attempting reload");
@@ -48,6 +51,7 @@
 
   const removeImage = () => {
     imageURL = "";
+    usedDefault = false;
   };
   const quickClear = (event) => {
     console.log(event.target);

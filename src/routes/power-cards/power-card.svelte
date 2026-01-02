@@ -7,6 +7,7 @@
   import * as Lib from "../lib";
   // import {exportSinglePowerCard} from "./index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import cardbacks from "./cardbacks.json";
 
   export let exportSingleCard = () => {};
   export let additivePowerLoad = () => {};
@@ -225,7 +226,11 @@
   <ImageInput
     id="powerCardBack"
     title="Power Card Back Art"
-    bind:imageURL={powerCards.cardBackImage} />
+    examples={cardbacks}
+    exampleDescription="Major/Minor Card Backs"
+    reload="true"
+    bind:imageURL={powerCards.cardBackImage}
+    bind:usedDefault={powerCards.defaultCardBack} />
 </Section>
 <div class="is-power-cards">
   {#each powerCards.cards as card, i (card.id)}
