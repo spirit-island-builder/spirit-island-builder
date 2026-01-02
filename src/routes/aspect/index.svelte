@@ -12,6 +12,7 @@
 
   import NameReplacements from "./name-replacements.svelte";
   import AspectEffects from "./aspect-effects.svelte";
+  import ReorderParts from "./reorder-parts.svelte";
   import CustomIcons from "../custom-icons.svelte";
 
   import examples from "./examples.json";
@@ -560,6 +561,7 @@
     <AspectEffects bind:aspect />
     <div class="content mb-0 mt-2">Options</div>
     <CustomIcons customIcons={aspect.customIcons} />
+    <ReorderParts bind:aspect />
   </div>
   <div class="column pt-0">
     <PreviewFrame

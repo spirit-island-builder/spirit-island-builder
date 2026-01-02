@@ -1,5 +1,5 @@
 <script>
-  export let powerCards;
+  export let aspect;
   import Section from "$lib/section.svelte";
 
   let hoveringOverAction;
@@ -36,11 +36,11 @@
       let dragActionIndex = data.actionIndex;
 
       // Effect is all that matters for Actions
-      let dragAction = powerCards.cards[dragActionIndex];
+      let dragAction = aspect.aspectEffects[dragActionIndex];
       let actionClone = JSON.parse(JSON.stringify(dragAction));
 
       // Remove the item
-      removePowerCard(data.actionIndex);
+      removeAspectPart(data.actionIndex);
 
       // Splice it into its new place
       let spliceIndex = actionIndex;
@@ -48,23 +48,24 @@
         console.log("moving up within the same group, adjust the index");
         spliceIndex--;
       }
-      powerCards.cards.splice(spliceIndex, 0, actionClone);
+      aspect.aspectEffects.splice(spliceIndex, 0, actionClone);
 
       // Need to fix the IDs we just messed up.
-      resetIDs(powerCards.cards);
+      resetIDs(aspect.aspectEffects);
       // simulate a click (which is super nasty but YOLO)
       document.getElementById("updateButton").click();
+      console.log(aspect);
 
       hoveringOverAction = null;
     }
   }
 
-  function removePowerCard(powerIndex) {
-    powerCards.cards.splice(powerIndex, 1);
-    powerCards.cards.forEach((power, i) => {
-      power.id = i;
+  function removeAspectPart(aspectIndex) {
+    aspect.aspectEffects.splice(aspectIndex, 1);
+    aspect.aspectEffects.forEach((part, i) => {
+      part.id = i;
     });
-    powerCards = powerCards;
+    aspect = aspect;
   }
 
   function resetIDs(resetGroup) {
@@ -73,8 +74,8 @@
   }
 </script>
 
-<Section title={`Reorder Cards`} bind:isVisible={powerCards.reorderCards.isVisible}>
-  {#each powerCards.cards as card, i (card.id)}
+<Section title={`Reorder Parts`} bind:isVisible={aspect.reorderParts.isVisible}>
+  {#each aspect.aspectEffects as part, i (part.id)}
     <div
       class="power-card-dnd-container"
       on:dragstart={(event) => dragStart(event, i)}
@@ -90,7 +91,9 @@
         on:dragover={(event) => event.preventDefault()} />
       <div class="control" style="width:100%;">
         <label class="label is-unselectable ml-1 mt-1 mb-1 is-small" for="power-card-name-label"
-          >{card.name}
+          >{part.nameOverride
+            ? part.nameOverride
+            : `${aspect.info.aspectName} (${i + 1} of ${aspect.aspectEffects.length})`}
         </label>
       </div>
     </div>

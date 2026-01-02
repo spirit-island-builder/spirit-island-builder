@@ -434,6 +434,9 @@
     previewBoard: {
       isVisible: false,
     },
+    reorderParts: {
+      isVisible: false,
+    },
     info: {
       isVisible: false,
       aspectName: "",
