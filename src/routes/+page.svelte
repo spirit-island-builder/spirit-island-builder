@@ -437,6 +437,10 @@
     reorderParts: {
       isVisible: false,
     },
+    languageOptions: {
+      isVisible: false,
+      language: "en",
+    },
     info: {
       isVisible: false,
       aspectName: "",

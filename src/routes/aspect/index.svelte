@@ -13,6 +13,7 @@
   import NameReplacements from "./name-replacements.svelte";
   import AspectEffects from "./aspect-effects.svelte";
   import ReorderParts from "./reorder-parts.svelte";
+  import LanguageOptions from "./language-options.svelte";
   import CustomIcons from "../custom-icons.svelte";
 
   import examples from "./examples.json";
@@ -107,6 +108,13 @@
       //Set Showparts
       if (aspect.info.showparts) {
         aspectName.setAttribute("showparts", "");
+      }
+
+      //Set language
+      if (aspect.languageOptions.language) {
+        aspectHTML.setAttribute("lang", aspect.languageOptions.language);
+      } else {
+        aspectHTML.setAttribute("lang", "en");
       }
 
       //Set Complexity
@@ -224,6 +232,12 @@
     //Read Aspect Name
     const aspectName = htmlElement.querySelectorAll("aspect-name")[0];
     aspect.info.aspectName = aspectName.innerHTML.trim();
+
+    //Read Language
+    const language = aspectHTML[0].getAttribute("lang");
+    if (language) {
+      aspect.languageOptions.language = language;
+    }
 
     //Read Showparts
     if (aspectName.hasAttribute("showparts")) {
@@ -561,6 +575,7 @@
     <AspectEffects bind:aspect />
     <div class="content mb-0 mt-2">Options</div>
     <CustomIcons customIcons={aspect.customIcons} />
+    <LanguageOptions bind:aspect />
     <ReorderParts bind:aspect />
   </div>
   <div class="column pt-0">

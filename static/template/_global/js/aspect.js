@@ -4,6 +4,10 @@
 function startMain() {
   console.log("aspect startMain");
   var aspects = document.querySelectorAll("aspect");
+  if (aspects[0].hasAttribute("lang")) {
+    lang = aspects[0].getAttribute("lang");
+    console.log("found language " + lang);
+  }
   for (var i = 0; i < aspects.length; i++) {
     if (aspects[i].hasAttribute("profile")) {
       aspects[i].classList.add("profile");
@@ -221,3 +225,69 @@ function resizeAspectBack(back) {
     }
   }
 }
+
+let localize = {
+  en: {
+    speed: "SPEED",
+    range: "RANGE",
+    land: "TARGET LAND",
+    spirit: "TARGET",
+    threshold: "IF YOU HAVE",
+  },
+  fr: {
+    speed: "VITESSE",
+    range: "PORTEE",
+    land: "REGION CIBLE",
+    spirit: "CIBLE",
+    threshold: "SI VOUS AVEZ",
+  },
+  de: {
+    speed: "WANN",
+    range: "WIE WEIT",
+    land: "WO",
+    spirit: "WEN",
+    threshold: "HAST DU ...",
+  },
+  pl: {
+    speed: "SZYBKOŚĆ",
+    range: "ZASIĘG",
+    land: "CEL (KRAINA)",
+    spirit: "CEL",
+    threshold: "JEŚLI MASZ",
+  },
+  ar: {
+    speed: "سرعة",
+    range: "مدى",
+    land: "الأرض المستهدفة",
+    spirit: "هدف",
+    threshold: "",
+  },
+  zh: {
+    speed: "速度",
+    range: "距離",
+    land: "目標區域",
+    spirit: "目標精靈",
+    threshold: "",
+  },
+  hu: {
+    speed: "SEBESSÉG",
+    range: "TÁVOLSÁG",
+    land: "CÉLTERÜLET",
+    spirit: "CÉLPONT",
+    threshold: "Ha kijátszottál",
+  },
+  ko: {
+    speed: "속도",
+    range: "사정 거리",
+    land: "대상 지역",
+    spirit: "대상",
+    threshold: "조건 발동",
+  },
+  ja: {
+    speed: "速度",
+    range: "距離",
+    land: "対象の土地",
+    spirit: "対象",
+    threshold: "必要条件",
+  },
+};
