@@ -1368,13 +1368,12 @@ growth-cost {
   background-size: 100%;
   background-position: center;
   height: 45px;
-  width: 45px;
-  top: -35px;
+  min-width: 45px;
+  top: -43px;
   position: relative;
-  margin-right: 10px;
-  margin-left: -45px;
-  padding-top: 9px;
-  transform: translateX(100%);
+  margin-right: -35px;
+  margin-left: -5px;
+  align-items: center;
   display: flex;
   justify-content: center;
 }
@@ -1385,7 +1384,9 @@ growth-cost::after {
   font-size: 18.66px;
   font-style: italic;
   position: absolute;
-  top: 44px;
+  display: block;
+  align-self: end;
+  top: 39px;
 }
 
 growth-cost:lang(de)::after {
@@ -1405,12 +1406,6 @@ board.hide-text growth-cost::after {
 growth-cost.custom {
   background-image: none;
   font-size: 26.66px;
-  top: -35px;
-  padding-top: 1px;
-  float: left;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 growth-cost.custom > icon {
@@ -1423,8 +1418,6 @@ growth-cost.custom > icon {
 growth-cost.custom value {
   text-shadow: -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px -1.5px 0 #fff;
   position: absolute;
-  top: -1px;
-  left: 5px;
 }
 
 growth-cost.custom::after {
