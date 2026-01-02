@@ -206,7 +206,11 @@
 </script>
 
 {#each aspect.aspectEffects as aspectEffect, k (aspectEffect.id)}
-  <Section title="Effects Part {k + 1}" bind:isVisible={aspectEffect.isVisible}>
+  <Section
+    title={aspectEffect.nameOverride
+      ? aspectEffect.nameOverride
+      : `${aspect.info.aspectName} (${k + 1} of ${aspect.aspectEffects.length})`}
+    bind:isVisible={aspectEffect.isVisible}>
     <div class="field mb-3">
       <div class=" is-flex is-justify-content-space-between">
         <label class="label is-flex is-justify-content-space-between" for={``}
