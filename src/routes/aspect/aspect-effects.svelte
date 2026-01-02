@@ -52,12 +52,12 @@
     aspect = aspect;
   }
 
-  function toggleHasGrowth(rule) {
+  function toggleHasGrowth(rule, k) {
     if (rule.hasGrowth) {
       rule.hasGrowth = false;
       rule.growthActions = [];
     } else {
-      addGrowthAction(rule);
+      addGrowthAction(rule, k);
       rule.hasGrowth = true;
     }
     console.log(rule);
@@ -107,8 +107,9 @@
     Lib.nextNode(event);
   }
 
-  function toggleBonusNode() {
-    aspect.aspectEffects.bonusNode.has = !aspect.aspectEffects.bonusNode.has;
+  function toggleBonusNode(k) {
+    aspect.aspectEffects[k].bonusNode.has = !aspect.aspectEffects[k].bonusNode.has;
+    aspect = aspect;
   }
   let initialValue = "";
   function setCurrentValue(event) {
@@ -149,6 +150,17 @@
       replacement.id = i;
     });
     aspect = aspect;
+  }
+
+  function removeAspectPart(k) {
+    if (window.confirm(`Are you sure? Removing Aspect Part ${k + 1}`)) {
+      aspect.aspectEffects.splice(k, 1);
+      aspect.aspectEffects.forEach((part, i) => {
+        part.id = i;
+      });
+      aspect = aspect;
+      document.getElementById("updateButton").click();
+    }
   }
 
   function addAspectPart() {
@@ -196,8 +208,12 @@
 {#each aspect.aspectEffects as aspectEffect, k (aspectEffect.id)}
   <Section title="Effects Part {k + 1}" bind:isVisible={aspectEffect.isVisible}>
     <div class="field mb-3">
-      <label class="label is-flex is-justify-content-space-between" for={``}
-        >Setup Replacements</label>
+      <div class=" is-flex is-justify-content-space-between">
+        <label class="label is-flex is-justify-content-space-between" for={``}
+          >Setup Replacements</label>
+        <button class="button is-small is-success is-light" on:click={removeAspectPart(k)}
+          >Remove Part {k + 1}</button>
+      </div>
       {#each aspectEffect.replacements as replacement, i (replacement.id)}
         <div class="field is-flex is-small is-flex-direction-row mb-1">
           <div class="field is-flex is-small is-flex-direction-column mb-0" style="width:30%">
@@ -209,7 +225,7 @@
             <div class="field is-flex is-small mb-0">
               <div class="control" style="width:100%">
                 <input
-                  id="replacesInput{k}-{i}"
+                  id="part{k}ReplacesInput{i}"
                   class="input is-small"
                   type="text"
                   placeholder="ie. Replaces Special Rule"
@@ -224,13 +240,13 @@
             style="width:70%">
             <label
               class="label is-flex is-justify-content-space-between mb-0 is-small"
-              for="rulesReplacedInput{i}"
+              for="part{k}rulesReplacedInput{i}"
               >Rule/Power Name
             </label>
             <div class="field is-flex is-small mb-0">
               <div class="control" style="width:100%">
                 <input
-                  id="rulesReplacedInput{i}"
+                  id="part{k}RulesReplacedInput{i}"
                   class="input is-small"
                   type="text"
                   placeholder="ie. The Name of a Spirit's Special Rule"
@@ -245,15 +261,17 @@
             on:click={removeReplacement(i, k)}>Remove</button>
         </div>
       {/each}
-      <button class="button is-primary is-light is-small" on:click={addReplacement(k)}
-        >Add Replacement</button>
+      <button
+        class="button is-primary is-light is-small"
+        id="part{k}addReplacement"
+        on:click={addReplacement(k)}>Add Replacement</button>
     </div>
     {#each aspectEffect.specialRules.rules as rule, i (rule.id)}
       <div class="field mb-0">
         <div class="is-flex is-justify-content-space-between">
           <label
             class="label is-flex is-justify-content-space-between"
-            for={`ruleNameInputAspect${i}`}
+            for={`part${k}RuleNameInputAspect${i}`}
             >Special Rule {i + 1}
           </label>
           <button class="button is-warning is-light is-small" on:click={removeSpecialRule(i, k)}
@@ -262,7 +280,7 @@
         <div class="growth-action-container">
           <div class="control" style="width:100%">
             <input
-              id={`ruleNameInput${i}`}
+              id={`part${k}RuleNameInput${i}`}
               class="input"
               type="text"
               placeholder="Name"
@@ -272,7 +290,7 @@
           </div>
         </div>
         <AutoComplete
-          id={`ruleEffectInput${i}`}
+          id={`part${k}RuleEffectInput${i}`}
           elementType="textarea"
           placeholder="Effect"
           classNames="is-small"
@@ -281,7 +299,7 @@
       </div>
       <div class="control mb-2">
         {#if rule.hasGrowth}
-          <button class="button is-warning is-small is-light" on:click={toggleHasGrowth(rule)}
+          <button class="button is-warning is-small is-light" on:click={toggleHasGrowth(rule, k)}
             >Remove Growth Options</button>
           {#each rule.growthActions as growthAction, k (growthAction.id)}
             <div class="growth-action-container">
@@ -384,7 +402,7 @@
           <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
             <div class="control">
               <input
-                id={`powerRange${i}`}
+                id={`part${k}PowerRange${i}`}
                 class="input is-small"
                 type="text"
                 placeholder="Range"
@@ -395,7 +413,7 @@
             </div>
             <div class="control">
               <AutoComplete
-                id={`powerTarget${i}`}
+                id={`part${k}PowerTarget${i}`}
                 elementType="input"
                 classNames="is-small"
                 placeholder="Target"
@@ -407,7 +425,7 @@
       </div>
       <div class="control field">
         <AutoComplete
-          id={`powerNote${i}`}
+          id={`part${k}PowerNote${i}`}
           elementType="input"
           placeholder="Note (optional)"
           classNames="is-small"
@@ -422,7 +440,7 @@
         <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap power-level-fonts">
           <div class="control">
             <input
-              id={`power${i}levelThreshold${j}`}
+              id={`part${k}Power${i}levelThreshold${j}`}
               class="input is-small small-power"
               type="text"
               placeholder="Threshold"
@@ -433,7 +451,7 @@
           </div>
           <div class="control" style="width:100%">
             <AutoComplete
-              id={`power${i}levelEffect${j}`}
+              id={`part${k}Power${i}levelEffect${j}`}
               elementType="textarea"
               placeholder="Effect"
               classNames="is-small small-power"
@@ -470,7 +488,7 @@
         <label class="label incarna-label mr-1" for={`bonusNodeEffect`}>Effect: </label>
         <div class="control" style="width:100%;">
           <input
-            id={`bonusNodeEffect`}
+            id={`part${k}BonusNodeEffect`}
             class="input is-small"
             type="text"
             placeholder="Effect"
@@ -480,18 +498,33 @@
         </div>
       </div>
       <div class="pt-1">
-        <button class="button is-warning is-small is-light" on:click={toggleBonusNode}
+        <button class="button is-warning is-small is-light" on:click={toggleBonusNode(k)}
           >Remove Bonus Node</button>
       </div>
     {:else}
       <div class="pt-1">
-        <button class="button is-primary is-small is-light" on:click={toggleBonusNode}
+        <button class="button is-primary is-small is-light" on:click={toggleBonusNode(k)}
           >Add Bonus Node</button>
       </div>
     {/if}
+    <hr class="mt-1 mb-1" />
+    <div class="field is-flex is-small mb-0">
+      <label class="label mr-1" for={`incarnaTokenToken`}>Name Override: </label>
+      <div class="control">
+        <input
+          id={`aspectPartNameOverride`}
+          class="input is-small"
+          type="text"
+          placeholder="Optional (defaults to the Aspect name)"
+          on:keydown={nextNode}
+          on:focus={selectNode}
+          bind:value={aspectEffect.nameOverride} />
+      </div>
+    </div>
+    <hr class="mt-1 mb-1" />
   </Section>
 {/each}
 <div class="mb-1 mt-1 is-flex is-justify-content-right">
   <button class="button is-small is-success is-light" on:click={addAspectPart}
-    >Add Part {aspect.aspectEffects.length + 1}</button>
+    >Add Aspect Part {aspect.aspectEffects.length + 1}</button>
 </div>

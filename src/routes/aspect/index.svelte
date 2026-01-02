@@ -99,6 +99,9 @@
       let aspectName = document.createElement("aspect-name");
       aspectName.innerHTML = aspect.info.aspectName;
       aspectHTML.appendChild(aspectName);
+      if (aspectPart.nameOverride && aspectPart.nameOverride.length > 0) {
+        aspectName.setAttribute("nameoverride", aspectPart.nameOverride);
+      }
 
       //Set Showparts
       if (aspect.info.showparts) {
@@ -252,12 +255,18 @@
       if (aspectHTMLpart.hasAttribute("profile")) {
         aspect.info.profile = true;
       }
+      let aspectName = aspectHTMLpart.querySelectorAll("aspect-name")[0];
+      let nameoverride = "";
+      if (aspectName.hasAttribute("nameoverride")) {
+        nameoverride = aspectName.getAttribute("nameoverride");
+      }
 
       //Add a new part
       aspect.aspectEffects.push({
         id: aspect.aspectEffects.length,
         isVisible: false,
         profile: false,
+        nameOverride: nameoverride,
         replacements: [],
         specialRules: {
           rules: [],
@@ -373,6 +382,11 @@
   }
 
   function screenshotSetUp(option = "for-image-download") {
+    let fileNamesElementNames = getFileNameAndElementNames("png");
+    previewFrame.takeScreenshot(fileNamesElementNames[0], fileNamesElementNames[1], option);
+  }
+
+  function getFileNameAndElementNames(fileType) {
     const fileNames = [];
     const elementNamesInIframe = [];
     aspect.aspectEffects.forEach((part, index) => {
@@ -384,9 +398,9 @@
           )}`
         : `${aspect.info.aspectName.replaceAll(" ", "_")}`;
       if (aspect.aspectEffects.length > 1) {
-        filename += `_Aspect${index + 1}.png`;
+        filename += `_Aspect${index + 1}.${fileType}`;
       } else {
-        filename += `_Aspect.png`;
+        filename += `_Aspect.${fileType}`;
       }
       fileNames.push(filename);
     });
@@ -396,11 +410,11 @@
         ? `${aspect.info.aspectName.replaceAll(" ", "_")}_${aspect.info.spiritName.replaceAll(
             " ",
             "_"
-          )}_AspectBack.png`
-        : `${aspect.info.aspectName.replaceAll(" ", "_")}_AspectBack.png`;
+          )}_AspectBack.${fileType}`
+        : `${aspect.info.aspectName.replaceAll(" ", "_")}_AspectBack.${fileType}`;
       fileNames.push(filename);
     }
-    previewFrame.takeScreenshot(fileNames, elementNamesInIframe, option);
+    return [fileNames, elementNamesInIframe];
   }
 
   async function loadExample(example) {
@@ -512,21 +526,15 @@
   }
 
   function printToPDF(pageType = "letter") {
-    let fileName = "";
-    fileName = aspect.info.aspectName.replaceAll(" ", "_");
-    if (aspect.info.spiritName) {
-      fileName += aspect.info.spiritName.replaceAll(" ", "_");
-    }
-    fileName += "_Aspect.pdf";
+    let fileNamesElementNames = getFileNameAndElementNames("pdf");
 
-    const elementNamesInIframe = ["aspect", "aspect-back"];
     let w = 3.465;
     let h = 2.48;
     if (aspect.info.profile) {
       w = 2.48;
       h = 3.465;
     }
-    previewFrame.getPDF(fileName, elementNamesInIframe, pageType, w, h);
+    previewFrame.getPDF(fileNamesElementNames[0][0], fileNamesElementNames[1], pageType, w, h);
   }
 
   function printToPDFLetter() {
@@ -539,8 +547,10 @@
 
   function togglePrinterClean() {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
-    let spiritBoard = previewFrame.document.getElementsByTagName("aspect")[0];
-    spiritBoard.classList.add("printer-clean");
+    let aspectParts = Array.from(previewFrame.document.getElementsByTagName("aspect"));
+    aspectParts.forEach((part) => {
+      part.classList.add("printer-clean");
+    });
   }
 </script>
 

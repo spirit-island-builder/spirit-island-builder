@@ -265,19 +265,6 @@
   };
   let spiritBoard = JSON.parse(JSON.stringify(emptySpiritBoard));
 
-  // let customIcons = {
-  //   prop: "value",
-  //   isVisible: false,
-  //   icons: [
-  //     {
-  //       id: 0,
-  //       name: "",
-  //       displayName: "",
-  //       incarna: false,
-  //     },
-  //   ],
-  // };
-
   let emptyCombinedTTS = {
     prop: "value",
     isVisible: false,
@@ -460,6 +447,7 @@
         id: 0,
         isVisible: false,
         profile: false,
+        nameOverride: "",
         replacements: [
           {
             id: 0,

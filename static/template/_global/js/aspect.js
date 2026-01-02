@@ -10,6 +10,9 @@ function startMain() {
       aspects[i].removeAttribute("profile");
     }
     let aspectname = aspects[i].querySelectorAll("aspect-name")[0];
+    if (aspectname.hasAttribute("nameoverride")) {
+      aspectname.innerHTML = aspectname.getAttribute("nameoverride");
+    }
     if (aspectname.hasAttribute("showparts")) {
       aspectname.innerHTML = `${aspectname.innerHTML} (${i + 1} of ${aspects.length})`;
     }
