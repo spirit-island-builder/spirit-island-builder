@@ -18,6 +18,7 @@
   function setType(type, spiritBoardBack) {
     spiritBoardBack.nameArtLore.finder = type;
     spiritBoardBack = spiritBoardBack;
+    console.log(spiritBoardBack.nameArtLore.finder);
     document.getElementById("updateButton").click();
   }
 </script>
@@ -30,17 +31,6 @@
     <label class="label is-flex is-justify-content-space-between" for="spiritLoreNameInput"
       >Spirit Name
     </label>
-    <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-      <label class="label mr-2" for="starlight-board-button">Board Type:</label>
-      <button
-        class:is-light={spiritBoardBack.nameArtLore.finder}
-        class="button is-success is-small button-hold mb-0"
-        on:click={setType(false, spiritBoardBack)}>Regular</button>
-      <button
-        class:is-light={!spiritBoardBack.nameArtLore.finder}
-        class="button is-info is-small button-hold mb-0"
-        on:click={setType(true, spiritBoardBack)}>Finder Style</button>
-    </div>
     <div class="field is-flex is-small mb-0">
       <div class="control" style="width:100%">
         <input
@@ -51,6 +41,19 @@
           on:focus={selectNode}
           on:keydown={nextNode}
           bind:value={spiritBoardBack.nameImage.name} />
+      </div>
+    </div>
+    <div class="field has-addons">
+      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+        <label class="label mr-2" for="finder-board-button">Board Type:</label>
+        <button
+          class:is-light={spiritBoardBack.nameArtLore.finder}
+          class="button is-success is-small button-hold mb-0"
+          on:click={setType(false, spiritBoardBack)}>Regular</button>
+        <button
+          class:is-light={!spiritBoardBack.nameArtLore.finder}
+          class="button is-info is-small button-hold mb-0"
+          on:click={setType(true, spiritBoardBack)}>Finder Style</button>
       </div>
     </div>
     <!-- Spirit ART -->
