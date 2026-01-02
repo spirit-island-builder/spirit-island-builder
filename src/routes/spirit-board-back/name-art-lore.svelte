@@ -15,7 +15,7 @@
     document.getElementById(nodeID).select();
   }
 
-  function setType(type, spiritBoardBack) {
+  function setType(type) {
     spiritBoardBack.nameArtLore.finder = type;
     spiritBoardBack = spiritBoardBack;
     console.log(spiritBoardBack.nameArtLore.finder);
@@ -44,16 +44,17 @@
       </div>
     </div>
     <div class="field has-addons">
-      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+      <div
+        class="control buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
         <label class="label mr-2" for="finder-board-button">Board Type:</label>
         <button
-          class:is-light={spiritBoardBack.nameArtLore.finder}
+          class:is-light={spiritBoardBack.nameArtLore.finder === true}
           class="button is-success is-small button-hold mb-0"
-          on:click={setType(false, spiritBoardBack)}>Regular</button>
+          on:click={() => setType(false)}>Regular</button>
         <button
-          class:is-light={!spiritBoardBack.nameArtLore.finder}
           class="button is-info is-small button-hold mb-0"
-          on:click={setType(true, spiritBoardBack)}>Finder Style</button>
+          class:is-light={spiritBoardBack.nameArtLore.finder !== true}
+          on:click={() => setType(true)}>Finder Style</button>
       </div>
     </div>
     <!-- Spirit ART -->
