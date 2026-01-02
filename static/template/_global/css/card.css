@@ -153,6 +153,7 @@ cost {
   left: 20px;
   top: 18px;
   width: 106px;
+  line-height: 1;
   aspect-ratio: 1;
   z-index: 7;
   background-repeat: no-repeat;
