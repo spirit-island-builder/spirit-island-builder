@@ -162,6 +162,7 @@
       unifiedBannerScale: "100%",
       artistCredit: "",
       language: "en",
+      overlayImages: [],
     },
     specialRules: {
       isVisible: false,

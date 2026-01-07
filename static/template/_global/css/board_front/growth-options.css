@@ -1869,7 +1869,7 @@ custom-growth-icon {
   font-weight: bold;
   margin-top: -10px;
   margin-bottom: 0px;
-  width: auto;
+  width: 100px;
   height: 100px;
   display: inline-flex;
   flex-direction: row;

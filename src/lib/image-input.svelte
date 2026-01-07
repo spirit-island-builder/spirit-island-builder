@@ -1,6 +1,7 @@
 <script>
   export let id;
   export let title;
+  export let smallTitle = false;
   export let imageURL;
   export let usedDefault;
   export let imageScale;
@@ -60,7 +61,7 @@
 </script>
 
 <div class="field">
-  <label class="label" for="{id}-input">{title}</label>
+  <label class="label" class:is-small={smallTitle} for="{id}-input">{title}</label>
 </div>
 <div class="field has-addons is-horizontal is-justify-content-left" class:mb-0={includeScale}>
   <div class="control" style="width: 100%;">

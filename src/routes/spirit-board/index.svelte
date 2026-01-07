@@ -332,6 +332,17 @@
     fragment.prepend(spiritStyle);
     spiritStyle.textContent = customIconText;
 
+    //Add Custom Overlays
+    spiritBoard.nameAndArt.overlayImages.forEach((image) => {
+      let overlayImage = document.createElement("overlay-image");
+      overlayImage.setAttribute("imgurl", image.name);
+      overlayImage.setAttribute("imgx", image.x);
+      overlayImage.setAttribute("imgy", image.y);
+      overlayImage.setAttribute("imgwidth", image.w);
+      overlayImage.setAttribute("imgheight", image.h);
+      board.appendChild(overlayImage);
+    });
+
     return fragment;
   }
 
@@ -555,6 +566,19 @@
       spiritBoard.customIcons,
       document.baseURI
     );
+
+    //Load Custom Overlays
+    const overlayImages = Array.from(board.querySelectorAll("overlay-image"));
+    overlayImages.forEach((image) => {
+      spiritBoard.nameAndArt.overlayImages.push({
+        id: spiritBoard.nameAndArt.overlayImages.length,
+        name: image.getAttribute("imgurl", image.name),
+        x: image.getAttribute("imgx", image.x),
+        y: image.getAttribute("imgy", image.y),
+        w: image.getAttribute("imgwidth", image.w),
+        h: image.getAttribute("imgheight", image.h),
+      });
+    });
   }
 
   function reloadPreview() {

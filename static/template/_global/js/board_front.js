@@ -41,6 +41,7 @@ async function startMain() {
     addImages(board);
     addTrackBanners(board);
     tagSectionHeadings();
+    addCustomOverlayImages(board);
 
     return 1;
   } else {
@@ -6663,4 +6664,25 @@ function tagSectionHeadings() {
       }
     }
   }
+}
+
+function addCustomOverlayImages(board) {
+  const overlayImages = Array.from(board.querySelectorAll("overlay-image"));
+  overlayImages.forEach((image) => {
+    let overlayContainer = document.createElement("overlay-container");
+    board.appendChild(overlayContainer);
+    overlayContainer.appendChild(image);
+    image.style.top = image.getAttribute("imgy") + "px";
+    image.style.left = image.getAttribute("imgx") + "px";
+    if (image.getAttribute("imgwidth")) {
+      image.style.width = image.getAttribute("imgwidth") + "px";
+    }
+    if (image.getAttribute("imgheight")) {
+      image.style.height = image.getAttribute("imgheight") + "px";
+    }
+    if (image.hasAttribute("imgurl")) {
+      image.style.backgroundImage = `url(${image.getAttribute("imgurl")})`;
+      image.removeAttribute("imgurl");
+    }
+  });
 }
