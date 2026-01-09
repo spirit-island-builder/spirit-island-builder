@@ -52,8 +52,7 @@
       }, 100);
     }
     spiritBoard = spiritBoard;
-    console.log(spiritBoard.presenceTrack);
-    // insertTemplatePresenceNode(index, "card");
+    document.getElementById("updateButton").click();
   }
 
   function insertTemplatePresenceNode(index, type) {
@@ -79,7 +78,7 @@
       node.id = i;
     });
     spiritBoard = spiritBoard;
-    removeTemplatePresenceNode("energy" + index);
+    document.getElementById("updateButton").click();
   }
 
   function removePlaysTrackNode(index) {
@@ -88,7 +87,7 @@
       node.id = i;
     });
     spiritBoard = spiritBoard;
-    removeTemplatePresenceNode("card" + index);
+    document.getElementById("updateButton").click();
   }
 
   function removeAdditionalTrackNode(t, index) {
@@ -97,7 +96,7 @@
       node.id = i;
     });
     spiritBoard = spiritBoard;
-    // removeTemplatePresenceNode("card" + index);
+    document.getElementById("updateButton").click();
   }
 
   function removeAdditionalTrack(trackIndex) {
@@ -106,86 +105,15 @@
       additionalTrack.id = i;
     });
     spiritBoard = spiritBoard;
+    document.getElementById("updateButton").click();
   }
 
-  function removeTemplatePresenceNode(templatePresenceNodeID) {
-    let previewFrame = document.getElementById("preview-iframe").contentWindow;
-    let findPresenceNode = previewFrame.document.getElementById(templatePresenceNodeID);
-    findPresenceNode.parentElement.remove();
-    previewFrame.updatePresenceNodeIDs();
-  }
-
-  function updatePresenceNodeLocal(index, type) {
-    //this code works but has an issue with the first node, which is used to modify the spacing...perhaps i should change that spacing instead.
-
-    let newPresenceNodeText = "";
-    let templatePresenceNodeID = type + index;
-    switch (type) {
-      case "energy":
-        newPresenceNodeText = spiritBoard.presenceTrack.energyNodes[index].effect;
-        break;
-      case "card":
-        newPresenceNodeText = spiritBoard.presenceTrack.playsNodes[index].effect;
-        break;
-    }
-    let previewFrame = document.getElementById("preview-iframe").contentWindow;
-    console.log("Rewriting Presence Node ID: " + templatePresenceNodeID);
-    console.log("new node: " + newPresenceNodeText);
-
-    // Find node in Template
-    let findPresenceNode = previewFrame.document.getElementById(templatePresenceNodeID);
-    let isFirst = findPresenceNode.classList.contains("first");
-    let hasEnergyRing =
-      findPresenceNode.getElementsByTagName("energy-icon")[0] !== undefined ? true : false;
-    console.log("is first  " + isFirst);
-    console.log("has energy ring " + hasEnergyRing);
-
-    // Check growth height
-    let presenceTrackPanel = previewFrame.document.getElementsByTagName("presence-tracks")[0];
-    let presenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight;
-
-    // Try to write a new node
-    let newPresenceNode = "";
-    try {
-      newPresenceNode = previewFrame.getPresenceNodeHtml(
-        newPresenceNodeText,
-        isFirst,
-        index,
-        type,
-        hasEnergyRing
-      );
-    } catch (err) {
-      newPresenceNode = previewFrame.getPresenceNodeHtml(
-        "custom(error! check syntax)",
-        isFirst,
-        index,
-        type,
-        hasEnergyRing
-      );
-      console.log("Malformed growth option, try again");
-    }
-    newPresenceNode = previewFrame.replaceIcon(newPresenceNode);
-
-    // Create dummy node with new content
-    const placeholder = document.createElement("div");
-    placeholder.innerHTML = newPresenceNode;
-    const newNode = placeholder.firstElementChild;
-    console.log(newNode);
-
-    // update node
-    findPresenceNode.innerHTML = newNode.innerHTML;
-
-    // If new panel is larger, re-run
-    let newPresenceTrackHeight = presenceTrackPanel.getElementsByTagName("tbody")[0].offsetHeight;
-    if (newPresenceTrackHeight !== presenceTrackHeight) {
-      console.log('Recommend Re-running the whole board (click "Update Preview")');
-      // document.getElementById("updateButton").classList.add("is-flashy");
-      document.getElementById("updateButton").click();
-    }
+  function updatePresenceNodeLocal() {
+    console.log("update presence node");
+    document.getElementById("updateButton").click();
   }
 
   function nextNode(event) {
-    console.log("next node");
     Lib.nextNode(event);
   }
 
@@ -196,7 +124,7 @@
   function addPresenceTrack() {
     spiritBoard = Lib.addPresenceTrack(spiritBoard);
     spiritBoard = spiritBoard;
-    console.log(spiritBoard.presenceTrack);
+    document.getElementById("updateButton").click();
   }
 </script>
 
@@ -217,7 +145,7 @@
               class="input is-small presence-input-block"
               type="text"
               on:focus={selectNode}
-              on:blur={updatePresenceNodeLocal(i, "energy")}
+              on:blur={() => updatePresenceNodeLocal()}
               on:keydown={nextNode}
               bind:value={spiritBoard.presenceTrack.energyNodes[i].effect} />
             <div class="is-flex is-flex-direction-row-reverse is-justify-content-flex-start">
@@ -250,7 +178,7 @@
               id={`plays${i}builder`}
               class="input is-small presence-input-block"
               type="text"
-              on:blur={updatePresenceNodeLocal(i, "card")}
+              on:blur={() => updatePresenceNodeLocal}
               on:focus={selectNode}
               on:keydown={nextNode}
               bind:value={spiritBoard.presenceTrack.playsNodes[i].effect} />
