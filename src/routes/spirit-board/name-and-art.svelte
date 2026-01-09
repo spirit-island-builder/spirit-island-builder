@@ -31,9 +31,9 @@
     spiritBoard.nameAndArt.overlayImages.push({
       id: spiritBoard.nameAndArt.overlayImages.length,
       name: "",
-      x: "",
-      y: "",
-      w: "",
+      x: `${1766 / 2}`,
+      y: `${1176 / 2}`,
+      w: `${250}`,
       h: "",
     });
     spiritBoard = spiritBoard;
@@ -153,6 +153,15 @@
   <div class="field">
     <label class="label" for="artOverlay">Art Overlay</label>
   </div>
+  <div class="mb-1 p-1 note content">
+    Art overlay lets you add images on top of the spirit panel, to cover anything that is not
+    otherwise built in. Tips:
+    <ul>
+      <li>Everything is in pixels (no units). The board is 1766px wide by 1177px tall.</li>
+      <li>x is from the left side, and y is from the top (ie it will move your image down).</li>
+      <li>The coordinates to go the center of your image.</li>
+    </ul>
+  </div>
   {#each spiritBoard.nameAndArt.overlayImages as image, i (image.id)}
     <div class="field has-addons is-flex is-flex-direction-column is-justify-content-left mb-0">
       <div class="field is-flex is-flex-direction-row is-justify-content-space-between mb-0">
@@ -173,7 +182,7 @@
             id={`incarnaTokenName`}
             class="input is-small"
             type="text"
-            placeholder="no units"
+            placeholder="pixel"
             bind:value={image.x} />
         </div>
         <label class="label overlay-custom-label" for={`incarnaTokenToken`}>y: </label>
@@ -182,7 +191,7 @@
             id={`incarnaTokenName`}
             class="input is-small"
             type="text"
-            placeholder="no units"
+            placeholder="pixel"
             bind:value={image.y} />
         </div>
       </div>
@@ -195,7 +204,7 @@
             id={`incarnaTokenName`}
             class="input is-small"
             type="text"
-            placeholder="no units"
+            placeholder="250"
             bind:value={image.w} />
         </div>
         <label class="label overlay-custom-label" for={`incarnaTokenToken`}>height: </label>

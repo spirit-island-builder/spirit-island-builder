@@ -271,6 +271,7 @@ overlay-image {
   height: auto;
   display: block;
   aspect-ratio: 1;
+  transform: translate(-50%, -50%);
 }
 
 overlay-container {
