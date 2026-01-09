@@ -2404,7 +2404,7 @@ function getPresenceNodeInnerHTML(
         const matches = regExp.exec(fullOption);
         const incarnaOptions = matches[1].split(";");
         const incarnaAction = incarnaOptions[0];
-        const customIncarnaIcon = incarnaOptions[1];
+        const customIncarnaIcon = incarnaOptions[2] ? incarnaOptions[2] : "incarna";
         let addMoveHelper;
         switch (incarnaAction) {
           case "empower":
@@ -2412,7 +2412,7 @@ function getPresenceNodeInnerHTML(
             break;
           case "addmove":
           case "add-move":
-            addMoveHelper = incarnaOptions[2] ? incarnaOptions[2] : "presence";
+            addMoveHelper = incarnaOptions[1] ? incarnaOptions[1] : "presence";
             inner =
               '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
               customIncarnaIcon +
@@ -2789,33 +2789,33 @@ function IconName(str, iconNum = 1) {
           case "addmove":
           case "add-move":
             localize = {
-              en: txt
+              en: !terrains.has(txt)
                 ? `Add/Move Incarna to Land with ${IconName(txt)}`
-                : `Add/Move Incarna to Land with ${IconName("presence")}`,
-              fr: txt
+                : `Add/Move Incarna to ${IconName(txt)}`,
+              fr: !terrains.has(txt)
                 ? `Ajoutez/Déplacez Incarna vers une Région avec ${IconName(txt)}`
-                : `Ajoutez/Déplacez Incarna vers une Région avec ${IconName("presence")}`,
-              de: txt
+                : `Ajoutez/Déplacez Incarna vers ${IconName(txt)}`,
+              de: !terrains.has(txt)
                 ? `Füge hinzu/Verschiebe Incarna in ein Gebiet mit ${IconName(txt)}`
-                : `Füge hinzu/Verschiebe Incarna in ein Gebiet mit${IconName("presence")}`,
-              pl: txt
+                : `Füge hinzu/Verschiebe Incarna in ${IconName(txt)}`,
+              pl: !terrains.has(txt)
                 ? `Dodaj/Przenieś Inkarna do Krainy z ${IconName(txt)}`
                 : `Dodaj/Przenieś Inkarna do Krainy z ${IconName("presence")}`,
-              ar: txt
+              ar: !terrains.has(txt)
                 ? `أضف/حرّك التجسد إلى أرض مع ${IconName(txt)}`
                 : `أضف/حرّك التجسد إلى أرض مع ${IconName("presence")}`,
-              zh: txt
+              zh: !terrains.has(txt)
                 ? `添加/移動化身到有${IconName(txt)}的區域`
                 : `添加/移動化身到有${IconName("presence")}的區域`,
-              hu: txt
+              hu: !terrains.has(txt)
                 ? `Megtestesülés Lerakása/Mozgatása egy területre, ahol van ${IconName(txt)}`
                 : `Megtestesülés Lerakása/Mozgatása egy területre, ahol van ${IconName(
                     "presence"
                   )}`,
-              ko: txt
+              ko: !terrains.has(txt)
                 ? `${IconName(txt)}이 있는 지역에 화신 이동/추가`
                 : `${IconName("presence")}이 있는 지역에 화신 이동/추가`,
-              ja: txt
+              ja: !terrains.has(txt)
                 ? `${IconName(txt)}がある土地にインカルナを追加/移動`
                 : `${IconName("presence")}がある土地にインカルナを追加/移動`,
             };
