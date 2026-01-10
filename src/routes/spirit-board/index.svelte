@@ -644,50 +644,47 @@
       console.log("Elements");
     }
     let trackElements = [];
-    let formNodes = spiritBoard.presenceTrack.energyNodes.concat(
-      spiritBoard.presenceTrack.playsNodes
-    );
+    let trackEnergy = [];
+    let bonusEnergy = [];
     let boardNodes = Array.from(board.getElementsByTagName("presence-node"));
-    let regExpOuterParentheses = /\(\s*(.+)\s*\)/;
-    formNodes.forEach((node, j) => {
-      let nodeEffectText = preprocessNodeEffectsForTTS(node.effect);
-      console.log("processing node effect:" + nodeEffectText);
-      const nameCounts = {};
-      nodeEffectText.split("+").forEach(function (x) {
-        nameCounts[x] = (nameCounts[x] || 0) + 1;
-      });
-      let namesList = Object.keys(nameCounts);
-      let countList = Object.values(nameCounts);
-      let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
-      for (let i = 0; i < namesList.length; i++) {
-        if (namesList[i].startsWith("sun")) {
-          elementCounts[0] = countList[i];
+    let lowestEnergy = -1;
+
+    boardNodes.forEach((node) => {
+      let ttsInfo = node.getAttribute("ttsInfo");
+      let ttsInfoArr = ttsInfo.split(";");
+      let rect = node.getElementsByTagName("ring-icon")[0].getBoundingClientRect();
+
+      // check if node has elements
+      if (ttsInfoArr[3]) {
+        // count them
+        let elementList = ttsInfoArr[3].split(",");
+        let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
+        for (let i = 0; i < elementList.length; i++) {
+          if (elementList[i].startsWith("sun")) {
+            elementCounts[0]++;
+          }
+          if (elementList[i].startsWith("moon")) {
+            elementCounts[1]++;
+          }
+          if (elementList[i].startsWith("fire")) {
+            elementCounts[2]++;
+          }
+          if (elementList[i].startsWith("air")) {
+            elementCounts[3]++;
+          }
+          if (elementList[i].startsWith("water")) {
+            elementCounts[4]++;
+          }
+          if (elementList[i].startsWith("earth")) {
+            elementCounts[5]++;
+          }
+          if (elementList[i].startsWith("plant")) {
+            elementCounts[6]++;
+          }
+          if (elementList[i].startsWith("animal")) {
+            elementCounts[7]++;
+          }
         }
-        if (namesList[i].startsWith("moon")) {
-          elementCounts[1] = countList[i];
-        }
-        if (namesList[i].startsWith("fire")) {
-          elementCounts[2] = countList[i];
-        }
-        if (namesList[i].startsWith("air")) {
-          elementCounts[3] = countList[i];
-        }
-        if (namesList[i].startsWith("water")) {
-          elementCounts[4] = countList[i];
-        }
-        if (namesList[i].startsWith("earth")) {
-          elementCounts[5] = countList[i];
-        }
-        if (namesList[i].startsWith("plant")) {
-          elementCounts[6] = countList[i];
-        }
-        if (namesList[i].startsWith("animal")) {
-          elementCounts[7] = countList[i];
-        }
-      }
-      console.log(elementCounts);
-      if (elementCounts.reduce((partialSum, a) => partialSum + a, 0) > 0) {
-        let rect = boardNodes[j].getElementsByTagName("ring-icon")[0].getBoundingClientRect();
         trackElements.push({
           elements: elementCounts.join(""),
           position: {
@@ -706,119 +703,60 @@
           },
         });
       }
-    });
 
-    if (debug) {
-      console.log("Energy & Bonus Energy");
-    }
-    let trackEnergy = [];
-    let bonusEnergy = [];
-    let energyNodes = spiritBoard.presenceTrack.energyNodes.slice();
-    let formEnergyNodes = Array.from(
-      previewFrameDoc.getElementById("energy-track").getElementsByTagName("presence-node")
-    );
-    if (debug) {
-      console.log("Energy Nodes & Form Energy Nodes");
-      console.log(energyNodes);
-      console.log(formEnergyNodes);
-    }
-    let lowestEnergy = -1;
-    energyNodes.forEach((node, i) => {
-      if (debug) {
-        console.log("processing node...");
-        console.log(node);
-      }
-      let nodeEffectText = preprocessNodeEffectsForTTS(node.effect);
+      // Bonus Energy
+      // check if node has bonus energy
+      if (ttsInfoArr[1]) {
+        let bonusEnergyNum = ttsInfoArr[1];
 
-      if (debug) {
-        console.log(nodeEffectText);
+        bonusEnergy.push({
+          count: Number(bonusEnergyNum),
+          position: {
+            x: toFixedNumber(
+              (-(boardRect.width / boardRect.height) *
+                (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
+                (boardRect.width / 2),
+              4
+            ),
+            y: 0,
+            z: toFixedNumber(
+              (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+                (boardRect.height / 2),
+              4
+            ),
+          },
+        });
       }
 
-      const nameCounts = {};
-      let nodeEffectSplit = nodeEffectText.split("+"); //May also need to add something to deal with ^ nodes (like 2^blight)
-      let plus_check = nodeEffectSplit.indexOf("");
-      if (plus_check !== -1) {
-        nodeEffectSplit.splice(plus_check, 1);
-        nodeEffectSplit[plus_check] = "+" + nodeEffectSplit[plus_check];
-      }
-      nodeEffectSplit.forEach(function (x) {
-        nameCounts[x] = (nameCounts[x] || 0) + 1;
-      });
-
-      let namesList = Object.keys(nameCounts);
-      console.log(namesList);
-      for (let j = 0; j < namesList.length; j++) {
-        if (!isNaN(namesList[j])) {
-          console.log("bonus node?");
-          let rect = formEnergyNodes[i]
-            .getElementsByTagName("ring-icon")[0]
-            .getBoundingClientRect();
-          if (namesList[j][0] === "+") {
-            console.log("bonus node!");
-            bonusEnergy.push({
-              count: Number(namesList[j]),
-              position: {
-                x: toFixedNumber(
-                  (-(boardRect.width / boardRect.height) *
-                    (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
-                    (boardRect.width / 2),
-                  4
-                ),
-                y: 0,
-                z: toFixedNumber(
-                  (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
-                    (boardRect.height / 2),
-                  4
-                ),
-              },
-            });
-          } else if (namesList[j] > lowestEnergy) {
-            console.log("Adding Energy to TTS...");
-            console.log(namesList[j]);
-            lowestEnergy = namesList[j];
-            trackEnergy.push({
-              count: Number(lowestEnergy),
-              position: {
-                x: toFixedNumber(
-                  (-(boardRect.width / boardRect.height) *
-                    (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
-                    (boardRect.width / 2),
-                  4
-                ),
-                y: 0,
-                z: toFixedNumber(
-                  (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
-                    (boardRect.height / 2),
-                  4
-                ),
-              },
-            });
-          }
+      // Energy
+      // check if node has energy
+      if (ttsInfoArr[0]) {
+        let energyNum = ttsInfoArr[0];
+        if (energyNum > lowestEnergy) {
+          lowestEnergy = energyNum;
+          trackEnergy.push({
+            count: Number(lowestEnergy),
+            position: {
+              x: toFixedNumber(
+                (-(boardRect.width / boardRect.height) *
+                  (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
+                  (boardRect.width / 2),
+                4
+              ),
+              y: 0,
+              z: toFixedNumber(
+                (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
+                  (boardRect.height / 2),
+                4
+              ),
+            },
+          });
         }
       }
     });
 
     // trackEnergy needs to be logged in reverse order by convention
     trackEnergy.reverse();
-
-    function preprocessNodeEffectsForTTS(nodeEffects) {
-      let nodeEffectText = nodeEffects.toLowerCase();
-
-      // Detect Middle or Bonus
-      if (nodeEffectText.startsWith("middle") || nodeEffectText.startsWith("bonus")) {
-        let matches = regExpOuterParentheses.exec(nodeEffectText);
-        if (matches) {
-          nodeEffectText = matches[1];
-          if (debug) {
-            console.log("removing middle/bonus");
-          }
-        }
-      }
-      //Strip any modifications
-      nodeEffectText = nodeEffectText.split("_")[0].split("^")[0].split("*")[0];
-
-      return nodeEffectText;
-    }
 
     let spiritBoardJson = jsone(spiritBoardJsonTemplate, {
       guid: spiritBoard.nameAndArt.name.replaceAll(" ", "_"),

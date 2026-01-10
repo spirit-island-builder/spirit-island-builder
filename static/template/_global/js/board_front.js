@@ -1996,6 +1996,8 @@ function getPresenceNodeHtml(
   let subText = "";
   // Will be populated with the raw HTML that will go inside the ring-icon element.
   let inner = "";
+  // Will be populated with some info useful for TTS.
+  let ttsInfo = "";
 
   // Setup values
   let addIconShadow = false;
@@ -2177,11 +2179,13 @@ function getPresenceNodeHtml(
   }
 
   //Get the node inners and subtext
-  [inner, subText, addEnergyRing, addIconShadow] = getPresenceNodeInnerHTML(
+  [inner, subText, addEnergyRing, addIconShadow, ttsInfo] = getPresenceNodeInnerHTML(
     nodeText,
     trackType,
     first
   );
+
+  presenceNode.setAttribute("ttsInfo", ttsInfo);
 
   if (!forceNone) {
     if ((addEnergyRing || forceEnergyRing) && !forceShadow) {
@@ -2250,6 +2254,7 @@ function getPresenceNodeInnerHTML(
   const regExp = /\(([^)]+)\)/;
   let pnDebug = false;
   let addIconShadow = false;
+  let ttsInfo = [[], [], [], []]; // energy,bonusenergy,plays,elements
 
   // Setup node class
   if (trackType === "special") {
@@ -2353,6 +2358,7 @@ function getPresenceNodeInnerHTML(
         splitOptions[i] = `energy-special(${num})`; // rename the option
         addEnergyRing = false; //adds its own
         addIconShadow = false;
+        ttsInfo[0].push(num);
         break;
       }
       case "energy-default": {
@@ -2362,6 +2368,7 @@ function getPresenceNodeInnerHTML(
         splitOptions[i] = first ? `energy-first(${num})` : num; // rename the option
         addEnergyRing = false; //adds its own
         addIconShadow = false;
+        ttsInfo[0].push(num);
         break;
       }
       case "bonusenergy": {
@@ -2370,6 +2377,7 @@ function getPresenceNodeInnerHTML(
         inner = `<energy-icon><value>+${num}</value></energy-icon>`;
         addEnergyRing = false; //adds its own
         addIconShadow = false;
+        ttsInfo[1].push(num);
         break;
       }
       case "plays": {
@@ -2379,6 +2387,7 @@ function getPresenceNodeInnerHTML(
         splitOptions[i] = `plays-special(${num})`;
         addEnergyRing = false;
         addIconShadow = false;
+        ttsInfo[2].push(num);
         break;
       }
       case "plays-default": {
@@ -2388,6 +2397,7 @@ function getPresenceNodeInnerHTML(
         splitOptions[i] = first ? `plays-first(${num})` : num; // rename the option
         addEnergyRing = false;
         addIconShadow = false;
+        ttsInfo[2].push(num);
         break;
       }
       case "special-default": {
@@ -2575,6 +2585,17 @@ function getPresenceNodeInnerHTML(
         addIconShadow = false;
         break;
       }
+      case "sun":
+      case "moon":
+      case "air":
+      case "fire":
+      case "water":
+      case "plant":
+      case "earth":
+      case "animal": {
+        ttsInfo[3].push(option);
+      }
+      // eslint-disable-next-line no-fallthrough
       default: {
         const iconText = fullOption;
         inner = `{${iconText}}`;
@@ -2628,7 +2649,8 @@ function getPresenceNodeInnerHTML(
         addIconShadow
     );
   }
-  return [innerFinal, subTextFinal, addEnergyRing, addIconShadow];
+  ttsInfo = ttsInfo.map((e) => e.join(",")).join(";");
+  return [innerFinal, subTextFinal, addEnergyRing, addIconShadow, ttsInfo];
 }
 
 /* exported updatePresenceNodeIDs */
