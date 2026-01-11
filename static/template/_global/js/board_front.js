@@ -2059,53 +2059,6 @@ function getPresenceNodeHtml(
     return inner;
   }
 
-  // Check OR nodes
-  // if (nodeText.startsWith("or(")) {
-  //   if (pnDebug) {
-  //     console.log("Or node - version 1");
-  //   }
-  //   nodeText = regExpOuterParentheses.exec(nodeText)[1];
-  //   let splitNodes = nodeText.split(";");
-  //   console.log(splitNodes);
-  //   let splitSubtext = "";
-  //   for (let i = 0; i < splitNodes.length; i++) {
-  //     let orNodeHTML = getPresenceNodeHtml(
-  //       splitNodes[i],
-  //       first,
-  //       nodeIndex + "-" + i,
-  //       trackType,
-  //       addEnergyRing,
-  //       forceEnergyRing,
-  //       forceShadow,
-  //       forceNone
-  //     );
-  //     if (pnDebug) {
-  //       console.log(orNodeHTML);
-  //     }
-  //     let holder = document.createElement("holder");
-  //     holder.innerHTML = orNodeHTML;
-  //     // grab the subtext
-  //     let subtext = holder.getElementsByTagName("subtext")[0];
-  //     // peel away outer elements
-  //     holder.innerHTML = holder.getElementsByTagName("energy-icon")[0] ? holder.getElementsByTagName("energy-icon")[0].innerHTML : holder.getElementsByTagName("ring-icon")[0].innerHTML;
-  //     if (pnDebug) {
-  //       console.log(holder);
-  //       console.log(subtext);
-  //     }
-  //     if (i === 0) {
-  //       splitSubtext += subtext.innerHTML;
-  //       subtext.remove();
-  //       inner += holder.innerHTML;
-  //     } else {
-  //       subtext.innerHTML = splitSubtext + " or " + subtext.innerHTML;
-  //       inner += holder.innerHTML;
-  //       holder.remove();
-  //     }
-  //   }
-  //   inner = `<split-presence-node>${inner}</split-presence-node>`;
-  //   return inner;
-  // }
-
   //Handle text override
   let overrideText = "";
   if (nodeText.split("*")[1]) {

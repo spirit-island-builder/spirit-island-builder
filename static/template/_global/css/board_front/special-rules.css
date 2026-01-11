@@ -483,3 +483,19 @@ special-rule icon.huge {
   width: 55px;
   height: 55px;
 }
+
+/* table stuff */
+special-rule {
+  table,
+  th,
+  td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  table icon {
+    margin-top: 0px;
+  }
+  td {
+    padding: 2px;
+  }
+}

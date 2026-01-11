@@ -426,6 +426,7 @@ You can load your own icon into the Builder. These will always be called custom1
 
 - The template uses html so you can use some html to customize your board:
 
-  - For example, you can create a line break by typing \<br\> (useful in notes, levels, and special rules).
+  - For example, you can create a line break by typing \<br\> or {line-break} (useful in notes, levels, and special rules).
+  - You can use HTML tables to make tables in some areas (special rules, for example). The {table} shortcut can help set up a table, but it will still need to be pure HTML. See Intensify in the Aspect examples.
 
   [Home](#index)
