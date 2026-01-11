@@ -1999,6 +1999,8 @@ function getPresenceNodeHtml(
   // Will be populated with some info useful for TTS.
   let ttsInfo = "";
 
+  let force_first = false;
+
   // Setup values
   let addIconShadow = false;
 
@@ -2145,6 +2147,7 @@ function getPresenceNodeHtml(
       first = false;
     } else if (optionsNodeBack.includes("first")) {
       first = true;
+      force_first = true;
     }
     if (optionsNodeBack.includes("shift(")) {
       const matches = regExp.exec(optionsNodeBack);
@@ -2176,6 +2179,9 @@ function getPresenceNodeHtml(
   //Check for first
   if (first === true && trackType !== "special") {
     presenceNode.classList.add("first");
+  }
+  if (force_first === true) {
+    presenceNode.classList.add("force-first");
   }
 
   //Get the node inners and subtext

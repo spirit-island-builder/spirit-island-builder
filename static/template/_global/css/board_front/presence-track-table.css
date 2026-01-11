@@ -221,6 +221,9 @@ presence-node ring-icon {
 presence-node.first ring-icon {
   background-image: url("../../images/board/PresenceInitialRing.png");
 }
+presence-node.force-first ring-icon {
+  background-image: url("../../images/board/PresenceInitialRing.png");
+}
 
 presence-node ring-icon {
   background-image: url("../../images/board/CardPlayRing.png");
