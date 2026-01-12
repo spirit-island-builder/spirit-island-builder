@@ -261,3 +261,22 @@ board dev-overlay {
   pointer-events: none;
   z-index: 101;
 }
+
+overlay-image {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  width: auto;
+  height: auto;
+  display: block;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+overlay-container {
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  z-index: 100;
+}

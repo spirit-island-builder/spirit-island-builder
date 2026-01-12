@@ -41,6 +41,7 @@ async function startMain() {
     addImages(board);
     addTrackBanners(board);
     tagSectionHeadings();
+    addCustomOverlayImages(board);
 
     return 1;
   } else {
@@ -1995,6 +1996,10 @@ function getPresenceNodeHtml(
   let subText = "";
   // Will be populated with the raw HTML that will go inside the ring-icon element.
   let inner = "";
+  // Will be populated with some info useful for TTS.
+  let ttsInfo = "";
+
+  let force_first = false;
 
   // Setup values
   let addIconShadow = false;
@@ -2054,53 +2059,6 @@ function getPresenceNodeHtml(
     return inner;
   }
 
-  // Check OR nodes
-  // if (nodeText.startsWith("or(")) {
-  //   if (pnDebug) {
-  //     console.log("Or node - version 1");
-  //   }
-  //   nodeText = regExpOuterParentheses.exec(nodeText)[1];
-  //   let splitNodes = nodeText.split(";");
-  //   console.log(splitNodes);
-  //   let splitSubtext = "";
-  //   for (let i = 0; i < splitNodes.length; i++) {
-  //     let orNodeHTML = getPresenceNodeHtml(
-  //       splitNodes[i],
-  //       first,
-  //       nodeIndex + "-" + i,
-  //       trackType,
-  //       addEnergyRing,
-  //       forceEnergyRing,
-  //       forceShadow,
-  //       forceNone
-  //     );
-  //     if (pnDebug) {
-  //       console.log(orNodeHTML);
-  //     }
-  //     let holder = document.createElement("holder");
-  //     holder.innerHTML = orNodeHTML;
-  //     // grab the subtext
-  //     let subtext = holder.getElementsByTagName("subtext")[0];
-  //     // peel away outer elements
-  //     holder.innerHTML = holder.getElementsByTagName("energy-icon")[0] ? holder.getElementsByTagName("energy-icon")[0].innerHTML : holder.getElementsByTagName("ring-icon")[0].innerHTML;
-  //     if (pnDebug) {
-  //       console.log(holder);
-  //       console.log(subtext);
-  //     }
-  //     if (i === 0) {
-  //       splitSubtext += subtext.innerHTML;
-  //       subtext.remove();
-  //       inner += holder.innerHTML;
-  //     } else {
-  //       subtext.innerHTML = splitSubtext + " or " + subtext.innerHTML;
-  //       inner += holder.innerHTML;
-  //       holder.remove();
-  //     }
-  //   }
-  //   inner = `<split-presence-node>${inner}</split-presence-node>`;
-  //   return inner;
-  // }
-
   //Handle text override
   let overrideText = "";
   if (nodeText.split("*")[1]) {
@@ -2142,6 +2100,7 @@ function getPresenceNodeHtml(
       first = false;
     } else if (optionsNodeBack.includes("first")) {
       first = true;
+      force_first = true;
     }
     if (optionsNodeBack.includes("shift(")) {
       const matches = regExp.exec(optionsNodeBack);
@@ -2174,13 +2133,18 @@ function getPresenceNodeHtml(
   if (first === true && trackType !== "special") {
     presenceNode.classList.add("first");
   }
+  if (force_first === true) {
+    presenceNode.classList.add("force-first");
+  }
 
   //Get the node inners and subtext
-  [inner, subText, addEnergyRing, addIconShadow] = getPresenceNodeInnerHTML(
+  [inner, subText, addEnergyRing, addIconShadow, ttsInfo] = getPresenceNodeInnerHTML(
     nodeText,
     trackType,
     first
   );
+
+  presenceNode.setAttribute("ttsInfo", ttsInfo);
 
   if (!forceNone) {
     if ((addEnergyRing || forceEnergyRing) && !forceShadow) {
@@ -2249,6 +2213,7 @@ function getPresenceNodeInnerHTML(
   const regExp = /\(([^)]+)\)/;
   let pnDebug = false;
   let addIconShadow = false;
+  let ttsInfo = [[], [], [], []]; // energy,bonusenergy,plays,elements
 
   // Setup node class
   if (trackType === "special") {
@@ -2352,6 +2317,7 @@ function getPresenceNodeInnerHTML(
         splitOptions[i] = `energy-special(${num})`; // rename the option
         addEnergyRing = false; //adds its own
         addIconShadow = false;
+        ttsInfo[0].push(num);
         break;
       }
       case "energy-default": {
@@ -2361,6 +2327,7 @@ function getPresenceNodeInnerHTML(
         splitOptions[i] = first ? `energy-first(${num})` : num; // rename the option
         addEnergyRing = false; //adds its own
         addIconShadow = false;
+        ttsInfo[0].push(num);
         break;
       }
       case "bonusenergy": {
@@ -2369,6 +2336,7 @@ function getPresenceNodeInnerHTML(
         inner = `<energy-icon><value>+${num}</value></energy-icon>`;
         addEnergyRing = false; //adds its own
         addIconShadow = false;
+        ttsInfo[1].push(num);
         break;
       }
       case "plays": {
@@ -2378,6 +2346,7 @@ function getPresenceNodeInnerHTML(
         splitOptions[i] = `plays-special(${num})`;
         addEnergyRing = false;
         addIconShadow = false;
+        ttsInfo[2].push(num);
         break;
       }
       case "plays-default": {
@@ -2387,6 +2356,7 @@ function getPresenceNodeInnerHTML(
         splitOptions[i] = first ? `plays-first(${num})` : num; // rename the option
         addEnergyRing = false;
         addIconShadow = false;
+        ttsInfo[2].push(num);
         break;
       }
       case "special-default": {
@@ -2403,7 +2373,7 @@ function getPresenceNodeInnerHTML(
         const matches = regExp.exec(fullOption);
         const incarnaOptions = matches[1].split(";");
         const incarnaAction = incarnaOptions[0];
-        const customIncarnaIcon = incarnaOptions[1];
+        const customIncarnaIcon = incarnaOptions[2] ? incarnaOptions[2] : "incarna";
         let addMoveHelper;
         switch (incarnaAction) {
           case "empower":
@@ -2411,7 +2381,7 @@ function getPresenceNodeInnerHTML(
             break;
           case "addmove":
           case "add-move":
-            addMoveHelper = incarnaOptions[2] ? incarnaOptions[2] : "presence";
+            addMoveHelper = incarnaOptions[1] ? incarnaOptions[1] : "presence";
             inner =
               '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
               customIncarnaIcon +
@@ -2574,6 +2544,17 @@ function getPresenceNodeInnerHTML(
         addIconShadow = false;
         break;
       }
+      case "sun":
+      case "moon":
+      case "air":
+      case "fire":
+      case "water":
+      case "plant":
+      case "earth":
+      case "animal": {
+        ttsInfo[3].push(option);
+      }
+      // eslint-disable-next-line no-fallthrough
       default: {
         const iconText = fullOption;
         inner = `{${iconText}}`;
@@ -2627,7 +2608,8 @@ function getPresenceNodeInnerHTML(
         addIconShadow
     );
   }
-  return [innerFinal, subTextFinal, addEnergyRing, addIconShadow];
+  ttsInfo = ttsInfo.map((e) => e.join(",")).join(";");
+  return [innerFinal, subTextFinal, addEnergyRing, addIconShadow, ttsInfo];
 }
 
 /* exported updatePresenceNodeIDs */
@@ -2788,33 +2770,33 @@ function IconName(str, iconNum = 1) {
           case "addmove":
           case "add-move":
             localize = {
-              en: txt
+              en: !terrains.has(txt)
                 ? `Add/Move Incarna to Land with ${IconName(txt)}`
-                : `Add/Move Incarna to Land with ${IconName("presence")}`,
-              fr: txt
+                : `Add/Move Incarna to ${IconName(txt)}`,
+              fr: !terrains.has(txt)
                 ? `Ajoutez/Déplacez Incarna vers une Région avec ${IconName(txt)}`
-                : `Ajoutez/Déplacez Incarna vers une Région avec ${IconName("presence")}`,
-              de: txt
+                : `Ajoutez/Déplacez Incarna vers ${IconName(txt)}`,
+              de: !terrains.has(txt)
                 ? `Füge hinzu/Verschiebe Incarna in ein Gebiet mit ${IconName(txt)}`
-                : `Füge hinzu/Verschiebe Incarna in ein Gebiet mit${IconName("presence")}`,
-              pl: txt
+                : `Füge hinzu/Verschiebe Incarna in ${IconName(txt)}`,
+              pl: !terrains.has(txt)
                 ? `Dodaj/Przenieś Inkarna do Krainy z ${IconName(txt)}`
                 : `Dodaj/Przenieś Inkarna do Krainy z ${IconName("presence")}`,
-              ar: txt
+              ar: !terrains.has(txt)
                 ? `أضف/حرّك التجسد إلى أرض مع ${IconName(txt)}`
                 : `أضف/حرّك التجسد إلى أرض مع ${IconName("presence")}`,
-              zh: txt
+              zh: !terrains.has(txt)
                 ? `添加/移動化身到有${IconName(txt)}的區域`
                 : `添加/移動化身到有${IconName("presence")}的區域`,
-              hu: txt
+              hu: !terrains.has(txt)
                 ? `Megtestesülés Lerakása/Mozgatása egy területre, ahol van ${IconName(txt)}`
                 : `Megtestesülés Lerakása/Mozgatása egy területre, ahol van ${IconName(
                     "presence"
                   )}`,
-              ko: txt
+              ko: !terrains.has(txt)
                 ? `${IconName(txt)}이 있는 지역에 화신 이동/추가`
                 : `${IconName("presence")}이 있는 지역에 화신 이동/추가`,
-              ja: txt
+              ja: !terrains.has(txt)
                 ? `${IconName(txt)}がある土地にインカルナを追加/移動`
                 : `${IconName("presence")}がある土地にインカルナを追加/移動`,
             };
@@ -3403,17 +3385,32 @@ function IconName(str, iconNum = 1) {
     case "reclaim-all":
     case "reclaim":
       if (txt) {
-        localize = {
-          en: "Reclaim All Cards with " + IconName(txt),
-          fr: "Récupérez toutes les Cartes avec " + IconName(txt),
-          de: "Nimm alle Karten wieder auf " + IconName(txt),
-          pl: "Odzyskaj wszystkie Karty z " + IconName(txt),
-          ar: "استعد جميع البطاقات مع " + IconName(txt),
-          zh: "回收所有有" + IconName(txt) + "的法術牌",
-          hu: "Kártyák visszavétele, amin van " + IconName(txt),
-          ko: IconName(txt) + "능력 카드 모두 회수 ",
-          ja: IconName(txt) + "を持つすべてのカードを回収",
-        };
+        if (elementNames.has(txt)) {
+          localize = {
+            en: "Reclaim All Cards with " + IconName(txt),
+            fr: "Récupérez toutes les Cartes avec " + IconName(txt),
+            de: "Nimm alle Karten wieder auf " + IconName(txt),
+            pl: "Odzyskaj wszystkie Karty z " + IconName(txt),
+            ar: "استعد جميع البطاقات مع " + IconName(txt),
+            zh: "回收所有有" + IconName(txt) + "的法術牌",
+            hu: "Kártyák visszavétele, amin van " + IconName(txt),
+            ko: IconName(txt) + "능력 카드 모두 회수 ",
+            ja: IconName(txt) + "を持つすべてのカードを回収",
+          };
+        } else {
+          // non-english need translation updates
+          localize = {
+            en: `Reclaim All ${IconName(txt)} Cards`,
+            fr: "Récupérez toutes les Cartes avec " + IconName(txt),
+            de: "Nimm alle Karten wieder auf " + IconName(txt),
+            pl: "Odzyskaj wszystkie Karty z " + IconName(txt),
+            ar: "استعد جميع البطاقات مع " + IconName(txt),
+            zh: "回收所有有" + IconName(txt) + "的法術牌",
+            hu: "Kártyák visszavétele, amin van " + IconName(txt),
+            ko: IconName(txt) + "능력 카드 모두 회수 ",
+            ja: IconName(txt) + "を持つすべてのカードを回収",
+          };
+        }
       } else {
         localize = {
           en: "Reclaim Cards",
@@ -3431,17 +3428,32 @@ function IconName(str, iconNum = 1) {
       break;
     case "reclaim-one":
       if (txt) {
-        localize = {
-          en: "Reclaim One Card with " + IconName(txt),
-          fr: "Récupérer une Carte avec " + IconName(txt),
-          de: "Nimm eine Karte mit wieder auf " + IconName(txt),
-          pl: "Odzyskaj Jedną Kartę z " + IconName(txt),
-          ar: "استعد بطاقة واحدة مع " + IconName(txt),
-          zh: "回收1張有" + IconName(txt) + "的法術牌",
-          hu: "Egy Erőkártya visszavétele, amin van " + IconName(txt),
-          ko: IconName(txt) + "카드 1장 회수",
-          ja: IconName(txt) + "を持つカード1枚を回収",
-        };
+        if (elementNames.has(txt)) {
+          localize = {
+            en: "Reclaim One Card with " + IconName(txt),
+            fr: "Récupérer une Carte avec " + IconName(txt),
+            de: "Nimm eine Karte mit wieder auf " + IconName(txt),
+            pl: "Odzyskaj Jedną Kartę z " + IconName(txt),
+            ar: "استعد بطاقة واحدة مع " + IconName(txt),
+            zh: "回收1張有" + IconName(txt) + "的法術牌",
+            hu: "Egy Erőkártya visszavétele, amin van " + IconName(txt),
+            ko: IconName(txt) + "카드 1장 회수",
+            ja: IconName(txt) + "を持つカード1枚を回収",
+          };
+        } else {
+          localize = {
+            // non-english need translation updates
+            en: `Reclaim One ${IconName(txt)} Card`,
+            fr: "Récupérer une Carte avec " + IconName(txt),
+            de: "Nimm eine Karte mit wieder auf " + IconName(txt),
+            pl: "Odzyskaj Jedną Kartę z " + IconName(txt),
+            ar: "استعد بطاقة واحدة مع " + IconName(txt),
+            zh: "回收1張有" + IconName(txt) + "的法術牌",
+            hu: "Egy Erőkártya visszavétele, amin van " + IconName(txt),
+            ko: IconName(txt) + "카드 1장 회수",
+            ja: IconName(txt) + "を持つカード1枚を回収",
+          };
+        }
       } else {
         localize = {
           en: "Reclaim One",
@@ -5833,6 +5845,17 @@ function dynamicResizing() {
     }
   }
 
+  // Set subtext widths to be their width (helps for image export)
+  const subtexts = presenceTrack.getElementsByTagName("subtext");
+  let subtextArray = Array.from(subtexts);
+
+  subtextArray.forEach((subtext, i) => {
+    subtextArray[i].style.width =
+      Math.ceil(
+        parseFloat(window.getComputedStyle(subtext).getPropertyValue("width").replace(/px/, ""))
+      ) + "px";
+  });
+
   // Place middle presence nodes
   const firstRow = energyTrack;
   const firstRowHeight = firstRow.offsetHeight;
@@ -6622,4 +6645,25 @@ function tagSectionHeadings() {
       }
     }
   }
+}
+
+function addCustomOverlayImages(board) {
+  const overlayImages = Array.from(board.querySelectorAll("overlay-image"));
+  overlayImages.forEach((image) => {
+    let overlayContainer = document.createElement("overlay-container");
+    board.appendChild(overlayContainer);
+    overlayContainer.appendChild(image);
+    image.style.top = image.getAttribute("imgy") + "px";
+    image.style.left = image.getAttribute("imgx") + "px";
+    if (image.getAttribute("imgwidth")) {
+      image.style.width = image.getAttribute("imgwidth") + "px";
+    }
+    if (image.getAttribute("imgheight")) {
+      image.style.height = image.getAttribute("imgheight") + "px";
+    }
+    if (image.hasAttribute("imgurl")) {
+      image.style.backgroundImage = `url(${image.getAttribute("imgurl")})`;
+      image.removeAttribute("imgurl");
+    }
+  });
 }

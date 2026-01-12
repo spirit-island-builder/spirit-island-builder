@@ -65,7 +65,6 @@ function replaceIcon(html) {
     // Catch "/" options to merge into single icon
     var iconSplit = iconName.split("/");
     if (iconSplit[1]) {
-      console.log("comining a split icon...");
       let finalIcon = "";
       iconSplit.forEach((icon, i) => {
         finalIcon += getIconHTML("{" + icon + "}");
@@ -74,7 +73,6 @@ function replaceIcon(html) {
         }
       });
       iconHtml = "<binder>" + elementCountText + finalIcon + "</binder>";
-      console.log(iconHtml);
       return iconHtml;
     }
 
@@ -209,7 +207,7 @@ function checkOverflowHeight(el, slack = 2) {
     el.style.overflowY = "auto";
   }
   let isOverflowing = el.clientHeight + slack < el.scrollHeight;
-  console.log(el.style.overflowY);
+
   if (debug) {
     console.log(
       "check overflowY = " + (el.clientHeight + slack) + " " + slack + "," + el.scrollHeight

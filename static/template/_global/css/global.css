@@ -72,6 +72,14 @@
 }
 
 @font-face {
+  font-family: "JosefinSans-SemiBold";
+  src: url(../fonts/josefin-sans/JosefinSans-SemiBold.ttf) format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  letter-spacing: -0.5px;
+}
+
+@font-face {
   font-family: "JosefinSansLore";
   src: url(../fonts/josefin-sans/JosefinSans-SemiBoldItalic.ttf) format("truetype");
   font-weight: bold;

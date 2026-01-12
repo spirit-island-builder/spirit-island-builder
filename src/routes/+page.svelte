@@ -31,7 +31,6 @@
   import About from "./about/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
   import Footer from "./footer.svelte";
-
   import { divertDownload, downloadData } from "$lib/download";
 
   let debugDownloads = false;
@@ -163,6 +162,7 @@
       unifiedBannerScale: "100%",
       artistCredit: "",
       language: "en",
+      overlayImages: [],
     },
     specialRules: {
       isVisible: false,
@@ -266,19 +266,6 @@
   };
   let spiritBoard = JSON.parse(JSON.stringify(emptySpiritBoard));
 
-  // let customIcons = {
-  //   prop: "value",
-  //   isVisible: false,
-  //   icons: [
-  //     {
-  //       id: 0,
-  //       name: "",
-  //       displayName: "",
-  //       incarna: false,
-  //     },
-  //   ],
-  // };
-
   let emptyCombinedTTS = {
     prop: "value",
     isVisible: false,
@@ -336,6 +323,7 @@
     },
     nameArtLore: {
       isVisible: false,
+      finder: "",
     },
     setupPlaystyleComplexityPowers: {
       isVisible: false,
@@ -389,6 +377,9 @@
     languageOptions: {
       isVisible: false,
     },
+    reorderCards: {
+      isVisible: false,
+    },
     previewBoard: {
       isVisible: false,
     },
@@ -431,6 +422,7 @@
     ],
     cardBackImage: "",
     cardBackImageIsVisible: false,
+    defaultCardBack: false,
     customIcons: {
       isVisible: false,
       icons: [],
@@ -441,72 +433,82 @@
   let emptyAspect = {
     prop: "value",
     demoBoardWasLoaded: false,
-    profile: false,
     previewBoard: {
       isVisible: false,
     },
-    nameReplacements: {
+    reorderParts: {
+      isVisible: false,
+    },
+    languageOptions: {
+      isVisible: false,
+      language: "en",
+    },
+    info: {
       isVisible: false,
       aspectName: "",
-      replacements: [
-        {
-          id: 0,
-          aspectRelacement: "",
-          rulesReplaced: "",
-        },
-      ],
       complexity: "",
       spiritName: "",
       spiritImage: "",
+      showparts: false,
       hasBack: true,
     },
-    aspectEffects: {
-      isVisible: false,
-      specialRules: {
+    aspectEffects: [
+      {
+        id: 0,
         isVisible: false,
-        rules: [
+        profile: false,
+        nameOverride: "",
+        replacements: [
           {
             id: 0,
-            name: "",
-            effect: "",
-            hasGrowth: false,
-            growthActions: [
-              {
-                id: 0,
-                effect: "",
-              },
-            ],
+            aspectRelacement: "",
+            rulesReplaced: "",
           },
         ],
+        specialRules: {
+          rules: [
+            {
+              id: 0,
+              name: "",
+              effect: "",
+              hasGrowth: false,
+              growthActions: [
+                {
+                  id: 0,
+                  effect: "",
+                },
+              ],
+            },
+          ],
+        },
+        innatePowers: {
+          powers: [
+            {
+              id: 0,
+              name: "",
+              speed: "",
+              range: "",
+              target: "",
+              targetTitle: "",
+              effect: "",
+              note: "",
+              noteShow: true,
+              levels: [
+                {
+                  id: 0,
+                  threshold: "",
+                  effect: "",
+                },
+              ],
+            },
+          ],
+        },
+        bonusNode: {
+          has: false,
+          effect: "",
+        },
       },
-      innatePowers: {
-        isVisible: false,
-        powers: [
-          {
-            id: 0,
-            name: "",
-            speed: "",
-            range: "",
-            target: "",
-            targetTitle: "",
-            effect: "",
-            note: "",
-            noteShow: true,
-            levels: [
-              {
-                id: 0,
-                threshold: "",
-                effect: "",
-              },
-            ],
-          },
-        ],
-      },
-      bonusNode: {
-        has: false,
-        effect: "",
-      },
-    },
+    ],
     customIcons: {
       isVisible: false,
       icons: [],

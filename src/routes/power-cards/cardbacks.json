@@ -1,0 +1,14 @@
+[
+  {
+    "examples": [
+      {
+        "name": "Minor",
+        "imageURL": "/template/_global/images/cards/Power/Minor.png"
+      },
+      {
+        "name": "Major",
+        "imageURL": "/template/_global/images/cards/Power/Base_Major.png"
+      }
+    ]
+  }
+]

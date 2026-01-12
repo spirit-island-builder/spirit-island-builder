@@ -4,7 +4,8 @@
   import * as Lib from "../lib";
   import { downloadHTML, downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
-  import LoadButton from "$lib/load-button.svelte";
+  import LoadDropdown from "$lib/load-dropdown.svelte";
+  import SaveDropdown from "$lib/save-dropdown.svelte";
   import Examples from "$lib/example-modal.svelte";
   import examples from "./examples.json";
 
@@ -17,6 +18,7 @@
   import { createTTSSave, getThresholdTTSJSON, ttsSaveMIMEType } from "$lib/tts.js";
   import InstructionsLink from "$lib/instructions/link.svelte";
   import LanguageOptions from "./language-options.svelte";
+  import ReorderCards from "./reorder-cards.svelte";
 
   export let powerCards;
   export let emptyPowerCards;
@@ -142,7 +144,12 @@
       const cardBackOverlay = document.createElement("card-back-overlay");
       fragment.append(cardBack);
       cardBack.append(cardBackArt);
-      cardBack.append(cardBackOverlay);
+      if (powerCards.defaultCardBack === true) {
+        cardBack.setAttribute("defaultimage", powerCards.defaultCardBack);
+      } else {
+        cardBack.append(cardBackOverlay);
+        cardBack.removeAttribute("defaultimage");
+      }
       cardBack.setAttribute("id", "cardBack");
       cardBackArt.classList.add("image-back");
       cardBackArt.setAttribute("src", powerCards.cardBackImage);
@@ -184,6 +191,7 @@
     if (cardBack) {
       let cardBackImage = cardBack.querySelectorAll("img")[0];
       powerCards.cardBackImage = Lib.maybeResolveURL(cardBackImage.getAttribute("src"), baseURI);
+      powerCards.defaultCardBack = cardBack.hasAttribute("defaultimage") ? true : false;
     }
 
     //Add spirit name
@@ -283,13 +291,6 @@
     });
 
     return powerCards;
-  }
-
-  function exportPowerCards() {
-    const htmlFileName = powerCards.spiritName
-      ? powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html"
-      : "PowerCards.html";
-    downloadHTML(generateHTML(powerCards), htmlFileName);
   }
 
   const exportSinglePowerCard = (powerCardSingle) => {
@@ -466,10 +467,7 @@
     }
     for (let i = 0; i < powerCards.cards.length; i++) {
       elementNamesInIframe.push(`#card${i}`);
-    }
-    if (powerCards.cardBackImage) {
-      // add a card back for each card
-      for (let i = 0; i < powerCards.cards.length; i++) {
+      if (powerCards.cardBackImage) {
         elementNamesInIframe.push(`#cardBack`);
       }
     }
@@ -482,6 +480,16 @@
 
   function printToPDFA4() {
     printToPDF("a4");
+  }
+
+  function getFileName(powerCards) {
+    let fileName = "";
+    if (powerCards.spiritName) {
+      fileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCards.html";
+    } else {
+      fileName = "Custom_PowerCards.html";
+    }
+    return fileName;
   }
 
   function togglePrinterClean() {
@@ -524,6 +532,7 @@
     <div class="content mb-0 mt-2">Options</div>
     <CustomIcons customIcons={powerCards.customIcons} />
     <LanguageOptions bind:powerCards />
+    <ReorderCards bind:powerCards />
     <CombinedTTS
       bind:combinedTTS
       bind:currentPage
@@ -549,13 +558,16 @@
         Examples
       </button>
       <InstructionsLink class="button is-info mt-1 mr-1" anchor="power-cards" />
-      <LoadButton
-        accept=".html"
-        class="button is-success mr-1 mt-1"
+      <LoadDropdown
+        accept="text/html"
+        class="button is-success mt-1 mr-1"
         loadObjectURL={loadHTMLFromURL}>
         Load
-      </LoadButton>
-      <button class="button is-success mt-1 mr-1" on:click={exportPowerCards}> Save </button>
+      </LoadDropdown>
+      <SaveDropdown
+        saveAction={() => generateHTML(powerCards)}
+        fileName={getFileName(powerCards)}
+        saveType="html" />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

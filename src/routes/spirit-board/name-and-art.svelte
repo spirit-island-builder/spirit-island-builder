@@ -26,6 +26,26 @@
   function toggleSingleBanner() {
     spiritBoard.nameAndArt.isOneBanner = !spiritBoard.nameAndArt.isOneBanner;
   }
+
+  function addCustomOverlayImage() {
+    spiritBoard.nameAndArt.overlayImages.push({
+      id: spiritBoard.nameAndArt.overlayImages.length,
+      name: "",
+      x: `${1766 / 2}`,
+      y: `${1176 / 2}`,
+      w: `${250}`,
+      h: "",
+    });
+    spiritBoard = spiritBoard;
+  }
+
+  function removeCustomOverlayImage(iconIndex) {
+    spiritBoard.nameAndArt.overlayImages.splice(iconIndex, 1);
+    spiritBoard.nameAndArt.overlayImages.forEach((icon, i) => {
+      icon.id = i;
+    });
+    spiritBoard = spiritBoard;
+  }
 </script>
 
 <Section title="Spirit Name & Artwork" bind:isVisible={spiritBoard.nameAndArt.isVisible}>
@@ -130,4 +150,89 @@
     <button class="button is-info is-small button-hold mb-0" on:click={toggleSingleBanner}
       >Use Single Banner Input</button>
   {/if}
+  <div class="field">
+    <label class="label" for="artOverlay">Art Overlay</label>
+  </div>
+  <div class="mb-1 p-1 note content">
+    Art overlay lets you add images on top of the spirit panel, to cover anything that is not
+    otherwise built in. Tips:
+    <ul>
+      <li>Everything is in pixels (no units). The board is 1766px wide by 1177px tall.</li>
+      <li>x is from the left side, and y is from the top (ie it will move your image down).</li>
+      <li>The coordinates to go the center of your image.</li>
+    </ul>
+  </div>
+  {#each spiritBoard.nameAndArt.overlayImages as image, i (image.id)}
+    <div class="field has-addons is-flex is-flex-direction-column is-justify-content-left mb-0">
+      <div class="field is-flex is-flex-direction-row is-justify-content-space-between mb-0">
+        <ImageInput
+          id="customOverlay{i}"
+          title="Image Overlay {i + 1}"
+          smallTitle
+          bind:imageURL={image.name}
+          info="Use % or px, and art ratio up to 9x6" />
+        <button
+          class="button is-warning is-light is-small row-button"
+          on:click={removeCustomOverlayImage(i)}>Remove</button>
+      </div>
+      <div class="field is-flex is-small mb-0">
+        <label class="label overlay-custom-label" for={`incarnaTokenToken`}>x: </label>
+        <div class="control">
+          <input
+            id={`incarnaTokenName`}
+            class="input is-small"
+            type="text"
+            placeholder="pixel"
+            bind:value={image.x} />
+        </div>
+        <label class="label overlay-custom-label" for={`incarnaTokenToken`}>y: </label>
+        <div class="control">
+          <input
+            id={`incarnaTokenName`}
+            class="input is-small"
+            type="text"
+            placeholder="pixel"
+            bind:value={image.y} />
+        </div>
+      </div>
+    </div>
+    <div class="field has-addons is-flex is-flex-direction-column is-justify-content-left mb-2">
+      <div class="field is-flex is-small mb-0">
+        <label class="label overlay-custom-label" for={`incarnaTokenToken`}>width: </label>
+        <div class="control">
+          <input
+            id={`incarnaTokenName`}
+            class="input is-small"
+            type="text"
+            placeholder="250"
+            bind:value={image.w} />
+        </div>
+        <label class="label overlay-custom-label" for={`incarnaTokenToken`}>height: </label>
+        <div class="control">
+          <input
+            id={`incarnaTokenName`}
+            class="input is-small"
+            type="text"
+            placeholder="blank for default"
+            bind:value={image.h} />
+        </div>
+      </div>
+    </div>
+  {/each}
+  <div class="field is-flex is-justify-content-right">
+    <div class="control">
+      <button class="button is-primary is-light is-small" on:click={addCustomOverlayImage}
+        >{spiritBoard.nameAndArt.overlayImages.length > 0
+          ? "Another Overlay Image"
+          : "Add Overlay Image"}</button>
+    </div>
+  </div>
 </Section>
+
+<style>
+  .overlay-custom-label {
+    width: 80px;
+    text-align: end;
+    margin-right: 5px;
+  }
+</style>

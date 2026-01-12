@@ -15,6 +15,7 @@
   import takeScreenshotURL from "./take-screenshot?worker&url";
 
   import { downloadImage } from "$lib/download";
+  import { showToast } from "$lib/alert.js";
 
   export let clickFunction = () => {};
 
@@ -72,31 +73,56 @@
       unit: "in",
       format: pageType,
     });
+
     let i = 0;
     let xi = 0.5;
     let x = xi;
     let yi = 0.5;
     let y = yi;
     let pw = doc.getPageWidth();
+    let ph = doc.getPageHeight();
     let count = elementNamesInIframe.length;
+    console.log(`${pw},${ph}`);
+
+    //figure out number of pages and rows per page
+    let rowperpage = Math.floor((ph - 2 * yi) / hit);
+    let colperpage = Math.floor((pw - 2 * xi) / wid);
+    let cardperpage = rowperpage * colperpage;
+    let numpages = Math.ceil(elementNamesInIframe.length / cardperpage);
+    for (let i = 1; i < numpages; i++) {
+      doc.addPage();
+    }
+    doc.setPage(1);
+
     elementNamesInIframe.forEach((elementNameInIframe, n) => {
       previewIframe.contentWindow
         .takeScreenshot(elementNameInIframe, large ? 2 : 1.5)
         .then((imageURL) => {
-          const col_n = n % Math.floor((pw - xi) / wid);
+          //page focus
+          let pagefocus = Math.ceil((n + 1) / cardperpage);
+          doc.setPage(pagefocus);
+          console.log(`Focusing page ${pagefocus} for ${elementNameInIframe}, n=${n}`);
+
+          // x & y location
+          const col_n = n % Math.floor((pw - 2 * xi) / wid);
           x = xi + col_n * wid;
-          const row_n = Math.floor(((n + 1) * wid) / (pw - xi));
+
+          const row_n = Math.floor(n / colperpage) % rowperpage;
           y = yi + row_n * hit;
+
           if (flip) {
-            x = pw - wid - xi;
+            x = pw - wid - 2 * xi;
           }
+
           doc.addImage(imageURL, "PNG", x, y, wid, hit);
           console.log("add card " + elementNameInIframe + " to " + x + "," + y);
+
           if (++i === count) {
             doc.save(fileName);
           }
         });
     });
+    showToast(`💾 Saving file locally`);
   };
 
   //startMain also handles clicks
@@ -135,17 +161,32 @@
       });
     }
     if (status === 3) {
-      const aspectEffectsElement =
-        previewIframe.contentDocument.getElementsByTagName("aspect-container")[0];
-      aspectEffectsElement.addEventListener("click", clickFunction());
+      const aspectEffectsElement = Array.from(
+        previewIframe.contentDocument.getElementsByTagName("aspect-background")
+      );
+      aspectEffectsElement.forEach((effectElement) => {
+        effectElement.addEventListener("click", clickFunction());
+      });
 
-      const aspectSubtextElement =
-        previewIframe.contentDocument.getElementsByTagName("aspect-name")[0];
-      aspectSubtextElement.addEventListener("click", clickFunction());
+      const aspectSubtextElement = Array.from(
+        previewIframe.contentDocument.getElementsByTagName("aspect-name")
+      );
+      aspectSubtextElement.forEach((subtextElement) => {
+        subtextElement.addEventListener("click", clickFunction());
+      });
 
-      const aspectNameElement =
-        previewIframe.contentDocument.getElementsByTagName("aspect-subtext")[0];
-      aspectNameElement.addEventListener("click", clickFunction());
+      const aspectNameElement = Array.from(
+        previewIframe.contentDocument.getElementsByTagName("aspect-subtext")
+      );
+      aspectNameElement.forEach((nameElement) => {
+        nameElement.addEventListener("click", clickFunction());
+      });
+
+      const aspectBackElement =
+        previewIframe.contentDocument.getElementsByTagName("aspect-back-overlay")[0];
+      if (aspectBackElement) {
+        aspectBackElement.addEventListener("click", clickFunction());
+      }
     }
     if (status === 4) {
       const adversaryLevelsEl =

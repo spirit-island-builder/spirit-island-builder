@@ -76,6 +76,13 @@ const iconValues = [
   { label: "star", value: "{star}" },
   { label: "strife", value: "{strife}" },
   { label: "sun", value: "{sun}" },
+  {
+    label: "table",
+    value:
+      "<table><tbody><tr><td>row1cell1</td><td>row1cell2</td></tr><tr><td>row2cell1</td><td>row2cell2</td></tr></tbody></table>",
+  },
+  { label: "table-cell", value: "<td>cell</td>" },
+  { label: "table-row", value: "<tr><td>Content</td></tr>" },
   { label: "terror-1", value: "{terror-1}" },
   { label: "terror-2", value: "{terror-2}" },
   { label: "terror-3", value: "{terror-3}" },

@@ -27,9 +27,16 @@ function startMain() {
 function resize() {
   dynamicSizing(document.querySelectorAll("lore-description")[0]);
 
+  board = document.querySelectorAll("board")[0];
   secondContainer = document.querySelectorAll("second-section-container")[0];
   setup = document.querySelectorAll("setup-description")[0];
   playstyle = document.querySelectorAll("play-style-description")[0];
+
+  //Optional: Finder type boards
+  let finder = board.getAttribute("finderstyle") ? true : false;
+  if (finder) {
+    board.classList.add("finderstyle");
+  }
 
   let j = 0;
   while (checkOverflowHeight(secondContainer)) {
@@ -69,9 +76,8 @@ function buildLoreBoard() {
   if (quickComplexity) {
     var quickDescriptor = document.getElementsByTagName("complexity")[0].getAttribute("descriptor");
     var inner = `<complexity-line></complexity-line>
-                  <complexity-title>${localize[lang]["complexity"]}</complexity-title>
-                  <complexity-value value="${quickComplexity}" style="width: 300px;">${quickDescriptor}</complexity-value>
-                  <red-box></red-box>
+                  <com-box><complexity-title>${localize[lang]["complexity"]}</complexity-title>
+                  <complexity-value value="${quickComplexity}" style="width: 300px;">${quickDescriptor}</complexity-value></com-box>
                   <complexity-line></complexity-line>`;
     document.getElementsByTagName("complexity")[0].innerHTML = inner;
   }

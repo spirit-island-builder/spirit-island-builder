@@ -7,6 +7,7 @@
   import * as Lib from "../lib";
   // import {exportSinglePowerCard} from "./index.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import cardbacks from "./cardbacks.json";
 
   export let exportSingleCard = () => {};
   export let additivePowerLoad = () => {};
@@ -211,6 +212,26 @@
   const elements = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
 </script>
 
+<Section title={`Card Set Information`} bind:isVisible={powerCards.cardBackImageIsVisible}>
+  <label class="label is-unselectable mr-1" for="">Spirit or Card Set Name: </label>
+  <div class="control">
+    <input
+      id="spiritNameInput"
+      class="input is-small"
+      type="text"
+      style="min-width:20rem"
+      placeholder="optional - for output only"
+      bind:value={powerCards.spiritName} />
+  </div>
+  <ImageInput
+    id="powerCardBack"
+    title="Power Card Back Art"
+    examples={cardbacks}
+    exampleDescription="Major/Minor Card Backs"
+    reload="true"
+    bind:imageURL={powerCards.cardBackImage}
+    bind:usedDefault={powerCards.defaultCardBack} />
+</Section>
 <div class="is-power-cards">
   {#each powerCards.cards as card, i (card.id)}
     <Section title={`Power Card ${i + 1}: ${card.name}`} bind:isVisible={card.isVisible}>
@@ -516,24 +537,6 @@
   <button class="button is-small is-success is-light" on:click={addEmptyPowerCard}
     >Add Power Card</button>
 </div>
-<Section
-  title={`Card Back Image & Spirit/Set Name`}
-  bind:isVisible={powerCards.cardBackImageIsVisible}>
-  <ImageInput
-    id="powerCardBack"
-    title="Power Card Back Art"
-    bind:imageURL={powerCards.cardBackImage} />
-  <label class="label is-unselectable mr-1" for="">Spirit or Card Set Name: </label>
-  <div class="control">
-    <input
-      id="spiritNameInput"
-      class="input is-small"
-      type="text"
-      style="min-width:20rem"
-      placeholder="optional - for output only"
-      bind:value={powerCards.spiritName} />
-  </div>
-</Section>
 
 <style>
   .element-toggle {

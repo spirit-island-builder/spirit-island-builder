@@ -11,7 +11,7 @@ The best place to start with the Builder is to look at the Examples. The Builder
 
 - Examples: Click this button to load the official spirits into the Builder, as an example.
 - Instructions: Click this button to open the Instructions pop-up.
-- Load: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage.
+- Load: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage. **Ensure you are on the right component tab before loading or the load will fail** (ie. only load Adversaries on the Adversary tab).
 - Save: Click this button to immediately download the save file for your content (careful: each component is a different save file).
 - Update Preview: Click this button to load a new preview board and see your changes.
 - Toggle Board Size: Click this to change the size of the preview. NOTE: While you can download images of Spirit Boards, you can also use a screen capture to get a higher resolution.
@@ -426,6 +426,7 @@ You can load your own icon into the Builder. These will always be called custom1
 
 - The template uses html so you can use some html to customize your board:
 
-  - For example, you can create a line break by typing \<br\> (useful in notes, levels, and special rules).
+  - For example, you can create a line break by typing \<br\> or {line-break} (useful in notes, levels, and special rules).
+  - You can use HTML tables to make tables in some areas (special rules, for example). The {table} shortcut can help set up a table, but it will still need to be pure HTML. See Intensify in the Aspect examples.
 
   [Home](#index)

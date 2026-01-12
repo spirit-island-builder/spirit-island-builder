@@ -14,6 +14,13 @@
     let nodeID = event.target.id;
     document.getElementById(nodeID).select();
   }
+
+  function setType(type) {
+    spiritBoardBack.nameArtLore.finder = type;
+    spiritBoardBack = spiritBoardBack;
+    console.log(spiritBoardBack.nameArtLore.finder);
+    document.getElementById("updateButton").click();
+  }
 </script>
 
 <Section title="Name, Art, and Lore" bind:isVisible={spiritBoardBack.nameArtLore.isVisible}>
@@ -34,6 +41,20 @@
           on:focus={selectNode}
           on:keydown={nextNode}
           bind:value={spiritBoardBack.nameImage.name} />
+      </div>
+    </div>
+    <div class="field has-addons">
+      <div
+        class="control buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+        <label class="label mr-2" for="finder-board-button">Board Type:</label>
+        <button
+          class:is-light={spiritBoardBack.nameArtLore.finder === true}
+          class="button is-success is-small button-hold mb-0"
+          on:click={() => setType(false)}>Regular</button>
+        <button
+          class="button is-info is-small button-hold mb-0"
+          class:is-light={spiritBoardBack.nameArtLore.finder !== true}
+          on:click={() => setType(true)}>Finder Style</button>
       </div>
     </div>
     <!-- Spirit ART -->

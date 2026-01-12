@@ -42,9 +42,9 @@ board.round-border {
 spirit-name {
   position: absolute;
   display: flex;
-  height: 67px;
+  height: 76px;
   width: 100%;
-  font-size: 40pt;
+  font-size: 42pt;
   font-family: "Name Headings";
   text-transform: uppercase;
   vertical-align: middle;
@@ -54,6 +54,8 @@ spirit-name {
   justify-content: center;
   flex-direction: row;
   align-items: center;
+  letter-spacing: 1px;
+  word-spacing: -6px;
 }
 
 right {
@@ -108,9 +110,6 @@ third-section-container {
   flex-direction: column;
 }
 
-setup {
-}
-
 setup-title,
 play-style-title,
 complexity-title,
@@ -119,7 +118,9 @@ div.summary-of-powers-title {
   font-family: "Name Headings";
   text-transform: uppercase;
   font-size: 32px;
-  font-weight: bold;
+  font-weight: normal;
+  display: flex;
+  position: relative;
 }
 
 complexity-title,
@@ -129,18 +130,21 @@ div.summary-of-powers-title {
 }
 
 setup-title {
-  margin-top: 80px;
+  margin-top: 0px;
 }
 
 setup-description,
 play-style-description {
-  font-family: "JosefinSans-Regular";
-  font-size: 25px;
+  font-family: "JosefinSans-SemiBold";
+  font-size: 23px;
   display: block;
-  margin-top: 6px;
-  letter-spacing: -0.5px;
+  font-weight: bold;
+  margin-top: 10px;
+  letter-spacing: -0.9px;
+  word-spacing: -1.7px;
   width: 800px;
   white-space: pre-line;
+  line-height: 28px;
 }
 
 setup-description {
@@ -162,7 +166,8 @@ second-section-container icon.sacred-site {
 }
 
 complexity {
-  display: block;
+  display: flex;
+  flex-direction: column;
   padding-top: 2px;
   padding-left: 5%;
   margin-top: 25px;
@@ -202,6 +207,12 @@ complexity-value {
 
 complexity-title {
   padding-right: 20px;
+  justify-content: center;
+}
+
+com-box {
+  display: flex;
+  align-items: center;
 }
 
 summary-of-powers {
@@ -217,6 +228,25 @@ lore-overlay {
   height: 99.5%;
   width: 100%;
   position: absolute;
+}
+
+board.finderstyle lore-overlay {
+  background-image: url("../images/board/BlankLoreBoard-finder.png");
+}
+
+board.finderstyle lore-description {
+  position: absolute;
+  top: 683px;
+  left: -786px;
+}
+
+board.finderstyle second-section-container {
+  margin-left: 75px;
+  margin-top: 55px;
+}
+board.finderstyle div.summary-of-powers-title {
+  padding-left: 55px;
+  padding-right: 25px;
 }
 
 div.summary-of-powers-title {
@@ -408,4 +438,18 @@ board.printer-clean {
   border: black 3px solid;
   box-sizing: border-box;
   border-radius: 22px;
+}
+
+board dev-overlay {
+  display: block;
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-size: cover;
+  opacity: 0.5;
+  filter: invert(1) saturate(0);
+  pointer-events: none;
+  z-index: 101;
 }

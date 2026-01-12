@@ -500,17 +500,22 @@ export const nextNode = (event) => {
             focusID = "aspectSpiritName";
           }
           break;
-        case "replacesInput":
-          focusID = "rulesReplacedInput" + numMatches[0];
+        case "partReplacesInput":
+          focusID = currentID.replace("ReplacesInput", "RulesReplacedInput");
           break;
-        case "rulesReplacedInput":
-          focusID = "replacesInput" + numMatches[0];
+        case "partRulesReplacedInput":
+          focusID = currentID.replace("RulesReplacedInput", "ReplacesInput");
           focusID = focusID.replace(/\d+$/, function (m) {
             return parseInt(m) + 1;
           });
           if (document.getElementById(focusID) === null) {
-            focusID = "aspectSpiritName";
+            focusID = focusID.replace("ReplacesInput", "addReplacement");
+            focusID = focusID.replace(/\d+$/, "");
+            console.log(focusID);
           }
+          break;
+        case "partRuleNameInput":
+          focusID = currentID.replace("RuleNameInput", "RuleEffectInput");
           break;
         // Blight Cards
         case "blightCardName":
