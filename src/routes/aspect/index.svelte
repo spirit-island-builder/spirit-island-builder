@@ -456,48 +456,43 @@
     console.log("isLandscape = " + isLandscape);
 
     // elements
-    let nodeEffectText = aspect.aspectEffects.bonusNode.effect;
-    console.log(nodeEffectText);
-    console.log(nodeEffectText);
-    const nameCounts = {};
-    nodeEffectText.split("+").forEach(function (x) {
-      nameCounts[x] = (nameCounts[x] || 0) + 1;
-    });
-    let namesList = Object.keys(nameCounts);
-    let countList = Object.values(nameCounts);
-    let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
-    for (let i = 0; i < namesList.length; i++) {
-      if (namesList[i] === "sun") {
-        elementCounts[0] = countList[i];
+    let bonusNode = aspectHTML.getElementsByTagName("presence-node")[0];
+    if (bonusNode) {
+      let ttsInfo = bonusNode.getAttribute("ttsInfo");
+      let ttsInfoArr = ttsInfo.split(";");
+
+      if (ttsInfoArr[3]) {
+        // has elements, count them
+        let elementList = ttsInfoArr[3].split(",");
+        let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
+        for (let i = 0; i < elementList.length; i++) {
+          if (elementList[i].startsWith("sun")) {
+            elementCounts[0]++;
+          }
+          if (elementList[i].startsWith("moon")) {
+            elementCounts[1]++;
+          }
+          if (elementList[i].startsWith("fire")) {
+            elementCounts[2]++;
+          }
+          if (elementList[i].startsWith("air")) {
+            elementCounts[3]++;
+          }
+          if (elementList[i].startsWith("water")) {
+            elementCounts[4]++;
+          }
+          if (elementList[i].startsWith("earth")) {
+            elementCounts[5]++;
+          }
+          if (elementList[i].startsWith("plant")) {
+            elementCounts[6]++;
+          }
+          if (elementList[i].startsWith("animal")) {
+            elementCounts[7]++;
+          }
+        }
+        LUAScript += "elements={" + elementCounts.join("") + "}\n";
       }
-      if (namesList[i] === "moon") {
-        elementCounts[1] = countList[i];
-      }
-      if (namesList[i] === "fire") {
-        elementCounts[2] = countList[i];
-      }
-      if (namesList[i] === "air") {
-        elementCounts[3] = countList[i];
-      }
-      if (namesList[i] === "water") {
-        elementCounts[4] = countList[i];
-      }
-      if (namesList[i] === "earth") {
-        elementCounts[5] = countList[i];
-      }
-      if (namesList[i] === "plant") {
-        elementCounts[6] = countList[i];
-      }
-      if (namesList[i] === "animal") {
-        elementCounts[7] = countList[i];
-      }
-    }
-    console.log(elementCounts);
-    const elementCountTotal = elementCounts.reduce((partialSum, a) => partialSum + a, 0);
-    console.log(elementCountTotal);
-    if (elementCountTotal > 0) {
-      LUAScript += "elements={" + elementCounts.toString() + "}\n";
-      console.log(LUAScript);
     }
 
     // thresholds (see tts.js)
