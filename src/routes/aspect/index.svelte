@@ -136,17 +136,22 @@
       }
 
       //Set Replacement
-      aspectPart.replacements.forEach((replacement) => {
+      if (aspectPart.replacements.length) {
+        aspectPart.replacements.forEach((replacement) => {
+          let aspectReplacementHTML = document.createElement("aspect-subtext");
+          aspectHTML.appendChild(aspectReplacementHTML);
+          let replacementFullText = replacement.aspectRelacement;
+          if (replacement.rulesReplaced) {
+            replacementFullText += ": <i>" + replacement.rulesReplaced + "</i>";
+          }
+          if (aspectReplacementHTML) {
+            aspectReplacementHTML.innerHTML = replacementFullText;
+          }
+        });
+      } else {
         let aspectReplacementHTML = document.createElement("aspect-subtext");
         aspectHTML.appendChild(aspectReplacementHTML);
-        let replacementFullText = replacement.aspectRelacement;
-        if (replacement.rulesReplaced) {
-          replacementFullText += ": <i>" + replacement.rulesReplaced + "</i>";
-        }
-        if (aspectReplacementHTML) {
-          aspectReplacementHTML.innerHTML = replacementFullText;
-        }
-      });
+      }
 
       //Set Special Rules
       const aspectRulesContainer = document.createElement("aspect-container");
@@ -299,12 +304,14 @@
       const aspectReplacementsHTML = aspectHTMLpart.querySelectorAll("aspect-subtext");
       if (aspectReplacementsHTML) {
         aspectReplacementsHTML.forEach((replacement) => {
-          aspect.aspectEffects[i].replacements.push({
-            id: aspect.aspectEffects[i].replacements.length,
-            aspectRelacement: replacement.innerHTML.split(":")[0],
-            rulesReplaced: replacement.querySelectorAll("i")[0]?.innerHTML ?? "",
-          });
-          aspect = aspect;
+          if (replacement.innerHTML.length > 0) {
+            aspect.aspectEffects[i].replacements.push({
+              id: aspect.aspectEffects[i].replacements.length,
+              aspectRelacement: replacement.innerHTML.split(":")[0],
+              rulesReplaced: replacement.querySelectorAll("i")[0]?.innerHTML ?? "",
+            });
+            aspect = aspect;
+          }
         });
       }
 
