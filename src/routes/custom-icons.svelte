@@ -1,7 +1,6 @@
 <script>
   import Section from "$lib/section.svelte";
   import LoadButton from "$lib/load-button.svelte";
-  import InstructionsLink from "$lib/instructions/link.svelte";
   export let customIcons;
 
   function addCustomIcon() {
@@ -26,22 +25,23 @@
 </script>
 
 <Section title="Custom Icons" bind:isVisible={customIcons.isVisible}>
-  <div class="mb-1 p-1 note">
-    <InstructionsLink anchor="custom icons" />
-  </div>
   <div class="mb-1 p-1 note content">
-    Custom Icons allow you to load and then use icons that aren't part of the Builder. Tips:
+    Custom Icons allow you to use icons that aren't part of the Builder. Tips:
     <ul>
       <li>
         Add "incarna-" when using the icon to treat it like an incarna, ie.,
         &lbrace;incarna-custom1&rbrace;
       </li>
       <li>
-        Add "large-","medium-","small-" when using the icon to get different sizes, ie.,
-        &lbrace;medium-custom1&rbrace;
+        Add "huge-","large-","medium-","small-","tiny-" when using the icon to get different sizes,
+        ie., &lbrace;medium-custom1&rbrace;
       </li>
       <li>
-        Display Name is optional and may cause errors. Do NOT use a Display Name until you notice
+        Add "no-" when using the icon to get a red X over the icon. This can be combined with sizes:
+        &lbrace;mediumno-custom1&rbrace; &lbrace;nolarge-custom1&rbrace;
+      </li>
+      <li>
+        Display Name is *optional* and may cause errors. Do NOT use a Display Name until you notice
         text like 'custom1' showing up on your board. Do not put brackets of any kind in the Display
         Name.
       </li>

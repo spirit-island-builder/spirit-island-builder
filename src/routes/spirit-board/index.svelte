@@ -653,6 +653,16 @@
       let ttsInfo = node.getAttribute("ttsInfo");
       let ttsInfoArr = ttsInfo.split(";");
       let rect = node.getElementsByTagName("ring-icon")[0].getBoundingClientRect();
+      let xLoc = toFixedNumber(
+        (-(boardRect.width / boardRect.height) *
+          (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
+          (boardRect.width / 2),
+        4
+      );
+      let zLoc = toFixedNumber(
+        (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) / (boardRect.height / 2),
+        4
+      );
 
       // check if node has elements
       if (ttsInfoArr[3]) {
@@ -688,18 +698,9 @@
         trackElements.push({
           elements: elementCounts.join(""),
           position: {
-            x: toFixedNumber(
-              (-(boardRect.width / boardRect.height) *
-                (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
-                (boardRect.width / 2),
-              4
-            ),
+            x: xLoc,
             y: 0,
-            z: toFixedNumber(
-              (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
-                (boardRect.height / 2),
-              4
-            ),
+            z: zLoc,
           },
         });
       }
@@ -712,18 +713,9 @@
         bonusEnergy.push({
           count: Number(bonusEnergyNum),
           position: {
-            x: toFixedNumber(
-              (-(boardRect.width / boardRect.height) *
-                (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
-                (boardRect.width / 2),
-              4
-            ),
+            x: xLoc,
             y: 0,
-            z: toFixedNumber(
-              (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
-                (boardRect.height / 2),
-              4
-            ),
+            z: zLoc,
           },
         });
       }
@@ -737,18 +729,9 @@
           trackEnergy.push({
             count: Number(lowestEnergy),
             position: {
-              x: toFixedNumber(
-                (-(boardRect.width / boardRect.height) *
-                  (rect.x + rect.width / 2 - boardRect.x - boardRect.width / 2)) /
-                  (boardRect.width / 2),
-                4
-              ),
+              x: xLoc,
               y: 0,
-              z: toFixedNumber(
-                (rect.y + rect.height / 2 - boardRect.y - boardRect.height / 2) /
-                  (boardRect.height / 2),
-                4
-              ),
+              z: zLoc,
             },
           });
         }

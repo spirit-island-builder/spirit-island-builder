@@ -383,9 +383,9 @@
     previewBoard: {
       isVisible: false,
     },
-    form: {
-      isVisible: false,
-    },
+    // form: {
+    //   isVisible: false,
+    // },
     cards: [
       {
         id: 0,

@@ -521,6 +521,16 @@
     cardHolder.classList.remove("enable-stack-view");
     powerCards.stackView = false;
   }
+
+  function cardsPerPage(classCards) {
+    let previewWrap = document.getElementById("power-cards-preview");
+    if (previewWrap) {
+      previewWrap.classList.remove("twoCard");
+      previewWrap.classList.remove("threeCard");
+      previewWrap.classList.remove("fourCard");
+      previewWrap.classList.add(classCards);
+    }
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -570,8 +580,6 @@
         saveType="html" />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
-      <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
-        >Toggle Preview Size</button>
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
     </div>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
@@ -597,6 +605,8 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="field has-addons mb-0 is-flex-wrap-wrap">
       <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
         >Printer-Friendly</button>
       {#if !powerCards.stackView}
@@ -606,6 +616,13 @@
         <button class="button is-warning mt-1 mr-1 is-small" on:click={unsetStackView}
           >Disable Stack View</button>
       {/if}
+      <button class="button is-warning mt-1 mr-1 is-small" on:click={() => cardsPerPage("twoCard")}
+        >Cards Per Page: 2</button>
+      <button
+        class="button is-warning mt-1 mr-1 is-small"
+        on:click={() => cardsPerPage("threeCard")}>3</button>
+      <button class="button is-warning mt-1 mr-1 is-small" on:click={() => cardsPerPage("fourCard")}
+        >4</button>
     </div>
   </div>
 </div>

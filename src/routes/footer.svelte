@@ -1,10 +1,10 @@
 <footer>
-  Developed by Resonant, Neubee, Tom, and Derrick. Use <a
+  Developed by Resonant, Neubee, Tom, Derrick, and Nils. Use <a
     href="https://forms.gle/7EaVLHfAvhmLjEDn8"
     target="_blank"
     rel="noreferrer">this form</a>
   or email <a href="mailto:resonant@spiritislandbuilder.com">resonant@spiritislandbuilder.com</a>
-  with questions, comments or feedback.
+  with questions, comments or feedback. <a href="/privacypolicy">Privacy Policy</a>
   <span class="is-pulled-right has-text-right"
     >Code for this project is hosted <a
       href="https://github.com/neubee/spirit-island-builder"

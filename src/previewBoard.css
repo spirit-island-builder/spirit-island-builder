@@ -173,6 +173,16 @@
   --preview-large-frame-width: 1200px;
 }
 
+#power-cards-preview.twoCard {
+  --board-width-px: 1000;
+}
+#power-cards-preview.threeCard {
+  --board-width-px: 1450;
+}
+#power-cards-preview.fourCard {
+  --board-width-px: 1950;
+}
+
 #lore-preview {
   --scroll-amount: 245;
 

@@ -126,7 +126,7 @@
     background-position: center;
   }
   div.local {
-    background-image: url(../icons/Local.png);
+    background-image: url(../icons/Local-up.png);
   }
   div.drive {
     background-image: url(../icons/Drive.png);
