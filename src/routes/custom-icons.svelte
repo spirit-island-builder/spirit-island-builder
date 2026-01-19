@@ -1,7 +1,6 @@
 <script>
   import Section from "$lib/section.svelte";
   import LoadButton from "$lib/load-button.svelte";
-  import InstructionsLink from "$lib/instructions/link.svelte";
   export let customIcons;
 
   function addCustomIcon() {
@@ -26,9 +25,6 @@
 </script>
 
 <Section title="Custom Icons" bind:isVisible={customIcons.isVisible}>
-  <div class="mb-1 p-1 note">
-    <InstructionsLink anchor="custom icons" />
-  </div>
   <div class="mb-1 p-1 note content">
     Custom Icons allow you to use icons that aren't part of the Builder. Tips:
     <ul>
