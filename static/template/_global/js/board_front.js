@@ -2677,29 +2677,26 @@ function IconName(str, iconNum = 1) {
   let subText;
 
   // handle icon name pre-fixes
-  if (str.startsWith("incarna-")) {
-    str = str.replace("incarna-", "");
-    console.log("removing incarna from icon name");
+  if (str.includes("incarna")) {
+    str = str.replace("incarna", "");
   }
-  if (str.startsWith("huge-")) {
-    str = str.replace("huge-", "");
-    console.log("removing huge from icon name");
+  if (str.includes("huge")) {
+    str = str.replace("huge", "");
   }
-  if (str.startsWith("large-")) {
-    str = str.replace("large-", "");
-    console.log("removing large from icon name");
+  if (str.includes("large")) {
+    str = str.replace("large", "");
   }
-  if (str.startsWith("medium-")) {
-    str = str.replace("medium-", "");
-    console.log("removing medium from icon name");
+  if (str.includes("medium")) {
+    str = str.replace("medium", "");
   }
-  if (str.startsWith("small-")) {
-    str = str.replace("small-", "");
-    console.log("removing small from icon name");
+  if (str.includes("small")) {
+    str = str.replace("small", "");
   }
-  if (str.startsWith("tiny-")) {
-    str = str.replace("tiny-", "");
-    console.log("removing tiny from icon name");
+  if (str.includes("tiny")) {
+    str = str.replace("tiny", "");
+  }
+  if (str.startsWith("-")) {
+    str = str.replace("-", "");
   }
   // if (str.startsWith("custom")) {
   //   str = getCustomIconName(str);

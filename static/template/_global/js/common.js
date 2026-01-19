@@ -78,34 +78,46 @@ function replaceIcon(html) {
 
     let HTMLTag = "icon";
     let iconClass = [];
-
-    // Check for Size
-    if (iconName.startsWith("huge-")) {
-      iconName = iconName.substring(5);
-      iconClass.push("huge");
-    }
-    if (iconName.startsWith("large-")) {
-      iconName = iconName.substring(6);
-      iconClass.push("large");
-    }
-    if (iconName.startsWith("medium-")) {
-      iconName = iconName.substring(7);
-      iconClass.push("medium");
-    }
-    if (iconName.startsWith("small-")) {
-      iconName = iconName.substring(6);
-      iconClass.push("small");
-    }
-    if (iconName.startsWith("tiny-")) {
-      iconName = iconName.substring(5);
-      iconClass.push("tiny");
-    }
-
-    // Check for 'no'
     let no_icon = "";
-    if (iconName.startsWith("no-")) {
-      no_icon = "<no-icon></no-icon>";
-      iconName = iconName.substring(3);
+
+    // Check for Prefixes
+    if (iconName.split("-")[1]) {
+      let prefix = iconName.split(/-(.*)/s)[0];
+      let postfix = iconName.split(/-(.*)/s)[1];
+
+      if (prefix.includes("huge")) {
+        //.includes("energy")
+        iconClass.push("huge");
+        iconName = postfix;
+      }
+      if (prefix.includes("large")) {
+        iconClass.push("large");
+        iconName = postfix;
+      }
+      if (prefix.includes("medium")) {
+        iconClass.push("medium");
+        iconName = postfix;
+      }
+      if (prefix.includes("small")) {
+        iconClass.push("small");
+        iconName = postfix;
+      }
+      if (prefix.includes("tiny")) {
+        iconClass.push("tiny");
+        iconName = postfix;
+      }
+
+      // Check for 'no'
+      if (prefix.includes("no")) {
+        no_icon = "<no-icon></no-icon>";
+        iconName = postfix;
+      }
+
+      // Check for Incarna
+      if (prefix.includes("incarna")) {
+        iconClass.push("incarna");
+        iconName = postfix;
+      }
     }
 
     // Check for terrain types
@@ -118,12 +130,6 @@ function replaceIcon(html) {
     // Check for elements
     if (elementNames.has(iconName)) {
       iconClass.push("element");
-    }
-
-    // Check for Incarna
-    if (iconName.startsWith("incarna-")) {
-      iconName = iconName.substring(8);
-      iconClass.push("incarna");
     }
 
     // Check for Custom
