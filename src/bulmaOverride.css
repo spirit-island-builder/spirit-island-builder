@@ -318,4 +318,7 @@ button.side-menu:hover {
   input::placeholder {
     color: #606060;
   }
+  div.privacyBody {
+    color: #e6e6e6;
+  }
 }
