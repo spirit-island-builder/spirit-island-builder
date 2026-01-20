@@ -950,8 +950,17 @@ function getGrowthActionTextAndIcons(growthAction) {
       break;
     }
     case "blank": {
-      growthAction = "custom(,blank75)";
-      // intentional fallthrough
+      let blankMatches = regExpOuterParentheses.exec(growthAction);
+      let blankWidth = 75;
+      if (blankMatches) {
+        let blankOptions = blankMatches[1];
+        if (!isNaN(blankOptions)) {
+          blankWidth = blankOptions;
+        }
+      }
+      growthIcons = `<custom-growth-icon style='width:${blankWidth}px;'></custom-growth-icon>`;
+      growthText = "";
+      break;
     }
     case "custom":
     case "custom-wide": {

@@ -173,7 +173,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 | Custom | Custom Text with !!! Icon | custom(*your_text*) | A custom growth option with the image !!! |  |
 |  | Custom Text with Any Icon | custom(*your_text*,x,...) | A custom growth option with the x icon of your choice (ie. town, dahan, element, etc). Can use more than 1 icon and they will appear in a row. | custom(Deal 1 Damage in each of your Sacred Sites,sacred-site,damage-1) |
 |  | Custom Text with Text In Place of Icons | custom(*your_text*,text,x) | A custom growth option with the your custom text x in place of an icon. |  |
-| Blank Space | Creates a blank space in growth | blank() | Creates a blank space |  |
+| Blank Space | Creates a blank space in growth | blank() or blank(x) | Creates a blank space. x defaults to 75, but can be any number (its pixels). | blank(100) |
 | **OR** Growth Options | Allows pair of two growth options | or(x,y) | x and y are growth options (like the ones above) | Fractured Days's growth: or(gain-1-time^2,gain-card-play(2)) |
 | Presence Track Node | Puts the growth option inside a presence track ring | presence-node(x) | x is a growth option (like the ones above) | presence-node(reclaim-one) |
 | Custom text on anything | Useful for translating, replaces pre-gen text | *_your_text_here_ | At the end of any growth action, put * and whatever text you want. Useful when creating boards in other langauges | reclaim(all)*Alle Karten wiedererlangen |
