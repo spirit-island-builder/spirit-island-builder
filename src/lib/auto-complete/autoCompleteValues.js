@@ -103,7 +103,7 @@ const growthValues = [
     label: "add-presence",
     value: "add-presence()",
     detail: [
-      "add-presence(x) : At range x, add a Presence. x can be a number or 'any'",
+      "add-presence(x) : At range x, add a Presence. x can be a number, 'any', or any element (scaling range)",
       "add-presence(x,y) : At range x, add a Presence to a land with y conditions. y can be terrains, tokens, invaders, invader pieces, dahan, blight, etc.",
       "add-presence(x,y,z,...,and/or) : At range x, add a Presence with multiple conditions y, z, etc, the last parameter must be 'or' or 'and'.",
       "add-presence(x,token,y,and/or) : At range x, add a Presence and/or a token y (beasts, disease, etc). Use add-token if only adding tokens.",
@@ -122,7 +122,14 @@ const growthValues = [
       "add-token(x,y,z) : At range x, add token of type y to land with condition z (such as terrain or other token presence)",
     ],
   },
-  { label: "blank", value: "blank()", detail: ["blank() : Creates a blank space"] },
+  {
+    label: "blank",
+    value: "blank()",
+    detail: [
+      "blank() : Creates a blank space. Default is 75px",
+      "blank(x) : Creates a blank space roughly x px wide.",
+    ],
+  },
   {
     label: "custom",
     value: "custom()",
@@ -216,8 +223,8 @@ const growthValues = [
     value: "gain-power-card()",
     detail: [
       "gain-power-card() : Gain a Power Card",
-      "gain-power-card(x) : Gain x Power Card. x is minor, major, or something else (icon appears in top left)",
-      "gain-power-card(x,y) : Gain x Power Card with y condition. y is text to follow 'Gain x Power Card'",
+      "gain-power-card(x) : Gain x Power Card. x is minor, major, or something else (icon appears in top left). It can also be blank",
+      "gain-power-card(x,y) : Gain x Power Card with y condition. y is text to follow 'Gain x Power Card y'. x can be blank",
       "gain-power-card(x,y,z) : Gain x Power Card with y condition. z is an icon that appears in the top right of the Power Card",
     ],
   },
@@ -270,7 +277,7 @@ const growthValues = [
     label: "move-presence",
     value: "move-presence()",
     detail: [
-      "move-presence(x) : Move a Presence up to x range",
+      "move-presence(x) : Move a Presence up to x range. x is a number or element (scaling)",
       "move-presence(x,y) : Move y Presence up to x range together",
       "move-presence(x,y) : Move Presence and token y up to x range. y is a number",
     ],
@@ -304,8 +311,8 @@ const growthValues = [
     label: "reclaim",
     value: "reclaim()",
     detail: [
-      "relcaim(x) : x can be all, one, half, or custom",
-      "relcaim(x,y) : Reclaim x (all or one) cards with element y",
+      "reclaim(x) : x can be all, one, half, or custom",
+      "reclaim(x,y) : Reclaim x (all or one) cards with element y",
       "reclaim(custom,_your custom reclaim text_) : Custom reclaim text with a unique icon.",
     ],
   },
