@@ -373,6 +373,7 @@
     demoBoardWasLoaded: false,
     spiritName: "",
     stackView: false,
+    cardsPerRow: "fourCard",
     language: "en",
     languageOptions: {
       isVisible: false,
