@@ -149,6 +149,7 @@
       isOneBanner: false,
       name: "",
       starlight: "",
+      flipboard: false,
       artPath: "",
       artScale: "",
       bannerPath: "",

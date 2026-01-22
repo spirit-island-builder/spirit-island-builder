@@ -5986,6 +5986,12 @@ function dynamicResizing() {
       node.removeAttribute("shift");
     }
   });
+
+  //Optional: Flip X boards
+  let flipboard = board.getAttribute("flipboard") ? true : false;
+  if (flipboard) {
+    board.classList.add("flipboard");
+  }
 }
 
 function getGrowthTableWidth(growthTable) {

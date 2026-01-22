@@ -280,3 +280,15 @@ overlay-container {
   position: absolute;
   z-index: 100;
 }
+
+board.flipboard {
+  transform: scaleX(-1);
+  spirit-name-art,
+  spirit-name-text,
+  special-rules,
+  presence-tracks,
+  growth,
+  innate-powers {
+    transform: scaleX(-1);
+  }
+}

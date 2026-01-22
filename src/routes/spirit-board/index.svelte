@@ -135,6 +135,10 @@
       board.setAttribute("starlight", spiritBoard.nameAndArt.starlight);
     }
 
+    if (spiritBoard.nameAndArt.flipboard) {
+      board.setAttribute("flipboard", spiritBoard.nameAndArt.flipboard);
+    }
+
     //Set Special Rules
     const specialRulesContainer = document.createElement("special-rules-container");
     board.appendChild(specialRulesContainer);
@@ -384,6 +388,11 @@
       spiritBoard.nameAndArt.starlight = board.getAttribute("starlight");
       console.log(spiritBoard.nameAndArt.starlight);
       console.log(spiritBoard);
+    }
+
+    spiritBoard.nameAndArt.flipboard = false;
+    if (board.getAttribute("flipboard")) {
+      spiritBoard.nameAndArt.flipboard = board.getAttribute("flipboard");
     }
 
     const artistName = htmlElement.querySelectorAll("artist-name")[0];

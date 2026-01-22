@@ -14,6 +14,12 @@
     document.getElementById("updateButton").click();
   }
 
+  function setTypeFlip(type, spiritBoard) {
+    spiritBoard.nameAndArt.flipboard = type;
+    spiritBoard = spiritBoard;
+    document.getElementById("updateButton").click();
+  }
+
   function setSingleBanner() {
     spiritBoard.nameAndArt.energyBannerPath = spiritBoard.nameAndArt.bannerPath;
     spiritBoard.nameAndArt.playsBannerPath = spiritBoard.nameAndArt.bannerPath;
@@ -73,6 +79,19 @@
         class:is-light={!spiritBoard.nameAndArt.starlight}
         class="button is-info is-small button-hold mb-0"
         on:click={setType(true, spiritBoard)}>Starlight Style</button>
+    </div>
+  </div>
+  <div class="field has-addons">
+    <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
+      <label class="label mr-2" for="flipbard-board-button">Board Type:</label>
+      <button
+        class:is-light={spiritBoard.nameAndArt.flipbard}
+        class="button is-success is-small button-hold mb-0"
+        on:click={setTypeFlip(false, spiritBoard)}>Regular</button>
+      <button
+        class:is-light={!spiritBoard.nameAndArt.flipbard}
+        class="button is-info is-small button-hold mb-0"
+        on:click={setTypeFlip(true, spiritBoard)}>Flip Board</button>
     </div>
   </div>
   <!-- Spirit Art -->
