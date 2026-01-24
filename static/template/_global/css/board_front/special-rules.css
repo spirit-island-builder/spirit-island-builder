@@ -434,11 +434,12 @@ special-rule range > range-value.range-icon > icon {
 special-rule custom-energy {
   height: 45px;
   width: 45px;
-  margin-bottom: -14px;
-  margin-top: -15px;
   position: relative;
   margin-left: -4px;
   margin-right: -4px;
+  margin-top: -25px;
+  display: inline-flex;
+  top: 12px;
 }
 
 special-rule custom-energy value {
