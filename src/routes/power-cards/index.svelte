@@ -308,11 +308,11 @@
   }
 
   const exportSinglePowerCard = (powerCardSingle) => {
-    const htmlFileName =
-      powerCardSingle.spiritName.replaceAll(" ", "_").slice(0, 8) +
-      "-" +
-      powerCardSingle.cards[0].name.replaceAll(" ", "_") +
-      "_PowerCards.html";
+    let htmlFileName = "";
+    if (powerCardSingle.spiritName) {
+      htmlFileName = `${powerCardSingle.spiritName.replaceAll(" ", "_").slice(0, 8)}_`;
+    }
+    htmlFileName += powerCardSingle.cards[0].name.replaceAll(" ", "_") + "_PowerCards.html";
     downloadHTML(generateHTML(powerCardSingle), htmlFileName);
   };
 
