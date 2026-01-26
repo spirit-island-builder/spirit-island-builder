@@ -8,13 +8,13 @@
   // exports allow for properties to be passed into this component. So the value of spiritBoard can be set by whatever component is the parent of this one. See https://svelte.dev/tutorial/declaring-props
   export let spiritBoard;
 
-  function setType(type, spiritBoard) {
+  function setType(type) {
     spiritBoard.nameAndArt.starlight = type;
     spiritBoard = spiritBoard;
     document.getElementById("updateButton").click();
   }
 
-  function setTypeFlip(type, spiritBoard) {
+  function setTypeFlip(type) {
     spiritBoard.nameAndArt.flipboard = type;
     spiritBoard = spiritBoard;
     document.getElementById("updateButton").click();
@@ -80,18 +80,16 @@
         class="button is-info is-small button-hold mb-0"
         on:click={setType(true, spiritBoard)}>Starlight Style</button>
     </div>
-  </div>
-  <div class="field has-addons">
-    <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
-      <label class="label mr-2" for="flipbard-board-button">Board Type:</label>
+    <div
+      class="control buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 ml-1">
       <button
-        class:is-light={spiritBoard.nameAndArt.flipbard}
-        class="button is-success is-small button-hold mb-0"
-        on:click={setTypeFlip(false, spiritBoard)}>Regular</button>
+        class:is-light={spiritBoard.nameAndArt.flipboard === true}
+        class="button is-success is-small mb-0"
+        on:click={() => setTypeFlip(false, spiritBoard)}>Regular</button>
       <button
-        class:is-light={!spiritBoard.nameAndArt.flipbard}
-        class="button is-info is-small button-hold mb-0"
-        on:click={setTypeFlip(true, spiritBoard)}>Flip Board</button>
+        class="button is-info is-small mb-0"
+        class:is-light={spiritBoard.nameAndArt.flipboard !== true}
+        on:click={() => setTypeFlip(true, spiritBoard)}>Flip</button>
     </div>
   </div>
   <!-- Spirit Art -->

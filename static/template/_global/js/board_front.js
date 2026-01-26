@@ -2654,7 +2654,7 @@ function IconName(str, iconNum = 1) {
   let opt4 = "";
   let options;
   let localize;
-  let debug = true;
+  let debug = false;
 
   // identify if 'str' contains options
   const matches = regExp.exec(str);
@@ -2732,7 +2732,6 @@ function IconName(str, iconNum = 1) {
     subText = `${IconName(str.split("/")[0])}/${IconName(str.split("/")[1])}`;
     return subText;
   }
-  console.log("we got here now " + str);
 
   switch (str) {
     case "presence":
@@ -2764,7 +2763,6 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "incarna":
-      console.log("we got here now " + str);
       if (num) {
         switch (num) {
           case "empower":
