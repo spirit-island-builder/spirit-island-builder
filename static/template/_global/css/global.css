@@ -671,7 +671,7 @@ range > range-value.range-icon > icon {
   height: 22px;
   position: relative;
   margin: 0px;
-  top: 2px;
+  top: -3px;
 }
 
 no-range {

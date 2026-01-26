@@ -980,6 +980,12 @@ innate-power innate-info-range range-value {
 innate-power innate-info-range range {
 }
 
+range-value icon.element {
+  width: 33px;
+  vertical-align: text-bottom;
+  margin: 0px;
+}
+
 effect icon.tiny {
   width: 20px;
   height: 20px;
