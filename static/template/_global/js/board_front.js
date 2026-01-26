@@ -1165,6 +1165,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           break;
         default:
       }
+      console.log("sending this to IconName: " + growthAction);
       growthText = IconName(growthAction);
       break;
     }
@@ -2653,7 +2654,7 @@ function IconName(str, iconNum = 1) {
   let opt4 = "";
   let options;
   let localize;
-  let debug = false;
+  let debug = true;
 
   // identify if 'str' contains options
   const matches = regExp.exec(str);
@@ -2688,6 +2689,10 @@ function IconName(str, iconNum = 1) {
   // handle icon name pre-fixes
   if (str.includes("incarna")) {
     str = str.replace("incarna", "");
+    if (str.length === 0) {
+      // if it was an incarna growth, we have to rebuild incarna.
+      str = "incarna";
+    }
   }
   if (str.includes("huge")) {
     str = str.replace("huge", "");
@@ -2727,6 +2732,7 @@ function IconName(str, iconNum = 1) {
     subText = `${IconName(str.split("/")[0])}/${IconName(str.split("/")[1])}`;
     return subText;
   }
+  console.log("we got here now " + str);
 
   switch (str) {
     case "presence":
@@ -2758,6 +2764,7 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       break;
     case "incarna":
+      console.log("we got here now " + str);
       if (num) {
         switch (num) {
           case "empower":
