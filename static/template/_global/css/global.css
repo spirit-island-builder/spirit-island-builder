@@ -640,6 +640,10 @@ icon.noforget {
   background-image: url("../images/board/NewIcons/NoForgetIcon.png");
 }
 
+icon.deeps {
+  background-image: url("../images/board/NewIcons/Deeps.png");
+}
+
 range {
   width: 50px;
   height: 32px;
