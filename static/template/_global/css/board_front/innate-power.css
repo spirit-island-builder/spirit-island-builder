@@ -85,6 +85,10 @@ innate-power.two-column:only-child level {
   margin-bottom: 8px;
 }
 
+innate-power:last-of-type level {
+  width: 464px;
+}
+
 innate-power ul {
   margin-block-end: 0px;
   margin-block-start: 0px;
@@ -272,7 +276,7 @@ innate-powers.really-tight-levels level {
   margin-bottom: 2px;
 }
 
-innate-power.ip1-wide level {
+innate-powers.wide-levels level {
   width: 507px;
 }
 
@@ -282,7 +286,10 @@ innate-power.ip1-wide level {
 
 level .single-line {
   padding-top: 14px;
-  padding-bottom: 9px;
+}
+
+effect.single-line icon {
+  margin-top: -10px;
 }
 
 note {
@@ -381,6 +388,7 @@ effect {
   white-space: pre-line;
   line-height: 1.15;
   display: block;
+  padding-left: 0px;
 }
 
 innate-powers.tight-line-height effect {
@@ -388,53 +396,40 @@ innate-powers.tight-line-height effect {
 }
 
 effect icon {
-  width: 27px;
-  height: 27px;
-  margin-bottom: -5px;
-  margin-top: -10px;
-  margin-left: -1px;
-  margin-right: -1px;
+  width: 30px;
+  height: unset;
+  /* height: 27px; */
+  margin: 0px;
+  margin-top: -5px;
+  aspect-ratio: 1;
+  vertical-align: sub;
   background-position: bottom;
 }
 
 effect icon.city {
-  width: 35px;
-  height: 35px;
-  margin-bottom: -10px;
-  margin-left: -2px;
-  margin-right: -2px;
-  margin-top: -10px;
+  width: 37px;
+  height: 32px;
 }
 
-effect icon.badlands,
-effect icon.beasts,
-effect icon.disease,
-effect icon.wilds,
-effect icon.strife,
+effect icon.town {
+  width: 30px;
+}
+
 effect icon.blight,
-effect icon.town,
-effect icon.dahan,
-effect icon.fear,
-effect icon.slow,
-effect icon.fast,
-effect icon.major,
-effect icon.minor,
-effect icon.isolate {
+effect icon.fear {
+  margin-top: -5px;
+}
+
+effect icon.dahan {
   width: 27px;
-  height: 27px;
-  margin-bottom: -5px;
-  margin-top: -10px;
-  margin-left: -1px;
-  margin-right: -1px;
-  background-position: bottom;
 }
 
 effect icon.slow,
 effect icon.fast,
 effect icon.fear {
   width: 45px;
+  margin-top: -5px;
   height: 35px;
-  margin-bottom: -9px;
 }
 
 effect icon.fear {
@@ -442,18 +437,14 @@ effect icon.fear {
 }
 
 effect icon.explorer {
-  height: 30px;
-  margin-bottom: -6px;
+  height: 35px;
   width: 20px;
-  margin-left: -2px;
-  margin-right: -5px;
 }
 
 effect icon.badlands,
 effect icon.wilds {
-  width: 33px;
-  margin-left: 0px;
-  margin-right: 2px;
+  width: 40px;
+  height: 35px;
 }
 
 effect icon.range-0,
@@ -465,9 +456,6 @@ effect icon.range-X,
 effect icon.range-x {
   width: 50px;
   height: 30px;
-  margin-left: 0px;
-  margin-top: -20px;
-  margin-bottom: -7px;
 }
 
 effect icon.gain-range-1,
@@ -477,17 +465,19 @@ effect icon.gain-range-x,
 effect icon.gain-range-X {
   width: 45px;
   height: 40px;
-  margin-left: 0px;
-  margin-top: -20px;
-  margin-bottom: -9px;
 }
 
 effect icon.element {
+  width: 38px;
+  vertical-align: text-bottom;
+  margin-top: -5px;
+  margin-bottom: -2px;
+}
+
+effect.single-line icon.element {
   width: 45px;
-  height: 30px;
-  margin-left: -9px;
-  margin-right: -10px;
-  margin-bottom: -7px;
+  vertical-align: text-top;
+  margin-top: -19px;
 }
 
 innate-power effect icon.fast {
@@ -527,28 +517,14 @@ innate-power icon.any {
 }
 
 effect icon.presence {
-  height: 25px;
+  height: 20px;
   width: 32px;
-  margin-left: 0px;
-  margin-right: -1px;
 }
 
 effect icon.sacred-site {
   height: 30px;
   width: 50px;
-  margin-bottom: -9px;
-  margin-top: -10px;
-  margin-left: -4px;
-  margin-right: 0px;
 }
-
-/* effect icon.range-small-icon,
-effect range > range-value.range-icon > icon {
-  width: 33px;
-  height: 22px;
-  position: relative;
-  top: -4px;
-} */
 
 description-container range {
   width: 45px;
@@ -601,14 +577,12 @@ innate-power description-container note range {
 
 icon-count {
   font-family: "Energy Font";
-  font-size: 21px;
+  font-size: 26px;
   color: #431e0aff;
-  margin-top: -13px;
   margin-right: 0px;
-  margin-left: -1px;
   width: 15px;
   display: inline-block;
-  transform: translate(0px, 3px);
+  vertical-align: text-bottom;
 }
 
 note icon.city {
@@ -637,10 +611,9 @@ note icon.destroyed-presence {
 }
 
 level {
-  display: inline-block;
+  display: inline;
   height: auto;
   width: 500px;
-  /* width: 507px; */
   font-family: "JosefinSans-Regular";
   font-size: 22.66px;
   margin-top: 5px;
@@ -656,29 +629,19 @@ threshold {
   color: #431e0aff;
   float: left;
   margin-right: 6px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  position: relative;
   display: inline-flex;
   align-items: center;
 }
 
-level.description-wrap {
-  margin-bottom: 0px;
+threshold.no-wrap {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 level.description-wrap effect {
   padding-left: 0px;
-}
-
-level.description-wrap threshold {
-  position: relative;
-  top: unset;
-  transform: unset;
-}
-
-innate-power:last-of-type level {
-  width: 500px;
 }
 
 innate-info icon.range-0,
@@ -835,7 +798,7 @@ cost-energy {
 cost-text {
   display: block;
   position: absolute;
-  top: 33px;
+  top: 34px;
   margin-right: 3px;
 }
 
@@ -858,9 +821,7 @@ cost-threshold value {
 threshold icon {
   width: 50px;
   height: 50px;
-  margin-bottom: 0px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: 0px 5px;
   background-position: bottom;
 }
 
@@ -945,7 +906,7 @@ cost-threshold icon.cost-custom {
   position: relative;
   display: block;
   z-index: 1;
-  top: -4px;
+  top: -9px;
 }
 
 .cost-custom > value {
@@ -997,9 +958,9 @@ note icon.any {
 
 effect icon.incarna {
   width: 40px;
-  height: 40px;
-  margin-top: -13px;
-  margin-bottom: -10px;
+  height: 35px;
+  margin-top: -10px;
+  margin-bottom: -5px;
 }
 
 innate-power:only-child level {
@@ -1038,4 +999,10 @@ effect icon.large {
 effect icon.huge {
   width: 55px;
   height: 55px;
+}
+
+binder icon-count {
+  vertical-align: bottom;
+  font-family: unset;
+  font-size: unset;
 }

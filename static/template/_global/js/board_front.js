@@ -5905,9 +5905,9 @@ function dynamicResizing() {
   // Next give left innate more horizontal room
   if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
-      console.log("  > Innate Power 1 overflowing, giving more room to IP1");
+      console.log("  > Innate Powers are overflowing, giving more room to IP1");
     }
-    innatePowers[0].classList.add("ip1-wide");
+    innatePowerBox.classList.add("wide-levels");
   }
   // Then tighten up the power levels
   if (checkOverflowHeight(innatePowerBox, 0)) {
@@ -6094,19 +6094,22 @@ function innatePowerSizing(board) {
     effects[i].style.paddingLeft = outerThresholdWidth[i] + "px";
     const textHeight = effects[i].offsetHeight;
     const thresholdWidth = thresholds[i].offsetWidth;
-    if (textHeight < 40) {
+    if (textHeight < 50) {
       effects[i].classList.add("single-line");
       if (debug) {
         console.log("single line");
       }
       // Align-middle the text if its a single line
-    } else if (textHeight > 86 && thresholdWidth > 80) {
+    } else if (textHeight > 100 && thresholdWidth > 80) {
       // Wrap effects below the threshold if its greater than three lines
       if (debug) {
         console.log("wrapping large text");
       }
-      effects[i].style.paddingLeft = "0px"; // delete this if nothing seems broken
+      effects[i].style.paddingLeft = "0px";
       levels[i].classList.add("description-wrap");
+    } else {
+      // It doesn't need to wrap. Line up threshold with middle of effect
+      thresholds[i].classList.add("no-wrap");
     }
   }
 }
