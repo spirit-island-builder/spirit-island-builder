@@ -11,10 +11,11 @@ The best place to start with the Builder is to look at the Examples. The Builder
 
 - Examples: Click this button to load the official spirits into the Builder, as an example.
 - Instructions: Click this button to open the Instructions pop-up.
-- Load: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage. **Ensure you are on the right component tab before loading or the load will fail** (ie. only load Adversaries on the Adversary tab).
-- Save: Click this button to immediately download the save file for your content (careful: each component is a different save file).
+- Load & Save
+  - Load: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage. **Ensure you are on the right component tab before loading or the load will fail** (ie. only load Adversaries on the Adversary tab).
+  - Save: Click this button to immediately download the save file for your content (careful: each component is a different save file).
+  - Local or Google Drive: You can save and load files either from your local drive or from a connected Google drive.
 - Update Preview: Click this button to load a new preview board and see your changes.
-- Toggle Board Size: Click this to change the size of the preview. NOTE: While you can download images of Spirit Boards, you can also use a screen capture to get a higher resolution.
 - Clear All Fields: Click this to delete everything in the Builder form. It will ask for confirmation.
 - Download Image: Click this button to download a PNG of your Spirit Board or other content.
 - Export TTS file: Click this button to download an object file for the popular Spirit Island Tabletop Simulator mod.

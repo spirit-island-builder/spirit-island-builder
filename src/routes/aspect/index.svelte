@@ -8,6 +8,7 @@
   import LoadButton from "$lib/load-button.svelte";
   import LoadDropdown from "$lib/load-dropdown.svelte";
   import SaveDropdown from "$lib/save-dropdown.svelte";
+  import InstructionsLink from "$lib/instructions/link.svelte";
   import { dev } from "$app/environment";
 
   import NameReplacements from "./name-replacements.svelte";
@@ -599,6 +600,7 @@
       <button class="button is-info js-modal-trigger mt-1 mr-1" on:click={exampleModal.open}>
         Examples
       </button>
+      <InstructionsLink class="button is-info mt-1  mr-1" anchor="spirit-board-play-side" />
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
