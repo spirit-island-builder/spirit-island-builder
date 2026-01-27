@@ -2539,6 +2539,16 @@ function getPresenceNodeInnerHTML(
         }
         break;
       }
+      case "take-power-card": {
+        const iconText = fullOption;
+        const matches = regExp.exec(fullOption);
+        if (matches) {
+          inner = `<icon class='take-power-card-blank'>{${matches[1]}}</icon>`;
+        } else {
+          inner = "{" + iconText + "}";
+        }
+        break;
+      }
       case "reclaim": {
         const matches = regExp.exec(fullOption);
         if (matches) {

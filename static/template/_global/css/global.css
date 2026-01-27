@@ -540,6 +540,9 @@ icon.gain-power-card-blank {
 icon.take-power-card {
   background-image: url("../images/customIcons/Take\ a\ Power.png");
 }
+icon.take-power-card-blank {
+  background-image: url("../images/customIcons/take-power-card-blank.png");
+}
 icon.forget-power-card {
   background-image: url("../images/customIcons/forgetCardIcon.png");
 }
