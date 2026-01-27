@@ -396,6 +396,13 @@ For now, your adversary must have 6 levels. If you want to do less, you'll have 
 
 [Home](#index)
 
+## Aspect
+The Aspect component can be used for Aspects (including multi-part aspects) as well as special cards like Healing Cards.
+
+See the FAQ for spirit boards for information on [Special Rules](#special-rules), [Growth](#growth), [Innate Powers](#innate-powers), and [Bonus Nodes](#presence-tracks).
+
+[Home](#index)
+
 ## General Icons
 
 Icons for invaders, elements, dahan, etc can be used by enclosing its name with "{}". For example, {dahan} or {fire}. Here is a list of what is available:
