@@ -150,6 +150,7 @@
       name: "",
       starlight: "",
       flipboard: "",
+      rumu: "",
       artPath: "",
       artScale: "",
       bannerPath: "",

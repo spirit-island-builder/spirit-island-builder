@@ -10,6 +10,14 @@
 
   function setType(type) {
     spiritBoard.nameAndArt.starlight = type;
+    spiritBoard.nameAndArt.rumu = false;
+    spiritBoard = spiritBoard;
+    document.getElementById("updateButton").click();
+  }
+
+  function setTypeRumu(type) {
+    spiritBoard.nameAndArt.rumu = type;
+    spiritBoard.nameAndArt.starlight = false;
     spiritBoard = spiritBoard;
     document.getElementById("updateButton").click();
   }
@@ -79,6 +87,10 @@
         class:is-light={!spiritBoard.nameAndArt.starlight}
         class="button is-info is-small button-hold mb-0"
         on:click={setType(true, spiritBoard)}>Starlight Style</button>
+      <button
+        class:is-light={!spiritBoard.nameAndArt.rumu}
+        class="button is-info is-small button-hold mb-0"
+        on:click={setTypeRumu(true, spiritBoard)}>Alternate</button>
     </div>
     <div
       class="control buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 ml-1">

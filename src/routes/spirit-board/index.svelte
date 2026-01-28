@@ -135,6 +135,10 @@
       board.setAttribute("starlight", spiritBoard.nameAndArt.starlight);
     }
 
+    if (spiritBoard.nameAndArt.rumu) {
+      board.setAttribute("rumu", spiritBoard.nameAndArt.rumu);
+    }
+
     if (spiritBoard.nameAndArt.flipboard) {
       board.setAttribute("flipboard", spiritBoard.nameAndArt.flipboard);
     }
@@ -393,6 +397,11 @@
     spiritBoard.nameAndArt.flipboard = false;
     if (board.getAttribute("flipboard")) {
       spiritBoard.nameAndArt.flipboard = board.getAttribute("flipboard");
+    }
+
+    spiritBoard.nameAndArt.rumu = false;
+    if (board.getAttribute("rumu")) {
+      spiritBoard.nameAndArt.rumu = board.getAttribute("rumu");
     }
 
     const artistName = htmlElement.querySelectorAll("artist-name")[0];

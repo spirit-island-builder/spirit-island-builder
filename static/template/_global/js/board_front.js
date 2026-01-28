@@ -5365,14 +5365,22 @@ function dynamicResizing() {
   const right = board.getElementsByTagName("right")[0];
   const growthSection = board.getElementsByTagName("growth")[0];
   const innatePowerBox = board.getElementsByTagName("innate-powers")[0];
+  const presenceTracksBox = board.getElementsByTagName("presence-tracks")[0];
 
   //Optional: Starlight type boards
   let starlight = board.getAttribute("starlight") ? true : false;
-  const rightRight = document.createElement("right-right");
+  let rumu = board.getAttribute("rumu") ? true : false;
   if (starlight) {
+    const rightRight = document.createElement("right-right");
     rightRight.appendChild(innatePowerBox);
     board.appendChild(rightRight);
     board.classList.add("starlight");
+  } else if (rumu) {
+    const rumuRight = document.createElement("rumu-right");
+    rumuRight.appendChild(presenceTracksBox);
+    rumuRight.appendChild(innatePowerBox);
+    right.appendChild(rumuRight);
+    board.classList.add("rumu");
   }
 
   console.log("RESIZING: Growth");
@@ -5828,10 +5836,10 @@ function dynamicResizing() {
   }
 
   // Adjust table
-  const innatePowerBoxCheck = board.getElementsByTagName("innate-powers")[0];
-  innatePowerBoxCheck.style.height =
-    right.clientHeight - presenceTrack.clientHeight - growth.clientHeight + "px";
-  if (checkOverflowHeight(innatePowerBoxCheck)) {
+  innatePowerBox.style.height = rumu
+    ? right.clientHeight - growth.clientHeight + "px"
+    : right.clientHeight - presenceTrack.clientHeight - growth.clientHeight + "px";
+  if (checkOverflowHeight(innatePowerBox)) {
     energyTrack.classList.add("vertical-tight");
     console.log("  > Compressing Presence Tracks Vertically");
   }
@@ -5899,8 +5907,8 @@ function dynamicResizing() {
 
   // Shrink Innate Power notes if needed for space
   // const innatePowerBox = board.getElementsByTagName("innate-powers")[0];
-  innatePowerBox.style.height =
-    right.clientHeight - presenceTracks.clientHeight - growth.clientHeight + "px";
+  // innatePowerBox.style.height =
+  //   right.clientHeight - presenceTracks.clientHeight - growth.clientHeight + "px";
   let moveFlag = false;
   let k = 0;
 
@@ -5931,14 +5939,14 @@ function dynamicResizing() {
     if (debug) {
       console.log("  > Innate Powers overflowing, shrinking space between levels");
     }
-    innatePowerBoxCheck.classList.add("tight-levels");
+    innatePowerBox.classList.add("tight-levels");
   }
   // Then tighten up the power levels again
   if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
       console.log("  > Innate Powers still overflowing, shrinking space between levels more");
     }
-    innatePowerBoxCheck.classList.add("really-tight-levels");
+    innatePowerBox.classList.add("really-tight-levels");
   }
   // If one power & overflowing, make it wrap
   if (checkOverflowHeight(innatePowerBox, 0) && innatePowers.length === 1) {
@@ -5950,7 +5958,7 @@ function dynamicResizing() {
     if (debug) {
       console.log("  > Innate Powers overflowing, shrinking level description line height");
     }
-    innatePowerBoxCheck.classList.add("tight-line-height");
+    innatePowerBox.classList.add("tight-line-height");
   }
 
   if (checkOverflowHeight(innatePowerBox, 0)) {
