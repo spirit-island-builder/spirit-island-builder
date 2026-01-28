@@ -362,9 +362,11 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
 
   let orGrowthActions;
   let numActions = 1;
-  if (growthActionType === "or") {
+  let orText = "or";
+  if (growthActionType === "or" || growthActionType === "then") {
     console.log("'or' growth detected");
     isOr = true;
+    orText = growthActionType;
     const matches = regExpOuterParentheses.exec(growthAction)[1];
     orGrowthActions = matches.split(regExpCommaNoParentheses);
     growthAction = orGrowthActions[0];
@@ -400,8 +402,8 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
   for (let a = 1; a < numActions; a++) {
     // For an 'or' growth, loop through the additional actions
     actionIconsAndText = getGrowthActionTextAndIcons(orGrowthActions[a]);
-    growthText += " or " + actionIconsAndText[1];
-    growthIcons += "or" + actionIconsAndText[0];
+    growthText += ` ${orText} ${actionIconsAndText[1]}`;
+    growthIcons += `${orText}${actionIconsAndText[0]}`;
     growthWasDefault = 0;
   }
 

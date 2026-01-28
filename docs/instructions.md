@@ -181,6 +181,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 | Blank Space | Creates a blank space in growth | blank() | Creates a blank space. Default is 75px |  |
 |  | Creates a blanks space of x pixels | blank(x) | Creates a blank space roughly x px wide. |  |
 | **OR** Growth Options | Allows pair of two growth options | or(x,y) | x and y are growth options (like the ones above) | Fractured Days's growth: or(gain-1-time^2,gain-card-play(2)) |
+| **then** Growth Options | Allows one growth option to occur before another | then(x,y) | x and y are growth options (like the ones above) |  |
 | Presence Track Node | Puts the growth option inside a presence track ring | presence-node(x) | x is a growth option (like the ones above) | presence-node(reclaim-one) |
 | Custom text on anything | Useful for translating, replaces pre-gen text | *_your_text_here_ | At the end of any growth action, put * and whatever text you want. Useful when creating boards in other langauges | reclaim(all)*Alle Karten wiedererlangen |
 [Home](#index)
