@@ -450,6 +450,11 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
     growthIcons = `<growth-cell-double>${growthIcons}</growth-cell-double>`;
   }
 
+  //Check for blanks & relax constraint on growth-text if so
+  if (growthText.length < 1) {
+    growthTextOpen = "<growth-text class=blank-text>";
+  }
+
   growthActionHTML = growthOpen + growthIcons + growthTextOpen + growthText + growthTextClose;
   return growthActionHTML;
 }
@@ -960,7 +965,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           blankWidth = blankOptions;
         }
       }
-      growthIcons = `<custom-growth-icon style='width:${blankWidth}px;'></custom-growth-icon>`;
+      growthIcons = `<custom-growth-icon style='max-width:${blankWidth}px;'></custom-growth-icon>`;
       growthText = "";
       break;
     }
