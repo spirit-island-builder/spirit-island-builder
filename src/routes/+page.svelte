@@ -149,6 +149,8 @@
       isOneBanner: false,
       name: "",
       starlight: "",
+      flipboard: "",
+      rumu: "",
       artPath: "",
       artScale: "",
       bannerPath: "",
@@ -373,6 +375,7 @@
     demoBoardWasLoaded: false,
     spiritName: "",
     stackView: false,
+    cardsPerRow: "fourCard",
     language: "en",
     languageOptions: {
       isVisible: false,

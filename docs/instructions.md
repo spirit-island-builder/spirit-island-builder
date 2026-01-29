@@ -11,10 +11,11 @@ The best place to start with the Builder is to look at the Examples. The Builder
 
 - Examples: Click this button to load the official spirits into the Builder, as an example.
 - Instructions: Click this button to open the Instructions pop-up.
-- Load: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage. **Ensure you are on the right component tab before loading or the load will fail** (ie. only load Adversaries on the Adversary tab).
-- Save: Click this button to immediately download the save file for your content (careful: each component is a different save file).
+- Load & Save
+  - Load: Click this button to load a file from the Spirit Island HTML Template or a file previously saved from this webpage. **Ensure you are on the right component tab before loading or the load will fail** (ie. only load Adversaries on the Adversary tab).
+  - Save: Click this button to immediately download the save file for your content (careful: each component is a different save file).
+  - Local or Google Drive: You can save and load files either from your local drive or from a connected Google drive.
 - Update Preview: Click this button to load a new preview board and see your changes.
-- Toggle Board Size: Click this to change the size of the preview. NOTE: While you can download images of Spirit Boards, you can also use a screen capture to get a higher resolution.
 - Clear All Fields: Click this to delete everything in the Builder form. It will ask for confirmation.
 - Download Image: Click this button to download a PNG of your Spirit Board or other content.
 - Export TTS file: Click this button to download an object file for the popular Spirit Island Tabletop Simulator mod.
@@ -143,6 +144,10 @@ Growth is broken into Growth Sets, Groups, and Actions.
 |  | Gain a Minor/Major/Other Power Card | gain-power-card(x) | Gain x Power Card. x is minor, major, or something else (icon appears in top left). It can also be blank | gain-power-card(minor) |
 |  | Gain a Minor/Major/Other Power Card with Other Note | gain-power-card(x,y) | Gain x Power Card with y condition. y is text to follow 'Gain x Power Card y'. x can be blank. | gain-power-card(minor, from discard) |
 |  | Gain a Minor/Major/Other Power Card with Note&Icon | gain-power-card(x,y,z) | Gain x Power Card with y condition. z is an icon that appears in the top right of the Power Card | Dances Up Earthquakes: or(add-presence(2),gain-power-card(major, without Forgetting,noforget)) |
+| Take Power Card | Take a Power Card | take-power-card() | Take a Power Card |  |
+|  | Take a Minor/Major/Other Power Card | take-power-card(x) | Take x Power Card. x is minor, major, or something else (icon appears in top left) | take-power-card(minor) |
+|  | Take a Minor/Major/Other Power Card with Other Note | take-power-card(x,y) | Take x Power Card with y condition. y is text to follow 'Take x Power Card' | take-power-card(minor, from discard) |
+|  | Take a Minor/Major/Other Power Card with Note&Icon | take-power-card(x,y,z) | Take x Power Card with y condition. z is an icon that appears in the top right of the Power Card |  |
 | Repeating Growth Options | Repeat Growth Options | ^x | Added to other growth options. x is the number of repeats. As seen on Fractured Days | gain-power-card^2; gain-energy(2)^3 |
 | Discarding Cards | Discard a Card w/ an Element | discard(x) | Discard a card with element x (as seen on Ember-Eyed) |  |
 |  | Discard 2 Power Cards | discard-cards | As seen on Downpour |  |
@@ -173,8 +178,10 @@ Growth is broken into Growth Sets, Groups, and Actions.
 | Custom | Custom Text with !!! Icon | custom(*your_text*) | A custom growth option with the image !!! |  |
 |  | Custom Text with Any Icon | custom(*your_text*,x,...) | A custom growth option with the x icon of your choice (ie. town, dahan, element, etc). Can use more than 1 icon and they will appear in a row. | custom(Deal 1 Damage in each of your Sacred Sites,sacred-site,damage-1) |
 |  | Custom Text with Text In Place of Icons | custom(*your_text*,text,x) | A custom growth option with the your custom text x in place of an icon. |  |
-| Blank Space | Creates a blank space in growth | blank() | Creates a blank space |  |
+| Blank Space | Creates a blank space in growth | blank() | Creates a blank space. Default is 75px |  |
+|  | Creates a blanks space of x pixels | blank(x) | Creates a blank space roughly x px wide. |  |
 | **OR** Growth Options | Allows pair of two growth options | or(x,y) | x and y are growth options (like the ones above) | Fractured Days's growth: or(gain-1-time^2,gain-card-play(2)) |
+| **then** Growth Options | Allows one growth option to occur before another | then(x,y) | x and y are growth options (like the ones above) |  |
 | Presence Track Node | Puts the growth option inside a presence track ring | presence-node(x) | x is a growth option (like the ones above) | presence-node(reclaim-one) |
 | Custom text on anything | Useful for translating, replaces pre-gen text | *_your_text_here_ | At the end of any growth action, put * and whatever text you want. Useful when creating boards in other langauges | reclaim(all)*Alle Karten wiedererlangen |
 [Home](#index)
@@ -211,9 +218,12 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 |                                     | push(incarna)                              | "Push Your Incarna" with default incarna icon                                                                                    |                                                                                                                        |
 |                                     | push(incarna;x)                            | "Push Your Incarna" with custom incarna icon. Should use a custom icon.                                                          |                                                                                                                        |
 | Isolate                             | isolate                                    | Isolate one of your Lands.                                                                                                       | Custom cardplay track: 1,2,isolate,3,3,4,5                                                                                                                   |
-| Move a Presence                     | move-presence(x)                           | Move a presence x range, can be used in combinations.                                                                            | Downpour cardplay track: 1,move-presence(1),water,2,move-presence(1),3                                                                                       |
+| Move a Presence                     | move-presence(x)                           | If x is number, move a presence x range, can be used in combinations.                                                                            | Downpour cardplay track: 1,move-presence(1),water,2,move-presence(1),3                                                                                       |
+|                                     | move-presence(x)                           | Move a presence to x land, such as coastal.                                                                            | Downpour cardplay track: 1,move-presence(1),water,2,move-presence(1),3                                                                                       |
 | Gain Power Card                     | gain-power-card                            | Gain Power Card (typically paired with ^pay(2))                                                                                  | Many Minds cardplay track: 1,2,gain-power-card^pay(2),3,3,4,5                                                                                                       |
 |                                     | gain-power-card(x)                         | Gain Power Card of type x (such as minor)                                                                                        |                                                |
+| Take Power Card                     | take-power-card                            | Take Power Card                                                                                  |                                                                                                        |
+|                                     | take-power-card(x)                         | Take Power Card of type x (such as minor)                                                                                        |                                                |
 | Pay 2 to Gain Power Card            | gain-card-pay-2                            | Pay 2 Energy to Gain Power Card                                                                                                  | Many Minds cardplay track: 1,2,gain-card-pay-2,3,3,4,5                                                                                                       |
 | Gain Card Play                      | gain-card-play                             | Gain an additional card play not in the normal way (think Stone or Finder)                                                       | Stone energy track: 2,3,gain-card-play^minor,4,gain-card-play^minor,6,gain-card-play^minor                                                                   |
 | Gain Range                          | gain-range(x)                              | Gain +x range                                                                                                                    |                                                                                                                                                              |
@@ -242,7 +252,7 @@ The two presence tracks (energy & plays) are filled out here. To accomplish midd
 | Backgrounds: prevent 'first' ring  | _nofirst                                    | Prevents the complete 'first' ring, instead uses the dashed ring                      | 1_nofirst                                                                                               |
 | Move a node from default location  | _shift(x) or _shift(x;y)      | Shifts the node left (-) or right (+) by x, up (+) or down (-) by y.                       | 1_shift(50;50) or 1_shift(25)first
 | Subtext Placement  | ~top, ~left, ~right                                    | Changes where the node's text shows up in relation to the node                     | 1_~top, middle(earth~top)                                                                                               |
-| Blank space / empty presence track  | blank, blank(x)                            | Creates a blank presence node. Useful for creating space if you want to end the presence tracks elsewhere                        |                                                                                                                                                              |
+| Blank space / empty presence track  | blank, blank(x)                            | Creates a blank presence node. x is number of blank lines of text (to space vertically).                        |                                                                                                                                                              |
 
 [Home](#index)
 
@@ -384,6 +394,13 @@ For now, your adversary must have 6 levels. If you want to do less, you'll have 
 - Difficulty: The first box next to name. The difficulty appears in small () next to the level number.
 - Fear Cards: The number of fear cards for this adversary level. You can separate with commas or forward slash.
 - Effect: The rules of your level. You can use the [{icon shortcuts}](#general-icons) here.
+
+[Home](#index)
+
+## Aspect
+The Aspect component can be used for Aspects (including multi-part aspects) as well as special cards like Healing Cards.
+
+See the FAQ for spirit boards for information on [Special Rules](#special-rules), [Growth](#growth), [Innate Powers](#innate-powers), and [Bonus Nodes](#presence-tracks).
 
 [Home](#index)
 

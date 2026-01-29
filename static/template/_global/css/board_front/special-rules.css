@@ -109,7 +109,6 @@ special-rule icon.presence,
 special-rule icon.wilds,
 special-rule icon.disease,
 special-rule icon.strife,
-special-rule icon.explorer,
 special-rule icon.badlands,
 special-rule icon.fear,
 special-rule icon.range-plus-1,
@@ -123,6 +122,11 @@ special-rule icon.range,
 special-rule icon.isolate {
   width: 30px;
   height: 30px;
+}
+
+special-rule icon.explorer {
+  height: 35px;
+  width: 20px;
 }
 
 special-rule icon.presence {
@@ -434,11 +438,12 @@ special-rule range > range-value.range-icon > icon {
 special-rule custom-energy {
   height: 45px;
   width: 45px;
-  margin-bottom: -14px;
-  margin-top: -15px;
   position: relative;
   margin-left: -4px;
   margin-right: -4px;
+  margin-top: -25px;
+  display: inline-flex;
+  top: 12px;
 }
 
 special-rule custom-energy value {

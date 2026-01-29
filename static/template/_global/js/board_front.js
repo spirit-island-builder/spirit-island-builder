@@ -362,9 +362,11 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
 
   let orGrowthActions;
   let numActions = 1;
-  if (growthActionType === "or") {
+  let orText = "or";
+  if (growthActionType === "or" || growthActionType === "then") {
     console.log("'or' growth detected");
     isOr = true;
+    orText = growthActionType;
     const matches = regExpOuterParentheses.exec(growthAction)[1];
     orGrowthActions = matches.split(regExpCommaNoParentheses);
     growthAction = orGrowthActions[0];
@@ -400,8 +402,8 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
   for (let a = 1; a < numActions; a++) {
     // For an 'or' growth, loop through the additional actions
     actionIconsAndText = getGrowthActionTextAndIcons(orGrowthActions[a]);
-    growthText += " or " + actionIconsAndText[1];
-    growthIcons += "or" + actionIconsAndText[0];
+    growthText += ` ${orText} ${actionIconsAndText[1]}`;
+    growthIcons += `${orText}${actionIconsAndText[0]}`;
     growthWasDefault = 0;
   }
 
@@ -950,8 +952,17 @@ function getGrowthActionTextAndIcons(growthAction) {
       break;
     }
     case "blank": {
-      growthAction = "custom(,blank75)";
-      // intentional fallthrough
+      let blankMatches = regExpOuterParentheses.exec(growthAction);
+      let blankWidth = 75;
+      if (blankMatches) {
+        let blankOptions = blankMatches[1];
+        if (!isNaN(blankOptions)) {
+          blankWidth = blankOptions;
+        }
+      }
+      growthIcons = `<custom-growth-icon style='width:${blankWidth}px;'></custom-growth-icon>`;
+      growthText = "";
+      break;
     }
     case "custom":
     case "custom-wide": {
@@ -1156,6 +1167,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           break;
         default:
       }
+      console.log("sending this to IconName: " + growthAction);
       growthText = IconName(growthAction);
       break;
     }
@@ -2529,6 +2541,16 @@ function getPresenceNodeInnerHTML(
         }
         break;
       }
+      case "take-power-card": {
+        const iconText = fullOption;
+        const matches = regExp.exec(fullOption);
+        if (matches) {
+          inner = `<icon class='take-power-card-blank'>{${matches[1]}}</icon>`;
+        } else {
+          inner = "{" + iconText + "}";
+        }
+        break;
+      }
       case "reclaim": {
         const matches = regExp.exec(fullOption);
         if (matches) {
@@ -2679,6 +2701,10 @@ function IconName(str, iconNum = 1) {
   // handle icon name pre-fixes
   if (str.includes("incarna")) {
     str = str.replace("incarna", "");
+    if (str.length === 0) {
+      // if it was an incarna growth, we have to rebuild incarna.
+      str = "incarna";
+    }
   }
   if (str.includes("huge")) {
     str = str.replace("huge", "");
@@ -5339,14 +5365,22 @@ function dynamicResizing() {
   const right = board.getElementsByTagName("right")[0];
   const growthSection = board.getElementsByTagName("growth")[0];
   const innatePowerBox = board.getElementsByTagName("innate-powers")[0];
+  const presenceTracksBox = board.getElementsByTagName("presence-tracks")[0];
 
   //Optional: Starlight type boards
   let starlight = board.getAttribute("starlight") ? true : false;
-  const rightRight = document.createElement("right-right");
+  let rumu = board.getAttribute("rumu") ? true : false;
   if (starlight) {
+    const rightRight = document.createElement("right-right");
     rightRight.appendChild(innatePowerBox);
     board.appendChild(rightRight);
     board.classList.add("starlight");
+  } else if (rumu) {
+    const rumuRight = document.createElement("rumu-right");
+    rumuRight.appendChild(presenceTracksBox);
+    rumuRight.appendChild(innatePowerBox);
+    right.appendChild(rumuRight);
+    board.classList.add("rumu");
   }
 
   console.log("RESIZING: Growth");
@@ -5802,10 +5836,10 @@ function dynamicResizing() {
   }
 
   // Adjust table
-  const innatePowerBoxCheck = board.getElementsByTagName("innate-powers")[0];
-  innatePowerBoxCheck.style.height =
-    right.clientHeight - presenceTrack.clientHeight - growth.clientHeight + "px";
-  if (checkOverflowHeight(innatePowerBoxCheck)) {
+  innatePowerBox.style.height = rumu
+    ? right.clientHeight - growth.clientHeight + "px"
+    : right.clientHeight - presenceTrack.clientHeight - growth.clientHeight + "px";
+  if (checkOverflowHeight(innatePowerBox)) {
     energyTrack.classList.add("vertical-tight");
     console.log("  > Compressing Presence Tracks Vertically");
   }
@@ -5873,8 +5907,8 @@ function dynamicResizing() {
 
   // Shrink Innate Power notes if needed for space
   // const innatePowerBox = board.getElementsByTagName("innate-powers")[0];
-  innatePowerBox.style.height =
-    right.clientHeight - presenceTracks.clientHeight - growth.clientHeight + "px";
+  // innatePowerBox.style.height =
+  //   right.clientHeight - presenceTracks.clientHeight - growth.clientHeight + "px";
   let moveFlag = false;
   let k = 0;
 
@@ -5896,23 +5930,23 @@ function dynamicResizing() {
   // Next give left innate more horizontal room
   if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
-      console.log("  > Innate Power 1 overflowing, giving more room to IP1");
+      console.log("  > Innate Powers are overflowing, giving more room to IP1");
     }
-    innatePowers[0].classList.add("ip1-wide");
+    innatePowerBox.classList.add("wide-levels");
   }
   // Then tighten up the power levels
   if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
       console.log("  > Innate Powers overflowing, shrinking space between levels");
     }
-    innatePowerBoxCheck.classList.add("tight-levels");
+    innatePowerBox.classList.add("tight-levels");
   }
   // Then tighten up the power levels again
   if (checkOverflowHeight(innatePowerBox, 0)) {
     if (debug) {
       console.log("  > Innate Powers still overflowing, shrinking space between levels more");
     }
-    innatePowerBoxCheck.classList.add("really-tight-levels");
+    innatePowerBox.classList.add("really-tight-levels");
   }
   // If one power & overflowing, make it wrap
   if (checkOverflowHeight(innatePowerBox, 0) && innatePowers.length === 1) {
@@ -5924,7 +5958,7 @@ function dynamicResizing() {
     if (debug) {
       console.log("  > Innate Powers overflowing, shrinking level description line height");
     }
-    innatePowerBoxCheck.classList.add("tight-line-height");
+    innatePowerBox.classList.add("tight-line-height");
   }
 
   if (checkOverflowHeight(innatePowerBox, 0)) {
@@ -5977,6 +6011,12 @@ function dynamicResizing() {
       node.removeAttribute("shift");
     }
   });
+
+  //Optional: Flip X boards
+  let flipboard = board.getAttribute("flipboard") ? true : false;
+  if (flipboard) {
+    board.classList.add("flipboard");
+  }
 }
 
 function getGrowthTableWidth(growthTable) {
@@ -6079,19 +6119,22 @@ function innatePowerSizing(board) {
     effects[i].style.paddingLeft = outerThresholdWidth[i] + "px";
     const textHeight = effects[i].offsetHeight;
     const thresholdWidth = thresholds[i].offsetWidth;
-    if (textHeight < 40) {
+    if (textHeight < 50) {
       effects[i].classList.add("single-line");
       if (debug) {
         console.log("single line");
       }
       // Align-middle the text if its a single line
-    } else if (textHeight > 86 && thresholdWidth > 80) {
+    } else if (textHeight > 100 && thresholdWidth > 80) {
       // Wrap effects below the threshold if its greater than three lines
       if (debug) {
         console.log("wrapping large text");
       }
-      effects[i].style.paddingLeft = "0px"; // delete this if nothing seems broken
+      effects[i].style.paddingLeft = "0px";
       levels[i].classList.add("description-wrap");
+    } else {
+      // It doesn't need to wrap. Line up threshold with middle of effect
+      thresholds[i].classList.add("no-wrap");
     }
   }
 }

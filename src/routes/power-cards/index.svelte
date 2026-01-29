@@ -124,11 +124,21 @@
       }
     });
 
+    // Card Set Info
+    const cardSetInfoHTML = document.createElement("card-set-info");
+    fragment.append(cardSetInfoHTML);
     //Add spirit name
     if (powerCards.spiritName) {
-      let spiritName = document.createElement("spirit-name");
-      fragment.append(spiritName);
-      spiritName.innerHTML = powerCards.spiritName;
+      cardSetInfoHTML.setAttribute("spirit-name", powerCards.spiritName);
+    }
+    if (powerCards.cardsPerPage) {
+      cardSetInfoHTML.setAttribute("cards-per-row", powerCards.cardsPerRow);
+    } else {
+      cardSetInfoHTML.setAttribute("cards-per-row", "fourCard");
+    }
+    cardsPerPage(powerCards.cardsPerPage);
+    if (powerCards.stackView) {
+      cardSetInfoHTML.setAttribute("stack-view-on", powerCards.stackView);
     }
 
     //Set Custom Icons
@@ -153,11 +163,6 @@
       cardBack.setAttribute("id", "cardBack");
       cardBackArt.classList.add("image-back");
       cardBackArt.setAttribute("src", powerCards.cardBackImage);
-    }
-
-    if (powerCards.stackView) {
-      const stackViewOption = document.createElement("stack-view-on");
-      fragment.append(stackViewOption);
     }
 
     return fragment;
@@ -194,17 +199,26 @@
       powerCards.defaultCardBack = cardBack.hasAttribute("defaultimage") ? true : false;
     }
 
+    const cardSetInfoHTML = htmlElement.querySelectorAll("card-set-info")[0];
     //Add spirit name
     const spiritNameHTML = htmlElement.querySelectorAll("spirit-name")[0];
     if (spiritNameHTML) {
       powerCards.spiritName = spiritNameHTML.innerHTML;
+    } else if (cardSetInfoHTML) {
+      powerCards.spiritName = cardSetInfoHTML.getAttribute("spirit-name");
     } else {
       powerCards.spiritName = "";
     }
 
-    const stackViewCheck = htmlElement.querySelectorAll("stack-view-on")[0];
-    if (stackViewCheck) {
-      powerCards.stackView = true;
+    powerCards.stackView = false;
+    if (cardSetInfoHTML) {
+      powerCards.stackView = cardSetInfoHTML.hasAttribute("stack-view-on") ? true : false;
+    }
+
+    powerCards.cardsPerPage = "fourCard";
+    if (cardSetInfoHTML) {
+      powerCards.cardsPerPage = cardSetInfoHTML.getAttribute("cards-per-row");
+      cardsPerPage(powerCards.cardsPerPage);
     }
   }
 
@@ -294,11 +308,11 @@
   }
 
   const exportSinglePowerCard = (powerCardSingle) => {
-    const htmlFileName =
-      powerCardSingle.spiritName.replaceAll(" ", "_").slice(0, 8) +
-      "-" +
-      powerCardSingle.cards[0].name.replaceAll(" ", "_") +
-      "_PowerCards.html";
+    let htmlFileName = "";
+    if (powerCardSingle.spiritName) {
+      htmlFileName = `${powerCardSingle.spiritName.replaceAll(" ", "_").slice(0, 8)}_`;
+    }
+    htmlFileName += powerCardSingle.cards[0].name.replaceAll(" ", "_") + "_PowerCards.html";
     downloadHTML(generateHTML(powerCardSingle), htmlFileName);
   };
 
@@ -530,6 +544,7 @@
       previewWrap.classList.remove("fourCard");
       previewWrap.classList.add(classCards);
     }
+    powerCards.cardsPerRow = classCards;
   }
 </script>
 

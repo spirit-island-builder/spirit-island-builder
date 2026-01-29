@@ -2090,6 +2090,50 @@ board.starlight info-container {
   margin-bottom: 5px;
 }
 
+/* Rumu even more nonsense */
+rumu-right {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 1090px;
+  height: 100%;
+  /* overflow: hidden; */
+}
+
+rumu-right innate-powers {
+  height: inherit;
+  z-index: 2;
+  position: relative;
+  /* width: 480px; */
+  margin-left: 0px;
+  border-left: 5px solid #6b552a;
+}
+
+rumu-right presence-tracks {
+  height: 100%;
+  width: 580px;
+}
+rumu-right innate-power,
+rumu-right innate-powers section-title {
+  margin-left: 10px;
+}
+
+rumu-right innate-power-container {
+  flex-direction: column;
+}
+
+board.rumu rumu-right level {
+  width: 485px;
+}
+
+board.rumu info-container {
+  margin-bottom: 5px;
+}
+
+board.rumu description-container note {
+  width: 475px;
+}
+
 /* sizing */
 growth icon.huge {
   width: 120px;

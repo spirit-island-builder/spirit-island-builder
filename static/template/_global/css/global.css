@@ -190,8 +190,6 @@ icon.escalation {
 
 icon.explorer {
   background-image: url("../images/board/explorer.png");
-  margin-left: -4px;
-  margin-right: -7px;
 }
 
 icon.town {
@@ -542,6 +540,9 @@ icon.gain-power-card-blank {
 icon.take-power-card {
   background-image: url("../images/customIcons/Take\ a\ Power.png");
 }
+icon.take-power-card-blank {
+  background-image: url("../images/customIcons/take-power-card-blank.png");
+}
 icon.forget-power-card {
   background-image: url("../images/customIcons/forgetCardIcon.png");
 }
@@ -642,6 +643,10 @@ icon.noforget {
   background-image: url("../images/board/NewIcons/NoForgetIcon.png");
 }
 
+icon.deeps {
+  background-image: url("../images/board/NewIcons/Deeps.png");
+}
+
 range {
   width: 50px;
   height: 32px;
@@ -673,7 +678,7 @@ range > range-value.range-icon > icon {
   height: 22px;
   position: relative;
   margin: 0px;
-  top: 2px;
+  top: -3px;
 }
 
 no-range {
