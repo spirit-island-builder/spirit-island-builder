@@ -524,6 +524,9 @@ icon.reclaim-one {
 icon.reclaim-none {
   background-image: url("../images/board/Reclaimnone.png");
 }
+icon.reclaim-thumb {
+  background-image: url("../images/board/Reclaimthumb.png");
+}
 icon.reclaim-custom {
   background-image: url("../images/board/Reclaimspecial.png");
 }
