@@ -276,8 +276,12 @@ innate-powers.really-tight-levels level {
   margin-bottom: 2px;
 }
 
-innate-powers.wide-levels level {
+innate-powers.wide-levels #ip0 level {
   width: 507px;
+}
+/* innate-powers.wide-levels innate-power:last-of-type level{ */
+innate-powers.wide-levels #ip1 level {
+  width: 494px;
 }
 
 .long {

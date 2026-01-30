@@ -5372,7 +5372,7 @@ function dynamicResizing() {
   const innatePowerBox = board.getElementsByTagName("innate-powers")[0];
   const presenceTracksBox = board.getElementsByTagName("presence-tracks")[0];
 
-  //Optional: Starlight type boards
+  //Optional: Starlight & Alternate (rumu) type boards
   let starlight = board.getAttribute("starlight") ? true : false;
   let rumu = board.getAttribute("rumu") ? true : false;
   if (starlight) {
@@ -5844,6 +5844,11 @@ function dynamicResizing() {
   innatePowerBox.style.height = rumu
     ? right.clientHeight - growth.clientHeight + "px"
     : right.clientHeight - presenceTrack.clientHeight - growth.clientHeight + "px";
+  if (checkOverflowHeight(innatePowerBox)) {
+    innatePowerBox.classList.add("wide-levels");
+    // energyTrack.classList.add("vertical-tight");
+    console.log("  > Widening IP levels");
+  }
   if (checkOverflowHeight(innatePowerBox)) {
     energyTrack.classList.add("vertical-tight");
     console.log("  > Compressing Presence Tracks Vertically");
