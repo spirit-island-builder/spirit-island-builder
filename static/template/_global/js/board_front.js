@@ -5846,7 +5846,6 @@ function dynamicResizing() {
     : right.clientHeight - presenceTrack.clientHeight - growth.clientHeight + "px";
   if (checkOverflowHeight(innatePowerBox)) {
     innatePowerBox.classList.add("wide-levels");
-    // energyTrack.classList.add("vertical-tight");
     console.log("  > Widening IP levels");
   }
   if (checkOverflowHeight(innatePowerBox)) {

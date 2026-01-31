@@ -64,8 +64,7 @@
     aspect = aspect;
   }
 
-  function addGrowthAction(rule, k, actionEffect = "") {
-    console.log(rule);
+  function addGrowthAction(rule, i, actionEffect = "") {
     if (!rule.growthActions) {
       rule.growthActions = [];
       rule.hasGrowth = true;
@@ -76,7 +75,7 @@
       effect: actionEffect,
     });
     //Set the focus to the Growth Action if it is visible.
-    if (aspect.aspectEffects[k].isVisible) {
+    if (aspect.aspectEffects[i].isVisible) {
       setTimeout(() => {
         document.getElementById(focusId).focus();
       }, 100);
@@ -305,18 +304,18 @@
         {#if rule.hasGrowth}
           <button class="button is-warning is-small is-light" on:click={toggleHasGrowth(rule, k)}
             >Remove Growth Options</button>
-          {#each rule.growthActions as growthAction, k (growthAction.id)}
+          {#each rule.growthActions as growthAction, g (growthAction.id)}
             <div class="growth-action-container">
               <div class="control">
                 <AutoComplete
-                  id={`specialRule${i}growthAction${k}`}
+                  id={`specialRule${i}growthAction${g}`}
                   elementType="input"
                   placeholder="Growth Action"
                   showListImmediately={true}
                   validAutoCompleteValues={growthValuesSorted}
                   bind:value={growthAction.effect} />
               </div>
-              <button class="button is-light row-button" on:click={removeGrowthAction(rule, k)}
+              <button class="button is-light row-button" on:click={removeGrowthAction(rule, g)}
                 >Remove</button>
             </div>
           {/each}
@@ -324,10 +323,10 @@
             <button
               id={`specialRule${i}AddAction`}
               class="button is-primary is-light is-small row-button"
-              on:click={addGrowthAction(rule, k)}>Add Growth Action</button>
+              on:click={() => addGrowthAction(rule, i)}>Add Growth Action</button>
           </div>
         {:else}
-          <button class="button is-primary is-small is-light" on:click={toggleHasGrowth(rule)}
+          <button class="button is-primary is-small is-light" on:click={toggleHasGrowth(rule, i)}
             >Add Growth Options to Special Rule</button>
         {/if}
       </div>

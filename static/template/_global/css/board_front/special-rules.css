@@ -443,7 +443,7 @@ special-rule custom-energy {
   margin-right: -4px;
   margin-top: -25px;
   display: inline-flex;
-  top: 12px;
+  top: 14px;
 }
 
 special-rule custom-energy value {
@@ -452,9 +452,13 @@ special-rule custom-energy value {
   font-style: normal;
   display: block;
   position: absolute;
-  left: 17px;
-  top: 9px;
-  width: 10px;
+  padding-right: 1px;
+}
+
+special-rule custom-energy value.value-text {
+  font-family: "Lato Regular";
+  font-weight: bold;
+  left: unset;
 }
 
 special-rule custom-energy.gain value {

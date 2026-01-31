@@ -175,7 +175,7 @@ function replaceIcon(html) {
       let energy_num = iconName.substring(7);
       if (isNaN(energy_num)) {
         // energy_num = energy_num.charAt(0)
-        energy_num = `<value-text>${energy_num}</value-text>`;
+        energy_num = `<value class="value-text">${energy_num}</value>`;
       } else {
         energy_num = `<value>${energy_num}</value>`;
       }
@@ -204,7 +204,7 @@ function replaceIcon(html) {
       iconHtml +=
         `<${HTMLTag} class="${iconClass.join(" ")}">` + num_val + no_icon + `</${HTMLTag}>`;
     }
-    console.log(iconHtml);
+
     return iconHtml;
   }
 }
