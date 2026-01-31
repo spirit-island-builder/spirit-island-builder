@@ -64,18 +64,19 @@
     aspect = aspect;
   }
 
-  function addGrowthAction(rule, i, actionEffect = "") {
-    if (!rule.growthActions) {
+  function addGrowthAction(rule, k, actionEffect = "") {
+    // <!-- // aspectEffect k, rule i, growthAction g -->
+    if (!rule.hasGrowth) {
       rule.growthActions = [];
       rule.hasGrowth = true;
     }
-    let focusId = "specialRule" + rule.id + "growthAction" + rule.growthActions.length;
+    let focusId = "part" + k + "specialRule" + rule.id + "growthAction" + rule.growthActions.length;
     rule.growthActions.push({
       id: rule.growthActions.length,
       effect: actionEffect,
     });
     //Set the focus to the Growth Action if it is visible.
-    if (aspect.aspectEffects[i].isVisible) {
+    if (aspect.aspectEffects[k].isVisible) {
       setTimeout(() => {
         document.getElementById(focusId).focus();
       }, 100);
@@ -308,7 +309,7 @@
             <div class="growth-action-container">
               <div class="control">
                 <AutoComplete
-                  id={`specialRule${i}growthAction${g}`}
+                  id={`part${k}specialRule${i}growthAction${g}`}
                   elementType="input"
                   placeholder="Growth Action"
                   showListImmediately={true}
@@ -323,10 +324,10 @@
             <button
               id={`specialRule${i}AddAction`}
               class="button is-primary is-light is-small row-button"
-              on:click={() => addGrowthAction(rule, i)}>Add Growth Action</button>
+              on:click={() => addGrowthAction(rule, k)}>Add Growth Action</button>
           </div>
         {:else}
-          <button class="button is-primary is-small is-light" on:click={toggleHasGrowth(rule, i)}
+          <button class="button is-primary is-small is-light" on:click={toggleHasGrowth(rule, k)}
             >Add Growth Options to Special Rule</button>
         {/if}
       </div>
