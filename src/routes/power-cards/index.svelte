@@ -131,12 +131,12 @@
     if (powerCards.spiritName) {
       cardSetInfoHTML.setAttribute("spirit-name", powerCards.spiritName);
     }
-    if (powerCards.cardsPerPage) {
+    if (powerCards.cardsPerRow) {
       cardSetInfoHTML.setAttribute("cards-per-row", powerCards.cardsPerRow);
     } else {
       cardSetInfoHTML.setAttribute("cards-per-row", "fourCard");
     }
-    cardsPerPage(powerCards.cardsPerPage);
+    setCardsPerRow(powerCards.cardsPerRow);
     if (powerCards.stackView) {
       cardSetInfoHTML.setAttribute("stack-view-on", powerCards.stackView);
     }
@@ -215,10 +215,10 @@
       powerCards.stackView = cardSetInfoHTML.hasAttribute("stack-view-on") ? true : false;
     }
 
-    powerCards.cardsPerPage = "fourCard";
+    powerCards.cardsPerRow = "fourCard";
     if (cardSetInfoHTML) {
-      powerCards.cardsPerPage = cardSetInfoHTML.getAttribute("cards-per-row");
-      cardsPerPage(powerCards.cardsPerPage);
+      powerCards.cardsPerRow = cardSetInfoHTML.getAttribute("cards-per-row");
+      setCardsPerRow(powerCards.cardsPerRow);
     }
   }
 
@@ -536,7 +536,7 @@
     powerCards.stackView = false;
   }
 
-  function cardsPerPage(classCards) {
+  function setCardsPerRow(classCards) {
     let previewWrap = document.getElementById("power-cards-preview");
     if (previewWrap) {
       previewWrap.classList.remove("twoCard");
@@ -631,13 +631,15 @@
         <button class="button is-warning mt-1 mr-1 is-small" on:click={unsetStackView}
           >Disable Stack View</button>
       {/if}
-      <button class="button is-warning mt-1 mr-1 is-small" on:click={() => cardsPerPage("twoCard")}
-        >Cards Per Page: 2</button>
       <button
         class="button is-warning mt-1 mr-1 is-small"
-        on:click={() => cardsPerPage("threeCard")}>3</button>
-      <button class="button is-warning mt-1 mr-1 is-small" on:click={() => cardsPerPage("fourCard")}
-        >4</button>
+        on:click={() => setCardsPerRow("twoCard")}>Cards Per Page: 2</button>
+      <button
+        class="button is-warning mt-1 mr-1 is-small"
+        on:click={() => setCardsPerRow("threeCard")}>3</button>
+      <button
+        class="button is-warning mt-1 mr-1 is-small"
+        on:click={() => setCardsPerRow("fourCard")}>4</button>
     </div>
   </div>
 </div>
