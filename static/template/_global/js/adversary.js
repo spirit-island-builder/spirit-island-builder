@@ -212,10 +212,12 @@ function buildLevel(quickLevel) {
   fearCards = quickLevel.getAttribute("fear-cards");
   fearCards = fearCards.replaceAll(",", "/");
   let pullNumbersRegex = /\d+/g;
-  let fearCardNum = fearCards
-    .match(pullNumbersRegex)
-    .reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0);
-
+  let fearCardNum = "";
+  if (fearCards) {
+    fearCardNum = fearCards
+      .match(pullNumbersRegex)
+      .reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0);
+  }
   let name2 = quickLevel.getAttribute("name2");
   let rules2 = quickLevel.getAttribute("rules2");
   let rule2HTML = "";
