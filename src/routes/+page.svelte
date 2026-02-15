@@ -835,7 +835,7 @@
     ["spiritBoardBack", "Spirit - Lore Side"],
     ["powerCards", "Power Cards"],
     ["aspect", "Aspect"],
-    ["incarnaToken", "Incarna Token"],
+    ["incarnaToken", "Incarna"],
     ["adversary", "Adversary"],
     ["scenario", "Scenario"],
     ["blightCard", "Blight Card"],
