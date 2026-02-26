@@ -83,7 +83,7 @@ export const getThresholdTTSJSON = (
 
     elCountArrays.forEach((elArray) => {
       let xLoc = toFixedNumber(
-        (-xRatio * (rect.left - 75 - boardRect.x - boardRect.width / 2)) / (boardRect.width / 2),
+        (-xRatio * (rect.left - 45 - boardRect.x - boardRect.width / 2)) / (boardRect.width / 2),
         4
       ); // here 105 is shifting the threshold icon left
       let zLoc = toFixedNumber(
