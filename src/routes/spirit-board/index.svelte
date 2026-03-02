@@ -669,7 +669,7 @@
 
     boardNodes.forEach((node) => {
       let ttsInfo = node.getAttribute("ttsInfo");
-      let ttsInfoArr = ttsInfo.split(";");
+      let ttsInfoArr = ttsInfo ? ttsInfo.split(";") : "";
       let rect = node.getElementsByTagName("ring-icon")[0].getBoundingClientRect();
       let xLoc = toFixedNumber(
         (-(boardRect.width / boardRect.height) *
