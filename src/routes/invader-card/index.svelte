@@ -23,7 +23,7 @@
     reloadPreview();
   }
 
-  const demoURL = "/template/MyCustomContent/MyInvaderCard/invader_card_blank.html";
+  const demoURL = "/template/MyCustomContent/MyInvaderCard/HME_starter.html";
   function onLoad() {
     if (invaderCard.demoBoardWasLoaded === false) {
       loadHTMLFromURL(demoURL).then(() => {
@@ -149,13 +149,22 @@
   }
 
   function screenshotSetUp() {
-    const fileNames = [invaderCard.card.name.replaceAll(" ", "_") + "_invaderCard.png"];
+    let cardName = getCardName(invaderCard);
+    const fileNames = [`${cardName}.png`];
     const elementNamesInIframe = ["template-invader-card"];
     if (invaderCard.showBack) {
-      fileNames.push(invaderCard.card.name.replaceAll(" ", "_") + "_invaderCardBack.png");
+      fileNames.push(`${cardName}Back.png`);
       elementNamesInIframe.push("invader-back");
     }
     previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
+  }
+
+  function getCardName(invaderCard) {
+    let cardName = "InvaderCard";
+    if (invaderCard.card.name) {
+      cardName = `${invaderCard.card.name.replaceAll(" ", "_")}_` + cardName;
+    }
+    return cardName;
   }
 
   // async function loadExample(example) {
@@ -204,7 +213,7 @@
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(invaderCard)}
-        fileName={`${invaderCard.card.fields[0]}_InvaderCard.html`}
+        fileName={`${getCardName(invaderCard)}.html`}
         saveType="html" />
       <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}
         >Download Image</button>

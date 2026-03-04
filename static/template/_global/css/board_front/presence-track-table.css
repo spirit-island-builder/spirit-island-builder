@@ -248,13 +248,15 @@ presence-node icon.empower-incarna {
 }
 
 presence-node icon.gain-power-card,
+presence-node icon.take-power-card,
 presence-node icon.forget-power-card,
 presence-node icon.discard-cards,
 presence-node icon.discard-2-cards,
 presence-node icon.discard-card,
 presence-node icon.discard-1-card,
 presence-node icon.gain-card-play,
-presence-node icon.gain-card-play-blank {
+presence-node icon.gain-card-play-blank,
+presence-node icon.take-power-card-blank {
   height: 90px;
   width: 90px;
 }
@@ -821,6 +823,14 @@ presence-node icon.gain-power-card-blank {
 icon.gain-power-card-blank > icon {
   height: 45px;
   width: 45px;
+}
+
+icon.take-power-card-blank > icon {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 43px;
+  top: 20px;
 }
 
 presence-tracks.shadow subtext {

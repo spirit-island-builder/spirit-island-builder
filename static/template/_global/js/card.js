@@ -129,7 +129,17 @@ function resize() {
     }
   }
 
-  //Images
+  // Set widths for image export
+  rulesDivs = Array.from(rulesContainers[0].querySelectorAll("div"));
+
+  rulesDivs.forEach((ruleDiv) => {
+    ruleDiv.style.width =
+      Math.ceil(
+        parseFloat(window.getComputedStyle(ruleDiv).getPropertyValue("width").replace(/px/, ""))
+      ) + "px";
+  });
+
+  //Images (this seems to be an incomplete idea)
   imageContainers = document.querySelectorAll("img");
   for (let i = 0; i < imageContainers.length; i++) {}
 }

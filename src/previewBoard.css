@@ -91,10 +91,31 @@
   }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1600px) and (max-width: 1800px) {
   .preview-wrap:not(.large),
   .preview-wrap:not(.large) .preview-frame {
-    --screen-width: 1600;
+    --screen-width: 1700;
+  }
+}
+
+@media (min-width: 1800px) and (max-width: 2000px) {
+  .preview-wrap:not(.large),
+  .preview-wrap:not(.large) .preview-frame {
+    --screen-width: 1900;
+  }
+}
+
+@media (min-width: 2000px) and (max-width: 2200px) {
+  .preview-wrap:not(.large),
+  .preview-wrap:not(.large) .preview-frame {
+    --screen-width: 2100;
+  }
+}
+
+@media (min-width: 2200px) {
+  .preview-wrap:not(.large),
+  .preview-wrap:not(.large) .preview-frame {
+    --screen-width: 2200;
   }
 }
 

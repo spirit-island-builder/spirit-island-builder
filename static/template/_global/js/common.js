@@ -41,7 +41,9 @@ function replaceIcon(html) {
 
   for (var match of matchs || []) {
     iconHtml = getIconHTML(match);
-    result = result.replace(new RegExp(match, "ig"), iconHtml);
+    // console.log (`Replacing ${RegExp(match, "ig")} with ${iconHtml}`)
+    // console.log (`Escaping ${match} with ${RegExp.escape(match)}`)
+    result = result.replace(new RegExp(RegExp.escape(match), "ig"), iconHtml);
   }
 
   return result;
@@ -170,17 +172,17 @@ function replaceIcon(html) {
 
     // gain energy icons
     if (iconName.startsWith("energy-") && !iconName.startsWith("energy-per")) {
-      energy_num = iconName.substring(7);
+      let energy_num = iconName.substring(7);
       if (isNaN(energy_num)) {
         // energy_num = energy_num.charAt(0)
-        energy_num = `<value-text>${energy_num}</value-text>`;
+        energy_num = `<value class="value-text">${energy_num}</value>`;
       } else {
         energy_num = `<value>${energy_num}</value>`;
       }
       HTMLTag = "custom-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
       iconName = "";
       num_val = energy_num;
-      console.log("energy icon test");
+      console.log(`${HTMLTag} ${num_val} ${iconName}`);
     } else if (iconName.startsWith("gain-energy-")) {
       energy_num = iconName.substring(12);
       if (isNaN(energy_num)) {
@@ -202,6 +204,7 @@ function replaceIcon(html) {
       iconHtml +=
         `<${HTMLTag} class="${iconClass.join(" ")}">` + num_val + no_icon + `</${HTMLTag}>`;
     }
+
     return iconHtml;
   }
 }

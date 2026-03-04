@@ -29,6 +29,10 @@
       {
         "name": "Keeper - Spreading Hostility",
         "url": "/template/MyCustomContent/MyAspect/Hostility_Aspect.html"
+      },
+      {
+        "name": "Ocean - Deeps",
+        "url": "/template/MyCustomContent/MyAspect/DEEPS_Aspect.html"
       }
     ]
   }
