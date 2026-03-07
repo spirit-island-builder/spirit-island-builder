@@ -163,6 +163,13 @@
             </div>
           </div>
         </div>
+      {:else}
+        <button
+          class="presence-track-add-node button is-light is-primary presence-track-button "
+          id={`energy${0}builderadd`}
+          on:click={insertEnergyTrackNode(0)}
+          ><span style="margin-top:11px;pointer-events: none;">+</span>
+        </button>
       {/each}
     </div>
   </div>
@@ -197,6 +204,13 @@
             </div>
           </div>
         </div>
+      {:else}
+        <button
+          class="presence-track-add-node button is-light is-primary presence-track-button "
+          id={`plays${0}builderadd`}
+          on:click={insertPlaysTrackNode(0)}
+          ><span style="margin-top:11px;pointer-events: none;">+</span>
+        </button>
       {/each}
     </div>
   </div>
@@ -236,6 +250,13 @@
                 </div>
               </div>
             </div>
+          {:else}
+            <button
+              class="presence-track-add-node button is-light is-primary presence-track-button "
+              id={`additional${t}node${0}builderadd`}
+              on:click={insertAdditionalTrackNode(t, 0)}
+              ><span style="margin-top:11px;pointer-events: none;">+</span>
+            </button>
           {/each}
         </div>
       {/each}
