@@ -574,6 +574,21 @@ aspect:not(.profile).for-image-download aspect-background {
   height: 567px;
 }
 
+aspect-back:not(.profile).for-image-download {
+  width: 567px;
+  height: 786px;
+}
+
+aspect-back:not(.profile).for-image-download {
+  img,
+  aspect-back-overlay {
+    transform-origin: top left;
+    transform: translateX(567px) rotate(90deg);
+    width: 786px;
+    height: 567px;
+  }
+}
+
 aspect.printer-clean aspect-background {
   background-color: white;
   background-image: none;
