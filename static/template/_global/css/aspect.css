@@ -245,18 +245,22 @@ aspect-rule.no-replacement {
   margin-top: -10px;
 }
 
-aspect innate-power level,
-aspect innate-power note,
-aspect innate-power description-container,
-aspect innate-power effect {
-  width: 618px;
+aspect {
+  innate-power level,
+  innate-power note,
+  innate-power description-container,
+  innate-power effect {
+    width: 700px;
+  }
 }
 
-aspect.profile innate-power level,
-aspect.profile innate-power note,
-aspect.profile innate-power description-container,
-aspect.profile innate-power effect {
-  width: 463px;
+aspect.profile {
+  innate-power level,
+  innate-power note,
+  innate-power description-container,
+  innate-power effect {
+    width: 463px;
+  }
 }
 
 aspect-container innate-power:only-child level {
