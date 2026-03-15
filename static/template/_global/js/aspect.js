@@ -5,7 +5,7 @@ function startMain() {
   console.log("aspect startMain");
   var aspects = document.querySelectorAll("aspect");
   if (aspects[0].hasAttribute("lang")) {
-    lang = aspects[0].getAttribute("lang");
+    let lang = aspects[0].getAttribute("lang");
     console.log("found language " + lang);
   }
   for (var i = 0; i < aspects.length; i++) {
@@ -179,13 +179,13 @@ function resizeAspect(aspects) {
     }
 
     const aspectRules = aspectSubtext.getElementsByTagName("aspect-rule");
-    for (i = 0; i < aspectRules.length; i++) {
+    for (let i = 0; i < aspectRules.length; i++) {
       balanceText(aspectRules[i]);
     }
 
     const growthTables = aspect.getElementsByTagName("growth-table");
     if (growthTables) {
-      for (i = 0; i < growthTables.length; i++) {
+      for (let i = 0; i < growthTables.length; i++) {
         if (checkOverflowWidth(growthTables[i].parentNode, 0)) {
           growthTables[i].classList.add("tight");
         }

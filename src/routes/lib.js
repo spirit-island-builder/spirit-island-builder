@@ -300,6 +300,11 @@ export const nextNode = (event) => {
       let regFindNumbers = /^\d+|\d+\b|\d+(?=\w)/g;
       let numMatches = currentID.match(regFindNumbers);
 
+      // Tab-key navigation between form fields.
+      // Each case maps a field ID (with digits stripped) to the next field to focus.
+      // IMPORTANT: Adding a new form field requires adding a new case here.
+      // Silent failure: if the resolved focusID doesn't exist in the DOM, focus is
+      // simply not moved (see "No next node" branch below). No error is thrown.
       switch (numlessID) {
         //Board - Special Rule
         case "ruleNameInput":
