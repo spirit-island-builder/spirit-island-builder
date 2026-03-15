@@ -184,7 +184,7 @@ function replaceIcon(html) {
       num_val = energy_num;
       console.log(`${HTMLTag} ${num_val} ${iconName}`);
     } else if (iconName.startsWith("gain-energy-")) {
-      energy_num = iconName.substring(12);
+      let energy_num = iconName.substring(12);
       if (isNaN(energy_num)) {
       } else {
         HTMLTag = "custom-energy"; //"<growth-energy><value>" + flatEnergy + "</value></growth-energy>"
