@@ -2985,19 +2985,19 @@ function IconName(str, iconNum = 1) {
       str = "incarna";
     }
   }
-  if (str.startsWith("huge")) {
+  if (str.includes("huge")) {
     str = str.replace("huge", "");
   }
-  if (str.startsWith("large")) {
+  if (str.includes("large")) {
     str = str.replace("large", "");
   }
-  if (str.startsWith("medium")) {
+  if (str.includes("medium")) {
     str = str.replace("medium", "");
   }
-  if (str.startsWith("small")) {
+  if (str.includes("small")) {
     str = str.replace("small", "");
   }
-  if (str.startsWith("tiny")) {
+  if (str.includes("tiny")) {
     str = str.replace("tiny", "");
   }
   if (str.startsWith("-")) {
