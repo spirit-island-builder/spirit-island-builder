@@ -144,6 +144,8 @@
               id={`energy${i}builder`}
               class="input is-small presence-input-block"
               type="text"
+              data-next-field="energy{i + 1}builder"
+              data-next-field-default="energy{i}builderadd"
               on:focus={selectNode}
               on:blur={() => updatePresenceNodeLocal()}
               on:keydown={nextNode}
@@ -185,6 +187,8 @@
               id={`plays${i}builder`}
               class="input is-small presence-input-block"
               type="text"
+              data-next-field="plays{i + 1}builder"
+              data-next-field-default="plays{i}builderadd"
               on:blur={() => updatePresenceNodeLocal}
               on:focus={selectNode}
               on:keydown={nextNode}
@@ -232,6 +236,8 @@
                   id={`additional${t}node${i}builder`}
                   class="input is-small presence-input-block"
                   type="text"
+                  data-next-field="additional{t}node{i + 1}builder"
+                  data-next-field-default="additional{t}node{i}builderadd"
                   on:focus={selectNode}
                   on:keydown={nextNode}
                   bind:value={additionalNode.effect} />

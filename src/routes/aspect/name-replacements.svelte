@@ -65,6 +65,8 @@
             class="input"
             type="text"
             placeholder="Name"
+            data-next-field="part0ReplacesInput0"
+            data-next-field-default="aspectSpiritName"
             on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={aspect.info.aspectName} />
