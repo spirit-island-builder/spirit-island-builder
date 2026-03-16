@@ -2945,6 +2945,7 @@ function IconName(str, iconNum = 1) {
   let opt4 = "";
   let options;
   let localize;
+  let debug = false;
 
   // identify if 'str' contains options
   const matches = _iconNameRegex.exec(str);
@@ -3005,6 +3006,16 @@ function IconName(str, iconNum = 1) {
   // if (str.startsWith("custom")) {
   //   str = getCustomIconName(str);
   // }
+
+  if (debug) {
+    console.log("IconName. Input: " + str);
+    if (options) {
+      console.log("Options: " + options);
+    }
+    if (iconNum > 1) {
+      console.log("iconNum =" + iconNum);
+    }
+  }
 
   if (str.includes("/")) {
     // If it is a split icon, unsplit it.
@@ -5076,6 +5087,9 @@ function IconName(str, iconNum = 1) {
       subText = _defaultProcessIcon(str, iconNum);
   }
 
+  if (debug) {
+    console.log("Return: " + subText);
+  }
   _iconNameCache.set(cacheKey, subText);
   return subText;
 }
