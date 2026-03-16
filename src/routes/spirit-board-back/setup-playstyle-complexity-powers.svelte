@@ -33,6 +33,7 @@
         elementType="textarea"
         classNames="is-small"
         placeholder="Effect"
+        nextField="spiritLorePlaystyle"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={spiritBoardBack.setup.setupText} />
     </div>
@@ -48,6 +49,7 @@
         elementType="textarea"
         classNames="is-small"
         placeholder="Effect"
+        nextField="spiritLoreComplexity"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={spiritBoardBack.playStyle.playStyleText} />
     </div>
@@ -64,6 +66,7 @@
           class="input"
           type="text"
           placeholder="Complexity Description"
+          data-next-field="spiritLoreComplexityValue"
           on:focus={selectNode}
           on:keydown={nextNode}
           bind:value={spiritBoardBack.complexity.complexityDescriptor} />
@@ -74,6 +77,7 @@
           class="input"
           type="text"
           placeholder="Complexity Value (1-10)"
+          data-next-field="spiritLoreOffense"
           on:focus={selectNode}
           on:keydown={nextNode}
           bind:value={spiritBoardBack.complexity.complexityValue} />
@@ -97,6 +101,7 @@
             class="input"
             type="text"
             placeholder="Offense Value (1-10)"
+            data-next-field="spiritLoreControl"
             on:focus={selectNode}
             on:keydown={nextNode}
             bind:value={spiritBoardBack.summary.offenseValue} />
@@ -115,6 +120,7 @@
             class="input"
             type="text"
             placeholder="Control Value (1-10)"
+            data-next-field="spiritLoreFear"
             on:focus={selectNode}
             on:keydown={nextNode}
             bind:value={spiritBoardBack.summary.controlValue} />
@@ -133,6 +139,7 @@
             class="input"
             type="text"
             placeholder="Fear Value (1-10)"
+            data-next-field="spiritLoreDefense"
             on:focus={selectNode}
             on:keydown={nextNode}
             bind:value={spiritBoardBack.summary.fearValue} />
@@ -151,6 +158,7 @@
             class="input"
             type="text"
             placeholder="Defense Value (1-10)"
+            data-next-field="spiritLoreUtility"
             on:focus={selectNode}
             on:keydown={nextNode}
             bind:value={spiritBoardBack.summary.defenseValue} />
@@ -169,6 +177,7 @@
             class="input"
             type="text"
             placeholder="Utility Value (1-10)"
+            data-next-field="spiritLoreUses"
             on:focus={selectNode}
             on:keydown={nextNode}
             bind:value={spiritBoardBack.summary.utilityValue} />
@@ -188,6 +197,7 @@
             style="width:100%; min-width:20rem;"
             type="text"
             placeholder="Uses tokens/icons ie. 'badlands,wilds'"
+            data-next-field="spiritLoreNote"
             on:focus={selectNode}
             on:keydown={nextNode}
             bind:value={spiritBoardBack.summary.usesTokens} />

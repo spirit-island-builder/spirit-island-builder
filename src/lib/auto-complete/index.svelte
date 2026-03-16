@@ -12,6 +12,8 @@
   export let classNames = "";
   export let showListImmediately = false;
   export let additionalOnBlurFunction = () => {};
+  export let nextField = "";
+  export let nextFieldDefault = "";
 
   let initialOnBlurFunction = () => {};
 
@@ -348,6 +350,8 @@
       type="text"
       {placeholder}
       autocomplete="off"
+      data-next-field={nextField}
+      data-next-field-default={nextFieldDefault}
       on:input={handleInputAndFocus}
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
@@ -359,6 +363,8 @@
       class={`textarea ${classNames}`}
       {placeholder}
       autocomplete="off"
+      data-next-field={nextField}
+      data-next-field-default={nextFieldDefault}
       on:input={handleInputAndFocus}
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
