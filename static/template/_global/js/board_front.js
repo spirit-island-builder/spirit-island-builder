@@ -2663,18 +2663,291 @@ function updatePresenceNodeIDs() {
   }
 }
 
+// Module-level constants for IconName — avoids per-call allocation
+const _iconNameRegex = /\(([^)]+)\)/;
+const _iconNameCache = new Map();
+const _localizeElements = {
+  en: {
+    sun: "sun",
+    moon: "moon",
+    fire: "fire",
+    air: "air",
+    plant: "plant",
+    water: "water",
+    earth: "earth",
+    animal: "animal",
+    star: "element",
+    any: "any",
+    copy: "Element you have at least 1 of",
+  },
+  fr: {
+    sun: "Soleil",
+    moon: "Lune",
+    fire: "Feu",
+    air: "Air",
+    plant: "Flore",
+    water: "Eau",
+    earth: "Terre",
+    animal: "Faune",
+    star: "Elément",
+    any: "Au choix",
+    copy: "Elément dont vous avez au moins 1",
+  },
+  de: {
+    sun: "Sonne",
+    moon: "Mond",
+    fire: "Feuer",
+    air: "Luft",
+    plant: "Pflanze",
+    water: "Wasser",
+    earth: "Erde",
+    animal: "Tier",
+    star: "Element",
+    any: "Beliebig",
+    copy: "Element, von dem du mindestens 1 hast",
+  },
+  pl: {
+    sun: "słońce",
+    moon: "księżyc",
+    fire: "ogień",
+    air: "powietrze",
+    plant: "roślinność",
+    water: "woda",
+    earth: "ziemia",
+    animal: "zwierzęcość",
+    star: "źródło mocy",
+    any: "dowolne",
+    copy: "Żywioł, którego masz co najmniej 1",
+  },
+  ar: {
+    sun: "الشمس",
+    moon: "القمر",
+    fire: "نار",
+    air: "هواء",
+    plant: "نبات",
+    water: "ماء",
+    earth: "أرض",
+    animal: "حيوان",
+    star: "عنصر تقليدي",
+    any: "أي",
+    copy: "عنصر لديك واحد منه على الأقل",
+  },
+  zh: {
+    sun: "日",
+    moon: "月",
+    fire: "火",
+    air: "氣",
+    plant: "植物",
+    water: "水",
+    earth: "土",
+    animal: "動物",
+    star: "元素",
+    any: "任意",
+    copy: "你至少有1個的元素",
+  },
+  hu: {
+    sun: "Nap",
+    moon: "Hold",
+    fire: "Tűz",
+    air: "Levegő",
+    plant: "Növény",
+    water: "Víz",
+    earth: "Föld",
+    animal: "Állat",
+    star: "Elem",
+    any: "Bármi",
+    copy: "Elem, amiből legalább 1 van",
+  },
+  ko: {
+    sun: "태양",
+    moon: "달",
+    fire: "불",
+    air: "공기",
+    plant: "식물",
+    water: "물",
+    earth: "흙",
+    animal: "동물",
+    star: "원소",
+    any: "아무거나",
+    copy: "최소 1개 있는 원소",
+  },
+  ja: {
+    sun: "太陽",
+    moon: "月",
+    fire: "火",
+    air: "空気",
+    plant: "植物",
+    water: "水",
+    earth: "大地",
+    animal: "動物",
+    star: "エレメント",
+    any: "任意",
+    copy: "少なくとも1つ持っているエレメント",
+  },
+};
+const _localizeCardTypes = {
+  en: { major: "major", minor: "minor", unique: "unique" },
+  fr: { major: "Majeur", minor: "Mineur", unique: "Unique" },
+  de: { major: "Größere", minor: "Kleinere", unique: "Einzigartige" },
+  pl: { major: "Większą", minor: "Mniejszą", unique: "Unikalną" },
+  ar: { major: "كبرى", minor: "صغرى", unique: "فريدة" },
+  zh: { major: "重要", minor: "次要", unique: "獨特" },
+  hu: { major: "Nagyobb", minor: "Kisebb", unique: "Egyedi" },
+  ko: { major: "메이저", minor: "마이너", unique: "고유" },
+  ja: { major: "メジャー", minor: "マイナー", unique: "ユニーク" },
+};
+const _localizeTokens = {
+  en: {
+    explorer: "explorer",
+    town: "town",
+    city: "city",
+    blight: "blight",
+    beast: "beasts",
+    beasts: "beasts",
+    disease: "disease",
+    wilds: "wilds",
+    badland: "badlands",
+    badlands: "badlands",
+    strife: "strife",
+    vitality: "vitality",
+  },
+  fr: {
+    explorer: "Explorateur",
+    town: "Village",
+    city: "Ville",
+    blight: "Désolation",
+    beast: "Bête",
+    beasts: "Bêtes",
+    disease: "Maladie",
+    wilds: "Ronces",
+    badland: "Terre Hostile",
+    badlands: "Terres Hostiles",
+    strife: "Discorde",
+    vitality: "Vitalité",
+  },
+  de: {
+    explorer: "Entdecker",
+    town: "Siedlung",
+    city: "Stadt",
+    blight: "Seuche",
+    beast: "Bestie",
+    beasts: "Bestien",
+    disease: "Krankheit",
+    wilds: "Wildnis",
+    badland: "Ödland",
+    badlands: "Ödlande",
+    strife: "Zwist",
+    vitality: "Lebenskraft",
+  },
+  pl: {
+    explorer: "odkrywca",
+    town: "miasteczko",
+    city: "miasto",
+    blight: "zaraźliwość",
+    beast: "bestie",
+    beasts: "bestie",
+    disease: "choroba",
+    wilds: "dzicz",
+    badland: "pustkowia",
+    badlands: "pustkowia",
+    strife: "niezgoda",
+    vitality: "witalność",
+  },
+  ar: {
+    explorer: "مستكشف",
+    town: "بلدة",
+    city: "مدينة",
+    blight: "آفة",
+    beast: "وحوش",
+    beasts: "وحوش",
+    disease: "مرض",
+    wilds: "برية",
+    badland: "أرض قاحلة",
+    badlands: "أراض قاحلة",
+    strife: "صراع",
+    vitality: "حيوية",
+  },
+  zh: {
+    explorer: "探險者",
+    town: "城鎮",
+    city: "城市",
+    blight: "荒疫",
+    beast: "野獸",
+    beasts: "野獸",
+    disease: "疾病",
+    wilds: "荒野",
+    badland: "荒地",
+    badlands: "荒地",
+    strife: "紛爭",
+    vitality: "活力",
+  },
+  hu: {
+    explorer: "Felfedező",
+    town: "Falu",
+    city: "Város",
+    blight: "Métely",
+    beast: "Fenevad",
+    beasts: "Fenevad",
+    disease: "Betegség",
+    wilds: "Vadon",
+    badland: "Pusztaság",
+    badlands: "Pusztaság",
+    strife: "Viszály",
+    vitality: "Vitalitás",
+  },
+  ko: {
+    explorer: "탐험가",
+    town: "마을",
+    city: "도시",
+    blight: "황폐",
+    beast: "야수",
+    beasts: "야수",
+    disease: "질병",
+    wilds: "야생",
+    badland: "불모지",
+    badlands: "불모지",
+    strife: "분쟁",
+    vitality: "활력",
+  },
+  ja: {
+    explorer: "探検者",
+    town: "町",
+    city: "都市",
+    blight: "荒廃",
+    beast: "獣",
+    beasts: "獣",
+    disease: "病気",
+    wilds: "荒野",
+    badland: "荒れ地",
+    badlands: "荒れ地",
+    strife: "争い",
+    vitality: "活力",
+  },
+};
+const _localizeConjunctions = {
+  en: { and: "and", or: "or", at: "at", from: "from" },
+  fr: { and: "et", or: "ou", at: "à", from: "de" },
+  de: { and: "und", or: "oder", at: "bei", from: "von" },
+  pl: { and: "i", or: "lub", at: "w", from: "z" },
+  ar: { and: "و", or: "أو", at: "في", from: "من" },
+  zh: { and: "和", or: "或", at: "在", from: "從" },
+  hu: { and: "és", or: "vagy", at: "-nál/-nél", from: "-ról/-ről" },
+  ko: { and: "그리고", or: "또는", at: "에서", from: "에서" },
+  ja: { and: "と", or: "または", at: "で", from: "から" },
+};
+
 function IconName(str, iconNum = 1) {
-  const regExp = /\(([^)]+)\)/;
+  const cacheKey = str + "|" + iconNum;
+  if (_iconNameCache.has(cacheKey)) return _iconNameCache.get(cacheKey);
   let num = "";
   let txt = "";
   let opt3 = "";
   let opt4 = "";
   let options;
   let localize;
-  let debug = false;
 
   // identify if 'str' contains options
-  const matches = regExp.exec(str);
+  const matches = _iconNameRegex.exec(str);
   if (matches) {
     options = matches[1];
     if (options.includes(";")) {
@@ -2711,19 +2984,19 @@ function IconName(str, iconNum = 1) {
       str = "incarna";
     }
   }
-  if (str.includes("huge")) {
+  if (str.startsWith("huge")) {
     str = str.replace("huge", "");
   }
-  if (str.includes("large")) {
+  if (str.startsWith("large")) {
     str = str.replace("large", "");
   }
-  if (str.includes("medium")) {
+  if (str.startsWith("medium")) {
     str = str.replace("medium", "");
   }
-  if (str.includes("small")) {
+  if (str.startsWith("small")) {
     str = str.replace("small", "");
   }
-  if (str.includes("tiny")) {
+  if (str.startsWith("tiny")) {
     str = str.replace("tiny", "");
   }
   if (str.startsWith("-")) {
@@ -2732,16 +3005,6 @@ function IconName(str, iconNum = 1) {
   // if (str.startsWith("custom")) {
   //   str = getCustomIconName(str);
   // }
-
-  if (debug) {
-    console.log("IconName. Input: " + str);
-    if (options) {
-      console.log("Options: " + options);
-    }
-    if (iconNum > 1) {
-      console.log("iconNum =" + iconNum);
-    }
-  }
 
   if (str.includes("/")) {
     // If it is a split icon, unsplit it.
@@ -3305,9 +3568,9 @@ function IconName(str, iconNum = 1) {
           };
         }
       } else if (opt3) {
+        const perIcon = IconName(opt3);
         if (num === 0 || num === "0") {
           // scaling, no flat energy
-          let perIcon = IconName(opt3);
           localize = {
             en: elementNames.has(opt3)
               ? `Gain ${txt} Energy per ${perIcon} Showing`
@@ -3339,7 +3602,6 @@ function IconName(str, iconNum = 1) {
           };
         } else {
           // scaling w/ flat energy
-          let perIcon = IconName(opt3);
           localize = {
             en: elementNames.has(opt3)
               ? `Gain ${num} Energy and +${txt} more per ${perIcon} Showing`
@@ -4523,9 +4785,9 @@ function IconName(str, iconNum = 1) {
           };
         }
       } else if (opt3) {
+        const perIcon = IconName(opt3);
         if (num === 0 || num === "0") {
           // scaling, no flat fear
-          let perIcon = IconName(opt3);
           localize = {
             en: elementNames.has(opt3)
               ? `Generate ${txt} Fear per ${perIcon} Showing`
@@ -4557,7 +4819,6 @@ function IconName(str, iconNum = 1) {
           };
         } else {
           // scaling w/ flat energy
-          let perIcon = IconName(opt3);
           localize = {
             en: elementNames.has(opt3)
               ? `Generate ${num} Fear and +${txt} more per ${perIcon} Showing`
@@ -4771,181 +5032,17 @@ function IconName(str, iconNum = 1) {
     case "star":
     case "any":
     case "copy":
-      localize = {
-        en: {
-          sun: "sun",
-          moon: "moon",
-          fire: "fire",
-          air: "air",
-          plant: "plant",
-          water: "water",
-          earth: "earth",
-          animal: "animal",
-          star: "element",
-          any: "any",
-          copy: "Element you have at least 1 of",
-        },
-        fr: {
-          sun: "Soleil",
-          moon: "Lune",
-          fire: "Feu",
-          air: "Air",
-          plant: "Flore",
-          water: "Eau",
-          earth: "Terre",
-          animal: "Faune",
-          star: "Elément",
-          any: "Au choix",
-          copy: "Elément dont vous avez au moins 1",
-        },
-        de: {
-          sun: "Sonne",
-          moon: "Mond",
-          fire: "Feuer",
-          air: "Luft",
-          plant: "Pflanze",
-          water: "Wasser",
-          earth: "Erde",
-          animal: "Tier",
-          star: "Element",
-          any: "Beliebig",
-          copy: "Element, von dem du mindestens 1 hast",
-        },
-        pl: {
-          sun: "słońce",
-          moon: "księżyc",
-          fire: "ogień",
-          air: "powietrze",
-          plant: "roślinność",
-          water: "woda",
-          earth: "ziemia",
-          animal: "zwierzęcość",
-          star: "źródło mocy",
-          any: "dowolne",
-          copy: "Żywioł, którego masz co najmniej 1",
-        },
-        ar: {
-          sun: "الشمس",
-          moon: "القمر",
-          fire: "نار",
-          air: "هواء",
-          plant: "نبات",
-          water: "ماء",
-          earth: "أرض",
-          animal: "حيوان",
-          star: "عنصر تقليدي",
-          any: "أي",
-          copy: "عنصر لديك واحد منه على الأقل",
-        },
-        zh: {
-          sun: "日",
-          moon: "月",
-          fire: "火",
-          air: "氣",
-          plant: "植物",
-          water: "水",
-          earth: "土",
-          animal: "動物",
-          star: "元素",
-          any: "任意",
-          copy: "你至少有1個的元素",
-        },
-        hu: {
-          sun: "Nap",
-          moon: "Hold",
-          fire: "Tűz",
-          air: "Levegő",
-          plant: "Növény",
-          water: "Víz",
-          earth: "Föld",
-          animal: "Állat",
-          star: "Elem",
-          any: "Bármi",
-          copy: "Elem, amiből legalább 1 van",
-        },
-        ko: {
-          sun: "태양",
-          moon: "달",
-          fire: "불",
-          air: "공기",
-          plant: "식물",
-          water: "물",
-          earth: "흙",
-          animal: "동물",
-          star: "원소",
-          any: "아무거나",
-          copy: "최소 1개 있는 원소",
-        },
-        ja: {
-          sun: "太陽",
-          moon: "月",
-          fire: "火",
-          air: "空気",
-          plant: "植物",
-          water: "水",
-          earth: "大地",
-          animal: "動物",
-          star: "エレメント",
-          any: "任意",
-          copy: "少なくとも1つ持っているエレメント",
-        },
-      };
+      localize = _localizeElements;
       str = Capitalise(localize[lang][str]);
-      defaultProcessIcon();
+      subText = _defaultProcessIcon(str, iconNum);
       break;
     // Major/Minor/Unique
     case "major":
     case "minor":
     case "unique":
-      localize = {
-        en: {
-          major: "major",
-          minor: "minor",
-          unique: "unique",
-        },
-        fr: {
-          major: "Majeur",
-          minor: "Mineur",
-          unique: "Unique",
-        },
-        de: {
-          major: "Größere",
-          minor: "Kleinere",
-          unique: "Einzigartige",
-        },
-        pl: {
-          major: "Większą",
-          minor: "Mniejszą",
-          unique: "Unikalną",
-        },
-        ar: {
-          major: "كبرى",
-          minor: "صغرى",
-          unique: "فريدة",
-        },
-        zh: {
-          major: "重要",
-          minor: "次要",
-          unique: "獨特",
-        },
-        hu: {
-          major: "Nagyobb",
-          minor: "Kisebb",
-          unique: "Egyedi",
-        },
-        ko: {
-          major: "메이저",
-          minor: "마이너",
-          unique: "고유",
-        },
-        ja: {
-          major: "メジャー",
-          minor: "マイナー",
-          unique: "ユニーク",
-        },
-      };
+      localize = _localizeCardTypes;
       str = Capitalise(localize[lang][str]);
-      defaultProcessIcon();
+      subText = _defaultProcessIcon(str, iconNum);
       break;
     // Tokens
     case "explorer":
@@ -4960,219 +5057,35 @@ function IconName(str, iconNum = 1) {
     case "badland":
     case "badlands":
     case "vitality":
-      localize = {
-        en: {
-          explorer: "explorer",
-          town: "town",
-          city: "city",
-          blight: "blight",
-          beast: "beasts",
-          beasts: "beasts",
-          disease: "disease",
-          wilds: "wilds",
-          badland: "badlands",
-          badlands: "badlands",
-          strife: "strife",
-          vitality: "vitality",
-        },
-        fr: {
-          explorer: "Explorateur",
-          town: "Village",
-          city: "Ville",
-          blight: "Désolation",
-          beast: "Bête",
-          beasts: "Bêtes",
-          disease: "Maladie",
-          wilds: "Ronces",
-          badland: "Terre Hostile",
-          badlands: "Terres Hostiles",
-          strife: "Discorde",
-          vitality: "Vitalité",
-        },
-        de: {
-          explorer: "Entdecker",
-          town: "Siedlung",
-          city: "Stadt",
-          blight: "Seuche",
-          beast: "Bestie",
-          beasts: "Bestien",
-          disease: "Krankheit",
-          wilds: "Wildnis",
-          badland: "Ödland",
-          badlands: "Ödlande",
-          strife: "Zwist",
-          vitality: "Lebenskraft",
-        },
-        pl: {
-          explorer: "odkrywca",
-          town: "miasteczko",
-          city: "miasto",
-          blight: "zaraźliwość",
-          beast: "bestie",
-          beasts: "bestie",
-          disease: "choroba",
-          wilds: "dzicz",
-          badland: "pustkowia",
-          badlands: "pustkowia",
-          strife: "niezgoda",
-          vitality: "witalność",
-        },
-        ar: {
-          explorer: "مستكشف",
-          town: "بلدة",
-          city: "مدينة",
-          blight: "آفة",
-          beast: "وحوش",
-          beasts: "وحوش",
-          disease: "مرض",
-          wilds: "برية",
-          badland: "أرض قاحلة",
-          badlands: "أراض قاحلة",
-          strife: "صراع",
-          vitality: "حيوية",
-        },
-        zh: {
-          explorer: "探險者",
-          town: "城鎮",
-          city: "城市",
-          blight: "荒疫",
-          beast: "野獸",
-          beasts: "野獸",
-          disease: "疾病",
-          wilds: "荒野",
-          badland: "荒地",
-          badlands: "荒地",
-          strife: "紛爭",
-          vitality: "活力",
-        },
-        hu: {
-          explorer: "Felfedező",
-          town: "Falu",
-          city: "Város",
-          blight: "Métely",
-          beast: "Fenevad",
-          beasts: "Fenevad",
-          disease: "Betegség",
-          wilds: "Vadon",
-          badland: "Pusztaság",
-          badlands: "Pusztaság",
-          strife: "Viszály",
-          vitality: "Vitalitás",
-        },
-        ko: {
-          explorer: "탐험가",
-          town: "마을",
-          city: "도시",
-          blight: "황폐",
-          beast: "야수",
-          beasts: "야수",
-          disease: "질병",
-          wilds: "야생",
-          badland: "불모지",
-          badlands: "불모지",
-          strife: "분쟁",
-          vitality: "활력",
-        },
-        ja: {
-          explorer: "探検者",
-          town: "町",
-          city: "都市",
-          blight: "荒廃",
-          beast: "獣",
-          beasts: "獣",
-          disease: "病気",
-          wilds: "荒野",
-          badland: "荒れ地",
-          badlands: "荒れ地",
-          strife: "争い",
-          vitality: "活力",
-        },
-      };
+      localize = _localizeTokens;
       str = Capitalise(localize[lang][str]) || str;
-      defaultProcessIcon();
+      subText = _defaultProcessIcon(str, iconNum);
       break;
     // and/or
     case "and":
     case "or":
     case "at":
     case "from":
-      localize = {
-        en: {
-          and: "and",
-          or: "or",
-          at: "at",
-          from: "from",
-        },
-        fr: {
-          and: "et",
-          or: "ou",
-          at: "à",
-          from: "de",
-        },
-        de: {
-          and: "und",
-          or: "oder",
-          at: "bei",
-          from: "von",
-        },
-        pl: {
-          and: "i",
-          or: "lub",
-          at: "w",
-          from: "z",
-        },
-        ar: {
-          and: "و",
-          or: "أو",
-          at: "في",
-          from: "من",
-        },
-        zh: {
-          and: "和",
-          or: "或",
-          at: "在",
-          from: "從",
-        },
-        hu: {
-          and: "és",
-          or: `vagy`,
-          at: "-nál/-nél",
-          from: "-ról/-ről",
-        },
-        ko: {
-          and: "그리고",
-          or: `또는`,
-          at: "에서",
-          from: "에서",
-        },
-        ja: {
-          and: "と",
-          or: `または`,
-          at: "で",
-          from: "から",
-        },
-      };
+      localize = _localizeConjunctions;
       subText = localize[lang][str];
       break;
     case "":
       subText = "";
       break;
     default:
-      defaultProcessIcon();
+      subText = _defaultProcessIcon(str, iconNum);
   }
 
-  function defaultProcessIcon() {
-    subText =
-      iconNum && iconNum > 1
-        ? (numLocalize[lang][iconNum] || iconNum) + " " + Capitalise(str)
-        : Capitalise(str);
-    subText = numLocalize[lang][subText] || subText;
-  }
-
-  if (debug) {
-    console.log("Return: " + subText);
-  }
+  _iconNameCache.set(cacheKey, subText);
   return subText;
+}
+
+function _defaultProcessIcon(str, iconNum) {
+  let result =
+    iconNum && iconNum > 1
+      ? (numLocalize[lang][iconNum] || iconNum) + " " + Capitalise(str)
+      : Capitalise(str);
+  return numLocalize[lang][result] || result;
 }
 
 function Capitalise(str, plural = 0) {
