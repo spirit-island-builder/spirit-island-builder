@@ -6,7 +6,3 @@ node_modules
 .env.local
 !.env.cloudflare
 *.bak
-
-# Claude Code local files
-.claude/
-sib-action-plan.md
