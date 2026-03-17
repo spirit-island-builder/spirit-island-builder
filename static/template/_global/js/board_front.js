@@ -2816,11 +2816,11 @@ const _localizeTokens = {
     town: "Village",
     city: "Ville",
     blight: "Désolation",
-    beast: "Bête",
+    beast: "Bêtes",
     beasts: "Bêtes",
     disease: "Maladie",
     wilds: "Ronces",
-    badland: "Terre Hostile",
+    badland: "Terres Hostiles",
     badlands: "Terres Hostiles",
     strife: "Discorde",
     vitality: "Vitalité",
@@ -2830,11 +2830,11 @@ const _localizeTokens = {
     town: "Siedlung",
     city: "Stadt",
     blight: "Seuche",
-    beast: "Bestie",
+    beast: "Bestien",
     beasts: "Bestien",
     disease: "Krankheit",
     wilds: "Wildnis",
-    badland: "Ödland",
+    badland: "Ödlande",
     badlands: "Ödlande",
     strife: "Zwist",
     vitality: "Lebenskraft",
@@ -5043,16 +5043,14 @@ function IconName(str, iconNum = 1) {
     case "star":
     case "any":
     case "copy":
-      localize = _localizeElements;
-      str = Capitalise(localize[lang][str]);
+      str = Capitalise(_localizeElements[lang][str]);
       subText = _defaultProcessIcon(str, iconNum);
       break;
     // Major/Minor/Unique
     case "major":
     case "minor":
     case "unique":
-      localize = _localizeCardTypes;
-      str = Capitalise(localize[lang][str]);
+      str = Capitalise(_localizeCardTypes[lang][str]);
       subText = _defaultProcessIcon(str, iconNum);
       break;
     // Tokens
@@ -5068,8 +5066,7 @@ function IconName(str, iconNum = 1) {
     case "badland":
     case "badlands":
     case "vitality":
-      localize = _localizeTokens;
-      str = Capitalise(localize[lang][str]) || str;
+      str = Capitalise(_localizeTokens[lang][str]) || str;
       subText = _defaultProcessIcon(str, iconNum);
       break;
     // and/or
@@ -5077,8 +5074,7 @@ function IconName(str, iconNum = 1) {
     case "or":
     case "at":
     case "from":
-      localize = _localizeConjunctions;
-      subText = localize[lang][str];
+      subText = _localizeConjunctions[lang][str];
       break;
     case "":
       subText = "";
