@@ -3335,6 +3335,8 @@ function IconName(str, iconNum = 1) {
               };
               subText += localize[lang];
               landwith = 0;
+            } else if (terrainTypes.has(req)) {
+              subText += `${IconName(req + "-land")} `;
             } else if (terrains.has(req)) {
               subText += `${IconName(req)} `;
             } else {
@@ -5020,11 +5022,18 @@ function IconName(str, iconNum = 1) {
     case "oceans":
       subText = landtypeNames[lang][str];
       break;
+    case "inland-land":
+    case "coastal-land":
+      {
+        const landTrim = str.split("-")[0];
+        subText = `${Capitalise(landtypeNames[lang][landTrim])} ${Capitalise(
+          landtypeNames[lang]["land"]
+        )}`;
+      }
+      break;
     case "inland":
     case "coastal":
-      subText = `${Capitalise(landtypeNames[lang][str])} ${Capitalise(
-        landtypeNames[lang]["land"]
-      )}`;
+      subText = `${Capitalise(landtypeNames[lang][str])}`;
       break;
     case "empower-incarna":
       localize = {
