@@ -17,7 +17,7 @@
 </script>
 
 <Section
-  title="Setup, Play Style, Complexity and Summary of Powers"
+  title="Setup, Play Style, Complexity, Summary of Powers"
   bind:isVisible={spiritBoardBack.setupPlaystyleComplexityPowers.isVisible}>
   <div class="mb-1 p-1 note">
     <InstructionsLink anchor="spirit-lore-setup" />
