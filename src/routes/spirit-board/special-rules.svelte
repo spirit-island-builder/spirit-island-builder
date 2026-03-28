@@ -86,6 +86,7 @@
             class="input"
             type="text"
             placeholder="Name"
+            data-next-field="ruleEffectInput{i}"
             on:focus={selectNode}
             on:keydown={nextNode}
             on:blur={() => updateSpecialRule(rule, i, "name")}
@@ -96,6 +97,8 @@
         id={`ruleEffectInput${i}`}
         elementType="textarea"
         placeholder="Effect"
+        nextField="ruleNameInput{i + 1}"
+        nextFieldDefault="addSpecialRule"
         validAutoCompleteValues={iconValuesSorted}
         additionalOnBlurFunction={() => updateSpecialRule(rule, i, "effect")}
         bind:value={rule.effect} />

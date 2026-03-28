@@ -334,6 +334,7 @@
         class="input is-small"
         type="text"
         placeholder="Growth Directions (ie. &quot;Pick Two&quot;)"
+        data-next-field="growthSet0Group0Action0"
         on:keydown={nextNode}
         bind:value={spiritBoard.growth.directions} />
     </div>
@@ -370,6 +371,7 @@
               style="width:70%;"
               type="text"
               placeholder="Growth Set Choice ie. (PICK ONE OF)"
+              data-next-field="growthSet{i}Group0Action0"
               on:keydown={nextNode}
               bind:value={growthSet.choiceText} />
           </div>
@@ -423,6 +425,8 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;2&quot; or &quot;3,dahan&quot;"
+                      data-next-field="set{i}group{j}tint"
+                      data-next-field-default="growthSet{i}Group{j}Action0"
                       on:keydown={nextNode}
                       bind:value={growthGroup.cost} />
                   </div>
@@ -440,6 +444,8 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;blue&quot; or &quot;#ff0058&quot;"
+                      data-next-field="set{i}group{j}title"
+                      data-next-field-default="growthSet{i}Group{j}Action0"
                       on:keydown={nextNode}
                       bind:value={growthGroup.tint} />
                   </div>
@@ -457,6 +463,7 @@
                       class="input  is-small"
                       type="text"
                       placeholder="Try &quot;Max 1/Game&quot;"
+                      data-next-field="growthSet{i}Group{j}Action0"
                       on:keydown={nextNode}
                       bind:value={growthGroup.title} />
                   </div>
@@ -495,6 +502,8 @@
                       elementType="input"
                       classNames="is-small"
                       placeholder="Growth Action"
+                      nextField="growthSet{i}Group{j}Action{k + 1}"
+                      nextFieldDefault="growthSet{i}Group{j}AddAction"
                       showListImmediately={true}
                       validAutoCompleteValues={growthValuesSorted}
                       additionalOnBlurFunction={() => updateGrowthActionLocal(i, j, k)}

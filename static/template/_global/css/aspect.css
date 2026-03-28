@@ -245,18 +245,22 @@ aspect-rule.no-replacement {
   margin-top: -10px;
 }
 
-aspect innate-power level,
-aspect innate-power note,
-aspect innate-power description-container,
-aspect innate-power effect {
-  width: 618px;
+aspect innate-power {
+  level,
+  note,
+  description-container,
+  effect {
+    width: 700px;
+  }
 }
 
-aspect.profile innate-power level,
-aspect.profile innate-power note,
-aspect.profile innate-power description-container,
-aspect.profile innate-power effect {
-  width: 463px;
+aspect.profile innate-power {
+  level,
+  note,
+  description-container,
+  effect {
+    width: 463px;
+  }
 }
 
 aspect-container innate-power:only-child level {
@@ -572,6 +576,21 @@ aspect:not(.profile).for-image-download aspect-background {
   transform: translateX(567px) rotate(90deg);
   width: 786px;
   height: 567px;
+}
+
+aspect-back:not(.profile).for-image-download {
+  width: 567px;
+  height: 786px;
+}
+
+aspect-back:not(.profile).for-image-download {
+  img,
+  aspect-back-overlay {
+    transform-origin: top left;
+    transform: translateX(567px) rotate(90deg);
+    width: 786px;
+    height: 567px;
+  }
 }
 
 aspect.printer-clean aspect-background {

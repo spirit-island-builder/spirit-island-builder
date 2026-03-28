@@ -27,10 +27,10 @@ function startMain() {
 function resize() {
   dynamicSizing(document.querySelectorAll("lore-description")[0]);
 
-  board = document.querySelectorAll("board")[0];
-  secondContainer = document.querySelectorAll("second-section-container")[0];
-  setup = document.querySelectorAll("setup-description")[0];
-  playstyle = document.querySelectorAll("play-style-description")[0];
+  let board = document.querySelectorAll("board")[0];
+  let secondContainer = document.querySelectorAll("second-section-container")[0];
+  let setup = document.querySelectorAll("setup-description")[0];
+  let playstyle = document.querySelectorAll("play-style-description")[0];
 
   //Optional: Finder type boards
   let finder = board.getAttribute("finderstyle") ? true : false;
@@ -54,11 +54,11 @@ function resize() {
   // dynamicSizing(document.querySelectorAll('setup-description')[0]);
   // dynamicSizing(document.querySelectorAll('play-style-description')[0]);
 
-  loreImage = document.querySelectorAll("img")[0];
+  let loreImage = document.querySelectorAll("img")[0];
   var loreOverlay = document.createElement("lore-overlay");
   loreImage.after(loreOverlay);
   var imgWidth = window.getComputedStyle(loreImage, null).getPropertyValue("width");
-  imageScale = loreImage.getAttribute("scale");
+  let imageScale = loreImage.getAttribute("scale");
   if (imageScale) {
     if (isNaN(imageScale)) {
       loreImage.style.width = imageScale;
@@ -164,22 +164,22 @@ function buildLoreBoard() {
   defenseTag.style.height = defenseValue * 10 + "%";
   utilityTag.style.height = utilityValue * 10 + "%";
 
-  uses = document.getElementsByTagName("summary-of-powers")[0].getAttribute("uses");
-  table = document.getElementsByClassName("powers-summary")[0];
-  topRow = table.getElementsByTagName("tr")[0];
-  note = document.getElementsByTagName("note")[0];
+  let uses = document.getElementsByTagName("summary-of-powers")[0].getAttribute("uses");
+  let table = document.getElementsByClassName("powers-summary")[0];
+  let topRow = table.getElementsByTagName("tr")[0];
+  let note = document.getElementsByTagName("note")[0];
   if (note) {
     console.log("found note");
     table.classList.add("has-note");
-    noteRow = document.createElement("tr");
+    let noteRow = document.createElement("tr");
     noteRow.className = "note-row";
     topRow.parentNode.insertBefore(noteRow, topRow);
     noteRow.appendChild(document.createElement("td"));
-    noteCol = document.createElement("td");
+    let noteCol = document.createElement("td");
     noteCol.colSpan = "5";
     noteCol.classList.add("note");
     noteRow.appendChild(noteCol);
-    noteWrap = document.createElement("note-wrap");
+    let noteWrap = document.createElement("note-wrap");
     noteCol.appendChild(note);
     // noteWrap.innerHTML = note.textContent;
 
@@ -188,21 +188,21 @@ function buildLoreBoard() {
     console.log("no note");
     console.log(note);
   }
-  countRows = table.querySelectorAll("tr").length;
+  let countRows = table.querySelectorAll("tr").length;
   if (uses) {
     table.classList.add("has-uses");
     topRow = table.getElementsByTagName("tr")[0]; // reset top row in case note was added
-    lineCol = document.createElement("td");
+    let lineCol = document.createElement("td");
     lineCol.className = "power-divider";
     lineCol.rowSpan = countRows - 1;
-    usesCol = document.createElement("td");
+    let usesCol = document.createElement("td");
     usesCol.rowSpan = countRows; //if we added a note, span that column too
     usesCol.className = "uses-icon";
     usesCol.append(localize[lang]["uses"]);
-    usesList = uses.split(",");
-    iconHolder = document.createElement("uses-icon-holder");
+    let usesList = uses.split(",");
+    let iconHolder = document.createElement("uses-icon-holder");
     for (let i = 0; i < usesList.length; i++) {
-      usesIcon = document.createElement("icon");
+      let usesIcon = document.createElement("icon");
       usesIcon.className = usesList[i] + " uses-icon";
       iconHolder.append(usesIcon);
     }
@@ -213,9 +213,9 @@ function buildLoreBoard() {
 
   //Translate other non-english headings
   if (lang !== "en") {
-    setupText = document.getElementsByTagName("setup-title")[0];
+    let setupText = document.getElementsByTagName("setup-title")[0];
     setupText.innerHTML = localize[lang]["setup"] + ":";
-    playstyleText = document.getElementsByTagName("play-style-title")[0];
+    let playstyleText = document.getElementsByTagName("play-style-title")[0];
     playstyleText.innerHTML = localize[lang]["playstyle"] + ":";
   }
 }
