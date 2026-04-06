@@ -1156,11 +1156,9 @@ function getGrowthActionTextAndIcons(growthAction) {
           break;
         case "replace":
           growthIcons =
-            '<custom-icon><icon class="incarna with-incarna ' +
-            customIncarnaIcon +
-            '"><icon class="replace-with-incarna no ' +
-            incarnaRangeOrToken +
-            '"></custom-icon>';
+            `<custom-icon><icon class="incarna with-incarna ${customIncarnaIcon}">` +
+            `{no-${incarnaRangeOrToken}}</icon>` +
+            `</custom-icon>`;
           break;
         case "add-token":
           growthIcons =
