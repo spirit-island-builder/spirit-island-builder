@@ -244,6 +244,7 @@
             class="input"
             type="text"
             placeholder="Power Name"
+            data-next-field="powerRange{i}"
             on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={innatePower.name} />
@@ -318,6 +319,7 @@
               class="input is-small"
               type="text"
               placeholder="Range"
+              data-next-field="powerTarget{i}"
               on:keydown={nextNode}
               on:focus={selectNode}
               on:blur={updateInnatePowerRange(innatePower, `ip${i}range`)}
@@ -329,6 +331,7 @@
               elementType="input"
               classNames="is-small"
               placeholder="Target"
+              nextField="powerNote{i}"
               validAutoCompleteValues={iconValuesSorted}
               additionalOnBlurFunction={() => updateInnatePowerTarget(innatePower, `ip${i}target`)}
               bind:value={innatePower.target} />
@@ -342,6 +345,8 @@
         elementType="input"
         placeholder="Note (optional)"
         classNames="is-small"
+        nextField="power{i}levelThreshold0"
+        nextFieldDefault="power{i}addLevel"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={innatePower.note} />
     </div>
@@ -353,6 +358,7 @@
             class="input is-small small-power"
             type="text"
             placeholder="Threshold"
+            data-next-field="power{i}levelEffect{j}"
             on:focus={selectNode}
             on:blur={updateInnatePowerThreshold(level, `ip${i}L${j}t`)}
             on:keydown={nextNode}
@@ -364,6 +370,8 @@
             elementType="textarea"
             placeholder="Effect"
             classNames="is-small small-power"
+            nextField="power{i}levelThreshold{j + 1}"
+            nextFieldDefault="power{i}addLevel"
             validAutoCompleteValues={iconValuesSorted}
             additionalOnBlurFunction={() => updateInnatePowerEffect(level, `ip${i}L${j}`)}
             bind:value={level.effect} />

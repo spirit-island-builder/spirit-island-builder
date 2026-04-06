@@ -292,6 +292,27 @@ export const nextNode = (event) => {
   if (event.key === "Enter") {
     console.log(event);
     if (!event.srcElement.classList.contains("textarea") || event.shiftKey) {
+      event.preventDefault();
+      const el = event.target;
+      let focusID = el.dataset.nextField;
+      if (!focusID) return;
+      if (document.getElementById(focusID) === null) {
+        focusID = el.dataset.nextFieldDefault || "";
+      }
+      if (focusID && document.getElementById(focusID) !== null) {
+        document.getElementById(focusID).focus();
+      } else {
+        console.log("No next node");
+      }
+    }
+  }
+};
+
+// eslint-disable-next-line no-unused-vars
+const nextNode_DEPRECATED = (event) => {
+  if (event.key === "Enter") {
+    console.log(event);
+    if (!event.srcElement.classList.contains("textarea") || event.shiftKey) {
       // For textarea, require SHIFT to advance
       event.preventDefault();
       let currentID = event.target.id;
