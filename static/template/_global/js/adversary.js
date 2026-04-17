@@ -112,7 +112,7 @@ let localize = {
 };
 
 function startMain() {
-  quickAdversary = document.querySelectorAll("quick-adversary")[0];
+  let quickAdversary = document.querySelectorAll("quick-adversary")[0];
 
   if (quickAdversary) {
     var adversary = document.createElement("adversary");
@@ -135,15 +135,15 @@ function startMain() {
 
 function buildAdversary(quickAdversary) {
   lang = quickAdversary.getAttribute("lang");
-  adversaryName = quickAdversary.getAttribute("name");
-  flagImage = quickAdversary.getAttribute("flag-image");
-  baseDifficulty = quickAdversary.getAttribute("base-difficulty");
+  let adversaryName = quickAdversary.getAttribute("name");
+  let flagImage = quickAdversary.getAttribute("flag-image");
+  let baseDifficulty = quickAdversary.getAttribute("base-difficulty");
   let baseDifficultyText = "";
   if (baseDifficulty) {
     baseDifficultyText = `<adversary-base-dif>${localize[lang]["baseDifficulty"]}  <num>${baseDifficulty}</num></adversary-base-dif>`;
   }
 
-  lossCondition = quickAdversary.querySelectorAll("loss-condition")[0];
+  let lossCondition = quickAdversary.querySelectorAll("loss-condition")[0];
   let lossConditionTitle = lossCondition.getAttribute("name");
   let lossConditionAlt = lossCondition.getAttribute("alternate") ? true : false;
   let lossConditionHeading = localize[lang]["additionalLossCondition"];
@@ -161,11 +161,11 @@ function buildAdversary(quickAdversary) {
     topInfoClass = "class='no-loss-condition'";
     lossConditionRules = localize[lang]["none"];
   }
-  escalation = quickAdversary.querySelectorAll("escalation-effect")[0];
+  let escalation = quickAdversary.querySelectorAll("escalation-effect")[0];
 
-  levels = quickAdversary.querySelectorAll("level");
+  let levels = quickAdversary.querySelectorAll("level");
 
-  html = `
+  let html = `
     <adversary-title>${adversaryName}</adversary-title>
     <img class="flag" src="${flagImage}" />
     ${baseDifficultyText}
@@ -209,7 +209,7 @@ function buildAdversary(quickAdversary) {
 }
 
 function buildLevel(quickLevel) {
-  fearCards = quickLevel.getAttribute("fear-cards");
+  let fearCards = quickLevel.getAttribute("fear-cards");
   fearCards = fearCards.replaceAll(",", "/");
   let pullNumbersRegex = /\d+/g;
   let fearCardNum = "";
@@ -228,7 +228,7 @@ function buildLevel(quickLevel) {
     )}:</strong> ${quickLevel.getAttribute("rules2")}</rule>`;
   }
 
-  levelHTML = `<level>
+  let levelHTML = `<level>
         <div>${quickLevel.tagName.at(-1)}<level-difficulty>(<num>${quickLevel.getAttribute(
     "difficulty"
   )}</num>)</level-difficulty></div>

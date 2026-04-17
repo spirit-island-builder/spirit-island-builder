@@ -3,7 +3,7 @@ async function startMain() {
   // window.onload is for template mode
   console.log("Start Main: Invader Card");
 
-  templateInvaderCard = document.querySelectorAll("template-invader-card")[0];
+  let templateInvaderCard = document.querySelectorAll("template-invader-card")[0];
   templateInvaderCard = buildInvaderCard(templateInvaderCard);
 
   var html = templateInvaderCard.innerHTML;

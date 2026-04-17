@@ -233,6 +233,7 @@
                   class="input is-small"
                   type="text"
                   placeholder="ie. Replaces Special Rule"
+                  data-next-field="part{k}RulesReplacedInput{i}"
                   on:keydown={nextNode}
                   on:focus={selectNode}
                   bind:value={replacement.aspectRelacement} />
@@ -254,6 +255,8 @@
                   class="input is-small"
                   type="text"
                   placeholder="ie. The Name of a Spirit's Special Rule"
+                  data-next-field="part{k}ReplacesInput{i + 1}"
+                  data-next-field-default="part{k}addReplacement"
                   on:keydown={nextNode}
                   on:focus={selectNode}
                   bind:value={replacement.rulesReplaced} />
@@ -288,6 +291,7 @@
               class="input"
               type="text"
               placeholder="Name"
+              data-next-field={`part${k}RuleEffectInput${i}`}
               on:keydown={nextNode}
               on:focus={selectNode}
               bind:value={rule.name} />
