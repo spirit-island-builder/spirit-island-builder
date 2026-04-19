@@ -474,6 +474,7 @@
             <AutoComplete
               id={`part${k}Power${i}levelEffect${j}`}
               elementType="textarea"
+              selectAnyway
               placeholder="Effect"
               classNames="is-small small-power"
               validAutoCompleteValues={iconValuesSorted}
