@@ -739,6 +739,9 @@
         },
       ],
     },
+    nameTexture: {
+      isVisible: false,
+    },
     showBackOld: false,
     showBackNew: false,
     customIcons: {

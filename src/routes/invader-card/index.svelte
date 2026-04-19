@@ -7,7 +7,8 @@
   import LoadDropdown from "$lib/load-dropdown.svelte";
   import SaveDropdown from "$lib/save-dropdown.svelte";
 
-  import NameEffects from "./name-effects.svelte";
+  import Effects from "./effects.svelte";
+  import NameTextures from "./name-textures.svelte";
   import CustomIcons from "../custom-icons.svelte";
   import { dev } from "$app/environment";
 
@@ -189,7 +190,8 @@
 
 <div class="columns ml-4 mt-0 mb-1">
   <div class="column is-one-third pt-0">
-    <NameEffects bind:invaderCard />
+    <NameTextures bind:invaderCard />
+    <Effects bind:invaderCard />
     <CustomIcons customIcons={invaderCard.customIcons} />
   </div>
   <div class="column pt-0">
