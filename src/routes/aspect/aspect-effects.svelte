@@ -163,6 +163,19 @@
     }
   }
 
+  function moveThresholdLevel(i, to, from, k) {
+    aspect.aspectEffects[k].innatePowers.powers[i].levels.splice(
+      to,
+      0,
+      aspect.aspectEffects[k].innatePowers.powers[i].levels.splice(from, 1)[0]
+    );
+    aspect.aspectEffects[k].innatePowers.powers[i].levels.forEach((level, i) => {
+      level.id = i;
+    });
+    aspect = aspect;
+    document.getElementById("updateButton").click();
+  }
+
   function addAspectPart() {
     aspect.aspectEffects.push({
       id: aspect.aspectEffects.length,
@@ -467,18 +480,25 @@
               additionalOnBlurFunction={() => document.getElementById("updateButton").click()}
               bind:value={level.effect} />
           </div>
-          {#if !level.isLong}
+          <div class="control has-addons is-tiny comment-buttons is-flex is-flex-direction-column">
             <button
-              class="button is-primary is-light is-warning is-small row-button"
-              on:click={switchLong(i, j)}>Long</button>
-          {:else}
+              class="button is-light is-small level-move-buttons"
+              disabled={j === 0}
+              on:click={moveThresholdLevel(i, j - 1, j, k)}>&#11165;</button>
             <button
-              class="button is-primary is-warning is-small row-button"
-              on:click={switchLong(i, j, k)}>Long</button>
-          {/if}
+              class="button is-light is-small level-move-buttons"
+              disabled={j + 1 === power.levels.length}
+              on:click={moveThresholdLevel(i, j + 1, j, k)}>&#11167;</button>
+          </div>
           <button
-            class="button is-primary is-light is-warning is-small row-button"
-            on:click={removeLevel(i, j, k)}>Remove</button>
+            class="button is-primary is-light is-warning is-small"
+            class:is-light={!level.isLong}
+            style="padding: 2px;"
+            on:click={switchLong(i, j, k)}>Long</button>
+          <button
+            class="button is-warning is-small is-light"
+            style="width:30px;"
+            on:click={removeLevel(i, j, k)}>&#10006;</button>
         </div>
       {/each}
     {/each}
@@ -536,3 +556,11 @@
   <button class="button is-small is-success is-light" on:click={addAspectPart}
     >Add Aspect Part {aspect.aspectEffects.length + 1}</button>
 </div>
+
+<style>
+  .level-move-buttons {
+    padding: 0px;
+    height: 15px;
+    width: 30px;
+  }
+</style>
