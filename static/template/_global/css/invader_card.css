@@ -44,7 +44,7 @@ template-invader-card {
   position: relative;
   top: 0px;
   left: 0px;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 invader-card-mask {
@@ -65,12 +65,14 @@ invader-card-terrain {
   width: 100%;
   height: 100%;
   mask-size: contain;
+  border-radius: 22px;
 }
 
 template-invader-card.single {
   invader-card-mask {
     background-image: url(../images/cards/Invader/Invader_Card_Background_Single.png);
   }
+
   invader-card-terrain:first-of-type {
     mask: url(../images/cards/Invader/Invader_Card_Terrain_Mask_Full.png);
     mask-size: contain;
@@ -81,10 +83,12 @@ template-invader-card.double {
   invader-card-mask {
     background-image: url(../images/cards/Invader/Invader_Card_Background_Double.png);
   }
+
   invader-card-terrain:first-of-type {
     mask: url(../images/cards/Invader/Invader_Card_Terrain_Mask_Top.png);
     mask-size: contain;
   }
+
   invader-card-terrain {
     mask: url(../images/cards/Invader/Invader_Card_Terrain_Mask_Bottom.png);
     mask-size: contain;
@@ -95,10 +99,54 @@ template-invader-card.split {
   invader-card-mask {
     background-image: url(../images/cards/Invader/Invader_Card_Background_HME.png);
   }
+
   invader-card-terrain:first-of-type {
     mask: url(../images/cards/Invader/Invader_Card_Terrain_Mask_HME.png);
     mask-size: contain;
   }
+}
+
+template-invader-card.reminder {
+  invader-card-mask {
+    background-image: url(../images/cards/Invader/Reminder_Card_Background.png);
+  }
+}
+
+invader-banner {
+  background-color: #eee;
+  font-size: 18px;
+  text-align: center;
+  padding: 0 8px 0 30px;
+  writing-mode: vertical-lr;
+  font-family: "Name Headings";
+  height: 100%;
+  border-radius: 22px;
+  color: #555;
+  box-shadow: 5px 0px 10px #6666;
+  position: absolute;
+}
+
+invader-field-container {
+  display: flex;
+  flex-direction: column;
+  height: 575px;
+  width: 377px;
+  flex: auto;
+}
+
+template-invader-card.reminder {
+  invader-field-container {
+    transform-origin: top left;
+    transform: translateX(377px) rotate(90deg);
+    position: absolute;
+    width: 575px;
+    height: 377px;
+  }
+  invader-field:first-child {
+    margin-top: 25px;
+  }
+  transform-origin: top right;
+  transform: translateX(-377px) rotate(270deg);
 }
 
 invader-field {
@@ -168,6 +216,7 @@ invader-card-stitching-single {
   width: 100%;
   height: 100%;
 }
+
 invader-card-stitching-double {
   background-image: url(../images/cards/Invader/Invader_Card_Stitching_Stage_III.png);
   background-repeat: no-repeat;

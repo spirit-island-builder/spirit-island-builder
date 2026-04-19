@@ -727,6 +727,7 @@
       isVisible: false,
       name: "",
       type: "single",
+      banner: "",
       top: "",
       bottom: "",
       fields: [

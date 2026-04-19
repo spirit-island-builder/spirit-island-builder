@@ -65,8 +65,11 @@ function buildInvaderCard(template) {
   }
 
   // Interate through text fields
+  let invaderCardFieldContainer = document.createElement("invader-field-container");
+  template.appendChild(invaderCardFieldContainer);
   let fields = document.querySelectorAll("invader-field");
   fields.forEach((field) => {
+    invaderCardFieldContainer.appendChild(field);
     if (field.getAttribute("type")) {
       let fieldType = field.getAttribute("type");
       field.classList.add(fieldType);
@@ -84,6 +87,16 @@ function buildInvaderCard(template) {
       }
     }
   });
+
+  if (type === "reminder") {
+    const banner = template.getAttribute("banner");
+    if (banner) {
+      let bannerHTML = document.createElement("invader-banner");
+      bannerHTML.innerHTML = banner;
+      template.appendChild(bannerHTML);
+    }
+  }
+
   // Add text
   // const textHeadingHTML = document.createElement("text-heading");
   // template.appendChild(textHeadingHTML)

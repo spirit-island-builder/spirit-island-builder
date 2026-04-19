@@ -54,6 +54,7 @@
     invaderCardHTML.setAttribute("type", invaderCard.card.type);
     invaderCardHTML.setAttribute("top", invaderCard.card.top);
     invaderCardHTML.setAttribute("bottom", invaderCard.card.bottom);
+    invaderCardHTML.setAttribute("banner", invaderCard.card.banner);
     invaderCard.card.fields.forEach((field) => {
       let fieldHTML = document.createElement("invader-field");
       if (field.type) {
@@ -103,10 +104,11 @@
     invaderCard = JSON.parse(JSON.stringify(emptyInvaderCard));
 
     const invaderCardHTML = htmlElement.querySelectorAll("template-invader-card")[0];
-    invaderCard.card.type = invaderCardHTML.getAttribute("name") || "";
+    invaderCard.card.name = invaderCardHTML.getAttribute("name") || "";
     invaderCard.card.type = invaderCardHTML.getAttribute("type") || "single";
     invaderCard.card.top = invaderCardHTML.getAttribute("top");
     invaderCard.card.bottom = invaderCardHTML.getAttribute("bottom") || "";
+    invaderCard.card.banner = invaderCardHTML.getAttribute("banner") || "";
     // invaderCard.card.textHeading = invaderCardHTML.getAttribute("text-heading") || "";
     // invaderCard.card.textBody = invaderCardHTML.getAttribute("text-body") || "";
 

@@ -272,6 +272,9 @@ button.side-menu:hover {
   .box {
     color: #e6e6e6;
   }
+  .textarea::placeholder {
+    color: #606060;
+  }
   .growth-group-title,
   .note,
   footer {
