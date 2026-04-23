@@ -275,7 +275,7 @@ let localize = {
     setup: "SPIELVORBEREITUNG",
     playstyle: "SPIELSTIL",
     complexity: "KOMPLEXITÄT",
-    summary: "ZUSAMMENFASSUNG FÄHIGKEITEN",
+    summary: "ZUSAMMEN-FASSUNG FÄHIGKEITEN",
     offense: "ANGRIFF",
     control: "BEWEGUNG",
     fear: "FURCHT",

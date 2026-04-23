@@ -240,3 +240,10 @@ template-invader-card dev-overlay {
   pointer-events: none;
   z-index: 101;
 }
+
+icon {
+  width: 30px;
+  height: 30px;
+  margin: 0px;
+  background-position: bottom;
+}
