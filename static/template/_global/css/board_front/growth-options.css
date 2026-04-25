@@ -1727,8 +1727,8 @@ growth-cell icon.push icon-holder icon {
 }
 
 growth-cell gain icon.element {
-  height: 60px;
-  width: 60px;
+  height: 64px;
+  width: 64px;
   margin: -30px;
 }
 

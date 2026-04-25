@@ -247,3 +247,7 @@ icon {
   margin: 0px;
   background-position: bottom;
 }
+
+template-invader-card.for-image-download {
+  transform: unset;
+}
