@@ -1051,11 +1051,16 @@ function getGrowthActionTextAndIcons(growthAction) {
       growthText = IconName(`growth-fear(${iconNamevars})`);
       break;
     }
+    case "lose-range":
     case "gain-range": {
       const matches = regExp.exec(growthAction);
       let rangeOptions = matches[1].split(",");
       let range = rangeOptions[0];
-      growthIcons = `<growth-range>{gain-range-${range}}</growth-range>`;
+      if (range < 0 || growthActionType.includes("lose")) {
+        growthIcons = `<growth-range>{lose-range-${Math.abs(range)}}</growth-range>`;
+      } else {
+        growthIcons = `<growth-range>{gain-range-${range}}</growth-range>`;
+      }
       growthText = IconName(`growth-${growthAction}`);
       break;
     }
@@ -1156,11 +1161,9 @@ function getGrowthActionTextAndIcons(growthAction) {
           break;
         case "replace":
           growthIcons =
-            '<custom-icon><icon class="incarna with-incarna ' +
-            customIncarnaIcon +
-            '"><icon class="replace-with-incarna no ' +
-            incarnaRangeOrToken +
-            '"></custom-icon>';
+            `<custom-icon><icon class="incarna with-incarna ${customIncarnaIcon}">` +
+            `{no-${incarnaRangeOrToken}}</icon>` +
+            `</custom-icon>`;
           break;
         case "add-token":
           growthIcons =
@@ -1304,6 +1307,10 @@ function getGrowthActionTextAndIcons(growthAction) {
       growthText = IconName(growthAction);
       break;
     }
+    case "ignore-range":
+      growthIcons = "{ignorerange}"; //avoiding the hyphen
+      growthText = IconName(growthActionType);
+      break;
     default: {
       growthIcons = "{" + growthActionType + "}";
       growthText = IconName(growthActionType);
@@ -2663,8 +2670,282 @@ function updatePresenceNodeIDs() {
   }
 }
 
+// Module-level constants for IconName — avoids per-call allocation
+const _iconNameRegex = /\(([^)]+)\)/;
+const _iconNameCache = new Map();
+const _localizeElements = {
+  en: {
+    sun: "sun",
+    moon: "moon",
+    fire: "fire",
+    air: "air",
+    plant: "plant",
+    water: "water",
+    earth: "earth",
+    animal: "animal",
+    star: "element",
+    any: "any",
+    copy: "Element you have at least 1 of",
+  },
+  fr: {
+    sun: "Soleil",
+    moon: "Lune",
+    fire: "Feu",
+    air: "Air",
+    plant: "Flore",
+    water: "Eau",
+    earth: "Terre",
+    animal: "Faune",
+    star: "Elément",
+    any: "Au choix",
+    copy: "Elément dont vous avez au moins 1",
+  },
+  de: {
+    sun: "Sonne",
+    moon: "Mond",
+    fire: "Feuer",
+    air: "Luft",
+    plant: "Pflanze",
+    water: "Wasser",
+    earth: "Erde",
+    animal: "Tier",
+    star: "Element",
+    any: "Beliebig",
+    copy: "Element, von dem du mindestens 1 hast",
+  },
+  pl: {
+    sun: "słońce",
+    moon: "księżyc",
+    fire: "ogień",
+    air: "powietrze",
+    plant: "roślinność",
+    water: "woda",
+    earth: "ziemia",
+    animal: "zwierzęcość",
+    star: "źródło mocy",
+    any: "dowolne",
+    copy: "Żywioł, którego masz co najmniej 1",
+  },
+  ar: {
+    sun: "الشمس",
+    moon: "القمر",
+    fire: "نار",
+    air: "هواء",
+    plant: "نبات",
+    water: "ماء",
+    earth: "أرض",
+    animal: "حيوان",
+    star: "عنصر تقليدي",
+    any: "أي",
+    copy: "عنصر لديك واحد منه على الأقل",
+  },
+  zh: {
+    sun: "日",
+    moon: "月",
+    fire: "火",
+    air: "氣",
+    plant: "植物",
+    water: "水",
+    earth: "土",
+    animal: "動物",
+    star: "元素",
+    any: "任意",
+    copy: "你至少有1個的元素",
+  },
+  hu: {
+    sun: "Nap",
+    moon: "Hold",
+    fire: "Tűz",
+    air: "Levegő",
+    plant: "Növény",
+    water: "Víz",
+    earth: "Föld",
+    animal: "Állat",
+    star: "Elem",
+    any: "Bármi",
+    copy: "Elem, amiből legalább 1 van",
+  },
+  ko: {
+    sun: "태양",
+    moon: "달",
+    fire: "불",
+    air: "공기",
+    plant: "식물",
+    water: "물",
+    earth: "흙",
+    animal: "동물",
+    star: "원소",
+    any: "아무거나",
+    copy: "최소 1개 있는 원소",
+  },
+  ja: {
+    sun: "太陽",
+    moon: "月",
+    fire: "火",
+    air: "空気",
+    plant: "植物",
+    water: "水",
+    earth: "大地",
+    animal: "動物",
+    star: "エレメント",
+    any: "任意",
+    copy: "少なくとも1つ持っているエレメント",
+  },
+};
+const _localizeCardTypes = {
+  en: { major: "major", minor: "minor", unique: "unique" },
+  fr: { major: "Majeur", minor: "Mineur", unique: "Unique" },
+  de: { major: "Größere", minor: "Kleinere", unique: "Einzigartige" },
+  pl: { major: "Większą", minor: "Mniejszą", unique: "Unikalną" },
+  ar: { major: "كبرى", minor: "صغرى", unique: "فريدة" },
+  zh: { major: "重要", minor: "次要", unique: "獨特" },
+  hu: { major: "Nagyobb", minor: "Kisebb", unique: "Egyedi" },
+  ko: { major: "메이저", minor: "마이너", unique: "고유" },
+  ja: { major: "メジャー", minor: "マイナー", unique: "ユニーク" },
+};
+const _localizeTokens = {
+  en: {
+    explorer: "explorer",
+    town: "town",
+    city: "city",
+    blight: "blight",
+    beast: "beasts",
+    beasts: "beasts",
+    disease: "disease",
+    wilds: "wilds",
+    badland: "badlands",
+    badlands: "badlands",
+    strife: "strife",
+    vitality: "vitality",
+  },
+  fr: {
+    explorer: "Explorateur",
+    town: "Village",
+    city: "Ville",
+    blight: "Désolation",
+    beast: "Bêtes",
+    beasts: "Bêtes",
+    disease: "Maladie",
+    wilds: "Ronces",
+    badland: "Terres Hostiles",
+    badlands: "Terres Hostiles",
+    strife: "Discorde",
+    vitality: "Vitalité",
+  },
+  de: {
+    explorer: "Entdecker",
+    town: "Siedlung",
+    city: "Stadt",
+    blight: "Seuche",
+    beast: "Bestien",
+    beasts: "Bestien",
+    disease: "Krankheit",
+    wilds: "Wildnis",
+    badland: "Ödlande",
+    badlands: "Ödlande",
+    strife: "Zwist",
+    vitality: "Lebenskraft",
+  },
+  pl: {
+    explorer: "odkrywca",
+    town: "miasteczko",
+    city: "miasto",
+    blight: "zaraźliwość",
+    beast: "bestie",
+    beasts: "bestie",
+    disease: "choroba",
+    wilds: "dzicz",
+    badland: "pustkowia",
+    badlands: "pustkowia",
+    strife: "niezgoda",
+    vitality: "witalność",
+  },
+  ar: {
+    explorer: "مستكشف",
+    town: "بلدة",
+    city: "مدينة",
+    blight: "آفة",
+    beast: "وحوش",
+    beasts: "وحوش",
+    disease: "مرض",
+    wilds: "برية",
+    badland: "أرض قاحلة",
+    badlands: "أراض قاحلة",
+    strife: "صراع",
+    vitality: "حيوية",
+  },
+  zh: {
+    explorer: "探險者",
+    town: "城鎮",
+    city: "城市",
+    blight: "荒疫",
+    beast: "野獸",
+    beasts: "野獸",
+    disease: "疾病",
+    wilds: "荒野",
+    badland: "荒地",
+    badlands: "荒地",
+    strife: "紛爭",
+    vitality: "活力",
+  },
+  hu: {
+    explorer: "Felfedező",
+    town: "Falu",
+    city: "Város",
+    blight: "Métely",
+    beast: "Fenevad",
+    beasts: "Fenevad",
+    disease: "Betegség",
+    wilds: "Vadon",
+    badland: "Pusztaság",
+    badlands: "Pusztaság",
+    strife: "Viszály",
+    vitality: "Vitalitás",
+  },
+  ko: {
+    explorer: "탐험가",
+    town: "마을",
+    city: "도시",
+    blight: "황폐",
+    beast: "야수",
+    beasts: "야수",
+    disease: "질병",
+    wilds: "야생",
+    badland: "불모지",
+    badlands: "불모지",
+    strife: "분쟁",
+    vitality: "활력",
+  },
+  ja: {
+    explorer: "探検者",
+    town: "町",
+    city: "都市",
+    blight: "荒廃",
+    beast: "獣",
+    beasts: "獣",
+    disease: "病気",
+    wilds: "荒野",
+    badland: "荒れ地",
+    badlands: "荒れ地",
+    strife: "争い",
+    vitality: "活力",
+  },
+};
+const _localizeConjunctions = {
+  en: { and: "and", or: "or", at: "at", from: "from" },
+  fr: { and: "et", or: "ou", at: "à", from: "de" },
+  de: { and: "und", or: "oder", at: "bei", from: "von" },
+  pl: { and: "i", or: "lub", at: "w", from: "z" },
+  ar: { and: "و", or: "أو", at: "في", from: "من" },
+  zh: { and: "和", or: "或", at: "在", from: "從" },
+  hu: { and: "és", or: "vagy", at: "-nál/-nél", from: "-ról/-ről" },
+  ko: { and: "그리고", or: "또는", at: "에서", from: "에서" },
+  ja: { and: "と", or: "または", at: "で", from: "から" },
+};
+
 function IconName(str, iconNum = 1) {
-  const regExp = /\(([^)]+)\)/;
+  const cacheKey = str + "|" + iconNum;
+  if (_iconNameCache.has(cacheKey)) return _iconNameCache.get(cacheKey);
   let num = "";
   let txt = "";
   let opt3 = "";
@@ -2674,7 +2955,7 @@ function IconName(str, iconNum = 1) {
   let debug = false;
 
   // identify if 'str' contains options
-  const matches = regExp.exec(str);
+  const matches = _iconNameRegex.exec(str);
   if (matches) {
     options = matches[1];
     if (options.includes(";")) {
@@ -2796,52 +3077,55 @@ function IconName(str, iconNum = 1) {
             };
             break;
           case "addmove":
-          case "add-move":
+          case "add-move": {
+            const iconTxt = IconName(txt);
+            const iconPresence = IconName("presence");
             localize = {
               en: !terrains.has(txt)
-                ? `Add/Move Incarna to Land with ${IconName(txt)}`
-                : `Add/Move Incarna to ${IconName(txt)}`,
+                ? `Add/Move Incarna to Land with ${iconTxt}`
+                : `Add/Move Incarna to ${iconTxt}`,
               fr: !terrains.has(txt)
-                ? `Ajoutez/Déplacez Incarna vers une Région avec ${IconName(txt)}`
-                : `Ajoutez/Déplacez Incarna vers ${IconName(txt)}`,
+                ? `Ajoutez/Déplacez Incarna vers une Région avec ${iconTxt}`
+                : `Ajoutez/Déplacez Incarna vers ${iconTxt}`,
               de: !terrains.has(txt)
-                ? `Füge hinzu/Verschiebe Incarna in ein Gebiet mit ${IconName(txt)}`
-                : `Füge hinzu/Verschiebe Incarna in ${IconName(txt)}`,
+                ? `Füge hinzu/Verschiebe Incarna in ein Gebiet mit ${iconTxt}`
+                : `Füge hinzu/Verschiebe Incarna in ${iconTxt}`,
               pl: !terrains.has(txt)
-                ? `Dodaj/Przenieś Inkarna do Krainy z ${IconName(txt)}`
-                : `Dodaj/Przenieś Inkarna do Krainy z ${IconName("presence")}`,
+                ? `Dodaj/Przenieś Inkarna do Krainy z ${iconTxt}`
+                : `Dodaj/Przenieś Inkarna do Krainy z ${iconPresence}`,
               ar: !terrains.has(txt)
-                ? `أضف/حرّك التجسد إلى أرض مع ${IconName(txt)}`
-                : `أضف/حرّك التجسد إلى أرض مع ${IconName("presence")}`,
+                ? `أضف/حرّك التجسد إلى أرض مع ${iconTxt}`
+                : `أضف/حرّك التجسد إلى أرض مع ${iconPresence}`,
               zh: !terrains.has(txt)
-                ? `添加/移動化身到有${IconName(txt)}的區域`
-                : `添加/移動化身到有${IconName("presence")}的區域`,
+                ? `添加/移動化身到有${iconTxt}的區域`
+                : `添加/移動化身到有${iconPresence}的區域`,
               hu: !terrains.has(txt)
-                ? `Megtestesülés Lerakása/Mozgatása egy területre, ahol van ${IconName(txt)}`
-                : `Megtestesülés Lerakása/Mozgatása egy területre, ahol van ${IconName(
-                    "presence"
-                  )}`,
+                ? `Megtestesülés Lerakása/Mozgatása egy területre, ahol van ${iconTxt}`
+                : `Megtestesülés Lerakása/Mozgatása egy területre, ahol van ${iconPresence}`,
               ko: !terrains.has(txt)
-                ? `${IconName(txt)}이 있는 지역에 화신 이동/추가`
-                : `${IconName("presence")}이 있는 지역에 화신 이동/추가`,
+                ? `${iconTxt}이 있는 지역에 화신 이동/추가`
+                : `${iconPresence}이 있는 지역에 화신 이동/추가`,
               ja: !terrains.has(txt)
-                ? `${IconName(txt)}がある土地にインカルナを追加/移動`
-                : `${IconName("presence")}がある土地にインカルナを追加/移動`,
+                ? `${iconTxt}がある土地にインカルナを追加/移動`
+                : `${iconPresence}がある土地にインカルナを追加/移動`,
             };
             break;
-          case "replace":
+          }
+          case "replace": {
+            const iconTxt = IconName(txt);
             localize = {
-              en: `You may Replace ${IconName(txt)} with your Incarna`,
-              fr: `Vous pouvez remplacer ${IconName(txt)} avec votre Incarna`,
-              de: `Du darfst ${IconName(txt)} durch dein Incarna ersetzen`,
-              pl: `Możesz Zamienić ${IconName(txt)} na twoje Inkarna`,
-              ar: `يمكنك استبدال ${IconName(txt)} بتجسدك`,
-              zh: `你可以用你的化身替換${IconName(txt)}`,
-              hu: `Lecserélheted egy ${IconName(txt)}-ed a Megtestesülésedre`,
-              ko: `${IconName(txt)} 1개를 당신의 화신으로 교체할 수 있다`,
-              ja: `${IconName(txt)}をあなたのインカルナと交換できます`,
+              en: `You may Replace ${iconTxt} with your Incarna`,
+              fr: `Vous pouvez remplacer ${iconTxt} avec votre Incarna`,
+              de: `Du darfst ${iconTxt} durch dein Incarna ersetzen`,
+              pl: `Możesz Zamienić ${iconTxt} na twoje Inkarna`,
+              ar: `يمكنك استبدال ${iconTxt} بتجسدك`,
+              zh: `你可以用你的化身替換${iconTxt}`,
+              hu: `Lecserélheted egy ${iconTxt}-ed a Megtestesülésedre`,
+              ko: `${iconTxt} 1개를 당신의 화신으로 교체할 수 있다`,
+              ja: `${iconTxt}をあなたのインカルナと交換できます`,
             };
             break;
+          }
           case "move":
             localize = {
               en: "Move Incarna",
@@ -2855,19 +3139,21 @@ function IconName(str, iconNum = 1) {
               ja: `インカルナ移動`,
             };
             break;
-          case "add-token":
+          case "add-token": {
+            const iconTxt = IconName(txt);
             localize = {
-              en: `Add a ${IconName(txt)} at your Incarna`,
-              fr: `Ajoutez un ${IconName(txt)} à votre Incarna`,
-              de: `Füge ein ${IconName(txt)} zu deinem Incarna hinzu`,
-              pl: `Dodaj ${IconName(txt)} na twoje Inkarna`,
-              ar: `أضف ${IconName(txt)} عند تجسدك`,
-              zh: `在你的化身處添加${IconName(txt)}`,
-              hu: `Rakj le egy ${IconName(txt)}-t a Megtestesülésedre`,
-              ko: `당신의 화신이 있는 지역에 ${IconName(txt)} 1개 추가`,
-              ja: `あなたのインカルナに${IconName(txt)}を追加`,
+              en: `Add a ${iconTxt} at your Incarna`,
+              fr: `Ajoutez un ${iconTxt} à votre Incarna`,
+              de: `Füge ein ${iconTxt} zu deinem Incarna hinzu`,
+              pl: `Dodaj ${iconTxt} na twoje Inkarna`,
+              ar: `أضف ${iconTxt} عند تجسدك`,
+              zh: `在你的化身處添加${iconTxt}`,
+              hu: `Rakj le egy ${iconTxt}-t a Megtestesülésedre`,
+              ko: `당신의 화신이 있는 지역에 ${iconTxt} 1개 추가`,
+              ja: `あなたのインカルナに${iconTxt}を追加`,
             };
             break;
+          }
           default:
             localize = {
               en: "Empower Incarna",
@@ -2951,49 +3237,55 @@ function IconName(str, iconNum = 1) {
           if (num > 0) {
             preposition = "from";
           }
+          const iconPreposition = IconName(preposition);
+          const iconOpt3 = IconName(opt3);
           localize = {
-            en: `Add a Presence ${IconName(preposition)} ${IconName(opt3)}`,
-            fr: `Ajoutez une Présence ${IconName(preposition)} ${IconName(opt3)}`,
-            de: `Füge eine Präsenz ${IconName(preposition)} ${IconName(opt3)} hinzu`,
-            pl: `Dodaj Obecność ${IconName(preposition)} ${IconName(opt3)}`,
-            ar: `أضف حضوراً ${IconName(preposition)} ${IconName(opt3)}`,
-            zh: `添加靈跡 ${IconName(preposition)} ${IconName(opt3)}`,
-            hu: `Jelenlét lerakása ${IconName(preposition)} ${IconName(opt3)}`,
-            ko: `${IconName(opt3)}${IconName(preposition)} 현신 1개 추가`,
-            ja: `${IconName(opt3)} ${IconName(preposition)} プレゼンスを追加`,
+            en: `Add a Presence ${iconPreposition} ${iconOpt3}`,
+            fr: `Ajoutez une Présence ${iconPreposition} ${iconOpt3}`,
+            de: `Füge eine Präsenz ${iconPreposition} ${iconOpt3} hinzu`,
+            pl: `Dodaj Obecność ${iconPreposition} ${iconOpt3}`,
+            ar: `أضف حضوراً ${iconPreposition} ${iconOpt3}`,
+            zh: `添加靈跡 ${iconPreposition} ${iconOpt3}`,
+            hu: `Jelenlét lerakása ${iconPreposition} ${iconOpt3}`,
+            ko: `${iconOpt3}${iconPreposition} 현신 1개 추가`,
+            ja: `${iconOpt3} ${iconPreposition} プレゼンスを追加`,
           };
           subText = localize[lang];
         } else if (txt === "token") {
           // User wants to add a token in growth
           switch (opt4) {
-            case "and":
+            case "and": {
               //add presence and token
+              const iconOpt3 = IconName(opt3);
               localize = {
-                en: `Add a Presence and a ${IconName(opt3)}`,
-                fr: `Ajoutez une Présence et un ${IconName(opt3)}`,
-                de: `Füge eine Präsenz und ein ${IconName(opt3)} hinzu`,
-                pl: `Dodaj Obecność i ${IconName(opt3)}`,
-                ar: `أضف حضوراً و ${IconName(opt3)}`,
-                zh: `添加靈跡和${IconName(opt3)}`,
-                hu: `Jelenlét és ${IconName(opt3)} lerakása`,
-                ko: `현신 1개 및 ${IconName(opt3)} 1개 추가`,
-                ja: `プレゼンスと${IconName(opt3)}を追加`,
+                en: `Add a Presence and a ${iconOpt3}`,
+                fr: `Ajoutez une Présence et un ${iconOpt3}`,
+                de: `Füge eine Präsenz und ein ${iconOpt3} hinzu`,
+                pl: `Dodaj Obecność i ${iconOpt3}`,
+                ar: `أضف حضوراً و ${iconOpt3}`,
+                zh: `添加靈跡和${iconOpt3}`,
+                hu: `Jelenlét és ${iconOpt3} lerakása`,
+                ko: `현신 1개 및 ${iconOpt3} 1개 추가`,
+                ja: `プレゼンスと${iconOpt3}を追加`,
               };
               break;
-            case "or":
+            }
+            case "or": {
               //add presence or token
+              const iconOpt3 = IconName(opt3);
               localize = {
-                en: `Add a Presence or a ${IconName(opt3)}`,
-                fr: `Ajoutez une Présence ou un ${IconName(opt3)}`,
-                de: `Füge eine Präsenh oder eine ${IconName(opt3)} hinzu`,
-                pl: `Dodaj Obecność lub ${IconName(opt3)}`,
-                ar: `أضف حضوراً أو ${IconName(opt3)}`,
-                zh: `添加靈跡或${IconName(opt3)}`,
-                hu: `Jelenlét vagy ${IconName(opt3)} lerakása`,
-                ko: `현신 1개 혹은 ${IconName(opt3)} 1개 추가`,
-                ja: `プレゼンスまたは${IconName(opt3)}を追加`,
+                en: `Add a Presence or a ${iconOpt3}`,
+                fr: `Ajoutez une Présence ou un ${iconOpt3}`,
+                de: `Füge eine Präsenh oder eine ${iconOpt3} hinzu`,
+                pl: `Dodaj Obecność lub ${iconOpt3}`,
+                ar: `أضف حضوراً أو ${iconOpt3}`,
+                zh: `添加靈跡或${iconOpt3}`,
+                hu: `Jelenlét vagy ${iconOpt3} lerakása`,
+                ko: `현신 1개 혹은 ${iconOpt3} 1개 추가`,
+                ja: `プレゼンスまたは${iconOpt3}を追加`,
               };
               break;
+            }
             case "instead":
               // no option to add presence, just token
               break;
@@ -3036,50 +3328,36 @@ function IconName(str, iconNum = 1) {
             }
 
             if (req.startsWith("no-")) {
+              const iconReqSub = IconName(req.substring(3));
               localize = {
-                en: landwith
-                  ? `Land without ${IconName(req.substring(3))} `
-                  : `no ${IconName(req.substring(3))} `,
-                fr: landwith
-                  ? `Région sans ${IconName(req.substring(3))} `
-                  : `aucun ${IconName(req.substring(3))} `,
-                de: landwith
-                  ? `Land ohne ${IconName(req.substring(3))} `
-                  : `keine ${IconName(req.substring(3))} `,
-                pl: landwith
-                  ? `Kraina bez ${IconName(req.substring(3))} `
-                  : `bez ${IconName(req.substring(3))} `,
-                ar: landwith
-                  ? `أرض بدون ${IconName(req.substring(3))} `
-                  : `بدون ${IconName(req.substring(3))} `,
-                zh: landwith
-                  ? `沒有${IconName(req.substring(3))}的區域 `
-                  : `沒有${IconName(req.substring(3))} `,
-                hu: landwith
-                  ? `${IconName(req.substring(3))} nélküli terület `
-                  : `${IconName(req.substring(3))} nélküli `,
-                ko: landwith
-                  ? `${IconName(req.substring(3))}가 없는 지역 `
-                  : `${IconName(req.substring(3))} 없음 `,
-                ja: landwith
-                  ? `${IconName(req.substring(3))}のない土地 `
-                  : `${IconName(req.substring(3))}なし `,
+                en: landwith ? `Land without ${iconReqSub} ` : `no ${iconReqSub} `,
+                fr: landwith ? `Région sans ${iconReqSub} ` : `aucun ${iconReqSub} `,
+                de: landwith ? `Land ohne ${iconReqSub} ` : `keine ${iconReqSub} `,
+                pl: landwith ? `Kraina bez ${iconReqSub} ` : `bez ${iconReqSub} `,
+                ar: landwith ? `أرض بدون ${iconReqSub} ` : `بدون ${iconReqSub} `,
+                zh: landwith ? `沒有${iconReqSub}的區域 ` : `沒有${iconReqSub} `,
+                hu: landwith ? `${iconReqSub} nélküli terület ` : `${iconReqSub} nélküli `,
+                ko: landwith ? `${iconReqSub}가 없는 지역 ` : `${iconReqSub} 없음 `,
+                ja: landwith ? `${iconReqSub}のない土地 ` : `${iconReqSub}なし `,
               };
               subText += localize[lang];
               landwith = 0;
+            } else if (terrainTypes.has(req)) {
+              subText += `${IconName(req + "-land")} `;
             } else if (terrains.has(req)) {
               subText += `${IconName(req)} `;
             } else {
+              const iconReq = IconName(req);
               localize = {
-                en: landwith ? `Land with ${IconName(req)}` : `${IconName(req)}`,
-                fr: landwith ? `Région avec ${IconName(req)}` : `${IconName(req)}`,
-                de: landwith ? `Land mit ${IconName(req)}` : `${IconName(req)}`,
-                pl: landwith ? `Kraina z ${IconName(req)}` : `${IconName(req)}`,
-                ar: landwith ? `أرض مع ${IconName(req)}` : `${IconName(req)}`,
-                zh: landwith ? `有${IconName(req)}的區域` : `${IconName(req)}`,
-                hu: landwith ? `, ahol van ${IconName(req)}` : `${IconName(req)}`,
-                ko: landwith ? `${IconName(req)}가 있는 지역` : `${IconName(req)}`,
-                ja: landwith ? `${IconName(req)}がある土地` : `${IconName(req)}`,
+                en: landwith ? `Land with ${iconReq}` : `${iconReq}`,
+                fr: landwith ? `Région avec ${iconReq}` : `${iconReq}`,
+                de: landwith ? `Land mit ${iconReq}` : `${iconReq}`,
+                pl: landwith ? `Kraina z ${iconReq}` : `${iconReq}`,
+                ar: landwith ? `أرض مع ${iconReq}` : `${iconReq}`,
+                zh: landwith ? `有${iconReq}的區域` : `${iconReq}`,
+                hu: landwith ? `, ahol van ${iconReq}` : `${iconReq}`,
+                ko: landwith ? `${iconReq}가 있는 지역` : `${iconReq}`,
+                ja: landwith ? `${iconReq}がある土地` : `${iconReq}`,
               };
               subText += localize[lang];
               landwith = 0;
@@ -3102,32 +3380,27 @@ function IconName(str, iconNum = 1) {
       }
       // variable range
       if (isNaN(num) && num !== "any") {
+        const iconNum = IconName(num);
         localize = {
           en: elementNames.has(num)
-            ? ` at Range equal to ${IconName(num)} Showing`
-            : ` at Range ${IconName(num)}`,
+            ? ` at Range equal to ${iconNum} Showing`
+            : ` at Range ${iconNum}`,
           fr: elementNames.has(num)
-            ? ` à Portée égale aux ${IconName(num)} Présents`
-            : ` à Portée ${IconName(num)}`,
+            ? ` à Portée égale aux ${iconNum} Présents`
+            : ` à Portée ${iconNum}`,
           de: elementNames.has(num)
-            ? ` mit Reichweite gleich ausliegender ${IconName(num)}`
-            : ` mit Reichweite ${IconName(num)}`,
+            ? ` mit Reichweite gleich ausliegender ${iconNum}`
+            : ` mit Reichweite ${iconNum}`,
           pl: elementNames.has(num)
-            ? ` w Zasięgu równym widocznym ${IconName(num)}`
-            : ` w Zasięgu ${IconName(num)}`,
-          ar: elementNames.has(num)
-            ? ` في مدى يساوي ${IconName(num)} الظاهرة`
-            : ` في مدى ${IconName(num)}`,
-          zh: elementNames.has(num) ? ` 距離等於顯示的${IconName(num)}` : ` 距離${IconName(num)}`,
+            ? ` w Zasięgu równym widocznym ${iconNum}`
+            : ` w Zasięgu ${iconNum}`,
+          ar: elementNames.has(num) ? ` في مدى يساوي ${iconNum} الظاهرة` : ` في مدى ${iconNum}`,
+          zh: elementNames.has(num) ? ` 距離等於顯示的${iconNum}` : ` 距離${iconNum}`,
           hu: elementNames.has(num)
-            ? ` a látható ${IconName(num)}-nek megfelelő távolságra`
-            : ` ${IconName(num)} távolságra`,
-          ko: elementNames.has(num)
-            ? ` ${IconName(num)} 표시와 동일한 거리에`
-            : ` 거리 ${IconName(num)}에`,
-          ja: elementNames.has(num)
-            ? ` 表示されている${IconName(num)}と同じ距離で`
-            : ` 距離${IconName(num)}で`,
+            ? ` a látható ${iconNum}-nek megfelelő távolságra`
+            : ` ${iconNum} távolságra`,
+          ko: elementNames.has(num) ? ` ${iconNum} 표시와 동일한 거리에` : ` 거리 ${iconNum}에`,
+          ja: elementNames.has(num) ? ` 表示されている${iconNum}と同じ距離で` : ` 距離${iconNum}で`,
         };
         subText = subText + localize[lang];
       }
@@ -3135,16 +3408,17 @@ function IconName(str, iconNum = 1) {
     case "gain-element":
       // Growth
       if (txt && !isNaN(txt)) {
+        const iconNumTxt = IconName(num, txt);
         localize = {
-          en: `Gain ${IconName(num, txt)}`,
-          fr: `Gagnez ${IconName(num, txt)}`,
-          de: `Erhalte ${IconName(num, txt)}`,
-          pl: `Zyskaj ${IconName(num, txt)}`,
-          ar: `احصل على ${IconName(num, txt)}`,
-          zh: `獲得${IconName(num, txt)}`,
-          hu: `${IconName(num, txt)} szerzése`,
-          ko: `${IconName(num, txt)} 획득`,
-          ja: `${IconName(num, txt)}を獲得`,
+          en: `Gain ${iconNumTxt}`,
+          fr: `Gagnez ${iconNumTxt}`,
+          de: `Erhalte ${iconNumTxt}`,
+          pl: `Zyskaj ${iconNumTxt}`,
+          ar: `احصل على ${iconNumTxt}`,
+          zh: `獲得${iconNumTxt}`,
+          hu: `${iconNumTxt} szerzése`,
+          ko: `${iconNumTxt} 획득`,
+          ja: `${iconNumTxt}を獲得`,
         };
       } else if (options.at(-1).toLowerCase() === "and") {
         localize = {
@@ -3305,9 +3579,9 @@ function IconName(str, iconNum = 1) {
           };
         }
       } else if (opt3) {
+        const perIcon = IconName(opt3);
         if (num === 0 || num === "0") {
           // scaling, no flat energy
-          let perIcon = IconName(opt3);
           localize = {
             en: elementNames.has(opt3)
               ? `Gain ${txt} Energy per ${perIcon} Showing`
@@ -3339,7 +3613,6 @@ function IconName(str, iconNum = 1) {
           };
         } else {
           // scaling w/ flat energy
-          let perIcon = IconName(opt3);
           localize = {
             en: elementNames.has(opt3)
               ? `Gain ${num} Energy and +${txt} more per ${perIcon} Showing`
@@ -3413,30 +3686,31 @@ function IconName(str, iconNum = 1) {
     case "reclaim-all":
     case "reclaim":
       if (txt) {
+        const iconTxt = IconName(txt);
         if (elementNames.has(txt)) {
           localize = {
-            en: "Reclaim All Cards with " + IconName(txt),
-            fr: "Récupérez toutes les Cartes avec " + IconName(txt),
-            de: "Nimm alle Karten wieder auf " + IconName(txt),
-            pl: "Odzyskaj wszystkie Karty z " + IconName(txt),
-            ar: "استعد جميع البطاقات مع " + IconName(txt),
-            zh: "回收所有有" + IconName(txt) + "的法術牌",
-            hu: "Kártyák visszavétele, amin van " + IconName(txt),
-            ko: IconName(txt) + "능력 카드 모두 회수 ",
-            ja: IconName(txt) + "を持つすべてのカードを回収",
+            en: "Reclaim All Cards with " + iconTxt,
+            fr: "Récupérez toutes les Cartes avec " + iconTxt,
+            de: "Nimm alle Karten wieder auf " + iconTxt,
+            pl: "Odzyskaj wszystkie Karty z " + iconTxt,
+            ar: "استعد جميع البطاقات مع " + iconTxt,
+            zh: "回收所有有" + iconTxt + "的法術牌",
+            hu: "Kártyák visszavétele, amin van " + iconTxt,
+            ko: iconTxt + "능력 카드 모두 회수 ",
+            ja: iconTxt + "を持つすべてのカードを回収",
           };
         } else {
           // non-english need translation updates
           localize = {
-            en: `Reclaim All ${IconName(txt)} Cards`,
-            fr: "Récupérez toutes les Cartes avec " + IconName(txt),
-            de: "Nimm alle Karten wieder auf " + IconName(txt),
-            pl: "Odzyskaj wszystkie Karty z " + IconName(txt),
-            ar: "استعد جميع البطاقات مع " + IconName(txt),
-            zh: "回收所有有" + IconName(txt) + "的法術牌",
-            hu: "Kártyák visszavétele, amin van " + IconName(txt),
-            ko: IconName(txt) + "능력 카드 모두 회수 ",
-            ja: IconName(txt) + "を持つすべてのカードを回収",
+            en: `Reclaim All ${iconTxt} Cards`,
+            fr: "Récupérez toutes les Cartes avec " + iconTxt,
+            de: "Nimm alle Karten wieder auf " + iconTxt,
+            pl: "Odzyskaj wszystkie Karty z " + iconTxt,
+            ar: "استعد جميع البطاقات مع " + iconTxt,
+            zh: "回收所有有" + iconTxt + "的法術牌",
+            hu: "Kártyák visszavétele, amin van " + iconTxt,
+            ko: iconTxt + "능력 카드 모두 회수 ",
+            ja: iconTxt + "を持つすべてのカードを回収",
           };
         }
       } else {
@@ -3456,30 +3730,31 @@ function IconName(str, iconNum = 1) {
       break;
     case "reclaim-one":
       if (txt) {
+        const iconTxt = IconName(txt);
         if (elementNames.has(txt)) {
           localize = {
-            en: "Reclaim One Card with " + IconName(txt),
-            fr: "Récupérer une Carte avec " + IconName(txt),
-            de: "Nimm eine Karte mit wieder auf " + IconName(txt),
-            pl: "Odzyskaj Jedną Kartę z " + IconName(txt),
-            ar: "استعد بطاقة واحدة مع " + IconName(txt),
-            zh: "回收1張有" + IconName(txt) + "的法術牌",
-            hu: "Egy Erőkártya visszavétele, amin van " + IconName(txt),
-            ko: IconName(txt) + "카드 1장 회수",
-            ja: IconName(txt) + "を持つカード1枚を回収",
+            en: "Reclaim One Card with " + iconTxt,
+            fr: "Récupérer une Carte avec " + iconTxt,
+            de: "Nimm eine Karte mit wieder auf " + iconTxt,
+            pl: "Odzyskaj Jedną Kartę z " + iconTxt,
+            ar: "استعد بطاقة واحدة مع " + iconTxt,
+            zh: "回收1張有" + iconTxt + "的法術牌",
+            hu: "Egy Erőkártya visszavétele, amin van " + iconTxt,
+            ko: iconTxt + "카드 1장 회수",
+            ja: iconTxt + "を持つカード1枚を回収",
           };
         } else {
           localize = {
             // non-english need translation updates
-            en: `Reclaim One ${IconName(txt)} Card`,
-            fr: "Récupérer une Carte avec " + IconName(txt),
-            de: "Nimm eine Karte mit wieder auf " + IconName(txt),
-            pl: "Odzyskaj Jedną Kartę z " + IconName(txt),
-            ar: "استعد بطاقة واحدة مع " + IconName(txt),
-            zh: "回收1張有" + IconName(txt) + "的法術牌",
-            hu: "Egy Erőkártya visszavétele, amin van " + IconName(txt),
-            ko: IconName(txt) + "카드 1장 회수",
-            ja: IconName(txt) + "を持つカード1枚を回収",
+            en: `Reclaim One ${iconTxt} Card`,
+            fr: "Récupérer une Carte avec " + iconTxt,
+            de: "Nimm eine Karte mit wieder auf " + iconTxt,
+            pl: "Odzyskaj Jedną Kartę z " + iconTxt,
+            ar: "استعد بطاقة واحدة مع " + iconTxt,
+            zh: "回收1張有" + iconTxt + "的法術牌",
+            hu: "Egy Erőkártya visszavétele, amin van " + iconTxt,
+            ko: iconTxt + "카드 1장 회수",
+            ja: iconTxt + "を持つカード1枚を回収",
           };
         }
       } else {
@@ -3744,16 +4019,17 @@ function IconName(str, iconNum = 1) {
       if (txt) {
         if (isNaN(txt)) {
           // Move a presence and a token together
+          const iconTxt = IconName(txt);
           localize = {
-            en: `Move a Presence and ${IconName(txt)} together`,
-            fr: `Déplacez une Présence et ${IconName(txt)} ensemble`,
-            de: `Verschiebe gemeinsam 1 Präsenz und 1 ${IconName(txt)}`,
-            pl: `Przesuń Obecność i ${IconName(txt)} jednocześnie`,
-            ar: `حرّك حضوراً و${IconName(txt)} معاً`,
-            zh: `一起移動靈跡和${IconName(txt)}`,
-            hu: `Jelenlét és ${IconName(txt)} mozgatása együtt`,
-            ko: `${IconName(txt)}와 함께 현신 이동`,
-            ja: `プレゼンスと${IconName(txt)}を一緒に移動`,
+            en: `Move a Presence and ${iconTxt} together`,
+            fr: `Déplacez une Présence et ${iconTxt} ensemble`,
+            de: `Verschiebe gemeinsam 1 Präsenz und 1 ${iconTxt}`,
+            pl: `Przesuń Obecność i ${iconTxt} jednocześnie`,
+            ar: `حرّك حضوراً و${iconTxt} معاً`,
+            zh: `一起移動靈跡和${iconTxt}`,
+            hu: `Jelenlét és ${iconTxt} mozgatása együtt`,
+            ko: `${iconTxt}와 함께 현신 이동`,
+            ja: `プレゼンスと${iconTxt}を一緒に移動`,
           };
         } else {
           // Move x presence
@@ -3773,16 +4049,17 @@ function IconName(str, iconNum = 1) {
         // only one parameter
         if (isNaN(num) && !elementNames.has(num)) {
           // its a terrain
+          const iconNum = IconName(num);
           localize = {
-            en: "Move a Presence to " + IconName(num) + " land",
-            fr: "Déplacez une Présence vers " + IconName(num) + " Région",
-            de: "Verschiebe eine Präsenz in das Gebiet " + IconName(num),
-            pl: "Przesuń Obecność do " + IconName(num),
-            ar: "حرّك حضوراً إلى أرض " + IconName(num),
-            zh: "移動靈跡到" + IconName(num) + "區域",
-            hu: "Jelenlét mozgatása " + IconName(num) + " területre",
-            ko: IconName(num) + "지역으로 현신 1개 이동",
-            ja: IconName(num) + "の土地にプレゼンスを移動",
+            en: "Move a Presence to " + iconNum + " land",
+            fr: "Déplacez une Présence vers " + iconNum + " Région",
+            de: "Verschiebe eine Präsenz in das Gebiet " + iconNum,
+            pl: "Przesuń Obecność do " + iconNum,
+            ar: "حرّك حضوراً إلى أرض " + iconNum,
+            zh: "移動靈跡到" + iconNum + "區域",
+            hu: "Jelenlét mozgatása " + iconNum + " területre",
+            ko: iconNum + "지역으로 현신 1개 이동",
+            ja: iconNum + "の土地にプレゼンスを移動",
           };
         } else {
           // its a number or an element
@@ -3817,16 +4094,17 @@ function IconName(str, iconNum = 1) {
       subText = localize[lang];
       // Check for element-range
       if (elementNames.has(num)) {
+        const iconNum = IconName(num);
         localize = {
-          en: ` at Range equal to ${IconName(num)} Showing`,
-          fr: ` à Portée égale aux ${IconName(num)} Présents`,
-          de: ` mit Reichweite gleich ausliegender ${IconName(num)}`,
-          pl: ` w Zasięgu równym widocznym ${IconName(num)}`,
-          ar: ` في مدى يساوي ${IconName(num)} الظاهرة`,
-          zh: ` 距離等於顯示的${IconName(num)}`,
-          hu: ` a látható ${IconName(num)}-nek megfelelő távolságra`,
-          ko: `사정거리는 ${IconName(num)}의 수와 같다`,
-          ja: ` 表示されている${IconName(num)}と同じ距離で`,
+          en: ` at Range equal to ${iconNum} Showing`,
+          fr: ` à Portée égale aux ${iconNum} Présents`,
+          de: ` mit Reichweite gleich ausliegender ${iconNum}`,
+          pl: ` w Zasięgu równym widocznym ${iconNum}`,
+          ar: ` في مدى يساوي ${iconNum} الظاهرة`,
+          zh: ` 距離等於顯示的${iconNum}`,
+          hu: ` a látható ${iconNum}-nek megfelelő távolságra`,
+          ko: `사정거리는 ${iconNum}의 수와 같다`,
+          ja: ` 表示されている${iconNum}と同じ距離で`,
         };
         subText += localize[lang];
       }
@@ -3879,7 +4157,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: ` on ${txt}`,
           fr: ` sur ${txt}`,
-          de: ` kein ${txt}`,
+          de: ` auf ${txt}`,
           pl: ` na ${txt}`,
           ar: ` على ${txt}`,
           zh: ` 在${txt}上`,
@@ -3976,20 +4254,135 @@ function IconName(str, iconNum = 1) {
       }
       subText = localize[lang];
       break;
+    case "lose-range":
+      localize = {
+        en: `-${num} Range`,
+        fr: `-${num} Portée`,
+        de: `-${num} Reichweite`,
+        pl: `-${num} Zasięgu`,
+        ar: `-${num} مدى`,
+        zh: `-${num} 距離`,
+        hu: `-${num} távolság`,
+        ko: `사정거리 -${num}`,
+        ja: `-${num} 距離`,
+      };
+      subText = localize[lang];
+      if (txt) {
+        localize = {
+          en: ` on ${txt}`,
+          fr: ` sur ${txt}`,
+          de: ` auf ${txt}`,
+          pl: ` na ${txt}`,
+          ar: ` على ${txt}`,
+          zh: ` 在${txt}上`,
+          hu: ` ${txt} területre`,
+          ko: `${txt}에`,
+          ja: ` ${txt}で`,
+        };
+        subText += localize[lang];
+      }
+      break;
+    case "growth-lose-range":
+      if (txt) {
+        switch (txt) {
+          case "powers":
+          case "power":
+            localize = {
+              en: `Your Powers lose ${num} Range this turn`,
+              fr: `Vos Pouvoirs perdent ${num} de Portée ce tour`,
+              de: `Deine Fähigkeiten verlieren ${num} Reichweite in diesem Zug`,
+              pl: `W tej turze twoje Moce tracą ${num} zasięgu`,
+              ar: `تفقد قواك ${num} مدى هذا الدور`,
+              zh: `你的法術本回合失去${num}距離`,
+              hu: `${num} távolságot veszít minden Erőd ebben a fordulóban`,
+              ko: `이번 차례에 당신의 능력은 사정 거리 -${num}`,
+              ja: `今ターン、あなたのパワーは${num}距離を失う`,
+            };
+            break;
+          case "power cards":
+            localize = {
+              en: `Your Power Cards lose ${num} Range this turn`,
+              fr: `Vos Cartes Pouvoirs perdent ${num} de Portée ce tour-ci`,
+              de: `Deine Fähigkeitskarten verlieren ${num} Reichweite in diesem Zug`,
+              pl: `W tej turze twoje Karty Mocy tracą ${num} zasięgu`,
+              ar: `تفقد بطاقات القوة لديك ${num} مدى هذا الدور`,
+              zh: `你的法術牌本回合失去${num}距離`,
+              hu: `${num} távolságot veszít minden Erőkártyád ebben a fordulóban`,
+              ko: `이번 차례에 당신의 능력 카드들은 사정 거리 -${num}`,
+              ja: `今ターン、あなたのパワーカードは${num}距離を失う`,
+            };
+            break;
+          case "everything":
+            localize = {
+              en: `-${num} Range on everything this turn`,
+              fr: `-${num} de Portée sur tout ce tour-ci`,
+              de: `-${num} Reichweite in diesem Zug`,
+              pl: `-${num} zasięgu dla wszystkich twoich akcji w tej turze`,
+              ar: `-${num} مدى على كل شيء هذا الدور`,
+              zh: `本回合所有東西失去${num}距離`,
+              hu: `-${num} távolság mindenre ebben a fordulóban`,
+              ko: `이번 차례에 사정 거리 -${num}(모든 경우에 대해)`,
+              ja: `今ターン、すべてに${num}距離を失う`,
+            };
+            break;
+          case "innate":
+          case "innate power":
+          case "innate powers":
+            localize = {
+              en: `Your Innate Powers lose ${num} Range this turn`,
+              fr: `Vos Pouvoirs Innés perdent ${num} de Portée ce tour`,
+              de: `Deine Basisfähigkeiten verlieren ${num} Reichweite während diesem Zug`,
+              pl: `W tej turze twoje Wrodzone Moce tracą ${num} zasięgu`,
+              ar: `تفقد قواك الفطرية ${num} مدى هذا الدور`,
+              zh: `你的固有法術本回合失去${num}距離`,
+              hu: `${num} távolságot veszítenek az Ősi Erőid ebben a fordulóban`,
+              ko: `이번 차례에 당신의 타고난 능력은 사정 거리 -${num}`,
+              ja: `今ターン、あなたの固有パワーは${num}距離を失う`,
+            };
+            break;
+          default:
+            localize = {
+              en: `-${num} Range on ${txt} this turn`,
+              fr: `-${num} de Portée sur ${txt} ce tour`,
+              de: `-${num} Reichweite auf ${txt} in diesem Zug`,
+              pl: `W tej turze ${txt} traci ${num} zasięgu`,
+              ar: `-${num} مدى على ${txt} هذا الدور`,
+              zh: `${txt}本回合失去${num}距離`,
+              hu: `-${num} távolság ${txt} ebben a fordulóban`,
+              ko: `이번 차례에 ${txt} 사정 거리 -${num}`,
+              ja: `今ターン、${txt}に${num}距離を失う`,
+            };
+        }
+      } else {
+        localize = {
+          en: `Your Powers lose ${num} Range this turn`,
+          fr: `Vos Pouvoirs perdent ${num} de Portée ce tour`,
+          de: `Deine Fähigkeiten verlieren ${num} Reichweite in diesem Zug`,
+          pl: `W tej turze twoje Moce tracą ${num} zasięgu`,
+          ar: `تفقد قواك ${num} مدى هذا الدور`,
+          zh: `你的法術本回合失去${num}距離`,
+          hu: `${num} távolságot veszít minden Erőd ebben a fordulóban`,
+          ko: `이번 차례에 당신의 능력은 사정 거리 -${num}`,
+          ja: `今ターン、あなたのパワーは${num}距離を失う`,
+        };
+      }
+      subText = localize[lang];
+      break;
     case "add-token":
       //add-token(range#/token,and/or/conditional,token,num/[othertokens])
       if (isNaN(num) && num !== "any") {
         // its a presence track token
+        const iconNum = IconName(num);
         localize = {
-          en: `Add 1 ${IconName(num)} to 1 of your Lands`,
-          fr: `Ajoutez 1 ${IconName(num)} sur 1 de vos Régions`,
-          de: `Füge 1 ${IconName(num)} auf eines deiner Gebiete mit einer Präsenz hinzu`,
-          pl: `Dodaj 1 ${IconName(num)} do jednej z twoich Krain`,
-          ar: `أضف 1 ${IconName(num)} إلى إحدى أراضيك`,
-          zh: `添加1個${IconName(num)}到你的1個區域`,
-          hu: `Rakj le 1 ${IconName(num)} jelzőt az egyik területedre`,
-          ko: `당신의 지역에 ${IconName(num)} 1개 추가`,
-          ja: `あなたの土地1つに${IconName(num)}1個を追加`,
+          en: `Add 1 ${iconNum} to 1 of your Lands`,
+          fr: `Ajoutez 1 ${iconNum} sur 1 de vos Régions`,
+          de: `Füge 1 ${iconNum} auf eines deiner Gebiete mit einer Präsenz hinzu`,
+          pl: `Dodaj 1 ${iconNum} do jednej z twoich Krain`,
+          ar: `أضف 1 ${iconNum} إلى إحدى أراضيك`,
+          zh: `添加1個${iconNum}到你的1個區域`,
+          hu: `Rakj le 1 ${iconNum} jelzőt az egyik területedre`,
+          ko: `당신의 지역에 ${iconNum} 1개 추가`,
+          ja: `あなたの土地1つに${iconNum}1個を追加`,
         };
       } else {
         // its a growth token
@@ -4052,29 +4445,31 @@ function IconName(str, iconNum = 1) {
           }
         } else if (opt4) {
           //multiple tokens of the same type
+          const iconOpt3Opt4 = IconName(opt3, opt4);
           localize = {
-            en: `Add ${IconName(opt3, opt4)} together`,
-            fr: `Ajoutez ${IconName(opt3, opt4)} ensemble`,
-            de: `Füge ${IconName(opt3, opt4)} zusammen`,
-            pl: `Dodaj ${IconName(opt3, opt4)} jednocześnie`,
-            ar: `أضف ${IconName(opt3, opt4)} معاً`,
-            zh: `一起添加${IconName(opt3, opt4)}`,
-            hu: `Rakj le ${IconName(opt3, opt4)} jelzőket együtt`,
-            ko: `${IconName(opt3, opt4)} 함께 추가`,
-            ja: `${IconName(opt3, opt4)}を一緒に追加`,
+            en: `Add ${iconOpt3Opt4} together`,
+            fr: `Ajoutez ${iconOpt3Opt4} ensemble`,
+            de: `Füge ${iconOpt3Opt4} zusammen`,
+            pl: `Dodaj ${iconOpt3Opt4} jednocześnie`,
+            ar: `أضف ${iconOpt3Opt4} معاً`,
+            zh: `一起添加${iconOpt3Opt4}`,
+            hu: `Rakj le ${iconOpt3Opt4} jelzőket együtt`,
+            ko: `${iconOpt3Opt4} 함께 추가`,
+            ja: `${iconOpt3Opt4}を一緒に追加`,
           };
         } else {
           // one token
+          const iconOpt3 = IconName(opt3);
           localize = {
-            en: `Add a ${IconName(opt3)}`,
-            fr: `Ajoutez un ${IconName(opt3)}`,
-            de: `Füge ein ${IconName(opt3)} hinzu`,
-            pl: `Dodaj ${IconName(opt3)}`,
-            ar: `أضف ${IconName(opt3)}`,
-            zh: `添加${IconName(opt3)}`,
-            hu: `Rakj le egy ${IconName(opt3)} jelzőt`,
-            ko: `${IconName(opt3)} 1개 추가`,
-            ja: `${IconName(opt3)}を追加`,
+            en: `Add a ${iconOpt3}`,
+            fr: `Ajoutez un ${iconOpt3}`,
+            de: `Füge ein ${iconOpt3} hinzu`,
+            pl: `Dodaj ${iconOpt3}`,
+            ar: `أضف ${iconOpt3}`,
+            zh: `添加${iconOpt3}`,
+            hu: `Rakj le egy ${iconOpt3} jelzőt`,
+            ko: `${iconOpt3} 1개 추가`,
+            ja: `${iconOpt3}を追加`,
           };
         }
       }
@@ -4082,30 +4477,32 @@ function IconName(str, iconNum = 1) {
       break;
     case "replace":
       if (num > 0) {
+        const iconTxt = IconName(txt);
+        const iconOpt3 = IconName(opt3);
         localize = {
-          en: `You may Replace ${IconName(txt)} with ${IconName(opt3)}`,
-          fr: `Vous pouvez Remplacer ${IconName(txt)} par ${IconName(opt3)}`,
-          de: `Du darfst ${IconName(txt)} durch ${IconName(opt3)} ersetzen`,
-          pl: `Możesz Zamienić ${IconName(txt)} na ${IconName(opt3)}`,
-          ar: `يمكنك استبدال ${IconName(txt)} بـ ${IconName(opt3)}`,
-          zh: `你可以用${IconName(opt3)}替換${IconName(txt)}`,
-          hu: `Lecserélhetsz egy ${IconName(txt)}-t egy ${IconName(opt3)} jelzőre`,
-          ko: `${IconName(txt)}를 ${IconName(opt3)}로 교체할 수 있다`,
-          ja: `${IconName(txt)}を${IconName(opt3)}と交換できます`,
+          en: `You may Replace ${iconTxt} with ${iconOpt3}`,
+          fr: `Vous pouvez Remplacer ${iconTxt} par ${iconOpt3}`,
+          de: `Du darfst ${iconTxt} durch ${iconOpt3} ersetzen`,
+          pl: `Możesz Zamienić ${iconTxt} na ${iconOpt3}`,
+          ar: `يمكنك استبدال ${iconTxt} بـ ${iconOpt3}`,
+          zh: `你可以用${iconOpt3}替換${iconTxt}`,
+          hu: `Lecserélhetsz egy ${iconTxt}-t egy ${iconOpt3} jelzőre`,
+          ko: `${iconTxt}를 ${iconOpt3}로 교체할 수 있다`,
+          ja: `${iconTxt}を${iconOpt3}と交換できます`,
         };
       } else {
+        const iconTxt = IconName(txt);
+        const iconOpt3 = IconName(opt3);
         localize = {
-          en: `You may Replace 1 ${IconName(txt)} in your Lands with ${IconName(opt3)}`,
-          fr: `Vous pouvez Remplacer 1 ${IconName(txt)} dans votre Région par ${IconName(opt3)}`,
-          de: `Du darfst 1 ${IconName(txt)} in einem deiner Gebiete mit ${IconName(opt3)} ersetzen`,
-          pl: `Możesz Zamienić 1 ${IconName(txt)} w jednej z Twoich krain z ${IconName(opt3)}`,
-          ar: `يمكنك استبدال 1 ${IconName(txt)} في أراضيك بـ ${IconName(opt3)}`,
-          zh: `你可以用${IconName(opt3)}替換你區域中的1個${IconName(txt)}`,
-          hu: `Lecserélhetsz 1 ${IconName(txt)}-t az egyik területeden egy ${IconName(
-            opt3
-          )} jelzőre`,
-          ko: `당신의 지역에 ${IconName(opt3)}를 ${IconName(txt)}로 교체할 수 있다`,
-          ja: `あなたの土地にある${IconName(txt)}1個を${IconName(opt3)}と交換できます`,
+          en: `You may Replace 1 ${iconTxt} in your Lands with ${iconOpt3}`,
+          fr: `Vous pouvez Remplacer 1 ${iconTxt} dans votre Région par ${iconOpt3}`,
+          de: `Du darfst 1 ${iconTxt} in einem deiner Gebiete mit ${iconOpt3} ersetzen`,
+          pl: `Możesz Zamienić 1 ${iconTxt} w jednej z Twoich krain z ${iconOpt3}`,
+          ar: `يمكنك استبدال 1 ${iconTxt} في أراضيك بـ ${iconOpt3}`,
+          zh: `你可以用${iconOpt3}替換你區域中的1個${iconTxt}`,
+          hu: `Lecserélhetsz 1 ${iconTxt}-t az egyik területeden egy ${iconOpt3} jelzőre`,
+          ko: `당신의 지역에 ${iconOpt3}를 ${iconTxt}로 교체할 수 있다`,
+          ja: `あなたの土地にある${iconTxt}1個を${iconOpt3}と交換できます`,
         };
       }
       subText = localize[lang];
@@ -4119,163 +4516,169 @@ function IconName(str, iconNum = 1) {
       if (num > 0 && !opt3) {
         // Range, no conditions
         // ie. Gather up to 1 Beasts into a Land
+        const iconOpt4 = IconName(opt4);
+        const iconTxt = IconName(txt);
         localize = {
-          en: `Push up to ${IconName(opt4)} ${IconName(txt)} from a Land`,
-          fr: `Repoussez ${IconName(opt4)} ${IconName(txt)} d'une Région`,
-          de: `Verschiebe bis zu ${IconName(opt4)} ${IconName(txt)} aus einem Gebiet`,
-          pl: `Wypchnij do ${IconName(opt4)} ${IconName(txt)} z krainy`,
-          ar: `ادفع حتى ${IconName(opt4)} ${IconName(txt)} من أرض`,
-          zh: `從一個區域推出最多${IconName(opt4)}個${IconName(txt)}`,
-          hu: `Tolj el legfeljebb ${IconName(opt4)} ${IconName(txt)} jelzőt egy területről`,
-          ko: `목표 지역에서 ${IconName(txt)}를 최대 ${IconName(opt4)}개까지 밀어낸다`,
-          ja: `土地から最大${IconName(opt4)}個の${IconName(txt)}を押し出す`,
+          en: `Push up to ${iconOpt4} ${iconTxt} from a Land`,
+          fr: `Repoussez ${iconOpt4} ${iconTxt} d'une Région`,
+          de: `Verschiebe bis zu ${iconOpt4} ${iconTxt} aus einem Gebiet`,
+          pl: `Wypchnij do ${iconOpt4} ${iconTxt} z krainy`,
+          ar: `ادفع حتى ${iconOpt4} ${iconTxt} من أرض`,
+          zh: `從一個區域推出最多${iconOpt4}個${iconTxt}`,
+          hu: `Tolj el legfeljebb ${iconOpt4} ${iconTxt} jelzőt egy területről`,
+          ko: `목표 지역에서 ${iconTxt}를 최대 ${iconOpt4}개까지 밀어낸다`,
+          ja: `土地から最大${iconOpt4}個の${iconTxt}を押し出す`,
         };
       } else if (num > 0 && opt3) {
         // Range, with conditions
         // ie. Push 1 Beasts from Jungle
         // ie. Push 1 Beasts from a Land with Wilds
+        const iconOpt4 = IconName(opt4);
+        const iconTxt = IconName(txt);
+        const iconOpt3 = IconName(opt3);
         localize = {
           en: landtypeNames[lang][opt3]
-            ? `Push ${IconName(opt4)} ${IconName(txt)} from a ${IconName(opt3)}`
-            : `Push ${IconName(opt4)} ${IconName(txt)} from a Land with ${IconName(opt3)}`,
+            ? `Push ${iconOpt4} ${iconTxt} from a ${iconOpt3}`
+            : `Push ${iconOpt4} ${iconTxt} from a Land with ${iconOpt3}`,
           fr: landtypeNames[lang][opt3]
-            ? `Repoussez ${IconName(opt4)} ${IconName(txt)} depuis ${IconName(opt3)}`
-            : `Repoussez ${IconName(opt4)} ${IconName(txt)} d'une Région avec ${IconName(opt3)}`,
+            ? `Repoussez ${iconOpt4} ${iconTxt} depuis ${iconOpt3}`
+            : `Repoussez ${iconOpt4} ${iconTxt} d'une Région avec ${iconOpt3}`,
           de: landtypeNames[lang][opt3]
-            ? `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus einem ${IconName(opt3)}`
-            : `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus einem Land mit ${IconName(opt3)}`,
+            ? `Verschiebe ${iconOpt4} ${iconTxt} aus einem ${iconOpt3}`
+            : `Verschiebe ${iconOpt4} ${iconTxt} aus einem Land mit ${iconOpt3}`,
           pl: landtypeNames[lang][opt3]
-            ? `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`
-            : `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy z ${IconName(opt3)}`,
+            ? `Wypchnij ${iconOpt4} ${iconTxt} z ${iconOpt3}`
+            : `Wypchnij ${iconOpt4} ${iconTxt} z twojej krainy z ${iconOpt3}`,
           ar: landtypeNames[lang][opt3]
-            ? `ادفع ${IconName(opt4)} ${IconName(txt)} من ${IconName(opt3)}`
-            : `ادفع ${IconName(opt4)} ${IconName(txt)} من أرض مع ${IconName(opt3)}`,
+            ? `ادفع ${iconOpt4} ${iconTxt} من ${iconOpt3}`
+            : `ادفع ${iconOpt4} ${iconTxt} من أرض مع ${iconOpt3}`,
           zh: landtypeNames[lang][opt3]
-            ? `從${IconName(opt3)}推出${IconName(opt4)}個${IconName(txt)}`
-            : `從有${IconName(opt3)}的區域推出${IconName(opt4)}個${IconName(txt)}`,
+            ? `從${iconOpt3}推出${iconOpt4}個${iconTxt}`
+            : `從有${iconOpt3}的區域推出${iconOpt4}個${iconTxt}`,
           hu: landtypeNames[lang][opt3]
-            ? `Tolj el egy ${IconName(opt4)} ${IconName(txt)} jelzőt ${IconName(opt3)} területről`
-            : `Tolj el egy ${IconName(opt4)} ${IconName(
-                txt
-              )} jelzőt egy területről, ahol van ${IconName(opt3)}`,
+            ? `Tolj el egy ${iconOpt4} ${iconTxt} jelzőt ${iconOpt3} területről`
+            : `Tolj el egy ${iconOpt4} ${iconTxt} jelzőt egy területről, ahol van ${iconOpt3}`,
           ko: landtypeNames[lang][opt3]
-            ? `${IconName(opt3)}에서 ${IconName(opt4)} ${IconName(txt)} 밀어내기`
-            : `${IconName(opt3)}가 있는 지역에서 ${IconName(opt4)} ${IconName(txt)} 밀어내기`,
+            ? `${iconOpt3}에서 ${iconOpt4} ${iconTxt} 밀어내기`
+            : `${iconOpt3}가 있는 지역에서 ${iconOpt4} ${iconTxt} 밀어내기`,
           ja: landtypeNames[lang][opt3]
-            ? `${IconName(opt3)}から${IconName(opt4)}個の${IconName(txt)}を押し出す`
-            : `${IconName(opt3)}がある土地から${IconName(opt4)}個の${IconName(txt)}を押し出す`,
+            ? `${iconOpt3}から${iconOpt4}個の${iconTxt}を押し出す`
+            : `${iconOpt3}がある土地から${iconOpt4}個の${iconTxt}を押し出す`,
         };
       } else if (num === 0 && !opt3) {
         // ie. Push 1 Beasts from 1 of your Lands
         // gather(0,presence,sacred-site,each)
+        const iconOpt4 = IconName(opt4);
+        const iconTxt = IconName(txt);
         localize = {
-          en: `Push ${IconName(opt4)} ${IconName(txt)} from 1 of your Lands`,
-          fr: `Repoussez ${IconName(opt4)} ${IconName(txt)} depuis 1 de vos Région`,
-          de: `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus 1 deiner Gebiete`,
-          pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy`,
-          ar: `ادفع ${IconName(opt4)} ${IconName(txt)} من إحدى أراضيك`,
-          zh: `從你的1個區域推出${IconName(opt4)}個${IconName(txt)}`,
-          hu: `Tolj el egy ${IconName(opt4)} ${IconName(txt)} jelzőt az egyik területedről`,
-          ko: `당신의 지역 한 곳에서 ${IconName(txt)}를 ${IconName(opt4)}개 밀어낸다`,
-          ja: `あなたの土地1つから${IconName(opt4)}個の${IconName(txt)}を押し出す`,
+          en: `Push ${iconOpt4} ${iconTxt} from 1 of your Lands`,
+          fr: `Repoussez ${iconOpt4} ${iconTxt} depuis 1 de vos Région`,
+          de: `Verschiebe ${iconOpt4} ${iconTxt} aus 1 deiner Gebiete`,
+          pl: `Wypchnij ${iconOpt4} ${iconTxt} z twojej krainy`,
+          ar: `ادفع ${iconOpt4} ${iconTxt} من إحدى أراضيك`,
+          zh: `從你的1個區域推出${iconOpt4}個${iconTxt}`,
+          hu: `Tolj el egy ${iconOpt4} ${iconTxt} jelzőt az egyik területedről`,
+          ko: `당신의 지역 한 곳에서 ${iconTxt}를 ${iconOpt4}개 밀어낸다`,
+          ja: `あなたの土地1つから${iconOpt4}個の${iconTxt}を押し出す`,
         };
       } else if (num === 0 && !isNaN(opt4)) {
         // ie. Push 3 Beasts from Mountain or Wetland
         // push(0,presence,sacred-site,each)
+        const iconOpt4 = IconName(opt4);
+        const iconTxt = IconName(txt);
+        const iconOpt3 = IconName(opt3);
         localize = {
-          en: `Push ${IconName(opt4)} ${IconName(txt)} from ${IconName(opt3)}`,
-          fr: `Repoussez ${IconName(opt4)} ${IconName(txt)} depuis ${IconName(opt3)}`,
-          de: `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus ${IconName(opt3)}`,
-          pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`,
-          ar: `ادفع ${IconName(opt4)} ${IconName(txt)} من ${IconName(opt3)}`,
-          zh: `從${IconName(opt3)}推出${IconName(opt4)}個${IconName(txt)}`,
-          hu: `Tolj el ${IconName(opt4)} ${IconName(txt)} jelzőt ${IconName(opt3)} területről`,
-          ko: `${IconName(opt3)}에서 ${IconName(txt)}를 ${IconName(opt4)}개 밀어낸다`,
-          ja: `${IconName(opt3)}から${IconName(opt4)}個の${IconName(txt)}を押し出す`,
+          en: `Push ${iconOpt4} ${iconTxt} from ${iconOpt3}`,
+          fr: `Repoussez ${iconOpt4} ${iconTxt} depuis ${iconOpt3}`,
+          de: `Verschiebe ${iconOpt4} ${iconTxt} aus ${iconOpt3}`,
+          pl: `Wypchnij ${iconOpt4} ${iconTxt} z ${iconOpt3}`,
+          ar: `ادفع ${iconOpt4} ${iconTxt} من ${iconOpt3}`,
+          zh: `從${iconOpt3}推出${iconOpt4}個${iconTxt}`,
+          hu: `Tolj el ${iconOpt4} ${iconTxt} jelzőt ${iconOpt3} területről`,
+          ko: `${iconOpt3}에서 ${iconTxt}를 ${iconOpt4}개 밀어낸다`,
+          ja: `${iconOpt3}から${iconOpt4}個の${iconTxt}を押し出す`,
         };
       } else if (num === 0 && isNaN(opt4)) {
         // third option is text - Conditional P/G at TEXT
         // ie. Push 1 Beasts from Each Wetland
+        const iconTxt = IconName(txt);
+        const iconOpt4 = IconName(opt4);
+        const iconOpt3 = IconName(opt3);
         localize = {
-          en: `Push 1 ${IconName(txt)} from ${IconName(opt4)} ${IconName(opt3)}`,
-          fr: `Repoussez 1 ${IconName(txt)} depuis ${IconName(opt4)} ${IconName(opt3)}`,
-          de: `Verschiebe 1 ${IconName(txt)} aus ${IconName(opt4)} ${IconName(opt3)}`,
-          pl: `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`,
-          ar: `ادفع 1 ${IconName(txt)} من ${IconName(opt4)} ${IconName(opt3)}`,
-          zh: `從${IconName(opt4)}${IconName(opt3)}推出1個${IconName(txt)}`,
-          hu: `Tolj el 1 ${IconName(txt)} jelzőt ${IconName(opt4)} ${IconName(opt3)}`,
-          ko: `${IconName(opt4)} ${IconName(opt3)}에서 ${IconName(txt)} 1개를 밀어낸다`,
-          ja: `${IconName(opt4)} ${IconName(opt3)}から${IconName(txt)}1個を押し出す`,
+          en: `Push 1 ${iconTxt} from ${iconOpt4} ${iconOpt3}`,
+          fr: `Repoussez 1 ${iconTxt} depuis ${iconOpt4} ${iconOpt3}`,
+          de: `Verschiebe 1 ${iconTxt} aus ${iconOpt4} ${iconOpt3}`,
+          pl: `Wypchnij ${iconOpt4} ${iconTxt} z ${iconOpt3}`,
+          ar: `ادفع 1 ${iconTxt} من ${iconOpt4} ${iconOpt3}`,
+          zh: `從${iconOpt4}${iconOpt3}推出1個${iconTxt}`,
+          hu: `Tolj el 1 ${iconTxt} jelzőt ${iconOpt4} ${iconOpt3}`,
+          ko: `${iconOpt4} ${iconOpt3}에서 ${iconTxt} 1개를 밀어낸다`,
+          ja: `${iconOpt4} ${iconOpt3}から${iconTxt}1個を押し出す`,
         };
       } else if (num === 0 && opt3) {
         // only two options, the second is text - P/G
+        const iconOpt4 = IconName(opt4);
+        const iconTxt = IconName(txt);
+        const iconOpt3 = IconName(opt3);
         localize = {
           en: landtypeNames[lang][opt3]
-            ? `Push ${IconName(opt4)} ${IconName(txt)} from ${IconName(opt3)}`
-            : `Push ${IconName(opt4)} ${IconName(txt)} from 1 of your Lands with ${IconName(opt3)}`,
+            ? `Push ${iconOpt4} ${iconTxt} from ${iconOpt3}`
+            : `Push ${iconOpt4} ${iconTxt} from 1 of your Lands with ${iconOpt3}`,
           fr: landtypeNames[lang][opt3]
-            ? `Repoussez ${IconName(opt4)} ${IconName(txt)} depuis ${IconName(opt3)}`
-            : `Repoussez ${IconName(opt4)} ${IconName(txt)} depuis 1 de vos Régions avec ${IconName(
-                opt3
-              )}`,
+            ? `Repoussez ${iconOpt4} ${iconTxt} depuis ${iconOpt3}`
+            : `Repoussez ${iconOpt4} ${iconTxt} depuis 1 de vos Régions avec ${iconOpt3}`,
           de: landtypeNames[lang][opt3]
-            ? `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus ${IconName(opt3)}`
-            : `Verschiebe ${IconName(opt4)} ${IconName(txt)} aus 1 deiner Gebiete mit ${IconName(
-                opt3
-              )}`,
+            ? `Verschiebe ${iconOpt4} ${iconTxt} aus ${iconOpt3}`
+            : `Verschiebe ${iconOpt4} ${iconTxt} aus 1 deiner Gebiete mit ${iconOpt3}`,
           pl: landtypeNames[lang][opt3]
-            ? `Wypchnij ${IconName(opt4)} ${IconName(txt)} z ${IconName(opt3)}`
-            : `Wypchnij ${IconName(opt4)} ${IconName(txt)} z twojej krainy z ${IconName(opt3)}`,
+            ? `Wypchnij ${iconOpt4} ${iconTxt} z ${iconOpt3}`
+            : `Wypchnij ${iconOpt4} ${iconTxt} z twojej krainy z ${iconOpt3}`,
           ar: landtypeNames[lang][opt3]
-            ? `ادفع ${IconName(opt4)} ${IconName(txt)} من ${IconName(opt3)}`
-            : `ادفع ${IconName(opt4)} ${IconName(txt)} من إحدى أراضيك مع ${IconName(opt3)}`,
+            ? `ادفع ${iconOpt4} ${iconTxt} من ${iconOpt3}`
+            : `ادفع ${iconOpt4} ${iconTxt} من إحدى أراضيك مع ${iconOpt3}`,
           zh: landtypeNames[lang][opt3]
-            ? `從${IconName(opt3)}推出${IconName(opt4)}個${IconName(txt)}`
-            : `從你有${IconName(opt3)}的1個區域推出${IconName(opt4)}個${IconName(txt)}`,
+            ? `從${iconOpt3}推出${iconOpt4}個${iconTxt}`
+            : `從你有${iconOpt3}的1個區域推出${iconOpt4}個${iconTxt}`,
           hu: landtypeNames[lang][opt3]
-            ? `Tolj el egy ${IconName(opt4)} ${IconName(txt)} jelzőt ${IconName(opt3)} területről`
-            : `Tolj el egy ${IconName(opt4)} ${IconName(
-                txt
-              )} jelzőt az egyik területedről, ahol van ${IconName(opt3)}`,
+            ? `Tolj el egy ${iconOpt4} ${iconTxt} jelzőt ${iconOpt3} területről`
+            : `Tolj el egy ${iconOpt4} ${iconTxt} jelzőt az egyik területedről, ahol van ${iconOpt3}`,
           ko: landtypeNames[lang][opt3]
-            ? `${IconName(opt3)}에서 ${IconName(opt4)} ${IconName(txt)} 밀어내기`
-            : `${IconName(opt3)}가 있는 당신의 지역에서 ${IconName(opt4)} ${IconName(
-                txt
-              )} 밀어내기`,
+            ? `${iconOpt3}에서 ${iconOpt4} ${iconTxt} 밀어내기`
+            : `${iconOpt3}가 있는 당신의 지역에서 ${iconOpt4} ${iconTxt} 밀어내기`,
           ja: landtypeNames[lang][opt3]
-            ? `${IconName(opt3)}から${IconName(opt4)}個の${IconName(txt)}を押し出す`
-            : `${IconName(opt3)}があるあなたの土地1つから${IconName(opt4)}個の${IconName(
-                txt
-              )}を押し出す`,
+            ? `${iconOpt3}から${iconOpt4}個の${iconTxt}を押し出す`
+            : `${iconOpt3}があるあなたの土地1つから${iconOpt4}個の${iconTxt}を押し出す`,
         };
       } else {
         // only one option
+        const iconTxt = IconName(txt);
         localize = {
-          en: `Push 1 ${IconName(txt)} from 1 of your Lands`,
-          fr: `Repoussez 1 ${IconName(txt)} depuis 1 de vos Régions`,
-          de: `Verschiebe 1 ${IconName(txt)} aus 1 deiner Gebiete`,
-          pl: `Wypchnij 1 ${IconName(txt)} z twojej krainy`,
-          ar: `ادفع 1 ${IconName(txt)} من إحدى أراضيك`,
-          zh: `從你的1個區域推出1個${IconName(txt)}`,
-          hu: `Tolj el 1 ${IconName(txt)} jelzőt az egyik területedről`,
-          ko: `당신의 지역 1곳에서 ${IconName(txt)} 1개를 밀어낸다`,
-          ja: `あなたの土地1つから${IconName(txt)}1個を押し出す`,
+          en: `Push 1 ${iconTxt} from 1 of your Lands`,
+          fr: `Repoussez 1 ${iconTxt} depuis 1 de vos Régions`,
+          de: `Verschiebe 1 ${iconTxt} aus 1 deiner Gebiete`,
+          pl: `Wypchnij 1 ${iconTxt} z twojej krainy`,
+          ar: `ادفع 1 ${iconTxt} من إحدى أراضيك`,
+          zh: `從你的1個區域推出1個${iconTxt}`,
+          hu: `Tolj el 1 ${iconTxt} jelzőt az egyik területedről`,
+          ko: `당신의 지역 1곳에서 ${iconTxt} 1개를 밀어낸다`,
+          ja: `あなたの土地1つから${iconTxt}1個を押し出す`,
         };
       }
       subText = localize[lang];
       break;
     case "track-push":
       if (num === "incarna") {
+        const iconNum = IconName(num);
         localize = {
-          en: `Push ${IconName(num)}`,
-          fr: `Repoussez ${IconName(num)}`,
-          de: `Verschiebe ${IconName(num)}`,
-          pl: `Wypchnij ${IconName(num)}`,
-          ar: `ادفع ${IconName(num)}`,
-          zh: `推出${IconName(num)}`,
-          hu: `Told el a ${IconName(num)}-t`,
-          ko: `${IconName(num)}을 밀어낸다`,
-          ja: `${IconName(num)}を押し出す`,
+          en: `Push ${iconNum}`,
+          fr: `Repoussez ${iconNum}`,
+          de: `Verschiebe ${iconNum}`,
+          pl: `Wypchnij ${iconNum}`,
+          ar: `ادفع ${iconNum}`,
+          zh: `推出${iconNum}`,
+          hu: `Told el a ${iconNum}-t`,
+          ko: `${iconNum}을 밀어낸다`,
+          ja: `${iconNum}を押し出す`,
         };
       } else {
         subText = IconName(num);
@@ -4309,167 +4712,169 @@ function IconName(str, iconNum = 1) {
       if (num > 0 && !opt3) {
         // Range, no conditions
         // ie. Gather up to 1 Beasts into a Land
+        const iconOpt4 = IconName(opt4);
+        const iconTxt = IconName(txt);
         localize = {
-          en: `Gather up to ${IconName(opt4)} ${IconName(txt)} into a Land`,
-          fr: `Rassemblez jusqu'à ${IconName(opt4)} ${IconName(txt)} dans une Région`,
-          de: `Versammele bis zu ${IconName(opt4)} ${IconName(txt)} in einem Gebiet`,
-          pl: `Zgromadź do ${IconName(opt4)} ${IconName(txt)} w krainie`,
-          ar: `اجمع حتى ${IconName(opt4)} ${IconName(txt)} في أرض`,
-          zh: `聚集最多${IconName(opt4)}個${IconName(txt)}到一個區域`,
-          hu: `Gyűjts össze legfeljebb ${IconName(opt4)} ${IconName(txt)} jelzőt egy területre`,
-          ko: `${IconName(txt)}를 최대 ${IconName(opt4)}개까지 대상 지역으로 끌어온다`,
-          ja: `土地1つに最大${IconName(opt4)}個の${IconName(txt)}を集める`,
+          en: `Gather up to ${iconOpt4} ${iconTxt} into a Land`,
+          fr: `Rassemblez jusqu'à ${iconOpt4} ${iconTxt} dans une Région`,
+          de: `Versammele bis zu ${iconOpt4} ${iconTxt} in einem Gebiet`,
+          pl: `Zgromadź do ${iconOpt4} ${iconTxt} w krainie`,
+          ar: `اجمع حتى ${iconOpt4} ${iconTxt} في أرض`,
+          zh: `聚集最多${iconOpt4}個${iconTxt}到一個區域`,
+          hu: `Gyűjts össze legfeljebb ${iconOpt4} ${iconTxt} jelzőt egy területre`,
+          ko: `${iconTxt}를 최대 ${iconOpt4}개까지 대상 지역으로 끌어온다`,
+          ja: `土地1つに最大${iconOpt4}個の${iconTxt}を集める`,
         };
       } else if (num > 0 && opt3) {
         // Range, with conditions
         // ie. Gather 1 Beasts into Jungle
         // ie. Gather 1 Beasts into a Land with Wilds
+        const iconOpt4 = IconName(opt4);
+        const iconTxt = IconName(txt);
+        const iconOpt3 = IconName(opt3);
         localize = {
           en: landtypeNames[lang][opt3]
-            ? `Gather ${IconName(opt4)} ${IconName(txt)} into a ${IconName(opt3)}`
-            : `Gather ${IconName(opt4)} ${IconName(txt)} into a Land with ${IconName(opt3)}`,
+            ? `Gather ${iconOpt4} ${iconTxt} into a ${iconOpt3}`
+            : `Gather ${iconOpt4} ${iconTxt} into a Land with ${iconOpt3}`,
           fr: landtypeNames[lang][opt3]
-            ? `Rassemblez ${IconName(opt4)} ${IconName(txt)} dans un ${IconName(opt3)}`
-            : `Rassemblez ${IconName(opt4)} ${IconName(txt)} dans une Région ${IconName(opt3)}`,
+            ? `Rassemblez ${iconOpt4} ${iconTxt} dans un ${iconOpt3}`
+            : `Rassemblez ${iconOpt4} ${iconTxt} dans une Région ${iconOpt3}`,
           de: landtypeNames[lang][opt3]
-            ? `Versammele ${IconName(opt4)} ${IconName(txt)} im ${IconName(opt3)}`
-            : `Versammele ${IconName(opt4)} ${IconName(txt)} in ein Gebiet mit ${IconName(opt3)}`,
+            ? `Versammele ${iconOpt4} ${iconTxt} im ${iconOpt3}`
+            : `Versammele ${iconOpt4} ${iconTxt} in ein Gebiet mit ${iconOpt3}`,
           pl: landtypeNames[lang][opt3]
-            ? `Zgromadź ${IconName(opt4)} ${IconName(txt)} w ${IconName(opt3)}`
-            : `Zgromadź ${IconName(opt4)} ${IconName(txt)} w krainie z ${IconName(opt3)}`,
+            ? `Zgromadź ${iconOpt4} ${iconTxt} w ${iconOpt3}`
+            : `Zgromadź ${iconOpt4} ${iconTxt} w krainie z ${iconOpt3}`,
           ar: landtypeNames[lang][opt3]
-            ? `اجمع ${IconName(opt4)} ${IconName(txt)} في ${IconName(opt3)}`
-            : `اجمع ${IconName(opt4)} ${IconName(txt)} في أرض مع ${IconName(opt3)}`,
+            ? `اجمع ${iconOpt4} ${iconTxt} في ${iconOpt3}`
+            : `اجمع ${iconOpt4} ${iconTxt} في أرض مع ${iconOpt3}`,
           zh: landtypeNames[lang][opt3]
-            ? `聚集${IconName(opt4)}個${IconName(txt)}到${IconName(opt3)}`
-            : `聚集${IconName(opt4)}個${IconName(txt)}到有${IconName(opt3)}的區域`,
+            ? `聚集${iconOpt4}個${iconTxt}到${iconOpt3}`
+            : `聚集${iconOpt4}個${iconTxt}到有${iconOpt3}的區域`,
           hu: landtypeNames[lang][opt3]
-            ? `Gyűjts össze egy ${IconName(opt4)} ${IconName(txt)} jelzőt ${IconName(
-                opt3
-              )} területre`
-            : `Gyűjts össze egy ${IconName(opt4)} ${IconName(
-                txt
-              )} jelzőt egy területre, ahol van ${IconName(opt3)}`,
+            ? `Gyűjts össze egy ${iconOpt4} ${iconTxt} jelzőt ${iconOpt3} területre`
+            : `Gyűjts össze egy ${iconOpt4} ${iconTxt} jelzőt egy területre, ahol van ${iconOpt3}`,
           ko: landtypeNames[lang][opt3]
-            ? `${IconName(opt3)}에 ${IconName(opt4)} ${IconName(txt)} 모으기`
-            : `${IconName(opt3)}가 있는 지역에 ${IconName(opt4)} ${IconName(txt)} 모으기`,
+            ? `${iconOpt3}에 ${iconOpt4} ${iconTxt} 모으기`
+            : `${iconOpt3}가 있는 지역에 ${iconOpt4} ${iconTxt} 모으기`,
           ja: landtypeNames[lang][opt3]
-            ? `${IconName(opt3)}に${IconName(opt4)}個の${IconName(txt)}を集める`
-            : `${IconName(opt3)}がある土地に${IconName(opt4)}個の${IconName(txt)}を集める`,
+            ? `${iconOpt3}に${iconOpt4}個の${iconTxt}を集める`
+            : `${iconOpt3}がある土地に${iconOpt4}個の${iconTxt}を集める`,
         };
       } else if (num === 0 && !opt3) {
         // ie. Gather 1 Beasts into 1 of your Lands
         // gather(0,presence,sacred-site,each)
+        const iconOpt4 = IconName(opt4);
+        const iconTxt = IconName(txt);
         localize = {
-          en: `Gather ${IconName(opt4)} ${IconName(txt)} into 1 of your Lands`,
-          fr: `Rassemblez ${IconName(opt4)} ${IconName(txt)} dans 1 de vos Régions`,
-          de: `Versammele ${IconName(opt4)} ${IconName(txt)} in einem deiner Gebiete`,
-          pl: `Zgromaź ${IconName(opt4)} ${IconName(txt)} w twojej krainie`,
-          ar: `اجمع ${IconName(opt4)} ${IconName(txt)} في إحدى أراضيك`,
-          zh: `聚集${IconName(opt4)}個${IconName(txt)}到你的1個區域`,
-          hu: `Gyűjts össze egy ${IconName(opt4)} ${IconName(txt)} jelzőt az egyik területedre`,
-          ko: `당신의 지역 한 곳으로 ${IconName(opt4)}을 ${IconName(txt)}개 끌어온다`,
-          ja: `あなたの土地1つに${IconName(opt4)}個の${IconName(txt)}を集める`,
+          en: `Gather ${iconOpt4} ${iconTxt} into 1 of your Lands`,
+          fr: `Rassemblez ${iconOpt4} ${iconTxt} dans 1 de vos Régions`,
+          de: `Versammele ${iconOpt4} ${iconTxt} in einem deiner Gebiete`,
+          pl: `Zgromaź ${iconOpt4} ${iconTxt} w twojej krainie`,
+          ar: `اجمع ${iconOpt4} ${iconTxt} في إحدى أراضيك`,
+          zh: `聚集${iconOpt4}個${iconTxt}到你的1個區域`,
+          hu: `Gyűjts össze egy ${iconOpt4} ${iconTxt} jelzőt az egyik területedre`,
+          ko: `당신의 지역 한 곳으로 ${iconOpt4}을 ${iconTxt}개 끌어온다`,
+          ja: `あなたの土地1つに${iconOpt4}個の${iconTxt}を集める`,
         };
       } else if (num === 0 && !isNaN(opt4)) {
         // ie. Gather 3 Beasts into Mountain or Wetland
         // gather(0,presence,sacred-site,each)
+        const iconOpt4 = IconName(opt4);
+        const iconTxt = IconName(txt);
+        const iconOpt3 = IconName(opt3);
         localize = {
-          en: `Gather ${IconName(opt4)} ${IconName(txt)} into ${IconName(opt3)}`,
-          fr: `Rassemblez ${IconName(opt4)} ${IconName(txt)} dans ${IconName(opt3)}`,
-          de: `Versammele ${IconName(opt4)} ${IconName(txt)} im ${IconName(opt3)}`,
-          pl: `Zgromadź ${IconName(opt4)} ${IconName(txt)} w ${IconName(opt3)}`,
-          ar: `اجمع ${IconName(opt4)} ${IconName(txt)} في ${IconName(opt3)}`,
-          zh: `聚集${IconName(opt4)}個${IconName(txt)}到${IconName(opt3)}`,
-          hu: `Gyűjts össze ${IconName(opt4)} ${IconName(txt)} jelzőt ${IconName(opt3)} területre`,
-          ko: `${IconName(opt3)}에서 ${IconName(opt4)}을 ${IconName(txt)}개 끌어온다`,
-          ja: `${IconName(opt3)}に${IconName(opt4)}個の${IconName(txt)}を集める`,
+          en: `Gather ${iconOpt4} ${iconTxt} into ${iconOpt3}`,
+          fr: `Rassemblez ${iconOpt4} ${iconTxt} dans ${iconOpt3}`,
+          de: `Versammele ${iconOpt4} ${iconTxt} im ${iconOpt3}`,
+          pl: `Zgromadź ${iconOpt4} ${iconTxt} w ${iconOpt3}`,
+          ar: `اجمع ${iconOpt4} ${iconTxt} في ${iconOpt3}`,
+          zh: `聚集${iconOpt4}個${iconTxt}到${iconOpt3}`,
+          hu: `Gyűjts össze ${iconOpt4} ${iconTxt} jelzőt ${iconOpt3} területre`,
+          ko: `${iconOpt3}에서 ${iconOpt4}을 ${iconTxt}개 끌어온다`,
+          ja: `${iconOpt3}に${iconOpt4}個の${iconTxt}を集める`,
         };
       } else if (num === 0 && isNaN(opt4)) {
         // third option is text - Conditional P/G at TEXT
         // ie. Gather 1 Beasts into Each Wetland
+        const iconTxt = IconName(txt);
+        const iconOpt4 = IconName(opt4);
+        const iconOpt3 = IconName(opt3);
         localize = {
-          en: `Gather 1 ${IconName(txt)} into ${IconName(opt4)} ${IconName(opt3)}`,
-          fr: `Rassemblez 1 ${IconName(txt)} dans ${IconName(opt4)} ${IconName(opt3)}`,
-          de: `Versammele 1 ${IconName(txt)} in ${IconName(opt4)} ${IconName(opt3)}`,
-          pl: `Zgromadź 1 ${IconName(txt)} w ${IconName(opt4)} ${IconName(opt3)}`,
-          ar: `اجمع 1 ${IconName(txt)} في ${IconName(opt4)} ${IconName(opt3)}`,
-          zh: `聚集1個${IconName(txt)}到${IconName(opt4)}${IconName(opt3)}`,
-          hu: `Gyűjts össze 1 ${IconName(txt)} jelzőt ${IconName(opt4)} ${IconName(opt3)}`,
-          ko: `${IconName(opt4)} ${IconName(opt3)}에서 ${IconName(opt4)}을 1개 끌어온다`,
-          ja: `${IconName(opt4)} ${IconName(opt3)}に${IconName(txt)}1個を集める`,
+          en: `Gather 1 ${iconTxt} into ${iconOpt4} ${iconOpt3}`,
+          fr: `Rassemblez 1 ${iconTxt} dans ${iconOpt4} ${iconOpt3}`,
+          de: `Versammele 1 ${iconTxt} in ${iconOpt4} ${iconOpt3}`,
+          pl: `Zgromadź 1 ${iconTxt} w ${iconOpt4} ${iconOpt3}`,
+          ar: `اجمع 1 ${iconTxt} في ${iconOpt4} ${iconOpt3}`,
+          zh: `聚集1個${iconTxt}到${iconOpt4}${iconOpt3}`,
+          hu: `Gyűjts össze 1 ${iconTxt} jelzőt ${iconOpt4} ${iconOpt3}`,
+          ko: `${iconOpt4} ${iconOpt3}에서 ${iconOpt4}을 1개 끌어온다`,
+          ja: `${iconOpt4} ${iconOpt3}に${iconTxt}1個を集める`,
         };
       } else if (num === 0 && opt3) {
         // only two options, the second is text - P/G
+        const iconOpt4 = IconName(opt4);
+        const iconTxt = IconName(txt);
+        const iconOpt3 = IconName(opt3);
         localize = {
           en: landtypeNames[lang][opt3]
-            ? `Gather ${IconName(opt4)} ${IconName(txt)} into ${IconName(opt3)}`
-            : `Gather ${IconName(opt4)} ${IconName(txt)} into 1 of your Lands with ${IconName(
-                opt3
-              )}`,
+            ? `Gather ${iconOpt4} ${iconTxt} into ${iconOpt3}`
+            : `Gather ${iconOpt4} ${iconTxt} into 1 of your Lands with ${iconOpt3}`,
           fr: landtypeNames[lang][opt3]
-            ? `Rassemblez ${IconName(opt4)} ${IconName(txt)} dans ${IconName(opt3)}`
-            : `Rassemblez ${IconName(opt4)} ${IconName(txt)} dans 1 de vos Régions avec ${IconName(
-                opt3
-              )}`,
+            ? `Rassemblez ${iconOpt4} ${iconTxt} dans ${iconOpt3}`
+            : `Rassemblez ${iconOpt4} ${iconTxt} dans 1 de vos Régions avec ${iconOpt3}`,
           de: landtypeNames[lang][opt3]
-            ? `Versammele ${IconName(opt4)} ${IconName(txt)} in ${IconName(opt3)}`
-            : `Vresammele ${IconName(opt4)} ${IconName(txt)} in 1 deiner Gebiete mit ${IconName(
-                opt3
-              )}`,
+            ? `Versammele ${iconOpt4} ${iconTxt} in ${iconOpt3}`
+            : `Vresammele ${iconOpt4} ${iconTxt} in 1 deiner Gebiete mit ${iconOpt3}`,
           pl: landtypeNames[lang][opt3]
-            ? `Zgromadź ${IconName(opt4)} ${IconName(txt)} w ${IconName(opt3)}`
-            : `Zgromadź ${IconName(opt4)} ${IconName(txt)} w twojej krainie z ${IconName(opt3)}`,
+            ? `Zgromadź ${iconOpt4} ${iconTxt} w ${iconOpt3}`
+            : `Zgromadź ${iconOpt4} ${iconTxt} w twojej krainie z ${iconOpt3}`,
           ar: landtypeNames[lang][opt3]
-            ? `اجمع ${IconName(opt4)} ${IconName(txt)} في ${IconName(opt3)}`
-            : `اجمع ${IconName(opt4)} ${IconName(txt)} في إحدى أراضيك مع ${IconName(opt3)}`,
+            ? `اجمع ${iconOpt4} ${iconTxt} في ${iconOpt3}`
+            : `اجمع ${iconOpt4} ${iconTxt} في إحدى أراضيك مع ${iconOpt3}`,
           zh: landtypeNames[lang][opt3]
-            ? `聚集${IconName(opt4)}個${IconName(txt)}到${IconName(opt3)}`
-            : `聚集${IconName(opt4)}個${IconName(txt)}到你有${IconName(opt3)}的1個區域`,
+            ? `聚集${iconOpt4}個${iconTxt}到${iconOpt3}`
+            : `聚集${iconOpt4}個${iconTxt}到你有${iconOpt3}的1個區域`,
           hu: landtypeNames[lang][opt3]
-            ? `Gyűjts össze egy ${IconName(opt4)} ${IconName(txt)} jelzőt ${IconName(
-                opt3
-              )} területre`
-            : `Gyűjts össze egy ${IconName(opt4)} ${IconName(
-                txt
-              )} jelzőt az egyik területedre, ahol van ${IconName(opt3)}`,
+            ? `Gyűjts össze egy ${iconOpt4} ${iconTxt} jelzőt ${iconOpt3} területre`
+            : `Gyűjts össze egy ${iconOpt4} ${iconTxt} jelzőt az egyik területedre, ahol van ${iconOpt3}`,
           ko: landtypeNames[lang][opt3]
-            ? `${IconName(opt3)}에 ${IconName(opt4)} ${IconName(txt)} 모으기`
-            : `${IconName(opt3)}가 있는 당신의 지역에 ${IconName(opt4)} ${IconName(txt)} 모으기`,
+            ? `${iconOpt3}에 ${iconOpt4} ${iconTxt} 모으기`
+            : `${iconOpt3}가 있는 당신의 지역에 ${iconOpt4} ${iconTxt} 모으기`,
           ja: landtypeNames[lang][opt3]
-            ? `${IconName(opt3)}に${IconName(opt4)}個の${IconName(txt)}を集める`
-            : `${IconName(opt3)}があるあなたの土地1つに${IconName(opt4)}個の${IconName(
-                txt
-              )}を集める`,
+            ? `${iconOpt3}に${iconOpt4}個の${iconTxt}を集める`
+            : `${iconOpt3}があるあなたの土地1つに${iconOpt4}個の${iconTxt}を集める`,
         };
       } else {
         // only one option
+        const iconTxt = IconName(txt);
         localize = {
-          en: `Gather 1 ${IconName(txt)} into 1 of your Lands`,
-          fr: `Rassemblez 1 ${IconName(txt)} dans 1 de vos Régions`,
-          de: `Versammele 1 ${IconName(txt)} in 1 deiner Gebiete`,
-          pl: `Zgromaź 1 ${IconName(txt)} w twojej krainie`,
-          ar: `اجمع 1 ${IconName(txt)} في إحدى أراضيك`,
-          zh: `聚集1個${IconName(txt)}到你的1個區域`,
-          hu: `Gyűjts össze 1 ${IconName(txt)} jelzőt az egyik területedre`,
-          ko: `당신의 지역 한 곳으로 ${IconName(txt)}을 1개 끌어온다`,
-          ja: `あなたの土地1つに${IconName(txt)}1個を集める`,
+          en: `Gather 1 ${iconTxt} into 1 of your Lands`,
+          fr: `Rassemblez 1 ${iconTxt} dans 1 de vos Régions`,
+          de: `Versammele 1 ${iconTxt} in 1 deiner Gebiete`,
+          pl: `Zgromaź 1 ${iconTxt} w twojej krainie`,
+          ar: `اجمع 1 ${iconTxt} في إحدى أراضيك`,
+          zh: `聚集1個${iconTxt}到你的1個區域`,
+          hu: `Gyűjts össze 1 ${iconTxt} jelzőt az egyik területedre`,
+          ko: `당신의 지역 한 곳으로 ${iconTxt}을 1개 끌어온다`,
+          ja: `あなたの土地1つに${iconTxt}1個を集める`,
         };
       }
       subText = localize[lang];
       break;
     case "track-gather":
       if (num === "incarna") {
+        const iconNum = IconName(num);
         localize = {
-          en: `Gather ${IconName(num)}`,
-          fr: `Rassemblez ${IconName(num)}`,
-          de: `Versammele ${IconName(num)}`,
-          pl: `Zgromadź ${IconName(num)}`,
-          ar: `اجمع ${IconName(num)}`,
-          zh: `聚集${IconName(num)}`,
-          hu: `Gyűjtsd össze a ${IconName(num)}-t`,
-          ko: `${IconName(num)}을 끌어온다`,
-          ja: `${IconName(num)}を集める`,
+          en: `Gather ${iconNum}`,
+          fr: `Rassemblez ${iconNum}`,
+          de: `Versammele ${iconNum}`,
+          pl: `Zgromadź ${iconNum}`,
+          ar: `اجمع ${iconNum}`,
+          zh: `聚集${iconNum}`,
+          hu: `Gyűjtsd össze a ${iconNum}-t`,
+          ko: `${iconNum}을 끌어온다`,
+          ja: `${iconNum}を集める`,
         };
       } else {
         subText = IconName(num);
@@ -4523,9 +4928,9 @@ function IconName(str, iconNum = 1) {
           };
         }
       } else if (opt3) {
+        const perIcon = IconName(opt3);
         if (num === 0 || num === "0") {
           // scaling, no flat fear
-          let perIcon = IconName(opt3);
           localize = {
             en: elementNames.has(opt3)
               ? `Generate ${txt} Fear per ${perIcon} Showing`
@@ -4557,7 +4962,6 @@ function IconName(str, iconNum = 1) {
           };
         } else {
           // scaling w/ flat energy
-          let perIcon = IconName(opt3);
           localize = {
             en: elementNames.has(opt3)
               ? `Generate ${num} Fear and +${txt} more per ${perIcon} Showing`
@@ -4739,11 +5143,18 @@ function IconName(str, iconNum = 1) {
     case "oceans":
       subText = landtypeNames[lang][str];
       break;
+    case "inland-land":
+    case "coastal-land":
+      {
+        const landTrim = str.split("-")[0];
+        subText = `${Capitalise(landtypeNames[lang][landTrim])} ${Capitalise(
+          landtypeNames[lang]["land"]
+        )}`;
+      }
+      break;
     case "inland":
     case "coastal":
-      subText = `${Capitalise(landtypeNames[lang][str])} ${Capitalise(
-        landtypeNames[lang]["land"]
-      )}`;
+      subText = `${Capitalise(landtypeNames[lang][str])}`;
       break;
     case "empower-incarna":
       localize = {
@@ -4771,181 +5182,15 @@ function IconName(str, iconNum = 1) {
     case "star":
     case "any":
     case "copy":
-      localize = {
-        en: {
-          sun: "sun",
-          moon: "moon",
-          fire: "fire",
-          air: "air",
-          plant: "plant",
-          water: "water",
-          earth: "earth",
-          animal: "animal",
-          star: "element",
-          any: "any",
-          copy: "Element you have at least 1 of",
-        },
-        fr: {
-          sun: "Soleil",
-          moon: "Lune",
-          fire: "Feu",
-          air: "Air",
-          plant: "Flore",
-          water: "Eau",
-          earth: "Terre",
-          animal: "Faune",
-          star: "Elément",
-          any: "Au choix",
-          copy: "Elément dont vous avez au moins 1",
-        },
-        de: {
-          sun: "Sonne",
-          moon: "Mond",
-          fire: "Feuer",
-          air: "Luft",
-          plant: "Pflanze",
-          water: "Wasser",
-          earth: "Erde",
-          animal: "Tier",
-          star: "Element",
-          any: "Beliebig",
-          copy: "Element, von dem du mindestens 1 hast",
-        },
-        pl: {
-          sun: "słońce",
-          moon: "księżyc",
-          fire: "ogień",
-          air: "powietrze",
-          plant: "roślinność",
-          water: "woda",
-          earth: "ziemia",
-          animal: "zwierzęcość",
-          star: "źródło mocy",
-          any: "dowolne",
-          copy: "Żywioł, którego masz co najmniej 1",
-        },
-        ar: {
-          sun: "الشمس",
-          moon: "القمر",
-          fire: "نار",
-          air: "هواء",
-          plant: "نبات",
-          water: "ماء",
-          earth: "أرض",
-          animal: "حيوان",
-          star: "عنصر تقليدي",
-          any: "أي",
-          copy: "عنصر لديك واحد منه على الأقل",
-        },
-        zh: {
-          sun: "日",
-          moon: "月",
-          fire: "火",
-          air: "氣",
-          plant: "植物",
-          water: "水",
-          earth: "土",
-          animal: "動物",
-          star: "元素",
-          any: "任意",
-          copy: "你至少有1個的元素",
-        },
-        hu: {
-          sun: "Nap",
-          moon: "Hold",
-          fire: "Tűz",
-          air: "Levegő",
-          plant: "Növény",
-          water: "Víz",
-          earth: "Föld",
-          animal: "Állat",
-          star: "Elem",
-          any: "Bármi",
-          copy: "Elem, amiből legalább 1 van",
-        },
-        ko: {
-          sun: "태양",
-          moon: "달",
-          fire: "불",
-          air: "공기",
-          plant: "식물",
-          water: "물",
-          earth: "흙",
-          animal: "동물",
-          star: "원소",
-          any: "아무거나",
-          copy: "최소 1개 있는 원소",
-        },
-        ja: {
-          sun: "太陽",
-          moon: "月",
-          fire: "火",
-          air: "空気",
-          plant: "植物",
-          water: "水",
-          earth: "大地",
-          animal: "動物",
-          star: "エレメント",
-          any: "任意",
-          copy: "少なくとも1つ持っているエレメント",
-        },
-      };
-      str = Capitalise(localize[lang][str]);
-      defaultProcessIcon();
+      str = Capitalise(_localizeElements[lang][str]);
+      subText = _defaultProcessIcon(str, iconNum);
       break;
     // Major/Minor/Unique
     case "major":
     case "minor":
     case "unique":
-      localize = {
-        en: {
-          major: "major",
-          minor: "minor",
-          unique: "unique",
-        },
-        fr: {
-          major: "Majeur",
-          minor: "Mineur",
-          unique: "Unique",
-        },
-        de: {
-          major: "Größere",
-          minor: "Kleinere",
-          unique: "Einzigartige",
-        },
-        pl: {
-          major: "Większą",
-          minor: "Mniejszą",
-          unique: "Unikalną",
-        },
-        ar: {
-          major: "كبرى",
-          minor: "صغرى",
-          unique: "فريدة",
-        },
-        zh: {
-          major: "重要",
-          minor: "次要",
-          unique: "獨特",
-        },
-        hu: {
-          major: "Nagyobb",
-          minor: "Kisebb",
-          unique: "Egyedi",
-        },
-        ko: {
-          major: "메이저",
-          minor: "마이너",
-          unique: "고유",
-        },
-        ja: {
-          major: "メジャー",
-          minor: "マイナー",
-          unique: "ユニーク",
-        },
-      };
-      str = Capitalise(localize[lang][str]);
-      defaultProcessIcon();
+      str = Capitalise(_localizeCardTypes[lang][str]);
+      subText = _defaultProcessIcon(str, iconNum);
       break;
     // Tokens
     case "explorer":
@@ -4960,219 +5205,36 @@ function IconName(str, iconNum = 1) {
     case "badland":
     case "badlands":
     case "vitality":
-      localize = {
-        en: {
-          explorer: "explorer",
-          town: "town",
-          city: "city",
-          blight: "blight",
-          beast: "beasts",
-          beasts: "beasts",
-          disease: "disease",
-          wilds: "wilds",
-          badland: "badlands",
-          badlands: "badlands",
-          strife: "strife",
-          vitality: "vitality",
-        },
-        fr: {
-          explorer: "Explorateur",
-          town: "Village",
-          city: "Ville",
-          blight: "Désolation",
-          beast: "Bête",
-          beasts: "Bêtes",
-          disease: "Maladie",
-          wilds: "Ronces",
-          badland: "Terre Hostile",
-          badlands: "Terres Hostiles",
-          strife: "Discorde",
-          vitality: "Vitalité",
-        },
-        de: {
-          explorer: "Entdecker",
-          town: "Siedlung",
-          city: "Stadt",
-          blight: "Seuche",
-          beast: "Bestie",
-          beasts: "Bestien",
-          disease: "Krankheit",
-          wilds: "Wildnis",
-          badland: "Ödland",
-          badlands: "Ödlande",
-          strife: "Zwist",
-          vitality: "Lebenskraft",
-        },
-        pl: {
-          explorer: "odkrywca",
-          town: "miasteczko",
-          city: "miasto",
-          blight: "zaraźliwość",
-          beast: "bestie",
-          beasts: "bestie",
-          disease: "choroba",
-          wilds: "dzicz",
-          badland: "pustkowia",
-          badlands: "pustkowia",
-          strife: "niezgoda",
-          vitality: "witalność",
-        },
-        ar: {
-          explorer: "مستكشف",
-          town: "بلدة",
-          city: "مدينة",
-          blight: "آفة",
-          beast: "وحوش",
-          beasts: "وحوش",
-          disease: "مرض",
-          wilds: "برية",
-          badland: "أرض قاحلة",
-          badlands: "أراض قاحلة",
-          strife: "صراع",
-          vitality: "حيوية",
-        },
-        zh: {
-          explorer: "探險者",
-          town: "城鎮",
-          city: "城市",
-          blight: "荒疫",
-          beast: "野獸",
-          beasts: "野獸",
-          disease: "疾病",
-          wilds: "荒野",
-          badland: "荒地",
-          badlands: "荒地",
-          strife: "紛爭",
-          vitality: "活力",
-        },
-        hu: {
-          explorer: "Felfedező",
-          town: "Falu",
-          city: "Város",
-          blight: "Métely",
-          beast: "Fenevad",
-          beasts: "Fenevad",
-          disease: "Betegség",
-          wilds: "Vadon",
-          badland: "Pusztaság",
-          badlands: "Pusztaság",
-          strife: "Viszály",
-          vitality: "Vitalitás",
-        },
-        ko: {
-          explorer: "탐험가",
-          town: "마을",
-          city: "도시",
-          blight: "황폐",
-          beast: "야수",
-          beasts: "야수",
-          disease: "질병",
-          wilds: "야생",
-          badland: "불모지",
-          badlands: "불모지",
-          strife: "분쟁",
-          vitality: "활력",
-        },
-        ja: {
-          explorer: "探検者",
-          town: "町",
-          city: "都市",
-          blight: "荒廃",
-          beast: "獣",
-          beasts: "獣",
-          disease: "病気",
-          wilds: "荒野",
-          badland: "荒れ地",
-          badlands: "荒れ地",
-          strife: "争い",
-          vitality: "活力",
-        },
-      };
-      str = Capitalise(localize[lang][str]) || str;
-      defaultProcessIcon();
+      str = Capitalise(_localizeTokens[lang][str]) || str;
+      subText = _defaultProcessIcon(str, iconNum);
       break;
     // and/or
     case "and":
     case "or":
     case "at":
     case "from":
-      localize = {
-        en: {
-          and: "and",
-          or: "or",
-          at: "at",
-          from: "from",
-        },
-        fr: {
-          and: "et",
-          or: "ou",
-          at: "à",
-          from: "de",
-        },
-        de: {
-          and: "und",
-          or: "oder",
-          at: "bei",
-          from: "von",
-        },
-        pl: {
-          and: "i",
-          or: "lub",
-          at: "w",
-          from: "z",
-        },
-        ar: {
-          and: "و",
-          or: "أو",
-          at: "في",
-          from: "من",
-        },
-        zh: {
-          and: "和",
-          or: "或",
-          at: "在",
-          from: "從",
-        },
-        hu: {
-          and: "és",
-          or: `vagy`,
-          at: "-nál/-nél",
-          from: "-ról/-ről",
-        },
-        ko: {
-          and: "그리고",
-          or: `또는`,
-          at: "에서",
-          from: "에서",
-        },
-        ja: {
-          and: "と",
-          or: `または`,
-          at: "で",
-          from: "から",
-        },
-      };
-      subText = localize[lang][str];
+      subText = _localizeConjunctions[lang][str];
       break;
     case "":
       subText = "";
       break;
     default:
-      defaultProcessIcon();
-  }
-
-  function defaultProcessIcon() {
-    subText =
-      iconNum && iconNum > 1
-        ? (numLocalize[lang][iconNum] || iconNum) + " " + Capitalise(str)
-        : Capitalise(str);
-    subText = numLocalize[lang][subText] || subText;
+      subText = _defaultProcessIcon(str, iconNum);
   }
 
   if (debug) {
     console.log("Return: " + subText);
   }
+  _iconNameCache.set(cacheKey, subText);
   return subText;
+}
+
+function _defaultProcessIcon(str, iconNum) {
+  let result =
+    iconNum && iconNum > 1
+      ? (numLocalize[lang][iconNum] || iconNum) + " " + Capitalise(str)
+      : Capitalise(str);
+  return numLocalize[lang][result] || result;
 }
 
 function Capitalise(str, plural = 0) {

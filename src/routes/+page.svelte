@@ -29,6 +29,7 @@
   import EventCard from "./event-card/index.svelte";
   import InvaderCard from "./invader-card/index.svelte";
   import About from "./about/index.svelte";
+  import Changelog from "./changelog/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
   import Footer from "./footer.svelte";
   import { divertDownload, downloadData } from "$lib/download";
@@ -726,6 +727,7 @@
       isVisible: false,
       name: "",
       type: "single",
+      banner: "",
       top: "",
       bottom: "",
       fields: [
@@ -737,6 +739,9 @@
           color: "#3f1d1c",
         },
       ],
+    },
+    nameTexture: {
+      isVisible: false,
     },
     showBackOld: false,
     showBackNew: false,
@@ -838,11 +843,12 @@
     ["incarnaToken", "Incarna"],
     ["adversary", "Adversary"],
     ["scenario", "Scenario"],
-    ["blightCard", "Blight Card"],
-    ["fearCard", "Fear Card"],
-    ["eventCard", "Event Card"],
+    ["blightCard", "Blight"],
+    ["fearCard", "Fear"],
+    ["eventCard", "Event"],
     ["invaderCard", "Invader Card"],
     ["about", "About"],
+    ["changelog", "Changelog"],
   ];
 </script>
 
@@ -950,6 +956,8 @@
       <InvaderCard bind:invaderCard bind:emptyInvaderCard />
     {:else if currentPage === "about"}
       <About />
+    {:else if currentPage === "changelog"}
+      <Changelog />
     {/if}
   </div>
 

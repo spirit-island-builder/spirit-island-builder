@@ -7,7 +7,8 @@
   import LoadDropdown from "$lib/load-dropdown.svelte";
   import SaveDropdown from "$lib/save-dropdown.svelte";
 
-  import NameEffects from "./name-effects.svelte";
+  import Effects from "./effects.svelte";
+  import NameTextures from "./name-textures.svelte";
   import CustomIcons from "../custom-icons.svelte";
   import { dev } from "$app/environment";
 
@@ -53,6 +54,7 @@
     invaderCardHTML.setAttribute("type", invaderCard.card.type);
     invaderCardHTML.setAttribute("top", invaderCard.card.top);
     invaderCardHTML.setAttribute("bottom", invaderCard.card.bottom);
+    invaderCardHTML.setAttribute("banner", invaderCard.card.banner);
     invaderCard.card.fields.forEach((field) => {
       let fieldHTML = document.createElement("invader-field");
       if (field.type) {
@@ -102,10 +104,11 @@
     invaderCard = JSON.parse(JSON.stringify(emptyInvaderCard));
 
     const invaderCardHTML = htmlElement.querySelectorAll("template-invader-card")[0];
-    invaderCard.card.type = invaderCardHTML.getAttribute("name") || "";
+    invaderCard.card.name = invaderCardHTML.getAttribute("name") || "";
     invaderCard.card.type = invaderCardHTML.getAttribute("type") || "single";
     invaderCard.card.top = invaderCardHTML.getAttribute("top");
     invaderCard.card.bottom = invaderCardHTML.getAttribute("bottom") || "";
+    invaderCard.card.banner = invaderCardHTML.getAttribute("banner") || "";
     // invaderCard.card.textHeading = invaderCardHTML.getAttribute("text-heading") || "";
     // invaderCard.card.textBody = invaderCardHTML.getAttribute("text-body") || "";
 
@@ -189,7 +192,8 @@
 
 <div class="columns ml-4 mt-0 mb-1">
   <div class="column is-one-third pt-0">
-    <NameEffects bind:invaderCard />
+    <NameTextures bind:invaderCard />
+    <Effects bind:invaderCard />
     <CustomIcons customIcons={invaderCard.customIcons} />
   </div>
   <div class="column pt-0">

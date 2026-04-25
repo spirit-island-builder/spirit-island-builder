@@ -409,6 +409,7 @@ growth-cell add-move-lower {
 
 growth-cell add-token-upper {
   margin-bottom: 25px;
+  width: 100%;
 }
 
 growth-cell add-token-lower {
@@ -453,15 +454,21 @@ growth-cell icon.with-your {
   margin-left: -20px;
 }
 
-growth-cell icon.replace-with-incarna {
+/* growth-cell icon.replace-with-incarna {
   position: relative;
   left: 40px;
   bottom: -32px;
-}
+} */
 
 growth-cell icon.with-incarna {
   margin-right: 35px;
   margin-bottom: 24px;
+}
+
+growth-cell icon.with-incarna icon {
+  position: relative;
+  left: 40px;
+  bottom: -32px;
 }
 
 growth-cell icon.reclaim-half {
@@ -935,7 +942,7 @@ growth-cell icon.reclaim-none {
   margin-bottom: 7px;
 }
 
-growth-cell icon.ignore-range {
+growth-cell icon.ignorerange {
   margin-bottom: 10px;
   margin-top: -10px;
   height: 90px;
@@ -1720,8 +1727,8 @@ growth-cell icon.push icon-holder icon {
 }
 
 growth-cell gain icon.element {
-  height: 60px;
-  width: 60px;
+  height: 64px;
+  width: 64px;
   margin: -30px;
 }
 

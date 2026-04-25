@@ -22,7 +22,7 @@ function startMain() {
   }
 
   const cards = document.querySelectorAll("card");
-  for (i = 0; i < cards.length; ++i) {
+  for (let i = 0; i < cards.length; ++i) {
     cards[i].innerHTML = replaceIcon(cards[i].innerHTML);
     cards[i].style.zIndex = i + 1;
   }
@@ -94,20 +94,20 @@ function constructCard(data, cardIndex) {
 
 function resize() {
   //Name
-  nameBlocks = document.querySelectorAll("name");
-  nameHolders = document.querySelectorAll("name-holder");
+  let nameBlocks = document.querySelectorAll("name");
+  let nameHolders = document.querySelectorAll("name-holder");
   for (let i = 0; i < nameBlocks.length; i++) {
     dynamicSizing(nameBlocks[i], nameHolders[i]);
     balanceText(nameBlocks[i], 33);
   }
 
   //Rules & Threshold
-  rulesContainers = document.querySelectorAll("rules-container");
+  let rulesContainers = document.querySelectorAll("rules-container");
 
   for (let i = 0; i < rulesContainers.length; i++) {
-    rulesBlock = rulesContainers[i].querySelectorAll("rules")[0];
-    thresholdBlock = rulesContainers[i].querySelectorAll("threshold")[0];
-    limitingBlock = thresholdBlock == undefined ? rulesContainers[i] : thresholdBlock;
+    let rulesBlock = rulesContainers[i].querySelectorAll("rules")[0];
+    let thresholdBlock = rulesContainers[i].querySelectorAll("threshold")[0];
+    let limitingBlock = thresholdBlock == undefined ? rulesContainers[i] : thresholdBlock;
     let j = 0;
     while (checkOverflowHeight(limitingBlock)) {
       var style = window.getComputedStyle(rulesBlock, null).getPropertyValue("font-size");
@@ -130,7 +130,7 @@ function resize() {
   }
 
   // Set widths for image export
-  rulesDivs = Array.from(rulesContainers[0].querySelectorAll("div"));
+  let rulesDivs = Array.from(rulesContainers[0].querySelectorAll("div"));
 
   rulesDivs.forEach((ruleDiv) => {
     ruleDiv.style.width =
@@ -140,7 +140,7 @@ function resize() {
   });
 
   //Images (this seems to be an incomplete idea)
-  imageContainers = document.querySelectorAll("img");
+  let imageContainers = document.querySelectorAll("img");
   for (let i = 0; i < imageContainers.length; i++) {}
 }
 
@@ -230,7 +230,7 @@ function getData(quickCard, cardIndex) {
 function getRulesNew(quickCard, cardIndex) {
   var rules = quickCard.querySelectorAll("rules")[0];
 
-  rulesHTML = "<rules>" + getFormatRulesText(rules.innerHTML) + "</rules>";
+  let rulesHTML = "<rules>" + getFormatRulesText(rules.innerHTML) + "</rules>";
   rulesHTML = `<rules id='card${cardIndex}rules'>${getFormatRulesText(rules.innerHTML)}</rules>`;
 
   var thresholds = quickCard.querySelectorAll("threshold");
@@ -246,7 +246,7 @@ function getRulesNew(quickCard, cardIndex) {
 }
 
 function getFormatRulesText(rulesHTML) {
-  ruleLines = rulesHTML.split("\n");
+  let ruleLines = rulesHTML.split("\n");
   let rulesFormatted = "";
   for (let i = 0; i < ruleLines.length; i++) {
     if (ruleLines[i] && ruleLines[i].trim().length) {
