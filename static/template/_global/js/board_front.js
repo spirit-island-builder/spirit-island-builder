@@ -1051,11 +1051,16 @@ function getGrowthActionTextAndIcons(growthAction) {
       growthText = IconName(`growth-fear(${iconNamevars})`);
       break;
     }
+    case "lose-range":
     case "gain-range": {
       const matches = regExp.exec(growthAction);
       let rangeOptions = matches[1].split(",");
       let range = rangeOptions[0];
-      growthIcons = `<growth-range>{gain-range-${range}}</growth-range>`;
+      if (range < 0 || growthActionType.includes("lose")) {
+        growthIcons = `<growth-range>{lose-range-${Math.abs(range)}}</growth-range>`;
+      } else {
+        growthIcons = `<growth-range>{gain-range-${range}}</growth-range>`;
+      }
       growthText = IconName(`growth-${growthAction}`);
       break;
     }
@@ -1302,6 +1307,10 @@ function getGrowthActionTextAndIcons(growthAction) {
       growthText = IconName(growthAction);
       break;
     }
+    case "ignore-range":
+      growthIcons = "{ignorerange}"; //avoiding the hyphen
+      growthText = IconName(growthActionType);
+      break;
     default: {
       growthIcons = "{" + growthActionType + "}";
       growthText = IconName(growthActionType);
@@ -4148,7 +4157,7 @@ function IconName(str, iconNum = 1) {
         localize = {
           en: ` on ${txt}`,
           fr: ` sur ${txt}`,
-          de: ` kein ${txt}`,
+          de: ` auf ${txt}`,
           pl: ` na ${txt}`,
           ar: ` على ${txt}`,
           zh: ` 在${txt}上`,
@@ -4241,6 +4250,120 @@ function IconName(str, iconNum = 1) {
           hu: `+${num} távolság minden Erődre ebben a fordulóban`,
           ko: `이번 차례에 당신의 능력은 사정 거리 +${num}`,
           ja: `今ターン、あなたのパワーは+${num}距離を得る`,
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "lose-range":
+      localize = {
+        en: `-${num} Range`,
+        fr: `-${num} Portée`,
+        de: `-${num} Reichweite`,
+        pl: `-${num} Zasięgu`,
+        ar: `-${num} مدى`,
+        zh: `-${num} 距離`,
+        hu: `-${num} távolság`,
+        ko: `사정거리 -${num}`,
+        ja: `-${num} 距離`,
+      };
+      subText = localize[lang];
+      if (txt) {
+        localize = {
+          en: ` on ${txt}`,
+          fr: ` sur ${txt}`,
+          de: ` auf ${txt}`,
+          pl: ` na ${txt}`,
+          ar: ` على ${txt}`,
+          zh: ` 在${txt}上`,
+          hu: ` ${txt} területre`,
+          ko: `${txt}에`,
+          ja: ` ${txt}で`,
+        };
+        subText += localize[lang];
+      }
+      break;
+    case "growth-lose-range":
+      if (txt) {
+        switch (txt) {
+          case "powers":
+          case "power":
+            localize = {
+              en: `Your Powers lose ${num} Range this turn`,
+              fr: `Vos Pouvoirs perdent ${num} de Portée ce tour`,
+              de: `Deine Fähigkeiten verlieren ${num} Reichweite in diesem Zug`,
+              pl: `W tej turze twoje Moce tracą ${num} zasięgu`,
+              ar: `تفقد قواك ${num} مدى هذا الدور`,
+              zh: `你的法術本回合失去${num}距離`,
+              hu: `${num} távolságot veszít minden Erőd ebben a fordulóban`,
+              ko: `이번 차례에 당신의 능력은 사정 거리 -${num}`,
+              ja: `今ターン、あなたのパワーは${num}距離を失う`,
+            };
+            break;
+          case "power cards":
+            localize = {
+              en: `Your Power Cards lose ${num} Range this turn`,
+              fr: `Vos Cartes Pouvoirs perdent ${num} de Portée ce tour-ci`,
+              de: `Deine Fähigkeitskarten verlieren ${num} Reichweite in diesem Zug`,
+              pl: `W tej turze twoje Karty Mocy tracą ${num} zasięgu`,
+              ar: `تفقد بطاقات القوة لديك ${num} مدى هذا الدور`,
+              zh: `你的法術牌本回合失去${num}距離`,
+              hu: `${num} távolságot veszít minden Erőkártyád ebben a fordulóban`,
+              ko: `이번 차례에 당신의 능력 카드들은 사정 거리 -${num}`,
+              ja: `今ターン、あなたのパワーカードは${num}距離を失う`,
+            };
+            break;
+          case "everything":
+            localize = {
+              en: `-${num} Range on everything this turn`,
+              fr: `-${num} de Portée sur tout ce tour-ci`,
+              de: `-${num} Reichweite in diesem Zug`,
+              pl: `-${num} zasięgu dla wszystkich twoich akcji w tej turze`,
+              ar: `-${num} مدى على كل شيء هذا الدور`,
+              zh: `本回合所有東西失去${num}距離`,
+              hu: `-${num} távolság mindenre ebben a fordulóban`,
+              ko: `이번 차례에 사정 거리 -${num}(모든 경우에 대해)`,
+              ja: `今ターン、すべてに${num}距離を失う`,
+            };
+            break;
+          case "innate":
+          case "innate power":
+          case "innate powers":
+            localize = {
+              en: `Your Innate Powers lose ${num} Range this turn`,
+              fr: `Vos Pouvoirs Innés perdent ${num} de Portée ce tour`,
+              de: `Deine Basisfähigkeiten verlieren ${num} Reichweite während diesem Zug`,
+              pl: `W tej turze twoje Wrodzone Moce tracą ${num} zasięgu`,
+              ar: `تفقد قواك الفطرية ${num} مدى هذا الدور`,
+              zh: `你的固有法術本回合失去${num}距離`,
+              hu: `${num} távolságot veszítenek az Ősi Erőid ebben a fordulóban`,
+              ko: `이번 차례에 당신의 타고난 능력은 사정 거리 -${num}`,
+              ja: `今ターン、あなたの固有パワーは${num}距離を失う`,
+            };
+            break;
+          default:
+            localize = {
+              en: `-${num} Range on ${txt} this turn`,
+              fr: `-${num} de Portée sur ${txt} ce tour`,
+              de: `-${num} Reichweite auf ${txt} in diesem Zug`,
+              pl: `W tej turze ${txt} traci ${num} zasięgu`,
+              ar: `-${num} مدى على ${txt} هذا الدور`,
+              zh: `${txt}本回合失去${num}距離`,
+              hu: `-${num} távolság ${txt} ebben a fordulóban`,
+              ko: `이번 차례에 ${txt} 사정 거리 -${num}`,
+              ja: `今ターン、${txt}に${num}距離を失う`,
+            };
+        }
+      } else {
+        localize = {
+          en: `Your Powers lose ${num} Range this turn`,
+          fr: `Vos Pouvoirs perdent ${num} de Portée ce tour`,
+          de: `Deine Fähigkeiten verlieren ${num} Reichweite in diesem Zug`,
+          pl: `W tej turze twoje Moce tracą ${num} zasięgu`,
+          ar: `تفقد قواك ${num} مدى هذا الدور`,
+          zh: `你的法術本回合失去${num}距離`,
+          hu: `${num} távolságot veszít minden Erőd ebben a fordulóban`,
+          ko: `이번 차례에 당신의 능력은 사정 거리 -${num}`,
+          ja: `今ターン、あなたのパワーは${num}距離を失う`,
         };
       }
       subText = localize[lang];

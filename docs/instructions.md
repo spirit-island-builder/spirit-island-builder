@@ -158,6 +158,8 @@ Growth is broken into Growth Sets, Groups, and Actions.
 | Ignore Range | Ignore Range this Turn | ignore-range() | Ignore Range this turn (as seen on Finder) |  |
 | Gain Range | Gain Range this Turn | gain-range(x) | Gain +x range for Powers this turn | gain-range(1) |
 |  | Gain Range this Turn for... | gain-range(x,y) | Gain +x range for y effects (powers, power cards, innate powers, everything) this turn | gain-range(2,powers) |
+| Lose Range | Lose Range this Turn | lose-range(x) | Lose -x range for Powers this turn | lose-range(1) |
+|  | Lose Range this Turn for... | lose-range(x,y) | Lose -x range for y effects (powers, power cards, innate powers, everything) this turn | lose-range(2,powers) |
 | Isolate | Isolate one of your Lands | isolate() | Isolate one of your Lands |  |
 |  | Isolate a land at Range | isolate(x) | At range x, Isolate a land |  |
 | Destroy Presence | Destroy a Presence | destroy-presence(x) | Destroy x of your Presence |  |
