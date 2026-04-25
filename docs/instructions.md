@@ -142,7 +142,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 |  | Replaces Token with another at range | replace(x,y,z) | At range x, Replace entity y with entity z. | replace(2,wilds,destroyed-presence) |
 | Gain Power Card | Gain a Power Card | gain-power-card() | Gain a Power Card |  |
 |  | Gain a Minor/Major/Other Power Card | gain-power-card(x) | Gain x Power Card. x is minor, major, or something else (icon appears in top left). It can also be blank | gain-power-card(minor) |
-|  | Gain a Minor/Major/Other Power Card with Other Note | gain-power-card(x,y) | Gain x Power Card with y condition. y is text to follow 'Gain x Power Card y'. x can be blank. | gain-power-card(minor, from discard) |
+|  | Gain a Minor/Major/Other Power Card with Other Note | gain-power-card(x,y) | Gain x Power Card with y condition. y is text to follow 'Gain x Power Card y'. x can be blank | gain-power-card(minor, from discard) |
 |  | Gain a Minor/Major/Other Power Card with Note&Icon | gain-power-card(x,y,z) | Gain x Power Card with y condition. z is an icon that appears in the top right of the Power Card | Dances Up Earthquakes: or(add-presence(2),gain-power-card(major, without Forgetting,noforget)) |
 | Take Power Card | Take a Power Card | take-power-card() | Take a Power Card |  |
 |  | Take a Minor/Major/Other Power Card | take-power-card(x) | Take x Power Card. x is minor, major, or something else (icon appears in top left) | take-power-card(minor) |
@@ -175,15 +175,16 @@ Growth is broken into Growth Sets, Groups, and Actions.
 |  | Replace with Incarna | incarna(replace,x,y) | Replaces icon x with incarna. y is the incarna icon | Towering Roots: incarna(replace,presence) |
 |  | Add Token at Incarna | incarna(add-token,x,y) | Adds token/icon x at incarna. y is the incarna icon | Towering Roots: incarna(add-token,vitality) |
 | Growth Action Cost | Adds a cost to a specific growth action (vs group) | ^cost(x) | Adds an energy cost to the growth option | gain-power-card^cost(3) |
-| Custom | Custom Text with !!! Icon | custom(*your_text*) | A custom growth option with the image !!! |  |
+| Custom | Custom text on the end of any growth action | Add *Your text here to the end of any growth | Custom growth text on any growth action | add-presence(1)*Here is my custom text |
+|  | Custom Text with !!! Icon | custom(*your_text*) | A custom growth option with the image !!! |  |
 |  | Custom Text with Any Icon | custom(*your_text*,x,...) | A custom growth option with the x icon of your choice (ie. town, dahan, element, etc). Can use more than 1 icon and they will appear in a row. | custom(Deal 1 Damage in each of your Sacred Sites,sacred-site,damage-1) |
 |  | Custom Text with Text In Place of Icons | custom(*your_text*,text,x) | A custom growth option with the your custom text x in place of an icon. |  |
 | Blank Space | Creates a blank space in growth | blank() | Creates a blank space. Default is 75px |  |
 |  | Creates a blanks space of x pixels | blank(x) | Creates a blank space roughly x px wide. |  |
 | **OR** Growth Options | Allows pair of two growth options | or(x,y) | x and y are growth options (like the ones above) | Fractured Days's growth: or(gain-1-time^2,gain-card-play(2)) |
-| **then** Growth Options | Allows one growth option to occur before another | then(x,y) | x and y are growth options (like the ones above) |  |
 | Presence Track Node | Puts the growth option inside a presence track ring | presence-node(x) | x is a growth option (like the ones above) | presence-node(reclaim-one) |
 | Custom text on anything | Useful for translating, replaces pre-gen text | *_your_text_here_ | At the end of any growth action, put * and whatever text you want. Useful when creating boards in other langauges | reclaim(all)*Alle Karten wiedererlangen |
+
 [Home](#index)
 
 ### Presence Tracks
