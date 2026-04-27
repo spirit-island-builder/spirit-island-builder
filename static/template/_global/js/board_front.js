@@ -25,7 +25,7 @@ async function startMain() {
 
     buildGrowthPanel();
 
-    setNewEnergyCardPlayTracks(parseEnergyTrackTags(), parseCardPlayTrackTags());
+    buildPresenceTracks();
 
     parseInnatePowers();
 
@@ -1331,7 +1331,11 @@ function getGrowthActionTextAndIcons(growthAction) {
   return [growthIcons, growthText, isDefault];
 }
 
-function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
+function buildPresenceTracks() {
+  // First build the energy track, then make decisions on plays track
+  let { energyHTML, playsNoFirstFlag } = parseEnergyTrackValues();
+  console.log(energyHTML);
+  let cardPlayHTML = parseCardPlayTrackValues(playsNoFirstFlag);
   console.log("BUILDING PRESENCE TRACKS");
   const board = document.querySelectorAll("board")[0];
   const presenceTable = board.getElementsByTagName("presence-tracks")[0];
@@ -1411,7 +1415,7 @@ function createTrackBannerArt(banner, trackTemplate, type, i = "") {
   newTrackBanner.style.backgroundSize = `100% ${bannerScale}`;
 }
 
-function parseEnergyTrackTags() {
+function parseEnergyTrackValues() {
   const board = document.querySelectorAll("board")[0];
   const energyTrackTemplate = board.getElementsByTagName("energy-track")[0];
   const energyValues = energyTrackTemplate.getAttribute("values");
@@ -1429,6 +1433,7 @@ function parseEnergyTrackTags() {
   energyHTML += "<td class='spacer'></td>";
   let firstIsMiddle = false;
   let isFirst = false;
+  let playsNoFirstFlag = false;
   for (let i = 0; i < energyOptions.length; i++) {
     // option allows for placing presence track icons in the "middle row"
     let nodeText = energyOptions[i];
@@ -1447,9 +1452,11 @@ function parseEnergyTrackTags() {
         nodeClass += " bonus";
       }
       nodeText = regExpOuterParentheses.exec(nodeText)[1];
-      isMiddle = ' rowspan="2" class="' + nodeClass + '"';
+      isMiddle = ` rowspan="2" class="${nodeClass}"`;
       if (i === 0) {
         firstIsMiddle = true;
+      } else {
+        playsNoFirstFlag = true;
       }
       addRing = false;
     }
@@ -1464,10 +1471,11 @@ function parseEnergyTrackTags() {
   }
   energyHTML += "</tr>";
   board.getElementsByTagName("energy-track")[0].removeAttribute("values");
-  return energyHTML;
+  console.log(energyHTML);
+  return { energyHTML: energyHTML, playsNoFirstFlag: playsNoFirstFlag };
 }
 
-function parseCardPlayTrackTags() {
+function parseCardPlayTrackValues(playsNoFirstFlag = false) {
   const board = document.querySelectorAll("board")[0];
   const playsTrackTemplate = board.getElementsByTagName("card-play-track")[0];
   const cardPlayValues = playsTrackTemplate.getAttribute("values");
@@ -1485,8 +1493,9 @@ function parseCardPlayTrackTags() {
   cardPlayHTML += "<td class='spacer'></td>";
 
   for (let i = 0; i < cardPlayOptions.length; i++) {
+    let first = i === 0 && !playsNoFirstFlag ? true : false;
     cardPlayHTML +=
-      "<td>" + getPresenceNodeHtml(cardPlayOptions[i], i === 0, i, "card", false) + "</td>";
+      "<td>" + getPresenceNodeHtml(cardPlayOptions[i], first, i, "card", false) + "</td>";
   }
   cardPlayHTML += "</tr>";
   board.getElementsByTagName("card-play-track")[0].removeAttribute("values");

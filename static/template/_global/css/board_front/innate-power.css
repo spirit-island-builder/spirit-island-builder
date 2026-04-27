@@ -428,7 +428,7 @@ effect icon.slow,
 effect icon.fast,
 effect icon.fear {
   width: 45px;
-  margin-top: -5px;
+  margin-top: -10px;
   height: 35px;
 }
 
