@@ -480,6 +480,9 @@ growth-cell icon.reclaim-element {
   left: 28px;
   top: -28px;
   width: 40px;
+  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
+    drop-shadow(0px -1px 0px);
+  color: #ead38d;
 }
 
 growth-cell icon.discard-element {
