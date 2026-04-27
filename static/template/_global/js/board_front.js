@@ -1334,7 +1334,6 @@ function getGrowthActionTextAndIcons(growthAction) {
 function buildPresenceTracks() {
   // First build the energy track, then make decisions on plays track
   let { energyHTML, playsNoFirstFlag } = parseEnergyTrackValues();
-  console.log(energyHTML);
   let cardPlayHTML = parseCardPlayTrackValues(playsNoFirstFlag);
   console.log("BUILDING PRESENCE TRACKS");
   const board = document.querySelectorAll("board")[0];
