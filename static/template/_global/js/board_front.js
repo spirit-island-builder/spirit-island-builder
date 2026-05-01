@@ -2256,6 +2256,16 @@ function getPresenceNodeInnerHTML(
     addEnergyRing = true;
   }
 
+  //This code allows the user to include +energy in this way too: energy(+1)
+  if (nodeText.includes("energy(+")) {
+    nodeText = nodeText.replace("energy(+", "bonusenergy(");
+  }
+
+  //This code allows the user to include gain-card-play in this way too: plays(+1)
+  if (nodeText.includes("plays(+")) {
+    nodeText = nodeText.replace("plays(+", "gain-card-play(");
+  }
+
   const plusRegex = /\+(?![^()]*(?:\([^()]*\))?\))/gm;
   let splitOptions = nodeText.split(plusRegex).map((item) => item.trim());
 
@@ -2265,20 +2275,6 @@ function getPresenceNodeInnerHTML(
     splitOptions.splice(plus_check, 1);
     splitOptions[plus_check] = `bonusenergy(${splitOptions[plus_check]})`;
     trackType = "energy";
-  }
-
-  //This code allows the user to include +energy in this way too: energy(+1)
-  if (nodeText.includes("energy(+")) {
-    let findInd = splitOptions.indexOf("energy(");
-    if (splitOptions.length > 2) {
-      // Multioption
-      splitOptions[findInd] = "bonusenergy(" + splitOptions[findInd + 1] + ")";
-      splitOptions[findInd] = splitOptions[findInd].substring(0, splitOptions[findInd].length - 1);
-    } else {
-      // Single Option
-      splitOptions[findInd] = "bonus" + splitOptions[findInd] + splitOptions[findInd + 1];
-    }
-    splitOptions.splice(findInd + 1, 1);
   }
 
   if (pnDebug) {
