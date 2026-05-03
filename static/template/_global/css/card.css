@@ -810,6 +810,11 @@ rules icon.any {
   margin-right: 0px;
 }
 
+rules icon.explorer {
+  width: 16px;
+  height: 26px;
+}
+
 threshold icon.sun {
   background-image: url(../images/board/element_simple_sun.png);
 }
