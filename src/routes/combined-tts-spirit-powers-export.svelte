@@ -1,5 +1,6 @@
 <script>
   import Section from "$lib/section.svelte";
+  import jsone from "json-e";
   import InstructionsLink from "$lib/instructions/link.svelte";
   import { downloadString } from "$lib/download";
   import { createTTSSave, ttsSaveMIMEType } from "$lib/tts.js";
@@ -21,6 +22,7 @@
   import wildsJSON from "../routes/spirit-board-back/token-json/wilds.json";
   import blightJSON from "../routes/spirit-board-back/token-json/blight.json";
   import vitalityJSON from "../routes/spirit-board-back/token-json/vitality.json";
+  import startingEnergyJSONTemplate from "../routes/spirit-board-back/tts-starting-energy.json";
 
   function clearAll() {
     if (window.confirm("Are you sure? This will clear the combined export.")) {
@@ -125,6 +127,13 @@
             }
           });
         }
+        if (combinedTTS.spiritBoardBack.tts.startingEnergy) {
+          let luaScript = `spiritName = \"CustomSpirit\"\n\nlocal startingEnergy = ${combinedTTS.spiritBoardBack.tts.startingEnergy}\n\nfunction doSetup(params)\n    local color = params.color\n    Global.call(\"giveEnergy\", {color=color, energy=startingEnergy, ignoreDebt=false})\n    self.destruct()\n    return true\nend`;
+          let startingEnergyJSON = jsone(startingEnergyJSONTemplate, {
+            luaScript: luaScript,
+          });
+          bagTemplate.ObjectStates[0]["ContainedObjects"].push(startingEnergyJSON);
+        }
       }
       bagTemplate.ObjectStates[0]["ContainedObjects"].push(spiritBoardJSON);
     }
@@ -152,8 +161,6 @@
       console.log(incarnaJSON);
     }
     let saveFile = createTTSSave(bagTemplate.ObjectStates);
-    console.log(saveFile);
-    console.log([saveFile]);
     let jsonFileName = combinedTTS.spiritBoardFront.tts.content["Nickname"] || "mySpiritBag";
     jsonFileName = jsonFileName.replaceAll(" ", "_") + "_TTS.json";
     downloadString(ttsSaveMIMEType, saveFile, jsonFileName);
@@ -234,6 +241,17 @@
             class="input is-small"
             type="text"
             bind:value={combinedTTS.spiritBoardBack.tts.tokenList} />
+        </div>
+      </div>
+      <div class="field" class:is-hidden={currentPage !== "spiritBoardBack"}>
+        <div class="content is-small mb-0">Starting Energy:</div>
+        <div class="control">
+          <input
+            id="spiritLoreStartingEnergy"
+            placeholder="ie. 1"
+            class="input is-small"
+            type="text"
+            bind:value={combinedTTS.spiritBoardBack.tts.startingEnergy} />
         </div>
       </div>
       <div class="field combined-tts-buttons">

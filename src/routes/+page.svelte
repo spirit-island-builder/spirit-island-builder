@@ -291,6 +291,7 @@
         difficulty: "",
         usesTokens: "",
         tokenList: "",
+        startingEnergy: "",
         saved: false,
       },
     },
