@@ -152,7 +152,7 @@ function buildAdversary(quickAdversary) {
     lossConditionHeading = localize[lang]["specialRule"];
   }
   if (lossConditionTitle) {
-    lossConditionTitle = lossConditionTitle + "<strong>:</strong> ";
+    lossConditionTitle = lossConditionTitle + ": ";
   }
   let lossConditionRules = lossCondition.getAttribute("rules");
   let topInfoClass = "";
@@ -162,7 +162,16 @@ function buildAdversary(quickAdversary) {
     lossConditionRules = localize[lang]["none"];
   }
   let escalation = quickAdversary.querySelectorAll("escalation-effect")[0];
-
+  let escalationTitle = escalation.getAttribute("name");
+  let escalationEffect = escalation.getAttribute("rules");
+  if (escalationTitle) {
+    escalationTitle = escalationTitle + ": ";
+  }
+  if (!escalationEffect || escalationEffect === "None") {
+    // If none, create more space for escalation
+    escalationEffect = localize[lang]["none"];
+    topInfoClass = "class='no-escalation'";
+  }
   let levels = quickAdversary.querySelectorAll("level");
 
   let html = `
@@ -181,14 +190,14 @@ function buildAdversary(quickAdversary) {
           localize[lang]["escalation"]
         } <icon class="escalation"></icon></section-title>
         <div>
-          <strong>${escalation.getAttribute("name")}:</strong> ${escalation.getAttribute("rules")}
+          <strong>${escalationTitle}</strong>${escalationEffect}
         </div>
       </escalation>
     </top-info>
     <adversary-levels>
       <header>
         <header-level>${localize[lang]["level"]}<br>${
-    localize[lang]["difficulty"] ? "(" + localize[lang]["difficulty"] + ")" : ""
+    localize[lang]["difficulty"] ? `(${localize[lang]["difficulty"]})` : ""
   }</header-level>
         <div>${localize[lang]["fearCards"]}</div>
         <div>${localize[lang]["gameEffects"]} <span class="cumulative">(${
