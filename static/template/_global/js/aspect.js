@@ -198,13 +198,18 @@ function resizeAspect(aspects) {
 }
 
 function parseAspectBack(back) {
-  var html = '<img src="' + back.getAttribute("src") + '" />';
-  html += "<aspect-back-overlay/>";
+  var html = "<aspect-back-container>";
+  html += '<img src="' + back.getAttribute("src") + '" />';
+  if (back.getAttribute("lore")) {
+    html += `<aspect-lore>${back.getAttribute("lore")}</aspect-lore>`;
+  }
+  html += "<aspect-back-overlay></aspect-back-overlay>";
   html += '<div class="aspect-back-title"><aspect-back-title>ASPECT</aspect-back-title></div>';
   html +=
     '<div class="aspect-back-name"><aspect-back-name>' +
     back.getAttribute("spirit-name") +
     "</aspect-back-name></div>";
+  html += "</aspect-back-container>";
   back.innerHTML = html;
 }
 

@@ -213,6 +213,7 @@
       fragment.append(aspectBackHTML);
       aspectBackHTML.setAttribute("spirit-name", aspect.info.spiritName);
       aspectBackHTML.setAttribute("src", aspect.info.spiritImage);
+      aspectBackHTML.setAttribute("lore", aspect.info.lore);
       if (aspect.info.profile) {
         aspectBackHTML.classList.add("profile");
       }
@@ -264,6 +265,7 @@
     const aspectBackHTML = htmlElement.querySelectorAll("aspect-back")[0];
     if (aspectBackHTML) {
       aspect.info.spiritName = aspectBackHTML.getAttribute("spirit-name");
+      aspect.info.lore = aspectBackHTML.getAttribute("lore") || "";
       aspect.info.spiritImage = Lib.maybeResolveURL(aspectBackHTML.getAttribute("src"), baseURI);
       aspect.info.hasBack = true;
     } else {

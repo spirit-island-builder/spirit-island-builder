@@ -456,6 +456,7 @@
       spiritImage: "",
       showparts: false,
       hasBack: true,
+      lore: "",
     },
     aspectEffects: [
       {
