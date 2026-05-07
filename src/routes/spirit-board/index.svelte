@@ -665,7 +665,7 @@
     let trackEnergy = [];
     let bonusEnergy = [];
     let boardNodes = Array.from(board.getElementsByTagName("presence-node"));
-    let lowestEnergy = -1;
+    // let lowestEnergy = -1;
 
     boardNodes.forEach((node) => {
       let ttsInfo = node.getAttribute("ttsInfo");
@@ -742,22 +742,33 @@
       // check if node has energy
       if (ttsInfoArr[0]) {
         let energyNum = ttsInfoArr[0];
-        if (energyNum > lowestEnergy) {
-          lowestEnergy = energyNum;
-          trackEnergy.push({
-            count: Number(lowestEnergy),
-            position: {
-              x: xLoc,
-              y: 0,
-              z: zLoc,
-            },
-          });
-        }
+        trackEnergy.push({
+          count: Number(energyNum),
+          position: {
+            x: xLoc,
+            y: 0,
+            z: zLoc,
+          },
+        });
       }
+
+      // if (ttsInfoArr[0]) {
+      //   let energyNum = ttsInfoArr[0];
+      //   if (energyNum > lowestEnergy) {
+      //     lowestEnergy = energyNum;
+      //     trackEnergy.push({
+      //       count: Number(lowestEnergy),
+      //       position: {
+      //         x: xLoc,
+      //         y: 0,
+      //         z: zLoc,
+      //       },
+      //     });
+      //   }
+      // }
     });
 
-    // trackEnergy needs to be logged in reverse order by convention
-    trackEnergy.reverse();
+    trackEnergy.sort((a, b) => b.count - a.count);
 
     let spiritBoardJson = jsone(spiritBoardJsonTemplate, {
       guid: spiritBoard.nameAndArt.name.replaceAll(" ", "_"),
