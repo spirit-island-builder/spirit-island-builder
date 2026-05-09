@@ -128,8 +128,10 @@
           });
         }
         if (combinedTTS.spiritBoardBack.tts.startingEnergy) {
-          let luaScript = `spiritName = \"CustomSpirit\"\n\nlocal startingEnergy = ${combinedTTS.spiritBoardBack.tts.startingEnergy}\n\nfunction doSetup(params)\n    local color = params.color\n    Global.call(\"giveEnergy\", {color=color, energy=startingEnergy, ignoreDebt=false})\n    self.destruct()\n    return true\nend`;
+          let spiritName = bagTemplate.ObjectStates[0]["Nickname"];
+          let luaScript = `spiritName = \"${spiritName}\"\n\nlocal startingEnergy = ${combinedTTS.spiritBoardBack.tts.startingEnergy}\n\nfunction doSetup(params)\n    local color = params.color\n    Global.call(\"giveEnergy\", {color=color, energy=startingEnergy, ignoreDebt=false})\n    self.destruct()\n    return true\nend`;
           let startingEnergyJSON = jsone(startingEnergyJSONTemplate, {
+            spiritName: spiritName,
             luaScript: luaScript,
           });
           bagTemplate.ObjectStates[0]["ContainedObjects"].push(startingEnergyJSON);
