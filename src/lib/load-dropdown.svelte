@@ -58,6 +58,7 @@
       reader.onload = (e) => loadDataURL(e.target.result);
       reader.readAsDataURL(file);
     }
+    fileInput.value = "";
   }
 
   async function loadFromDrive() {
