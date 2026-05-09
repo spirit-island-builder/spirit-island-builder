@@ -12,7 +12,7 @@
     "scaleY": 10.0,
     "scaleZ": 10.0
   },
-  "Nickname": "CustomSpirit Starting Energy",
+  "Nickname": "${spiritName} Starting Energy",
   "Description": "",
   "GMNotes": "",
   "AltLookAngle": {
