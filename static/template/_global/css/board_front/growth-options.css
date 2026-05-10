@@ -1112,12 +1112,25 @@ replace-wrap {
   display: inline-flex;
   flex-wrap: wrap;
   vertical-align: bottom;
-  align-content: flex-end;
-  height: 69px;
-  padding-bottom: 2px;
+  align-content: center;
   justify-content: center;
   font-size: 26.66px;
   font-weight: bold;
+}
+
+replace-wrap {
+  icon {
+    height: 40px;
+    width: 40px;
+    top: -3px;
+  }
+  icon:first-child {
+  }
+  icon:last-child {
+  }
+}
+
+replace-wrap.no-range {
 }
 
 icon.replace-with,

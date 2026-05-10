@@ -1273,22 +1273,18 @@ function getGrowthActionTextAndIcons(growthAction) {
       iconNameVars += "," + replaceOptions[shift] + "," + replaceOptions[shift + 1];
       if (x_is_num) {
         // Ranged replace
-        replaceIcons =
-          '<custom-icon><replace-wrap><icon class="replace-this no ' +
-          replaceOptions[shift] +
-          '"></icon>+<icon class="replace-with ' +
-          replaceOptions[shift + 1] +
-          '"></icon></replace-wrap><range-growth><value>' +
-          range +
-          "</value></range-growth></custom-icon>";
+        replaceIcons = `<custom-icon><replace-wrap class="no-range">
+          {no-${replaceOptions[shift]}}
+          &#9658;{${replaceOptions[shift + 1]}}
+          </replace-wrap>
+          <range-growth><value>${range}</value></range-growth>
+          </custom-icon>`;
       } else {
         // Local replace
-        replaceIcons =
-          '<custom-icon><replace-wrap><icon class="replace-this-no-range no ' +
-          replaceOptions[shift] +
-          '"></icon>+<icon class="replace-with ' +
-          replaceOptions[shift + 1] +
-          '"></icon></replace-wrap></custom-icon>';
+        replaceIcons = `<custom-icon><replace-wrap class="no-range">
+          {no-${replaceOptions[shift]}}
+          &#9658;{${replaceOptions[shift + 1]}}
+          </replace-wrap></custom-icon>`;
       }
       growthIcons = replaceIcons;
       growthText = IconName(`replace(${iconNameVars})`);
