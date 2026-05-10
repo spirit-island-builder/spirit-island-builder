@@ -112,17 +112,19 @@
 
     <div class="component-list">
       {#each components as { key, label }}
-        <div class="component-row">
+        <div
+          class="component-row"
+          on:click={() => {
+            manualOverrides[key] = true;
+            included[key] = !included[key];
+          }}>
           <input
             type="checkbox"
             id="toggle-{key}"
             class="custom-checkbox"
             checked={included[key]}
-            on:change={() => {
-              manualOverrides[key] = true;
-              included[key] = !included[key];
-            }} />
-          <label class="custom-switch" for="toggle-{key}" />
+            on:change|stopPropagation />
+          <label class="custom-switch" for="toggle-{key}" on:click|stopPropagation />
           <span class="component-label" class:has-text-grey={!included[key]}>
             {label}
           </span>
@@ -169,6 +171,7 @@
     align-items: center;
     padding: 0.35rem 0.5rem;
     border-radius: 3px;
+    cursor: pointer;
   }
 
   .component-row:not(:last-child) {
@@ -177,6 +180,18 @@
 
   .component-row:hover {
     background-color: #fafafa;
+  }
+
+  .component-row:hover .component-label {
+    color: #363636;
+  }
+
+  :global([data-theme="dark"]) .component-row:hover {
+    background-color: #2a2a2a;
+  }
+
+  :global([data-theme="dark"]) .component-row:hover .component-label {
+    color: #f5f5f5;
   }
 
   .component-label {
