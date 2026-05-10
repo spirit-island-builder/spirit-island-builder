@@ -20,13 +20,13 @@
     { key: "spiritBoardBack", label: "Spirit Board Back" },
     { key: "powerCards", label: "Power Cards" },
     { key: "aspect", label: "Aspect" },
+    { key: "incarnaToken", label: "Incarna Token" },
     { key: "adversary", label: "Adversary" },
     { key: "scenario", label: "Scenario" },
     { key: "blightCard", label: "Blight Card" },
     { key: "fearCard", label: "Fear Card" },
-    { key: "invaderCard", label: "Invader Card" },
-    { key: "incarnaToken", label: "Incarna Token" },
     { key: "eventCard", label: "Event Card" },
+    { key: "invaderCard", label: "Invader Card" },
   ];
 
   $: dataMap = {

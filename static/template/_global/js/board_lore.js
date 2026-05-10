@@ -36,6 +36,9 @@ function resize() {
   let finder = board.getAttribute("finderstyle") ? true : false;
   if (finder) {
     board.classList.add("finderstyle");
+  } else if (checkOverflowHeight(secondContainer)) {
+    // If not finder, see if we need to be verbose
+    board.classList.add("verbose");
   }
 
   let j = 0;

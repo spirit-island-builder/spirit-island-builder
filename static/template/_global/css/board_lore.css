@@ -453,3 +453,16 @@ board dev-overlay {
   pointer-events: none;
   z-index: 101;
 }
+
+board.verbose {
+  lore-overlay {
+    background-image: url("../images/board/BlankLoreBoardVerbose.png");
+    height: 100%;
+  }
+  second-section-container {
+    height: 400px;
+  }
+  third-section-container {
+    top: 735px;
+  }
+}
