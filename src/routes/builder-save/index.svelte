@@ -4,6 +4,7 @@
   import { builderSaveFileName } from "$lib/builder-save-store.js";
 
   export let spiritBoard;
+  export let combinedTTS;
   export let spiritBoardBack;
   export let powerCards;
   export let aspect;
@@ -21,6 +22,7 @@
     { key: "powerCards", label: "Power Cards" },
     { key: "aspect", label: "Aspect" },
     { key: "incarnaToken", label: "Incarna Token" },
+    { key: "combinedTTS", label: "Combined TTS" },
     { key: "adversary", label: "Adversary" },
     { key: "scenario", label: "Scenario" },
     { key: "blightCard", label: "Blight Card" },
@@ -34,12 +36,13 @@
     spiritBoardBack,
     powerCards,
     aspect,
+    incarnaToken,
+    combinedTTS,
     adversary,
     scenario,
     blightCard,
     fearCard,
     invaderCard,
-    incarnaToken,
     eventCard,
   };
 
@@ -81,6 +84,7 @@
     if (parsed.fileName) builderSaveFileName.set(parsed.fileName);
 
     if (parsed.spiritBoard) spiritBoard = parsed.spiritBoard;
+    if (parsed.combinedTTS) combinedTTS = parsed.combinedTTS;
     if (parsed.spiritBoardBack) spiritBoardBack = parsed.spiritBoardBack;
     if (parsed.powerCards) powerCards = parsed.powerCards;
     if (parsed.aspect) aspect = parsed.aspect;

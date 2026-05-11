@@ -24,6 +24,12 @@
   import vitalityJSON from "../routes/spirit-board-back/token-json/vitality.json";
   import startingEnergyJSONTemplate from "../routes/spirit-board-back/tts-starting-energy.json";
 
+  function unlock() {
+    combinedTTS.spiritBoardFront.tts.saved = false;
+    combinedTTS.spiritBoardBack.tts.saved = false;
+    combinedTTS.powers.tts.saved = false;
+  }
+
   function clearAll() {
     if (window.confirm("Are you sure? This will clear the combined export.")) {
       combinedTTS = JSON.parse(JSON.stringify(emptyCombinedTTS));
@@ -340,13 +346,19 @@
     </div>
     <div class="field is-flex is-flex-direction-row is-justify-content-space-evenly">
       <button
-        class="button is-info big-buttons"
+        class="button is-info"
         disabled={!combinedTTS.spiritBoardFront.tts.saved ||
           !combinedTTS.spiritBoardBack.tts.saved ||
           !combinedTTS.powers.tts.saved}
         on:click={() => buildBag()}>Export</button>
-      <button class="button is-warning big-buttons" on:click={() => clearAll()}>Restart</button>
+      <button class="button is-warning" on:click={() => unlock()}>Unlock</button>
+      <button class="button is-danger" on:click={() => clearAll()}>Restart</button>
     </div>
+    <div class="content is-small mb-0">
+      You can save or load a file to quickly restore you combined export. Note, this does not accept
+      the TTS export file, but a separate save:
+    </div>
+    <div class="field is-flex is-flex-direction-row is-justify-content-space-evenly" />
   </div>
 </Section>
 
