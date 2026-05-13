@@ -370,6 +370,21 @@ growth-cell icon.reclaim-half {
   width: 90px;
 }
 
+growth-cell icon.reclaim-num {
+  height: 80px;
+  width: 80px;
+  margin: 0px;
+  margin-bottom: 10px;
+}
+
+growth-cell icon.reclaim-num value {
+  font-size: 43px;
+  font-family: "Antropos";
+  bottom: 33px;
+  right: 57px;
+  position: absolute;
+}
+
 growth-cell icon.empower-incarna {
   width: 95px;
   height: 110px;

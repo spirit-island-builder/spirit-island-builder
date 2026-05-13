@@ -506,12 +506,9 @@ function getGrowthActionTextAndIcons(growthAction) {
       let reclaimIcon = "{reclaim-all}";
       let reclaimText = IconName("reclaim");
       if (matches) {
-        console.log(matches);
         let reclaimOptions = matches[1].split(",");
         let reclaimType = reclaimOptions[0];
         let reclaimModifiersOrText = reclaimOptions[1];
-        let reclaimSyntax = `${growthActionType}-${reclaimType}${matches[0]}`;
-        reclaimText = IconName(reclaimSyntax);
         switch (reclaimType) {
           case "all":
             if (reclaimModifiersOrText) {
@@ -547,8 +544,14 @@ function getGrowthActionTextAndIcons(growthAction) {
             reclaimIcon = "{reclaim-" + reclaimType + "}";
             break;
           default:
-            reclaimText = "TEXT NOT RECOGNIZED - use 'all','one',or 'custom'";
+            if (!isNaN(reclaimType)) {
+              reclaimIcon = `<icon class="reclaim-num"><value>${reclaimType}</value></icon>`;
+              reclaimType = "num";
+            } else {
+              reclaimText = "TEXT NOT RECOGNIZED - use 'all','one',or 'custom'";
+            }
         }
+        reclaimText = IconName(`reclaim-${reclaimType}${matches[0]}`);
       }
       growthIcons = reclaimIcon;
       growthText = reclaimText;
@@ -2945,7 +2948,9 @@ const _localizeConjunctions = {
 
 function IconName(str, iconNum = 1) {
   const cacheKey = str + "|" + iconNum;
-  if (_iconNameCache.has(cacheKey)) return _iconNameCache.get(cacheKey);
+  if (_iconNameCache.has(cacheKey)) {
+    return _iconNameCache.get(cacheKey);
+  }
   let num = "";
   let txt = "";
   let opt3 = "";
@@ -3768,6 +3773,34 @@ function IconName(str, iconNum = 1) {
           hu: "Egy Erőkártya visszavétele",
           ko: `카드 1장 회수`,
           ja: `カード1枚を回収`,
+        };
+      }
+      subText = localize[lang];
+      break;
+    case "reclaim-num":
+      if (num === 1) {
+        localize = {
+          en: `Reclaim ${num} Card`,
+          fr: `Récupérer ${num} carte`,
+          de: `${num} Karte zurücknehmen`,
+          pl: `Odzyskaj ${num} kartę`,
+          ar: `استرداد ${num} بطاقة`,
+          zh: `取回${num}张牌`,
+          hu: `${num} lap visszavételezése`,
+          ko: `카드 ${num}장 회수`,
+          ja: `カードを${num}枚回収する`,
+        };
+      } else {
+        localize = {
+          en: `Reclaim ${num} Cards`,
+          fr: `Récupérer ${num} cartes`,
+          de: `${num} Karten zurücknehmen`,
+          pl: `Odzyskaj ${num} kart`,
+          ar: `استرداد ${num} بطاقات`,
+          zh: `取回${num}张牌`,
+          hu: `${num} lap visszavételezése`,
+          ko: `카드 ${num}장 회수`,
+          ja: `カードを${num}枚回収する`,
         };
       }
       subText = localize[lang];
