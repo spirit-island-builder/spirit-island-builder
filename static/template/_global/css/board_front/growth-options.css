@@ -295,6 +295,8 @@ growth-border {
   display: inline;
   margin-bottom: -10px;
   min-width: 15px;
+  position: relative;
+  left: 3px;
 }
 
 growth-border[double] {
