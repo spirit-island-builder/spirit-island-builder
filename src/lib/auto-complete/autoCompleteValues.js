@@ -325,6 +325,7 @@ const growthValues = [
     value: "reclaim()",
     detail: [
       "reclaim(x) : x can be all, one, half, or custom",
+      "reclaim(x) : x is a number",
       "reclaim(x,y) : Reclaim x (all or one) cards with element y",
       "reclaim(custom,_your custom reclaim text_) : Custom reclaim text with a unique icon.",
     ],

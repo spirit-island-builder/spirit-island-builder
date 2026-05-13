@@ -87,6 +87,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 | Category | Action | Usage | Details | Examples |
 | ------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | Reclaim | Reclaim All, Reclaim One, Reclaim Half | reclaim(x) | x can be all, one, half, or custom |  |
+|  | Reclaim a number of cards | reclaim(x) | x is a number | reclaim(2) |
 |  | Reclaim Element Specific | reclaim(x,y) | Reclaim x (all or one) cards with element y | Ember-Eyed Behemoth: reclaim(all,fire) |
 |  | Reclaim Custom | reclaim(custom,_your custom reclaim text_) | Custom reclaim text with a unique icon. | reclaim(custom,your Unique Power Cards) |
 | Adding Presence | Add Presence at Range | add-presence(x) | At range x, add a Presence. x can be a number, 'any', or any element (scaling range) |  |
@@ -186,7 +187,6 @@ Growth is broken into Growth Sets, Groups, and Actions.
 | **OR** Growth Options | Allows pair of two growth options | or(x,y) | x and y are growth options (like the ones above) | Fractured Days's growth: or(gain-1-time^2,gain-card-play(2)) |
 | Presence Track Node | Puts the growth option inside a presence track ring | presence-node(x) | x is a growth option (like the ones above) | presence-node(reclaim-one) |
 | Custom text on anything | Useful for translating, replaces pre-gen text | *_your_text_here_ | At the end of any growth action, put * and whatever text you want. Useful when creating boards in other langauges | reclaim(all)*Alle Karten wiedererlangen |
-
 [Home](#index)
 
 ### Presence Tracks
