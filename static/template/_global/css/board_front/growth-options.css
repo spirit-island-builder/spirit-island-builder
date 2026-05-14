@@ -388,9 +388,10 @@ growth-cell icon.reclaim-num value {
 }
 
 growth-cell icon.empower-incarna {
-  width: 95px;
+  width: 110px;
   height: 110px;
-  margin-top: -26px;
+  margin: 0px;
+  margin-top: -20px;
 }
 
 growth-cell icon.incarna {
@@ -401,8 +402,8 @@ growth-cell icon.incarna {
 }
 
 growth-cell icon.incarna.move {
-  left: -24px;
-  top: 15px;
+  /* left: -24px;
+  top: 15px; */
 }
 
 growth-cell icon.incarna.add-move {
@@ -492,21 +493,89 @@ growth-cell icon.reclaim-half {
   width: 82px;
 }
 
-growth-cell icon.reclaim-element {
+growth-cell icon.modified-reclaim icon {
   position: relative;
   left: 28px;
   top: -28px;
-  width: 40px;
+  width: 45px;
   filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
     drop-shadow(0px -1px 0px);
   color: #ead38d;
 }
 
+growth-cell icon.modified-reclaim icon.element {
+  filter: unset;
+}
+
+/* reclaim-element is an element exception */
+growth-cell icon.modified-reclaim .sun {
+  background-image: url("../../images/board/Sun.png");
+}
+growth-cell icon.modified-reclaim .moon {
+  background-image: url("../../images/board/Moon.png");
+}
+growth-cell icon.modified-reclaim .fire {
+  background-image: url("../../images/board/Fire.png");
+}
+growth-cell icon.modified-reclaim .air {
+  background-image: url("../../images/board/Air.png");
+}
+growth-cell icon.modified-reclaim .plant {
+  background-image: url("../../images/board/Plant.png");
+}
+growth-cell icon.modified-reclaim .water {
+  background-image: url("../../images/board/Water.png");
+}
+growth-cell icon.modified-reclaim .earth {
+  background-image: url("../../images/board/Earth.png");
+}
+growth-cell icon.modified-reclaim .animal {
+  background-image: url("../../images/board/Animal.png");
+}
+growth-cell icon.modified-reclaim .star {
+  background-image: url("../../images/board/NewIcons/Element Star.png");
+}
+growth-cell icon.modified-reclaim .any {
+  background-image: url("../../images/board/Any.png");
+}
+
 growth-cell icon.discard-element {
   position: relative;
-  left: 47px;
-  top: -28px;
-  width: 40px;
+  left: 50px;
+  top: -32px;
+  width: 45px;
+}
+
+/* discard-element is an element exception */
+growth-cell icon.discard-element.sun {
+  background-image: url("../../images/board/Sun.png");
+}
+growth-cell icon.discard-element.moon {
+  background-image: url("../../images/board/Moon.png");
+}
+growth-cell icon.discard-element.fire {
+  background-image: url("../../images/board/Fire.png");
+}
+growth-cell icon.discard-element.air {
+  background-image: url("../../images/board/Air.png");
+}
+growth-cell icon.discard-element.plant {
+  background-image: url("../../images/board/Plant.png");
+}
+growth-cell icon.discard-element.water {
+  background-image: url("../../images/board/Water.png");
+}
+growth-cell icon.discard-element.earth {
+  background-image: url("../../images/board/Earth.png");
+}
+growth-cell icon.discard-element.animal {
+  background-image: url("../../images/board/Animal.png");
+}
+growth-cell icon.discard-element.star {
+  background-image: url("../../images/board/NewIcons/Element Star.png");
+}
+growth-cell icon.discard-element.any {
+  background-image: url("../../images/board/Any.png");
 }
 
 growth-cell icon.gain-card-pay-2 {
@@ -624,10 +693,9 @@ growth-energy value {
 custom-presence-req {
   font-size: 26.66px;
   font-weight: bold;
-  margin-top: -24px;
   margin-bottom: 0px;
   width: auto;
-  height: 115px;
+  height: 90px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -986,9 +1054,9 @@ custom-icon {
   font-weight: bold;
   font-style: normal;
   display: flex;
-  margin-top: -31px;
+  margin-top: 0px;
   width: auto;
-  height: 122px;
+  height: 90px;
   margin-bottom: 0px;
   flex-direction: column;
   align-items: center;
@@ -1120,7 +1188,7 @@ token-wrap {
   display: flex;
   vertical-align: bottom;
   align-content: flex-end;
-  padding-bottom: 2px;
+  padding-bottom: 4px;
   justify-content: center;
   align-items: flex-end;
 }
@@ -1193,6 +1261,7 @@ custom-icon2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 90px;
 }
 
 custom-icon2 icon.move-range-1,
@@ -1532,11 +1601,11 @@ growth-damage {
   background-size: contain;
   background-position: center;
   display: block;
-  position: relative;
+  position: absolute;
   width: 90px;
-  height: 80px;
-  right: -4px;
-  top: 4px;
+  height: 60px;
+  right: 9px;
+  top: -21px;
 }
 
 growth-damage value {
@@ -1544,11 +1613,11 @@ growth-damage value {
   font-size: 40px;
   display: block;
   position: relative;
-  top: 23px;
+  top: 16px;
 }
 
 growth-damage icon {
-  top: 17px;
+  top: 5px;
   width: 33px;
   filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
     drop-shadow(0px -1px 0px);

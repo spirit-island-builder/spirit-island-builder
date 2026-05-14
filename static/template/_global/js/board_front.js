@@ -512,24 +512,14 @@ function getGrowthActionTextAndIcons(growthAction) {
         switch (reclaimType) {
           case "all":
             if (reclaimModifiersOrText) {
-              reclaimIcon =
-                "<icon class='reclaim-" +
-                reclaimType +
-                "'>" +
-                "<icon class='reclaim-element " +
-                reclaimModifiersOrText +
-                "'></icon></icon>";
+              reclaimIcon = `<icon class='reclaim-${reclaimType} modified-reclaim'>
+                {${reclaimModifiersOrText}}</icon>`;
             }
             break;
           case "one":
             if (reclaimModifiersOrText) {
-              reclaimIcon =
-                "<icon class='reclaim-" +
-                reclaimType +
-                "'>" +
-                "<icon class='reclaim-element " +
-                reclaimModifiersOrText +
-                "'></icon></icon>";
+              reclaimIcon = `<icon class='reclaim-${reclaimType} modified-reclaim'>
+                {${reclaimModifiersOrText}}</icon>`;
             } else {
               reclaimIcon = "{reclaim-" + reclaimType + "}";
             }
