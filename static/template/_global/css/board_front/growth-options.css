@@ -390,7 +390,7 @@ growth-cell icon.reclaim-num value {
 growth-cell icon.empower-incarna {
   width: 110px;
   height: 110px;
-  margin: 0px;
+  margin: 0px -10px;
   margin-top: -20px;
 }
 
@@ -494,8 +494,8 @@ growth-cell icon.reclaim-half {
 }
 
 growth-cell icon.modified-reclaim icon {
-  position: relative;
-  left: 28px;
+  position: absolute;
+  right: -8px;
   top: -28px;
   width: 45px;
   filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
