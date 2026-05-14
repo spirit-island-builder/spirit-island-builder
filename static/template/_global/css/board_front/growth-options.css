@@ -1531,25 +1531,28 @@ growth-damage {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  font-size: 26.66px;
-  font-weight: bold;
   display: block;
-  text-align: center;
-  margin-top: -11px;
-  width: 80px;
+  position: relative;
+  width: 90px;
   height: 80px;
-  margin-bottom: 1px;
-  margin-right: -10px;
+  right: -4px;
+  top: 4px;
 }
 
 growth-damage value {
-  font-family: "Energy Font";
-  font-size: 29.33px;
-  display: inline-block;
-  margin-top: 36px;
-  margin-left: 0px;
-  font-style: normal;
-  text-align: center;
+  font-family: "Antropos";
+  font-size: 40px;
+  display: block;
+  position: relative;
+  top: 23px;
+}
+
+growth-damage icon {
+  top: 17px;
+  width: 33px;
+  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
+    drop-shadow(0px -1px 0px);
+  color: #ead38d;
 }
 
 growth icon.damage-1,

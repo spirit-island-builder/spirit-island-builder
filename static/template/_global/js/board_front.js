@@ -603,13 +603,19 @@ function getGrowthActionTextAndIcons(growthAction) {
       let damageOptions = matches[1].split(",");
       let range = damageOptions[0];
       let damage = damageOptions[1];
-      growthIcons =
-        "<custom-icon><growth-damage><value>" +
-        damage +
-        "</value></growth-damage>" +
-        "<range-growth><value>" +
-        range +
-        "</value></range-growth></custom-icon>";
+      if (isNaN(damage)) {
+        growthIcons = `<custom-icon><growth-damage>
+          {${damage}}
+          </growth-damage><range-growth>
+          <value>${range}</value>
+          </range-growth></custom-icon>`;
+      } else {
+        growthIcons = `<custom-icon><growth-damage>
+          <value>${damage}</value>
+          </growth-damage><range-growth>
+          <value>${range}</value>
+          </range-growth></custom-icon>`;
+      }
       let damageText = IconName(growthAction);
       growthText = damageText;
       break;
@@ -987,7 +993,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           for (let i = 1; i < customOptions.length; i++) {
             // listIcons +=
             //   "<icon class='" + customOptions[i] + isWide + " custom-growth-icon'></icon>";
-            listIcons += "{" + customOptions[i] + "}";
+            listIcons += `{${customOptions[i]}}`;
           }
           customIcon = listIcons;
         }
@@ -1309,6 +1315,8 @@ function getGrowthActionTextAndIcons(growthAction) {
     case "ignore-range":
       growthIcons = "{ignorerange}"; //avoiding the hyphen
       growthText = IconName(growthActionType);
+      break;
+    case "conditional":
       break;
     default: {
       growthIcons = "{" + growthActionType + "}";
@@ -4144,17 +4152,32 @@ function IconName(str, iconNum = 1) {
       break;
     case "damage":
       if (txt) {
-        localize = {
-          en: `${txt} Damage at Range ${num}`,
-          fr: `${txt} Dégat à ${num} de portée`,
-          de: `${txt} Schaden mit ${num} Reichweite`,
-          pl: `${txt} Obrażeń w Zasięgu ${num}`,
-          ar: `${txt} ضرر في المدى ${num}`,
-          zh: `距離${num}造成${txt}傷害`,
-          hu: `${txt} Sebzés ${num} távolságra`,
-          ko: `사정거리 ${num}내에 피해 ${txt}`,
-          ja: `距離${num}で${txt}ダメージ`,
-        };
+        if (isNaN(txt)) {
+          let tokenName = IconName(txt);
+          localize = {
+            en: `1 Damage per ${tokenName} in a Land`,
+            fr: `1 Dégât par ${tokenName} dans une Terre`,
+            de: `1 Schaden pro ${tokenName} in einem Land`,
+            pl: `1 Obrażenie za ${tokenName} w Krainie`,
+            ar: `1 ضرر لكل ${tokenName} في أرض`,
+            zh: `每片土地每个${tokenName}造成1点伤害`,
+            hu: `1 Sebzés / ${tokenName} egy Területen`,
+            ko: `한 지역 내 ${tokenName}당 피해 1`,
+            ja: `1つの土地の${tokenName}ごとに1ダメージ`,
+          };
+        } else {
+          localize = {
+            en: `${txt} Damage at Range ${num}`,
+            fr: `${txt} Dégat à ${num} de portée`,
+            de: `${txt} Schaden mit ${num} Reichweite`,
+            pl: `${txt} Obrażeń w Zasięgu ${num}`,
+            ar: `${txt} ضرر في المدى ${num}`,
+            zh: `距離${num}造成${txt}傷害`,
+            hu: `${txt} Sebzés ${num} távolságra`,
+            ko: `사정거리 ${num}내에 피해 ${txt}`,
+            ja: `距離${num}で${txt}ダメージ`,
+          };
+        }
       } else {
         localize = {
           en: `${num} Damage in one of your Lands`,
