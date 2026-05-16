@@ -575,6 +575,7 @@
         <link href="/template/_global/css/global.css" rel="stylesheet" />
         <link href="/template/_global/css/card.css" rel="stylesheet" />
         <script type="text/javascript" src="/template/_global/js/common.js"></script>
+        <script type="text/javascript" src="/template/_global/js/board_front.js"></script>
         <script type="text/javascript" src="/template/_global/js/card.js"></script>
       </svelte:fragment>
     </PreviewFrame>

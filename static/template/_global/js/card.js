@@ -155,21 +155,27 @@ function setThreshold(card) {
     //set elemental thresholds got first threshold
     var conditions = threshold.getAttribute("condition");
     if (conditions) {
-      threshold.innerHTML = `<threshold-condition id="${
-        card.id
-      }thresholdCondition">${getThresholdElements(conditions)}:</threshold-condition>${
-        threshold.innerHTML
-      }`;
+      let newThreshold = writeInnateThreshold(
+        conditions,
+        `${card.id}thresholdCondition`,
+        "conditionals"
+      );
+      threshold.innerHTML = `<threshold-condition>${newThreshold}:</threshold-condition>${threshold.innerHTML}`;
     }
 
     //add additional thresholds
     let secondThreshold = thresholds[1];
     if (secondThreshold) {
       var addCondition = secondThreshold.getAttribute("condition");
+      let newThreshold = writeInnateThreshold(
+        addCondition,
+        `${card.id}thresholdCondition1`,
+        "conditionals"
+      );
       var addConditionText = `<threshold-condition id="${
         card.id
       }thresholdCondition${1}">${getThresholdElements(addCondition)}:</threshold-condition>`;
-      threshold.innerHTML += addConditionText + secondThreshold.innerHTML;
+      threshold.innerHTML += `<threshold-condition>${newThreshold}:</threshold-condition>${secondThreshold.innerHTML}`;
       secondThreshold.remove();
     }
     if (lang !== "en" && !customThresholdText) {
@@ -184,6 +190,10 @@ function setThreshold(card) {
 }
 
 function getThresholdElements(conditions) {
+  console.log("threshold in card");
+  console.log(conditions);
+  let newThreshold = writeInnateThreshold(conditions);
+  console.log(newThreshold);
   var result = "";
   var condition = conditions.split(",");
   for (let i = 0; i < condition.length; i++) {
@@ -195,6 +205,7 @@ function getThresholdElements(conditions) {
       result += ` ${number}{${element}}`;
     }
   }
+  console.log(result);
   return result;
 }
 

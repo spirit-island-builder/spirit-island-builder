@@ -934,3 +934,12 @@ rules-container range.range {
   width: 50px;
   bottom: 4px;
 }
+
+rules-container threshold-or {
+  font-family: "Short Name Headings";
+  text-transform: uppercase;
+  font-size: 24px;
+  display: inline-flex;
+  position: relative;
+  top: -3px;
+}

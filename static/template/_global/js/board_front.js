@@ -6500,14 +6500,18 @@ function writeInnateLevel(currentLevel, levelID) {
   return levelHTML;
 }
 
-function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
-  let debug = false;
+function writeInnateThreshold(
+  currentThreshold,
+  levelID = "placeholder",
+  thresholdTag = "threshold"
+) {
+  let debug = true;
   const regExp = /\(([^)]+)\)/;
   let thresholdHTML = "";
   if (debug) {
     console.log("Writing threshold: " + currentThreshold);
   }
-  thresholdHTML += "<threshold id='" + levelID + "t'>";
+  thresholdHTML += `<${thresholdTag} id='${levelID}t'>`;
   const currentThresholdPieces = currentThreshold.split(",");
   const elementPieces = [];
   const numeralPieces = [];
@@ -6557,7 +6561,7 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
     }
     thresholdHTML += currentThresholdPieces[k];
   }
-  thresholdHTML += "</threshold>";
+  thresholdHTML += `</${thresholdTag}>`;
   return thresholdHTML;
 }
 
