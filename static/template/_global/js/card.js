@@ -172,9 +172,6 @@ function setThreshold(card) {
         `${card.id}thresholdCondition1`,
         "conditionals"
       );
-      var addConditionText = `<threshold-condition id="${
-        card.id
-      }thresholdCondition${1}">${getThresholdElements(addCondition)}:</threshold-condition>`;
       threshold.innerHTML += `<threshold-condition>${newThreshold}:</threshold-condition>${secondThreshold.innerHTML}`;
       secondThreshold.remove();
     }
