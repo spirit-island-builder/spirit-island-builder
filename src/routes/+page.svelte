@@ -29,6 +29,8 @@
   import EventCard from "./event-card/index.svelte";
   import InvaderCard from "./invader-card/index.svelte";
   import About from "./about/index.svelte";
+  import BuilderSave from "./builder-save/index.svelte";
+  import Changelog from "./changelog/index.svelte";
   import Instructions from "$lib/instructions/index.svelte";
   import Footer from "./footer.svelte";
   import { divertDownload, downloadData } from "$lib/download";
@@ -290,6 +292,7 @@
         difficulty: "",
         usesTokens: "",
         tokenList: "",
+        startingEnergy: "",
         saved: false,
       },
     },
@@ -454,6 +457,7 @@
       spiritImage: "",
       showparts: false,
       hasBack: true,
+      lore: "",
     },
     aspectEffects: [
       {
@@ -726,6 +730,7 @@
       isVisible: false,
       name: "",
       type: "single",
+      banner: "",
       top: "",
       bottom: "",
       fields: [
@@ -737,6 +742,9 @@
           color: "#3f1d1c",
         },
       ],
+    },
+    nameTexture: {
+      isVisible: false,
     },
     showBackOld: false,
     showBackNew: false,
@@ -838,11 +846,13 @@
     ["incarnaToken", "Incarna"],
     ["adversary", "Adversary"],
     ["scenario", "Scenario"],
-    ["blightCard", "Blight Card"],
-    ["fearCard", "Fear Card"],
-    ["eventCard", "Event Card"],
+    ["blightCard", "Blight"],
+    ["fearCard", "Fear"],
+    ["eventCard", "Event"],
     ["invaderCard", "Invader Card"],
     ["about", "About"],
+    ["builderSave", "Builder Save"],
+    ["changelog", "Changelog"],
   ];
 </script>
 
@@ -905,7 +915,10 @@
       currentPage === "blightCard" ||
       currentPage === "eventCard" ||
       currentPage === "invaderCard" ||
-      currentPage === "fearCard"}>
+      currentPage === "fearCard" ||
+      currentPage === "about" ||
+      currentPage === "builderSave" ||
+      currentPage === "changelog"}>
     {#if currentPage === "spiritBoardFront"}
       <SpiritBoard
         bind:spiritBoard
@@ -950,6 +963,21 @@
       <InvaderCard bind:invaderCard bind:emptyInvaderCard />
     {:else if currentPage === "about"}
       <About />
+    {:else if currentPage === "builderSave"}
+      <BuilderSave
+        bind:spiritBoard
+        bind:spiritBoardBack
+        bind:powerCards
+        bind:aspect
+        bind:adversary
+        bind:scenario
+        bind:blightCard
+        bind:fearCard
+        bind:invaderCard
+        bind:incarnaToken
+        bind:eventCard />
+    {:else if currentPage === "changelog"}
+      <Changelog />
     {/if}
   </div>
 

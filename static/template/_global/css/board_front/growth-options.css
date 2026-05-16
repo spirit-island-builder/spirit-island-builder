@@ -295,6 +295,8 @@ growth-border {
   display: inline;
   margin-bottom: -10px;
   min-width: 15px;
+  position: relative;
+  left: 3px;
 }
 
 growth-border[double] {
@@ -370,10 +372,26 @@ growth-cell icon.reclaim-half {
   width: 90px;
 }
 
+growth-cell icon.reclaim-num {
+  height: 80px;
+  width: 80px;
+  margin: 0px;
+  margin-bottom: 10px;
+}
+
+growth-cell icon.reclaim-num value {
+  font-size: 43px;
+  font-family: "Antropos";
+  bottom: 33px;
+  right: 57px;
+  position: absolute;
+}
+
 growth-cell icon.empower-incarna {
-  width: 95px;
+  width: 110px;
   height: 110px;
-  margin-top: -26px;
+  margin: 0px -10px;
+  margin-top: -20px;
 }
 
 growth-cell icon.incarna {
@@ -384,8 +402,8 @@ growth-cell icon.incarna {
 }
 
 growth-cell icon.incarna.move {
-  left: -24px;
-  top: 15px;
+  /* left: -24px;
+  top: 15px; */
 }
 
 growth-cell icon.incarna.add-move {
@@ -409,6 +427,7 @@ growth-cell add-move-lower {
 
 growth-cell add-token-upper {
   margin-bottom: 25px;
+  width: 100%;
 }
 
 growth-cell add-token-lower {
@@ -453,33 +472,110 @@ growth-cell icon.with-your {
   margin-left: -20px;
 }
 
-growth-cell icon.replace-with-incarna {
+/* growth-cell icon.replace-with-incarna {
   position: relative;
   left: 40px;
   bottom: -32px;
-}
+} */
 
 growth-cell icon.with-incarna {
   margin-right: 35px;
   margin-bottom: 24px;
 }
 
+growth-cell icon.with-incarna icon {
+  position: relative;
+  left: 40px;
+  bottom: -32px;
+}
+
 growth-cell icon.reclaim-half {
   width: 82px;
 }
 
-growth-cell icon.reclaim-element {
-  position: relative;
-  left: 28px;
+growth-cell icon.modified-reclaim icon {
+  position: absolute;
+  right: -8px;
   top: -28px;
-  width: 40px;
+  width: 45px;
+  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
+    drop-shadow(0px -1px 0px);
+  color: #ead38d;
+}
+
+growth-cell icon.modified-reclaim icon.element {
+  filter: unset;
+}
+
+/* reclaim-element is an element exception */
+growth-cell icon.modified-reclaim .sun {
+  background-image: url("../../images/board/Sun.png");
+}
+growth-cell icon.modified-reclaim .moon {
+  background-image: url("../../images/board/Moon.png");
+}
+growth-cell icon.modified-reclaim .fire {
+  background-image: url("../../images/board/Fire.png");
+}
+growth-cell icon.modified-reclaim .air {
+  background-image: url("../../images/board/Air.png");
+}
+growth-cell icon.modified-reclaim .plant {
+  background-image: url("../../images/board/Plant.png");
+}
+growth-cell icon.modified-reclaim .water {
+  background-image: url("../../images/board/Water.png");
+}
+growth-cell icon.modified-reclaim .earth {
+  background-image: url("../../images/board/Earth.png");
+}
+growth-cell icon.modified-reclaim .animal {
+  background-image: url("../../images/board/Animal.png");
+}
+growth-cell icon.modified-reclaim .star {
+  background-image: url("../../images/board/NewIcons/Element Star.png");
+}
+growth-cell icon.modified-reclaim .any {
+  background-image: url("../../images/board/Any.png");
 }
 
 growth-cell icon.discard-element {
   position: relative;
-  left: 47px;
-  top: -28px;
-  width: 40px;
+  left: 50px;
+  top: -32px;
+  width: 45px;
+}
+
+/* discard-element is an element exception */
+growth-cell icon.discard-element.sun {
+  background-image: url("../../images/board/Sun.png");
+}
+growth-cell icon.discard-element.moon {
+  background-image: url("../../images/board/Moon.png");
+}
+growth-cell icon.discard-element.fire {
+  background-image: url("../../images/board/Fire.png");
+}
+growth-cell icon.discard-element.air {
+  background-image: url("../../images/board/Air.png");
+}
+growth-cell icon.discard-element.plant {
+  background-image: url("../../images/board/Plant.png");
+}
+growth-cell icon.discard-element.water {
+  background-image: url("../../images/board/Water.png");
+}
+growth-cell icon.discard-element.earth {
+  background-image: url("../../images/board/Earth.png");
+}
+growth-cell icon.discard-element.animal {
+  background-image: url("../../images/board/Animal.png");
+}
+growth-cell icon.discard-element.star {
+  background-image: url("../../images/board/NewIcons/Element Star.png");
+}
+growth-cell icon.discard-element.any {
+  background-image: url("../../images/board/Any.png");
 }
 
 growth-cell icon.gain-card-pay-2 {
@@ -597,10 +693,9 @@ growth-energy value {
 custom-presence-req {
   font-size: 26.66px;
   font-weight: bold;
-  margin-top: -24px;
   margin-bottom: 0px;
   width: auto;
-  height: 115px;
+  height: 90px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -935,7 +1030,7 @@ growth-cell icon.reclaim-none {
   margin-bottom: 7px;
 }
 
-growth-cell icon.ignore-range {
+growth-cell icon.ignorerange {
   margin-bottom: 10px;
   margin-top: -10px;
   height: 90px;
@@ -959,9 +1054,9 @@ custom-icon {
   font-weight: bold;
   font-style: normal;
   display: flex;
-  margin-top: -31px;
+  margin-top: 0px;
   width: auto;
-  height: 122px;
+  height: 90px;
   margin-bottom: 0px;
   flex-direction: column;
   align-items: center;
@@ -1093,7 +1188,7 @@ token-wrap {
   display: flex;
   vertical-align: bottom;
   align-content: flex-end;
-  padding-bottom: 2px;
+  padding-bottom: 4px;
   justify-content: center;
   align-items: flex-end;
 }
@@ -1102,12 +1197,25 @@ replace-wrap {
   display: inline-flex;
   flex-wrap: wrap;
   vertical-align: bottom;
-  align-content: flex-end;
-  height: 69px;
-  padding-bottom: 2px;
+  align-content: center;
   justify-content: center;
   font-size: 26.66px;
   font-weight: bold;
+}
+
+replace-wrap {
+  icon {
+    height: 40px;
+    width: 40px;
+    top: -3px;
+  }
+  icon:first-child {
+  }
+  icon:last-child {
+  }
+}
+
+replace-wrap.no-range {
 }
 
 icon.replace-with,
@@ -1153,6 +1261,7 @@ custom-icon2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 90px;
 }
 
 custom-icon2 icon.move-range-1,
@@ -1491,25 +1600,28 @@ growth-damage {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  font-size: 26.66px;
-  font-weight: bold;
   display: block;
-  text-align: center;
-  margin-top: -11px;
-  width: 80px;
-  height: 80px;
-  margin-bottom: 1px;
-  margin-right: -10px;
+  position: absolute;
+  width: 90px;
+  height: 60px;
+  right: 9px;
+  top: -21px;
 }
 
 growth-damage value {
-  font-family: "Energy Font";
-  font-size: 29.33px;
-  display: inline-block;
-  margin-top: 36px;
-  margin-left: 0px;
-  font-style: normal;
-  text-align: center;
+  font-family: "Antropos";
+  font-size: 40px;
+  display: block;
+  position: relative;
+  top: 16px;
+}
+
+growth-damage icon {
+  top: 5px;
+  width: 33px;
+  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
+    drop-shadow(0px -1px 0px);
+  color: #ead38d;
 }
 
 growth icon.damage-1,
@@ -1720,8 +1832,8 @@ growth-cell icon.push icon-holder icon {
 }
 
 growth-cell gain icon.element {
-  height: 60px;
-  width: 60px;
+  height: 64px;
+  width: 64px;
   margin: -30px;
 }
 

@@ -810,6 +810,11 @@ rules icon.any {
   margin-right: 0px;
 }
 
+rules icon.explorer {
+  width: 16px;
+  height: 26px;
+}
+
 threshold icon.sun {
   background-image: url(../images/board/element_simple_sun.png);
 }
@@ -928,4 +933,13 @@ rules-container range.range {
   justify-content: center;
   width: 50px;
   bottom: 4px;
+}
+
+rules-container threshold-or {
+  font-family: "Short Name Headings";
+  text-transform: uppercase;
+  font-size: 24px;
+  display: inline-flex;
+  position: relative;
+  top: -3px;
 }

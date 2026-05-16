@@ -278,6 +278,7 @@ overlay-container {
   top: 0px;
   left: 0px;
   position: absolute;
+  display: block;
   z-index: 100;
 }
 

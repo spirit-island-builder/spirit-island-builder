@@ -38,6 +38,7 @@
           class="input"
           type="text"
           placeholder="Name"
+          data-next-field="spiritLoreInput"
           on:focus={selectNode}
           on:keydown={nextNode}
           bind:value={spiritBoardBack.nameImage.name} />

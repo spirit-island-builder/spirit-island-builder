@@ -445,6 +445,11 @@ top-info.no-loss-condition loss-condition {
   display: block;
 }
 
+top-info.no-escalation escalation {
+  width: 165px;
+  flex: none;
+}
+
 adversary range {
   width: 40px;
 }

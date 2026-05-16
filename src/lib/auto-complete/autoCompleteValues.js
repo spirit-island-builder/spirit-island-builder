@@ -35,6 +35,10 @@ const iconValues = [
   { label: "jungle-sand", value: "{jungle-sand}" },
   { label: "jungle-wetland", value: "{jungle-wetland}" },
   { label: "line-break", value: "<br>" },
+  { label: "lose-range-1", value: "{lose-range-1}" },
+  { label: "lose-range-2", value: "{lose-range-2}" },
+  { label: "lose-range-3", value: "{lose-range-3}" },
+  { label: "lose-range-x", value: "{lose-range-x}" },
   { label: "major", value: "{major}" },
   { label: "markerminus", value: "{markerminus}" },
   { label: "markerplus", value: "{markerplus}" },
@@ -270,6 +274,14 @@ const growthValues = [
     detail: ["isolate() : Isolate one of your Lands", "isolate(x) : At range x, Isolate a land"],
   },
   {
+    label: "lose-range",
+    value: "lose-range()",
+    detail: [
+      "lose-range(x) : Lose -x range for Powers this turn",
+      "lose-range(x,y) : Lose -x range for y effects (powers, power cards, innate powers, everything) this turn",
+    ],
+  },
+  {
     label: "make-fast",
     value: "make-fast",
     detail: ["make-fast : One of your Powers may be Fast"],
@@ -313,6 +325,7 @@ const growthValues = [
     value: "reclaim()",
     detail: [
       "reclaim(x) : x can be all, one, half, or custom",
+      "reclaim(x) : x is a number",
       "reclaim(x,y) : Reclaim x (all or one) cards with element y",
       "reclaim(custom,_your custom reclaim text_) : Custom reclaim text with a unique icon.",
     ],
