@@ -45,7 +45,7 @@ presence-tracks:hover {
 
 presence-tracks presence-title {
   margin-left: 39px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   padding-top: 0px;
   pointer-events: none;
   /* height: 37px; */
@@ -135,13 +135,13 @@ presence-node {
 }
 
 #plays-track presence-node {
-  margin-bottom: 5px;
+  margin-bottom: 9px;
 }
 
 tr.vertical-tight presence-node,
 #plays-track.vertical-tight presence-node,
 #energy-track.vertical-tight presence-node {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 presence-node.tight {
@@ -161,7 +161,7 @@ td.tight {
 } */
 
 presence-tracks tr:last-of-type {
-  height: 174px;
+  /* height: 174px; */
 }
 
 track-banner-art {
@@ -942,4 +942,14 @@ presence-node .range-token range-value {
 
 presence-node .range-token range {
   margin-top: 2px;
+}
+
+board.starlight presence-tracks {
+  margin-left: 145px;
+  flex-grow: 1;
+}
+
+rumu-right presence-tracks {
+  height: 100%;
+  width: 575px;
 }

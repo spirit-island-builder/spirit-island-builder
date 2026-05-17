@@ -476,18 +476,22 @@ special-rule icon.tiny {
   width: 20px;
   height: 20px;
 }
+
 special-rule icon.small {
   width: 25px;
   height: 25px;
 }
+
 special-rule icon.medium {
   width: 35px;
   height: 35px;
 }
+
 special-rule icon.large {
   width: 45px;
   height: 45px;
 }
+
 special-rule icon.huge {
   width: 55px;
   height: 55px;
@@ -501,10 +505,19 @@ special-rule {
     border: 1px solid black;
     border-collapse: collapse;
   }
+
   table icon {
     margin-top: 0px;
   }
+
   td {
     padding: 2px;
+  }
+}
+
+board.rumu,
+board.starlight {
+  special-rules-container {
+    width: 654px;
   }
 }
