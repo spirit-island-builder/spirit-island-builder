@@ -236,6 +236,59 @@
     let spiritBoard = previewFrame.document.getElementsByTagName("adversary")[0];
     spiritBoard.classList.add("printer-clean");
   }
+
+  function devExportLayoutToSI() {
+    function extractAdversaryLayout() {
+      let previewFrame = document.getElementById("preview-iframe").contentWindow;
+      const adversaryHTML = previewFrame.document.getElementsByTagName("adversary")[0];
+      if (!adversaryHTML) {
+        console.error("No <adversaryHTML> element found");
+        return null;
+      }
+
+      const boardRect = adversaryHTML.getBoundingClientRect();
+      const W = boardRect.width;
+      const H = boardRect.height;
+
+      function region(el, id) {
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        const x = r.left - boardRect.left;
+        const y = r.top - boardRect.top;
+        return {
+          id,
+          xPct: +((x / W) * 100).toFixed(3),
+          yPct: +((y / H) * 100).toFixed(3),
+          wPct: +((r.width / W) * 100).toFixed(3),
+          hPct: +((r.height / H) * 100).toFixed(3),
+        };
+      }
+
+      const result = {
+        adversaryName: `${adversary.nameLossEscalation.name}`,
+        imageWidth: Math.round(W),
+        imageHeight: Math.round(H),
+        levels: [],
+      };
+
+      // levels and their individual action cells
+      adversaryHTML.querySelectorAll("level").forEach((level, li) => {
+        result.levels.push(region(level, `level${li + 1}`));
+      });
+
+      return result;
+    }
+    console.log("we are here");
+    const layout = extractAdversaryLayout();
+    console.log(JSON.stringify(layout, null, 2));
+    try {
+      // copy(JSON.stringify(layout, null, 2));
+      console.log("Copied to clipboard!");
+      return JSON.stringify(layout, null, 2);
+    } catch (e) {
+      console.log("error in json export");
+    }
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -312,6 +365,13 @@
             overlayImage = url;
           }}>Load Overlay</LoadButton>
         <button class="button is-danger mr-1" on:click={addOverlay}>Add Overlay</button>
+        <SaveDropdown
+          saveAction={devExportLayoutToSI}
+          fileName={`${adversary.nameLossEscalation.name
+            .toLowerCase()
+            .replaceAll(" ", "_")}-layout.json`}
+          saveType="string"
+          mimeType="application/json;charset=utf-8" />
       {/if}
     </div>
   </div>

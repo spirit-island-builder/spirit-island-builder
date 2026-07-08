@@ -844,6 +844,89 @@
     let spiritBoard = previewFrame.document.getElementsByTagName("board")[0];
     spiritBoard.classList.add("transparent");
   }
+
+  function devExportLayoutToSI() {
+    function extractSpiritLayout() {
+      let previewFrame = document.getElementById("preview-iframe").contentWindow;
+      const board = previewFrame.document.getElementsByTagName("board")[0];
+      if (!board) {
+        console.error("No <board> element found");
+        return null;
+      }
+
+      const boardRect = board.getBoundingClientRect();
+      const W = boardRect.width;
+      const H = boardRect.height;
+
+      function region(el, id) {
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        const x = r.left - boardRect.left;
+        const y = r.top - boardRect.top;
+        return {
+          id,
+          xPct: +((x / W) * 100).toFixed(3),
+          yPct: +((y / H) * 100).toFixed(3),
+          wPct: +((r.width / W) * 100).toFixed(3),
+          hPct: +((r.height / H) * 100).toFixed(3),
+        };
+      }
+
+      const result = {
+        spiritName: `${spiritBoard.nameAndArt.name}`,
+        imageWidth: Math.round(W),
+        imageHeight: Math.round(H),
+        growthGroups: [],
+        presenceNodes: [],
+        innates: [],
+      };
+
+      // Growth groups and their individual action cells
+      board.querySelectorAll("growth-group").forEach((group, gi) => {
+        const cells = [];
+        group.querySelectorAll("growth-cell[id]").forEach((cell) => {
+          cells.push(region(cell, cell.id));
+        });
+        result.growthGroups.push({ ...region(group, `growth_group_${gi}`), cells });
+      });
+
+      // Presence track nodes (energy + card plays tracks)
+      board.querySelectorAll("presence-node[id]").forEach((node) => {
+        const ring = node.querySelectorAll("ring-icon")[0];
+        const track = node.closest("#energy-track") ? "energy" : "card";
+        result.presenceNodes.push({ track, ...region(ring, node.id) });
+      });
+
+      // Innate powers and their threshold levels
+      board.querySelectorAll("innate-power[id]").forEach((ip) => {
+        const levels = [];
+        ip.querySelectorAll("level").forEach((level, li) => {
+          levels.push({
+            ...region(level, `${ip.id}L${li}`),
+            thresholdId: level.querySelector("threshold[id]")?.id ?? null,
+            effectId: level.querySelector("effect[id]")?.id ?? null,
+          });
+        });
+        result.innates.push({
+          ...region(ip, ip.id),
+          title: ip.querySelector("innate-power-title")?.textContent?.trim() ?? "",
+          levels,
+        });
+      });
+
+      return result;
+    }
+    console.log("we are here");
+    const layout = extractSpiritLayout();
+    console.log(JSON.stringify(layout, null, 2));
+    try {
+      // copy(JSON.stringify(layout, null, 2));
+      console.log("Copied to clipboard!");
+      return JSON.stringify(layout, null, 2);
+    } catch (e) {
+      console.log("error in json export");
+    }
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -935,6 +1018,11 @@
             overlayImage = url;
           }}>Load Overlay</LoadButton>
         <button class="button is-danger mt-1 mr-1" on:click={addOverlay}>Add Overlay</button>
+        <SaveDropdown
+          saveAction={devExportLayoutToSI}
+          fileName={`${spiritBoard.nameAndArt.name.toLowerCase().replaceAll(" ", "_")}-layout.json`}
+          saveType="string"
+          mimeType="application/json;charset=utf-8" />
       {/if}
     </div>
   </div>
