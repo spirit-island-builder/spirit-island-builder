@@ -120,6 +120,9 @@ They're both the examples served to users and the reference for what `generateHT
 
 - `src/routes/lib.js` (~650 lines) is shared state-mutation helpers, but most of it (`addGrowthSet`,
   `addPresenceTrack`, `addInnatePower`, …) is spirit-board-specific despite the neutral name.
+- `.eslintrc.cjs` scopes `static/template/_global/js/*.js` to `sourceType: "script"` with `env.node: false`.
+  Classic scripts sharing one global scope — no `import`/`export`, no bundler. `board_front.js` is ~6800 lines
+  of it.
 - Dev only: `installHotReloadEvent()` (`$lib/hmr-helper.js`) uses undocumented `svelte-hmr` internals so tabs can
   re-render the iframe on HMR. If it breaks after a Svelte upgrade, look there first.
 - 14 template HTML files under `static/template/` load `_global/js/general.js`, which **does not exist** (the file
