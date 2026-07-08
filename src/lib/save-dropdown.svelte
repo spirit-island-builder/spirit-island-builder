@@ -8,12 +8,19 @@
     setSaveLocation,
     subscribeSaveLocation,
   } from "$lib/download.js";
+  import { markSaved } from "$lib/unsaved-changes.js";
   import { onMount, onDestroy } from "svelte";
 
   export let saveAction;
   export let fileName;
   export let saveType = "html";
   export let mimeType = "text/html;charset=utf-8";
+  /**
+   * Component keys this save writes to disk, cleared of unsaved changes once
+   * the save succeeds. Leave empty for exports that cannot be loaded back.
+   * @type {string[]}
+   */
+  export let savedKeys = [];
 
   let currentMode = getSaveLocation();
   let unsubscribe;
@@ -28,12 +35,20 @@
     if (unsubscribe) unsubscribe();
   });
 
-  function execute(mode) {
+  async function execute(mode) {
     const data = saveAction();
 
-    if (saveType === "html") return downloadHTML(data, fileName, mode);
-    if (saveType === "string") return downloadString(mimeType, data, fileName, mode);
+    // An image is an export, not a save: the builder cannot load state back
+    // out of a PNG, so it never clears the unsaved-changes flag.
     if (saveType === "image") return downloadImage(data, fileName, mode);
+
+    const saved =
+      saveType === "html"
+        ? await downloadHTML(data, fileName, mode)
+        : await downloadString(mimeType, data, fileName, mode);
+
+    if (saved) markSaved(savedKeys);
+    return saved;
   }
 
   function runCurrentMode() {

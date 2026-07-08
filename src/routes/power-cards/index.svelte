@@ -587,13 +587,15 @@
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
+        savedKeys={["powerCards"]}
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(powerCards)}
         fileName={getFileName(powerCards)}
-        saveType="html" />
+        saveType="html"
+        savedKeys={["powerCards"]} />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>

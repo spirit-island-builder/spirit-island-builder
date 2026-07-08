@@ -967,13 +967,15 @@
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
+        savedKeys={["spiritBoard"]}
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(spiritBoard)}
         fileName={`${spiritBoard.nameAndArt.name.replaceAll(" ", "_")}_SpiritBoard.html`}
-        saveType="html" />
+        saveType="html"
+        savedKeys={["spiritBoard"]} />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <!-- <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

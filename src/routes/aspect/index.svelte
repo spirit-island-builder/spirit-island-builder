@@ -606,13 +606,15 @@
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
+        savedKeys={["aspect"]}
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(aspect)}
         fileName={`${aspect.info.aspectName.replaceAll(" ", "_")}_Aspect.html`}
-        saveType="html" />
+        saveType="html"
+        savedKeys={["aspect"]} />
 
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>

@@ -2,6 +2,8 @@
   import SaveDropdown from "$lib/save-dropdown.svelte";
   import LoadDropdown from "$lib/load-dropdown.svelte";
   import { builderSaveFileName } from "$lib/builder-save-store.js";
+  import { markSaved } from "$lib/unsaved-changes.js";
+  import { tick } from "svelte";
 
   export let spiritBoard;
   export let combinedTTS;
@@ -61,6 +63,14 @@
 
   $: fullFileName = `${$builderSaveFileName || "builder-save"}.json`;
 
+  // This save only writes the components that are toggled on, so only those
+  // stop counting as unsaved. The `undefined` guard keeps a component that was
+  // never bound in from being marked saved: JSON.stringify drops it, so nothing
+  // for it actually reaches the file.
+  $: savedKeys = components
+    .filter(({ key }) => included[key] && dataMap[key] !== undefined)
+    .map(({ key }) => key);
+
   function generateSave() {
     const builderSave = { fileName: $builderSaveFileName || "builder-save" };
     for (const { key } of components) {
@@ -102,6 +112,11 @@
     }
     included = { ...included };
     manualOverrides = { ...manualOverrides };
+
+    // Whatever the file contained now matches disk. Wait for the assignments
+    // above to flush into the revision counters before taking the baseline.
+    await tick();
+    markSaved(components.map(({ key }) => key).filter((key) => key in parsed));
   }
 </script>
 
@@ -158,7 +173,8 @@
         saveAction={generateSave}
         fileName={fullFileName}
         saveType="string"
-        mimeType="application/json;charset=utf-8" />
+        mimeType="application/json;charset=utf-8"
+        {savedKeys} />
     </div>
   </div>
 </div>

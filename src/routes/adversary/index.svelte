@@ -320,13 +320,15 @@
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
+        savedKeys={["adversary"]}
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(adversary)}
         fileName={`${adversary.nameLossEscalation.name.replaceAll(" ", "_")}_Adversary.html`}
-        saveType="html" />
+        saveType="html"
+        savedKeys={["adversary"]} />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
