@@ -16,10 +16,14 @@ async function startMain() {
   if (document.getElementsByTagName("board")[0]) {
     console.log("CREATING SPIRIT BOARD");
     const board = document.querySelectorAll("board")[0];
-    if (board.getAttribute("lang")) {
-      lang = board.getAttribute("lang");
-      console.log("found language " + lang);
-    }
+    lang = board.getAttribute("lang") || "en";
+    console.log("found language " + lang);
+
+    // Cached values depend on `lang` and on custom icon names read from the
+    // DOM, both of which can change between renders. The iframe is not
+    // reloaded (PreviewFrame.updateSrc reuses srcdoc), so this module's state
+    // outlives the body swap — start each render with an empty cache.
+    _iconNameCache.clear();
 
     setupCustomIcons();
 
