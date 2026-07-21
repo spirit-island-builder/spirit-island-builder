@@ -2,7 +2,6 @@ growth {
   display: block;
   position: relative;
   z-index: 3;
-  min-height: 215px;
 }
 
 growth:hover section-title {
