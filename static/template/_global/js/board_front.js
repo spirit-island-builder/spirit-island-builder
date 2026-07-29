@@ -722,7 +722,8 @@ function getGrowthActionTextAndIcons(growthAction) {
               presenceReqsIcons = "{backslash}{" + presenceOptions[2] + "}</custom-presence-or>";
               break;
             case "instead":
-              // no option to add presence, just token
+              // Legacy: superseded by the add-token(...) action. Kept so old
+              // hand-written files render; not worth further icon work.
               break;
           }
         } else if (presenceOptions[1] === "relative") {
@@ -3289,7 +3290,7 @@ function IconName(str, iconNum = 1) {
               break;
             }
             case "instead": {
-              //no option to add presence, just token
+              // Legacy: superseded by the add-token(...) action
               const iconOpt3 = IconName(opt3);
               localize = {
                 en: `Add a ${iconOpt3} instead of a Presence`,

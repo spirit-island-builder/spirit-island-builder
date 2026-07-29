@@ -146,9 +146,13 @@ phrased to match its `and`/`or` siblings. Snapshot rebaselined — the diff show
 fixture flipping from error cell to real render.
 
 **Verify:** growth value `add-presence(1,token,badlands,instead)` renders a cell instead of an
-error. *Follow-up worth eyeballing:* the icon side (which predates this fix) shows the
-`+presence` icon with an empty requirement ring — arguably it should show the token instead.
-That's a visual-design call; decide on a real board before changing it.
+error.
+
+*Post-fix context from the author:* this is a **legacy** option, superseded by the dedicated
+`add-token(...)` action — which is why the text side was never finished. The fix stays (old
+hand-written files now degrade gracefully instead of erroring), but the icon side's odd look
+(`+presence` with an empty requirement ring) is a **won't-fix**; both `instead` cases are now
+commented as legacy in the code. Don't document the syntax; point people at `add-token`.
 
 ---
 
