@@ -1,0 +1,67 @@
+<growth>
+<section-title>Growth (Pick One)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">
+<custom-icon class="add-token">
+<token-wrap>+{beasts}{beasts}{beasts}</token-wrap>
+<range-growth>
+<value>1</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add 3 Beasts together</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<custom-icon class="add-token">
+<token-wrap>+{disease}{strife}</token-wrap>
+<range-growth>
+<value>2</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Disease and Strife together</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a2">
+<custom-icon class="add-token">
+<token-wrap>+{strife}/{beasts}/{disease}</token-wrap>
+<range-growth>
+<value>3</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Strife, Beasts or Disease </growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<custom-icon class="add-token">
+<token-wrap>+{wilds}</token-wrap>
+<presence-req>
+<icon class="ocean terrain-double">
+</icon>
+</presence-req>
+</custom-icon>
+<growth-text>Add a Wilds to any Ocean</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<custom-icon class="add-token">
+<token-wrap>+{badlands}</token-wrap>
+<presence-req>
+<icon class="your-land add-token">
+<icon class="town">
+</icon>
+</icon>
+</presence-req>
+<range-growth>
+<value>4</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Badlands to a Land with Town</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

@@ -137,6 +137,50 @@ branch does anyway), but if it's ever "fixed" to `!== null`, hand-written files 
 `or(presence-node(...), …)` is silently broken (renders a garbage icon name) — make it an
 explicit error cell, or implement it.
 
+### 4.5 (pending — found by the snapshot suite)
+
+`add-presence(x,token,y,instead)` has never rendered: the icon side implements the `instead`
+option, but in `IconName` the matching `case "instead"` never assigns `localize`, so
+`localize[lang]` throws and the action becomes an error cell. Fix by giving the case its own
+localized text (or intentionally an empty string). Requires a snapshot update
+(`npm run testGrowthUpdate`) since the baseline captures the current error-cell output.
+
+---
+
+## Snapshot test suite  ✅ (added 2026-07-29)
+
+`npm run testGrowth` — snapshot suite for the growth *generation* pipeline (`buildGrowthPanel`
+and everything under it), run in Node via jsdom (devDependency, pinned `^22` for Node 16
+compatibility). `npm run testGrowthUpdate` refreshes baselines after an intentional output change
+— review the snapshot diff like code.
+
+Two layers, under `tests/growth/`:
+
+- **Corpus** — every spirit template in `static/template/MyCustomContent/MySpirit/` with a
+  `<board>` + `<growth>` (59 files) is rendered end-to-end through `buildGrowthPanel`; the
+  resulting growth panel HTML is compared to `snapshots/corpus/*.snap.txt`.
+- **Synthetic** — ~120 `writeGrowthGroup` fixtures in `fixtures.js` covering every case of the
+  action switch, or/then/presence-node wrappers, `^repeat` / `*override` modifiers, group costs,
+  tints, special titles, and deliberately malformed inputs (which snapshot the error-cell
+  fallback). Compared to `snapshots/synthetic.snap.txt`.
+
+Known limits, on purpose:
+
+- **Generation only.** `dynamicResizing()` needs real layout (offsetWidth etc.); jsdom has no
+  layout engine, so sizing/wrapping behavior still needs browser eyeballs.
+- Snapshots are `.txt` because the lint-staged hook runs prettier on staged `.html`/`.json`,
+  which would reformat baselines and break comparison. Do not rename them.
+- Some templates' `<style>` blocks have `icon.custom` rules without `data-iconname`, which
+  crashes `setupCustomIcons` when fed raw (can't happen in-app — the app regenerates that style
+  block). The runner catches this per-file, renders without custom icon names, and logs a note.
+- The harness loads the scripts as real `<script>` elements (`runScripts: "dangerously"`), not
+  `window.eval` — `board_front.js` is strict-mode, so eval would keep its functions scoped to
+  the eval call instead of on `window`.
+
+The suite was mutation-tested: a one-character change to generated output fails it. It found
+4.5 above on day one. Stage 5's "pixel-identical" requirement is now mechanically checkable for
+generation; run `npm run testGrowth` after every conversion step.
+
 ## Stage 5 — Structural refactor of `getGrowthActionTextAndIcons` (refactor — zero visual change)
 
 The big one; do only after Stages 1–4 have settled.

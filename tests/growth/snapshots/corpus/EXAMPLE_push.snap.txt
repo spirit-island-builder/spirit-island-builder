@@ -1,0 +1,68 @@
+<growth>
+<section-title>Growth (Pick One)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">
+<push-gather>
+<icon class="push">{explorer}</icon>
+</push-gather>
+<growth-text>Push 1 Explorer from 1 of your Lands</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<push-gather>
+<icon class="push">
+<icon-holder>
+<icon class="badlands">
+</icon>
+<icon class="badlands">
+</icon>
+<icon class="badlands">
+</icon>
+</icon-holder>
+</icon>
+</push-gather>
+<growth-text>Push 3 Badlands from 1 of your Lands</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a2">
+<push-gather>
+<icon class="push-from">
+<icon class="from dahan">
+</icon>{beasts}</icon>
+</push-gather>
+<growth-text>Push 1 Beasts from Dahan</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<push-gather>
+<icon class="jungle terrain-push">{push-arrow}{presence}</icon>
+</push-gather>
+<growth-text>Push 1 Presence from Each Jungle</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<push-gather>
+<icon class="ocean terrain-push">{push-arrow}<icon-holder>
+<icon class="blight">
+</icon>
+<icon class="blight">
+</icon>
+</icon-holder>
+</icon>
+</push-gather>
+<growth-text>Push 2 Blight from Ocean</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a2">
+<push-gather>
+<icon class="jungle-sand terrain-push">{push-arrow}{city}</icon>
+</push-gather>
+<growth-text>Push 1 City from Jungle or Sands</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

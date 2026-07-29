@@ -1,0 +1,55 @@
+<growth>
+<section-title>Growth</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">
+<custom-growth-icon class="">{dahan}</custom-growth-icon>
+<growth-text>Add a Dahan to your Lands</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<custom-growth-icon class="">{dahan}{dahan}</custom-growth-icon>
+<growth-text>Add a Two Dahan to your Lands</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<custom-growth-icon class="">
+<div class="custom-scaling">
+</div>
+</custom-growth-icon>
+<growth-text>Push a Presence</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>
+<span style="font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;">
+</span>
+</presence-req>{range-2}</custom-presence-req>
+<growth-text>Add a Presence to a land shown on the Ravage card</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a2">
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>
+<display-custom>{escalation}</display-custom>
+</presence-req>{range-2}</custom-presence-req>
+<growth-text>Add a Presence to land matching a card with escalation</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g2a0">
+<custom-growth-icon class="">{custom1}</custom-growth-icon>
+<growth-text>Check out the header section of the HTML for using custom icons</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

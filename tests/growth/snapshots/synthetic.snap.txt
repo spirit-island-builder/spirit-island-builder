@@ -1,0 +1,1544 @@
+=== default-icon
+--- {"values":"moon"}
+<growth-group>
+<growth-cell id='s0g0a0'>{moon}<growth-text>Moon</growth-text>
+</growth-cell>
+</growth-group>
+
+=== default-multi
+--- {"values":"reclaim-all;gain-power-card;add-presence(1)"}
+<growth-group>
+<growth-cell id='s0g0a0'>{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+<growth-cell id='s0g0a1'>{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id='s0g0a2'>
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-card-pay-2
+--- {"values":"gain-card-pay-2"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>{gain-card-pay-2}</custom-icon>
+<growth-text>Pay 2 Energy to Gain a Power Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== ignore-range
+--- {"values":"ignore-range"}
+<growth-group>
+<growth-cell id='s0g0a0'>{ignorerange}<growth-text>You may ignore Range this turn</growth-text>
+</growth-cell>
+</growth-group>
+
+=== reclaim-bare
+--- {"values":"reclaim"}
+<growth-group>
+<growth-cell id='s0g0a0'>{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+</growth-group>
+
+=== reclaim-one
+--- {"values":"reclaim(one)"}
+<growth-group>
+<growth-cell id='s0g0a0'>{reclaim-one}<growth-text>Reclaim One</growth-text>
+</growth-cell>
+</growth-group>
+
+=== reclaim-all-modified
+--- {"values":"reclaim(all,moon)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<icon class='reclaim-all modified-reclaim'>
+                {moon}</icon>
+<growth-text>Reclaim All Cards with Moon</growth-text>
+</growth-cell>
+</growth-group>
+
+=== reclaim-one-modified
+--- {"values":"reclaim(one,fire)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<icon class='reclaim-one modified-reclaim'>
+                {fire}</icon>
+<growth-text>Reclaim One Card with Fire</growth-text>
+</growth-cell>
+</growth-group>
+
+=== reclaim-none
+--- {"values":"reclaim(none)"}
+<growth-group>
+<growth-cell id='s0g0a0'>{reclaim-none}<growth-text>Reclaim None</growth-text>
+</growth-cell>
+</growth-group>
+
+=== reclaim-half
+--- {"values":"reclaim(half)"}
+<growth-group>
+<growth-cell id='s0g0a0'>{reclaim-half}<growth-text>Reclaim Half <em>(round up)</em>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== reclaim-custom
+--- {"values":"reclaim(custom)"}
+<growth-group>
+<growth-cell id='s0g0a0'>{reclaim-custom}<growth-text>Reclaim </growth-text>
+</growth-cell>
+</growth-group>
+
+=== reclaim-number
+--- {"values":"reclaim(2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<icon class="reclaim-num">
+<value>2</value>
+</icon>
+<growth-text>Reclaim 2 Cards</growth-text>
+</growth-cell>
+</growth-group>
+
+=== reclaim-bad-text
+--- {"values":"reclaim(bogus)"}
+<growth-group>
+<growth-cell id='s0g0a0'>{reclaim-all}<growth-text>Reclaim Bogus</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-power-card
+--- {"values":"gain-power-card"}
+<growth-group>
+<growth-cell id='s0g0a0'>{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-power-card-minor
+--- {"values":"gain-power-card(minor)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<icon class='gain-power-card'>
+                            <icon class='minor gain-card-modifier'>
+</icon>
+</icon>
+<growth-text>Gain Minor Power Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-power-card-major-mod
+--- {"values":"gain-power-card(major,x,fire)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<icon class='gain-power-card'>
+                            <icon class='major gain-card-modifier'>
+</icon>
+<div class="gain-card-second-modifier">{fire}</div>
+</icon>
+<growth-text>Gain Major Power Card x</growth-text>
+</growth-cell>
+</growth-group>
+
+=== take-power-card
+--- {"values":"take-power-card(minor)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<icon class='take-power-card'>
+                            <icon class='minor gain-card-modifier'>
+</icon>
+</icon>
+<growth-text>Take Minor Power Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== isolate-bare
+--- {"values":"isolate"}
+<growth-group>
+<growth-cell id='s0g0a0'>{isolate}<growth-text>Isolate 1 of your Lands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== isolate-range
+--- {"values":"isolate(1)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>{isolate}<range-growth>
+<value>1</value>
+</range-growth>
+</custom-icon>
+<growth-text>Isolate a Land</growth-text>
+</growth-cell>
+</growth-group>
+
+=== damage-num
+--- {"values":"damage(1,2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>
+<growth-damage>
+          <value>2</value>
+          </growth-damage>
+<range-growth>
+          <value>1</value>
+          </range-growth>
+</custom-icon>
+<growth-text>2 Damage at Range 1</growth-text>
+</growth-cell>
+</growth-group>
+
+=== damage-icon
+--- {"values":"damage(1,fire)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>
+<growth-damage>
+          {fire}
+          </growth-damage>
+<range-growth>
+          <value>1</value>
+          </range-growth>
+</custom-icon>
+<growth-text>1 Damage per Fire in a Land</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-energy-flat
+--- {"values":"gain-energy(2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-energy>
+<value>2</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-energy-zero-scaling
+--- {"values":"gain-energy(0,dahan)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<gain-per>
+<value>1</value>
+</gain-per>
+<gain-per-element>
+<ring-icon>{dahan}</ring-icon>
+</gain-per-element>
+</growth-cell-double>
+<growth-text>Gain 1 Energy per Dahan</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-energy-scaling-only
+--- {"values":"gain-energy(badlands)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<gain-per>
+<value>1</value>
+</gain-per>
+<gain-per-element>
+<ring-icon>{badlands}</ring-icon>
+</gain-per-element>
+</growth-cell-double>
+<growth-text>Gain 1 Energy per Badlands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-energy-scaling-value
+--- {"values":"gain-energy(sacred-site,2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<gain-per>
+<value>2</value>
+</gain-per>
+<gain-per-element>
+<ring-icon>{sacred-site}</ring-icon>
+</gain-per-element>
+</growth-cell-double>
+<growth-text>Gain 2 Energy per Sacred Site</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-energy-flat-plus-scaling
+--- {"values":"gain-energy(2,dahan,1)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<growth-energy>
+<value>2</value>
+</growth-energy>
+<gain-per>
+<value>1</value>
+</gain-per>
+<gain-per-element>
+<ring-icon>{dahan}</ring-icon>
+</gain-per-element>
+</growth-cell-double>
+<growth-text>Gain 2 Energy and +1 more per Dahan</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-energy-text
+--- {"values":"gain-energy(text,for each Shroud)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<gain-per>
+<value>1</value>
+</gain-per>
+<gain-per-element>
+<ring-icon>
+<div class='custom-scaling'>
+</div>
+</ring-icon>
+</gain-per-element>
+</growth-cell-double>
+<growth-text>Gain 1 Energy per for each Shroud</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-energy-flat-text
+--- {"values":"gain-energy(1,text,for each Shroud)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<growth-energy>
+<value>1</value>
+</growth-energy>
+<gain-per>
+<value>1</value>
+</gain-per>
+<gain-per-element>
+<ring-icon>
+<div class='custom-scaling'>
+</div>
+</ring-icon>
+</gain-per-element>
+</growth-cell-double>
+<growth-text>Gain 1 Energy and +1 more per for each Shroud</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-range
+--- {"values":"add-presence(1)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-zero
+--- {"values":"add-presence(0)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-0}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-any
+--- {"values":"add-presence(any)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence-no-range>
+<plus-presence>+{presence}</plus-presence>
+<range-growth-any>
+</range-growth-any>
+</custom-presence-no-range>
+<growth-text>Add a Presence to any Land</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-terrain
+--- {"values":"add-presence(1,jungle)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{jungle}</presence-req>{range-1}</custom-presence-req>
+<growth-text>Add a Presence to Jungle </growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-terrain-or
+--- {"values":"add-presence(1,jungle,wetland,or)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{jungle} or {wetland}</presence-req>{range-1}</custom-presence-req>
+<growth-text>Add a Presence to Jungle  or Wetland </growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-terrain-and
+--- {"values":"add-presence(1,sands,mountain,and)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{sands} and {mountain}</presence-req>{range-1}</custom-presence-req>
+<growth-text>Add a Presence to Sands  and Mountain </growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-coastal
+--- {"values":"add-presence(2,coastal)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>
+<span class='non-icon'>COASTAL</span>
+</presence-req>{range-2}</custom-presence-req>
+<growth-text>Add a Presence to Coastal Land </growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-no-own
+--- {"values":"add-presence(1,no-own-presence)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{no-presence}</presence-req>{range-1}</custom-presence-req>
+<growth-text>Add a Presence to Land without Own Presence </growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-token-and
+--- {"values":"add-presence(1,token,badlands,and)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>
+<span class='plus-text'>+ </span>
+<icon class='badlands add-token'>
+</icon>
+</presence-req>{range-1}</custom-presence-req>
+<growth-text>Add a Presence and a Badlands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-token-or
+--- {"values":"add-presence(1,token,badlands,or)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence-req>
+<custom-presence-or>
+<plus-presence>+{presence}</plus-presence>{backslash}{badlands}</custom-presence-or>
+</presence-req>{range-1}</custom-presence-req>
+<growth-text>Add a Presence or a Badlands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-token-instead
+--- {"values":"add-presence(1,token,badlands,instead)"}
+<growth-group>
+<growth-cell id="s0g0a0">
+<custom-growth-icon>
+<div class='custom-scaling'>
+</div>
+</custom-growth-icon>
+<growth-text>error in: add-presence(1,token,badlands,instead)</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-relative
+--- {"values":"add-presence(1,relative,sacred-site)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<add-relative>
+<presence-req>{sacred-site}</presence-req>{range-1}</add-relative>
+</custom-presence-req>
+<growth-text>Add a Presence from Sacred Site</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-text
+--- {"values":"add-presence(2,text,anywhere on the island)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>
+<span style='font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;'>
+</span>
+</presence-req>{range-2}</custom-presence-req>
+<growth-text>Add a Presence anywhere on the island</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-text-icons
+--- {"values":"add-presence(2,text,x,fire,water)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>
+<display-custom>{fire}{water}</display-custom>
+</presence-req>{range-2}</custom-presence-req>
+<growth-text>Add a Presence x</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-custom-legacy
+--- {"values":"add-presence-custom(my text,1)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<growth-text>my text</growth-text>
+</growth-cell>
+</growth-group>
+
+=== push-simple
+--- {"values":"push(explorer)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<push-gather>
+<icon class="push">{explorer}</icon>
+</push-gather>
+<growth-text>Push 1 Explorer from 1 of your Lands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gather-simple
+--- {"values":"gather(dahan)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<push-gather>
+<icon class="gather">{dahan}</icon>
+</push-gather>
+<growth-text>Gather 1 Dahan into 1 of your Lands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== push-range
+--- {"values":"push(1,explorer)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<push-gather-range-req>
+<icon class="push">{explorer}</icon>
+<range-growth>
+<value>1</value>
+</range-growth>
+</push-gather-range-req>
+<growth-text>Push up to 1 Explorer from a Land</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gather-or-targets
+--- {"values":"gather(dahan/town)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<push-gather>
+<icon class="gather">
+<icon-holder>{dahan}{backslash}{town}</icon-holder>
+</icon>
+</push-gather>
+<growth-text>Gather 1 Dahan/Town into 1 of your Lands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== push-terrain-condition
+--- {"values":"push(1,explorer,jungle)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<push-gather-range-req>
+<icon class="jungle terrain-push">{push-arrow}{explorer}</icon>
+<range-growth>
+<value>1</value>
+</range-growth>
+</push-gather-range-req>
+<growth-text>Push 1 Explorer from a Jungle</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gather-from-condition
+--- {"values":"gather(explorer,badlands)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<push-gather>
+<icon class="gather-into">
+<icon class="into badlands">
+</icon>{explorer}</icon>
+</push-gather>
+<growth-text>Gather 1 Explorer into Badlands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== push-multi-icon
+--- {"values":"push(explorer,2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<push-gather>
+<icon class="push">
+<icon-holder>
+<icon class="explorer">
+</icon>
+<icon class="explorer">
+</icon>
+</icon-holder>
+</icon>
+</push-gather>
+<growth-text>Push 2 Explorer from 1 of your Lands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== move-presence-range
+--- {"values":"move-presence(1)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>{presence}<move-growth>
+<value>
+          1
+          </value>
+</move-growth>
+</custom-icon>
+<growth-text>Move a Presence</growth-text>
+</growth-cell>
+</growth-group>
+
+=== move-presence-together
+--- {"values":"move-presence(2,2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>
+<token-wrap>{presence}{presence}</token-wrap>
+<move-growth>
+<value>
+          2
+          </value>
+</move-growth>
+</custom-icon>
+<growth-text>Move up to 2 Presence together</growth-text>
+</growth-cell>
+</growth-group>
+
+=== move-presence-with-token
+--- {"values":"move-presence(1,badlands)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>
+        <token-wrap>{presence}<icon class="badlands token">
+</icon>
+</token-wrap>
+        <move-growth>
+<value>1</value>
+</move-growth>
+        </custom-icon>
+<growth-text>Move a Presence and Badlands together</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-element-single
+--- {"values":"gain-element(fire)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<gain>
+<icon class='element fire'>
+</icon>
+</gain>
+<growth-text>Gain Fire</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-element-or
+--- {"values":"gain-element(fire,water)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<gain class='or'>
+<icon class='orelement element fire'>
+</icon>{backslash}<icon class='orelement element water'>
+</icon>
+</gain>
+<growth-text>Gain Fire or Water</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-element-multi-same
+--- {"values":"gain-element(fire,2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<gain>
+<icon-multi-element>
+<icon class='element fire'
+              style='transform: translateY(-13.555147179404894px) translateX(-19.67887153636284px)'
+              >
+</icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class='element fire'
+              style='transform: translateY(13.55514717940489px) translateX(19.67887153636284px)'
+              >
+</icon>
+</icon-multi-element>
+</gain>
+<growth-text>Gain 2 Fire</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-element-and
+--- {"values":"gain-element(fire,water,and)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<gain>
+<icon-multi-element>
+<icon class='element fire'
+              style='transform: translateY(-13.555147179404894px) translateX(-19.67887153636284px)'
+              >
+</icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class='element water'
+              style='transform: translateY(13.55514717940489px) translateX(19.67887153636284px)'
+              >
+</icon>
+</icon-multi-element>
+</gain>
+<growth-text>Gain Fire and Water</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-element-and-three
+--- {"values":"gain-element(fire,water,earth,and)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<gain>
+<icon-multi-element>
+<icon class='element fire'
+              style='transform: translateY(-16.943933974256115px) translateX(-24.598589420453553px)'
+              >
+</icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class='element water'
+              style='transform: translateY(-2.374582551525253px) translateX(29.774970322503965px)'
+              >
+</icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class='element earth'
+              style='transform: translateY(19.31851652578137px) translateX(-5.176380902050399px)'
+              >
+</icon>
+</icon-multi-element>
+</gain>
+<growth-text>Gain Fire, Water and Earth</growth-text>
+</growth-cell>
+</growth-group>
+
+=== blank-bare
+--- {"values":"blank"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-growth-icon style='max-width:75px;'>
+</custom-growth-icon>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== blank-width
+--- {"values":"blank(120)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-growth-icon style='max-width:120px;'>
+</custom-growth-icon>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== custom-text-only
+--- {"values":"custom(My custom action)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-growth-icon class=''>
+<div class='custom-scaling'>
+</div>
+</custom-growth-icon>
+<growth-text>My custom action</growth-text>
+</growth-cell>
+</growth-group>
+
+=== custom-with-icon
+--- {"values":"custom(My custom action,fire)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-growth-icon class=''>{fire}</custom-growth-icon>
+<growth-text>My custom action</growth-text>
+</growth-cell>
+</growth-group>
+
+=== custom-wide
+--- {"values":"custom-wide(A wide custom action,fire,water)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-growth-icon class='wide-growth'>{fire}{water}</custom-growth-icon>
+<growth-text>A wide custom action</growth-text>
+</growth-cell>
+</growth-group>
+
+=== custom-text-icon
+--- {"values":"custom(My custom action,text,ABC)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-growth-icon class=''>
+<span class='non-icon'>ABC</span>
+</custom-growth-icon>
+<growth-text>My custom action</growth-text>
+</growth-cell>
+</growth-group>
+
+=== fear-flat
+--- {"values":"fear(2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-fear>
+<value>2</value>
+</growth-fear>
+<growth-text>Generate Fear</growth-text>
+</growth-cell>
+</growth-group>
+
+=== fear-zero-scaling
+--- {"values":"fear(0,town)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<fear-per>
+<value>1</value>
+</fear-per>
+<gain-per-fear>
+<ring-icon>{town}</ring-icon>
+</gain-per-fear>
+</growth-cell-double>
+<growth-text>Generate 1 Fear per Town</growth-text>
+</growth-cell>
+</growth-group>
+
+=== fear-flat-plus-scaling
+--- {"values":"fear(1,blight,2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<growth-fear>
+<value>1</value>
+</growth-fear>
+<fear-per>
+<value>2</value>
+</fear-per>
+<gain-per-fear>
+<ring-icon>{blight}</ring-icon>
+</gain-per-fear>
+</growth-cell-double>
+<growth-text>Generate 1 Fear and +2 more per Blight</growth-text>
+</growth-cell>
+</growth-group>
+
+=== fear-text
+--- {"values":"fear(text,for each Ravage)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<fear-per>
+<value>1</value>
+</fear-per>
+<gain-per-fear>
+<ring-icon>
+<div class='custom-scaling'>
+</div>
+</ring-icon>
+</gain-per-fear>
+</growth-cell-double>
+<growth-text>Generate 1 Fear per for each Ravage</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-range
+--- {"values":"gain-range(2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-range>{gain-range-2}</growth-range>
+<growth-text>Your Powers gain +2 Range this turn</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-range-negative
+--- {"values":"gain-range(-1)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-range>{lose-range-1}</growth-range>
+<growth-text>Your Powers gain +-1 Range this turn</growth-text>
+</growth-cell>
+</growth-group>
+
+=== lose-range
+--- {"values":"lose-range(1)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-range>{lose-range-1}</growth-range>
+<growth-text>Your Powers lose 1 Range this turn</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-card-play-bare
+--- {"values":"gain-card-play"}
+<growth-group>
+<growth-cell id='s0g0a0'>{gain-card-play}<growth-text> +1 Card Play this turn</growth-text>
+</growth-cell>
+</growth-group>
+
+=== gain-card-play-num
+--- {"values":"gain-card-play(2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<card-play-num>
+<value>2</value>
+</card-play-num>
+<growth-text> +2 Card Plays this turn</growth-text>
+</growth-cell>
+</growth-group>
+
+=== element-marker-bare
+--- {"values":"element-marker"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<gain>{markerplus}</gain>
+<growth-text>Prepare 1 Element Marker</growth-text>
+</growth-cell>
+</growth-group>
+
+=== element-marker-two
+--- {"values":"element-marker(2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<gain>
+<icon-multi-element>
+<icon class='element markerplus' style='transform: translateY(-9.999999999999998px) translateX(-17.320508075688775px)'>
+            </icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class='element markerplus' style='transform: translateY(9.999999999999996px) translateX(17.320508075688775px)'>
+            </icon>
+</icon-multi-element>
+</gain>
+<growth-text>Prepare 2 Element Markers</growth-text>
+</growth-cell>
+</growth-group>
+
+=== element-marker-minus
+--- {"values":"element-marker(-1)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<gain>{markerminus}</gain>
+<growth-text>Discard 1 Element Marker</growth-text>
+</growth-cell>
+</growth-group>
+
+=== discard-bare
+--- {"values":"discard"}
+<growth-group>
+<growth-cell id='s0g0a0'>{discard-card}<growth-text>Discard a Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== discard-two
+--- {"values":"discard(2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>{discard-cards}<growth-text>Discard 2 Power Cards</growth-text>
+</growth-cell>
+</growth-group>
+
+=== discard-element
+--- {"values":"discard(fire)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<icon class='discard-card'>
+<icon class='discard-element fire'>
+</icon>
+</icon>
+<growth-text>Discard a Power Card with fire</growth-text>
+</growth-cell>
+</growth-group>
+
+=== incarna-move
+--- {"values":"incarna(move,1)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon2>
+<icon class="incarna move incarna">
+</icon>
+<move-growth>
+<value>1</value>
+</move-growth>
+</custom-icon2>
+<growth-text>Move Incarna</growth-text>
+</growth-cell>
+</growth-group>
+
+=== incarna-move-any
+--- {"values":"incarna(move,any)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon2>
+<icon class="incarna move incarna">
+</icon>
+<move-growth>
+<textvalue>ANY</textvalue>
+</move-growth>
+</custom-icon2>
+<growth-text>Move Incarna</growth-text>
+</growth-cell>
+</growth-group>
+
+=== incarna-empower
+--- {"values":"incarna(empower)"}
+<growth-group>
+<growth-cell id='s0g0a0'>{empower-incarna}<growth-text>Empower Incarna</growth-text>
+</growth-cell>
+</growth-group>
+
+=== incarna-add-move
+--- {"values":"incarna(add-move,badlands)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>
+<add-move-upper>+{backslash}{move-arrow}</add-move-upper>
+<add-move-lower>
+<icon class="incarna add-move incarna">
+</icon>
+<icon class="badlands with-your">
+</icon>
+</add-move-lower>
+</custom-icon>
+<growth-text>Add/Move Incarna to Land with Badlands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== incarna-replace
+--- {"values":"incarna(replace,presence)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>
+<icon class="incarna with-incarna incarna">{no-presence}</icon>
+</custom-icon>
+<growth-text>You may Replace Presence with your Incarna</growth-text>
+</growth-cell>
+</growth-group>
+
+=== incarna-add-token
+--- {"values":"incarna(add-token,vitality)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>
+<add-token-upper>+<icon class="add-token vitality">
+</icon>
+</add-token-upper>
+<add-token-lower>
+<icon class="incarna incarna">
+</icon>
+</add-token-lower>
+</custom-icon>
+<growth-text>Add a Vitality at your Incarna</growth-text>
+</growth-cell>
+</growth-group>
+
+=== incarna-add-token-custom
+--- {"values":"incarna(add-token,vitality,incarna-roots)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>
+<add-token-upper>+<icon class="add-token vitality">
+</icon>
+</add-token-upper>
+<add-token-lower>
+<icon class="incarna incarna-roots">
+</icon>
+</add-token-lower>
+</custom-icon>
+<growth-text>Add a Vitality at your Incarna</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-token-range
+--- {"values":"add-token(1,badlands)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon class="add-token">
+<token-wrap>+{badlands}</token-wrap>
+<range-growth>
+<value>1</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Badlands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-token-no-range
+--- {"values":"add-token(badlands)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon class="add-token">
+<token-wrap>+{badlands}</token-wrap>
+<range-growth>
+<value>0</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Badlands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-token-any
+--- {"values":"add-token(any,beasts)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon class="add-token">
+<token-wrap>+{beasts}</token-wrap>
+</custom-icon>
+<growth-text>Add a Beasts</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-token-multi
+--- {"values":"add-token(1,badlands,2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon class="add-token">
+<token-wrap>+{badlands}{badlands}</token-wrap>
+<range-growth>
+<value>1</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add 2 Badlands together</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-token-many
+--- {"values":"add-token(1,badlands,5)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon class="add-token">
+<token-wrap>+5{badlands}</token-wrap>
+<range-growth>
+<value>1</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add 5 Badlands together</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-token-and
+--- {"values":"add-token(0,beasts,wilds,and)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon class="add-token">
+<token-wrap>+{beasts}{wilds}</token-wrap>
+<range-growth>
+<value>0</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Beasts and Wilds together</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-token-or
+--- {"values":"add-token(0,beasts,wilds,or)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon class="add-token">
+<token-wrap>+{beasts}/{wilds}</token-wrap>
+<range-growth>
+<value>0</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Beasts or Wilds </growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-token-terrain-single
+--- {"values":"add-token(1,beasts,jungle)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon class="add-token">
+<token-wrap>+{beasts}</token-wrap>
+<presence-req>
+<icon class="jungle terrain-single">
+</icon>
+</presence-req>
+<range-growth>
+<value>1</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Beasts to a Jungle</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-token-terrain-double
+--- {"values":"add-token(1,beasts,ocean)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon class="add-token">
+<token-wrap>+{beasts}</token-wrap>
+<presence-req>
+<icon class="ocean terrain-double">
+</icon>
+</presence-req>
+<range-growth>
+<value>1</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Beasts to a Ocean</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-token-terrain-noicon
+--- {"values":"add-token(1,beasts,coastal)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon class="add-token">
+<token-wrap>+{beasts}</token-wrap>
+<presence-req>
+<span class="non-icon">coastal</span>
+</presence-req>
+<range-growth>
+<value>1</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Beasts to a Coastal</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-token-in-token-land
+--- {"values":"add-token(1,beasts,vitality)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon class="add-token">
+<token-wrap>+{beasts}</token-wrap>
+<presence-req>
+<icon class="your-land add-token">
+<icon class="vitality">
+</icon>
+</icon>
+</presence-req>
+<range-growth>
+<value>1</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Beasts to a Land with Vitality</growth-text>
+</growth-cell>
+</growth-group>
+
+=== replace-local
+--- {"values":"replace(presence,badlands)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>
+<replace-wrap class="no-range">
+          {no-presence}
+          &#9658;{badlands}
+          </replace-wrap>
+</custom-icon>
+<growth-text>You may Replace 1 Presence in your Lands with Badlands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== replace-ranged
+--- {"values":"replace(2,presence,beasts)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon>
+<replace-wrap class="no-range">
+          {no-presence}
+          &#9658;{beasts}
+          </replace-wrap>
+          <range-growth>
+<value>2</value>
+</range-growth>
+          </custom-icon>
+<growth-text>You may Replace Presence with Beasts</growth-text>
+</growth-cell>
+</growth-group>
+
+=== destroy-presence
+--- {"values":"destroy-presence(1)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<destroy-wrap>{destroyed-presence}</destroy-wrap>
+<growth-text>Destroy 1 of your Presence</growth-text>
+</growth-cell>
+</growth-group>
+
+=== destroy-presence-two
+--- {"values":"destroy-presence(2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<destroy-wrap>{destroyed-presence}{destroyed-presence}</destroy-wrap>
+<growth-text>Destroy 2 of your Presence</growth-text>
+</growth-cell>
+</growth-group>
+
+=== or-two-actions
+--- {"values":"or(gain-energy(2),add-presence(1))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<growth-energy>
+<value>2</value>
+</growth-energy>or<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+</growth-cell-double>
+<growth-text>Gain Energy or Add a Presence</growth-text>
+</growth-cell>
+</growth-group>
+
+=== or-simple-icons
+--- {"values":"or(moon,fire)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>{moon}or{fire}</growth-cell-double>
+<growth-text>Moon or Fire</growth-text>
+</growth-cell>
+</growth-group>
+
+=== then-two-actions
+--- {"values":"then(reclaim-all,gain-power-card)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>{reclaim-all}then{gain-power-card}</growth-cell-double>
+<growth-text>Reclaim Cards then Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-reclaim
+--- {"values":"presence-node(reclaim-one)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="card0" ttsinfo=";;;" class="growth">
+<ring-icon>{reclaim-one}</ring-icon>
+<subtext>Reclaim One</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-blank
+--- {"values":"presence-node(blank)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node class="growth blank">
+<ring-icon>
+<custom-growth-icon style='max-width:75px;'>
+</custom-growth-icon>
+        </ring-icon>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== repeat-x2
+--- {"values":"gain-power-card^2"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<repeat-wrapper>
+<repeat-growth>
+<value>2</value>
+</repeat-growth>{gain-power-card}</repeat-wrapper>
+<growth-text>x2: Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== repeat-cost
+--- {"values":"gain-power-card^cost(2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<repeat-wrapper>
+<repeat-growth class='energy-cost'>
+<value>-2</value>
+</repeat-growth>{gain-power-card}</repeat-wrapper>
+<growth-text>You may pay 2 Energy to Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== override-text
+--- {"values":"moon*Custom override text"}
+<growth-group>
+<growth-cell id='s0g0a0'>{moon}<growth-text>Custom override text</growth-text>
+</growth-cell>
+</growth-group>
+
+=== override-on-options
+--- {"values":"add-presence(1)*Do the thing"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<growth-text>Do the thing</growth-text>
+</growth-cell>
+</growth-group>
+
+=== group-cost-energy
+--- {"values":"gain-power-card","cost":"2"}
+<growth-group>
+<growth-cost>-2</growth-cost>
+<growth-cell id='s0g0a0'>{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== group-cost-custom-icon
+--- {"values":"gain-power-card","cost":"2,time"}
+<growth-group>
+<growth-cost class='custom'>{time}<value>-2</value>
+</growth-cost>
+<growth-cell id='s0g0a0'>{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== group-cost-nonscaling
+--- {"values":"gain-power-card","cost":"forget-power"}
+<growth-group>
+<growth-cost class='custom nonscaling'>{forget-power}<growth-cost-custom-nonscaling-description>
+</growth-cost-custom-nonscaling-description>
+</growth-cost>
+<growth-cell id='s0g0a0'>{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== group-cost-nonscaling-text
+--- {"values":"gain-power-card","cost":"forget-power,Forget a card"}
+<growth-group>
+<growth-cost class='custom nonscaling'>{forget-power}<growth-cost-custom-nonscaling-description>Forget a card</growth-cost-custom-nonscaling-description>
+</growth-cost>
+<growth-cell id='s0g0a0'>{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== group-tint-name
+--- {"values":"gain-energy(1)","tint":"red"}
+<growth-group tint="red">
+<tint class='tint' style="background-color:red;">
+</tint>
+<growth-cell id='s0g0a0'>
+<growth-energy>
+<value>1</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+
+=== group-tint-rgb
+--- {"values":"gain-energy(1)","tint":"rgb(200, 180, 90)"}
+<growth-group tint="rgb(200, 180, 90)">
+<tint class='tint' style="background-color:rgb(200, 180, 90);">
+</tint>
+<growth-cell id='s0g0a0'>
+<growth-energy>
+<value>1</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+
+=== group-special-title-apostrophe
+--- {"values":"gain-energy(1)","special-title":"Island's Gift"}
+<growth-group special-title="Island's Gift">
+<growth-cell id='s0g0a0'>
+<growth-energy>
+<value>1</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+
+=== group-new-row
+--- {"values":"gain-energy(1)","new-row":"true"}
+<growth-group new-row=true>
+<growth-cell id='s0g0a0'>
+<growth-energy>
+<value>1</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+
+=== error-unclosed-paren
+--- {"values":"gain-energy("}
+<growth-group>
+<growth-cell id="s0g0a0">
+<custom-growth-icon>
+<div class='custom-scaling'>
+</div>
+</custom-growth-icon>
+<growth-text>error in: gain-energy(</growth-text>
+</growth-cell>
+</growth-group>
+
+=== error-bare-add-presence
+--- {"values":"add-presence"}
+<growth-group>
+<growth-cell id="s0g0a0">
+<custom-growth-icon>
+<div class='custom-scaling'>
+</div>
+</custom-growth-icon>
+<growth-text>error in: add-presence</growth-text>
+</growth-cell>
+</growth-group>
+
+=== error-bare-damage
+--- {"values":"damage"}
+<growth-group>
+<growth-cell id="s0g0a0">
+<custom-growth-icon>
+<div class='custom-scaling'>
+</div>
+</custom-growth-icon>
+<growth-text>error in: damage</growth-text>
+</growth-cell>
+</growth-group>
+
+=== error-bare-or
+--- {"values":"or("}
+<growth-group>
+<growth-cell id="s0g0a0">
+<custom-growth-icon>
+<div class='custom-scaling'>
+</div>
+</custom-growth-icon>
+<growth-text>error in: or(</growth-text>
+</growth-cell>
+</growth-group>
+
+=== error-mixed-with-valid
+--- {"values":"gain-energy(2);damage;reclaim-all"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-energy>
+<value>2</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<custom-growth-icon>
+<div class='custom-scaling'>
+</div>
+</custom-growth-icon>
+<growth-text>error in: damage</growth-text>
+</growth-cell>
+<growth-cell id='s0g0a2'>{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+</growth-group>

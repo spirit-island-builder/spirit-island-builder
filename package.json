@@ -10,7 +10,9 @@
     "checkFormatAndLint": "prettier --check --plugin-search-dir=. . && eslint .",
     "lint": "eslint . --fix",
     "writeFormatAndLint": "prettier --write --plugin-search-dir=. . && eslint .",
-    "svelteCheck": "svelte-check"
+    "svelteCheck": "svelte-check",
+    "testGrowth": "node tests/growth/run.js",
+    "testGrowthUpdate": "node tests/growth/run.js --update"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^2.0.1",
@@ -23,6 +25,7 @@
     "html2canvas": "^1.4.1",
     "husky": "^8.0.1",
     "ionicons": "^6.0.4",
+    "jsdom": "^22.1.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.6.2",
     "prettier-plugin-svelte": "^2.7.0",

@@ -1,0 +1,47 @@
+<growth>
+<section-title>Growth (Pick One)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">
+<growth-range>{gain-range-1}</growth-range>
+<growth-text>Your Powers gain +1 Range this turn</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<growth-range>{gain-range-2}</growth-range>
+<growth-text>Your Powers gain +2 Range this turn</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a2">
+<growth-range>{gain-range-1}</growth-range>
+<growth-text>Your Innate Powers gain +1 Range this turn</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a3">
+<growth-range>{gain-range-1}</growth-range>
+<growth-text>+1 Range on everything this turn</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a4">{ignorerange}<growth-text>You may ignore Range this turn</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<repeat-wrapper>
+<repeat-growth>
+<value>2</value>
+</repeat-growth>
+<custom-icon>{presence}<move-growth>
+<value>
+          2
+          </value>
+</move-growth>
+</custom-icon>
+</repeat-wrapper>
+<growth-text>x2: Move a Presence</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

@@ -1,0 +1,61 @@
+<growth>
+<section-title>Growth (Pick One)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-3}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<custom-presence-no-range>
+<plus-presence>+{presence}</plus-presence>
+<range-growth-any>
+</range-growth-any>
+</custom-presence-no-range>
+<growth-text>Add a Presence to any Land</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{town}/{city}/{disease}</presence-req>{range-2}</custom-presence-req>
+<growth-text>Add a Presence to Land with Town/City/Disease</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{city} and {strife}</presence-req>{range-4}</custom-presence-req>
+<growth-text>Add a Presence to Land with City and Strife</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g2a0">
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{wetland-sands}</presence-req>{range-1}</custom-presence-req>
+<growth-text>Add a Presence to Sands or Wetland </growth-text>
+</growth-cell>
+<growth-cell id="s0g2a1">
+<custom-presence-req>
+<presence-req>
+</presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{mountain} or {badlands}</presence-req>
+<range-growth-any>
+</range-growth-any>
+</custom-presence-req>
+<growth-text>Add a Presence to any Mountain  or Land with Badlands</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

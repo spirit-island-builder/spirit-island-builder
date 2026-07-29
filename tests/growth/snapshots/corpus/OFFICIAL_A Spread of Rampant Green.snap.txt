@@ -1,0 +1,66 @@
+<growth>
+<section-title>Growth</section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>Always...</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>Plus pick one:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<growth-table>
+<growth-group header="0">
+<growth-cell id="s0g0a0">
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{wetland-jungle}</presence-req>{range-2}</custom-presence-req>
+<growth-text>Add a Presence to Wetland or Jungle </growth-text>
+</growth-cell>
+</growth-group>
+<growth-border double="">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+<growth-cell id="s1g0a1">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="1">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g1a0">
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+<growth-cell id="s1g1a1">
+<card-play-num>
+<value>1</value>
+</card-play-num>
+<growth-text> +1 Card Play this turn</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="1">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g2a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id="s1g2a1">
+<growth-energy>
+<value>3</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

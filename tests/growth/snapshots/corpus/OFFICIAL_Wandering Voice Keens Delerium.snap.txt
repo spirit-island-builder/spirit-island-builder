@@ -1,0 +1,69 @@
+<growth>
+<section-title>Growth (Pick One)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<custom-icon>
+<add-move-upper>+{backslash}{move-arrow}</add-move-upper>
+<add-move-lower>
+<icon class="incarna add-move incarna-wvkd">
+</icon>
+<icon class="presence with-your">
+</icon>
+</add-move-lower>
+</custom-icon>
+<growth-text>Add/Move Incarna to Land with Presence</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a2">
+<growth-energy>
+<value>1</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-3}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g2a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id="s0g2a1">
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-2}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+<growth-cell id="s0g2a2">
+<growth-energy>
+<value>1</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+<growth-cell id="s0g2a3">
+<gain>
+<icon class="element air">
+</icon>
+</gain>
+<growth-text>Gain Air</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

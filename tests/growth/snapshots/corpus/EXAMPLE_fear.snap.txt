@@ -1,0 +1,91 @@
+<growth>
+<section-title>Growth</section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>always:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>and one of:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<growth-table>
+<growth-group header="0" tint="purple">
+<tint class="tint" style="background-color:purple;">
+</tint>
+<growth-cell id="s0g0a0">
+<growth-fear>
+<value>2</value>
+</growth-fear>
+<growth-text>Generate Fear</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border double="">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g0a0">
+<growth-cell-double>
+<fear-per>
+<value>1</value>
+</fear-per>
+<gain-per-fear>
+<ring-icon>{moon}</ring-icon>
+</gain-per-fear>
+</growth-cell-double>
+<growth-text>Generate 1 Fear per Moon Showing</growth-text>
+</growth-cell>
+<growth-cell id="s1g0a1">
+<growth-cell-double>
+<growth-fear>
+<value>3</value>
+</growth-fear>
+<fear-per>
+<value>2</value>
+</fear-per>
+<gain-per-fear>
+<ring-icon>{air}</ring-icon>
+</gain-per-fear>
+</growth-cell-double>
+<growth-text>Generate 3 Fear and +2 more per Air Showing</growth-text>
+</growth-cell>
+<growth-cell id="s1g0a2">
+<growth-cell-double>
+<growth-fear>
+<value>4</value>
+</growth-fear>
+<fear-per>
+<value>1</value>
+</fear-per>
+<gain-per-fear>
+<ring-icon>{sacred-site}</ring-icon>
+</gain-per-fear>
+</growth-cell-double>
+<growth-text>Generate 4 Fear and +1 more per Sacred Site</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="1">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g1a0">
+<growth-cell-double>
+<fear-per>
+<value>1</value>
+</fear-per>
+<gain-per-fear>
+<ring-icon>{fear}</ring-icon>
+</gain-per-fear>
+</growth-cell-double>
+<growth-text>Generate 1 Fear per by fear itself [custom text &amp; icon]</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

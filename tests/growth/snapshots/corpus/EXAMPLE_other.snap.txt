@@ -1,0 +1,92 @@
+<growth>
+<section-title>Growth</section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>pick one of:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>and one of:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<growth-table>
+<growth-group header="0">
+<growth-cell id="s0g0a0">{isolate}<growth-text>Isolate 1 of your Lands</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border double="">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g0a0">
+<custom-icon>{isolate}<range-growth>
+<value>2</value>
+</range-growth>
+</custom-icon>
+<growth-text>Isolate a Land</growth-text>
+</growth-cell>
+<growth-cell id="s1g0a1">
+<growth-cell-double>
+<gain-per>
+<value>1</value>
+</gain-per>
+<gain-per-element>
+<ring-icon>{custom1}</ring-icon>
+</gain-per-element>
+</growth-cell-double>
+<growth-text>Gain 1 Energy per spiky vine you have</growth-text>
+</growth-cell>
+<growth-cell id="s1g0a2">{damage-2}<growth-text>2 Damage in one of your Lands</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="1">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g1a0">
+<custom-growth-icon class="">{custom1}</custom-growth-icon>
+<growth-text>[custom]Destroy 1 {explorer} or add 1 {wilds} in 1 of Your Lands</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="1">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g2a0">
+<repeat-wrapper>
+<repeat-growth>
+<value>2</value>
+</repeat-growth>
+<card-play-num>
+<value>3</value>
+</card-play-num>
+</repeat-wrapper>
+<growth-text>x2:  +3 Card Plays this turn</growth-text>
+</growth-cell>
+<growth-cell id="s1g2a1">
+<custom-icon>
+<growth-damage>
+          <value>2</value>
+          </growth-damage>
+<range-growth>
+          <value>2</value>
+          </range-growth>
+</custom-icon>
+<growth-text>2 Damage at Range 2</growth-text>
+</growth-cell>
+<growth-cell id="s1g2a2">
+<repeat-wrapper>
+<repeat-growth>
+<value>3</value>
+</repeat-growth>{make-fast}</repeat-wrapper>
+<growth-text>x3: One of your Powers may be Fast</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

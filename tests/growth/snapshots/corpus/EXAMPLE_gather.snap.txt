@@ -1,0 +1,76 @@
+<growth>
+<section-title>Growth (Pick One)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">
+<push-gather>
+<icon class="gather">{blight}</icon>
+</push-gather>
+<growth-text>Gather 1 Blight into 1 of your Lands</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<push-gather>
+<icon class="gather">
+<icon-holder>
+<icon class="disease">
+</icon>
+<icon class="disease">
+</icon>
+<icon class="disease">
+</icon>
+</icon-holder>
+</icon>
+</push-gather>
+<growth-text>Gather 3 Disease into 1 of your Lands</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a2">
+<push-gather>
+<icon class="jungle terrain-gather">{gather-arrow}{beasts}</icon>
+</push-gather>
+<growth-text>Gather 1 Beasts into Jungle</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<push-gather>
+<icon class="gather-into">
+<icon class="into sacred-site">
+</icon>{presence}</icon>
+</push-gather>
+<growth-text>Gather 1 Presence into Each Sacred Site</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<push-gather>
+<icon class="ocean terrain-gather">{gather-arrow}<icon-holder>
+<icon class="presence">
+</icon>
+<icon class="presence">
+</icon>
+</icon-holder>
+</icon>
+</push-gather>
+<growth-text>Gather 2 Presence into Ocean</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a2">
+<push-gather>
+<icon class="mountain-wetland terrain-gather">{gather-arrow}<icon-holder>
+<icon class="beasts">
+</icon>
+<icon class="beasts">
+</icon>
+<icon class="beasts">
+</icon>
+</icon-holder>
+</icon>
+</push-gather>
+<growth-text>Gather 3 Beasts into Mountain or Wetland</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>
