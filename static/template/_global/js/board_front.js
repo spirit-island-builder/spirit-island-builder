@@ -3288,9 +3288,22 @@ function IconName(str, iconNum = 1) {
               };
               break;
             }
-            case "instead":
-              // no option to add presence, just token
+            case "instead": {
+              //no option to add presence, just token
+              const iconOpt3 = IconName(opt3);
+              localize = {
+                en: `Add a ${iconOpt3} instead of a Presence`,
+                fr: `Ajoutez un ${iconOpt3} au lieu d'une Présence`,
+                de: `Füge ein ${iconOpt3} statt einer Präsenz hinzu`,
+                pl: `Dodaj ${iconOpt3} zamiast Obecności`,
+                ar: `أضف ${iconOpt3} بدلاً من الحضور`,
+                zh: `添加${iconOpt3}而非靈跡`,
+                hu: `${iconOpt3} lerakása Jelenlét helyett`,
+                ko: `현신 대신 ${iconOpt3} 1개 추가`,
+                ja: `プレゼンスの代わりに${iconOpt3}を追加`,
+              };
               break;
+            }
           }
           subText = localize[lang];
         } else {

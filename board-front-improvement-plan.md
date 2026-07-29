@@ -137,13 +137,18 @@ branch does anyway), but if it's ever "fixed" to `!== null`, hand-written files 
 `or(presence-node(...), …)` is silently broken (renders a garbage icon name) — make it an
 explicit error cell, or implement it.
 
-### 4.5 (pending — found by the snapshot suite)
+### 4.5  ✅ (applied 2026-07-29 — found by the snapshot suite)
 
-`add-presence(x,token,y,instead)` has never rendered: the icon side implements the `instead`
-option, but in `IconName` the matching `case "instead"` never assigns `localize`, so
-`localize[lang]` throws and the action becomes an error cell. Fix by giving the case its own
-localized text (or intentionally an empty string). Requires a snapshot update
-(`npm run testGrowthUpdate`) since the baseline captures the current error-cell output.
+`add-presence(x,token,y,instead)` had never rendered: in `IconName` the token `case "instead"`
+never assigned `localize`, so `localize[lang]` threw and the action always became an error cell.
+The case now has localized text in all nine languages ("Add a \<token\> instead of a Presence"),
+phrased to match its `and`/`or` siblings. Snapshot rebaselined — the diff shows exactly this one
+fixture flipping from error cell to real render.
+
+**Verify:** growth value `add-presence(1,token,badlands,instead)` renders a cell instead of an
+error. *Follow-up worth eyeballing:* the icon side (which predates this fix) shows the
+`+presence` icon with an empty requirement ring — arguably it should show the token instead.
+That's a visual-design call; decide on a real board before changing it.
 
 ---
 

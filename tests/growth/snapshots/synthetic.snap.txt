@@ -443,12 +443,12 @@
 === add-presence-token-instead
 --- {"values":"add-presence(1,token,badlands,instead)"}
 <growth-group>
-<growth-cell id="s0g0a0">
-<custom-growth-icon>
-<div class='custom-scaling'>
-</div>
-</custom-growth-icon>
-<growth-text>error in: add-presence(1,token,badlands,instead)</growth-text>
+<growth-cell id='s0g0a0'>
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>
+</presence-req>{range-1}</custom-presence-req>
+<growth-text>Add a Badlands instead of a Presence</growth-text>
 </growth-cell>
 </growth-group>
 
