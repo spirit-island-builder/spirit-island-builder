@@ -179,6 +179,18 @@ function addTrackBanners(board) {
   }
 }
 
+// Entity-escape user-supplied text for use as element content in generated markup.
+function escapeHTML(value) {
+  return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+}
+
+// Serialize one attribute for generated markup: always double-quoted, with the
+// value entity-escaped so user-supplied text (quotes, ampersands, brackets)
+// cannot break out of the tag. Returns a leading space for easy concatenation.
+function attrHTML(name, value) {
+  return ` ${name}="${escapeHTML(value).replaceAll('"', "&quot;")}"`;
+}
+
 function buildGrowthPanel() {
   console.log("BUILDING GROWTH PANEL");
   const board = document.querySelectorAll("board")[0];
@@ -186,7 +198,7 @@ function buildGrowthPanel() {
 
   // Allow custom heading name
   let customNameText = growthHTML[0].getAttribute("customname")
-    ? ` customName="${growthHTML[0].getAttribute("customname")}"`
+    ? attrHTML("customName", growthHTML[0].getAttribute("customname"))
     : "";
 
   const growthTitle = `<section-title${customNameText}>${growthHTML[0].title}</section-title>`;
@@ -229,8 +241,10 @@ function buildGrowthPanel() {
         // Add single border
         if (nextSubElement && nextSubElement.nodeName.toLowerCase() === "growth-group") {
           newGrowthCellHTML += `<growth-border header=${currentHeaderIndex}></growth-border>`;
-          groupIndex += 1;
         }
+        // Increment unconditionally (not just when a border follows) so cell
+        // IDs stay unique even if a non-group element sits between groups
+        groupIndex += 1;
       }
 
       if (childElement.title) {
@@ -247,8 +261,8 @@ function buildGrowthPanel() {
       newGrowthCellHTML += writeGrowthGroup(childElement, setIndex, groupIndex);
       if (nextElement && nextElement.nodeName.toLowerCase() === "growth-group") {
         newGrowthCellHTML += "<growth-border></growth-border>";
-        groupIndex += 1;
       }
+      groupIndex += 1;
     }
   }
   const fullHTML =
@@ -273,16 +287,16 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
 
   let growthGroupHTML = "";
 
-  const headerText = !isNaN(headerIndex) ? ` header='${headerIndex}'` : "";
+  const headerText = !isNaN(headerIndex) ? attrHTML("header", headerIndex) : "";
   const specialTitleText = growthGroup.getAttribute("special-title")
-    ? ` special-title='${growthGroup.getAttribute("special-title")}'`
+    ? attrHTML("special-title", growthGroup.getAttribute("special-title"))
     : "";
   const specialTitleTextLeft = growthGroup.getAttribute("special-title-left")
-    ? ` special-title-left='${growthGroup.getAttribute("special-title-left")}'`
+    ? attrHTML("special-title-left", growthGroup.getAttribute("special-title-left"))
     : "";
   const newRowFlag = growthGroup.getAttribute("new-row") ? ` new-row=true` : "";
   const tint = growthGroup.getAttribute("tint");
-  const tintText = tint ? ` tint=${tint}` : ``;
+  const tintText = tint ? attrHTML("tint", tint) : ``;
 
   if (specialTitleTextLeft) {
     console.log("Found special title");
@@ -299,7 +313,10 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
 
   // Tint
   if (tint) {
-    growthGroupHTML += `<tint class='tint' style='background-color:${tint};'></tint>`;
+    growthGroupHTML += `<tint class='tint'${attrHTML(
+      "style",
+      `background-color:${tint};`
+    )}></tint>`;
   }
 
   // Costs
@@ -323,7 +340,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
       if (debug) {
         console.log("Cost with custom icon");
       }
-      growthGroupHTML += `<growth-cost class='custom'>{${costSplit[1]}}<value>-${costSplit[0]}</value></icon></growth-cost>`;
+      growthGroupHTML += `<growth-cost class='custom'>{${costSplit[1]}}<value>-${costSplit[0]}</value></growth-cost>`;
     } else {
       // Its just a number, so do energy cost
       growthGroupHTML += `<growth-cost>-${costSplit[0]}</growth-cost>`;
@@ -337,7 +354,8 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
     try {
       nextGrowthAction = writeGrowthAction(growthActions[j], setIndex, groupIndex, j);
     } catch (e) {
-      nextGrowthAction = writeGrowthAction("custom(error! check syntax)");
+      console.log("Error parsing growth action '" + growthActions[j] + "':", e);
+      nextGrowthAction = writeGrowthErrorCell(growthActions[j], setIndex, groupIndex, j);
     }
     growthGroupHTML += nextGrowthAction;
   }
@@ -345,6 +363,19 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   growthGroupHTML += "</growth-group>";
 
   return growthGroupHTML;
+}
+
+// Fallback cell when a growth action fails to parse. Built directly (not via the
+// custom(...) syntax) because the failing action text can itself contain the
+// commas and parentheses that syntax splits on.
+function writeGrowthErrorCell(growthAction, setIndex = 0, groupIndex = 0, actionIndex = 0) {
+  const growthActionID = `s${setIndex}g${groupIndex}a${actionIndex}`;
+  return (
+    `<growth-cell${attrHTML("id", growthActionID)}>` +
+    `<custom-growth-icon><div class='custom-scaling'></div></custom-growth-icon>` +
+    `<growth-text>error in: ${escapeHTML(growthAction)}</growth-text>` +
+    `</growth-cell>`
+  );
 }
 
 function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionIndex = 0) {
@@ -616,58 +647,13 @@ function getGrowthActionTextAndIcons(growthAction) {
     }
     case "gain-energy": {
       const matches = regExpOuterParentheses.exec(growthAction);
-      const gainEnergyBy = matches[1];
-      let energyOptions = gainEnergyBy.split(",");
-      let energyManyIconOpen = "";
-      let energyManyIconClose = "";
-      if (isNaN(energyOptions[0]) || energyOptions.length !== 1) {
-        energyManyIconOpen = "<growth-cell-double>";
-        energyManyIconClose = "</growth-cell-double>";
-      }
-      let energyGrowthIcons = "";
-      let x_is_num = !isNaN(energyOptions[0]);
-      let x_is_zero = energyOptions[0] === 0;
-      let x_is_text = energyOptions[0] === "text";
-      let x_is_flat = x_is_num && !x_is_zero;
-      let y_is_text = energyOptions[1] !== undefined ? energyOptions[1] === "text" : false;
-      let has_custom_text = x_is_text || y_is_text;
-      let custom_text = "";
-      if (has_custom_text) {
-        custom_text += y_is_text ? energyOptions[2] : energyOptions[1];
-      }
-
-      let shift = 0;
-      shift += x_is_num ? 1 : 0;
-      shift += has_custom_text ? 2 : 0;
-      let flatEnergy = energyOptions[0];
-      let scaling_entity = energyOptions[shift];
-      let scaling_value = energyOptions[shift + 1] !== undefined ? energyOptions[shift + 1] : 1;
-      if (!isNaN(scaling_entity)) {
-        scaling_value = scaling_entity;
-        scaling_entity = undefined;
-      }
-      const customScalingIcon =
-        scaling_entity !== undefined
-          ? "{" + scaling_entity + "}"
-          : "<div class='custom-scaling'></div>";
-
-      let iconNamevars = "0";
-      // Flat Energy
-      if (x_is_flat) {
-        energyGrowthIcons = `<growth-energy><value>${flatEnergy}</value></growth-energy>`;
-        iconNamevars = flatEnergy + "";
-      }
-
-      // Scaling Energy
-      if (scaling_entity || has_custom_text) {
-        energyGrowthIcons += "<gain-per><value>" + scaling_value + "</value></gain-per>";
-        energyGrowthIcons +=
-          "<gain-per-element><ring-icon>" + customScalingIcon + "</ring-icon></gain-per-element>";
-        iconNamevars += "," + scaling_value + "," + scaling_entity;
-        iconNamevars += has_custom_text ? "," + custom_text : "";
-      }
-      growthIcons = energyManyIconOpen + energyGrowthIcons + energyManyIconClose;
-      growthText = IconName(`gain-energy(${iconNamevars})`);
+      const iconsAndText = getScalingGainTextAndIcons(
+        matches[1],
+        { flat: "growth-energy", per: "gain-per", perElement: "gain-per-element" },
+        "gain-energy"
+      );
+      growthIcons = iconsAndText[0];
+      growthText = iconsAndText[1];
       break;
     }
     case "add-presence-custom": {
@@ -684,7 +670,7 @@ function getGrowthActionTextAndIcons(growthAction) {
     case "add-presence": {
       const matches = regExpOuterParentheses.exec(growthAction);
       if (!matches) {
-        console.log("ERROR in GROWTH: add-presence() cannot be empty");
+        throw new Error("add-presence requires options, e.g. add-presence(1)");
       }
       let presenceOptions = matches[1].split(",");
       presenceOptions = presenceOptions.map((str) => str.trim());
@@ -1000,58 +986,13 @@ function getGrowthActionTextAndIcons(growthAction) {
     }
     case "fear": {
       const matches = regExp.exec(growthAction);
-      const gainFearBy = matches[1];
-      let fearOptions = gainFearBy.split(",");
-      let fearManyIconOpen = "";
-      let fearManyIconClose = "";
-      if (isNaN(fearOptions[0]) || fearOptions.length !== 1) {
-        fearManyIconOpen = "<growth-cell-double>";
-        fearManyIconClose = "</growth-cell-double>";
-      }
-      let fearGrowthIcons = "";
-      let x_is_num = !isNaN(fearOptions[0]);
-      let x_is_zero = fearOptions[0] === 0;
-      let x_is_text = fearOptions[0] === "text";
-      let x_is_flat = x_is_num && !x_is_zero;
-      let y_is_text = fearOptions[1] !== undefined ? fearOptions[1] === "text" : false;
-      let has_custom_text = x_is_text || y_is_text;
-      let custom_text = "";
-      if (has_custom_text) {
-        custom_text += y_is_text ? fearOptions[2] : fearOptions[1];
-      }
-
-      let shift = 0;
-      shift += x_is_num ? 1 : 0;
-      shift += has_custom_text ? 2 : 0;
-      let flatFear = fearOptions[0];
-      let scaling_entity = fearOptions[shift];
-      let scaling_value = fearOptions[shift + 1] !== undefined ? fearOptions[shift + 1] : 1;
-      if (!isNaN(scaling_entity)) {
-        scaling_value = scaling_entity;
-        scaling_entity = undefined;
-      }
-      const customScalingIcon =
-        scaling_entity !== undefined
-          ? "{" + scaling_entity + "}"
-          : "<div class='custom-scaling'></div>";
-
-      let iconNamevars = "0";
-      // Flat Fear
-      if (x_is_flat) {
-        fearGrowthIcons = "<growth-fear><value>" + flatFear + "</value></growth-fear>";
-        iconNamevars = flatFear + "";
-      }
-
-      // Scaling Fear
-      if (scaling_entity || has_custom_text) {
-        fearGrowthIcons += "<fear-per><value>" + scaling_value + "</value></fear-per>";
-        fearGrowthIcons +=
-          "<gain-per-fear><ring-icon>" + customScalingIcon + "</ring-icon></gain-per-fear>";
-        iconNamevars += "," + scaling_value + "," + scaling_entity;
-        iconNamevars += has_custom_text ? "," + custom_text : "";
-      }
-      growthIcons = fearManyIconOpen + fearGrowthIcons + fearManyIconClose;
-      growthText = IconName(`growth-fear(${iconNamevars})`);
+      const iconsAndText = getScalingGainTextAndIcons(
+        matches[1],
+        { flat: "growth-fear", per: "fear-per", perElement: "gain-per-fear" },
+        "growth-fear"
+      );
+      growthIcons = iconsAndText[0];
+      growthText = iconsAndText[1];
       break;
     }
     case "lose-range":
@@ -1172,9 +1113,9 @@ function getGrowthActionTextAndIcons(growthAction) {
           growthIcons =
             '<custom-icon><add-token-upper>+<icon class="add-token ' +
             incarnaRangeOrToken +
-            '"></add-token-upper><add-token-lower><icon class="incarna ' +
+            '"></icon></add-token-upper><add-token-lower><icon class="incarna ' +
             customIncarnaIcon +
-            '"><add-token-lower></custom-icon>';
+            '"></icon></add-token-lower></custom-icon>';
           break;
         default:
       }
@@ -1310,8 +1251,6 @@ function getGrowthActionTextAndIcons(growthAction) {
       growthIcons = "{ignorerange}"; //avoiding the hyphen
       growthText = IconName(growthActionType);
       break;
-    case "conditional":
-      break;
     default: {
       growthIcons = "{" + growthActionType + "}";
       growthText = IconName(growthActionType);
@@ -1330,6 +1269,62 @@ function getGrowthActionTextAndIcons(growthAction) {
   }
 
   return [growthIcons, growthText, isDefault];
+}
+
+// Shared by the "gain-energy" and "fear" growth actions, which differ only in the
+// tag names wrapping the flat and scaling (per-X) icons. Options are, in order:
+// an optional flat amount (0 = none), optionally "text" followed by custom text,
+// then an optional scaling entity and scaling amount.
+function getScalingGainTextAndIcons(optionsString, tags, iconNamePrefix) {
+  const options = optionsString.split(",");
+  let manyIconOpen = "";
+  let manyIconClose = "";
+  if (isNaN(options[0]) || options.length !== 1) {
+    manyIconOpen = "<growth-cell-double>";
+    manyIconClose = "</growth-cell-double>";
+  }
+  let gainIcons = "";
+  let x_is_num = !isNaN(options[0]);
+  let x_is_zero = Number(options[0]) === 0; // options are strings, so compare numerically
+  let x_is_text = options[0] === "text";
+  let x_is_flat = x_is_num && !x_is_zero;
+  let y_is_text = options[1] !== undefined ? options[1] === "text" : false;
+  let has_custom_text = x_is_text || y_is_text;
+  let custom_text = "";
+  if (has_custom_text) {
+    custom_text += y_is_text ? options[2] : options[1];
+  }
+
+  let shift = 0;
+  shift += x_is_num ? 1 : 0;
+  shift += has_custom_text ? 2 : 0;
+  let flatValue = options[0];
+  let scaling_entity = options[shift];
+  let scaling_value = options[shift + 1] !== undefined ? options[shift + 1] : 1;
+  if (!isNaN(scaling_entity)) {
+    scaling_value = scaling_entity;
+    scaling_entity = undefined;
+  }
+  const customScalingIcon =
+    scaling_entity !== undefined
+      ? "{" + scaling_entity + "}"
+      : "<div class='custom-scaling'></div>";
+
+  let iconNamevars = "0";
+  // Flat gain
+  if (x_is_flat) {
+    gainIcons = `<${tags.flat}><value>${flatValue}</value></${tags.flat}>`;
+    iconNamevars = flatValue + "";
+  }
+
+  // Scaling gain
+  if (scaling_entity || has_custom_text) {
+    gainIcons += `<${tags.per}><value>${scaling_value}</value></${tags.per}>`;
+    gainIcons += `<${tags.perElement}><ring-icon>${customScalingIcon}</ring-icon></${tags.perElement}>`;
+    iconNamevars += "," + scaling_value + "," + scaling_entity;
+    iconNamevars += has_custom_text ? "," + custom_text : "";
+  }
+  return [manyIconOpen + gainIcons + manyIconClose, IconName(`${iconNamePrefix}(${iconNamevars})`)];
 }
 
 function buildPresenceTracks() {
@@ -5558,7 +5553,9 @@ function dynamicResizing() {
       newGrowthTable = document.createElement("growth-table");
       const growthLine = document.createElement("growth-row-line");
       let c = 0;
-      while (totalWidth > 1090 || tallGrowthText) {
+      // growthGroups is a live collection; keep at least one group in the top
+      // table or the next iteration appends undefined and kills the render.
+      while ((totalWidth > 1090 || tallGrowthText) && growthGroups.length > 1) {
         if (c === 0) {
           newGrowthTable.appendChild(growthGroups[growthGroups.length - 1]);
         } else {
@@ -5574,8 +5571,13 @@ function dynamicResizing() {
         tallGrowthText = hasTallGrowthText(growthTable.getElementsByTagName("growth-text"));
         c++;
       }
-      document.getElementsByTagName("growth")[0].append(growthLine);
-      document.getElementsByTagName("growth")[0].append(newGrowthTable);
+      if (newGrowthTable.children.length > 0) {
+        document.getElementsByTagName("growth")[0].append(growthLine);
+        document.getElementsByTagName("growth")[0].append(newGrowthTable);
+      } else {
+        // Single overwide group: nothing could move, so don't add an empty row
+        newGrowthTable = undefined;
+      }
     }
   }
 
