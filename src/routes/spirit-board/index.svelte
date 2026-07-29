@@ -878,6 +878,7 @@
         imageHeight: Math.round(H),
         growthGroups: [],
         presenceNodes: [],
+        specialRules: [],
         innates: [],
       };
 
@@ -888,6 +889,15 @@
           cells.push(region(cell, cell.id));
         });
         result.growthGroups.push({ ...region(group, `growth_group_${gi}`), cells });
+      });
+
+      // Special Rules effect boxes (ids like "sr0effect")
+      board.querySelectorAll("special-rule[id]").forEach((sr) => {
+        const nameEl = board.querySelector(`#${sr.id.replace("effect", "name")}`);
+        result.specialRules.push({
+          ...region(sr, sr.id),
+          name: nameEl?.textContent?.trim() ?? "",
+        });
       });
 
       // Presence track nodes (energy + card plays tracks)
