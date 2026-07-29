@@ -1475,6 +1475,180 @@
 </growth-cell>
 </growth-group>
 
+=== spacey-gain-energy
+--- {"values":"gain-energy(2, dahan)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<growth-energy>
+<value>2</value>
+</growth-energy>
+<gain-per>
+<value>1</value>
+</gain-per>
+<gain-per-element>
+<ring-icon>{dahan}</ring-icon>
+</gain-per-element>
+</growth-cell-double>
+<growth-text>Gain 2 Energy and +1 more per Dahan</growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-gain-energy-zero
+--- {"values":"gain-energy( 0 , dahan )"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<gain-per>
+<value>1</value>
+</gain-per>
+<gain-per-element>
+<ring-icon>{dahan}</ring-icon>
+</gain-per-element>
+</growth-cell-double>
+<growth-text>Gain 1 Energy per Dahan</growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-add-presence
+--- {"values":"add-presence(1, jungle)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{jungle}</presence-req>{range-1}</custom-presence-req>
+<growth-text>Add a Presence to Jungle </growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-gather
+--- {"values":"gather( dahan )"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<push-gather>
+<icon class="gather">{dahan}</icon>
+</push-gather>
+<growth-text>Gather 1 Dahan into 1 of your Lands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-gain-element
+--- {"values":"gain-element( fire )"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<gain>
+<icon class='element fire'>
+</icon>
+</gain>
+<growth-text>Gain Fire</growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-gain-element-or
+--- {"values":"gain-element(fire, water)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<gain class='or'>
+<icon class='orelement element fire'>
+</icon>{backslash}<icon class='orelement element water'>
+</icon>
+</gain>
+<growth-text>Gain Fire or Water</growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-add-token
+--- {"values":"add-token(1, badlands)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon class="add-token">
+<token-wrap>+{badlands}</token-wrap>
+<range-growth>
+<value>1</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Badlands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-incarna
+--- {"values":"incarna(move, 1)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-icon2>
+<icon class="incarna move incarna">
+</icon>
+<move-growth>
+<value>1</value>
+</move-growth>
+</custom-icon2>
+<growth-text>Move Incarna</growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-blank
+--- {"values":"blank( 120 )"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-growth-icon style='max-width:120px;'>
+</custom-growth-icon>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-custom
+--- {"values":"custom( My custom action , fire )"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<custom-growth-icon class=''>{fire}</custom-growth-icon>
+<growth-text>My custom action</growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-semicolon-values
+--- {"values":"gain-energy(2); reclaim-all"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-energy>
+<value>2</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+<growth-cell id='s0g0a1'>{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-or
+--- {"values":"or(gain-energy(2), add-presence(1))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<growth-energy>
+<value>2</value>
+</growth-energy>or<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+</growth-cell-double>
+<growth-text>Gain Energy or Add a Presence</growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-cost
+--- {"values":"gain-power-card","cost":"2, time"}
+<growth-group>
+<growth-cost class='custom'>{time}<value>-2</value>
+</growth-cost>
+<growth-cell id='s0g0a0'>{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+
+=== spacey-override
+--- {"values":"moon* Custom override text"}
+<growth-group>
+<growth-cell id='s0g0a0'>{moon}<growth-text>Custom override text</growth-text>
+</growth-cell>
+</growth-group>
+
 === error-unclosed-paren
 --- {"values":"gain-energy("}
 <growth-group>

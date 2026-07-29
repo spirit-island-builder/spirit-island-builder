@@ -1,7 +1,5 @@
 "use strict";
 
-// const { text } = require("svelte/internal");
-
 /* global replaceIcon */
 /* global checkOverflowHeight */
 /* global checkOverflowWidth */
@@ -10,14 +8,22 @@
 
 let lang = "en";
 
+// Verbose per-action logging for the growth pipeline. Flip on when debugging;
+// keep off in production — it logs every action on every render.
+const DEBUG = false;
+
 /* exported startMain */
 async function startMain() {
   console.log("Spirit Board startMain");
   if (document.getElementsByTagName("board")[0]) {
-    console.log("CREATING SPIRIT BOARD");
+    if (DEBUG) {
+      console.log("CREATING SPIRIT BOARD");
+    }
     const board = document.querySelectorAll("board")[0];
     lang = board.getAttribute("lang") || "en";
-    console.log("found language " + lang);
+    if (DEBUG) {
+      console.log("found language " + lang);
+    }
 
     // Cached values depend on `lang` and on custom icon names read from the
     // DOM, both of which can change between renders. The iframe is not
@@ -38,9 +44,19 @@ async function startMain() {
     const html = board.innerHTML;
     board.innerHTML = replaceIcon(html);
 
-    // This needs to be removed at some point, none of the code in here should be asynchronus and both dynamicResizing and addImages should not need to wait before they work properly. We have a race condition that works most of the time but will fail for some people.
-    // Counterpoint: Resize needs the browser to draw the spirit board first, and then adjust things, so it needs to be drawn.
-    await waitPromise(200);
+    // dynamicResizing decides line breaks and widths from text measurements,
+    // so it must run with the final fonts — fallback-font metrics differ and
+    // produce mis-sized boards. Fonts load lazily on first use: force one
+    // style/layout pass so the browser starts fetching any @font-face the new
+    // content needs, then wait for those loads to finish. On re-renders the
+    // iframe document (and its fonts) are reused, so this resolves instantly.
+    void board.offsetHeight;
+    if (document.fonts) {
+      await document.fonts.ready;
+    } else {
+      // Fallback for browsers without the CSS Font Loading API
+      await waitPromise(200);
+    }
     dynamicResizing();
     addImages(board);
     addTrackBanners(board);
@@ -60,8 +76,25 @@ async function startMain() {
   }
 }
 
+// Option-extraction regexes shared by the growth action renderers.
+// _innerParenRegex captures up to the first ')'; _outerParenRegex captures
+// greedily to the last ')' (tolerating one level of nested parentheses).
+// Which one an action uses is part of its historical parsing behavior.
+const _innerParenRegex = /\(([^)]+)\)/;
+const _outerParenRegex = /\(\s*(.+)\s*\)/;
+
+// Comma-split an options string, trimming whitespace around each option so
+// "gain-energy(2, dahan)" parses like "gain-energy(2,dahan)". Trimming is
+// edge-only: multi-word text options keep their internal spaces. IconName has
+// always trimmed its options, so this makes the icon side agree with the text side.
+function _splitOptions(optionsString) {
+  return optionsString.split(",").map((str) => str.trim());
+}
+
 function addImages(board) {
-  console.log("ADDING IMAGES");
+  if (DEBUG) {
+    console.log("ADDING IMAGES");
+  }
   const spiritImage = board.getAttribute("spirit-image");
   board.removeAttribute("spirit-image");
   const artistCredit = board.getElementsByTagName("artist-name");
@@ -91,7 +124,9 @@ function addImages(board) {
     nameFontSize -= 1;
     spiritNameText.style.fontSize = nameFontSize + "px";
     if (nameFontSize < 32) {
-      console.log("too small, break");
+      if (DEBUG) {
+        console.log("too small, break");
+      }
       break;
     }
   }
@@ -118,14 +153,16 @@ function addImages(board) {
   spiritName[0].outerHTML += "<created-with>spiritislandbuilder.com</created-with>";
 }
 
+// Height of a presence node in px; banner art is centered on the track using it.
+const PRESENCE_NODE_HEIGHT = 130;
+
 function addTrackBanners(board) {
-  let debug = true;
   const presenceTracks = board.getElementsByTagName("presence-tracks")[0];
 
   // Check for Combined Banner
   let combinedBanner = board.getElementsByClassName("combined-track")[0];
   if (combinedBanner) {
-    if (debug) {
+    if (DEBUG) {
       console.log("Combined banner");
       console.log(combinedBanner);
     }
@@ -137,7 +174,7 @@ function addTrackBanners(board) {
     let tracksHeight =
       lastRowNodes[1].getBoundingClientRect().top -
       firstRowNodes[1].getBoundingClientRect().top +
-      130;
+      PRESENCE_NODE_HEIGHT;
     let trackTop =
       firstRowNodes[1].getBoundingClientRect().top -
       presenceTracks.getBoundingClientRect().top +
@@ -145,10 +182,12 @@ function addTrackBanners(board) {
     combinedBanner.style.top = trackTop + "px";
     combinedBanner.style.width = table.getBoundingClientRect().width + "px";
     combinedBanner.style.height = tracksHeight + "px";
-    console.log(tracksHeight);
+    if (DEBUG) {
+      console.log(tracksHeight);
+    }
   } else {
     // Default: Not combined track
-    if (debug) {
+    if (DEBUG) {
       console.log("Default track art");
     }
     const tracks = Array.from(presenceTracks.getElementsByTagName("tr"));
@@ -164,7 +203,9 @@ function addTrackBanners(board) {
         nodes[nodes.length - 1].getBoundingClientRect().right -
         nodes[0].getBoundingClientRect().left;
       let trackTop =
-        nodes[1].getBoundingClientRect().top + 130 / 2 - presenceTracks.getBoundingClientRect().top;
+        nodes[1].getBoundingClientRect().top +
+        PRESENCE_NODE_HEIGHT / 2 -
+        presenceTracks.getBoundingClientRect().top;
       if (track.classList.contains("has-split-node")) {
         trackTop += parseFloat(
           window.getComputedStyle(nodes[1]).getPropertyValue("padding-top").replace(/px/, "")
@@ -192,7 +233,9 @@ function attrHTML(name, value) {
 }
 
 function buildGrowthPanel() {
-  console.log("BUILDING GROWTH PANEL");
+  if (DEBUG) {
+    console.log("BUILDING GROWTH PANEL");
+  }
   const board = document.querySelectorAll("board")[0];
   const growthHTML = board.getElementsByTagName("growth");
 
@@ -278,10 +321,8 @@ function buildGrowthPanel() {
 }
 
 function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex = NaN) {
-  let debug = true;
-
-  console.log("--Growth Group s" + setIndex + "g" + groupIndex + "--");
-  if (debug) {
+  if (DEBUG) {
+    console.log("--Growth Group s" + setIndex + "g" + groupIndex + "--");
     console.log("growthGroup: " + growthGroup.getAttribute("values"));
   }
 
@@ -298,7 +339,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   const tint = growthGroup.getAttribute("tint");
   const tintText = tint ? attrHTML("tint", tint) : ``;
 
-  if (specialTitleTextLeft) {
+  if (DEBUG && specialTitleTextLeft) {
     console.log("Found special title");
     console.log(growthGroup);
   }
@@ -322,7 +363,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
   // Costs
   const cost = growthGroup.getAttribute("cost");
   if (cost) {
-    const costSplit = cost.split(",");
+    const costSplit = _splitOptions(cost);
     if (isNaN(costSplit[0])) {
       // Non-numerical cost (ie. forget a card)
       if (costSplit[1]) {
@@ -337,7 +378,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
       }
     } else if (costSplit[1]) {
       // User wants to use a non-energy scaling cost
-      if (debug) {
+      if (DEBUG) {
         console.log("Cost with custom icon");
       }
       growthGroupHTML += `<growth-cost class='custom'>{${costSplit[1]}}<value>-${costSplit[0]}</value></growth-cost>`;
@@ -347,7 +388,10 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
     }
   }
 
-  const growthActions = growthGroup.getAttribute("values").split(";");
+  const growthActions = growthGroup
+    .getAttribute("values")
+    .split(";")
+    .map((str) => str.trim());
 
   let nextGrowthAction;
   for (let j = 0; j < growthActions.length; j++) {
@@ -379,14 +423,14 @@ function writeGrowthErrorCell(growthAction, setIndex = 0, groupIndex = 0, action
 }
 
 function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionIndex = 0) {
-  let debug = true;
   const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
   const regExpCommaNoParentheses = /,(?![^(]*\))/;
 
+  growthAction = growthAction.trim();
   let growthActionHTML = "";
   let growthActionType = growthAction.split("(")[0].split("^")[0];
   let growthActionID = `s${setIndex}g${groupIndex}a${actionIndex}`;
-  if (debug) {
+  if (DEBUG) {
     console.log("Growth Action " + growthActionID + ": " + growthAction);
     console.log("Growth Action Type: " + growthActionType);
   }
@@ -399,11 +443,13 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
   let numActions = 1;
   let orText = "or";
   if (growthActionType === "or" || growthActionType === "then") {
-    console.log("'or' growth detected");
+    if (DEBUG) {
+      console.log("'or' growth detected");
+    }
     isOr = true;
     orText = growthActionType;
     const matches = regExpOuterParentheses.exec(growthAction)[1];
-    orGrowthActions = matches.split(regExpCommaNoParentheses);
+    orGrowthActions = matches.split(regExpCommaNoParentheses).map((str) => str.trim());
     growthAction = orGrowthActions[0];
     numActions = orGrowthActions.length;
   }
@@ -411,14 +457,16 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
   // Check for Presence Node in Growth
   if (growthActionType === "presence-node") {
     const matches = regExpOuterParentheses.exec(growthAction)[1];
-    if (debug) {
+    if (DEBUG) {
       console.log("Putting Presence Node in Growth");
       console.log(matches);
     }
     isPresenceNode = true;
-    growthAction = matches;
+    growthAction = matches.trim();
     growthActionType = growthAction.split("(")[0].split("^")[0];
-    console.log(growthAction);
+    if (DEBUG) {
+      console.log(growthAction);
+    }
   }
 
   // Establish Growth HTML Openers and Closers
@@ -444,27 +492,31 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
 
   //Handle Presence Node
   if (isPresenceNode) {
-    console.log(growthIcons);
+    if (DEBUG) {
+      console.log(growthIcons);
+    }
     if (growthAction.includes("blank")) {
       growthIcons = `<presence-node class="growth blank"><ring-icon>${growthIcons}
         </ring-icon></presence-node>`;
     } else if (growthAction.includes("empty")) {
-      console.log("empty - getting presence node modifiers");
-      console.log(growthAction);
+      if (DEBUG) {
+        console.log("empty - getting presence node modifiers");
+        console.log(growthAction);
+      }
       growthIcons = getPresenceNodeHtml(growthAction, false, 0, "growth-empty", false);
-      console.log(growthIcons);
       let wrapper = document.createElement("div");
       wrapper.innerHTML = growthIcons;
       let div = wrapper.firstChild;
-      console.log(div);
       div.classList.add("growth", "blank");
       growthIcons = div.outerHTML;
       growthText = "";
     } else {
       if (growthWasDefault) {
         // Assume user wants Presence Node options
-        console.log(growthIcons);
-        console.log(growthAction);
+        if (DEBUG) {
+          console.log(growthIcons);
+          console.log(growthAction);
+        }
         let nodeHTML = getPresenceNodeHtml(growthAction, false, 0, "card", false);
         let wrapper = document.createElement("div");
         wrapper.innerHTML = nodeHTML;
@@ -474,7 +526,9 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
         growthText = "";
       } else {
         growthIcons = `<presence-node class="growth"><ring-icon>${growthIcons}</ring-icon></presence-node>`;
-        console.log("node in growth with: " + growthIcons);
+        if (DEBUG) {
+          console.log("node in growth with: " + growthIcons);
+        }
       }
     }
     isPresenceNode = false;
@@ -494,15 +548,22 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
   return growthActionHTML;
 }
 
+// Renderers for growth actions with options, keyed by action name — the keys
+// ARE the growth vocabulary (simple no-option actions fall through to the
+// default icon + IconName path in getGrowthActionTextAndIcons). Each renderer
+// receives the raw action string plus the parsed action type, and returns
+// [growthIcons, growthText]. Renderers do their own option parsing: which
+// regex they use and whether they trim is part of each action's historical
+// behavior — don't unify without a snapshot review.
 function getGrowthActionTextAndIcons(growthAction) {
   let growthActionType = growthAction.split("(")[0].split("^")[0].split("*")[0];
-  const regExp = /\(([^)]+)\)/;
-  const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
 
   let overrideText = "";
   if (growthAction.split("*")[1]) {
-    overrideText = growthAction.split("*")[1].split("(")[0].split("^")[0];
-    console.log("override detected:" + overrideText);
+    overrideText = growthAction.split("*")[1].split("(")[0].split("^")[0].trim();
+    if (DEBUG) {
+      console.log("override detected:" + overrideText);
+    }
   }
 
   //Find if a growth effect is repeated (Fractured Days)
@@ -516,7 +577,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       repeatText = `x${repeat}: `;
     } else if (repeat.startsWith("cost(")) {
       // Energy Cost (syntax ^cost(-2) )
-      const matches = regExp.exec(repeat);
+      const matches = _innerParenRegex.exec(repeat);
       if (matches) {
         let energy_cost = matches[1];
         repeatOpen = `<repeat-growth class='energy-cost'><value>-${energy_cost}</value></repeat-growth>`;
@@ -533,730 +594,24 @@ function getGrowthActionTextAndIcons(growthAction) {
 
   let growthIcons, growthText;
   let isDefault = 0;
-  switch (growthActionType) {
-    // Simple growth items are handled in the 'Default' case. See function IconName.
-    // Only growth items with options are handled here.
-    case "reclaim": {
-      const matches = regExp.exec(growthAction);
-      let reclaimIcon = "{reclaim-all}";
-      let reclaimText = IconName("reclaim");
-      if (matches) {
-        let reclaimOptions = matches[1].split(",");
-        let reclaimType = reclaimOptions[0];
-        let reclaimModifiersOrText = reclaimOptions[1];
-        switch (reclaimType) {
-          case "all":
-            if (reclaimModifiersOrText) {
-              reclaimIcon = `<icon class='reclaim-${reclaimType} modified-reclaim'>
-                {${reclaimModifiersOrText}}</icon>`;
-            }
-            break;
-          case "one":
-            if (reclaimModifiersOrText) {
-              reclaimIcon = `<icon class='reclaim-${reclaimType} modified-reclaim'>
-                {${reclaimModifiersOrText}}</icon>`;
-            } else {
-              reclaimIcon = "{reclaim-" + reclaimType + "}";
-            }
-            break;
-          case "none":
-            reclaimIcon = "{reclaim-" + reclaimType + "}";
-            break;
-          case "half":
-            reclaimIcon = "{reclaim-" + reclaimType + "}";
-            break;
-          case "custom":
-            reclaimIcon = "{reclaim-" + reclaimType + "}";
-            break;
-          default:
-            if (!isNaN(reclaimType)) {
-              reclaimIcon = `<icon class="reclaim-num"><value>${reclaimType}</value></icon>`;
-              reclaimType = "num";
-            } else {
-              reclaimText = "TEXT NOT RECOGNIZED - use 'all','one',or 'custom'";
-            }
-        }
-        reclaimText = IconName(`reclaim-${reclaimType}${matches[0]}`);
-      }
-      growthIcons = reclaimIcon;
-      growthText = reclaimText;
-      break;
+  const renderer = Object.prototype.hasOwnProperty.call(GROWTH_ACTION_RENDERERS, growthActionType)
+    ? GROWTH_ACTION_RENDERERS[growthActionType]
+    : undefined;
+  if (renderer) {
+    const iconsAndText = renderer(growthAction, growthActionType);
+    growthIcons = iconsAndText[0];
+    growthText = iconsAndText[1];
+    // A renderer may supply an override (add-presence-custom's legacy custom
+    // text) — applied in the shared postlude below, like the * syntax.
+    if (iconsAndText[2] !== undefined) {
+      overrideText = iconsAndText[2];
     }
-    case "gain-card-pay-2": {
-      growthIcons = `<custom-icon>{${growthActionType}}</custom-icon>`;
-      growthText = IconName(growthActionType);
-      break;
-    }
-    case "take-power-card":
-    case "gain-power-card": {
-      const matches = regExp.exec(growthAction);
-      let gainPowerCardIcon = `{${growthActionType}}`;
-      if (matches) {
-        let gainPowerCardOptions = matches[1].split(",");
-        let gainPowerCardType = gainPowerCardOptions[0] || "";
-        let gainPCModifierIcon = gainPowerCardOptions[2];
-        gainPowerCardIcon = `<icon class='${growthActionType}'>
-                            <icon class='${gainPowerCardType.toLowerCase()} gain-card-modifier'></icon>`;
-        if (gainPCModifierIcon) {
-          gainPowerCardIcon += `<div class="gain-card-second-modifier">{${gainPCModifierIcon}}</div>`;
-        }
-        gainPowerCardIcon += `</icon>`;
-      }
-      growthIcons = gainPowerCardIcon;
-      growthText = IconName(growthAction);
-      break;
-    }
-    case "isolate": {
-      const matches = regExp.exec(growthAction);
-      let isolateIcons = "{isolate}";
-      let isolateReqOpen = "";
-      let isolateReqClose = "";
-      if (matches) {
-        let isolateOptions = matches[1].split(",");
-        let isolateRange = isolateOptions[0];
-        isolateReqOpen = "<custom-icon>";
-        isolateReqClose = "</custom-icon>";
-        isolateIcons += `<range-growth><value>${isolateRange}</value></range-growth>`;
-      }
-      growthIcons = isolateReqOpen + isolateIcons + isolateReqClose;
-      let isolateText = IconName(growthAction);
-      growthText = isolateText;
-      break;
-    }
-    case "damage": {
-      const matches = regExp.exec(growthAction);
-      let damageOptions = matches[1].split(",");
-      let range = damageOptions[0];
-      let damage = damageOptions[1];
-      if (isNaN(damage)) {
-        growthIcons = `<custom-icon><growth-damage>
-          {${damage}}
-          </growth-damage><range-growth>
-          <value>${range}</value>
-          </range-growth></custom-icon>`;
-      } else {
-        growthIcons = `<custom-icon><growth-damage>
-          <value>${damage}</value>
-          </growth-damage><range-growth>
-          <value>${range}</value>
-          </range-growth></custom-icon>`;
-      }
-      let damageText = IconName(growthAction);
-      growthText = damageText;
-      break;
-    }
-    case "gain-energy": {
-      const matches = regExpOuterParentheses.exec(growthAction);
-      const iconsAndText = getScalingGainTextAndIcons(
-        matches[1],
-        { flat: "growth-energy", per: "gain-per", perElement: "gain-per-element" },
-        "gain-energy"
-      );
-      growthIcons = iconsAndText[0];
-      growthText = iconsAndText[1];
-      break;
-    }
-    case "add-presence-custom": {
-      //no longer needed since the *wildcard was added
-      console.log(growthAction);
-      const fullMatch = regExpOuterParentheses.exec(growthAction);
-      let initialOptions = fullMatch[1].split(",");
-      overrideText = initialOptions[0];
-      console.log(initialOptions);
-      initialOptions.shift();
-      growthAction = `add-presence(${initialOptions.join()})`;
-    }
-    // intentional fallthrough
-    case "add-presence": {
-      const matches = regExpOuterParentheses.exec(growthAction);
-      if (!matches) {
-        throw new Error("add-presence requires options, e.g. add-presence(1)");
-      }
-      let presenceOptions = matches[1].split(",");
-      presenceOptions = presenceOptions.map((str) => str.trim());
-      let presenceRange = presenceOptions[0];
-      let addPresenceOpen = "<custom-presence>";
-      let addPresenceClose = "</custom-presence>";
-      let presenceReq = "none";
-      let presenceReqsIcons = "";
-      let presenceRangeHTML = `{range-${presenceRange}}`;
-
-      if (presenceRange === "any" && presenceOptions.length === 1) {
-        addPresenceOpen = "<custom-presence-no-range>";
-        addPresenceClose = "</custom-presence-no-range>";
-        presenceRangeHTML = "<range-growth-any></range-growth-any>";
-      } else if (presenceOptions.length > 1) {
-        addPresenceOpen = "<custom-presence-req>";
-        addPresenceClose = "</custom-presence-req>";
-        presenceReqsIcons += "<presence-req>";
-
-        if (presenceRange === "any") {
-          addPresenceOpen += "<presence-req></presence-req>";
-          presenceRangeHTML = "<range-growth-any></range-growth-any>";
-        }
-
-        if (presenceOptions[1] === "text") {
-          // User wants a custom text presence addition
-          if (presenceOptions[3]) {
-            presenceReqsIcons += "<display-custom>";
-            for (let i = 3; i < presenceOptions.length; i++) {
-              presenceReqsIcons += "{" + presenceOptions[i] + "}";
-            }
-            presenceReqsIcons += "</display-custom>";
-          } else {
-            presenceReqsIcons +=
-              "<span style='font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;'></span>";
-          }
-        } else if (presenceOptions[1] === "token") {
-          // User wants to add a token in growth
-          switch (presenceOptions[3]) {
-            case "and":
-              //add presence and token
-              presenceReqsIcons += "<span class='plus-text'>+ </span>";
-              presenceReqsIcons += "<icon class='" + presenceOptions[2] + " add-token'></icon>";
-              break;
-            case "or":
-              //add presence or token
-              addPresenceOpen = "<custom-presence-req><custom-presence-or>";
-              addPresenceClose = "</custom-presence-req>";
-              presenceReqsIcons = "{backslash}{" + presenceOptions[2] + "}</custom-presence-or>";
-              break;
-            case "instead":
-              // Legacy: superseded by the add-token(...) action. Kept so old
-              // hand-written files render; not worth further icon work.
-              break;
-          }
-        } else if (presenceOptions[1] === "relative") {
-          presenceReqsIcons = "<add-relative>" + presenceReqsIcons;
-          presenceRangeHTML += "</add-relative>";
-          presenceReq = presenceOptions[2].toLowerCase().trim();
-          presenceReqsIcons += `{${presenceReq}}`;
-        } else {
-          // User wants an OR or an AND requirement
-          let operator = "";
-          if (presenceOptions.length > 4) {
-            operator = presenceOptions.at(-1).toLowerCase() === "or" ? "/" : "&";
-          } else {
-            operator = " " + IconName(presenceOptions.at(-1)) + " ";
-          }
-
-          for (let i = 1; i < presenceOptions.length; i++) {
-            presenceReq = presenceOptions[i].toLowerCase().trim();
-
-            // Check to see if we've reached an 'or' or 'and', which shouldn't be parsed
-            if (presenceReq === "or" || presenceReq === "and") {
-              break;
-            }
-
-            // Check for common typos
-            presenceReq = presenceReq.includes("sands")
-              ? presenceReq
-              : presenceReq.replace("sand", "sands");
-            presenceReq = presenceReq.replace("wetlands", "wetland");
-
-            // Icons
-            switch (presenceReq) {
-              case "inland":
-              case "coastal":
-              case "invaders":
-                presenceReqsIcons +=
-                  presenceOptions.length < 3
-                    ? "<span class='non-icon'>" + presenceReq.toUpperCase() + "</span>" // This do-nothing Icon just creates 50px of height to make everything line up. Other ideas?
-                    : "<span class='non-icon small'>" + presenceReq.toUpperCase() + "</span>";
-                break;
-              case "no-own-presence":
-                presenceReqsIcons += "{no-presence}";
-                break;
-              default:
-                presenceReqsIcons += "{" + presenceReq + "}";
-            }
-
-            if (i < presenceOptions.length - 2) {
-              presenceReqsIcons += operator;
-            }
-          }
-        }
-        presenceReqsIcons += "</presence-req>";
-      }
-      growthIcons =
-        addPresenceOpen +
-        "<plus-presence>+{presence}</plus-presence>" +
-        presenceReqsIcons +
-        presenceRangeHTML +
-        addPresenceClose;
-      growthText = IconName(growthAction);
-
-      if (overrideText) {
-        growthText = overrideText;
-      }
-      break;
-    }
-    case "push":
-    case "gather": {
-      const matches = regExp.exec(growthAction);
-
-      let preposition = growthActionType === "push" ? "from" : "into";
-      let moveOptions = matches[1].split(",");
-      let moveTarget = isNaN(moveOptions[0]) ? moveOptions[0] : moveOptions[1];
-      let targetHTML = `{${moveTarget}}`;
-      if (moveTarget.includes("/")) {
-        // "Or" targets
-        let moveTargets = moveTarget.split("/");
-        targetHTML = "<icon-holder>";
-        moveTargets.forEach((target) => {
-          targetHTML += `{${target}}/`;
-        });
-        targetHTML = targetHTML.slice(0, -1); // Remove the last "/"
-        targetHTML = targetHTML.replaceAll("/", `{backslash}`);
-        targetHTML += "</icon-holder>";
-      }
-      let moveRange = isNaN(moveOptions[0]) ? 0 : moveOptions[0];
-      let moveTag = moveRange > 0 ? "push-gather-range-req" : "push-gather";
-      let rangeHTML =
-        moveRange > 0 ? `<range-growth><value>${moveRange}</value></range-growth>` : ``;
-      let moveCondition;
-      let iconNum = 1;
-      let moveArrowOrCondition = ``;
-      let landClass = growthActionType;
-      let shift = moveRange > 0 ? 1 : 0;
-      if (moveOptions[1 + shift]) {
-        console.log("conditions discovered");
-        moveCondition = moveOptions[1 + shift];
-        if (!isNaN(moveCondition)) {
-          iconNum = moveCondition;
-          moveCondition = ``;
-        } else if (terrains.has(moveCondition)) {
-          landClass = `${moveCondition} terrain-${growthActionType}`;
-          moveArrowOrCondition = `{${growthActionType}-arrow}`;
-        } else {
-          landClass = `${growthActionType}-${preposition}`;
-          moveArrowOrCondition = `<icon class="${preposition} ${moveCondition}"></icon>`;
-        }
-        if (moveOptions[2 + shift]) {
-          iconNum = moveOptions[2 + shift];
-        }
-      }
-
-      if (iconNum > 1) {
-        targetHTML = `<icon-holder>`;
-        for (let i = 0; i < iconNum; i++) {
-          targetHTML += `<icon class="${moveTarget}"></icon>`;
-        }
-        targetHTML += `</icon-holder>`;
-      }
-
-      growthIcons = `<${moveTag}><icon class="${landClass}">${moveArrowOrCondition}${targetHTML}</icon>${rangeHTML}</${moveTag}>`;
-      growthText = IconName(
-        `${growthActionType}(${moveRange},${moveTarget},${moveCondition},${iconNum})`
-      );
-      break;
-    }
-    case "move-presence": {
-      const matches = regExp.exec(growthAction);
-      const moveOptions = matches[1].split(",");
-      let moveRange = moveOptions[0];
-      let moveText = IconName(`growth-${growthAction}`);
-      let moveIcons = "";
-      if (isNaN(moveRange)) {
-        moveRange = `{${moveRange}}`;
-      }
-      if (!moveOptions[1]) {
-        // Move presence range X
-        moveIcons = `<custom-icon>{presence}<move-growth><value>
-          ${moveRange}
-          </value></move-growth></custom-icon>`;
-        // moveText = IconName(growthActionType);
-      } else if (!isNaN(moveOptions[1])) {
-        // Move X presence together
-        moveIcons = "<custom-icon><token-wrap>";
-        for (let i = 0; i < moveOptions[1]; i++) {
-          moveIcons += "{presence}";
-        }
-        moveIcons += `</token-wrap><move-growth><value>
-          ${moveRange}
-          </value></move-growth></custom-icon>`;
-      } else {
-        // Move presence + token together
-        moveIcons = `<custom-icon>
-        <token-wrap>{presence}<icon class="${moveOptions[1]} token"></icon></token-wrap>
-        <move-growth><value>${moveRange}</value></move-growth>
-        </custom-icon>`;
-      }
-
-      growthIcons = moveIcons;
-      growthText = moveText;
-      break;
-    }
-    case "gain-element": {
-      const matches = regExp.exec(growthAction);
-      const gainedElement = matches[1];
-      const elementOptions = matches[1].split(",");
-      //Check if they want 2 elements (multiple of the same element, and OR between multiple elements are implemented. AND is not)
-      if (elementOptions.length > 1) {
-        //Check if they want multiples of the same element or a choice of elements by looking for a numeral
-        if (isNaN(elementOptions[1]) && elementOptions.at(-1) !== "and") {
-          //No numeral - user wants different elements. For example gain-element(water,fire)
-
-          //Icons
-          let elementIcons = "<gain class='or'>";
-          for (let i = 0; i < elementOptions.length; i++) {
-            elementIcons += `<icon class='orelement element ${elementOptions[i]}'></icon>`;
-            if (i < elementOptions.length - 1) {
-              elementIcons += "{backslash}";
-            }
-          }
-          elementIcons += "</gain>";
-          growthIcons = elementIcons;
-        } else {
-          // Gain multiple of the same element or gain multiple different elements (all of them, not or)
-
-          let numLocs;
-          // Text
-          if (elementOptions.at(-1) === "and") {
-            // gain multiple different elements
-            numLocs = elementOptions.length - 1;
-          } else {
-            // gain multiple of the same element
-            numLocs = elementOptions[1];
-          }
-
-          // Icons
-          let rad_size = 20 + 5 * (numLocs - 2); // this expands slightly as more icons are used
-          let elementIcons = "";
-          for (let i = 0; i < numLocs; i++) {
-            const pos_angle = (i * 2 * Math.PI) / numLocs - Math.PI * (1 - 1 / 6);
-            const x_loc = 1.3 * rad_size * Math.cos(pos_angle);
-            const y_loc = 0.8 * rad_size * Math.sin(pos_angle);
-            const theta = -Math.PI / 12;
-            const x_loc_prime = Math.cos(theta) * x_loc + Math.sin(theta) * y_loc;
-            const y_loc_prime = -Math.sin(theta) * x_loc + Math.cos(theta) * y_loc;
-            let element_loc = `style='transform: translateY(${y_loc_prime}px) translateX(${x_loc_prime}px)'`;
-            let cur_element =
-              elementOptions.at(-1) === "and" ? elementOptions[i] : elementOptions[0];
-            elementIcons += `<icon-multi-element><icon class='element ${cur_element}'
-              ${element_loc}
-              ></icon></icon-multi-element>`;
-          }
-
-          growthIcons = `<gain>${elementIcons}</gain>`;
-        }
-      } else {
-        growthIcons = `<gain><icon class='element ${gainedElement}'></icon></gain>`;
-      }
-      growthText = IconName(growthAction);
-      break;
-    }
-    case "blank": {
-      let blankMatches = regExpOuterParentheses.exec(growthAction);
-      let blankWidth = 75;
-      if (blankMatches) {
-        let blankOptions = blankMatches[1];
-        if (!isNaN(blankOptions)) {
-          blankWidth = blankOptions;
-        }
-      }
-      growthIcons = `<custom-growth-icon style='max-width:${blankWidth}px;'></custom-growth-icon>`;
-      growthText = "";
-      break;
-    }
-    case "custom":
-    case "custom-wide": {
-      const matches = regExpOuterParentheses.exec(growthAction);
-      let customOptions = matches[1].split(",");
-      let customIcon = customOptions[1];
-      let customText = customOptions[0];
-      let isWide = growthActionType === "custom-wide" ? "wide-growth" : "";
-      let listIcons = "";
-      if (customIcon) {
-        if (customIcon === "text") {
-          customIcon = "<span class='non-icon'>" + customOptions[2] + "</span>";
-        } else {
-          for (let i = 1; i < customOptions.length; i++) {
-            // listIcons +=
-            //   "<icon class='" + customOptions[i] + isWide + " custom-growth-icon'></icon>";
-            listIcons += `{${customOptions[i]}}`;
-          }
-          customIcon = listIcons;
-        }
-      } else {
-        customIcon = "<div class='custom-scaling'></div>";
-      }
-      growthIcons = `<custom-growth-icon class='${isWide}'>${customIcon}</custom-growth-icon>`;
-      growthText = customText;
-      break;
-    }
-    case "fear": {
-      const matches = regExp.exec(growthAction);
-      const iconsAndText = getScalingGainTextAndIcons(
-        matches[1],
-        { flat: "growth-fear", per: "fear-per", perElement: "gain-per-fear" },
-        "growth-fear"
-      );
-      growthIcons = iconsAndText[0];
-      growthText = iconsAndText[1];
-      break;
-    }
-    case "lose-range":
-    case "gain-range": {
-      const matches = regExp.exec(growthAction);
-      let rangeOptions = matches[1].split(",");
-      let range = rangeOptions[0];
-      if (range < 0 || growthActionType.includes("lose")) {
-        growthIcons = `<growth-range>{lose-range-${Math.abs(range)}}</growth-range>`;
-      } else {
-        growthIcons = `<growth-range>{gain-range-${range}}</growth-range>`;
-      }
-      growthText = IconName(`growth-${growthAction}`);
-      break;
-    }
-    case "gain-card-play": {
-      const matches = regExp.exec(growthAction);
-      growthIcons = `{${growthActionType}}`;
-      if (matches) {
-        const cardplayOptions = matches[1].split(",");
-        const num_card_plays = cardplayOptions[0];
-        growthIcons = `<card-play-num><value>${num_card_plays}</value></card-play-num>`;
-      }
-      growthText = IconName("growth-" + growthAction);
-      break;
-    }
-    case "element-marker": {
-      const matches = regExp.exec(growthAction);
-      let num_markers = 1;
-      if (matches) {
-        let markerOptions = matches[1].split(",");
-        num_markers = markerOptions[0];
-      }
-      const marker_type = num_markers > 0 ? "markerplus" : "markerminus";
-      num_markers = Math.abs(num_markers);
-      let markerIcons = "";
-      if (num_markers > 1) {
-        const numLocs = num_markers;
-        let rad_size = 20 + 5 * (numLocs - 2); // this expands slightly as more icons are used
-        for (let i = 0; i < numLocs; i++) {
-          const pos_angle = (i * 2 * Math.PI) / numLocs - Math.PI * (1 - 1 / 6);
-          const x_loc = rad_size * Math.cos(pos_angle);
-          const y_loc = rad_size * Math.sin(pos_angle);
-          const marker_loc = `style='transform: translateY(${y_loc}px) translateX(${x_loc}px)'`;
-          markerIcons += `<icon-multi-element><icon class='element ${marker_type}' ${marker_loc}>
-            </icon></icon-multi-element>`;
-        }
-      } else {
-        markerIcons = `{${marker_type}}`;
-      }
-      growthIcons = `<gain>${markerIcons}</gain>`;
-      growthText = IconName(marker_type, num_markers);
-      break;
-    }
-    case "discard": {
-      const matches = regExp.exec(growthAction);
-      growthText = IconName(growthAction);
-      if (matches) {
-        let discardOptions = matches[1].split(",");
-        const numDiscard = discardOptions[0];
-        if (isNaN(numDiscard)) {
-          //handle element discards
-          const discardElement = numDiscard;
-          growthIcons =
-            "<icon class='discard-card'><icon class='discard-element " +
-            discardElement +
-            "'></icon></icon>";
-        } else {
-          //handle number discards
-          let discardAction = numDiscard > 1 ? "discard-cards" : "discard-card";
-          growthIcons = "{" + discardAction + "}";
-          growthText = IconName(discardAction);
-        }
-      } else {
-        growthIcons = "{discard-card}";
-      }
-      break;
-    }
-    case "incarna": {
-      const matches = regExp.exec(growthAction);
-      let incarnaOptions = matches[1].split(",");
-      let incarnaAction = incarnaOptions[0];
-      let incarnaRangeOrToken = incarnaOptions[1] !== undefined ? incarnaOptions[1] : 0;
-      let customIncarnaIcon = incarnaOptions[2] !== undefined ? incarnaOptions[2] : "incarna";
-      switch (incarnaAction) {
-        case "move":
-          if (incarnaRangeOrToken.toLocaleLowerCase() === "any") {
-            incarnaRangeOrToken = "<textvalue>ANY</textvalue>";
-          } else {
-            incarnaRangeOrToken = "<value>" + incarnaRangeOrToken + "</value>";
-          }
-          growthIcons =
-            '<custom-icon2><icon class="incarna move ' +
-            customIncarnaIcon +
-            '"></icon>' +
-            "<move-growth>" +
-            incarnaRangeOrToken +
-            "</move-growth></custom-icon2>";
-          break;
-        case "empower":
-          growthIcons = "{empower-incarna}";
-          break;
-        case "add-move":
-          growthIcons =
-            '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
-            customIncarnaIcon +
-            '"></icon><icon class="' +
-            incarnaRangeOrToken +
-            ' with-your"></icon></add-move-lower></custom-icon>';
-          break;
-        case "replace":
-          growthIcons =
-            `<custom-icon><icon class="incarna with-incarna ${customIncarnaIcon}">` +
-            `{no-${incarnaRangeOrToken}}</icon>` +
-            `</custom-icon>`;
-          break;
-        case "add-token":
-          growthIcons =
-            '<custom-icon><add-token-upper>+<icon class="add-token ' +
-            incarnaRangeOrToken +
-            '"></icon></add-token-upper><add-token-lower><icon class="incarna ' +
-            customIncarnaIcon +
-            '"></icon></add-token-lower></custom-icon>';
-          break;
-        default:
-      }
-      console.log("sending this to IconName: " + growthAction);
-      growthText = IconName(growthAction);
-      break;
-    }
-    case "add-token": {
-      const matches = regExp.exec(growthAction);
-      let tokenOptions = matches[1].split(",");
-      let range = tokenOptions[0];
-      let token = tokenOptions[1];
-      let tokenNum = tokenOptions[2];
-      if (isNaN(range) && range !== "any") {
-        // error handling if no range is input
-        console.log("no range input, setting to 0");
-        range = 0;
-        token = tokenOptions[0];
-        tokenNum = tokenOptions[1];
-      }
-      let tokenRange = "";
-      if (range !== "any") {
-        tokenRange = `<range-growth><value>${range}</value></range-growth>`;
-        console.log("token range isn't any");
-      }
-      let tokenReqOpen = `<custom-icon class="add-token">`;
-      let tokenReqClose = "</custom-icon>";
-      let tokenIcons = "";
-      let tokenConditional = "";
-      let operator = tokenOptions.at(-1);
-      let iconNameVars = range;
-      if (!tokenNum) {
-        tokenIcons = `+{${token}}`;
-        iconNameVars += `,${"and"},${token}`;
-      } else if (!isNaN(tokenNum)) {
-        // multiple of the same token
-        tokenIcons += "+";
-        if (tokenNum > 3) {
-          tokenIcons += tokenNum + `{${token}}`;
-        } else {
-          for (let i = 0; i < tokenNum; i++) {
-            tokenIcons += `{${token}}`;
-          }
-        }
-        iconNameVars += `,${"and"},${token},${tokenNum}`;
-      } else if (operator === "and" || operator === "or") {
-        // two or more different tokens
-        const operator = tokenOptions.at(-1);
-        tokenIcons += `+{${token}}`;
-        if (operator === "and" || operator === "or") {
-          for (let i = 2; i < tokenOptions.length - 1; i++) {
-            tokenIcons += operator === "or" ? "/" : "";
-            tokenIcons += `{${tokenOptions[i]}}`;
-          }
-        }
-        iconNameVars += `,${operator},${tokenOptions.slice(1, -1)}`;
-      } else {
-        // conditional
-        tokenIcons = `+{${token}}`;
-        let condition = tokenNum.toLowerCase();
-        if (terrainSingle.has(condition)) {
-          tokenConditional = `<presence-req><icon class="${condition} terrain-single"></icon></presence-req>`;
-        } else if (terrainDouble.has(condition)) {
-          tokenConditional = `<presence-req><icon class="${condition} terrain-double"></icon></presence-req>`;
-        } else if (terrainNoIcons.has(condition)) {
-          //coastal,inland,invaders
-          tokenConditional = `<presence-req><span class="non-icon">${condition}</span></presence-req>`;
-        } else {
-          //a land with a particular token
-          tokenConditional = `<presence-req><icon class="your-land add-token"><icon class="${condition}"></icon></icon></presence-req>`;
-        }
-        operator = "conditional";
-        iconNameVars += `,${operator},${token},${condition}`;
-      }
-      growthIcons =
-        tokenReqOpen +
-        "<token-wrap>" +
-        tokenIcons +
-        "</token-wrap>" +
-        tokenConditional +
-        tokenRange +
-        tokenReqClose;
-      growthText = IconName(`add-token(${iconNameVars})`);
-      break;
-    }
-    case "replace": {
-      let replaceIcons = "";
-      let iconNameVars = "0";
-      const matches = regExp.exec(growthAction);
-      let replaceOptions = matches[1].split(",");
-      let range = replaceOptions[0];
-      let x_is_num = !isNaN(replaceOptions[0]);
-
-      let shift = 0;
-      if (x_is_num) {
-        iconNameVars = replaceOptions[0];
-        shift += 1;
-      }
-      iconNameVars += "," + replaceOptions[shift] + "," + replaceOptions[shift + 1];
-      if (x_is_num) {
-        // Ranged replace
-        replaceIcons = `<custom-icon><replace-wrap class="no-range">
-          {no-${replaceOptions[shift]}}
-          &#9658;{${replaceOptions[shift + 1]}}
-          </replace-wrap>
-          <range-growth><value>${range}</value></range-growth>
-          </custom-icon>`;
-      } else {
-        // Local replace
-        replaceIcons = `<custom-icon><replace-wrap class="no-range">
-          {no-${replaceOptions[shift]}}
-          &#9658;{${replaceOptions[shift + 1]}}
-          </replace-wrap></custom-icon>`;
-      }
-      growthIcons = replaceIcons;
-      growthText = IconName(`replace(${iconNameVars})`);
-      break;
-    }
-    case "destroy-presence": {
-      const matches = regExp.exec(growthAction);
-      let destroyOptions = matches[1].split(",");
-      let num = destroyOptions[0] || 1;
-      let destroyIcons = "";
-      for (let i = 0; i < num; i++) {
-        destroyIcons += "{destroyed-presence}";
-      }
-      destroyIcons = `<destroy-wrap>${destroyIcons}</destroy-wrap>`;
-      growthIcons = destroyIcons;
-      growthText = IconName(growthAction);
-      break;
-    }
-    case "ignore-range":
-      growthIcons = "{ignorerange}"; //avoiding the hyphen
-      growthText = IconName(growthActionType);
-      break;
-    default: {
-      growthIcons = "{" + growthActionType + "}";
-      growthText = IconName(growthActionType);
-      isDefault = 1;
-    }
+  } else {
+    // Simple growth items: a bare icon name plus its IconName text. Anything
+    // that takes options has a renderer in GROWTH_ACTION_RENDERERS above.
+    growthIcons = "{" + growthActionType + "}";
+    growthText = IconName(growthActionType);
+    isDefault = 1;
   }
 
   //Handle Repeats
@@ -1272,12 +627,488 @@ function getGrowthActionTextAndIcons(growthAction) {
   return [growthIcons, growthText, isDefault];
 }
 
+const GROWTH_ACTION_RENDERERS = {
+  "reclaim"(growthAction) {
+    let growthIcons, growthText;
+    const matches = _innerParenRegex.exec(growthAction);
+    let reclaimIcon = "{reclaim-all}";
+    let reclaimText = IconName("reclaim");
+    if (matches) {
+      let reclaimOptions = _splitOptions(matches[1]);
+      let reclaimType = reclaimOptions[0];
+      let reclaimModifiersOrText = reclaimOptions[1];
+      switch (reclaimType) {
+        case "all":
+          if (reclaimModifiersOrText) {
+            reclaimIcon = `<icon class='reclaim-${reclaimType} modified-reclaim'>
+                {${reclaimModifiersOrText}}</icon>`;
+          }
+          break;
+        case "one":
+          if (reclaimModifiersOrText) {
+            reclaimIcon = `<icon class='reclaim-${reclaimType} modified-reclaim'>
+                {${reclaimModifiersOrText}}</icon>`;
+          } else {
+            reclaimIcon = "{reclaim-" + reclaimType + "}";
+          }
+          break;
+        case "none":
+          reclaimIcon = "{reclaim-" + reclaimType + "}";
+          break;
+        case "half":
+          reclaimIcon = "{reclaim-" + reclaimType + "}";
+          break;
+        case "custom":
+          reclaimIcon = "{reclaim-" + reclaimType + "}";
+          break;
+        default:
+          if (!isNaN(reclaimType)) {
+            reclaimIcon = `<icon class="reclaim-num"><value>${reclaimType}</value></icon>`;
+            reclaimType = "num";
+          } else {
+            reclaimText = "TEXT NOT RECOGNIZED - use 'all','one',or 'custom'";
+          }
+      }
+      reclaimText = IconName(`reclaim-${reclaimType}${matches[0]}`);
+    }
+    growthIcons = reclaimIcon;
+    growthText = reclaimText;
+    return [growthIcons, growthText];
+  },
+  "gain-card-pay-2"(growthAction, growthActionType) {
+    return [`<custom-icon>{${growthActionType}}</custom-icon>`, IconName(growthActionType)];
+  },
+  "take-power-card": _renderGainPowerCard,
+  "gain-power-card": _renderGainPowerCard,
+  "isolate"(growthAction) {
+    let growthIcons, growthText;
+    const matches = _innerParenRegex.exec(growthAction);
+    let isolateIcons = "{isolate}";
+    let isolateReqOpen = "";
+    let isolateReqClose = "";
+    if (matches) {
+      let isolateOptions = _splitOptions(matches[1]);
+      let isolateRange = isolateOptions[0];
+      isolateReqOpen = "<custom-icon>";
+      isolateReqClose = "</custom-icon>";
+      isolateIcons += `<range-growth><value>${isolateRange}</value></range-growth>`;
+    }
+    growthIcons = isolateReqOpen + isolateIcons + isolateReqClose;
+    let isolateText = IconName(growthAction);
+    growthText = isolateText;
+    return [growthIcons, growthText];
+  },
+  "damage"(growthAction) {
+    let growthIcons, growthText;
+    const matches = _innerParenRegex.exec(growthAction);
+    let damageOptions = _splitOptions(matches[1]);
+    let range = damageOptions[0];
+    let damage = damageOptions[1];
+    if (isNaN(damage)) {
+      growthIcons = `<custom-icon><growth-damage>
+          {${damage}}
+          </growth-damage><range-growth>
+          <value>${range}</value>
+          </range-growth></custom-icon>`;
+    } else {
+      growthIcons = `<custom-icon><growth-damage>
+          <value>${damage}</value>
+          </growth-damage><range-growth>
+          <value>${range}</value>
+          </range-growth></custom-icon>`;
+    }
+    let damageText = IconName(growthAction);
+    growthText = damageText;
+    return [growthIcons, growthText];
+  },
+  "gain-energy"(growthAction) {
+    const matches = _outerParenRegex.exec(growthAction);
+    return getScalingGainTextAndIcons(
+      matches[1],
+      { flat: "growth-energy", per: "gain-per", perElement: "gain-per-element" },
+      "gain-energy"
+    );
+  },
+  "fear"(growthAction) {
+    const matches = _innerParenRegex.exec(growthAction);
+    return getScalingGainTextAndIcons(
+      matches[1],
+      { flat: "growth-fear", per: "fear-per", perElement: "gain-per-fear" },
+      "growth-fear"
+    );
+  },
+  "add-presence": _renderAddPresence,
+  "add-presence-custom"(growthAction) {
+    //no longer needed since the *wildcard was added
+    if (DEBUG) {
+      console.log(growthAction);
+    }
+    const fullMatch = _outerParenRegex.exec(growthAction);
+    let initialOptions = _splitOptions(fullMatch[1]);
+    const customText = initialOptions[0];
+    initialOptions.shift();
+    const iconsAndText = _renderAddPresence(`add-presence(${initialOptions.join()})`);
+    return [iconsAndText[0], customText, customText];
+  },
+  "push": _renderPushGather,
+  "gather": _renderPushGather,
+  "lose-range": _renderGainLoseRange,
+  "gain-range": _renderGainLoseRange,
+  "gain-card-play"(growthAction, growthActionType) {
+    let growthIcons, growthText;
+    const matches = _innerParenRegex.exec(growthAction);
+    growthIcons = `{${growthActionType}}`;
+    if (matches) {
+      const cardplayOptions = _splitOptions(matches[1]);
+      const num_card_plays = cardplayOptions[0];
+      growthIcons = `<card-play-num><value>${num_card_plays}</value></card-play-num>`;
+    }
+    growthText = IconName("growth-" + growthAction);
+    return [growthIcons, growthText];
+  },
+  "element-marker"(growthAction) {
+    const matches = _innerParenRegex.exec(growthAction);
+    let num_markers = 1;
+    if (matches) {
+      let markerOptions = _splitOptions(matches[1]);
+      num_markers = markerOptions[0];
+    }
+    const marker_type = num_markers > 0 ? "markerplus" : "markerminus";
+    num_markers = Math.abs(num_markers);
+    let markerIcons = "";
+    if (num_markers > 1) {
+      const numLocs = num_markers;
+      let rad_size = 20 + 5 * (numLocs - 2); // this expands slightly as more icons are used
+      const positions = _ellipseIconPositions(numLocs, rad_size);
+      for (let i = 0; i < numLocs; i++) {
+        const marker_loc = `style='transform: translateY(${positions[i].y}px) translateX(${positions[i].x}px)'`;
+        markerIcons += `<icon-multi-element><icon class='element ${marker_type}' ${marker_loc}>
+            </icon></icon-multi-element>`;
+      }
+    } else {
+      markerIcons = `{${marker_type}}`;
+    }
+    return [`<gain>${markerIcons}</gain>`, IconName(marker_type, num_markers)];
+  },
+  "discard"(growthAction) {
+    let growthIcons, growthText;
+    const matches = _innerParenRegex.exec(growthAction);
+    growthText = IconName(growthAction);
+    if (matches) {
+      let discardOptions = _splitOptions(matches[1]);
+      const numDiscard = discardOptions[0];
+      if (isNaN(numDiscard)) {
+        //handle element discards
+        const discardElement = numDiscard;
+        growthIcons =
+          "<icon class='discard-card'><icon class='discard-element " +
+          discardElement +
+          "'></icon></icon>";
+      } else {
+        //handle number discards
+        let discardAction = numDiscard > 1 ? "discard-cards" : "discard-card";
+        growthIcons = "{" + discardAction + "}";
+        growthText = IconName(discardAction);
+      }
+    } else {
+      growthIcons = "{discard-card}";
+    }
+    return [growthIcons, growthText];
+  },
+  "incarna"(growthAction) {
+    let growthIcons, growthText;
+    const matches = _innerParenRegex.exec(growthAction);
+    let incarnaOptions = _splitOptions(matches[1]);
+    let incarnaAction = incarnaOptions[0];
+    let incarnaRangeOrToken = incarnaOptions[1] !== undefined ? incarnaOptions[1] : 0;
+    let customIncarnaIcon = incarnaOptions[2] !== undefined ? incarnaOptions[2] : "incarna";
+    switch (incarnaAction) {
+      case "move":
+        if (incarnaRangeOrToken.toLocaleLowerCase() === "any") {
+          incarnaRangeOrToken = "<textvalue>ANY</textvalue>";
+        } else {
+          incarnaRangeOrToken = "<value>" + incarnaRangeOrToken + "</value>";
+        }
+        growthIcons =
+          '<custom-icon2><icon class="incarna move ' +
+          customIncarnaIcon +
+          '"></icon>' +
+          "<move-growth>" +
+          incarnaRangeOrToken +
+          "</move-growth></custom-icon2>";
+        break;
+      case "empower":
+        growthIcons = "{empower-incarna}";
+        break;
+      case "add-move":
+        growthIcons =
+          '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
+          customIncarnaIcon +
+          '"></icon><icon class="' +
+          incarnaRangeOrToken +
+          ' with-your"></icon></add-move-lower></custom-icon>';
+        break;
+      case "replace":
+        growthIcons =
+          `<custom-icon><icon class="incarna with-incarna ${customIncarnaIcon}">` +
+          `{no-${incarnaRangeOrToken}}</icon>` +
+          `</custom-icon>`;
+        break;
+      case "add-token":
+        growthIcons =
+          '<custom-icon><add-token-upper>+<icon class="add-token ' +
+          incarnaRangeOrToken +
+          '"></icon></add-token-upper><add-token-lower><icon class="incarna ' +
+          customIncarnaIcon +
+          '"></icon></add-token-lower></custom-icon>';
+        break;
+      default:
+    }
+    if (DEBUG) {
+      console.log("sending this to IconName: " + growthAction);
+    }
+    growthText = IconName(growthAction);
+    return [growthIcons, growthText];
+  },
+  "move-presence"(growthAction) {
+    let growthIcons, growthText;
+    const matches = _innerParenRegex.exec(growthAction);
+    const moveOptions = _splitOptions(matches[1]);
+    let moveRange = moveOptions[0];
+    let moveText = IconName(`growth-${growthAction}`);
+    let moveIcons = "";
+    if (isNaN(moveRange)) {
+      moveRange = `{${moveRange}}`;
+    }
+    if (!moveOptions[1]) {
+      // Move presence range X
+      moveIcons = `<custom-icon>{presence}<move-growth><value>
+          ${moveRange}
+          </value></move-growth></custom-icon>`;
+    } else if (!isNaN(moveOptions[1])) {
+      // Move X presence together
+      moveIcons = "<custom-icon><token-wrap>";
+      for (let i = 0; i < moveOptions[1]; i++) {
+        moveIcons += "{presence}";
+      }
+      moveIcons += `</token-wrap><move-growth><value>
+          ${moveRange}
+          </value></move-growth></custom-icon>`;
+    } else {
+      // Move presence + token together
+      moveIcons = `<custom-icon>
+        <token-wrap>{presence}<icon class="${moveOptions[1]} token"></icon></token-wrap>
+        <move-growth><value>${moveRange}</value></move-growth>
+        </custom-icon>`;
+    }
+
+    growthIcons = moveIcons;
+    growthText = moveText;
+    return [growthIcons, growthText];
+  },
+  "gain-element"(growthAction) {
+    let growthIcons, growthText;
+    const matches = _innerParenRegex.exec(growthAction);
+    const elementOptions = _splitOptions(matches[1]);
+    const gainedElement = elementOptions[0];
+    //Check if they want 2 elements (multiple of the same element, and OR between multiple elements are implemented. AND is not)
+    if (elementOptions.length > 1) {
+      //Check if they want multiples of the same element or a choice of elements by looking for a numeral
+      if (isNaN(elementOptions[1]) && elementOptions.at(-1) !== "and") {
+        //No numeral - user wants different elements. For example gain-element(water,fire)
+
+        //Icons
+        let elementIcons = "<gain class='or'>";
+        for (let i = 0; i < elementOptions.length; i++) {
+          elementIcons += `<icon class='orelement element ${elementOptions[i]}'></icon>`;
+          if (i < elementOptions.length - 1) {
+            elementIcons += "{backslash}";
+          }
+        }
+        elementIcons += "</gain>";
+        growthIcons = elementIcons;
+      } else {
+        // Gain multiple of the same element or gain multiple different elements (all of them, not or)
+
+        let numLocs;
+        // Text
+        if (elementOptions.at(-1) === "and") {
+          // gain multiple different elements
+          numLocs = elementOptions.length - 1;
+        } else {
+          // gain multiple of the same element
+          numLocs = elementOptions[1];
+        }
+
+        // Icons
+        let rad_size = 20 + 5 * (numLocs - 2); // this expands slightly as more icons are used
+        let elementIcons = "";
+        const positions = _ellipseIconPositions(numLocs, rad_size, 1.3, 0.8, -Math.PI / 12);
+        for (let i = 0; i < numLocs; i++) {
+          let element_loc = `style='transform: translateY(${positions[i].y}px) translateX(${positions[i].x}px)'`;
+          let cur_element = elementOptions.at(-1) === "and" ? elementOptions[i] : elementOptions[0];
+          elementIcons += `<icon-multi-element><icon class='element ${cur_element}'
+              ${element_loc}
+              ></icon></icon-multi-element>`;
+        }
+
+        growthIcons = `<gain>${elementIcons}</gain>`;
+      }
+    } else {
+      growthIcons = `<gain><icon class='element ${gainedElement}'></icon></gain>`;
+    }
+    growthText = IconName(growthAction);
+    return [growthIcons, growthText];
+  },
+  "blank"(growthAction) {
+    let blankMatches = _outerParenRegex.exec(growthAction);
+    let blankWidth = 75;
+    if (blankMatches) {
+      let blankOptions = blankMatches[1].trim();
+      if (!isNaN(blankOptions)) {
+        blankWidth = blankOptions;
+      }
+    }
+    return [`<custom-growth-icon style='max-width:${blankWidth}px;'></custom-growth-icon>`, ""];
+  },
+  "custom": _renderCustom,
+  "custom-wide": _renderCustom,
+  "add-token"(growthAction) {
+    let growthIcons, growthText;
+    const matches = _innerParenRegex.exec(growthAction);
+    let tokenOptions = _splitOptions(matches[1]);
+    let range = tokenOptions[0];
+    let token = tokenOptions[1];
+    let tokenNum = tokenOptions[2];
+    if (isNaN(range) && range !== "any") {
+      // error handling if no range is input
+      if (DEBUG) {
+        console.log("no range input, setting to 0");
+      }
+      range = 0;
+      token = tokenOptions[0];
+      tokenNum = tokenOptions[1];
+    }
+    let tokenRange = "";
+    if (range !== "any") {
+      tokenRange = `<range-growth><value>${range}</value></range-growth>`;
+      if (DEBUG) {
+        console.log("token range isn't any");
+      }
+    }
+    let tokenReqOpen = `<custom-icon class="add-token">`;
+    let tokenReqClose = "</custom-icon>";
+    let tokenIcons = "";
+    let tokenConditional = "";
+    let operator = tokenOptions.at(-1);
+    let iconNameVars = range;
+    if (!tokenNum) {
+      tokenIcons = `+{${token}}`;
+      iconNameVars += `,${"and"},${token}`;
+    } else if (!isNaN(tokenNum)) {
+      // multiple of the same token
+      tokenIcons += "+";
+      if (tokenNum > 3) {
+        tokenIcons += tokenNum + `{${token}}`;
+      } else {
+        for (let i = 0; i < tokenNum; i++) {
+          tokenIcons += `{${token}}`;
+        }
+      }
+      iconNameVars += `,${"and"},${token},${tokenNum}`;
+    } else if (operator === "and" || operator === "or") {
+      // two or more different tokens
+      const operator = tokenOptions.at(-1);
+      tokenIcons += `+{${token}}`;
+      if (operator === "and" || operator === "or") {
+        for (let i = 2; i < tokenOptions.length - 1; i++) {
+          tokenIcons += operator === "or" ? "/" : "";
+          tokenIcons += `{${tokenOptions[i]}}`;
+        }
+      }
+      iconNameVars += `,${operator},${tokenOptions.slice(1, -1)}`;
+    } else {
+      // conditional
+      tokenIcons = `+{${token}}`;
+      let condition = tokenNum.toLowerCase();
+      if (terrainSingle.has(condition)) {
+        tokenConditional = `<presence-req><icon class="${condition} terrain-single"></icon></presence-req>`;
+      } else if (terrainDouble.has(condition)) {
+        tokenConditional = `<presence-req><icon class="${condition} terrain-double"></icon></presence-req>`;
+      } else if (terrainNoIcons.has(condition)) {
+        //coastal,inland,invaders
+        tokenConditional = `<presence-req><span class="non-icon">${condition}</span></presence-req>`;
+      } else {
+        //a land with a particular token
+        tokenConditional = `<presence-req><icon class="your-land add-token"><icon class="${condition}"></icon></icon></presence-req>`;
+      }
+      operator = "conditional";
+      iconNameVars += `,${operator},${token},${condition}`;
+    }
+    growthIcons =
+      tokenReqOpen +
+      "<token-wrap>" +
+      tokenIcons +
+      "</token-wrap>" +
+      tokenConditional +
+      tokenRange +
+      tokenReqClose;
+    growthText = IconName(`add-token(${iconNameVars})`);
+    return [growthIcons, growthText];
+  },
+  "replace"(growthAction) {
+    let replaceIcons = "";
+    let iconNameVars = "0";
+    const matches = _innerParenRegex.exec(growthAction);
+    let replaceOptions = _splitOptions(matches[1]);
+    let range = replaceOptions[0];
+    let x_is_num = !isNaN(replaceOptions[0]);
+
+    let shift = 0;
+    if (x_is_num) {
+      iconNameVars = replaceOptions[0];
+      shift += 1;
+    }
+    iconNameVars += "," + replaceOptions[shift] + "," + replaceOptions[shift + 1];
+    if (x_is_num) {
+      // Ranged replace
+      replaceIcons = `<custom-icon><replace-wrap class="no-range">
+          {no-${replaceOptions[shift]}}
+          &#9658;{${replaceOptions[shift + 1]}}
+          </replace-wrap>
+          <range-growth><value>${range}</value></range-growth>
+          </custom-icon>`;
+    } else {
+      // Local replace
+      replaceIcons = `<custom-icon><replace-wrap class="no-range">
+          {no-${replaceOptions[shift]}}
+          &#9658;{${replaceOptions[shift + 1]}}
+          </replace-wrap></custom-icon>`;
+    }
+    return [replaceIcons, IconName(`replace(${iconNameVars})`)];
+  },
+  "destroy-presence"(growthAction) {
+    const matches = _innerParenRegex.exec(growthAction);
+    let destroyOptions = _splitOptions(matches[1]);
+    let num = destroyOptions[0] || 1;
+    let destroyIcons = "";
+    for (let i = 0; i < num; i++) {
+      destroyIcons += "{destroyed-presence}";
+    }
+    destroyIcons = `<destroy-wrap>${destroyIcons}</destroy-wrap>`;
+    return [destroyIcons, IconName(growthAction)];
+  },
+  "ignore-range"(growthAction, growthActionType) {
+    return ["{ignorerange}", IconName(growthActionType)]; //avoiding the hyphen
+  },
+};
+
 // Shared by the "gain-energy" and "fear" growth actions, which differ only in the
 // tag names wrapping the flat and scaling (per-X) icons. Options are, in order:
 // an optional flat amount (0 = none), optionally "text" followed by custom text,
 // then an optional scaling entity and scaling amount.
 function getScalingGainTextAndIcons(optionsString, tags, iconNamePrefix) {
-  const options = optionsString.split(",");
+  const options = _splitOptions(optionsString);
   let manyIconOpen = "";
   let manyIconClose = "";
   if (isNaN(options[0]) || options.length !== 1) {
@@ -1328,11 +1159,275 @@ function getScalingGainTextAndIcons(optionsString, tags, iconNamePrefix) {
   return [manyIconOpen + gainIcons + manyIconClose, IconName(`${iconNamePrefix}(${iconNamevars})`)];
 }
 
+// Shared by take-power-card and gain-power-card, which differ only in the
+// icon class taken from the action type.
+function _renderGainPowerCard(growthAction, growthActionType) {
+  let growthIcons, growthText;
+  const matches = _innerParenRegex.exec(growthAction);
+  let gainPowerCardIcon = `{${growthActionType}}`;
+  if (matches) {
+    let gainPowerCardOptions = _splitOptions(matches[1]);
+    let gainPowerCardType = gainPowerCardOptions[0] || "";
+    let gainPCModifierIcon = gainPowerCardOptions[2];
+    gainPowerCardIcon = `<icon class='${growthActionType}'>
+                            <icon class='${gainPowerCardType.toLowerCase()} gain-card-modifier'></icon>`;
+    if (gainPCModifierIcon) {
+      gainPowerCardIcon += `<div class="gain-card-second-modifier">{${gainPCModifierIcon}}</div>`;
+    }
+    gainPowerCardIcon += `</icon>`;
+  }
+  growthIcons = gainPowerCardIcon;
+  growthText = IconName(growthAction);
+  return [growthIcons, growthText];
+}
+
+// Shared by push and gather, which differ in preposition and icon classes.
+function _renderPushGather(growthAction, growthActionType) {
+  let growthIcons, growthText;
+  const matches = _innerParenRegex.exec(growthAction);
+
+  let preposition = growthActionType === "push" ? "from" : "into";
+  let moveOptions = _splitOptions(matches[1]);
+  let moveTarget = isNaN(moveOptions[0]) ? moveOptions[0] : moveOptions[1];
+  let targetHTML = `{${moveTarget}}`;
+  if (moveTarget.includes("/")) {
+    // "Or" targets
+    let moveTargets = moveTarget.split("/");
+    targetHTML = "<icon-holder>";
+    moveTargets.forEach((target) => {
+      targetHTML += `{${target}}/`;
+    });
+    targetHTML = targetHTML.slice(0, -1); // Remove the last "/"
+    targetHTML = targetHTML.replaceAll("/", `{backslash}`);
+    targetHTML += "</icon-holder>";
+  }
+  let moveRange = isNaN(moveOptions[0]) ? 0 : moveOptions[0];
+  let moveTag = moveRange > 0 ? "push-gather-range-req" : "push-gather";
+  let rangeHTML = moveRange > 0 ? `<range-growth><value>${moveRange}</value></range-growth>` : ``;
+  let moveCondition;
+  let iconNum = 1;
+  let moveArrowOrCondition = ``;
+  let landClass = growthActionType;
+  let shift = moveRange > 0 ? 1 : 0;
+  if (moveOptions[1 + shift]) {
+    if (DEBUG) {
+      console.log("conditions discovered");
+    }
+    moveCondition = moveOptions[1 + shift];
+    if (!isNaN(moveCondition)) {
+      iconNum = moveCondition;
+      moveCondition = ``;
+    } else if (terrains.has(moveCondition)) {
+      landClass = `${moveCondition} terrain-${growthActionType}`;
+      moveArrowOrCondition = `{${growthActionType}-arrow}`;
+    } else {
+      landClass = `${growthActionType}-${preposition}`;
+      moveArrowOrCondition = `<icon class="${preposition} ${moveCondition}"></icon>`;
+    }
+    if (moveOptions[2 + shift]) {
+      iconNum = moveOptions[2 + shift];
+    }
+  }
+
+  if (iconNum > 1) {
+    targetHTML = `<icon-holder>`;
+    for (let i = 0; i < iconNum; i++) {
+      targetHTML += `<icon class="${moveTarget}"></icon>`;
+    }
+    targetHTML += `</icon-holder>`;
+  }
+
+  growthIcons = `<${moveTag}><icon class="${landClass}">${moveArrowOrCondition}${targetHTML}</icon>${rangeHTML}</${moveTag}>`;
+  growthText = IconName(
+    `${growthActionType}(${moveRange},${moveTarget},${moveCondition},${iconNum})`
+  );
+  return [growthIcons, growthText];
+}
+
+// Positions for numLocs icons arranged around an ellipse, shared by the
+// gain-element and element-marker renderers. xScale/yScale stretch the circle
+// and theta rotates it; the defaults reproduce a plain circle bit-for-bit.
+// (A third, differently-tuned copy of this math lives in the presence-node
+// code — unify deliberately if ever touched.)
+function _ellipseIconPositions(numLocs, radSize, xScale = 1, yScale = 1, theta = 0) {
+  const positions = [];
+  for (let i = 0; i < numLocs; i++) {
+    const pos_angle = (i * 2 * Math.PI) / numLocs - Math.PI * (1 - 1 / 6);
+    const x_loc = xScale * radSize * Math.cos(pos_angle);
+    const y_loc = yScale * radSize * Math.sin(pos_angle);
+    const x = Math.cos(theta) * x_loc + Math.sin(theta) * y_loc;
+    const y = -Math.sin(theta) * x_loc + Math.cos(theta) * y_loc;
+    positions.push({ x, y });
+  }
+  return positions;
+}
+
+// Shared by lose-range and gain-range; a negative gain-range also renders as a loss.
+function _renderGainLoseRange(growthAction, growthActionType) {
+  let growthIcons;
+  const matches = _innerParenRegex.exec(growthAction);
+  let rangeOptions = _splitOptions(matches[1]);
+  let range = rangeOptions[0];
+  if (range < 0 || growthActionType.includes("lose")) {
+    growthIcons = `<growth-range>{lose-range-${Math.abs(range)}}</growth-range>`;
+  } else {
+    growthIcons = `<growth-range>{gain-range-${range}}</growth-range>`;
+  }
+  return [growthIcons, IconName(`growth-${growthAction}`)];
+}
+
+// Shared by custom and custom-wide, which differ only in the wide-growth class.
+function _renderCustom(growthAction, growthActionType) {
+  const matches = _outerParenRegex.exec(growthAction);
+  let customOptions = _splitOptions(matches[1]);
+  let customIcon = customOptions[1];
+  let customText = customOptions[0];
+  let isWide = growthActionType === "custom-wide" ? "wide-growth" : "";
+  let listIcons = "";
+  if (customIcon) {
+    if (customIcon === "text") {
+      customIcon = "<span class='non-icon'>" + customOptions[2] + "</span>";
+    } else {
+      for (let i = 1; i < customOptions.length; i++) {
+        listIcons += `{${customOptions[i]}}`;
+      }
+      customIcon = listIcons;
+    }
+  } else {
+    customIcon = "<div class='custom-scaling'></div>";
+  }
+  return [`<custom-growth-icon class='${isWide}'>${customIcon}</custom-growth-icon>`, customText];
+}
+
+// add-presence; also delegated to by the legacy add-presence-custom renderer.
+function _renderAddPresence(growthAction) {
+  let growthIcons, growthText;
+  const matches = _outerParenRegex.exec(growthAction);
+  if (!matches) {
+    throw new Error("add-presence requires options, e.g. add-presence(1)");
+  }
+  let presenceOptions = _splitOptions(matches[1]);
+  let presenceRange = presenceOptions[0];
+  let addPresenceOpen = "<custom-presence>";
+  let addPresenceClose = "</custom-presence>";
+  let presenceReq = "none";
+  let presenceReqsIcons = "";
+  let presenceRangeHTML = `{range-${presenceRange}}`;
+
+  if (presenceRange === "any" && presenceOptions.length === 1) {
+    addPresenceOpen = "<custom-presence-no-range>";
+    addPresenceClose = "</custom-presence-no-range>";
+    presenceRangeHTML = "<range-growth-any></range-growth-any>";
+  } else if (presenceOptions.length > 1) {
+    addPresenceOpen = "<custom-presence-req>";
+    addPresenceClose = "</custom-presence-req>";
+    presenceReqsIcons += "<presence-req>";
+
+    if (presenceRange === "any") {
+      addPresenceOpen += "<presence-req></presence-req>";
+      presenceRangeHTML = "<range-growth-any></range-growth-any>";
+    }
+
+    if (presenceOptions[1] === "text") {
+      // User wants a custom text presence addition
+      if (presenceOptions[3]) {
+        presenceReqsIcons += "<display-custom>";
+        for (let i = 3; i < presenceOptions.length; i++) {
+          presenceReqsIcons += "{" + presenceOptions[i] + "}";
+        }
+        presenceReqsIcons += "</display-custom>";
+      } else {
+        presenceReqsIcons +=
+          "<span style='font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;'></span>";
+      }
+    } else if (presenceOptions[1] === "token") {
+      // User wants to add a token in growth
+      switch (presenceOptions[3]) {
+        case "and":
+          //add presence and token
+          presenceReqsIcons += "<span class='plus-text'>+ </span>";
+          presenceReqsIcons += "<icon class='" + presenceOptions[2] + " add-token'></icon>";
+          break;
+        case "or":
+          //add presence or token
+          addPresenceOpen = "<custom-presence-req><custom-presence-or>";
+          addPresenceClose = "</custom-presence-req>";
+          presenceReqsIcons = "{backslash}{" + presenceOptions[2] + "}</custom-presence-or>";
+          break;
+        case "instead":
+          // Legacy: superseded by the add-token(...) action. Kept so old
+          // hand-written files render; not worth further icon work.
+          break;
+      }
+    } else if (presenceOptions[1] === "relative") {
+      presenceReqsIcons = "<add-relative>" + presenceReqsIcons;
+      presenceRangeHTML += "</add-relative>";
+      presenceReq = presenceOptions[2].toLowerCase().trim();
+      presenceReqsIcons += `{${presenceReq}}`;
+    } else {
+      // User wants an OR or an AND requirement
+      let operator = "";
+      if (presenceOptions.length > 4) {
+        operator = presenceOptions.at(-1).toLowerCase() === "or" ? "/" : "&";
+      } else {
+        operator = " " + IconName(presenceOptions.at(-1)) + " ";
+      }
+
+      for (let i = 1; i < presenceOptions.length; i++) {
+        presenceReq = presenceOptions[i].toLowerCase().trim();
+
+        // Check to see if we've reached an 'or' or 'and', which shouldn't be parsed
+        if (presenceReq === "or" || presenceReq === "and") {
+          break;
+        }
+
+        // Check for common typos
+        presenceReq = presenceReq.includes("sands")
+          ? presenceReq
+          : presenceReq.replace("sand", "sands");
+        presenceReq = presenceReq.replace("wetlands", "wetland");
+
+        // Icons
+        switch (presenceReq) {
+          case "inland":
+          case "coastal":
+          case "invaders":
+            presenceReqsIcons +=
+              presenceOptions.length < 3
+                ? "<span class='non-icon'>" + presenceReq.toUpperCase() + "</span>" // This do-nothing Icon just creates 50px of height to make everything line up. Other ideas?
+                : "<span class='non-icon small'>" + presenceReq.toUpperCase() + "</span>";
+            break;
+          case "no-own-presence":
+            presenceReqsIcons += "{no-presence}";
+            break;
+          default:
+            presenceReqsIcons += "{" + presenceReq + "}";
+        }
+
+        if (i < presenceOptions.length - 2) {
+          presenceReqsIcons += operator;
+        }
+      }
+    }
+    presenceReqsIcons += "</presence-req>";
+  }
+  growthIcons =
+    addPresenceOpen +
+    "<plus-presence>+{presence}</plus-presence>" +
+    presenceReqsIcons +
+    presenceRangeHTML +
+    addPresenceClose;
+  growthText = IconName(growthAction);
+  return [growthIcons, growthText];
+}
+
 function buildPresenceTracks() {
   // First build the energy track, then make decisions on plays track
   let { energyHTML, playsNoFirstFlag } = parseEnergyTrackValues();
   let cardPlayHTML = parseCardPlayTrackValues(playsNoFirstFlag);
-  console.log("BUILDING PRESENCE TRACKS");
+  if (DEBUG) {
+    console.log("BUILDING PRESENCE TRACKS");
+  }
   const board = document.querySelectorAll("board")[0];
   const presenceTable = board.getElementsByTagName("presence-tracks")[0];
 
@@ -1360,8 +1455,12 @@ function buildPresenceTracks() {
   const combinedBanner = presenceTable.getAttribute("banner");
   if (combinedBanner && combinedBanner !== "null") {
     // Prepare banner
-    console.log("preparing combined banner");
-    console.log(combinedBanner);
+    if (DEBUG) {
+      console.log("preparing combined banner");
+    }
+    if (DEBUG) {
+      console.log(combinedBanner);
+    }
     if (combinedBanner) {
       createTrackBannerArt(combinedBanner, presenceTable, "combined");
     }
@@ -1441,10 +1540,14 @@ function parseEnergyTrackValues() {
     }
     firstIsMiddle = false;
     if (nodeText.startsWith("middle") || nodeText.startsWith("bonus")) {
-      console.log("found a middle node: " + nodeText);
+      if (DEBUG) {
+        console.log("found a middle node: " + nodeText);
+      }
       let nodeClass = "middle";
       if (nodeText.startsWith("bonus")) {
-        console.log("adding bonus text");
+        if (DEBUG) {
+          console.log("adding bonus text");
+        }
         nodeClass += " bonus";
       }
       nodeText = regExpOuterParentheses.exec(nodeText)[1];
@@ -1467,7 +1570,9 @@ function parseEnergyTrackValues() {
   }
   energyHTML += "</tr>";
   board.getElementsByTagName("energy-track")[0].removeAttribute("values");
-  console.log(energyHTML);
+  if (DEBUG) {
+    console.log(energyHTML);
+  }
   return { energyHTML: energyHTML, playsNoFirstFlag: playsNoFirstFlag };
 }
 
@@ -2012,7 +2117,6 @@ function getPresenceNodeHtml(
   //Find values between parenthesis
   const regExp = /\(([^)]+)\)/;
   const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
-  let pnDebug = false;
 
   // Every node will have a presence-node element with
   // a ring-icon element inside, so we can add these now.
@@ -2033,7 +2137,7 @@ function getPresenceNodeHtml(
   // Setup values
   let addIconShadow = false;
 
-  if (pnDebug) {
+  if (DEBUG) {
     console.log(
       "--Presence Node-- Text:" +
         nodeText +
@@ -2053,12 +2157,14 @@ function getPresenceNodeHtml(
 
   // Check splitpath nodes
   if (nodeText.startsWith("split(")) {
-    if (pnDebug) {
+    if (DEBUG) {
       console.log("Split Path node - version 1");
     }
     nodeText = regExpOuterParentheses.exec(nodeText)[1];
     let splitNodes = nodeText.split(";");
-    console.log(splitNodes);
+    if (DEBUG) {
+      console.log(splitNodes);
+    }
     let splitSubtext = "";
     for (let i = 0; i < splitNodes.length; i++) {
       let splitNodeHTML = getPresenceNodeHtml(
@@ -2092,8 +2198,7 @@ function getPresenceNodeHtml(
   let overrideText = "";
   if (nodeText.split("*")[1]) {
     overrideText = nodeText.split("*")[1].split("^")[0].split("_")[0].split("~")[0];
-    // nodeText = nodeText.split("*")[0];
-    if (pnDebug) {
+    if (DEBUG) {
       console.log("Override Text: " + overrideText);
     }
   }
@@ -2107,7 +2212,7 @@ function getPresenceNodeHtml(
   if (nodeText.split("^")[1]) {
     iconDeepLayers = nodeText.split("^")[1].split("_")[0].split("*")[0].split("~")[0];
     addDeepLayers = true;
-    if (pnDebug) {
+    if (DEBUG) {
       console.log("Adding Icon: " + iconDeepLayers);
     }
   }
@@ -2240,7 +2345,6 @@ function getPresenceNodeInnerHTML(
   let subText = "";
   let inner = "";
   const regExp = /\(([^)]+)\)/;
-  let pnDebug = false;
   let addIconShadow = false;
   let ttsInfo = [[], [], [], []]; // energy,bonusenergy,plays,elements
 
@@ -2274,7 +2378,7 @@ function getPresenceNodeInnerHTML(
     trackType = "energy";
   }
 
-  if (pnDebug) {
+  if (DEBUG) {
     console.log(`Processing ${splitOptions}`);
   }
 
@@ -2299,7 +2403,7 @@ function getPresenceNodeInnerHTML(
       }
     }
 
-    if (pnDebug) {
+    if (DEBUG) {
       console.log(`Option(${i}):${option} with ${splitOptions[i]}`);
     }
 
@@ -2438,12 +2542,11 @@ function getPresenceNodeInnerHTML(
       }
       case "custom": {
         const matches = regExp.exec(fullOption);
-        if (pnDebug) {
+        if (DEBUG) {
           console.log("Custom Node w/ Single Icon:" + fullOption);
           console.log(matches);
         }
         const custom_node = matches[1].split(";");
-        // addEnergyRing = false;
         addIconShadow = true;
         if (custom_node[1]) {
           inner = "<custom-presence-track-icon>";
@@ -2631,7 +2734,7 @@ function getPresenceNodeInnerHTML(
   }
   subTextFinal = subText;
 
-  if (pnDebug) {
+  if (DEBUG) {
     console.log(
       "--Result-- Text:" +
         subTextFinal +
@@ -2650,7 +2753,9 @@ function getPresenceNodeInnerHTML(
 /* exported updatePresenceNodeIDs */
 function updatePresenceNodeIDs() {
   const board = document.querySelectorAll("board")[0];
-  console.log(board);
+  if (DEBUG) {
+    console.log(board);
+  }
   const presenceTable = document.getElementById("presence-table");
   const energyTrack = document.getElementById("energy-track");
   const energyNodes = energyTrack.getElementsByTagName("presence-node");
@@ -2955,7 +3060,6 @@ function IconName(str, iconNum = 1) {
   let opt4 = "";
   let options;
   let localize;
-  let debug = false;
 
   // identify if 'str' contains options
   const matches = _iconNameRegex.exec(str);
@@ -3013,11 +3117,8 @@ function IconName(str, iconNum = 1) {
   if (str.startsWith("-")) {
     str = str.replace("-", "");
   }
-  // if (str.startsWith("custom")) {
-  //   str = getCustomIconName(str);
-  // }
 
-  if (debug) {
+  if (DEBUG) {
     console.log("IconName. Input: " + str);
     if (options) {
       console.log("Options: " + options);
@@ -5281,7 +5382,7 @@ function IconName(str, iconNum = 1) {
       subText = _defaultProcessIcon(str, iconNum);
   }
 
-  if (debug) {
+  if (DEBUG) {
     console.log("Return: " + subText);
   }
   _iconNameCache.set(cacheKey, subText);
@@ -5327,7 +5428,9 @@ function Capitalise(str, plural = 0) {
 
 function ListLocalize(list, conjuction = "and") {
   let listText = "";
-  console.log(list);
+  if (DEBUG) {
+    console.log(list);
+  }
   switch (lang) {
     case "en":
       // goal is to construct lists of items in your language:
@@ -5352,7 +5455,9 @@ function setupCustomIcons() {
   const spiritStyle = document.querySelectorAll("style")[0];
   let styleText = spiritStyle.textContent;
   if (styleText) {
-    console.log("CREATING CUSTOM ICONS");
+    if (DEBUG) {
+      console.log("CREATING CUSTOM ICONS");
+    }
     let customIconHolder = document.createElement("custom-icons");
     const body = document.querySelectorAll("board")[0];
     body.appendChild(customIconHolder);
@@ -5377,7 +5482,9 @@ function getCustomIconName(iconName) {
   const customIconHolder = document.querySelectorAll("custom-icons")[0];
   let customIcon = customIconHolder.getElementsByClassName(iconName)[0];
   let returnName = customIcon.getAttribute("data-iconname") ?? iconName;
-  console.log("Retrieving Custom Icon Name for " + iconName + ": " + returnName);
+  if (DEBUG) {
+    console.log("Retrieving Custom Icon Name for " + iconName + ": " + returnName);
+  }
   return returnName;
 }
 
@@ -5390,17 +5497,16 @@ function makePlural(str) {
 
 function growthHeadersAndTitles() {
   // Create Headers (if using Subsets)
-  let debug = false;
   const board = document.querySelectorAll("board")[0];
   const growthTable = board.getElementsByTagName("growth-table")[0];
   const headerWidth = {};
   const headerAdditionalWidth = {};
   let maxIndex = undefined;
-  if (debug) {
+  if (DEBUG) {
     console.log("Checking growth for headers");
   }
   for (const c of growthTable.children) {
-    if (debug) {
+    if (DEBUG) {
       console.log(c);
     }
     const header = parseInt(c.getAttribute("header"));
@@ -5427,7 +5533,7 @@ function growthHeadersAndTitles() {
         headerAdditionalWidth[maxIndex] = addWidth;
       }
     } else {
-      if (debug) {
+      if (DEBUG) {
         console.log("No header");
       }
     }
@@ -5485,8 +5591,24 @@ function growthHeadersAndTitles() {
   }
 }
 
+// Growth-panel layout tuning for dynamicResizing:
+// - Rows wider than MAX_GROWTH_ROW_WIDTH px auto-wrap onto a second growth table;
+//   growth text taller than TALL_GROWTH_TEXT_HEIGHT px (4+ lines) also forces a wrap.
+// - Text blocks may grow to MAX_GROWTH_TEXT_HEIGHT_* px (less room when there are
+//   two rows) and get rebalanced while under GROWTH_TEXT_REBALANCE_HEIGHT px.
+// - Texts wider than GROWTH_TEXT_ADD_LINE_WIDTH (then _SECOND_LINE_WIDTH) px, and
+//   wider than their icons, receive forced line breaks.
+// - GROWTH_COST_WIDTH must match the growth-cost width in CSS (incl. negative margins).
+const MAX_GROWTH_ROW_WIDTH = 1090;
+const TALL_GROWTH_TEXT_HEIGHT = 57;
+const MAX_GROWTH_TEXT_HEIGHT_ONE_ROW = 75;
+const MAX_GROWTH_TEXT_HEIGHT_TWO_ROWS = 50;
+const GROWTH_TEXT_REBALANCE_HEIGHT = 70;
+const GROWTH_TEXT_ADD_LINE_WIDTH = 135;
+const GROWTH_TEXT_ADD_SECOND_LINE_WIDTH = 155;
+const GROWTH_COST_WIDTH = 10;
+
 function dynamicResizing() {
-  let debug = false;
   const board = document.querySelectorAll("board")[0];
   const right = board.getElementsByTagName("right")[0];
   const growthSection = board.getElementsByTagName("growth")[0];
@@ -5509,12 +5631,14 @@ function dynamicResizing() {
     board.classList.add("rumu");
   }
 
-  console.log("RESIZING: Growth");
+  if (DEBUG) {
+    console.log("RESIZING: Growth");
+  }
   // Growth Sizing
 
   //Custom growth new line breaks
   let growthTable = board.getElementsByTagName("growth-table")[0];
-  if (debug) {
+  if (DEBUG) {
     console.log("growth table before resizing");
     console.log(growthTable);
   }
@@ -5544,14 +5668,14 @@ function dynamicResizing() {
   let totalWidth = getGrowthTableWidth(growthTable);
   let growthTexts = board.getElementsByTagName("growth-text");
   let tallGrowthText = hasTallGrowthText(growthTexts);
-  if (debug) {
+  if (DEBUG) {
     console.log("Tall growth text found? (4 or more lines) " + tallGrowthText);
   }
 
   function hasTallGrowthText(texts) {
     let hasTall = false;
     for (let i = 0; i < texts.length; i++) {
-      hasTall = texts[i].offsetHeight > 57 ? true : hasTall;
+      hasTall = texts[i].offsetHeight > TALL_GROWTH_TEXT_HEIGHT ? true : hasTall;
       // true if any growth-text is more than 3 lines
     }
     return hasTall;
@@ -5561,7 +5685,7 @@ function dynamicResizing() {
   if (!customNewTablesFlag) {
     //Automatical new growth row (deactivated if custom is used)
 
-    if (totalWidth > 1090 || tallGrowthText) {
+    if (totalWidth > MAX_GROWTH_ROW_WIDTH || tallGrowthText) {
       const growthGroups = growthTable.getElementsByTagName("growth-group");
       const growthBorders = growthTable.getElementsByTagName("growth-border");
       newGrowthTable = document.createElement("growth-table");
@@ -5569,7 +5693,7 @@ function dynamicResizing() {
       let c = 0;
       // growthGroups is a live collection; keep at least one group in the top
       // table or the next iteration appends undefined and kills the render.
-      while ((totalWidth > 1090 || tallGrowthText) && growthGroups.length > 1) {
+      while ((totalWidth > MAX_GROWTH_ROW_WIDTH || tallGrowthText) && growthGroups.length > 1) {
         if (c === 0) {
           newGrowthTable.appendChild(growthGroups[growthGroups.length - 1]);
         } else {
@@ -5602,25 +5726,26 @@ function dynamicResizing() {
   }
 
   // Adjust Growth Text
-  if (debug) {
+  if (DEBUG) {
     console.log("ADJUSTING GROWTH TEXT");
   }
 
-  const maxGrowthTextHeight = newGrowthTable !== undefined ? 50 : 75;
+  const maxGrowthTextHeight =
+    newGrowthTable !== undefined ? MAX_GROWTH_TEXT_HEIGHT_TWO_ROWS : MAX_GROWTH_TEXT_HEIGHT_ONE_ROW;
   for (let i = 0; i < growthTexts.length; i++) {
     // Add lines to very wide text (up to 3 lines total)
-    if (debug) {
+    if (DEBUG) {
       console.log(`growthTexts[i]`);
     }
     balanceText(growthTexts[i]); // First balance the text to give an accurate sense of what needs new lines
     if (
       growthTexts[i].offsetWidth > growthWidthByIcons[i] * 1.1 &&
-      growthTexts[i].offsetWidth > 135 &&
-      growthTexts[i].offsetHeight < 57
+      growthTexts[i].offsetWidth > GROWTH_TEXT_ADD_LINE_WIDTH &&
+      growthTexts[i].offsetHeight < TALL_GROWTH_TEXT_HEIGHT
     ) {
       addLine(growthTexts[i]);
       balanceText(growthTexts[i]);
-      if (debug) {
+      if (DEBUG) {
         console.log(
           'Added line to:"' +
             growthTexts[i].textContent +
@@ -5634,12 +5759,12 @@ function dynamicResizing() {
 
       if (
         growthTexts[i].offsetWidth > growthWidthByIcons[i] * 1.1 &&
-        growthTexts[i].offsetWidth > 155 &&
-        growthTexts[i].offsetHeight < 57
+        growthTexts[i].offsetWidth > GROWTH_TEXT_ADD_SECOND_LINE_WIDTH &&
+        growthTexts[i].offsetHeight < TALL_GROWTH_TEXT_HEIGHT
       ) {
         addLine(growthTexts[i]);
         balanceText(growthTexts[i]);
-        if (debug) {
+        if (DEBUG) {
           console.log(
             'Added second line to:"' +
               growthTexts[i].textContent +
@@ -5654,9 +5779,9 @@ function dynamicResizing() {
     }
   }
   for (let i = 0; i < growthTexts.length; i++) {
-    if (growthTexts[i].offsetHeight < 70) {
+    if (growthTexts[i].offsetHeight < GROWTH_TEXT_REBALANCE_HEIGHT) {
       balanceText(growthTexts[i]);
-      if (debug) {
+      if (DEBUG) {
         console.log(
           'Balancing growth text "' +
             growthTexts[i].textContent +
@@ -5671,7 +5796,7 @@ function dynamicResizing() {
     if (growthTexts[i].offsetHeight > maxGrowthTextHeight) {
       reduceLines(growthTexts[i]);
       balanceText(growthTexts[i]);
-      if (debug) {
+      if (DEBUG) {
         console.log("Reducing growth text lines for " + growthTexts[i].textContent);
       }
     }
@@ -5686,7 +5811,9 @@ function dynamicResizing() {
     if (i === 0 && growthTables.length > 1) {
       growthTable.classList.add("two-table-top");
       tightFlag = true;
-      console.log("  Flag: will tighten presence tracks");
+      if (DEBUG) {
+        console.log("  Flag: will tighten presence tracks");
+      }
     }
 
     const growthCells = growthTable.getElementsByTagName("growth-cell");
@@ -5694,7 +5821,7 @@ function dynamicResizing() {
     const growthCosts = growthTable.getElementsByTagName("growth-cost");
     let growthCostsPixels = 0;
     for (let j = 0; j < growthCosts.length; j++) {
-      growthCostsPixels += 10; //Currently, all costs are width 10 (including negative margins).
+      growthCostsPixels += GROWTH_COST_WIDTH;
     }
 
     const localBorders = growthTable.getElementsByTagName("growth-border");
@@ -5704,7 +5831,7 @@ function dynamicResizing() {
     }
 
     const growthPanelWidth = right.offsetWidth - 10 - localBorderPixels - growthCostsPixels;
-    if (debug) {
+    if (DEBUG) {
       console.log("table" + i + " width for growth actions = " + growthPanelWidth);
     }
     let totalCellWidth = 0;
@@ -5717,7 +5844,7 @@ function dynamicResizing() {
       growthWidthByIcons[j] = getGrowthActionIconWidth(growthCells[j]);
       growthTextHeights[j] = growthTexts[j].getBoundingClientRect().height;
       growthTextWidths[j] = growthTexts[j].getBoundingClientRect().width;
-      if (debug) {
+      if (DEBUG) {
         console.log(
           growthTextWidths[j] +
             " vs " +
@@ -5734,34 +5861,28 @@ function dynamicResizing() {
       0
     );
 
-    if (debug) {
+    if (DEBUG) {
       console.log("Height/Width/Area/Huge?/Tighten?/WidthByIcons/AdjustedWidths");
-      // console.log(growthTextHeights);
       console.log(growthTextWidths);
-      // console.log(growthTextAreas);
-      // console.log(textSizeHuge);
-      // console.log(textSizeNeedsTightening)
       console.log(growthWidthByIcons);
       console.log(adjustedGrowthWidths);
     }
 
     const averageWidth = totalCellWidth / growthCells.length;
-    if (debug) {
+    if (DEBUG) {
       console.log("aveage width = " + averageWidth);
       console.log("total cell width = " + totalCellWidth);
       console.log("growth panel width = " + growthPanelWidth);
     }
-    // if (totalCellWidth > 1000 || i === 0) {
 
-    // if (totalCellWidth > growthPanelWidth || i === 0) {
     if (i < growthTables.length - 1 || i === 0 || starlight) {
-      if (debug) {
+      if (DEBUG) {
         console.log("setting widths");
         console.log(growthPanelWidth);
         console.log(totalAdjustedIconWidth);
       }
       for (let j = 0; j < growthCells.length; j++) {
-        if (debug) {
+        if (DEBUG) {
           console.log(adjustedGrowthWidths[j]);
         }
         growthCells[j].style.width =
@@ -5769,16 +5890,15 @@ function dynamicResizing() {
       }
     } else {
       growthTable.classList.add("two-table-bottom");
-      // growthTable.style.maxWidth = growthCells.length * averageWidth +100 + "px";
       for (let j = 0; j < growthCells.length; j++) {
         let iconWidth = getGrowthActionIconWidth(growthCells[j]);
         let textWidth = growthTexts[j].getBoundingClientRect().width;
         let cellWidth = Math.max(iconWidth, textWidth);
-        if (debug) {
+        if (DEBUG) {
           console.log("cellwidth = " + cellWidth);
         }
         growthCells[j].style.width = 1.1 * cellWidth + 20 + "px"; //10 for padding (maybe tweak the 1.15) maybe instead update the width based on text & icons
-        if (debug) {
+        if (DEBUG) {
           console.log(adjustedGrowthWidths);
         }
         growthCells[j].style.minWidth = "100px";
@@ -5807,7 +5927,7 @@ function dynamicResizing() {
   for (let i = 0; i < finalGrowthTexts.length; i++) {
     finalGrowthTexts[i].style.width = "unset";
     balanceText(growthTexts[i]);
-    if (debug) {
+    if (DEBUG) {
       console.log("relaxing growth texts");
     }
     finalGrowthTexts[i].style.width =
@@ -5817,11 +5937,15 @@ function dynamicResizing() {
   }
 
   // Innate Power Sizing
-  console.log("RESIZING: Innate Powers");
+  if (DEBUG) {
+    console.log("RESIZING: Innate Powers");
+  }
   innatePowerSizing(board); //Moved to its own function
 
   // Presence Track Sizing
-  console.log("RESIZING: Presence Tracks");
+  if (DEBUG) {
+    console.log("RESIZING: Presence Tracks");
+  }
   //Load tracks
   const presenceTrack = board.getElementsByTagName("presence-tracks")[0];
   const energyTrack = document.getElementById("energy-track");
@@ -5847,7 +5971,7 @@ function dynamicResizing() {
     spacers.forEach((spacer) => {
       spacer.classList.add("tight");
     });
-    if (debug) {
+    if (DEBUG) {
       console.log("> Compressing horizontally; smaller initial spacer");
     }
   }
@@ -5856,14 +5980,14 @@ function dynamicResizing() {
     tdNodes.forEach((tdNode) => {
       tdNode.classList.add("tight");
     });
-    if (debug) {
+    if (DEBUG) {
       console.log("> Compressing horizontally; less space between nodes");
     }
   }
 
   //Auto-tighten for Additional Tracks
   if (additionalTracks.length) {
-    if (debug) {
+    if (DEBUG) {
       console.log("Additional Tracks detected, vertical tightening all tracks");
     }
     energyTrack.classList.add("vertical-tight");
@@ -5885,10 +6009,10 @@ function dynamicResizing() {
 
   // Presence node subtext (for longer descriptions, allows flowing over into neighbors.
   let currentTrack;
-  debug = false;
-  // let last_node_adjusted = false;
   if (tightFlag) {
-    console.log("  Flag: tightening presence tracks");
+    if (DEBUG) {
+      console.log("  Flag: tightening presence tracks");
+    }
     board.getElementsByTagName("presence-title")[0].classList.add("tight");
   }
 
@@ -5896,19 +6020,19 @@ function dynamicResizing() {
     // Do Energy Track then Plays Track
     if (j === 0) {
       currentTrack = energyTrack;
-      if (debug) {
+      if (DEBUG) {
         console.log("energy track");
       }
     } else {
       currentTrack = playsTrack;
-      if (debug) {
+      if (DEBUG) {
         console.log("plays track");
       }
     }
     const subtext = currentTrack.getElementsByTagName("subtext");
     const presence_nodes = currentTrack.getElementsByTagName("presence-node");
     const track_tds = currentTrack.getElementsByTagName("td");
-    if (debug) {
+    if (DEBUG) {
       console.log(presence_nodes[0].classList);
       console.log(track_tds);
     }
@@ -5921,7 +6045,7 @@ function dynamicResizing() {
       }
     });
     subtextArray.forEach((text, i) => {
-      if (debug) {
+      if (DEBUG) {
         console.log(text);
       }
       if (i > 0) {
@@ -5937,7 +6061,7 @@ function dynamicResizing() {
             rightTextLocation = subtextArray[i + 1].getBoundingClientRect();
             rightLeft = rightTextLocation.left - 10;
           }
-          if (debug) {
+          if (DEBUG) {
             console.log(leftTextLocation);
             console.log(curTextLocation);
             console.log(rightTextLocation);
@@ -5945,14 +6069,14 @@ function dynamicResizing() {
           let deltaL = curTextLocation.left - leftTextLocation.right - 10;
           let deltaR = rightLeft - curTextLocation.right;
           let delta = deltaL < deltaR ? deltaL : deltaR;
-          if (debug) {
+          if (DEBUG) {
             console.log("delta:" + delta);
           }
           if (delta > 0) {
             delta = delta > 30 ? 30 : delta;
             let newWidth = curTextLocation.width + 2 * delta;
             subtext[i].style.width = newWidth + "px";
-            if (debug) {
+            if (DEBUG) {
               console.log(curTextLocation.width + " " + newWidth);
               console.log(text);
               console.log(subtext[i]);
@@ -5962,7 +6086,7 @@ function dynamicResizing() {
         }
       }
     });
-    if (debug) {
+    if (DEBUG) {
       console.log("textHeightsArray");
       console.log(textHeightsArray);
     }
@@ -5974,18 +6098,24 @@ function dynamicResizing() {
     : right.clientHeight - presenceTrack.clientHeight - growth.clientHeight + "px";
   if (checkOverflowHeight(innatePowerBox)) {
     innatePowerBox.classList.add("wide-levels");
-    console.log("  > Widening IP levels");
+    if (DEBUG) {
+      console.log("  > Widening IP levels");
+    }
   }
   if (checkOverflowHeight(innatePowerBox)) {
     energyTrack.classList.add("vertical-tight");
-    console.log("  > Compressing Presence Tracks Vertically");
+    if (DEBUG) {
+      console.log("  > Compressing Presence Tracks Vertically");
+    }
   }
 
   //Create space for top subtexts (if applicable)
   const energyNodesWithTopSubtexts = Array.from(energyTrack.getElementsByClassName("top-subtext"));
   const presenceNote = board.getElementsByTagName("presence-note")[0];
   if (energyNodesWithTopSubtexts.length) {
-    console.log("found energy nodes with top subtexts");
+    if (DEBUG) {
+      console.log("found energy nodes with top subtexts");
+    }
     const maxTopSubtextHeight = Math.max(
       ...energyNodesWithTopSubtexts.map(
         (node) => node.getElementsByTagName("subtext")[0].offsetHeight
@@ -5995,7 +6125,9 @@ function dynamicResizing() {
     if (presenceNote) {
       presenceTrackTitle.style.marginBottom = maxTopSubtextHeight + 3 + "px";
     } else {
-      console.log("no note, can be more lenient");
+      if (DEBUG) {
+        console.log("no note, can be more lenient");
+      }
       const nodeWithLargestSubtext = energyNodesWithTopSubtexts.reduce((prev, current) => {
         return prev.getElementsByTagName("subtext")[0].offsetHeight >
           current.getElementsByTagName("subtext")[0].offsetHeight
@@ -6004,10 +6136,14 @@ function dynamicResizing() {
       });
       const nodeNum = nodeWithLargestSubtext.id.match(/\d+/)[0]; // "3"
       if (nodeNum > 1) {
-        console.log("largest top subtext is not under presence heading");
+        if (DEBUG) {
+          console.log("largest top subtext is not under presence heading");
+        }
         presenceTrackTitle.style.marginBottom = Math.max(maxTopSubtextHeight - 25, 22) + "px";
       } else {
-        console.log("large top subtext is under presence heading");
+        if (DEBUG) {
+          console.log("large top subtext is under presence heading");
+        }
         presenceTrackTitle.style.marginBottom = maxTopSubtextHeight + "px";
       }
     }
@@ -6027,7 +6163,7 @@ function dynamicResizing() {
   // Place middle presence nodes
   const firstRow = energyTrack;
   const firstRowHeight = firstRow.offsetHeight;
-  if (debug) {
+  if (DEBUG) {
     console.log("first row height: " + firstRowHeight);
   }
   const middleNodes = presenceTrack.getElementsByClassName("middle");
@@ -6036,27 +6172,27 @@ function dynamicResizing() {
     presenceNode[0].style.top = firstRowHeight / 2 + "px";
   }
 
-  console.log("RESIZING: INNATE NOTES (IF NEEDED)");
+  if (DEBUG) {
+    console.log("RESIZING: INNATE NOTES (IF NEEDED)");
+  }
   // Size Innate Power box
-  debug = false;
   const presenceTracks = board.getElementsByTagName("presence-tracks")[0];
   const innatePowers = board.getElementsByTagName("innate-power");
 
   // Shrink Innate Power notes if needed for space
-  // const innatePowerBox = board.getElementsByTagName("innate-powers")[0];
-  // innatePowerBox.style.height =
-  //   right.clientHeight - presenceTracks.clientHeight - growth.clientHeight + "px";
   let moveFlag = false;
   let k = 0;
 
   // First, if overflowing, check if its just one Innate Power and has a note, and move over the note if so
   if (checkOverflowHeight(innatePowerBox, 0)) {
-    console.log("# of Innate Powers = " + innatePowers.length);
+    if (DEBUG) {
+      console.log("# of Innate Powers = " + innatePowers.length);
+    }
     if (innatePowers.length === 1) {
       const note = innatePowers[0].getElementsByTagName("note")[0];
       if (note) {
         note.classList.add("single-squish");
-        if (debug) {
+        if (DEBUG) {
           console.log("  > Single power note detected. Moving note to side.");
         }
         moveFlag = true;
@@ -6066,21 +6202,21 @@ function dynamicResizing() {
 
   // Next give left innate more horizontal room
   if (checkOverflowHeight(innatePowerBox, 0)) {
-    if (debug) {
+    if (DEBUG) {
       console.log("  > Innate Powers are overflowing, giving more room to IP1");
     }
     innatePowerBox.classList.add("wide-levels");
   }
   // Then tighten up the power levels
   if (checkOverflowHeight(innatePowerBox, 0)) {
-    if (debug) {
+    if (DEBUG) {
       console.log("  > Innate Powers overflowing, shrinking space between levels");
     }
     innatePowerBox.classList.add("tight-levels");
   }
   // Then tighten up the power levels again
   if (checkOverflowHeight(innatePowerBox, 0)) {
-    if (debug) {
+    if (DEBUG) {
       console.log("  > Innate Powers still overflowing, shrinking space between levels more");
     }
     innatePowerBox.classList.add("really-tight-levels");
@@ -6092,14 +6228,14 @@ function dynamicResizing() {
 
   // Then tighten up the power level line spacing
   if (checkOverflowHeight(innatePowerBox, 0)) {
-    if (debug) {
+    if (DEBUG) {
       console.log("  > Innate Powers overflowing, shrinking level description line height");
     }
     innatePowerBox.classList.add("tight-line-height");
   }
 
   if (checkOverflowHeight(innatePowerBox, 0)) {
-    if (debug) {
+    if (DEBUG) {
       console.log("Innate Powers overflowing, shrinking notes (if applicable)...");
     }
     const descriptionContainers = innatePowerBox.getElementsByTagName("description-container");
@@ -6111,14 +6247,14 @@ function dynamicResizing() {
         tallest_index = i;
       }
     }
-    if (debug) {
+    if (DEBUG) {
       console.log("tallest is Innate Power: " + (tallest_index + 1));
     }
 
     //check for note in tallest innate power
     const noteBox = descriptionContainers[tallest_index].getElementsByTagName("note")[0];
     if (noteBox && !moveFlag) {
-      if (debug) {
+      if (DEBUG) {
         console.log("notebox detected, attempting to shrink");
       }
       while (checkOverflowHeight(innatePowerBox, 0)) {
@@ -6131,12 +6267,16 @@ function dynamicResizing() {
         // safety valve
         k += 1;
         if (k > 10) {
-          console.log("Notes shrunk as far as reasonable");
+          if (DEBUG) {
+            console.log("Notes shrunk as far as reasonable");
+          }
           break;
         }
       }
     } else {
-      console.log("Unable to shrink notes - note not detected in tallest power");
+      if (DEBUG) {
+        console.log("Unable to shrink notes - note not detected in tallest power");
+      }
     }
   }
 
@@ -6181,10 +6321,11 @@ function getGrowthActionIconWidth(growthCell) {
 }
 
 function innatePowerSizing(board) {
-  console.log("RESIZING: Innate Powers (from board_front.js)");
+  if (DEBUG) {
+    console.log("RESIZING: Innate Powers (from board_front.js)");
+  }
 
-  let debug = false;
-  if (debug) {
+  if (DEBUG) {
     console.log(board);
   }
 
@@ -6213,7 +6354,7 @@ function innatePowerSizing(board) {
     const lineHeight = parseFloat(
       window.getComputedStyle(noteBlocks[i]).getPropertyValue("line-height").replace(/px/, "")
     );
-    if (debug) {
+    if (DEBUG) {
       console.log(lineHeight);
       console.log(lineHeight * 4.25);
     }
@@ -6258,13 +6399,13 @@ function innatePowerSizing(board) {
     const thresholdWidth = thresholds[i].offsetWidth;
     if (textHeight < 50) {
       effects[i].classList.add("single-line");
-      if (debug) {
+      if (DEBUG) {
         console.log("single line");
       }
       // Align-middle the text if its a single line
     } else if (textHeight > 100 && thresholdWidth > 80) {
       // Wrap effects below the threshold if its greater than three lines
-      if (debug) {
+      if (DEBUG) {
         console.log("wrapping large text");
       }
       effects[i].style.paddingLeft = "0px";
@@ -6277,10 +6418,9 @@ function innatePowerSizing(board) {
 }
 
 function balanceText(el, lineHeight = 23) {
-  let debug = false;
   const initialHeight = el.offsetHeight;
   const initialWidth = el.offsetWidth;
-  if (debug) {
+  if (DEBUG) {
     console.log(
       "Balancing Text: " + el.textContent + " H:" + initialHeight + ", W:" + initialWidth
     );
@@ -6294,7 +6434,7 @@ function balanceText(el, lineHeight = 23) {
     while (currentHeight <= initialHeight) {
       overflow = checkOverflowWidth(el, 0);
       if (overflow) {
-        if (debug) {
+        if (DEBUG) {
           console.log("balance overflowing, j=" + j);
         }
         break;
@@ -6304,40 +6444,40 @@ function balanceText(el, lineHeight = 23) {
       el.style.width = k + "px";
       currentHeight = el.offsetHeight;
       j += 1;
-      if (debug) {
+      if (DEBUG) {
         console.log(" H:" + currentHeight + ", W:" + k);
       }
       if (j > 200) {
-        if (debug) {
+        if (DEBUG) {
           console.log("Max text reduction reached for");
           console.log(el);
         }
         break;
       }
     }
-    if (debug) {
+    if (DEBUG) {
       console.log(
         "reset at w=" + el.offsetWidth + ",h=" + el.offsetHeight + ",overflow=" + overflow
       );
     }
     k = k + 1;
     el.style.width = k + "px";
-    if (debug) {
+    if (DEBUG) {
       console.log("reset to w=" + el.offsetWidth + ",h=" + el.offsetHeight);
     }
-    // el.style.width = el.offsetWidth + "px";
   } else {
-    console.log("One line, no balancing possible");
+    if (DEBUG) {
+      console.log("One line, no balancing possible");
+    }
   }
 }
 
 function reduceLines(el) {
   const initialHeight = el.offsetHeight;
-  let debug = false;
   let currentHeight = initialHeight;
   let j = 0;
   let k = Math.trunc(el.offsetWidth);
-  if (debug) {
+  if (DEBUG) {
     console.log(el.textContent + ": starting height = " + initialHeight);
   }
   while (currentHeight >= initialHeight) {
@@ -6346,15 +6486,17 @@ function reduceLines(el) {
     currentHeight = el.offsetHeight;
     j += 1;
     if (j > 50) {
-      if (debug) {
+      if (DEBUG) {
         console.log("Max line reduction reached for");
       }
-      console.log(el);
+      if (DEBUG) {
+        console.log(el);
+      }
       break;
     }
   }
   el.style.width = el.offsetWidth + "px";
-  if (debug) {
+  if (DEBUG) {
     console.log(el.textContent + ": final height = " + currentHeight);
   }
 }
@@ -6370,8 +6512,12 @@ function addLine(el) {
     currentHeight = el.offsetHeight;
     j += 1;
     if (j > 80) {
-      console.log("Add line maxed out");
-      console.log(el);
+      if (DEBUG) {
+        console.log("Add line maxed out");
+      }
+      if (DEBUG) {
+        console.log(el);
+      }
       break;
     }
   }
@@ -6379,7 +6525,9 @@ function addLine(el) {
 }
 
 function parseInnatePowers() {
-  console.log("BUILDING INNATE POWERS");
+  if (DEBUG) {
+    console.log("BUILDING INNATE POWERS");
+  }
   const board = document.querySelectorAll("board")[0];
 
   let fullHTML = "";
@@ -6402,8 +6550,7 @@ function parseInnatePowers() {
 }
 
 function parseInnatePower(innatePowerHTML, index = 0) {
-  let debug = false;
-  if (debug) {
+  if (DEBUG) {
     console.log("Parsing Innate Power in boardfront.js");
   }
   const innatePowerID = "ip" + index;
@@ -6470,8 +6617,7 @@ function parseInnatePower(innatePowerHTML, index = 0) {
 // }
 
 function writeInnateLevel(currentLevel, levelID) {
-  let debug = false;
-  if (debug) {
+  if (DEBUG) {
     console.log("writing level");
     console.log(currentLevel);
   }
@@ -6525,10 +6671,9 @@ function writeInnateThreshold(
   levelID = "placeholder",
   thresholdTag = "threshold"
 ) {
-  let debug = true;
   const regExp = /\(([^)]+)\)/;
   let thresholdHTML = "";
-  if (debug) {
+  if (DEBUG) {
     console.log("Writing threshold: " + currentThreshold);
   }
   thresholdHTML += `<${thresholdTag} id='${levelID}t'>`;
@@ -6682,7 +6827,9 @@ function writeInnatePowerInfoBlock(
 }
 
 function buildSpecialRules() {
-  console.log("BUILDING SPECIAL RULES");
+  if (DEBUG) {
+    console.log("BUILDING SPECIAL RULES");
+  }
   const board = document.querySelectorAll("board")[0];
 
   const specialRules = board.getElementsByTagName("special-rules-container")[0];
@@ -6814,7 +6961,9 @@ function tagSectionHeadings() {
     sectionHeadings[j].id = "section-title-" + headingName;
     if (sectionHeadings[j].getAttribute("customname")) {
       sectionHeadings[j].textContent = sectionHeadings[j].getAttribute("customname");
-      console.log("custom heading name detected and assigned");
+      if (DEBUG) {
+        console.log("custom heading name detected and assigned");
+      }
     } else {
       if (headingName === "growth") {
         sectionHeadings[j].textContent = sectionHeadings[j].textContent.replace(

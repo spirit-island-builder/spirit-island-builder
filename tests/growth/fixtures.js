@@ -177,6 +177,25 @@ export const fixtures = [
   },
   { name: "group-new-row", attrs: { "values": "gain-energy(1)", "new-row": "true" } },
 
+  // whitespace tolerance — inputs with spaces around commas/semicolons.
+  // Before the trim-all-options change these rendered broken icon classes
+  // (the text side always trimmed, the icon side didn't); after it they must
+  // render identically to their spaceless twins above.
+  { name: "spacey-gain-energy", attrs: { values: "gain-energy(2, dahan)" } },
+  { name: "spacey-gain-energy-zero", attrs: { values: "gain-energy( 0 , dahan )" } },
+  { name: "spacey-add-presence", attrs: { values: "add-presence(1, jungle)" } },
+  { name: "spacey-gather", attrs: { values: "gather( dahan )" } },
+  { name: "spacey-gain-element", attrs: { values: "gain-element( fire )" } },
+  { name: "spacey-gain-element-or", attrs: { values: "gain-element(fire, water)" } },
+  { name: "spacey-add-token", attrs: { values: "add-token(1, badlands)" } },
+  { name: "spacey-incarna", attrs: { values: "incarna(move, 1)" } },
+  { name: "spacey-blank", attrs: { values: "blank( 120 )" } },
+  { name: "spacey-custom", attrs: { values: "custom( My custom action , fire )" } },
+  { name: "spacey-semicolon-values", attrs: { values: "gain-energy(2); reclaim-all" } },
+  { name: "spacey-or", attrs: { values: "or(gain-energy(2), add-presence(1))" } },
+  { name: "spacey-cost", attrs: { values: "gain-power-card", cost: "2, time" } },
+  { name: "spacey-override", attrs: { values: "moon* Custom override text" } },
+
   // errors — snapshots the error-cell fallback (intentionally malformed)
   { name: "error-unclosed-paren", attrs: { values: "gain-energy(" } },
   { name: "error-bare-add-presence", attrs: { values: "add-presence" } },

@@ -18,7 +18,7 @@
 </growth-cell>
 <growth-cell id="s0g0a3">
 <custom-growth-icon class="">
-<span class="non-icon"> ALL ESCAPE</span>
+<span class="non-icon">ALL ESCAPE</span>
 </custom-growth-icon>
 <growth-text>All Pieces Escape</growth-text>
 </growth-cell>
