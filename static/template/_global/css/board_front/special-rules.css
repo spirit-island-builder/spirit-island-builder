@@ -8,7 +8,7 @@ special-rules {
 
 special-rules-container {
   min-height: 250px;
-  padding-bottom: 19px;
+  padding-bottom: 29px;
   width: 667px;
   display: flex;
   flex-direction: column;
@@ -289,41 +289,8 @@ special-rule icon.star {
   margin-top: -10px;
 }
 
-special-rule icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-
-special-rule icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-special-rule icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-special-rule icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-special-rule icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-special-rule icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-special-rule icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-special-rule icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-special-rule icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
+/* Element art: special-rule uses the simple set, special-rules-track flips
+   back to fancy — see the element icon layer in global.css. */
 
 icon.presence-ring {
   background-image: url("../../images/board/CardPlayRing.png");
@@ -361,46 +328,6 @@ special-rule ul {
   margin-block-end: 0px;
   margin-block-start: 0px;
   padding-inline-start: 30px;
-}
-
-special-rules-track icon.sun {
-  background-image: url("../../images/board/Sun.png");
-}
-
-special-rules-track icon.moon {
-  background-image: url("../../images/board/Moon.png");
-}
-
-special-rules-track icon.fire {
-  background-image: url("../../images/board/Fire.png");
-}
-
-special-rules-track icon.air {
-  background-image: url("../../images/board/Air.png");
-}
-
-special-rules-track icon.plant {
-  background-image: url("../../images/board/Plant.png");
-}
-
-special-rules-track icon.water {
-  background-image: url("../../images/board/Water.png");
-}
-
-special-rules-track icon.earth {
-  background-image: url("../../images/board/Earth.png");
-}
-
-special-rules-track icon.animal {
-  background-image: url("../../images/board/Animal.png");
-}
-
-special-rules-track icon.star {
-  background-image: url("../../images/board/NewIcons/Element Star.png");
-}
-
-special-rules-track icon.any {
-  background-image: url("../../images/board/Any.png");
 }
 
 special-rules-track icon.element {

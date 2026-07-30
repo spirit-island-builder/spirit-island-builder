@@ -1,24 +1,9 @@
-@import "global.css";
 @import "board_front/icon.css";
 
 @font-face {
   font-family: JosefinSans-Regular;
   src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf) format("truetype");
   font-weight: normal;
-}
-
-html,
-body {
-  padding: 0px;
-  margin: 0px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 14px;
-}
-
-html {
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
 }
 
 body {

@@ -1,4 +1,3 @@
-@import "global.css";
 @import "board_front/special-rules.css";
 @import "board_front/innate-power.css";
 @import "board_front/growth-options.css";
@@ -12,21 +11,6 @@
 
 * {
   box-sizing: border-box;
-}
-
-html,
-body {
-  padding: 0px;
-  margin: 0px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 14px;
-  font-variant-ligatures: none;
-}
-
-html {
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
 }
 
 body {
@@ -408,36 +392,8 @@ aspect growth-cell {
   white-space: normal;
 }
 
-aspect growth-group icon.sun {
-  background-image: url("../images/board/Sun.png");
-}
-aspect growth-group icon.moon {
-  background-image: url("../images/board/Moon.png");
-}
-aspect growth-group icon.fire {
-  background-image: url("../images/board/Fire.png");
-}
-aspect growth-group icon.air {
-  background-image: url("../images/board/Air.png");
-}
-aspect growth-group icon.plant {
-  background-image: url("../images/board/Plant.png");
-}
-aspect growth-group icon.water {
-  background-image: url("../images/board/Water.png");
-}
-aspect growth-group icon.earth {
-  background-image: url("../images/board/Earth.png");
-}
-aspect growth-group icon.animal {
-  background-image: url("../images/board/Animal.png");
-}
-aspect growth-group icon.star {
-  background-image: url("../images/board/NewIcons/Element Star.png");
-}
-aspect growth-group icon.any {
-  background-image: url("../images/board/Any.png");
-}
+/* Element art: aspect growth-groups use the fancy set and aspect-subtext the
+   simple set — see the element icon layer in global.css. */
 
 aspect-subtext icon.incarna {
   filter: invert(0);
@@ -463,42 +419,6 @@ aspect-subtext icon.beasts {
 aspect-subtext icon.dahan {
   background-image: url("../images/board/aspect-white-icons/50px_dahan_white.png");
 } */
-
-aspect-subtext icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-
-aspect-subtext icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-aspect-subtext icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-aspect-subtext icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-aspect-subtext icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-aspect-subtext icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-aspect-subtext icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-aspect-subtext icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-aspect-subtext icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
 
 aspect.has-bonus-node aspect-container {
   width: 557px;
@@ -550,16 +470,7 @@ aspect info-title-target {
 }
 
 aspect dev-overlay {
-  display: block;
-  width: inherit;
-  height: inherit;
-  position: absolute;
-  top: 0px;
-  left: 0px;
   background-size: 100% 100%;
-  opacity: 0.5;
-  filter: invert(1) saturate(0);
-  pointer-events: none;
 }
 
 aspect-back.profile {

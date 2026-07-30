@@ -48,7 +48,6 @@ innate-powers:hover {
 
 innate-powers section-title {
   margin-left: 25px;
-  padding-top: 0px;
   flex: 0 1 auto;
 }
 
@@ -490,33 +489,8 @@ innate-power effect icon.slow {
   background-image: url("../../images/board/slow_power.png");
 }
 
-innate-power icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-innate-power icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-innate-power icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-innate-power icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-innate-power icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-innate-power icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-innate-power icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-innate-power icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-innate-power icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
+/* Element art: innate-power (incl. threshold and note) uses the simple set —
+   see the element icon layer in global.css. */
 
 effect icon.presence {
   height: 20px;
@@ -862,34 +836,6 @@ threshold icon.badlands {
   margin-top: -10px;
 }
 
-threshold icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-threshold icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-threshold icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-threshold icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-threshold icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-threshold icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-threshold icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-threshold icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-threshold icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
-
 threshold icon.star {
   width: 53px;
   height: 53px;
@@ -928,34 +874,6 @@ threshold-or {
   position: relative;
   left: -3px;
   height: 33px;
-}
-
-note icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-note icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-note icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-note icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-note icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-note icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-note icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-note icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-note icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
 }
 
 effect icon.incarna {

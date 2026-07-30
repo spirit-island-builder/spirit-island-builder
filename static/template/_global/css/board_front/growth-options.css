@@ -2,6 +2,8 @@ growth {
   display: block;
   position: relative;
   z-index: 3;
+  min-height: 208px;
+  flex-shrink: 0;
 }
 
 growth:hover section-title {
@@ -36,7 +38,6 @@ growth-background {
 
 growth section-title {
   margin-left: 47px;
-  margin-top: -12px;
   pointer-events: none;
 }
 
@@ -102,74 +103,8 @@ board.printer-clean growth-bottom {
   padding-right:5px;
 } */
 
-/* In most cases, we want simple element icons. */
-growth icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-
-growth icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-growth icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-growth icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-growth icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-growth icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-growth icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-growth icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-growth icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
-
-/* Gain is the exception */
-growth gain icon.sun {
-  background-image: url("../../images/board/Sun.png");
-}
-growth gain icon.moon {
-  background-image: url("../../images/board/Moon.png");
-}
-growth gain icon.fire {
-  background-image: url("../../images/board/Fire.png");
-}
-growth gain icon.air {
-  background-image: url("../../images/board/Air.png");
-}
-growth gain icon.plant {
-  background-image: url("../../images/board/Plant.png");
-}
-growth gain icon.water {
-  background-image: url("../../images/board/Water.png");
-}
-growth gain icon.earth {
-  background-image: url("../../images/board/Earth.png");
-}
-growth gain icon.animal {
-  background-image: url("../../images/board/Animal.png");
-}
-growth gain icon.star {
-  background-image: url("../../images/board/NewIcons/Element Star.png");
-}
-growth gain icon.any {
-  background-image: url("../../images/board/Any.png");
-}
+/* Element art: growth uses the simple set, <gain> flips back to fancy —
+   see the element icon layer in global.css. */
 
 growth-table.has-special-title {
   padding-top: 28px;
@@ -368,8 +303,10 @@ growth-cell icon.reclaim-none,
 growth-cell icon.reclaim-custom,
 growth-cell icon.reclaim-half {
   display: block;
-  height: 90px;
-  width: 90px;
+  height: 100px;
+  width: 100px;
+  margin-top: -12px;
+  margin-bottom: 2px;
 }
 
 growth-cell icon.reclaim-num {
@@ -975,14 +912,6 @@ growth-cell icon.make-fast {
   margin-bottom: 7px;
 }
 
-growth-cell icon.reclaim-all {
-  margin-bottom: 7px;
-}
-
-growth-cell icon.reclaim-custom {
-  margin-bottom: 7px;
-}
-
 growth-cell icon.isolate {
   width: 70px;
   margin-bottom: 7px;
@@ -1021,14 +950,6 @@ growth-cell icon.destroyed-presence, growth-cell icon.destroy-presence {
   height:90px;
   width:100px;
 } */
-
-growth-cell icon.reclaim-one {
-  margin-bottom: 7px;
-}
-
-growth-cell icon.reclaim-none {
-  margin-bottom: 7px;
-}
 
 growth-cell icon.ignorerange {
   margin-bottom: 10px;
@@ -1128,41 +1049,8 @@ icon.gain-card-modifier {
   color: #ead38d;
 }
 
-icon.gain-card-modifier.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-
-icon.gain-card-modifier.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-icon.gain-card-modifier.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-icon.gain-card-modifier.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-icon.gain-card-modifier.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-icon.gain-card-modifier.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-icon.gain-card-modifier.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-icon.gain-card-modifier.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-icon.gain-card-modifier.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
+/* gain-card-modifier sits inside growth, so it inherits the simple element
+   art from the global element icon layer. */
 
 icon.gain-card-modifier.minor {
   width: 42px;
@@ -2105,37 +1993,7 @@ gain-per-fear icon.custom-icon {
   margin-bottom: 0px;
 }
 
-gain-per-fear icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-
-gain-per-fear icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-gain-per-fear icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-gain-per-fear icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-gain-per-fear icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-gain-per-fear icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-gain-per-fear icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-gain-per-fear icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
+/* gain-per-fear uses the simple element art via the global element layer. */
 
 icon.slow {
   background-image: url("../../images/board/slow_power.png");

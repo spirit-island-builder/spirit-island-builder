@@ -87,8 +87,44 @@
   letter-spacing: -0.5px;
 }
 
+/* NOTE: JosefinSans-Regular's @font-face deliberately stays in each component
+   sheet, NOT here. Declaring it earlier (in this file) changes when the fetch
+   starts and makes text-measuring JS (card title squish, adversary level
+   sizing) race the font load — bistable renders. Hoist it only after those
+   scripts await document.fonts.ready the way board_front.js does. */
+
+/* Shared page bootstrap — every component sheet builds on this. Per-sheet
+   body layout (display, sizing) and box-sizing policy stay in each sheet. */
+html,
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 14px;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
 body {
   font-variant-ligatures: none;
+}
+
+dev-overlay {
+  display: block;
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-size: inherit;
+  opacity: 0.5;
+  filter: invert(1) saturate(0);
+  pointer-events: none;
+  z-index: 101;
 }
 
 icon {
@@ -215,35 +251,101 @@ icon.sacred-site {
   background-image: url("../images/board/sacred_site.png");
 }
 
+/* ---- Element icon layer ----
+   Two art sets exist: the colored "fancy" gems (the default) and the flat
+   "simple" set. Instead of per-context URL tables, every icon.<element> rule
+   reads a --el-* custom property; a context opts into the simple art by
+   setting those properties (lists below), and nested contexts can flip back.
+   All url() tokens stay in this file so relative paths resolve consistently.
+   (There is no simple star — icon.star is always the fancy art.) */
+:root {
+  --el-fancy-sun: url("../images/board/Sun.png");
+  --el-fancy-moon: url("../images/board/Moon.png");
+  --el-fancy-fire: url("../images/board/Fire.png");
+  --el-fancy-air: url("../images/board/Air.png");
+  --el-fancy-plant: url("../images/board/Plant.png");
+  --el-fancy-water: url("../images/board/Water.png");
+  --el-fancy-earth: url("../images/board/Earth.png");
+  --el-fancy-animal: url("../images/board/Animal.png");
+  --el-fancy-any: url("../images/board/Any.png");
+  --el-simple-sun: url("../images/board/element_simple_sun.png");
+  --el-simple-moon: url("../images/board/element_simple_moon.png");
+  --el-simple-fire: url("../images/board/element_simple_fire.png");
+  --el-simple-air: url("../images/board/element_simple_air.png");
+  --el-simple-plant: url("../images/board/element_simple_plant.png");
+  --el-simple-water: url("../images/board/element_simple_water.png");
+  --el-simple-earth: url("../images/board/element_simple_earth.png");
+  --el-simple-animal: url("../images/board/element_simple_animal.png");
+  --el-simple-any: url("../images/board/element_simple_any.png");
+}
+
 icon.sun {
-  background-image: url("../images/board/Sun.png");
+  background-image: var(--el-sun, var(--el-fancy-sun));
 }
 icon.moon {
-  background-image: url("../images/board/Moon.png");
+  background-image: var(--el-moon, var(--el-fancy-moon));
 }
 icon.fire {
-  background-image: url("../images/board/Fire.png");
+  background-image: var(--el-fire, var(--el-fancy-fire));
 }
 icon.air {
-  background-image: url("../images/board/Air.png");
+  background-image: var(--el-air, var(--el-fancy-air));
 }
 icon.plant {
-  background-image: url("../images/board/Plant.png");
+  background-image: var(--el-plant, var(--el-fancy-plant));
 }
 icon.water {
-  background-image: url("../images/board/Water.png");
+  background-image: var(--el-water, var(--el-fancy-water));
 }
 icon.earth {
-  background-image: url("../images/board/Earth.png");
+  background-image: var(--el-earth, var(--el-fancy-earth));
 }
 icon.animal {
-  background-image: url("../images/board/Animal.png");
+  background-image: var(--el-animal, var(--el-fancy-animal));
+}
+icon.any {
+  background-image: var(--el-any, var(--el-fancy-any));
 }
 icon.star {
   background-image: url("../images/board/NewIcons/Element Star.png");
 }
-icon.any {
-  background-image: url("../images/board/Any.png");
+
+/* Contexts that use the simple element art. */
+growth,
+special-rule,
+innate-power,
+note,
+threshold,
+rules,
+aspect-subtext,
+second-section-container,
+gain-per-fear,
+icon.card-deep-layers,
+icon.energy-deep-layers {
+  --el-sun: var(--el-simple-sun);
+  --el-moon: var(--el-simple-moon);
+  --el-fire: var(--el-simple-fire);
+  --el-air: var(--el-simple-air);
+  --el-plant: var(--el-simple-plant);
+  --el-water: var(--el-simple-water);
+  --el-earth: var(--el-simple-earth);
+  --el-animal: var(--el-simple-animal);
+  --el-any: var(--el-simple-any);
+}
+
+/* Nested contexts that revert to the fancy art. */
+gain,
+special-rules-track,
+aspect growth-group {
+  --el-sun: var(--el-fancy-sun);
+  --el-moon: var(--el-fancy-moon);
+  --el-fire: var(--el-fancy-fire);
+  --el-air: var(--el-fancy-air);
+  --el-plant: var(--el-fancy-plant);
+  --el-water: var(--el-fancy-water);
+  --el-earth: var(--el-fancy-earth);
+  --el-animal: var(--el-fancy-animal);
+  --el-any: var(--el-fancy-any);
 }
 icon.copy {
   background-image: url("../images/board/Copy.png");
@@ -734,7 +836,7 @@ custom-meeple {
 }
 
 custom-energy {
-  background-image: url("../../images/board/EnergyBlank.png");
+  background-image: url("../images/board/EnergyBlank.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;

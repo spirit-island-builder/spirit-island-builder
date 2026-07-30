@@ -4,20 +4,6 @@
   font-weight: normal;
 }
 
-html,
-body {
-  padding: 0px;
-  margin: 0px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 14px;
-}
-
-html {
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
-}
-
 body {
   display: flex;
   flex-wrap: wrap;
@@ -28,12 +14,6 @@ body {
 
 * {
   box-sizing: border-box;
-}
-
-body {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
 }
 
 template-invader-card {
@@ -225,20 +205,6 @@ invader-card-stitching-double {
   position: relative;
   width: 100%;
   height: 100%;
-}
-
-template-invader-card dev-overlay {
-  display: block;
-  width: inherit;
-  height: inherit;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  background-size: inherit;
-  opacity: 0.5;
-  filter: invert(1) saturate(0);
-  pointer-events: none;
-  z-index: 101;
 }
 
 icon {

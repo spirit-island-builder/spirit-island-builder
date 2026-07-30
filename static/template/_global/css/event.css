@@ -4,21 +4,13 @@
   font-weight: normal;
 }
 
-html,
-body {
-  padding: 0px;
-  margin: 0px;
-  height: 100%;
-  width: 100%;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 14px;
-}
-
 * {
   box-sizing: border-box;
 }
 
 body {
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -444,32 +436,18 @@ icon.element {
   margin-bottom: -4px;
 }
 
-icon.sun {
-  background-image: url("../images/board/element_simple_sun.png");
-}
-icon.earth {
-  background-image: url("../images/board/element_simple_earth.png");
-}
-icon.plant {
-  background-image: url("../images/board/element_simple_plant.png");
-}
-icon.fire {
-  background-image: url("../images/board/element_simple_fire.png");
-}
-icon.air {
-  background-image: url("../images/board/element_simple_air.png");
-}
-icon.moon {
-  background-image: url("../images/board/element_simple_moon.png");
-}
-icon.animal {
-  background-image: url("../images/board/element_simple_animal.png");
-}
-icon.water {
-  background-image: url("../images/board/element_simple_water.png");
-}
-icon.any {
-  background-image: url("../images/board/element_simple_any.png");
+/* Event cards use the simple element art everywhere — flip the whole page
+   via the element icon layer in global.css. */
+:root {
+  --el-sun: var(--el-simple-sun);
+  --el-moon: var(--el-simple-moon);
+  --el-fire: var(--el-simple-fire);
+  --el-air: var(--el-simple-air);
+  --el-plant: var(--el-simple-plant);
+  --el-water: var(--el-simple-water);
+  --el-earth: var(--el-simple-earth);
+  --el-animal: var(--el-simple-animal);
+  --el-any: var(--el-simple-any);
 }
 
 event-card ul {
@@ -483,20 +461,6 @@ icon {
   height: 25px;
   margin-top: -7px;
   margin-bottom: -4px;
-}
-
-event-card dev-overlay {
-  display: block;
-  width: inherit;
-  height: inherit;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  background-size: inherit;
-  opacity: 0.5;
-  filter: invert(1) saturate(0);
-  pointer-events: none;
-  z-index: 101;
 }
 
 event-card range {

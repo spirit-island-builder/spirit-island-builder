@@ -4,28 +4,6 @@
   font-weight: normal;
 }
 
-html,
-body {
-  padding: 0px;
-  margin: 0px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 14px;
-}
-
-html {
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
-}
-
-body {
-  /* display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  align-content: center; */
-}
-
 * {
   pointer-events: none;
 }
@@ -739,7 +717,7 @@ rules icon.ocean,
 rules icon.jungle-presence,
 rules icon.mountain-presence,
 rules icon.sand-presence,
-rules icon.sacred-site rules icon.wetland-presence {
+rules icon.wetland-presence {
   width: 30px;
   height: 30px;
   margin-bottom: -10px;
@@ -766,33 +744,8 @@ rules-container icon.terrain-double {
   margin-right: -4px;
 }
 
-rules icon.sun {
-  background-image: url(../images/board/element_simple_sun.png);
-}
-rules icon.earth {
-  background-image: url(../images/board/element_simple_earth.png);
-}
-rules icon.plant {
-  background-image: url(../images/board/element_simple_plant.png);
-}
-rules icon.fire {
-  background-image: url(../images/board/element_simple_fire.png);
-}
-rules icon.air {
-  background-image: url(../images/board/element_simple_air.png);
-}
-rules icon.moon {
-  background-image: url(../images/board/element_simple_moon.png);
-}
-rules icon.animal {
-  background-image: url(../images/board/element_simple_animal.png);
-}
-rules icon.water {
-  background-image: url(../images/board/element_simple_water.png);
-}
-rules icon.any {
-  background-image: url(../images/board/element_simple_any.png);
-}
+/* Element art: rules and threshold use the simple set — see the element
+   icon layer in global.css. */
 
 rules icon.sun,
 rules icon.moon,
@@ -813,34 +766,6 @@ rules icon.any {
 rules icon.explorer {
   width: 16px;
   height: 26px;
-}
-
-threshold icon.sun {
-  background-image: url(../images/board/element_simple_sun.png);
-}
-threshold icon.earth {
-  background-image: url(../images/board/element_simple_earth.png);
-}
-threshold icon.plant {
-  background-image: url(../images/board/element_simple_plant.png);
-}
-threshold icon.fire {
-  background-image: url(../images/board/element_simple_fire.png);
-}
-threshold icon.air {
-  background-image: url(../images/board/element_simple_air.png);
-}
-threshold icon.moon {
-  background-image: url(../images/board/element_simple_moon.png);
-}
-threshold icon.animal {
-  background-image: url(../images/board/element_simple_animal.png);
-}
-threshold icon.water {
-  background-image: url(../images/board/element_simple_water.png);
-}
-threshold icon.any {
-  background-image: url(../images/board/element_simple_any.png);
 }
 
 threshold icon.element {
