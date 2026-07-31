@@ -83,7 +83,6 @@ Growth is broken into Growth Sets, Groups, and Actions.
   - Remove: Deletes the Growth Action.
 
 #### Supported Growth Actions
-
 | Category | Action | Usage | Details | Examples |
 | ------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | Reclaim | Reclaim All, Reclaim One, Reclaim Half | reclaim(x) | x can be all, one, half, or custom |  |
@@ -185,7 +184,8 @@ Growth is broken into Growth Sets, Groups, and Actions.
 | Blank Space | Creates a blank space in growth | blank() | Creates a blank space. Default is 75px |  |
 |  | Creates a blanks space of x pixels | blank(x) | Creates a blank space roughly x px wide. |  |
 | **OR** Growth Options | Allows pair of two growth options | or(x,y) | x and y are growth options (like the ones above) | Fractured Days's growth: or(gain-1-time^2,gain-card-play(2)) |
-| Presence Track Node | Puts the growth option inside a presence track ring | presence-node(x) | x is a growth option (like the ones above) | presence-node(reclaim-one) |
+| Presence Track Node | Puts x inside a presence track ring in growth. | presence-node(x) | x uses the Presence Track options (see the Presence Tracks section), so 2, moon, reclaim-one, and star^energy(1) all work. | presence-node(reclaim-one) |
+| Presence Track | Puts a presence track inside growth. | presence-track(x,y,z,...) | A row of presence track nodes in one growth cell. Each of x, y, z is a presence-node input, comma separated like a real track's nodes. | Starlight's Growth tracks: "presence-track(empty^energy(+1),star^energy(+1))" |
 | Custom text on anything | Useful for translating, replaces pre-gen text | *_your_text_here_ | At the end of any growth action, put * and whatever text you want. Useful when creating boards in other langauges | reclaim(all)*Alle Karten wiedererlangen |
 [Home](#index)
 

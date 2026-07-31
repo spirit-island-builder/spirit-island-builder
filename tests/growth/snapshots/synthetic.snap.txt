@@ -1326,7 +1326,7 @@
 --- {"values":"presence-node(reclaim-one)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<presence-node id="card0" ttsinfo=";;;" class="growth">
+<presence-node id="growth-s0g0a0" ttsinfo=";;;" class="growth">
 <ring-icon>{reclaim-one}</ring-icon>
 <subtext>Reclaim One</subtext>
 </presence-node>
@@ -1347,6 +1347,834 @@
 </presence-node>
 <growth-text class=blank-text>
 </growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-blank-width
+--- {"values":"presence-node(blank(120))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node class="growth blank">
+<ring-icon>
+<custom-growth-icon style='max-width:120px;'>
+</custom-growth-icon>
+        </ring-icon>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-empty
+--- {"values":"presence-node(empty)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" ttsinfo=";;;" class="growth blank">
+<ring-icon>{empty}</ring-icon>
+<subtext>
+</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-energy
+--- {"values":"presence-node(energy(2))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" ttsinfo="2;;;" class="growth">
+<ring-icon>
+<energy-icon>
+<value>2</value>
+</energy-icon>
+</ring-icon>
+<subtext>2 Energy</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-element
+--- {"values":"presence-node(moon)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" ttsinfo=";;;moon" class="growth">
+<ring-icon>{moon}</ring-icon>
+<subtext>Moon</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-growth-vocabulary
+--- {"values":"presence-node(reclaim(one))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node class="growth">
+<ring-icon>{reclaim-one}</ring-icon>
+</presence-node>
+<growth-text>Reclaim One</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-growth-vocabulary-options
+--- {"values":"presence-node(add-presence(1,jungle))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node class="growth">
+<ring-icon>
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{jungle}</presence-req>{range-1}</custom-presence-req>
+</ring-icon>
+</presence-node>
+<growth-text>Add a Presence to Jungle </growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-deep-icon
+--- {"values":"presence-node(gain-card-play^minor)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" ttsinfo=";;;" class="growth">
+<deep-layers>
+<icon class="minor card-deep-layers">
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">
+<card-play-num>
+<value>1</value>
+</card-play-num>
+</ring-icon>
+<subtext>+1 Card Play/Turn</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-deep-energy
+--- {"values":"presence-node(reclaim-one^energy(2))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" ttsinfo=";;;" class="growth">
+<deep-layers>
+<icon class="energy-blank card-deep-layers">
+<value>2</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">{reclaim-one}</ring-icon>
+<subtext>Reclaim One</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-deep-pay
+--- {"values":"presence-node(gain-power-card^pay(2))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" ttsinfo=";;;" class="growth">
+<deep-layers>
+<icon class="energy-blank card-deep-layers">
+<value>-2</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">{gain-power-card}</ring-icon>
+<subtext>Pay 2 Energy to Gain Power Card</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-force-energy
+--- {"values":"presence-node(reclaim-one_energy)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" ttsinfo=";;;" class="growth">
+<ring-icon>
+<energy-icon>{reclaim-one}</energy-icon>
+</ring-icon>
+<subtext>Reclaim One</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-force-first
+--- {"values":"presence-node(2_first)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" class="first force-first growth" ttsinfo=";;2;">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>Card Plays</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-subtext-top
+--- {"values":"presence-node(moon~top)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" class="top-subtext growth" ttsinfo=";;;moon">
+<ring-icon>{moon}</ring-icon>
+<subtext>Moon</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-combination
+--- {"values":"presence-node(energy(1)+plays(1))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" ttsinfo="1;;1;" class="growth">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<energy-icon>
+<value>1</value>
+</energy-icon>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">
+<card-icon>
+<value>1</value>
+</card-icon>
+</presence-node-multi>
+</ring-icon>
+<subtext>1 Energy, 1 Card Play</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-split
+--- {"values":"presence-node(split(fire;animal))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<split-presence-node class="growth">
+<presence-node id="growth-s0g0a0-0" ttsinfo=";;;fire">
+<ring-icon>{fire}</ring-icon>
+</presence-node>
+<presence-node id="growth-s0g0a0-1" ttsinfo=";;;animal">
+<ring-icon>{animal}</ring-icon>
+<subtext>Fire/Animal</subtext>
+</presence-node>
+</split-presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-node-override
+--- {"values":"presence-node(moon*My node text)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" ttsinfo=";;;moon" class="growth">
+<ring-icon>{moon}</ring-icon>
+<subtext>My node text</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-custom
+--- {"values":"presence-node(custom(Gain 1 Rot;custom1))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" ttsinfo=";;;" class="growth">
+<ring-icon>
+<icon-shadow>
+<custom-presence-track-icon>{custom1}</custom-presence-track-icon>
+</icon-shadow>
+</ring-icon>
+<subtext>Gain 1 Rot</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-repeat
+--- {"values":"presence-node(reclaim-one)^2"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<repeat-wrapper>
+<repeat-growth>
+<value>2</value>
+</repeat-growth>
+<presence-node id="growth-s0g0a0" ttsinfo=";;;" class="growth">
+<ring-icon>{reclaim-one}</ring-icon>
+<subtext>Reclaim One</subtext>
+</presence-node>
+</repeat-wrapper>
+<growth-text>x2: </growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-override
+--- {"values":"presence-node(reclaim-one)*Do the thing"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node id="growth-s0g0a0" ttsinfo=";;;" class="growth">
+<ring-icon>{reclaim-one}</ring-icon>
+<subtext>Reclaim One</subtext>
+</presence-node>
+<growth-text>Do the thing</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-in-or
+--- {"values":"or(presence-node(reclaim-one),moon)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<growth-cell-double>
+<presence-node id="growth-s0g0a0" ttsinfo=";;;" class="growth">
+<ring-icon>{reclaim-one}</ring-icon>
+<subtext>Reclaim One</subtext>
+</presence-node>or{moon}</growth-cell-double>
+<growth-text> or Moon</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-node-two-in-group
+--- {"values":"presence-node(blank);presence-node(2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-node class="growth blank">
+<ring-icon>
+<custom-growth-icon style='max-width:75px;'>
+</custom-growth-icon>
+        </ring-icon>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+<growth-cell id='s0g0a1'>
+<presence-node id="growth-s0g0a1" ttsinfo=";;2;" class="growth">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== error-bare-presence-node
+--- {"values":"presence-node"}
+<growth-group>
+<growth-cell id="s0g0a0">
+<custom-growth-icon>
+<div class='custom-scaling'>
+</div>
+</custom-growth-icon>
+<growth-text>error in: presence-node</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-numbers
+--- {"values":"presence-track(1,2,3)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(plays-banner.png); background-size: 100% 100px;">
+</track-banner-art>
+<presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
+<ring-icon>
+<card-icon>
+<value>1</value>
+</card-icon>
+</ring-icon>
+<subtext>1</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n2" ttsinfo=";;3;" class="growth">
+<ring-icon>
+<card-icon>
+<value>3</value>
+</card-icon>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</presence-track>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-mixed
+--- {"values":"presence-track(2,moon,reclaim-one)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(plays-banner.png); background-size: 100% 100px;">
+</track-banner-art>
+<presence-node id="growth-s0g0a0n0" ttsinfo=";;2;" class="growth">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n1" ttsinfo=";;;moon" class="growth">
+<ring-icon>{moon}</ring-icon>
+<subtext>Moon</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n2" ttsinfo=";;;" class="growth">
+<ring-icon>{reclaim-one}</ring-icon>
+<subtext>Reclaim One</subtext>
+</presence-node>
+</presence-track>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-blanks
+--- {"values":"presence-track(blank,blank,blank)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(plays-banner.png); background-size: 100% 100px;">
+</track-banner-art>
+<presence-node class="growth blank">
+<ring-icon>
+<custom-growth-icon style='max-width:75px;'>
+</custom-growth-icon>
+        </ring-icon>
+</presence-node>
+<presence-node class="growth blank">
+<ring-icon>
+<custom-growth-icon style='max-width:75px;'>
+</custom-growth-icon>
+        </ring-icon>
+</presence-node>
+<presence-node class="growth blank">
+<ring-icon>
+<custom-growth-icon style='max-width:75px;'>
+</custom-growth-icon>
+        </ring-icon>
+</presence-node>
+</presence-track>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-single
+--- {"values":"presence-track(reclaim-one)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(plays-banner.png); background-size: 100% 100px;">
+</track-banner-art>
+<presence-node id="growth-s0g0a0n0" ttsinfo=";;;" class="growth">
+<ring-icon>{reclaim-one}</ring-icon>
+<subtext>Reclaim One</subtext>
+</presence-node>
+</presence-track>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-first
+--- {"values":"presence-track(1_first,2,3)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(plays-banner.png); background-size: 100% 100px;">
+</track-banner-art>
+<presence-node id="growth-s0g0a0n0" class="first force-first growth" ttsinfo=";;1;">
+<ring-icon>
+<card-icon>
+<value>1</value>
+</card-icon>
+</ring-icon>
+<subtext>Card Plays</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n2" ttsinfo=";;3;" class="growth">
+<ring-icon>
+<card-icon>
+<value>3</value>
+</card-icon>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</presence-track>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-node-options
+--- {"values":"presence-track(gain-card-play^minor,energy(1)+plays(1),moon~top)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(plays-banner.png); background-size: 100% 100px;">
+</track-banner-art>
+<presence-node id="growth-s0g0a0n0" ttsinfo=";;;" class="growth">
+<deep-layers>
+<icon class="minor card-deep-layers">
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">
+<card-play-num>
+<value>1</value>
+</card-play-num>
+</ring-icon>
+<subtext>+1 Card Play/Turn</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n1" ttsinfo="1;;1;" class="growth">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<energy-icon>
+<value>1</value>
+</energy-icon>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">
+<card-icon>
+<value>1</value>
+</card-icon>
+</presence-node-multi>
+</ring-icon>
+<subtext>1 Energy, 1 Card Play</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n2" class="top-subtext growth" ttsinfo=";;;moon">
+<ring-icon>{moon}</ring-icon>
+<subtext>Moon</subtext>
+</presence-node>
+</presence-track>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-inner-commas
+--- {"values":"presence-track(2,custom(Gain 1 Rot;custom1),split(fire;animal))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(plays-banner.png); background-size: 100% 100px;">
+</track-banner-art>
+<presence-node id="growth-s0g0a0n0" ttsinfo=";;2;" class="growth">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n1" ttsinfo=";;;" class="growth">
+<ring-icon>
+<icon-shadow>
+<custom-presence-track-icon>{custom1}</custom-presence-track-icon>
+</icon-shadow>
+</ring-icon>
+<subtext>Gain 1 Rot</subtext>
+</presence-node>
+<split-presence-node class="growth">
+<presence-node id="growth-s0g0a0n2-0" ttsinfo=";;;fire">
+<ring-icon>{fire}</ring-icon>
+</presence-node>
+<presence-node id="growth-s0g0a0n2-1" ttsinfo=";;;animal">
+<ring-icon>{animal}</ring-icon>
+<subtext>Fire/Animal</subtext>
+</presence-node>
+</split-presence-node>
+</presence-track>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-growth-vocabulary
+--- {"values":"presence-track(reclaim(one),add-presence(1))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(plays-banner.png); background-size: 100% 100px;">
+</track-banner-art>
+<presence-node class="growth">
+<ring-icon>{reclaim-one}</ring-icon>
+</presence-node>
+<presence-node class="growth">
+<ring-icon>
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+</ring-icon>
+</presence-node>
+</presence-track>
+<growth-text>Reclaim One, Add a Presence</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-spacey
+--- {"values":"presence-track( 1 , 2 , 3 )"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(plays-banner.png); background-size: 100% 100px;">
+</track-banner-art>
+<presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
+<ring-icon>
+<card-icon>
+<value>1</value>
+</card-icon>
+</ring-icon>
+<subtext>1</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n2" ttsinfo=";;3;" class="growth">
+<ring-icon>
+<card-icon>
+<value>3</value>
+</card-icon>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</presence-track>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-banner-energy
+--- {"values":"presence-track(banner(energy),1,2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(energy-banner.png); background-size: 100% 70%;">
+</track-banner-art>
+<presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
+<ring-icon>
+<card-icon>
+<value>1</value>
+</card-icon>
+</ring-icon>
+<subtext>1</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</presence-track>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-banner-plays
+--- {"values":"presence-track(banner(plays),1,2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(plays-banner.png); background-size: 100% 100px;">
+</track-banner-art>
+<presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
+<ring-icon>
+<card-icon>
+<value>1</value>
+</card-icon>
+</ring-icon>
+<subtext>1</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</presence-track>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-banner-none
+--- {"values":"presence-track(banner(none),1,2)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
+<ring-icon>
+<card-icon>
+<value>1</value>
+</card-icon>
+</ring-icon>
+<subtext>1</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</presence-track>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-banner-last
+--- {"values":"presence-track(1,2,banner(none))"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
+<ring-icon>
+<card-icon>
+<value>1</value>
+</card-icon>
+</ring-icon>
+<subtext>1</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</presence-track>
+<growth-text class=blank-text>
+</growth-text>
+</growth-cell>
+</growth-group>
+
+=== error-presence-track-banner-only
+--- {"values":"presence-track(banner(none))"}
+<growth-group>
+<growth-cell id="s0g0a0">
+<custom-growth-icon>
+<div class='custom-scaling'>
+</div>
+</custom-growth-icon>
+<growth-text>error in: presence-track(banner(none))</growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-repeat
+--- {"values":"presence-track(1,2)^2"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<repeat-wrapper>
+<repeat-growth>
+<value>2</value>
+</repeat-growth>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(plays-banner.png); background-size: 100% 100px;">
+</track-banner-art>
+<presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
+<ring-icon>
+<card-icon>
+<value>1</value>
+</card-icon>
+</ring-icon>
+<subtext>1</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</presence-track>
+</repeat-wrapper>
+<growth-text>x2: </growth-text>
+</growth-cell>
+</growth-group>
+
+=== presence-track-override
+--- {"values":"presence-track(1,2)*Advance twice"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(plays-banner.png); background-size: 100% 100px;">
+</track-banner-art>
+<presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
+<ring-icon>
+<card-icon>
+<value>1</value>
+</card-icon>
+</ring-icon>
+<subtext>1</subtext>
+</presence-node>
+<presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
+<ring-icon>
+<card-icon>
+<value>2</value>
+</card-icon>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</presence-track>
+<growth-text>Advance twice</growth-text>
+</growth-cell>
+</growth-group>
+
+=== error-bare-presence-track
+--- {"values":"presence-track"}
+<growth-group>
+<growth-cell id="s0g0a0">
+<custom-growth-icon>
+<div class='custom-scaling'>
+</div>
+</custom-growth-icon>
+<growth-text>error in: presence-track</growth-text>
 </growth-cell>
 </growth-group>
 

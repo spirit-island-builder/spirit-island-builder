@@ -156,6 +156,10 @@
     let findGrowth = previewFrame.document.getElementById(templateGrowthID);
     findGrowth.innerHTML = newNode.innerHTML;
 
+    // A presence-track()'s banner is centered from measurements, which only
+    // happen at the end of a full render — re-center after swapping a cell in.
+    previewFrame.addGrowthTrackBanners(previewFrame.document.querySelectorAll("board")[0]);
+
     // If new growth panel is larger, re-run
     let newGrowthHeight = growthPanel.offsetHeight;
     if (newGrowthHeight > growthHeight) {

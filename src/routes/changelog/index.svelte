@@ -16,6 +16,49 @@
 
     <div class="month-section">
       <div class="month-header">
+        <span class="month-label">July 2026</span>
+        <span class="month-rule" />
+      </div>
+      <ul class="entry-list">
+        <li class="entry">
+          <span class="tag tag-new">New</span> <code>presence-node(x)</code> in growth now accepts
+          the full Presence Track vocabulary, so anything you can put on a track you can put in a
+          growth ring: deep-layer notation (<code>^minor</code>, <code>^energy(2)</code>,
+          <code>^pay(2)</code>), forced backgrounds (<code>_energy</code>, <code>_shadow</code>,
+          <code>_first</code>), subtext placement (<code>~top</code>/<code>~left</code>/<code
+            >~right</code
+          >), combinations with <code>+</code>, and <code>split()</code>
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> <code>presence-track(x,y,z)</code> growth action — a row
+          of presence track nodes in a single growth cell, for spirits whose growth shows a stretch of
+          track. Your Presence track banner is drawn behind it automatically, running from the edge of
+          the Growth panel to the last node
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> Growth actions can now carry their own semicolons and
+          commas inside parentheses, so nested options like
+          <code>presence-track(2,custom(Gain 1 Rot;custom1))</code> stay in one piece
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> Modifiers after a growth action's parentheses are no
+          longer dropped — <code>presence-node(reclaim-one)^2</code> repeats and
+          <code>add-presence(1)*My text</code> overrides now behave the same way for every action
+        </li>
+        <li class="entry">
+          <span class="tag tag-export">Export</span> Presence nodes used as growth artwork are no longer
+          mistaken for real track nodes: they no longer add stray snap points or energy and element entries
+          to the Tabletop Simulator export
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> Starlight Seeks Its Form's growth panel now renders its
+          two notated presence nodes, and aspect special rules no longer read from the wrong container
+        </li>
+      </ul>
+    </div>
+
+    <div class="month-section">
+      <div class="month-header">
         <span class="month-label">April 2026</span>
         <span class="month-rule" />
       </div>

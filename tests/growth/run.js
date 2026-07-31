@@ -89,7 +89,16 @@ function renderCorpusFile(filePath) {
 }
 
 function renderSynthetic() {
-  const win = createRenderContext("<board><growth></growth></board>");
+  // The track templates are here for presence-track(): a growth track borrows
+  // its banner from <card-play-track> (or <energy-track>), so without them the
+  // banner path would never be exercised. Nothing else in writeGrowthGroup
+  // reads them.
+  const win = createRenderContext(
+    "<board>" +
+      '<energy-track banner="energy-banner.png" banner-v-scale="70%"></energy-track>' +
+      '<card-play-track banner="plays-banner.png"></card-play-track>' +
+      "<growth></growth></board>"
+  );
   const sections = fixtures.map((fixture) => {
     const el = win.document.createElement("growth-group");
     for (const [key, value] of Object.entries(fixture.attrs)) {

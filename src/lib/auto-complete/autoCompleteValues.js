@@ -303,7 +303,16 @@ const growthValues = [
   {
     label: "presence-node",
     value: "presence-node()",
-    detail: ["presence-node(x) : x is a growth option (like the ones above)"],
+    detail: [
+      "presence-node(x) : x uses the Presence Track options (see the Presence Tracks section), so 2, moon, reclaim-one, and star^energy(1) all work.",
+    ],
+  },
+  {
+    label: "presence-track",
+    value: "presence-track()",
+    detail: [
+      "presence-track(x,y,z,...) : A row of presence track nodes in one growth cell. Each of x, y, z is a presence-node input, comma separated like a real track's nodes.",
+    ],
   },
   {
     label: "push",

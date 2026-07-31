@@ -41,12 +41,15 @@
 </growth-border>
 <growth-group new-row="true">
 <growth-cell id="s0g4a0">
-<presence-node class="growth blank">
-<ring-icon>
-<custom-growth-icon style="max-width:75px;">
-</custom-growth-icon>
-        </ring-icon>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(http://localhost:5173/template/MyCustomContent/BannerExamples/banner-purplesmoke.png); background-size: 100% 50%;">
+</track-banner-art>
+<presence-node id="growth-s0g4a0n0" ttsinfo=";;;" class="growth blank">
+<ring-icon>{empty}</ring-icon>
+<subtext>
+</subtext>
 </presence-node>
+</presence-track>
 <growth-text class="blank-text">
 </growth-text>
 </growth-cell>
@@ -73,12 +76,15 @@
 </growth-border>
 <growth-group new-row="true">
 <growth-cell id="s0g6a0">
-<presence-node class="growth blank">
-<ring-icon>
-<custom-growth-icon style="max-width:75px;">
-</custom-growth-icon>
-        </ring-icon>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(http://localhost:5173/template/MyCustomContent/BannerExamples/banner-purplesmoke.png); background-size: 100% 50%;">
+</track-banner-art>
+<presence-node id="growth-s0g6a0n0" ttsinfo=";;;" class="growth blank">
+<ring-icon>{empty}</ring-icon>
+<subtext>
+</subtext>
 </presence-node>
+</presence-track>
 <growth-text class="blank-text">
 </growth-text>
 </growth-cell>
@@ -112,26 +118,33 @@
 </growth-border>
 <growth-group new-row="true">
 <growth-cell id="s0g8a0">
-<presence-node class="growth blank">
-<ring-icon>
-<custom-growth-icon style="max-width:75px;">
-</custom-growth-icon>
-        </ring-icon>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(http://localhost:5173/template/MyCustomContent/BannerExamples/banner-purplesmoke.png); background-size: 100% 50%;">
+</track-banner-art>
+<presence-node id="growth-s0g8a0n0" ttsinfo=";;;" class="growth blank">
+<deep-layers>
+<icon class="energy-blank growth-empty-deep-layers">
+<value>+1</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">{empty}</ring-icon>
+<subtext>
+</subtext>
 </presence-node>
+<presence-node id="growth-s0g8a0n1" ttsinfo=";;;" class="growth">
+<deep-layers>
+<icon class="energy-blank card-deep-layers">
+<value>+1</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">{star}</ring-icon>
+<subtext>Element</subtext>
+</presence-node>
+</presence-track>
 <growth-text class="blank-text">
 </growth-text>
 </growth-cell>
-<growth-cell id="s0g8a1">
-<presence-node class="growth blank">
-<ring-icon>
-<custom-growth-icon style="max-width:75px;">
-</custom-growth-icon>
-        </ring-icon>
-</presence-node>
-<growth-text class="blank-text">
-</growth-text>
-</growth-cell>
-<growth-cell id="s0g8a2">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+<growth-cell id="s0g8a1">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border>
@@ -150,26 +163,34 @@
 </growth-border>
 <growth-group new-row="true">
 <growth-cell id="s0g10a0">
-<presence-node class="growth blank">
-<ring-icon>
-<custom-growth-icon style="max-width:75px;">
-</custom-growth-icon>
-        </ring-icon>
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(http://localhost:5173/template/MyCustomContent/BannerExamples/banner-purplesmoke.png); background-size: 100% 50%;">
+</track-banner-art>
+<presence-node id="growth-s0g10a0n0" ttsinfo=";;;" class="growth blank">
+<deep-layers>
+<icon class="energy-blank growth-empty-deep-layers">
+<value>+1</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">{empty}</ring-icon>
+<subtext>
+</subtext>
 </presence-node>
+<presence-node id="growth-s0g10a0n1" ttsinfo=";;;" class="growth blank">
+<deep-layers>
+<icon class="energy-blank growth-empty-deep-layers">
+<value>+1</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">{empty}</ring-icon>
+<subtext>
+</subtext>
+</presence-node>
+</presence-track>
 <growth-text class="blank-text">
 </growth-text>
 </growth-cell>
 <growth-cell id="s0g10a1">
-<presence-node class="growth blank">
-<ring-icon>
-<custom-growth-icon style="max-width:75px;">
-</custom-growth-icon>
-        </ring-icon>
-</presence-node>
-<growth-text class="blank-text">
-</growth-text>
-</growth-cell>
-<growth-cell id="s0g10a2">
 <custom-icon>
 <growth-damage>
           <value>2</value>

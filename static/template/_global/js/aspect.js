@@ -133,7 +133,7 @@ function parseSpecialRulesAspect(aspect) {
 
   // copied 12/6/22
   console.log("BUILDING SPECIAL RULES");
-  const aspectContainer = document.querySelectorAll("aspect-container")[0];
+  const aspectContainer = aspect.querySelectorAll("aspect-container")[0];
   parseSpecialRules(aspectContainer); // Leveraging praseSpecialRules on board_front.js
 }
 

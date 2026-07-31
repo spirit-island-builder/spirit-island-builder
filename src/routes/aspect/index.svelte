@@ -338,7 +338,7 @@
         if (ruleGrowthGroup) {
           aspect.aspectEffects[i].specialRules.rules[j].hasGrowth = true;
           aspect.aspectEffects[i].specialRules.rules[j].growthActions = [];
-          let values = ruleGrowthGroup.getAttribute("values").split(";");
+          let values = Lib.splitGrowthValues(ruleGrowthGroup.getAttribute("values"));
           console.log(values);
           values.forEach((growthValue, k) => {
             console.log(growthValue);

@@ -151,9 +151,71 @@ export const fixtures = [
   { name: "or-simple-icons", attrs: { values: "or(moon,fire)" } },
   { name: "then-two-actions", attrs: { values: "then(reclaim-all,gain-power-card)" } },
 
-  // presence-node in growth
+  // presence-node in growth — the node vocabulary (see getPresenceNodeHtml).
+  // The growth and node vocabularies overlap on names like gain-power-card, so
+  // the -growth-vocabulary cases below pin the fallback that keeps old files
+  // rendering: no node-only modifier + a name with a growth renderer.
   { name: "presence-node-reclaim", attrs: { values: "presence-node(reclaim-one)" } },
   { name: "presence-node-blank", attrs: { values: "presence-node(blank)" } },
+  { name: "presence-node-blank-width", attrs: { values: "presence-node(blank(120))" } },
+  { name: "presence-node-empty", attrs: { values: "presence-node(empty)" } },
+  { name: "presence-node-energy", attrs: { values: "presence-node(energy(2))" } },
+  { name: "presence-node-element", attrs: { values: "presence-node(moon)" } },
+  { name: "presence-node-growth-vocabulary", attrs: { values: "presence-node(reclaim(one))" } },
+  {
+    name: "presence-node-growth-vocabulary-options",
+    attrs: { values: "presence-node(add-presence(1,jungle))" },
+  },
+  // ^ deep layers — the notation Starlight and Stone use on their tracks
+  { name: "presence-node-deep-icon", attrs: { values: "presence-node(gain-card-play^minor)" } },
+  { name: "presence-node-deep-energy", attrs: { values: "presence-node(reclaim-one^energy(2))" } },
+  { name: "presence-node-deep-pay", attrs: { values: "presence-node(gain-power-card^pay(2))" } },
+  // _ backgrounds, ~ subtext placement, + combinations, split(), * override
+  { name: "presence-node-force-energy", attrs: { values: "presence-node(reclaim-one_energy)" } },
+  { name: "presence-node-force-first", attrs: { values: "presence-node(2_first)" } },
+  { name: "presence-node-subtext-top", attrs: { values: "presence-node(moon~top)" } },
+  { name: "presence-node-combination", attrs: { values: "presence-node(energy(1)+plays(1))" } },
+  { name: "presence-node-split", attrs: { values: "presence-node(split(fire;animal))" } },
+  { name: "presence-node-node-override", attrs: { values: "presence-node(moon*My node text)" } },
+  { name: "presence-node-custom", attrs: { values: "presence-node(custom(Gain 1 Rot;custom1))" } },
+  // growth-level modifiers still sit outside the parentheses
+  { name: "presence-node-repeat", attrs: { values: "presence-node(reclaim-one)^2" } },
+  { name: "presence-node-override", attrs: { values: "presence-node(reclaim-one)*Do the thing" } },
+  { name: "presence-node-in-or", attrs: { values: "or(presence-node(reclaim-one),moon)" } },
+  {
+    name: "presence-node-two-in-group",
+    attrs: { values: "presence-node(blank);presence-node(2)" },
+  },
+  { name: "error-bare-presence-node", attrs: { values: "presence-node" } },
+
+  // presence-track in growth — a row of presence-node inputs in one cell
+  { name: "presence-track-numbers", attrs: { values: "presence-track(1,2,3)" } },
+  { name: "presence-track-mixed", attrs: { values: "presence-track(2,moon,reclaim-one)" } },
+  { name: "presence-track-blanks", attrs: { values: "presence-track(blank,blank,blank)" } },
+  { name: "presence-track-single", attrs: { values: "presence-track(reclaim-one)" } },
+  { name: "presence-track-first", attrs: { values: "presence-track(1_first,2,3)" } },
+  {
+    name: "presence-track-node-options",
+    attrs: { values: "presence-track(gain-card-play^minor,energy(1)+plays(1),moon~top)" },
+  },
+  {
+    name: "presence-track-inner-commas",
+    attrs: { values: "presence-track(2,custom(Gain 1 Rot;custom1),split(fire;animal))" },
+  },
+  {
+    name: "presence-track-growth-vocabulary",
+    attrs: { values: "presence-track(reclaim(one),add-presence(1))" },
+  },
+  { name: "presence-track-spacey", attrs: { values: "presence-track( 1 , 2 , 3 )" } },
+  // banner: on by default (borrowed from the card play track), overridable
+  { name: "presence-track-banner-energy", attrs: { values: "presence-track(banner(energy),1,2)" } },
+  { name: "presence-track-banner-plays", attrs: { values: "presence-track(banner(plays),1,2)" } },
+  { name: "presence-track-banner-none", attrs: { values: "presence-track(banner(none),1,2)" } },
+  { name: "presence-track-banner-last", attrs: { values: "presence-track(1,2,banner(none))" } },
+  { name: "error-presence-track-banner-only", attrs: { values: "presence-track(banner(none))" } },
+  { name: "presence-track-repeat", attrs: { values: "presence-track(1,2)^2" } },
+  { name: "presence-track-override", attrs: { values: "presence-track(1,2)*Advance twice" } },
+  { name: "error-bare-presence-track", attrs: { values: "presence-track" } },
 
   // repeat and override modifiers
   { name: "repeat-x2", attrs: { values: "gain-power-card^2" } },

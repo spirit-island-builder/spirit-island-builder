@@ -462,7 +462,7 @@
           group.getAttribute("special-title-left"),
           group.getAttribute("new-row")
         );
-        let values = group.getAttribute("values").split(";");
+        let values = Lib.splitGrowthValues(group.getAttribute("values"));
         values.forEach((growthValue) => {
           spiritBoard = Lib.addGrowthAction(spiritBoard, i, j, growthValue);
         });
@@ -619,8 +619,11 @@
     const rightSide = previewFrameDoc.querySelectorAll("right")[0];
     const boardRect = board.getBoundingClientRect();
 
-    //Snap Points
-    let presenceNodes = Array.from(rightSide.getElementsByTagName("presence-node"));
+    //Snap Points — track nodes only; growth's presence-node(...) rings are
+    //artwork and would drop snap points in the middle of the growth panel.
+    let presenceNodes = Array.from(rightSide.getElementsByTagName("presence-node")).filter(
+      (node) => !node.closest("growth")
+    );
     let snapPoints = [];
     if (debug) {
       console.log("TTS Export");
@@ -664,7 +667,12 @@
     let trackElements = [];
     let trackEnergy = [];
     let bonusEnergy = [];
-    let boardNodes = Array.from(board.getElementsByTagName("presence-node"));
+    // Growth can hold presence nodes too (presence-node(...)); those are
+    // artwork, not track positions, so they must not feed the Lua energy /
+    // element tables.
+    let boardNodes = Array.from(board.getElementsByTagName("presence-node")).filter(
+      (node) => !node.closest("growth")
+    );
     // let lowestEnergy = -1;
 
     boardNodes.forEach((node) => {
@@ -900,8 +908,10 @@
         });
       });
 
-      // Presence track nodes (energy + card plays tracks)
+      // Presence track nodes (energy + card plays tracks). Growth cells own
+      // their own regions above, so skip the presence nodes living inside them.
       board.querySelectorAll("presence-node[id]").forEach((node) => {
+        if (node.closest("growth")) return;
         const ring = node.querySelectorAll("ring-icon")[0];
         const track = node.closest("#energy-track") ? "energy" : "card";
         result.presenceNodes.push({ track, ...region(ring, node.id) });

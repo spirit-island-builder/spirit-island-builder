@@ -522,7 +522,7 @@ growth-cell icon.gain-card-pay-2 {
 }
 
 presence-node.growth {
-  margin-top: -39px;
+  margin-top: -8px;
 }
 
 presence-node.growth icon {
@@ -537,8 +537,38 @@ presence-node.growth growth-energy value {
   font-size: 32px;
 }
 
-presence-node.growth.blank {
-  margin-top: -8px;
+/* split() in growth: the track's -65px pull is measured against a track row,
+   which a growth cell is not. Starting value — needs a look in the browser. */
+split-presence-node.growth {
+  margin-top: 0px;
+}
+
+/* presence-track(...): a row of nodes in one growth cell. position:relative
+   makes this the containing block for the track banner nested inside it — the
+   banner is absolutely positioned, so it takes its width from here and
+   addGrowthTrackBanners() only has to center it vertically. */
+growth presence-track {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+}
+
+growth presence-track presence-node {
+  margin-left: 10px;
+}
+
+/* Height matches the real tracks' track-banner-art; the inline background-size
+   carries the user's banner-v-scale through. addGrowthTrackBanners runs the art
+   out to the growth panel's left edge, so it overlaps whatever sits to its left
+   — z-index puts it between the panel art (growth-bottom is -2,
+   growth-background -3) and the cells, which <growth> scopes as the stacking
+   context. */
+growth presence-track track-banner-art.growth-track {
+  height: 130px;
+  z-index: -1;
 }
 
 plus-presence {

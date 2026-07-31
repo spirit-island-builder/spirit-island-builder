@@ -83,6 +83,16 @@ async function startMain() {
 const _innerParenRegex = /\(([^)]+)\)/;
 const _outerParenRegex = /\(\s*(.+)\s*\)/;
 
+// Separator splits that ignore anything inside parentheses: reaching a ')'
+// without first passing a '(' means the separator was inside a group. The ';'
+// one divides a <growth-group values="..."> list into actions, the ',' one
+// divides the options of or()/then() and presence-track(). Both matter because
+// presence node options carry separators of their own —
+// presence-node(split(fire;animal)) is one action, and
+// presence-track(2,custom(Gain 1 Rot;custom1)) is two nodes.
+const _semicolonOutsideParensRegex = /;(?![^(]*\))/;
+const _commaOutsideParensRegex = /,(?![^(]*\))/;
+
 // Comma-split an options string, trimming whitespace around each option so
 // "gain-energy(2, dahan)" parses like "gain-energy(2,dahan)". Trimming is
 // edge-only: multi-word text options keep their internal spaces. IconName has
@@ -191,7 +201,13 @@ function addTrackBanners(board) {
       console.log("Default track art");
     }
     const tracks = Array.from(presenceTracks.getElementsByTagName("tr"));
-    const bannerArts = Array.from(board.getElementsByTagName("track-banner-art"));
+    // Presence track banners only. createTrackBannerArt parks those on <board>
+    // for this loop to adopt, but a growth presence-track() nests its own inside
+    // the row it belongs to — appending those to <presence-tracks> below would
+    // tear them out of the growth panel.
+    const bannerArts = Array.from(board.getElementsByTagName("track-banner-art")).filter(
+      (banner) => !banner.closest("growth")
+    );
     const bannerTags = bannerArts.map((banner) => banner.className);
     bannerArts.forEach((banner) => {
       presenceTracks.appendChild(banner);
@@ -218,6 +234,35 @@ function addTrackBanners(board) {
       }
     });
   }
+
+  addGrowthTrackBanners(board);
+}
+
+// Growth presence-track() banners. Unlike the presence tracks these already sit
+// inside the element they belong to, so nothing has to be reparented — but both
+// ends still need measuring:
+//   top   — centered on the node row, the same PRESENCE_NODE_HEIGHT / 2 offset
+//           the real tracks use, taken from the first node so the growth
+//           margins are accounted for.
+//   left  — the art starts at the growth panel's edge, the way the presence
+//           track banners start at the edge of theirs. Width grows by exactly
+//           the same amount, so the right end stays on the last node.
+function addGrowthTrackBanners(board) {
+  const growthTracks = Array.from(board.querySelectorAll("growth presence-track"));
+  growthTracks.forEach((track) => {
+    const banner = track.getElementsByTagName("track-banner-art")[0];
+    const node = track.getElementsByTagName("presence-node")[0];
+    const growthPanel = track.closest("growth");
+    if (!banner || !node || !growthPanel) {
+      return;
+    }
+    const trackRect = track.getBoundingClientRect();
+    banner.style.top =
+      node.getBoundingClientRect().top + PRESENCE_NODE_HEIGHT / 2 - trackRect.top + "px";
+    const leftOverhang = trackRect.left - growthPanel.getBoundingClientRect().left;
+    banner.style.left = -leftOverhang + "px";
+    banner.style.width = trackRect.width + leftOverhang + "px";
+  });
 }
 
 // Entity-escape user-supplied text for use as element content in generated markup.
@@ -390,7 +435,7 @@ function writeGrowthGroup(growthGroup, setIndex = 0, groupIndex = 0, headerIndex
 
   const growthActions = growthGroup
     .getAttribute("values")
-    .split(";")
+    .split(_semicolonOutsideParensRegex)
     .map((str) => str.trim());
 
   let nextGrowthAction;
@@ -424,7 +469,6 @@ function writeGrowthErrorCell(growthAction, setIndex = 0, groupIndex = 0, action
 
 function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionIndex = 0) {
   const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
-  const regExpCommaNoParentheses = /,(?![^(]*\))/;
 
   growthAction = growthAction.trim();
   let growthActionHTML = "";
@@ -435,9 +479,8 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
     console.log("Growth Action Type: " + growthActionType);
   }
 
-  // Some tools for OR and Presence nodes
+  // Some tools for OR
   let isOr = false;
-  let isPresenceNode = false;
 
   let orGrowthActions;
   let numActions = 1;
@@ -449,24 +492,9 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
     isOr = true;
     orText = growthActionType;
     const matches = regExpOuterParentheses.exec(growthAction)[1];
-    orGrowthActions = matches.split(regExpCommaNoParentheses).map((str) => str.trim());
+    orGrowthActions = matches.split(_commaOutsideParensRegex).map((str) => str.trim());
     growthAction = orGrowthActions[0];
     numActions = orGrowthActions.length;
-  }
-
-  // Check for Presence Node in Growth
-  if (growthActionType === "presence-node") {
-    const matches = regExpOuterParentheses.exec(growthAction)[1];
-    if (DEBUG) {
-      console.log("Putting Presence Node in Growth");
-      console.log(matches);
-    }
-    isPresenceNode = true;
-    growthAction = matches.trim();
-    growthActionType = growthAction.split("(")[0].split("^")[0];
-    if (DEBUG) {
-      console.log(growthAction);
-    }
   }
 
   // Establish Growth HTML Openers and Closers
@@ -475,63 +503,16 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
   let growthTextClose = "</growth-text></growth-cell>";
   let growthIcons = "";
   let growthText = "";
-  let growthWasDefault;
 
   // Get the Text and Icons for the Growth Action
-  let actionIconsAndText = getGrowthActionTextAndIcons(growthAction);
+  let actionIconsAndText = getGrowthActionTextAndIcons(growthAction, growthActionID);
   growthIcons = actionIconsAndText[0];
   growthText = actionIconsAndText[1];
-  growthWasDefault = actionIconsAndText[2];
   for (let a = 1; a < numActions; a++) {
     // For an 'or' growth, loop through the additional actions
-    actionIconsAndText = getGrowthActionTextAndIcons(orGrowthActions[a]);
+    actionIconsAndText = getGrowthActionTextAndIcons(orGrowthActions[a], `${growthActionID}-${a}`);
     growthText += ` ${orText} ${actionIconsAndText[1]}`;
     growthIcons += `${orText}${actionIconsAndText[0]}`;
-    growthWasDefault = 0;
-  }
-
-  //Handle Presence Node
-  if (isPresenceNode) {
-    if (DEBUG) {
-      console.log(growthIcons);
-    }
-    if (growthAction.includes("blank")) {
-      growthIcons = `<presence-node class="growth blank"><ring-icon>${growthIcons}
-        </ring-icon></presence-node>`;
-    } else if (growthAction.includes("empty")) {
-      if (DEBUG) {
-        console.log("empty - getting presence node modifiers");
-        console.log(growthAction);
-      }
-      growthIcons = getPresenceNodeHtml(growthAction, false, 0, "growth-empty", false);
-      let wrapper = document.createElement("div");
-      wrapper.innerHTML = growthIcons;
-      let div = wrapper.firstChild;
-      div.classList.add("growth", "blank");
-      growthIcons = div.outerHTML;
-      growthText = "";
-    } else {
-      if (growthWasDefault) {
-        // Assume user wants Presence Node options
-        if (DEBUG) {
-          console.log(growthIcons);
-          console.log(growthAction);
-        }
-        let nodeHTML = getPresenceNodeHtml(growthAction, false, 0, "card", false);
-        let wrapper = document.createElement("div");
-        wrapper.innerHTML = nodeHTML;
-        let div = wrapper.firstChild;
-        div.classList.add("growth");
-        growthIcons = div.outerHTML;
-        growthText = "";
-      } else {
-        growthIcons = `<presence-node class="growth"><ring-icon>${growthIcons}</ring-icon></presence-node>`;
-        if (DEBUG) {
-          console.log("node in growth with: " + growthIcons);
-        }
-      }
-    }
-    isPresenceNode = false;
   }
 
   //Handle Ors
@@ -548,19 +529,65 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
   return growthActionHTML;
 }
 
+// Splits a growth action into its type, whatever sits inside the action's own
+// parentheses, and the trailing modifiers. The split is brace-counted rather
+// than regex-based so that option text can carry '^' and '*' of its own — which
+// the presence-node vocabulary needs: in presence-node(gain-power-card^pay(2))
+// the '^' belongs to the node, while in presence-node(blank)^2 it is a growth
+// repeat. Returns [type, options|null, rest]; options is null when the action
+// has no parentheses at all (`moon`, `gain-power-card^2`).
+function _splitGrowthAction(growthAction) {
+  const growthActionType = /^[^(^*]*/.exec(growthAction)[0];
+  let rest = growthAction.slice(growthActionType.length);
+  let options = null;
+  if (rest.startsWith("(")) {
+    let depth = 0;
+    let close = -1;
+    for (let i = 0; i < rest.length; i++) {
+      if (rest[i] === "(") {
+        depth += 1;
+      } else if (rest[i] === ")") {
+        depth -= 1;
+        if (depth === 0) {
+          close = i;
+          break;
+        }
+      }
+    }
+    if (close === -1) {
+      // Unbalanced. Hand the remainder over as options and let the renderer's
+      // own regex decide — an unparseable action becomes an error cell.
+      options = rest.slice(1);
+      rest = "";
+    } else {
+      options = rest.slice(1, close);
+      rest = rest.slice(close + 1);
+    }
+  }
+  return [growthActionType.trim(), options, rest];
+}
+
 // Renderers for growth actions with options, keyed by action name — the keys
 // ARE the growth vocabulary (simple no-option actions fall through to the
 // default icon + IconName path in getGrowthActionTextAndIcons). Each renderer
-// receives the raw action string plus the parsed action type, and returns
-// [growthIcons, growthText]. Renderers do their own option parsing: which
-// regex they use and whether they trim is part of each action's historical
-// behavior — don't unify without a snapshot review.
-function getGrowthActionTextAndIcons(growthAction) {
-  let growthActionType = growthAction.split("(")[0].split("^")[0].split("*")[0];
+// receives the action string with its modifiers stripped, the parsed action
+// type, and a context object ({options, nodeID}) for the renderers that need
+// the raw option text or a document-unique id. It returns [growthIcons,
+// growthText]. Renderers do their own option parsing: which regex they use and
+// whether they trim is part of each action's historical behavior — don't unify
+// without a snapshot review.
+function getGrowthActionTextAndIcons(growthAction, nodeID = "s0g0a0") {
+  const [growthActionType, growthActionOptions, growthActionRest] =
+    _splitGrowthAction(growthAction);
 
+  // Modifiers trail the action's own parentheses. '*' runs to the end of the
+  // string, so take it off first and read '^' from what is left.
   let overrideText = "";
-  if (growthAction.split("*")[1]) {
-    overrideText = growthAction.split("*")[1].split("(")[0].split("^")[0].trim();
+  let modifiers = growthActionRest;
+  const overrideIndex = modifiers.indexOf("*");
+  if (overrideIndex !== -1) {
+    overrideText = modifiers.slice(overrideIndex + 1).trim();
+    modifiers = modifiers.slice(0, overrideIndex);
     if (DEBUG) {
       console.log("override detected:" + overrideText);
     }
@@ -569,8 +596,8 @@ function getGrowthActionTextAndIcons(growthAction) {
   //Find if a growth effect is repeated (Fractured Days)
   let repeatOpen = "";
   let repeatText = "";
-  if (growthAction.split("^")[1]) {
-    const repeat = growthAction.split("^")[1];
+  if (modifiers.split("^")[1]) {
+    const repeat = modifiers.split("^")[1];
     if (!isNaN(repeat)) {
       // Normal repeat
       repeatOpen = `<repeat-growth><value>${repeat}</value></repeat-growth>`;
@@ -589,16 +616,20 @@ function getGrowthActionTextAndIcons(growthAction) {
       // Reject other options
       repeatText = "";
     }
-    growthAction = growthAction.split("^")[0];
   }
 
+  const growthActionBody =
+    growthActionOptions === null ? growthActionType : `${growthActionType}(${growthActionOptions})`;
+
   let growthIcons, growthText;
-  let isDefault = 0;
   const renderer = Object.prototype.hasOwnProperty.call(GROWTH_ACTION_RENDERERS, growthActionType)
     ? GROWTH_ACTION_RENDERERS[growthActionType]
     : undefined;
   if (renderer) {
-    const iconsAndText = renderer(growthAction, growthActionType);
+    const iconsAndText = renderer(growthActionBody, growthActionType, {
+      options: growthActionOptions,
+      nodeID,
+    });
     growthIcons = iconsAndText[0];
     growthText = iconsAndText[1];
     // A renderer may supply an override (add-presence-custom's legacy custom
@@ -611,7 +642,6 @@ function getGrowthActionTextAndIcons(growthAction) {
     // that takes options has a renderer in GROWTH_ACTION_RENDERERS above.
     growthIcons = "{" + growthActionType + "}";
     growthText = IconName(growthActionType);
-    isDefault = 1;
   }
 
   //Handle Repeats
@@ -624,10 +654,173 @@ function getGrowthActionTextAndIcons(growthAction) {
     growthText = overrideText;
   }
 
-  return [growthIcons, growthText, isDefault];
+  return [growthIcons, growthText];
+}
+
+// Node modifiers that only exist in the presence-track vocabulary. Their
+// presence inside presence-node(...) is what tells the two overlapping
+// vocabularies apart — see _renderPresenceNode.
+const _presenceNodeModifiers = /[\^_~+;]/;
+
+// getPresenceNodeHtml returns markup meant to be dropped straight into a track:
+// the wrapper needs growth classes, and its id has to stay clear of the
+// "energy<n>"/"card<n>" ids that updatePresenceNodeIDs hands the real tracks.
+// Parse → tag → re-serialize, because the function has two return shapes (a
+// <presence-node>, or a <split-presence-node> holding several of them).
+function _tagGrowthPresenceNode(nodeHtml, nodeID, classes) {
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = nodeHtml;
+  const nodes = wrapper.getElementsByTagName("presence-node");
+  for (let i = 0; i < nodes.length; i++) {
+    nodes[i].id = nodes.length > 1 ? `growth-${nodeID}-${i}` : `growth-${nodeID}`;
+  }
+  wrapper.firstElementChild.classList.add(...classes);
+  return wrapper.innerHTML;
+}
+
+// One presence node inside a growth cell, shared by presence-node() and
+// presence-track(). Returns [growthIcons, growthText] — the text is empty
+// except on the growth-vocabulary path, where the node has no subtext of its
+// own to describe it.
+//
+// nodeText is the presence-track node vocabulary (see getPresenceNodeHtml), so
+// deep layers (^minor, ^energy(2), ^pay(2)), forced backgrounds (_energy,
+// _shadow, _none, _first), subtext placement (~top/~left/~right), combinations
+// (+) and split() all work. The growth vocabulary overlaps it on names like
+// gain-power-card and reclaim, so the two are told apart by syntax: any
+// node-only modifier picks the node vocabulary, otherwise a name with its own
+// growth renderer keeps rendering as growth icons inside a plain ring (which is
+// how presence-node(reclaim(one)) has always rendered).
+function _growthPresenceNode(nodeText, nodeID) {
+  if (DEBUG) {
+    console.log("Putting Presence Node in Growth: " + nodeText);
+  }
+
+  // 'blank' in growth is a growth-sized empty ring (Starlight's growth rows),
+  // not the presence track's invisible spacer node.
+  if (nodeText.includes("blank")) {
+    const [blankIcons] = getGrowthActionTextAndIcons(nodeText, nodeID);
+    return [
+      `<presence-node class="growth blank"><ring-icon>${blankIcons}
+        </ring-icon></presence-node>`,
+      "",
+    ];
+  }
+
+  // 'empty' uses the track's own empty-node art, sized for growth.
+  if (nodeText.includes("empty")) {
+    const nodeHtml = getPresenceNodeHtml(nodeText, false, 0, "growth-empty", false);
+    return [_tagGrowthPresenceNode(nodeHtml, nodeID, ["growth", "blank"]), ""];
+  }
+
+  const innerType = _splitGrowthAction(nodeText)[0];
+  const isGrowthVocabulary =
+    !_presenceNodeModifiers.test(nodeText) &&
+    Object.prototype.hasOwnProperty.call(GROWTH_ACTION_RENDERERS, innerType);
+  if (isGrowthVocabulary) {
+    const [innerIcons, innerText] = getGrowthActionTextAndIcons(nodeText, nodeID);
+    return [
+      `<presence-node class="growth"><ring-icon>${innerIcons}</ring-icon></presence-node>`,
+      innerText,
+    ];
+  }
+
+  const nodeHtml = getPresenceNodeHtml(nodeText, false, 0, "card", false);
+  return [_tagGrowthPresenceNode(nodeHtml, nodeID, ["growth"]), ""];
+}
+
+// presence-node(x) — draws one presence track node inside a growth cell.
+// Growth-level modifiers still go outside the parentheses:
+// presence-node(reclaim-one)^2 repeats, presence-node(2)*My text overrides.
+function _renderPresenceNode(growthAction, growthActionType, ctx) {
+  const nodeText = ctx.options === null ? "" : ctx.options.trim();
+  if (!nodeText) {
+    throw new Error("presence-node needs contents, ie. presence-node(reclaim-one)");
+  }
+  return _growthPresenceNode(nodeText, ctx.nodeID);
+}
+
+// The banner art a growth presence-track() draws behind its nodes. A growth
+// track has no template element of its own to carry a `banner` attribute, so by
+// default it borrows the card play track's — the same borrow <additional-track>
+// already does. A banner(...) entry in the node list overrides which track's art
+// is used: plays (the default), energy, or none. There is deliberately no
+// "banner(<url>)" form; uploaded banners are data URLs, which contain the commas
+// and semicolons that growth values split on.
+//
+// Growth is built before buildPresenceTracks() replaces the presence table's
+// innerHTML, so the <energy-track>/<card-play-track> template elements (and
+// their banner + banner-v-scale attributes) are still in the DOM here.
+function _growthTrackBannerHtml(bannerOption) {
+  const bannerChoice = bannerOption.trim().toLowerCase();
+  if (bannerChoice === "none") {
+    return "";
+  }
+  const board = document.querySelectorAll("board")[0];
+  if (!board) {
+    return "";
+  }
+  const tagName = bannerChoice === "energy" ? "energy-track" : "card-play-track";
+  const template = board.getElementsByTagName(tagName)[0];
+  const banner = template ? template.getAttribute("banner") : "";
+  if (!banner || banner === "null") {
+    return "";
+  }
+  return makeTrackBannerArt(banner, template, "growth-track").outerHTML;
+}
+
+// presence-track(x,y,z) — a row of presence track nodes in one growth cell, for
+// spirits whose growth shows a stretch of track (Starlight). Each entry is a
+// presence-node(...) input, comma-separated the way a real track's `values` are;
+// commas inside parentheses stay with their node. Unlike a real track no node is
+// 'first' by default — use _first on the one that should carry the solid ring.
+// middle()/bonus() are track-table layout and are not supported here.
+//
+// One entry may be banner(plays|energy|none) instead of a node; it picks the
+// track art drawn behind the row. addTrackBanners() centers it once the board
+// has been laid out.
+function _renderPresenceTrack(growthAction, growthActionType, ctx) {
+  const trackText = ctx.options === null ? "" : ctx.options.trim();
+  if (!trackText) {
+    throw new Error("presence-track needs nodes, ie. presence-track(1,2,reclaim-one)");
+  }
+  let bannerOption = "";
+  const nodeTexts = trackText
+    .split(_commaOutsideParensRegex)
+    .map((str) => str.trim())
+    .filter((str) => {
+      if (str.length === 0) {
+        return false;
+      }
+      if (str === "banner" || str.startsWith("banner(")) {
+        const matches = _innerParenRegex.exec(str);
+        bannerOption = matches ? matches[1].trim() : "";
+        return false;
+      }
+      return true;
+    });
+  if (!nodeTexts.length) {
+    throw new Error("presence-track needs nodes, ie. presence-track(1,2,reclaim-one)");
+  }
+  if (DEBUG) {
+    console.log("Putting Presence Track in Growth: " + nodeTexts.join(" | "));
+  }
+
+  let trackIcons = _growthTrackBannerHtml(bannerOption);
+  const trackTexts = [];
+  nodeTexts.forEach((nodeText, i) => {
+    const [nodeIcons, nodeGrowthText] = _growthPresenceNode(nodeText, `${ctx.nodeID}n${i}`);
+    trackIcons += nodeIcons;
+    if (nodeGrowthText) {
+      trackTexts.push(nodeGrowthText);
+    }
+  });
+  return [`<presence-track>${trackIcons}</presence-track>`, trackTexts.join(", ")];
 }
 
 const GROWTH_ACTION_RENDERERS = {
+  "presence-node": _renderPresenceNode,
+  "presence-track": _renderPresenceTrack,
   "reclaim"(growthAction) {
     let growthIcons, growthText;
     const matches = _innerParenRegex.exec(growthAction);
@@ -1494,13 +1687,14 @@ function buildPresenceTracks() {
   presenceTable.appendChild(presenceBottom);
 }
 
-function createTrackBannerArt(banner, trackTemplate, type, i = "") {
-  const board = document.querySelectorAll("board")[0];
+// Builds the <track-banner-art> element for one track. Where it then goes
+// differs: the presence tracks park theirs on <board> and addTrackBanners moves
+// and measures them, while a growth presence-track() nests its own.
+function makeTrackBannerArt(banner, trackTemplate, className) {
   const newTrackBanner = document.createElement("track-banner-art");
-  newTrackBanner.classList.add(`${type}-track${i}`);
+  newTrackBanner.classList.add(className);
   newTrackBanner.style.backgroundImage = `url(${banner})`;
-  board.appendChild(newTrackBanner);
-  let bannerScale = trackTemplate.getAttribute("banner-v-scale");
+  let bannerScale = trackTemplate ? trackTemplate.getAttribute("banner-v-scale") : "";
   if (!bannerScale) {
     bannerScale = "100";
   }
@@ -1508,6 +1702,12 @@ function createTrackBannerArt(banner, trackTemplate, type, i = "") {
     bannerScale = bannerScale + "px";
   }
   newTrackBanner.style.backgroundSize = `100% ${bannerScale}`;
+  return newTrackBanner;
+}
+
+function createTrackBannerArt(banner, trackTemplate, type, i = "") {
+  const board = document.querySelectorAll("board")[0];
+  board.appendChild(makeTrackBannerArt(banner, trackTemplate, `${type}-track${i}`));
 }
 
 function parseEnergyTrackValues() {
