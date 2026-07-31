@@ -311,7 +311,7 @@ card-art {
 info-title {
   position: absolute;
   left: 105px;
-  top: 341px;
+  top: 342px;
   height: 11px;
   width: 357px;
   z-index: 7;
@@ -340,15 +340,20 @@ info-title-target {
 
 info-title-speed,
 info-speed {
+  display: block;
   width: 109px;
+  padding-right: 1px;
 }
 info-title-range,
 info-range {
+  display: block;
   width: 123px;
   padding-right: 1px;
 }
 info-title-target,
 info-target {
+  display: block;
+  width: 122px;
   flex-grow: 1;
 }
 
@@ -439,6 +444,7 @@ info-target {
   justify-content: center;
   text-align: center;
   font-size: 20px;
+  margin-top: -2px;
 }
 
 info-target icon {
@@ -763,7 +769,8 @@ rules icon.any {
   margin-right: 0px;
 }
 
-rules icon.explorer {
+rules icon.explorer,
+threshold icon.explorer {
   width: 16px;
   height: 26px;
 }
