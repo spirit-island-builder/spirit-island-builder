@@ -1,0 +1,60 @@
+<growth>
+<section-title>Growth (Pick One)</section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>pick one of:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>pick one of:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<growth-table>
+<growth-group header="0">
+<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">{reclaim-one}<growth-text>Reclaim One</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border double="">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g0a0">{reclaim-half}<growth-text>Reclaim Half <em>(round up)</em>
+</growth-text>
+</growth-cell>
+<growth-cell id="s1g0a1">
+<icon class="reclaim-one modified-reclaim">
+                {air}</icon>
+<growth-text>Reclaim One Card with Air</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="1">
+</growth-border>
+<growth-group header="1">
+<growth-cost class="custom nonscaling">{moon}<growth-cost-custom-nonscaling-description>
+</growth-cost-custom-nonscaling-description>
+</growth-cost>
+<growth-cell id="s1g1a0">
+<icon class="discard-card">
+<icon class="discard-element fire">
+</icon>
+</icon>
+<growth-text>Discard a Power Card with fire</growth-text>
+</growth-cell>
+<growth-cell id="s1g1a1">
+<icon class="reclaim-all modified-reclaim">
+                {fire}</icon>
+<growth-text>Reclaim All Cards with Fire</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

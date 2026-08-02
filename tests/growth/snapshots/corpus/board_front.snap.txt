@@ -1,0 +1,78 @@
+<growth>
+<section-title>Growth</section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>pick one of:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>and one of:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<growth-table>
+<growth-group header="0">
+<growth-cell id="s0g0a0">{reclaim-one}<growth-text>Reclaim One</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="0">
+</growth-border>
+<growth-group header="0">
+<growth-cell id="s0g1a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<growth-energy>
+<value>3</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border double="">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g0a0">
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{ocean}</presence-req>{range-2}</custom-presence-req>
+<growth-text>Add a Presence to Ocean </growth-text>
+</growth-cell>
+<growth-cell id="s1g0a1">
+<gain>
+<icon class="element fire">
+</icon>
+</gain>
+<growth-text>Gain Fire</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="1">
+</growth-border>
+<growth-group header="1">
+<growth-cost>-3</growth-cost>
+<growth-cell id="s1g1a0">
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>{mountain-jungle}</presence-req>{range-3}</custom-presence-req>
+<growth-text>Add a Presence to Mountain or Jungle </growth-text>
+</growth-cell>
+<growth-cell id="s1g1a1">
+<custom-icon>{presence}<move-growth>
+<value>
+          4
+          </value>
+</move-growth>
+</custom-icon>
+<growth-text>Move a Presence</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

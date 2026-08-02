@@ -125,7 +125,7 @@ function buildScenario(quickScenario) {
       if (comment.classList.contains("image")) {
         comment.innerHTML = "";
         console.log(comment);
-        commentImage = document.createElement("img");
+        let commentImage = document.createElement("img");
         comment.appendChild(commentImage);
         commentImage.setAttribute("src", comment.getAttribute("imgsrc"));
       }

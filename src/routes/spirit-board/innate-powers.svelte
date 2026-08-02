@@ -220,20 +220,20 @@
   </div>
   {#each spiritBoard.innatePowers.powers as innatePower, i (innatePower.id)}
     <div class="field mt-2">
-      <div class="field is-flex is-justify-content-space-between mb-0">
+      <div class="field is-flex is-justify-content-space-between is-align-items-center mb-0">
         <label class="label mb-1 is-unselectable" for="spiritGrowthInput"
           >{`Innate Power ${i + 1}`}</label>
         <div class="field has-addons is-tiny" style="height:20px;">
           <button
-            class="button is-light is-small"
+            class="button is-light is-small ip-move-buttons"
             disabled={i === 0}
             on:click={moveInnatePower(i - 1, i)}>&#11165;</button>
           <button
-            class="button is-light is-small"
+            class="button is-light is-small ip-move-buttons"
             disabled={i + 1 === spiritBoard.innatePowers.powers.length}
             on:click={moveInnatePower(i + 1, i)}>&#11167;</button>
           <button
-            class="button is-primary is-light is-warning is-small"
+            class="button is-primary is-light is-warning is-small ip-move-buttons"
             on:click={removeInnatePower(i)}>&#10006;</button>
         </div>
       </div>
@@ -244,6 +244,7 @@
             class="input"
             type="text"
             placeholder="Power Name"
+            data-next-field="powerRange{i}"
             on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={innatePower.name} />
@@ -318,6 +319,7 @@
               class="input is-small"
               type="text"
               placeholder="Range"
+              data-next-field="powerTarget{i}"
               on:keydown={nextNode}
               on:focus={selectNode}
               on:blur={updateInnatePowerRange(innatePower, `ip${i}range`)}
@@ -329,6 +331,7 @@
               elementType="input"
               classNames="is-small"
               placeholder="Target"
+              nextField="powerNote{i}"
               validAutoCompleteValues={iconValuesSorted}
               additionalOnBlurFunction={() => updateInnatePowerTarget(innatePower, `ip${i}target`)}
               bind:value={innatePower.target} />
@@ -342,6 +345,8 @@
         elementType="input"
         placeholder="Note (optional)"
         classNames="is-small"
+        nextField="power{i}levelThreshold0"
+        nextFieldDefault="power{i}addLevel"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={innatePower.note} />
     </div>
@@ -353,6 +358,7 @@
             class="input is-small small-power"
             type="text"
             placeholder="Threshold"
+            data-next-field="power{i}levelEffect{j}"
             on:focus={selectNode}
             on:blur={updateInnatePowerThreshold(level, `ip${i}L${j}t`)}
             on:keydown={nextNode}
@@ -362,8 +368,11 @@
           <AutoComplete
             id={`power${i}levelEffect${j}`}
             elementType="textarea"
+            selectAnyway
             placeholder="Effect"
             classNames="is-small small-power"
+            nextField="power{i}levelThreshold{j + 1}"
+            nextFieldDefault="power{i}addLevel"
             validAutoCompleteValues={iconValuesSorted}
             additionalOnBlurFunction={() => updateInnatePowerEffect(level, `ip${i}L${j}`)}
             bind:value={level.effect} />
@@ -406,6 +415,10 @@
     padding: 0px;
     height: 15px;
     width: 30px;
+  }
+  .ip-move-buttons {
+    height: 20px;
+    width: 20px;
   }
   div.target-type-buttons button {
     height: 20px;

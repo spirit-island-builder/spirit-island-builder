@@ -254,6 +254,7 @@
               class="input"
               type="text"
               placeholder="Power Name"
+              data-next-field={`cardCost${i}`}
               on:blur={updatePowerName(card, i, "name")}
               on:keydown={nextNode}
               on:focus={selectNode}
@@ -272,6 +273,7 @@
               style="width:3rem; text-align:center;"
               type="text"
               placeholder="Cost"
+              data-next-field={`cardRange${i}`}
               on:blur={updatePowerName(card, i, "cost")}
               on:keydown={nextNode}
               on:focus={selectNode}
@@ -371,6 +373,7 @@
               class="input is-small"
               type="text"
               placeholder="Range"
+              data-next-field={`cardTarget${i}`}
               on:keydown={nextNode}
               on:blur={updatePowerName(card, i, "range")}
               on:focus={selectNode}
@@ -386,6 +389,7 @@
                 elementType="input"
                 placeholder="Target"
                 classNames="is-small"
+                nextField="cardRules{i}"
                 validAutoCompleteValues={iconValuesSorted}
                 additionalOnBlurFunction={() => updatePowerName(card, i, "target")}
                 bind:value={card.target} />
@@ -441,6 +445,7 @@
               style="width:35%"
               type="text"
               placeholder="Elemental Conditions"
+              data-next-field={`cardThreshold${i}`}
               on:blur={updatePowerName(card, i, "thresholdCondition")}
               on:keydown={nextNode}
               bind:value={card.thresholdCondition} />

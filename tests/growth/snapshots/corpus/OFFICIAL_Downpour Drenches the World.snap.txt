@@ -1,0 +1,70 @@
+<growth>
+<section-title>Growth (PICK ONE)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a2">
+<custom-icon>{presence}<move-growth>
+<value>
+          2
+          </value>
+</move-growth>
+</custom-icon>
+<growth-text>Move a Presence</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-2}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-2}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a2">
+<gain>
+<icon-multi-element>
+<icon class="element water" style="transform: translateY(-13.555147179404894px) translateX(-19.67887153636284px)">
+</icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class="element water" style="transform: translateY(13.55514717940489px) translateX(19.67887153636284px)">
+</icon>
+</icon-multi-element>
+</gain>
+<growth-text>Gain 2 Water</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a3">{discard-cards}<growth-text>Discard 2 Power Cards</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g2a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id="s0g2a1">
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-3}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+<growth-cell id="s0g2a2">
+<growth-energy>
+<value>1</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

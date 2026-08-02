@@ -1,3 +1,5 @@
+let templateEventCard;
+
 async function startMain() {
   console.log("Start Main: Event Card");
 
@@ -48,7 +50,7 @@ function buildCard(template) {
 
   const tokenEvents = document.querySelectorAll("token-event");
 
-  html = `<event-body class="${eventType} ${eventSubtype}">
+  let html = `<event-body class="${eventType} ${eventSubtype}">
           <event-header class="title">${eventName}</event-header>
           <effect class = "title"> ${eventLore} </effect>`;
 

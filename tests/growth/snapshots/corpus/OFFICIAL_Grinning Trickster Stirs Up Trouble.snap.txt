@@ -1,0 +1,44 @@
+<growth>
+<section-title>Growth (Pick Two)</section-title>
+<growth-table>
+<growth-group>
+<growth-cost>-1</growth-cost>
+<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<custom-icon>{presence}<move-growth>
+<value>
+          1
+          </value>
+</move-growth>
+</custom-icon>
+<growth-text>Move a Presence</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-2}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g2a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g3a0">{energy-per-play}<growth-text>Energy Per Play</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

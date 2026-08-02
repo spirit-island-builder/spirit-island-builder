@@ -1,3 +1,5 @@
+let tempalteBlightCard;
+
 async function startMain() {
   // window.onload = function startMain() {
   //remove the window.onload when transferring over to Builder
@@ -45,7 +47,7 @@ function buildBuildCard(template) {
     blightCard.classList.add("still-healthy"); //this doesn't exist yet so we can't add
   }
 
-  html = `<blight-heading>${headingText}</blight-heading>
+  let html = `<blight-heading>${headingText}</blight-heading>
     <blight-banner><effect-name>${effectName}</effect-name>
     <effect>${effectHTML}</effect><blight-banner-after></blight-banner-after></blight-banner>
     <per-player-text>

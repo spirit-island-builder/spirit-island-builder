@@ -575,6 +575,7 @@
         <link href="/template/_global/css/global.css" rel="stylesheet" />
         <link href="/template/_global/css/card.css" rel="stylesheet" />
         <script type="text/javascript" src="/template/_global/js/common.js"></script>
+        <script type="text/javascript" src="/template/_global/js/board_front.js"></script>
         <script type="text/javascript" src="/template/_global/js/card.js"></script>
       </svelte:fragment>
     </PreviewFrame>
@@ -586,13 +587,15 @@
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
+        savedKeys={["powerCards"]}
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(powerCards)}
         fileName={getFileName(powerCards)}
-        saveType="html" />
+        saveType="html"
+        savedKeys={["powerCards"]} />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>

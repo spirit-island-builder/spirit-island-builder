@@ -1,8 +1,3 @@
-presence-tracks section-title {
-  padding-top: 0px;
-  margin-top: -3px;
-}
-
 /* presence-tracks section-title.has-note {
 } */
 
@@ -45,7 +40,7 @@ presence-tracks:hover {
 
 presence-tracks presence-title {
   margin-left: 39px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   padding-top: 0px;
   pointer-events: none;
   /* height: 37px; */
@@ -135,13 +130,13 @@ presence-node {
 }
 
 #plays-track presence-node {
-  margin-bottom: 5px;
+  margin-bottom: 9px;
 }
 
 tr.vertical-tight presence-node,
 #plays-track.vertical-tight presence-node,
 #energy-track.vertical-tight presence-node {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 presence-node.tight {
@@ -161,7 +156,7 @@ td.tight {
 } */
 
 presence-tracks tr:last-of-type {
-  height: 174px;
+  height: 160px;
 }
 
 track-banner-art {
@@ -579,77 +574,8 @@ presence-node-multi range {
   width: 64px;
 }
 
-icon.card-deep-layers.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-
-icon.card-deep-layers.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-icon.card-deep-layers.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-icon.card-deep-layers.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-icon.card-deep-layers.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-icon.card-deep-layers.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-icon.card-deep-layers.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-icon.card-deep-layers.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-icon.card-deep-layers.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
-
-icon.energy-deep-layers.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-
-icon.energy-deep-layers.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-icon.energy-deep-layers.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-icon.energy-deep-layers.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-icon.energy-deep-layers.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-icon.energy-deep-layers.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-icon.energy-deep-layers.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-icon.energy-deep-layers.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-icon.energy-deep-layers.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
+/* Element art: the deep-layers icons use the simple set — see the element
+   icon layer in global.css. */
 
 element-or-wrap {
   display: flex;
@@ -942,4 +868,14 @@ presence-node .range-token range-value {
 
 presence-node .range-token range {
   margin-top: 2px;
+}
+
+board.starlight presence-tracks {
+  margin-left: 145px;
+  flex-grow: 1;
+}
+
+rumu-right presence-tracks {
+  height: 100%;
+  width: 575px;
 }

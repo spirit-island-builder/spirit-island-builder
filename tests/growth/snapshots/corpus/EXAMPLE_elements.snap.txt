@@ -1,0 +1,97 @@
+<growth>
+<section-title>Growth</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">
+<gain>
+<icon class="element any">
+</icon>
+</gain>
+<growth-text>Gain Any</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<gain class="or">
+<icon class="orelement element sun">
+</icon>{backslash}<icon class="orelement element earth">
+</icon>{backslash}<icon class="orelement element plant">
+</icon>
+</gain>
+<growth-text>Gain Sun, Earth or Plant</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<gain>
+<icon-multi-element>
+<icon class="element earth" style="transform: translateY(-16.943933974256115px) translateX(-24.598589420453553px)">
+</icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class="element earth" style="transform: translateY(-2.374582551525253px) translateX(29.774970322503965px)">
+</icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class="element earth" style="transform: translateY(19.31851652578137px) translateX(-5.176380902050399px)">
+</icon>
+</icon-multi-element>
+</gain>
+<growth-text>Gain 3 Earth</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<gain>
+<icon-multi-element>
+<icon class="element water" style="transform: translateY(-16.943933974256115px) translateX(-24.598589420453553px)">
+</icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class="element fire" style="transform: translateY(-2.374582551525253px) translateX(29.774970322503965px)">
+</icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class="element air" style="transform: translateY(19.31851652578137px) translateX(-5.176380902050399px)">
+</icon>
+</icon-multi-element>
+</gain>
+<growth-text>Gain Water, Fire and Air</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g2a0">
+<gain>
+<icon class="element star">
+</icon>
+</gain>
+<growth-text>Gain Element</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g3a0">
+<gain>{markerplus}</gain>
+<growth-text>Prepare 1 Element Marker</growth-text>
+</growth-cell>
+<growth-cell id="s0g3a1">
+<gain>
+<icon-multi-element>
+<icon class="element markerminus" style="transform: translateY(-9.999999999999998px) translateX(-17.320508075688775px)">
+            </icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class="element markerminus" style="transform: translateY(9.999999999999996px) translateX(17.320508075688775px)">
+            </icon>
+</icon-multi-element>
+</gain>
+<growth-text>Discard 2 Element Markers</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

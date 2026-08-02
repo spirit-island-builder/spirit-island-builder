@@ -1,0 +1,92 @@
+<growth>
+<section-title>Growth (Pick One)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a2">
+<growth-energy>
+<value>1</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-2}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g2a0">
+<custom-growth-icon style="max-width:250px;">
+</custom-growth-icon>
+<growth-text class="blank-text">
+</growth-text>
+</growth-cell>
+<growth-cell id="s0g2a1">
+<custom-growth-icon style="max-width:75px;">
+</custom-growth-icon>
+<growth-text class="blank-text">
+</growth-text>
+</growth-cell>
+<growth-cell id="s0g2a2">
+<custom-growth-icon style="max-width:75px;">
+</custom-growth-icon>
+<growth-text class="blank-text">
+</growth-text>
+</growth-cell>
+<growth-cell id="s0g2a3">
+<custom-growth-icon style="max-width:75px;">
+</custom-growth-icon>
+<growth-text class="blank-text">
+</growth-text>
+</growth-cell>
+<growth-cell id="s0g2a4">
+<custom-growth-icon style="max-width:250px;">
+</custom-growth-icon>
+<growth-text class="blank-text">
+</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group special-title="Requires at least 1 healing card" special-title-left="true" tint="black">
+<tint class="tint" style="background-color:black;">
+</tint>
+<growth-cell id="s0g3a0">
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-3}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+<growth-cell id="s0g3a1">
+<growth-energy>
+<value>3</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+<growth-cell id="s0g3a2">
+<custom-icon class="add-token">
+<token-wrap>+{destroyed-presence}</token-wrap>
+<range-growth>
+<value>1</value>
+</range-growth>
+</custom-icon>
+<growth-text>Add a Destroyed Presence</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

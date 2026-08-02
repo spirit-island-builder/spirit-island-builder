@@ -2,6 +2,7 @@
 import { showToast } from "./alert.js";
 
 function injectDriveStyles() {
+  if (document.getElementById("drive-modal-styles")) return;
   const css = `
     .drive-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; display: flex; justify-content: center; align-items: center; }
     .drive-modal { background: white; width: 400px; padding: 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-family: sans-serif; }
@@ -19,6 +20,7 @@ function injectDriveStyles() {
     .btn-group button { padding: 8px 15px; cursor: pointer; margin-left: 5px; }
   `;
   const style = document.createElement("style");
+  style.id = "drive-modal-styles";
   style.appendChild(document.createTextNode(css));
   document.head.appendChild(style);
 }

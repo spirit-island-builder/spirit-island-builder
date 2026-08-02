@@ -103,6 +103,15 @@ export const addGrowthAction = (spiritBoard, setIndex, groupIndex, actionEffect 
   return spiritBoard;
 };
 
+// Splits a <growth-group values="..."> list back into one string per growth
+// action. Semicolons inside parentheses belong to the action's own options
+// (presence-node(split(fire;animal))), so only the ones outside count. Must stay
+// in step with _semicolonOutsideParensRegex in _global/js/board_front.js — the
+// inner page splits the same attribute the same way.
+export const splitGrowthValues = (values) => {
+  return values.split(/;(?![^(]*\))/);
+};
+
 export const addEnergyTrackNode = (spiritBoard, nodeEffect = "") => {
   let focusId = "energy" + spiritBoard.presenceTrack.energyNodes.length;
   spiritBoard.presenceTrack.energyNodes.push({
@@ -289,6 +298,27 @@ export const selectNode = (event) => {
 };
 
 export const nextNode = (event) => {
+  if (event.key === "Enter") {
+    console.log(event);
+    if (!event.srcElement.classList.contains("textarea") || event.shiftKey) {
+      event.preventDefault();
+      const el = event.target;
+      let focusID = el.dataset.nextField;
+      if (!focusID) return;
+      if (document.getElementById(focusID) === null) {
+        focusID = el.dataset.nextFieldDefault || "";
+      }
+      if (focusID && document.getElementById(focusID) !== null) {
+        document.getElementById(focusID).focus();
+      } else {
+        console.log("No next node");
+      }
+    }
+  }
+};
+
+// eslint-disable-next-line no-unused-vars
+const nextNode_DEPRECATED = (event) => {
   if (event.key === "Enter") {
     console.log(event);
     if (!event.srcElement.classList.contains("textarea") || event.shiftKey) {

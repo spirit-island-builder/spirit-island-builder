@@ -48,7 +48,6 @@ innate-powers:hover {
 
 innate-powers section-title {
   margin-left: 25px;
-  padding-top: 0px;
   flex: 0 1 auto;
 }
 
@@ -67,9 +66,8 @@ board.devwrap innate-power-container {
 innate-power {
   display: inline-block;
   flex-direction: column;
-  flex-shrink: 1;
-  flex-grow: 1;
-  margin-left: 25px;
+  margin-left: 27px;
+  width: 507px;
 }
 
 innate-power.two-column {
@@ -272,11 +270,14 @@ innate-powers.really-tight-levels level {
   margin-bottom: 2px;
 }
 
-innate-powers.wide-levels #ip0 level {
+innate-powers.wide-levels innate-power:first-of-type level {
+  width: 507px;
+}
+innate-powers.wide-levels innate-power:first-of-type description-container {
   width: 507px;
 }
 /* innate-powers.wide-levels innate-power:last-of-type level{ */
-innate-powers.wide-levels #ip1 level {
+innate-powers.wide-levels innate-power level {
   width: 494px;
 }
 
@@ -428,7 +429,7 @@ effect icon.slow,
 effect icon.fast,
 effect icon.fear {
   width: 45px;
-  margin-top: -5px;
+  margin-top: -10px;
   height: 35px;
 }
 
@@ -488,33 +489,8 @@ innate-power effect icon.slow {
   background-image: url("../../images/board/slow_power.png");
 }
 
-innate-power icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-innate-power icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-innate-power icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-innate-power icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-innate-power icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-innate-power icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-innate-power icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-innate-power icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-innate-power icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
+/* Element art: innate-power (incl. threshold and note) uses the simple set —
+   see the element icon layer in global.css. */
 
 effect icon.presence {
   height: 20px;
@@ -613,7 +589,7 @@ note icon.destroyed-presence {
 level {
   display: inline;
   height: auto;
-  width: 500px;
+  /* width: 500px; */
   font-family: "JosefinSans-Regular";
   font-size: 22.66px;
   margin-top: 5px;
@@ -706,7 +682,7 @@ innate-info icon {
 }
 
 innate-info icon.incarna {
-  width: 40px;
+  width: 50px;
   height: 40px;
   margin-top: -13px;
   margin-bottom: -10px;
@@ -860,34 +836,6 @@ threshold icon.badlands {
   margin-top: -10px;
 }
 
-threshold icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-threshold icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-threshold icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-threshold icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-threshold icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-threshold icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-threshold icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-threshold icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-threshold icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
-
 threshold icon.star {
   width: 53px;
   height: 53px;
@@ -928,34 +876,6 @@ threshold-or {
   height: 33px;
 }
 
-note icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-note icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-note icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-note icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-note icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-note icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-note icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-note icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-note icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
-
 effect icon.incarna {
   width: 40px;
   height: 35px;
@@ -963,7 +883,11 @@ effect icon.incarna {
   margin-bottom: -5px;
 }
 
-innate-power:only-child level {
+/* innate-power:only-child level {
+  width: 1000px;
+} */
+
+innate-power:only-child description-container {
   width: 1000px;
 }
 
@@ -1011,4 +935,38 @@ binder icon-count {
   vertical-align: bottom;
   font-family: unset;
   font-size: unset;
+}
+
+/* Rumu & Starlight */
+board.rumu,
+board.starlight {
+  innate-power-container {
+    flex-direction: column;
+  }
+  innate-powers {
+    margin-left: 0px;
+    height: inherit;
+  }
+  innate-powers level,
+  innate-powers.wide-levels innate-power:first-of-type level {
+    width: 485px;
+  }
+  innate-power,
+  innate-powers section-title {
+    margin-left: 10px;
+  }
+  info-container {
+    margin-bottom: 5px;
+  }
+  note {
+    width: 484px;
+  }
+}
+
+board.rumu rumu-right innate-powers {
+  height: inherit;
+  z-index: 2;
+  position: relative;
+  margin-left: 0px;
+  border-left: 5px solid #6b552a;
 }

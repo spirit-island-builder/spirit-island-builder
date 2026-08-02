@@ -1,0 +1,70 @@
+<growth>
+<section-title>Growth</section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>pick one of:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>and one of:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<growth-table>
+<growth-group header="0">
+<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<growth-energy>
+<value>1</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="0">
+</growth-border>
+<growth-group header="0">
+<growth-cell id="s0g1a0">
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>
+<span class="non-icon">INLAND</span>
+</presence-req>{range-4}</custom-presence-req>
+<growth-text>Add a Presence to Inland Land </growth-text>
+</growth-cell>
+</growth-group>
+<growth-border double="">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g0a0">
+<gain class="or">
+<icon class="orelement element moon">
+</icon>{backslash}<icon class="orelement element air">
+</icon>{backslash}<icon class="orelement element plant">
+</icon>
+</gain>
+<growth-text>Gain Moon, Air or Plant</growth-text>
+</growth-cell>
+<growth-cell id="s1g0a1">
+<growth-energy>
+<value>2</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="1">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g1a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

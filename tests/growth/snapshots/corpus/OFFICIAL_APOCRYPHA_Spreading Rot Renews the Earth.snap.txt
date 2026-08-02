@@ -1,0 +1,72 @@
+<growth>
+<section-title>Growth (Pick <u>two</u>)</section-title>
+<growth-table>
+<growth-group>
+<growth-cost class="custom">{custom1}<value>-2</value>
+</growth-cost>
+<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<growth-energy>
+<value>1</value>
+</growth-energy>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<custom-presence-req>
+<plus-presence>+{presence}</plus-presence>
+<presence-req>
+<display-custom>{jungle-wetland}{custom1}</display-custom>
+</presence-req>{range-2}</custom-presence-req>
+<growth-text>Add a Presence and Gain 1 Rot if added to Jungle/Wetland</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g2a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cost class="custom nonscaling">{forget-power-card}<growth-cost-custom-nonscaling-description>Cost: Forget a Power Card from Discard</growth-cost-custom-nonscaling-description>
+</growth-cost>
+<growth-cell id="s0g3a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id="s0g3a1">
+<custom-growth-icon class="">{custom1}{custom1}</custom-growth-icon>
+<growth-text>Gain 2 Rot</growth-text>
+</growth-cell>
+<growth-cell id="s0g3a2">
+<gain>
+<icon-multi-element>
+<icon class="element moon" style="transform: translateY(-20.33272076910734px) translateX(-29.518307304544262px)">
+</icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class="element water" style="transform: translateY(-15.029419910208238px) translateX(24.21500644564515px)">
+</icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class="element earth" style="transform: translateY(20.33272076910734px) translateX(29.518307304544262px)">
+</icon>
+</icon-multi-element>
+<icon-multi-element>
+<icon class="element plant" style="transform: translateY(15.02941991020824px) translateX(-24.215006445645145px)">
+</icon>
+</icon-multi-element>
+</gain>
+<growth-text>Gain Moon, Water, Earth and Plant</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

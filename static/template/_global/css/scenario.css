@@ -3,21 +3,13 @@
   src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf);
 }
 
-html,
-body {
-  padding: 0px;
-  margin: 0px;
-  height: 100%;
-  width: 100%;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 14px;
-}
-
 * {
   box-sizing: border-box;
 }
 
 body {
+  height: 100%;
+  width: 100%;
   display: block;
   justify-content: center;
   align-items: center;

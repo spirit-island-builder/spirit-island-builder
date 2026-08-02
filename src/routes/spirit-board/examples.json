@@ -197,6 +197,10 @@
     "title": "Examples",
     "examples": [
       {
+        "name": "Complex Presence Tracks",
+        "url": "/template/MyCustomContent/MySpirit/EXAMPLE_Complex_Presence_Node_Example_SpiritBoard.html"
+      },
+      {
         "name": "Add Presence",
         "url": "/template/MyCustomContent/MySpirit/EXAMPLE_add_presence.html"
       },

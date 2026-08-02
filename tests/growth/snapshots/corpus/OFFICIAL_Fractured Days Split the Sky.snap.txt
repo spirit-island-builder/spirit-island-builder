@@ -1,0 +1,84 @@
+<growth>
+<section-title>Growth (Pick One)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">
+<gain>
+<icon class="element air">
+</icon>
+</gain>
+<growth-text>Gain Air</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a2">{gain-2-time}<growth-text>Gain 2 Time</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<gain>
+<icon class="element moon">
+</icon>
+</gain>
+<growth-text>Gain Moon</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a2">
+<custom-presence>
+<plus-presence>+{presence}</plus-presence>{range-2}</custom-presence>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a3">
+<growth-cell-double>
+<repeat-wrapper>
+<repeat-growth>
+<value>2</value>
+</repeat-growth>{gain-1-time}</repeat-wrapper>or<card-play-num>
+<value>2</value>
+</card-play-num>
+</growth-cell-double>
+<growth-text>x2: Gain 1 Time or  +2 Card Plays this turn</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g2a0">
+<gain>
+<icon class="element sun">
+</icon>
+</gain>
+<growth-text>Gain Sun</growth-text>
+</growth-cell>
+<growth-cell id="s0g2a1">
+<custom-icon>{presence}<move-growth>
+<value>
+          4
+          </value>
+</move-growth>
+</custom-icon>
+<growth-text>Move a Presence</growth-text>
+</growth-cell>
+<growth-cell id="s0g2a2">{days-never-were}<growth-text>Gain Power Card from Days That Never Were</growth-text>
+</growth-cell>
+<growth-cell id="s0g2a3">
+<growth-cell-double>
+<repeat-wrapper>
+<repeat-growth>
+<value>3</value>
+</repeat-growth>{gain-1-time}</repeat-wrapper>or<growth-energy>
+<value>2</value>
+</growth-energy>
+</growth-cell-double>
+<growth-text>x3: Gain 1 Time or Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

@@ -144,6 +144,7 @@
             class="input "
             type="text"
             placeholder="Overall event name"
+            data-next-field="eventCardLore"
             on:keydown={nextNode}
             bind:value={eventCard.card.name} />
         </div>
@@ -157,6 +158,7 @@
             id="eventCardLore"
             elementType="textarea"
             placeholder="Lore description of the event"
+            nextField="subeventName0"
             validAutoCompleteValues={iconValuesSorted}
             bind:value={eventCard.card.lore} />
         </div>
@@ -247,6 +249,7 @@
               class="input  is-small"
               type="text"
               placeholder="Overall event name"
+              data-next-field={`subeventEffect${i}`}
               on:keydown={nextNode}
               bind:value={event.name} />
           </div>
@@ -262,6 +265,7 @@
             elementType="textarea"
             classNames="is-small"
             placeholder="Lore description of the event"
+            nextField="subeventName{i + 1}"
             validAutoCompleteValues={iconValuesSorted}
             bind:value={event.effect} />
         </div>
