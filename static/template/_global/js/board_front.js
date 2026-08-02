@@ -1492,126 +1492,279 @@ function _renderCustom(growthAction, growthActionType) {
   return [`<custom-growth-icon class='${isWide}'>${customIcon}</custom-growth-icon>`, customText];
 }
 
+// Parsed shape of an add-presence action, shared by the two renderers that need
+// it: _renderAddPresence below (icons) and IconName's "add-presence" case
+// (subtext, in nine languages). Those two used to re-derive mode selection and
+// option slotting independently, in two dialects that had drifted apart, so
+// every new option had to be written twice in two different shapes.
+//
+// This owns *structure* only — which mode the action is in, and which option
+// means what. Each side still owns its own presentation, because the two
+// legitimately differ: the icons normalize sand/sands and wetlands/wetland, the
+// text rewrites "presence" to "your-presence", and the same joiner renders as
+// "&" in icons but " & " in text.
+//
+// Takes the already-split, already-trimmed option array, NOT the action string,
+// and returns a descriptor — so callers hold `presenceOptions` as an object with
+// named fields rather than as a bare array indexed by position. IconName splits
+// its own options slightly differently from _splitOptions (it prefers ';' when
+// the string contains one), and passing the array in keeps that difference where
+// it has always been.
+//
+// The grammar: add-presence(range, ...rest), where the literals "text", "token"
+// and "relative" in the second slot each select a mode and anything else is a
+// list of land requirements. A token form may carry land requirements too, in
+// the slots after its and/or — add-presence(any,token,beasts,or,ocean).
+function _parseAddPresence(options) {
+  const parsed = {
+    range: options[0], // a number, "any", or an element name (scaling range)
+    isAnyRange: options[0] === "any",
+  };
+
+  if (options.length < 2) {
+    parsed.mode = parsed.isAnyRange ? "any" : "plain";
+    return parsed;
+  }
+
+  switch (options[1]) {
+    case "text":
+      parsed.mode = "text";
+      parsed.text = options[2] || "";
+      // Trailing icon names. The legacy test is on options[3] being truthy, so
+      // a trailing empty option means "no icons" rather than one blank one.
+      parsed.textIcons = options[3] ? options.slice(3) : [];
+      return parsed;
+    case "token":
+      parsed.mode = "token";
+      parsed.token = options[2];
+      parsed.tokenJoin = options[3]; // "and" | "or" | "instead", matched case-sensitively as ever
+      // Without a join word both renderers used to fall off the end of their
+      // switch, leaving the icons an empty <presence-req> and the text side to
+      // die on `localize[lang]` with an undefined `localize` — an error cell
+      // with a TypeError behind it and no hint as to the cause. Say so instead.
+      if (!["and", "or", "instead"].includes(parsed.tokenJoin)) {
+        throw new Error(
+          "add-presence token needs 'and' or 'or' after it, e.g. add-presence(1,token,beasts,and)"
+        );
+      }
+      // Land requirements after the join word. Only the and/or forms take them:
+      // "instead" is legacy and superseded by add-token(...). Before this was
+      // read, every option past the join word was discarded by both renderers,
+      // so nothing that used to render can be reinterpreted by it.
+      Object.assign(
+        parsed,
+        _parseAddPresenceReqs(
+          options,
+          parsed.tokenJoin === "and" || parsed.tokenJoin === "or" ? 4 : options.length
+        )
+      );
+      return parsed;
+    case "relative":
+      parsed.mode = "relative";
+      parsed.anchor = options[2];
+      return parsed;
+  }
+
+  parsed.mode = "reqs";
+  Object.assign(parsed, _parseAddPresenceReqs(options, 1));
+  return parsed;
+}
+
+// One land-requirement list: every option from `start` up to an "or"/"and"
+// terminator (which may be absent), plus how those requirements get joined.
+// Shared by the bare requirement form (start 1) and the token form (start 4) so
+// the two agree on terminators, joiners and the thresholds below.
+//
+// The thresholds are expressed against the number of option slots the list was
+// given rather than the raw option count, which is what makes them portable to
+// a start other than 1 while leaving the start-1 behavior bit-for-bit unchanged.
+function _parseAddPresenceReqs(options, start) {
+  const reqs = [];
+  for (let i = start; i < options.length; i++) {
+    const lowered = options[i].toLowerCase();
+    if (lowered === "or" || lowered === "and") {
+      break;
+    }
+    reqs.push(options[i]);
+  }
+  const reqSlots = options.length - start;
+  const operatorWord = options.at(-1);
+  return {
+    reqs,
+    reqSlots,
+    operatorWord,
+    isOr: operatorWord.toLowerCase() === "or",
+    // Three or more requirements are joined by a symbol ("/", "&"), two by the
+    // spelled-out word. Historical rule, kept as-is: it keys off the slot count,
+    // so it only lines up when an "or"/"and" terminator was supplied.
+    symbolic: reqSlots > 3,
+    // How many joiners the icon side emits. It has always appended one *after*
+    // requirement i while i < reqSlots - 2, which comes up one short when the
+    // terminator is missing; the text side puts one *before* every requirement
+    // after the first. The two agree on every well-formed action, and this is not
+    // the place to change what a malformed one renders — so both rules are kept.
+    iconJoinerCount: reqSlots - 2,
+  };
+}
+
+// The icons for one land-requirement list, without the <presence-req> wrapper.
+function _addPresenceReqsIcons(presenceOptions) {
+  const operator = presenceOptions.symbolic
+    ? presenceOptions.isOr
+      ? "/"
+      : "&"
+    : " " + IconName(presenceOptions.operatorWord) + " ";
+
+  let reqsIcons = "";
+  presenceOptions.reqs.forEach((rawReq, i) => {
+    // Check for common typos
+    let presenceReq = rawReq.toLowerCase();
+    presenceReq = presenceReq.includes("sands")
+      ? presenceReq
+      : presenceReq.replace("sand", "sands");
+    presenceReq = presenceReq.replace("wetlands", "wetland");
+
+    // Icons
+    switch (presenceReq) {
+      case "inland":
+      case "coastal":
+      case "invaders":
+        reqsIcons +=
+          presenceOptions.reqSlots < 2
+            ? "<span class='non-icon'>" + presenceReq.toUpperCase() + "</span>" // This do-nothing Icon just creates 50px of height to make everything line up. Other ideas?
+            : "<span class='non-icon small'>" + presenceReq.toUpperCase() + "</span>";
+        break;
+      case "no-own-presence":
+        reqsIcons += "{no-presence}";
+        break;
+      default:
+        reqsIcons += "{" + presenceReq + "}";
+    }
+
+    if (i < presenceOptions.iconJoinerCount) {
+      reqsIcons += operator;
+    }
+  });
+  return reqsIcons;
+}
+
 // add-presence; also delegated to by the legacy add-presence-custom renderer.
 function _renderAddPresence(growthAction) {
-  let growthIcons, growthText;
   const matches = _outerParenRegex.exec(growthAction);
   if (!matches) {
     throw new Error("add-presence requires options, e.g. add-presence(1)");
   }
-  let presenceOptions = _splitOptions(matches[1]);
-  let presenceRange = presenceOptions[0];
+  const presenceOptions = _parseAddPresence(_splitOptions(matches[1]));
+
   let addPresenceOpen = "<custom-presence>";
   let addPresenceClose = "</custom-presence>";
-  let presenceReq = "none";
   let presenceReqsIcons = "";
-  let presenceRangeHTML = `{range-${presenceRange}}`;
+  // The token 'or' form replaces the <presence-req> wrapper with its own
+  // <custom-presence-or> rather than nesting inside it, so it has to suppress
+  // the matching close tag. That tag used to be emitted regardless, leaving a
+  // stray end tag the HTML parser silently dropped.
+  let presenceReqIsOpen = false;
+  // A land-requirement row of its own, used only by the token form — every other
+  // form carries its requirements inside presenceReqsIcons and leaves this empty.
+  let landReqsHTML = "";
+  // Extra icons sharing the "+{presence}" line rather than starting a row of
+  // their own. Only the token-with-land form uses it; everything else is "".
+  let plusPresenceExtra = "";
+  let presenceRangeHTML = `{range-${presenceOptions.range}}`;
+  // The token form with a land requirement needs a row the older layouts never
+  // had. Flag the wrapper so CSS can make room without touching the forms that
+  // came before — every one of those leaves this empty. The 'or' variant is
+  // flagged separately because it is a row taller than the 'and' one.
+  const hasLandRow = presenceOptions.mode === "token" && presenceOptions.reqs.length > 0;
+  const wrapperClass = hasLandRow ? " class='with-land'" : "";
+  const wrapperClassOr = hasLandRow ? " class='with-land with-land-or'" : "";
 
-  if (presenceRange === "any" && presenceOptions.length === 1) {
+  if (presenceOptions.mode === "any") {
     addPresenceOpen = "<custom-presence-no-range>";
     addPresenceClose = "</custom-presence-no-range>";
     presenceRangeHTML = "<range-growth-any></range-growth-any>";
-  } else if (presenceOptions.length > 1) {
-    addPresenceOpen = "<custom-presence-req>";
+  } else if (presenceOptions.mode !== "plain") {
+    addPresenceOpen = `<custom-presence-req${wrapperClass}>`;
     addPresenceClose = "</custom-presence-req>";
     presenceReqsIcons += "<presence-req>";
+    presenceReqIsOpen = true;
 
-    if (presenceRange === "any") {
+    if (presenceOptions.isAnyRange) {
       addPresenceOpen += "<presence-req></presence-req>";
       presenceRangeHTML = "<range-growth-any></range-growth-any>";
     }
 
-    if (presenceOptions[1] === "text") {
+    if (presenceOptions.mode === "text") {
       // User wants a custom text presence addition
-      if (presenceOptions[3]) {
+      if (presenceOptions.textIcons.length) {
         presenceReqsIcons += "<display-custom>";
-        for (let i = 3; i < presenceOptions.length; i++) {
-          presenceReqsIcons += "{" + presenceOptions[i] + "}";
-        }
+        presenceOptions.textIcons.forEach((icon) => {
+          presenceReqsIcons += "{" + icon + "}";
+        });
         presenceReqsIcons += "</display-custom>";
       } else {
-        presenceReqsIcons +=
-          "<span style='font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;'></span>";
+        // Empty by design: reserves the height an icon row would have taken so a
+        // text-only add-presence lines up with its neighbours. See
+        // span.presence-text-spacer in growth-options.css.
+        presenceReqsIcons += "<span class='presence-text-spacer'></span>";
       }
-    } else if (presenceOptions[1] === "token") {
+    } else if (presenceOptions.mode === "token") {
       // User wants to add a token in growth
-      switch (presenceOptions[3]) {
+      switch (presenceOptions.tokenJoin) {
         case "and":
           //add presence and token
-          presenceReqsIcons += "<span class='plus-text'>+ </span>";
-          presenceReqsIcons += "<icon class='" + presenceOptions[2] + " add-token'></icon>";
+          if (hasLandRow) {
+            // "+{presence}{beasts}" on one line, so the land requirement below
+            // costs no extra height: without this the token has a row of its own
+            // and the cell is four rows tall. The bare 'and' form keeps its
+            // original two-row layout.
+            plusPresenceExtra = "<icon class='" + presenceOptions.token + " add-token'></icon>";
+            presenceReqsIcons = "";
+            presenceReqIsOpen = false;
+          } else {
+            presenceReqsIcons += "<span class='plus-text'>+ </span>";
+            presenceReqsIcons += "<icon class='" + presenceOptions.token + " add-token'></icon>";
+          }
           break;
         case "or":
-          //add presence or token
-          addPresenceOpen = "<custom-presence-req><custom-presence-or>";
+          //add presence or token — already one line, inside custom-presence-or
+          addPresenceOpen = `<custom-presence-req${wrapperClassOr}><custom-presence-or>`;
           addPresenceClose = "</custom-presence-req>";
-          presenceReqsIcons = "{backslash}{" + presenceOptions[2] + "}</custom-presence-or>";
+          presenceReqsIcons = "{backslash}{" + presenceOptions.token + "}</custom-presence-or>";
+          presenceReqIsOpen = false;
           break;
         case "instead":
           // Legacy: superseded by the add-token(...) action. Kept so old
           // hand-written files render; not worth further icon work.
           break;
       }
-    } else if (presenceOptions[1] === "relative") {
+      // "…to any Ocean": the land the presence/token goes in, on its own row
+      // under the token. Sits outside presenceReqsIcons because the 'or' form
+      // has already closed its own wrapper by here.
+      if (presenceOptions.reqs.length) {
+        landReqsHTML = `<presence-req>${_addPresenceReqsIcons(presenceOptions)}</presence-req>`;
+      }
+    } else if (presenceOptions.mode === "relative") {
       presenceReqsIcons = "<add-relative>" + presenceReqsIcons;
       presenceRangeHTML += "</add-relative>";
-      presenceReq = presenceOptions[2].toLowerCase().trim();
-      presenceReqsIcons += `{${presenceReq}}`;
+      presenceReqsIcons += `{${presenceOptions.anchor.toLowerCase()}}`;
     } else {
       // User wants an OR or an AND requirement
-      let operator = "";
-      if (presenceOptions.length > 4) {
-        operator = presenceOptions.at(-1).toLowerCase() === "or" ? "/" : "&";
-      } else {
-        operator = " " + IconName(presenceOptions.at(-1)) + " ";
-      }
-
-      for (let i = 1; i < presenceOptions.length; i++) {
-        presenceReq = presenceOptions[i].toLowerCase().trim();
-
-        // Check to see if we've reached an 'or' or 'and', which shouldn't be parsed
-        if (presenceReq === "or" || presenceReq === "and") {
-          break;
-        }
-
-        // Check for common typos
-        presenceReq = presenceReq.includes("sands")
-          ? presenceReq
-          : presenceReq.replace("sand", "sands");
-        presenceReq = presenceReq.replace("wetlands", "wetland");
-
-        // Icons
-        switch (presenceReq) {
-          case "inland":
-          case "coastal":
-          case "invaders":
-            presenceReqsIcons +=
-              presenceOptions.length < 3
-                ? "<span class='non-icon'>" + presenceReq.toUpperCase() + "</span>" // This do-nothing Icon just creates 50px of height to make everything line up. Other ideas?
-                : "<span class='non-icon small'>" + presenceReq.toUpperCase() + "</span>";
-            break;
-          case "no-own-presence":
-            presenceReqsIcons += "{no-presence}";
-            break;
-          default:
-            presenceReqsIcons += "{" + presenceReq + "}";
-        }
-
-        if (i < presenceOptions.length - 2) {
-          presenceReqsIcons += operator;
-        }
-      }
+      presenceReqsIcons += _addPresenceReqsIcons(presenceOptions);
     }
-    presenceReqsIcons += "</presence-req>";
+    if (presenceReqIsOpen) {
+      presenceReqsIcons += "</presence-req>";
+    }
   }
-  growthIcons =
+
+  const growthIcons =
     addPresenceOpen +
-    "<plus-presence>+{presence}</plus-presence>" +
+    `<plus-presence>+{presence}${plusPresenceExtra}</plus-presence>` +
     presenceReqsIcons +
+    landReqsHTML +
     presenceRangeHTML +
     addPresenceClose;
-  growthText = IconName(growthAction);
-  return [growthIcons, growthText];
+  return [growthIcons, IconName(growthAction)];
 }
 
 function buildPresenceTracks() {
@@ -3507,8 +3660,81 @@ function IconName(str, iconNum = 1) {
     case "plays-first":
       subText = `${CardPlays[lang]}`;
       break;
-    case "add-presence":
-      if (num === "any" && options.length === 1) {
+    case "add-presence": {
+      // Structure comes from the shared parser; the wording below is this
+      // side's own.
+      const presenceOptions = _parseAddPresence(options);
+      // The raw range, deliberately NOT IconName's `num`: `num` has already been
+      // through numLocalize, which rewrites digits as native numerals in ar and
+      // zh. Testing that with isNaN() made every numeric range look like a
+      // variable one in those two languages — every add-presence(2,…) picked up
+      // a spurious "at Range ٢" — and `num > 0` never held, so the relative form
+      // said "at" where it meant "from".
+      const range = presenceOptions.range;
+
+      // The land-requirement phrase on its own — "Land with Beasts", "Ocean ",
+      // "Land without Blight " — with no "Add a Presence to" in front of it, so
+      // the branches below can each frame it their own way. Built here rather
+      // than in a helper alongside the icon renderer so that every localized
+      // string in this file stays inside IconName.
+      //
+      // Both users of it (the bare requirement form and the token-with-land
+      // form) are mutually exclusive branches below, so it is built once up
+      // front. Modes that take no requirements leave `reqs` empty or unset, so
+      // nothing here runs for them.
+      let reqsText = "";
+      if (presenceOptions.reqs && presenceOptions.reqs.length) {
+        const operator = presenceOptions.symbolic
+          ? presenceOptions.isOr
+            ? "/"
+            : " & "
+          : ` ${IconName(presenceOptions.operatorWord)} `; //looking for 'or' or 'and'
+
+        let landwith = 1; // This flag is used to figure out if 'land with' has been said already. It comes up with add-presence(3,jungle,beasts,or)
+        presenceOptions.reqs.forEach((rawReq, i) => {
+          const req = rawReq.toLowerCase() === "presence" ? `your-presence` : rawReq;
+          if (i > 0) {
+            reqsText += operator;
+          }
+
+          if (req.startsWith("no-")) {
+            const iconReqSub = IconName(req.substring(3));
+            localize = {
+              en: landwith ? `Land without ${iconReqSub} ` : `no ${iconReqSub} `,
+              fr: landwith ? `Région sans ${iconReqSub} ` : `aucun ${iconReqSub} `,
+              de: landwith ? `Land ohne ${iconReqSub} ` : `keine ${iconReqSub} `,
+              pl: landwith ? `Kraina bez ${iconReqSub} ` : `bez ${iconReqSub} `,
+              ar: landwith ? `أرض بدون ${iconReqSub} ` : `بدون ${iconReqSub} `,
+              zh: landwith ? `沒有${iconReqSub}的區域 ` : `沒有${iconReqSub} `,
+              hu: landwith ? `${iconReqSub} nélküli terület ` : `${iconReqSub} nélküli `,
+              ko: landwith ? `${iconReqSub}가 없는 지역 ` : `${iconReqSub} 없음 `,
+              ja: landwith ? `${iconReqSub}のない土地 ` : `${iconReqSub}なし `,
+            };
+            reqsText += localize[lang];
+            landwith = 0;
+          } else if (terrainTypes.has(req)) {
+            reqsText += `${IconName(req + "-land")} `;
+          } else if (terrains.has(req)) {
+            reqsText += `${IconName(req)} `;
+          } else {
+            const iconReq = IconName(req);
+            localize = {
+              en: landwith ? `Land with ${iconReq}` : `${iconReq}`,
+              fr: landwith ? `Région avec ${iconReq}` : `${iconReq}`,
+              de: landwith ? `Land mit ${iconReq}` : `${iconReq}`,
+              pl: landwith ? `Kraina z ${iconReq}` : `${iconReq}`,
+              ar: landwith ? `أرض مع ${iconReq}` : `${iconReq}`,
+              zh: landwith ? `有${iconReq}的區域` : `${iconReq}`,
+              hu: landwith ? `, ahol van ${iconReq}` : `${iconReq}`,
+              ko: landwith ? `${iconReq}가 있는 지역` : `${iconReq}`,
+              ja: landwith ? `${iconReq}がある土地` : `${iconReq}`,
+            };
+            reqsText += localize[lang];
+            landwith = 0;
+          }
+        });
+      }
+      if (presenceOptions.mode === "any") {
         localize = {
           en: `Add a Presence to any Land`,
           fr: `Ajoutez une Présence sur n'importe quelle Région`,
@@ -3521,8 +3747,8 @@ function IconName(str, iconNum = 1) {
           ja: `任意の土地にプレゼンスを追加`,
         };
         subText = localize[lang];
-      } else if (options.length > 1) {
-        if (txt === "text") {
+      } else if (presenceOptions.mode !== "plain") {
+        if (presenceOptions.mode === "text") {
           // User wants a custom text presence addition
           localize = {
             en: `Add a Presence ${opt3}`,
@@ -3536,9 +3762,9 @@ function IconName(str, iconNum = 1) {
             ja: `プレゼンスを追加 ${opt3}`,
           };
           subText = localize[lang];
-        } else if (txt === "relative") {
+        } else if (presenceOptions.mode === "relative") {
           let preposition = "at";
-          if (num > 0) {
+          if (range > 0) {
             preposition = "from";
           }
           const iconPreposition = IconName(preposition);
@@ -3555,9 +3781,49 @@ function IconName(str, iconNum = 1) {
             ja: `${iconOpt3} ${iconPreposition} プレゼンスを追加`,
           };
           subText = localize[lang];
-        } else if (txt === "token") {
+        } else if (presenceOptions.mode === "token" && presenceOptions.reqs.length) {
+          // Token *and* a land requirement — "Add a Presence or a Beasts to any
+          // Ocean". Written as whole sentences per language rather than by
+          // appending the land clause to the token clause, because ko and ja put
+          // the land first and the two would not compose.
+          const iconToken = IconName(presenceOptions.token);
+          // Trimmed: the requirement phrase ends in a space, which is harmless
+          // where it finishes the sentence but not in ko/ja, where a particle
+          // follows it directly.
+          const landText = reqsText.trim();
+          const isOrJoin = presenceOptions.tokenJoin === "or";
+          const any = presenceOptions.isAnyRange;
+          localize = {
+            en: `Add a Presence ${isOrJoin ? "or" : "and"} a ${iconToken} to ${
+              any ? "any " : ""
+            }${landText}`,
+            fr: `Ajoutez une Présence ${isOrJoin ? "ou" : "et"} un ${iconToken} à ${
+              any ? "n'importe quel " : ""
+            }${landText}`,
+            de: `Füge eine Präsenz ${isOrJoin ? "oder" : "und"} ein ${iconToken} ${
+              any ? "auf einem beliebigen " : "auf "
+            }${landText} hinzu`,
+            pl: `Dodaj Obecność ${isOrJoin ? "lub" : "i"} ${iconToken} do ${
+              any ? "dowolnej " : ""
+            }${landText}`,
+            ar: `أضف حضوراً ${isOrJoin ? "أو" : "و"} ${iconToken} إلى ${
+              any ? "أي " : ""
+            }${landText}`,
+            zh: `添加靈跡${isOrJoin ? "或" : "和"}${iconToken}到${any ? "任意" : ""}${landText}`,
+            hu: `Jelenlét ${isOrJoin ? "vagy" : "és"} ${iconToken} lerakása ${
+              any ? "bármely " : ""
+            }${landText}`,
+            ko: `${any ? "아무 " : ""}${landText}에 현신 1개 ${
+              isOrJoin ? "혹은" : "및"
+            } ${iconToken} 1개 추가`,
+            ja: `${any ? "任意の" : ""}${landText}にプレゼンス${
+              isOrJoin ? "または" : "と"
+            }${iconToken}を追加`,
+          };
+          subText = localize[lang];
+        } else if (presenceOptions.mode === "token") {
           // User wants to add a token in growth
-          switch (opt4) {
+          switch (presenceOptions.tokenJoin) {
             case "and": {
               //add presence and token
               const iconOpt3 = IconName(opt3);
@@ -3580,7 +3846,7 @@ function IconName(str, iconNum = 1) {
               localize = {
                 en: `Add a Presence or a ${iconOpt3}`,
                 fr: `Ajoutez une Présence ou un ${iconOpt3}`,
-                de: `Füge eine Präsenh oder eine ${iconOpt3} hinzu`,
+                de: `Füge eine Präsenz oder ein ${iconOpt3} hinzu`,
                 pl: `Dodaj Obecność lub ${iconOpt3}`,
                 ar: `أضف حضوراً أو ${iconOpt3}`,
                 zh: `添加靈跡或${iconOpt3}`,
@@ -3610,76 +3876,24 @@ function IconName(str, iconNum = 1) {
           subText = localize[lang];
         } else {
           // User wants an OR or an AND requirement
-          let operator = "";
-          if (options.length > 4) {
-            operator = "/";
-            operator = options.at(-1).toLowerCase() === "or" ? "/" : " & ";
-          } else {
-            operator = ` ${IconName(options.at(-1))} `; //looking for 'or' or 'and'
-          }
           localize = {
-            en: num === "any" ? `Add a Presence to any ` : `Add a Presence to `,
-            fr:
-              num === "any" ? `Ajoutez une Présence à n'importe quel ` : `Ajoutez une Présence à `,
-            de: num === "any" ? `Ergänze um eine Präsenz ` : `Füge eine Präsenz hinzu `,
-            pl: num === "any" ? `Dodaj Obecność do dowolnej ` : `Dodaj Obecność do `,
-            ar: num === "any" ? `أضف حضوراً إلى أي ` : `أضف حضوراً إلى `,
-            zh: num === "any" ? `添加靈跡到任意` : `添加靈跡到`,
-            hu: num === "any" ? `Jelenlét lerakása bármely ` : `Jelenlét lerakása `,
-            ko: num === "any" ? `아무 대지에 현신 1개 추가 ` : ` 대지에 현신 1개 추가 `,
-            ja: num === "any" ? `任意の土地にプレゼンスを追加 ` : `プレゼンスを追加 `,
+            en: presenceOptions.isAnyRange ? `Add a Presence to any ` : `Add a Presence to `,
+            fr: presenceOptions.isAnyRange
+              ? `Ajoutez une Présence à n'importe quel `
+              : `Ajoutez une Présence à `,
+            de: presenceOptions.isAnyRange
+              ? `Ergänze um eine Präsenz `
+              : `Füge eine Präsenz hinzu `,
+            pl: presenceOptions.isAnyRange ? `Dodaj Obecność do dowolnej ` : `Dodaj Obecność do `,
+            ar: presenceOptions.isAnyRange ? `أضف حضوراً إلى أي ` : `أضف حضوراً إلى `,
+            zh: presenceOptions.isAnyRange ? `添加靈跡到任意` : `添加靈跡到`,
+            hu: presenceOptions.isAnyRange ? `Jelenlét lerakása bármely ` : `Jelenlét lerakása `,
+            ko: presenceOptions.isAnyRange
+              ? `아무 대지에 현신 1개 추가 `
+              : ` 대지에 현신 1개 추가 `,
+            ja: presenceOptions.isAnyRange ? `任意の土地にプレゼンスを追加 ` : `プレゼンスを追加 `,
           };
-          subText = localize[lang];
-
-          let landwith = 1; // This flag is used to figure out if 'land with' has been said already. It comes up with add-presence(3,jungle,beasts,or)
-          for (let i = 1; i < options.length; i++) {
-            // Check to see if we've reached an 'or' or 'and', which shouldn't be parsed
-            let req = options[i];
-            if (req.toLowerCase() === "presence") {
-              req = `your-presence`;
-            }
-            if (req.toLowerCase() === "or" || req.toLowerCase() === "and") {
-              break;
-            } else if (i > 1) {
-              subText += operator;
-            }
-
-            if (req.startsWith("no-")) {
-              const iconReqSub = IconName(req.substring(3));
-              localize = {
-                en: landwith ? `Land without ${iconReqSub} ` : `no ${iconReqSub} `,
-                fr: landwith ? `Région sans ${iconReqSub} ` : `aucun ${iconReqSub} `,
-                de: landwith ? `Land ohne ${iconReqSub} ` : `keine ${iconReqSub} `,
-                pl: landwith ? `Kraina bez ${iconReqSub} ` : `bez ${iconReqSub} `,
-                ar: landwith ? `أرض بدون ${iconReqSub} ` : `بدون ${iconReqSub} `,
-                zh: landwith ? `沒有${iconReqSub}的區域 ` : `沒有${iconReqSub} `,
-                hu: landwith ? `${iconReqSub} nélküli terület ` : `${iconReqSub} nélküli `,
-                ko: landwith ? `${iconReqSub}가 없는 지역 ` : `${iconReqSub} 없음 `,
-                ja: landwith ? `${iconReqSub}のない土地 ` : `${iconReqSub}なし `,
-              };
-              subText += localize[lang];
-              landwith = 0;
-            } else if (terrainTypes.has(req)) {
-              subText += `${IconName(req + "-land")} `;
-            } else if (terrains.has(req)) {
-              subText += `${IconName(req)} `;
-            } else {
-              const iconReq = IconName(req);
-              localize = {
-                en: landwith ? `Land with ${iconReq}` : `${iconReq}`,
-                fr: landwith ? `Région avec ${iconReq}` : `${iconReq}`,
-                de: landwith ? `Land mit ${iconReq}` : `${iconReq}`,
-                pl: landwith ? `Kraina z ${iconReq}` : `${iconReq}`,
-                ar: landwith ? `أرض مع ${iconReq}` : `${iconReq}`,
-                zh: landwith ? `有${iconReq}的區域` : `${iconReq}`,
-                hu: landwith ? `, ahol van ${iconReq}` : `${iconReq}`,
-                ko: landwith ? `${iconReq}가 있는 지역` : `${iconReq}`,
-                ja: landwith ? `${iconReq}がある土地` : `${iconReq}`,
-              };
-              subText += localize[lang];
-              landwith = 0;
-            }
-          }
+          subText = localize[lang] + reqsText;
         }
       } else {
         localize = {
@@ -3696,32 +3910,35 @@ function IconName(str, iconNum = 1) {
         subText = localize[lang];
       }
       // variable range
-      if (isNaN(num) && num !== "any") {
-        const iconNum = IconName(num);
+      if (isNaN(range) && !presenceOptions.isAnyRange) {
+        const iconNum = IconName(range);
         localize = {
-          en: elementNames.has(num)
+          en: elementNames.has(range)
             ? ` at Range equal to ${iconNum} Showing`
             : ` at Range ${iconNum}`,
-          fr: elementNames.has(num)
+          fr: elementNames.has(range)
             ? ` à Portée égale aux ${iconNum} Présents`
             : ` à Portée ${iconNum}`,
-          de: elementNames.has(num)
+          de: elementNames.has(range)
             ? ` mit Reichweite gleich ausliegender ${iconNum}`
             : ` mit Reichweite ${iconNum}`,
-          pl: elementNames.has(num)
+          pl: elementNames.has(range)
             ? ` w Zasięgu równym widocznym ${iconNum}`
             : ` w Zasięgu ${iconNum}`,
-          ar: elementNames.has(num) ? ` في مدى يساوي ${iconNum} الظاهرة` : ` في مدى ${iconNum}`,
-          zh: elementNames.has(num) ? ` 距離等於顯示的${iconNum}` : ` 距離${iconNum}`,
-          hu: elementNames.has(num)
+          ar: elementNames.has(range) ? ` في مدى يساوي ${iconNum} الظاهرة` : ` في مدى ${iconNum}`,
+          zh: elementNames.has(range) ? ` 距離等於顯示的${iconNum}` : ` 距離${iconNum}`,
+          hu: elementNames.has(range)
             ? ` a látható ${iconNum}-nek megfelelő távolságra`
             : ` ${iconNum} távolságra`,
-          ko: elementNames.has(num) ? ` ${iconNum} 표시와 동일한 거리에` : ` 거리 ${iconNum}에`,
-          ja: elementNames.has(num) ? ` 表示されている${iconNum}と同じ距離で` : ` 距離${iconNum}で`,
+          ko: elementNames.has(range) ? ` ${iconNum} 표시와 동일한 거리에` : ` 거리 ${iconNum}에`,
+          ja: elementNames.has(range)
+            ? ` 表示されている${iconNum}と同じ距離で`
+            : ` 距離${iconNum}で`,
         };
         subText = subText + localize[lang];
       }
       break;
+    }
     case "gain-element":
       // Growth
       if (txt && !isNaN(txt)) {

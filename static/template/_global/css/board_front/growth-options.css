@@ -574,8 +574,12 @@ growth presence-track track-banner-art.growth-track {
 plus-presence {
   display: flex;
   position: relative;
-  line-height: 20px;
-  margin-bottom: 1px;
+  margin-bottom: 2px;
+  align-items: flex-end;
+}
+
+plus-presence icon {
+  margin: 0px;
 }
 
 plus-presence icon.presence {
@@ -685,9 +689,28 @@ custom-presence {
 
 custom-presence-or {
   display: block;
-  height: 40px;
-  margin-bottom: 0px;
+  /* height: 40px; */
+  margin-bottom: -2px;
   margin-top: 0px;
+}
+
+/* add-presence(x,token,y,and/or,z,...) — "Add a Presence or a Beasts to any
+   Ocean". Three rows: the presence and token share one line, then the land
+   requirement, then the range.
+
+   The 'and' variant puts the token inside <plus-presence> ("+{presence}{beasts}")
+   so it is no taller than the plain requirement form and needs no extra height.
+   The 'or' variant carries a <custom-presence-or> row instead, which is taller,
+   so it gets the bump. Starting values only — tune these two rules. */
+custom-presence-req.with-land presence-req {
+  margin-top: -2px;
+}
+
+custom-presence-req.with-land plus-presence icon.add-token {
+  height: 30px;
+  width: 30px;
+  margin-left: 4px;
+  margin-bottom: 0px;
 }
 
 custom-presence-or icon.backslash {
@@ -695,15 +718,15 @@ custom-presence-or icon.backslash {
   height: 25px;
   margin-bottom: -3px;
   margin-left: 2px;
-  margin-right: 5px;
+  margin-right: 2px;
   margin-top: -1px;
 }
 
 custom-presence-or icon {
-  margin-bottom: -5px;
   width: 33px;
   height: 34px;
-  margin-left: -4px;
+  margin: 0px;
+  margin-bottom: -4px;
 }
 
 custom-presence-no-range {
@@ -902,7 +925,6 @@ presence-req icon.terrain-single,
 presence-req icon.terrain-double {
   height: 37px;
   width: 37px;
-  margin-top: -1px;
   margin-bottom: 0px;
   margin-right: 0px;
   margin-left: 0px;
@@ -917,7 +939,6 @@ presence-req icon.terrain-double {
 presence-req icon.ocean {
   height: 46px;
   width: 65px;
-  margin-top: -3px;
   margin-left: -3px;
 }
 
@@ -936,6 +957,21 @@ presence-req {
 display-custom {
   display: inline-flex;
   flex-direction: row;
+}
+
+/* add-presence(x,text,...) with no trailing icons. The span is empty on purpose
+   — it exists only so the line-height reserves the vertical space an icon row
+   would have taken, keeping the cell aligned with its neighbours. Moved here
+   from an inline style in board_front.js; the declarations are carried over
+   verbatim, including a font-family that matches no @font-face in global.css
+   (the families are "Name Headings" / "Short Name Headings"). It is inert while
+   line-height is an explicit length, so it is left for a visual check rather
+   than dropped blind. */
+span.presence-text-spacer {
+  font-family: "DK Snemand";
+  font-size: 24pt;
+  line-height: 24pt;
+  font-style: normal;
 }
 
 growth-cell icon.make-fast {

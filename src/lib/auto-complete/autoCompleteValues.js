@@ -112,6 +112,7 @@ const growthValues = [
       "add-presence(x,y) : At range x, add a Presence to a land with y conditions. y can be terrains, tokens, invaders, invader pieces, dahan, blight, etc.",
       "add-presence(x,y,z,...,and/or) : At range x, add a Presence with multiple conditions y, z, etc, the last parameter must be 'or' or 'and'.",
       "add-presence(x,token,y,and/or) : At range x, add a Presence and/or a token y (beasts, disease, etc). Use add-token if only adding tokens.",
+      "add-presence(x,token,y,and/or,z,...) : As above, but only to a land meeting conditions z, etc. ie. add-presence(any,token,beasts,or,ocean) is 'Add a Presence or a Beasts to any Ocean'.",
       "add-presence(x,relative,y) : At range x relative to y, add a Presence.",
       "add-presence(x,text,*your_text_here*) : At range x, add a Presence with text 'Add a Presence *your_text*'. No icon.",
       "add-presence(x,text,*your_text_here*,y,...) : At range x, add a Presence with text 'Add a Presence *your_text*'. The growth icon will be y and any number of additional icons separated by commas",
