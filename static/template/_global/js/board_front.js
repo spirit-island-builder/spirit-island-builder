@@ -1562,6 +1562,10 @@ function _parseAddPresence(options) {
     case "relative":
       parsed.mode = "relative";
       parsed.anchor = options[2];
+      // Land requirements after the anchor, exactly as the token form takes
+      // them after its join word. Everything past the anchor used to be
+      // discarded by both renderers, so no file that renders today changes.
+      Object.assign(parsed, _parseAddPresenceReqs(options, 3));
       return parsed;
   }
 
@@ -1587,10 +1591,26 @@ function _parseAddPresenceReqs(options, start) {
     }
     reqs.push(options[i]);
   }
+
+  // Negated requirements are moved to the end, keeping their order among
+  // themselves and among the positives. Position is what distinguishes the two
+  // in the subtext: a run of negations states "without" once and then just
+  // names the rest, which reads identically to a bare positive, so
+  // (no-blight, disease) and (no-blight, no-disease) would both come out as
+  // "Land without Blight and Disease". Grouping the negations last makes the
+  // first of them the boundary — everything before it is required, everything
+  // from it on is forbidden — giving "Land with Disease and no Blight" for the
+  // mixed list. Sorted here rather than in either renderer so the icons and the
+  // subtext are driven by one array and cannot end up in different orders. The
+  // test matches the subtext renderer's own, which is case-sensitive on the
+  // raw option.
+  const isNegated = (req) => req.startsWith("no-");
+  const orderedReqs = reqs.filter((req) => !isNegated(req)).concat(reqs.filter(isNegated));
+
   const reqSlots = options.length - start;
   const operatorWord = options.at(-1);
   return {
-    reqs,
+    reqs: orderedReqs,
     reqSlots,
     operatorWord,
     isOr: operatorWord.toLowerCase() === "or",
@@ -1664,20 +1684,25 @@ function _renderAddPresence(growthAction) {
   // the matching close tag. That tag used to be emitted regardless, leaving a
   // stray end tag the HTML parser silently dropped.
   let presenceReqIsOpen = false;
-  // A land-requirement row of its own, used only by the token form — every other
-  // form carries its requirements inside presenceReqsIcons and leaves this empty.
+  // A land-requirement row of its own, used only by the token 'or'/'instead'
+  // forms — every other form carries its requirements inside presenceReqsIcons
+  // or on the presence line, and leaves this empty.
   let landReqsHTML = "";
   // Extra icons sharing the "+{presence}" line rather than starting a row of
-  // their own. Only the token-with-land form uses it; everything else is "".
+  // their own, so a land requirement costs no height. Used by the token 'and'
+  // form, whose token would otherwise need a row; empty everywhere else.
   let plusPresenceExtra = "";
   let presenceRangeHTML = `{range-${presenceOptions.range}}`;
-  // The token form with a land requirement needs a row the older layouts never
+  // The forms that accept land requirements need a row the older layouts never
   // had. Flag the wrapper so CSS can make room without touching the forms that
-  // came before — every one of those leaves this empty. The 'or' variant is
-  // flagged separately because it is a row taller than the 'and' one.
-  const hasLandRow = presenceOptions.mode === "token" && presenceOptions.reqs.length > 0;
+  // came before — every one of those leaves this empty. The 'or' and 'relative'
+  // variants are flagged separately because each is a different height.
+  const hasLandRow =
+    (presenceOptions.mode === "token" || presenceOptions.mode === "relative") &&
+    presenceOptions.reqs.length > 0;
   const wrapperClass = hasLandRow ? " class='with-land'" : "";
   const wrapperClassOr = hasLandRow ? " class='with-land with-land-or'" : "";
+  const wrapperClassRelative = hasLandRow ? " class='with-land with-land-relative'" : "";
 
   if (presenceOptions.mode === "any") {
     addPresenceOpen = "<custom-presence-no-range>";
@@ -1748,6 +1773,16 @@ function _renderAddPresence(growthAction) {
       presenceReqsIcons = "<add-relative>" + presenceReqsIcons;
       presenceRangeHTML += "</add-relative>";
       presenceReqsIcons += `{${presenceOptions.anchor.toLowerCase()}}`;
+      if (hasLandRow) {
+        // <add-relative> is display:flex, so the anchor and the range already
+        // share one line. That leaves room for the land requirement to take a
+        // row of its own between the presence and them, rather than riding the
+        // presence line the way the token form has to.
+        addPresenceOpen = `<custom-presence-req${wrapperClassRelative}>`;
+        presenceReqsIcons =
+          `<presence-req>${_addPresenceReqsIcons(presenceOptions)}</presence-req>` +
+          presenceReqsIcons;
+      }
     } else {
       // User wants an OR or an AND requirement
       presenceReqsIcons += _addPresenceReqsIcons(presenceOptions);
@@ -3691,31 +3726,49 @@ function IconName(str, iconNum = 1) {
           : ` ${IconName(presenceOptions.operatorWord)} `; //looking for 'or' or 'and'
 
         let landwith = 1; // This flag is used to figure out if 'land with' has been said already. It comes up with add-presence(3,jungle,beasts,or)
-        presenceOptions.reqs.forEach((rawReq, i) => {
+        // Whether the requirement just before this one was also negated. A run
+        // of them shares the one "without", so no-blight,no-disease,or reads
+        // "Land without Blight or Disease" rather than "…or no Disease". Mixed
+        // lists still repeat it: dahan,no-blight,and is "…with Dahan and no Blight".
+        let afterNegation = false;
+        // One phrase per requirement, joined at the end rather than concatenated
+        // as we go. The localized phrases below carry trailing spaces and the
+        // joiner carries its own, which used to collide: "Mountain  or Land…"
+        // with the spelled-out joiner, "Blight /Disease" with the symbolic one.
+        // Trimming each phrase lets the joiner alone decide the spacing.
+        const reqParts = [];
+        presenceOptions.reqs.forEach((rawReq) => {
           const req = rawReq.toLowerCase() === "presence" ? `your-presence` : rawReq;
-          if (i > 0) {
-            reqsText += operator;
-          }
+          const isNegated = req.startsWith("no-");
+          let phrase;
 
-          if (req.startsWith("no-")) {
+          if (isNegated) {
             const iconReqSub = IconName(req.substring(3));
-            localize = {
-              en: landwith ? `Land without ${iconReqSub} ` : `no ${iconReqSub} `,
-              fr: landwith ? `Région sans ${iconReqSub} ` : `aucun ${iconReqSub} `,
-              de: landwith ? `Land ohne ${iconReqSub} ` : `keine ${iconReqSub} `,
-              pl: landwith ? `Kraina bez ${iconReqSub} ` : `bez ${iconReqSub} `,
-              ar: landwith ? `أرض بدون ${iconReqSub} ` : `بدون ${iconReqSub} `,
-              zh: landwith ? `沒有${iconReqSub}的區域 ` : `沒有${iconReqSub} `,
-              hu: landwith ? `${iconReqSub} nélküli terület ` : `${iconReqSub} nélküli `,
-              ko: landwith ? `${iconReqSub}가 없는 지역 ` : `${iconReqSub} 없음 `,
-              ja: landwith ? `${iconReqSub}のない土地 ` : `${iconReqSub}なし `,
-            };
-            reqsText += localize[lang];
+            if (afterNegation) {
+              // Carried by the "without" already said; just name the thing.
+              phrase = `${iconReqSub}`;
+            } else {
+              localize = {
+                en: landwith ? `Land without ${iconReqSub} ` : `no ${iconReqSub} `,
+                fr: landwith ? `Région sans ${iconReqSub} ` : `aucun ${iconReqSub} `,
+                de: landwith ? `Land ohne ${iconReqSub} ` : `keine ${iconReqSub} `,
+                pl: landwith ? `Kraina bez ${iconReqSub} ` : `bez ${iconReqSub} `,
+                ar: landwith ? `أرض بدون ${iconReqSub} ` : `بدون ${iconReqSub} `,
+                zh: landwith ? `沒有${iconReqSub}的區域 ` : `沒有${iconReqSub} `,
+                hu: landwith ? `${iconReqSub} nélküli terület ` : `${iconReqSub} nélküli `,
+                ko: landwith ? `${iconReqSub}가 없는 지역 ` : `${iconReqSub} 없음 `,
+                ja: landwith ? `${iconReqSub}のない土地 ` : `${iconReqSub}なし `,
+              };
+              phrase = localize[lang];
+            }
+            afterNegation = true;
             landwith = 0;
           } else if (terrainTypes.has(req)) {
-            reqsText += `${IconName(req + "-land")} `;
+            phrase = `${IconName(req + "-land")}`;
+            afterNegation = false;
           } else if (terrains.has(req)) {
-            reqsText += `${IconName(req)} `;
+            phrase = `${IconName(req)}`;
+            afterNegation = false;
           } else {
             const iconReq = IconName(req);
             localize = {
@@ -3729,10 +3782,13 @@ function IconName(str, iconNum = 1) {
               ko: landwith ? `${iconReq}가 있는 지역` : `${iconReq}`,
               ja: landwith ? `${iconReq}がある土地` : `${iconReq}`,
             };
-            reqsText += localize[lang];
+            phrase = localize[lang];
             landwith = 0;
+            afterNegation = false;
           }
+          reqParts.push(phrase.trim());
         });
+        reqsText = reqParts.join(operator);
       }
       if (presenceOptions.mode === "any") {
         localize = {
@@ -3769,17 +3825,35 @@ function IconName(str, iconNum = 1) {
           }
           const iconPreposition = IconName(preposition);
           const iconOpt3 = IconName(opt3);
-          localize = {
-            en: `Add a Presence ${iconPreposition} ${iconOpt3}`,
-            fr: `Ajoutez une Présence ${iconPreposition} ${iconOpt3}`,
-            de: `Füge eine Präsenz ${iconPreposition} ${iconOpt3} hinzu`,
-            pl: `Dodaj Obecność ${iconPreposition} ${iconOpt3}`,
-            ar: `أضف حضوراً ${iconPreposition} ${iconOpt3}`,
-            zh: `添加靈跡 ${iconPreposition} ${iconOpt3}`,
-            hu: `Jelenlét lerakása ${iconPreposition} ${iconOpt3}`,
-            ko: `${iconOpt3}${iconPreposition} 현신 1개 추가`,
-            ja: `${iconOpt3} ${iconPreposition} プレゼンスを追加`,
-          };
+          if (presenceOptions.reqs.length) {
+            // Relative *and* a land requirement — "Add a Presence to Jungle,
+            // from Sacred Site". Whole sentences per language for the same
+            // reason as the token form: ko and ja put the land first.
+            const land = reqsText.trim();
+            localize = {
+              en: `Add a Presence to ${land} ${iconPreposition} ${iconOpt3}`,
+              fr: `Ajoutez une Présence à ${land} ${iconPreposition} ${iconOpt3}`,
+              de: `Füge eine Präsenz auf ${land} ${iconPreposition} ${iconOpt3} hinzu`,
+              pl: `Dodaj Obecność do ${land} ${iconPreposition} ${iconOpt3}`,
+              ar: `أضف حضوراً إلى ${land} ${iconPreposition} ${iconOpt3}`,
+              zh: `添加靈跡到${land}${iconPreposition}${iconOpt3}`,
+              hu: `Jelenlét lerakása ${land} területre ${iconOpt3} ${iconPreposition}`,
+              ko: `${iconOpt3}${iconPreposition} ${land}에 현신 1개 추가`,
+              ja: `${iconOpt3}${iconPreposition}${land}にプレゼンスを追加`,
+            };
+          } else {
+            localize = {
+              en: `Add a Presence ${iconPreposition} ${iconOpt3}`,
+              fr: `Ajoutez une Présence ${iconPreposition} ${iconOpt3}`,
+              de: `Füge eine Präsenz ${iconPreposition} ${iconOpt3} hinzu`,
+              pl: `Dodaj Obecność ${iconPreposition} ${iconOpt3}`,
+              ar: `أضف حضوراً ${iconPreposition} ${iconOpt3}`,
+              zh: `添加靈跡 ${iconPreposition} ${iconOpt3}`,
+              hu: `Jelenlét lerakása ${iconPreposition} ${iconOpt3}`,
+              ko: `${iconOpt3}${iconPreposition} 현신 1개 추가`,
+              ja: `${iconOpt3} ${iconPreposition} プレゼンスを追加`,
+            };
+          }
           subText = localize[lang];
         } else if (presenceOptions.mode === "token" && presenceOptions.reqs.length) {
           // Token *and* a land requirement — "Add a Presence or a Beasts to any
