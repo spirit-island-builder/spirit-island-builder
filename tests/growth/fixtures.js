@@ -57,6 +57,19 @@ export const fixtures = [
   { name: "add-presence-token-and", attrs: { values: "add-presence(1,token,badlands,and)" } },
   { name: "add-presence-token-or", attrs: { values: "add-presence(1,token,badlands,or)" } },
   {
+    name: "add-presence-token-and-land",
+    attrs: { values: "add-presence(3,token,beasts,and,jungle)" },
+  },
+  {
+    name: "add-presence-token-or-land",
+    attrs: { values: "add-presence(any,token,wilds,or,ocean)" },
+  },
+  {
+    name: "add-presence-relative-land",
+    attrs: { values: "add-presence(1,relative,sacred-site,jungle)" },
+  },
+  { name: "add-presence-req-any-range", attrs: { values: "add-presence(any,ocean)" } },
+  {
     name: "add-presence-token-instead",
     attrs: { values: "add-presence(1,token,badlands,instead)" },
   },

@@ -13,8 +13,8 @@
 <growth-cell id='s0g0a1'>{gain-power-card}<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id='s0g0a2'>
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 </growth-group>
@@ -327,8 +327,8 @@
 --- {"values":"add-presence(1)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 </growth-group>
@@ -337,8 +337,8 @@
 --- {"values":"add-presence(0)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-0}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-0}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 </growth-group>
@@ -347,11 +347,9 @@
 --- {"values":"add-presence(any)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-no-range>
-<plus-presence>+{presence}</plus-presence>
-<range-growth-any>
-</range-growth-any>
-</custom-presence-no-range>
+<cell-icons class="add-presence any">
+<icon-row class="plus">+{presence}</icon-row>
+</cell-icons>
 <growth-text>Add a Presence to any Land</growth-text>
 </growth-cell>
 </growth-group>
@@ -360,9 +358,9 @@
 --- {"values":"add-presence(1,jungle)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
-<presence-req>{jungle}</presence-req>{range-1}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{jungle}</presence-req>{range-1}</cell-icons>
 <growth-text>Add a Presence to Jungle</growth-text>
 </growth-cell>
 </growth-group>
@@ -371,9 +369,9 @@
 --- {"values":"add-presence(1,jungle,wetland,or)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
-<presence-req>{jungle} or {wetland}</presence-req>{range-1}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{jungle} or {wetland}</presence-req>{range-1}</cell-icons>
 <growth-text>Add a Presence to Jungle or Wetland</growth-text>
 </growth-cell>
 </growth-group>
@@ -382,9 +380,9 @@
 --- {"values":"add-presence(1,sands,mountain,and)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
-<presence-req>{sands} and {mountain}</presence-req>{range-1}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{sands} and {mountain}</presence-req>{range-1}</cell-icons>
 <growth-text>Add a Presence to Sands and Mountain</growth-text>
 </growth-cell>
 </growth-group>
@@ -393,11 +391,11 @@
 --- {"values":"add-presence(2,coastal)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
 <presence-req>
 <span class='non-icon'>COASTAL</span>
-</presence-req>{range-2}</custom-presence-req>
+</presence-req>{range-2}</cell-icons>
 <growth-text>Add a Presence to Coastal Land</growth-text>
 </growth-cell>
 </growth-group>
@@ -406,9 +404,9 @@
 --- {"values":"add-presence(1,no-own-presence)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
-<presence-req>{no-presence}</presence-req>{range-1}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{no-presence}</presence-req>{range-1}</cell-icons>
 <growth-text>Add a Presence to Land without Own Presence</growth-text>
 </growth-cell>
 </growth-group>
@@ -417,13 +415,13 @@
 --- {"values":"add-presence(1,token,badlands,and)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
 <presence-req>
 <span class='plus-text'>+ </span>
 <icon class='badlands add-token'>
 </icon>
-</presence-req>{range-1}</custom-presence-req>
+</presence-req>{range-1}</cell-icons>
 <growth-text>Add a Presence and a Badlands</growth-text>
 </growth-cell>
 </growth-group>
@@ -432,10 +430,62 @@
 --- {"values":"add-presence(1,token,badlands,or)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-req>
-<custom-presence-or>
-<plus-presence>+{presence}</plus-presence>{backslash}{badlands}</custom-presence-or>{range-1}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="or">
+<icon-row class="plus">+{presence}</icon-row>{backslash}{badlands}</icon-row>{range-1}</cell-icons>
 <growth-text>Add a Presence or a Badlands</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-token-and-land
+--- {"values":"add-presence(3,token,beasts,and,jungle)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<cell-icons class="add-presence req with-land">
+<icon-row class="plus">+{presence}<icon class='beasts add-token'>
+</icon>
+</icon-row>
+<presence-req>{jungle}</presence-req>{range-3}</cell-icons>
+<growth-text>Add a Presence and a Beasts to Jungle</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-token-or-land
+--- {"values":"add-presence(any,token,wilds,or,ocean)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<cell-icons class="add-presence req with-land with-land-or">
+<icon-row class="or">
+<icon-row class="plus">+{presence}</icon-row>{backslash}{wilds}</icon-row>
+<presence-req>{ocean}</presence-req>
+</cell-icons>
+<growth-text>Add a Presence or a Wilds to any Ocean</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-relative-land
+--- {"values":"add-presence(1,relative,sacred-site,jungle)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<cell-icons class="add-presence req with-land with-land-relative">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{jungle}</presence-req>
+<icon-row class="relative">
+<presence-req>{sacred-site}</presence-req>{range-1}</icon-row>
+</cell-icons>
+<growth-text>Add a Presence to Jungle from Sacred Site</growth-text>
+</growth-cell>
+</growth-group>
+
+=== add-presence-req-any-range
+--- {"values":"add-presence(any,ocean)"}
+<growth-group>
+<growth-cell id='s0g0a0'>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{ocean}</presence-req>
+</cell-icons>
+<growth-text>Add a Presence to any Ocean</growth-text>
 </growth-cell>
 </growth-group>
 
@@ -443,10 +493,10 @@
 --- {"values":"add-presence(1,token,badlands,instead)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
 <presence-req>
-</presence-req>{range-1}</custom-presence-req>
+</presence-req>{range-1}</cell-icons>
 <growth-text>Add a Badlands instead of a Presence</growth-text>
 </growth-cell>
 </growth-group>
@@ -455,11 +505,11 @@
 --- {"values":"add-presence(1,relative,sacred-site)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
-<add-relative>
-<presence-req>{sacred-site}</presence-req>{range-1}</add-relative>
-</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<icon-row class="relative">
+<presence-req>{sacred-site}</presence-req>{range-1}</icon-row>
+</cell-icons>
 <growth-text>Add a Presence from Sacred Site</growth-text>
 </growth-cell>
 </growth-group>
@@ -468,12 +518,10 @@
 --- {"values":"add-presence(2,text,anywhere on the island)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
+<cell-icons class="add-presence req text">
+<icon-row class="plus">+{presence}</icon-row>
 <presence-req>
-<span class='presence-text-spacer'>
-</span>
-</presence-req>{range-2}</custom-presence-req>
+</presence-req>{range-2}</cell-icons>
 <growth-text>Add a Presence anywhere on the island</growth-text>
 </growth-cell>
 </growth-group>
@@ -482,11 +530,11 @@
 --- {"values":"add-presence(2,text,x,fire,water)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
+<cell-icons class="add-presence req text">
+<icon-row class="plus">+{presence}</icon-row>
 <presence-req>
-<display-custom>{fire}{water}</display-custom>
-</presence-req>{range-2}</custom-presence-req>
+<icon-row>{fire}{water}</icon-row>
+</presence-req>{range-2}</cell-icons>
 <growth-text>Add a Presence x</growth-text>
 </growth-cell>
 </growth-group>
@@ -495,8 +543,8 @@
 --- {"values":"add-presence-custom(my text,1)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 <growth-text>my text</growth-text>
 </growth-cell>
 </growth-group>
@@ -1296,8 +1344,8 @@
 <growth-cell-double>
 <growth-energy>
 <value>2</value>
-</growth-energy>or<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+</growth-energy>or<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 </growth-cell-double>
 <growth-text>Gain Energy or Add a Presence</growth-text>
 </growth-cell>
@@ -1425,9 +1473,9 @@
 <growth-cell id='s0g0a0'>
 <presence-node class="growth">
 <ring-icon>
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
-<presence-req>{jungle}</presence-req>{range-1}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{jungle}</presence-req>{range-1}</cell-icons>
 </ring-icon>
 </presence-node>
 <growth-text>Add a Presence to Jungle</growth-text>
@@ -1934,8 +1982,8 @@
 </presence-node>
 <presence-node class="growth">
 <ring-icon>
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 </ring-icon>
 </presence-node>
 </presence-track>
@@ -2212,8 +2260,8 @@
 --- {"values":"add-presence(1)*Do the thing"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 <growth-text>Do the thing</growth-text>
 </growth-cell>
 </growth-group>
@@ -2341,9 +2389,9 @@
 --- {"values":"add-presence(1, jungle)"}
 <growth-group>
 <growth-cell id='s0g0a0'>
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
-<presence-req>{jungle}</presence-req>{range-1}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{jungle}</presence-req>{range-1}</cell-icons>
 <growth-text>Add a Presence to Jungle</growth-text>
 </growth-cell>
 </growth-group>
@@ -2453,8 +2501,8 @@
 <growth-cell-double>
 <growth-energy>
 <value>2</value>
-</growth-energy>or<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+</growth-energy>or<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 </growth-cell-double>
 <growth-text>Gain Energy or Add a Presence</growth-text>
 </growth-cell>

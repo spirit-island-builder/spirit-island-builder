@@ -13,15 +13,15 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g1a0">
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
-<presence-req>{dahan}</presence-req>{range-2}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{dahan}</presence-req>{range-2}</cell-icons>
 <growth-text>Add a Presence to Land with Dahan</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
-<presence-req>{dahan}</presence-req>{range-1}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{dahan}</presence-req>{range-1}</cell-icons>
 <growth-text>Add a Presence to Land with Dahan</growth-text>
 </growth-cell>
 </growth-group>
@@ -29,8 +29,8 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g2a0">
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a1">

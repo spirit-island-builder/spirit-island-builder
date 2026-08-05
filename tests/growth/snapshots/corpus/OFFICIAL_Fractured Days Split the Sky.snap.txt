@@ -27,8 +27,8 @@
 <growth-cell id="s0g1a1">{gain-power-card}<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a2">
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-2}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-2}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a3">

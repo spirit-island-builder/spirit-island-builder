@@ -40,9 +40,9 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g3a0">
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
-<presence-req>{no-blight}</presence-req>{range-3}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{no-blight}</presence-req>{range-3}</cell-icons>
 <growth-text>Add a Presence to Land without Blight</growth-text>
 </growth-cell>
 </growth-group>

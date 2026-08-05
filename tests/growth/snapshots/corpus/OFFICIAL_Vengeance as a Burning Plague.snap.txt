@@ -17,15 +17,15 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g1a0">
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
-<presence-req>{town}/{city}/{blight}</presence-req>{range-2}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{town}/{city}/{blight}</presence-req>{range-2}</cell-icons>
 <growth-text>Add a Presence to Land with Town/City/Blight</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
-<presence-req>{town}/{city}/{blight}</presence-req>{range-2}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{town}/{city}/{blight}</presence-req>{range-2}</cell-icons>
 <growth-text>Add a Presence to Land with Town/City/Blight</growth-text>
 </growth-cell>
 </growth-group>
@@ -35,9 +35,9 @@
 <growth-cell id="s0g2a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a1">
-<custom-presence-req>
-<custom-presence-or>
-<plus-presence>+{presence}</plus-presence>{backslash}{disease}</custom-presence-or>{range-1}</custom-presence-req>
+<cell-icons class="add-presence req">
+<icon-row class="or">
+<icon-row class="plus">+{presence}</icon-row>{backslash}{disease}</icon-row>{range-1}</cell-icons>
 <growth-text>Add a Presence or a Disease</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a2">

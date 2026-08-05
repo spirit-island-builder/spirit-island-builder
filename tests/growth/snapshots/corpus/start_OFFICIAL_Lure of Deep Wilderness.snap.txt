@@ -29,11 +29,11 @@
 </growth-border>
 <growth-group header="0">
 <growth-cell id="s0g1a0">
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
 <presence-req>
 <span class="non-icon">INLAND</span>
-</presence-req>{range-4}</custom-presence-req>
+</presence-req>{range-4}</cell-icons>
 <growth-text>Add a Presence to Inland Land</growth-text>
 </growth-cell>
 </growth-group>

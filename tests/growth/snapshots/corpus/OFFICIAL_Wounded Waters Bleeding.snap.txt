@@ -19,8 +19,8 @@
 <growth-cell id="s0g1a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-2}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-2}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 </growth-group>
@@ -64,8 +64,8 @@
 <tint class="tint" style="background-color:black;">
 </tint>
 <growth-cell id="s0g3a0">
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-3}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-3}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g3a1">

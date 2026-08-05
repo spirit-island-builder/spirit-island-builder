@@ -1669,6 +1669,12 @@ function _addPresenceReqsIcons(presenceOptions) {
 }
 
 // add-presence; also delegated to by the legacy add-presence-custom renderer.
+//
+// Emits the consolidated growth-cell vocabulary (see "Growth vocabulary
+// consolidation" in renderer-css-improvement-plan.md): one <cell-icons> wrapper
+// whose classes carry the mode, <icon-row class="plus"> for the "+presence"
+// line, <presence-req> rows, and a bare {range-N}. An "any" range emits no
+// range element at all — absence is the signal, there is no spacer element.
 function _renderAddPresence(growthAction) {
   const matches = _outerParenRegex.exec(growthAction);
   if (!matches) {
@@ -1676,129 +1682,106 @@ function _renderAddPresence(growthAction) {
   }
   const presenceOptions = _parseAddPresence(_splitOptions(matches[1]));
 
-  let addPresenceOpen = "<custom-presence>";
-  let addPresenceClose = "</custom-presence>";
-  let presenceReqsIcons = "";
-  // The token 'or' form replaces the <presence-req> wrapper with its own
-  // <custom-presence-or> rather than nesting inside it, so it has to suppress
-  // the matching close tag. That tag used to be emitted regardless, leaving a
-  // stray end tag the HTML parser silently dropped.
-  let presenceReqIsOpen = false;
-  // A land-requirement row of its own, used only by the token 'or'/'instead'
-  // forms — every other form carries its requirements inside presenceReqsIcons
-  // or on the presence line, and leaves this empty.
-  let landReqsHTML = "";
-  // Extra icons sharing the "+{presence}" line rather than starting a row of
-  // their own, so a land requirement costs no height. Used by the token 'and'
-  // form, whose token would otherwise need a row; empty everywhere else.
-  let plusPresenceExtra = "";
-  let presenceRangeHTML = `{range-${presenceOptions.range}}`;
+  // Extra icons share the "+{presence}" line rather than starting a row of
+  // their own, so a land requirement costs no height (the token 'and' form).
+  const plusRow = (extra = "") => `<icon-row class="plus">+{presence}${extra}</icon-row>`;
+  const rangeHTML = presenceOptions.isAnyRange ? "" : `{range-${presenceOptions.range}}`;
+  // The land the presence/token goes in, on a row of its own.
+  const landRow = () =>
+    presenceOptions.reqs.length
+      ? `<presence-req>${_addPresenceReqsIcons(presenceOptions)}</presence-req>`
+      : "";
+
   // The forms that accept land requirements need a row the older layouts never
   // had. Flag the wrapper so CSS can make room without touching the forms that
-  // came before — every one of those leaves this empty. The 'or' and 'relative'
-  // variants are flagged separately because each is a different height.
+  // came before. The 'or' and 'relative' variants are flagged separately
+  // because each is a different height.
   const hasLandRow =
     (presenceOptions.mode === "token" || presenceOptions.mode === "relative") &&
     presenceOptions.reqs.length > 0;
-  const wrapperClass = hasLandRow ? " class='with-land'" : "";
-  const wrapperClassOr = hasLandRow ? " class='with-land with-land-or'" : "";
-  const wrapperClassRelative = hasLandRow ? " class='with-land with-land-relative'" : "";
 
-  if (presenceOptions.mode === "any") {
-    addPresenceOpen = "<custom-presence-no-range>";
-    addPresenceClose = "</custom-presence-no-range>";
-    presenceRangeHTML = "<range-growth-any></range-growth-any>";
-  } else if (presenceOptions.mode !== "plain") {
-    addPresenceOpen = `<custom-presence-req${wrapperClass}>`;
-    addPresenceClose = "</custom-presence-req>";
-    presenceReqsIcons += "<presence-req>";
-    presenceReqIsOpen = true;
-
-    if (presenceOptions.isAnyRange) {
-      addPresenceOpen += "<presence-req></presence-req>";
-      presenceRangeHTML = "<range-growth-any></range-growth-any>";
+  let artClasses;
+  let innerHTML;
+  switch (presenceOptions.mode) {
+    case "plain":
+      artClasses = "plain";
+      innerHTML = plusRow() + rangeHTML;
+      break;
+    case "any":
+      artClasses = "any";
+      innerHTML = plusRow();
+      break;
+    case "text": {
+      // Custom text presence addition. With no trailing icons the
+      // <presence-req> is empty on purpose: a min-height rule on the .text
+      // form reserves the row the icons would have taken, keeping the cell
+      // aligned with its neighbours.
+      artClasses = "req text";
+      const textIcons = presenceOptions.textIcons.length
+        ? `<icon-row>${presenceOptions.textIcons.map((icon) => `{${icon}}`).join("")}</icon-row>`
+        : "";
+      innerHTML = plusRow() + `<presence-req>${textIcons}</presence-req>` + rangeHTML;
+      break;
     }
-
-    if (presenceOptions.mode === "text") {
-      // User wants a custom text presence addition
-      if (presenceOptions.textIcons.length) {
-        presenceReqsIcons += "<display-custom>";
-        presenceOptions.textIcons.forEach((icon) => {
-          presenceReqsIcons += "{" + icon + "}";
-        });
-        presenceReqsIcons += "</display-custom>";
-      } else {
-        // Empty by design: reserves the height an icon row would have taken so a
-        // text-only add-presence lines up with its neighbours. See
-        // span.presence-text-spacer in growth-options.css.
-        presenceReqsIcons += "<span class='presence-text-spacer'></span>";
-      }
-    } else if (presenceOptions.mode === "token") {
-      // User wants to add a token in growth
+    case "token":
       switch (presenceOptions.tokenJoin) {
         case "and":
-          //add presence and token
           if (hasLandRow) {
             // "+{presence}{beasts}" on one line, so the land requirement below
-            // costs no extra height: without this the token has a row of its own
-            // and the cell is four rows tall. The bare 'and' form keeps its
-            // original two-row layout.
-            plusPresenceExtra = "<icon class='" + presenceOptions.token + " add-token'></icon>";
-            presenceReqsIcons = "";
-            presenceReqIsOpen = false;
+            // costs no extra height: without this the token has a row of its
+            // own and the cell is four rows tall. The bare 'and' form keeps
+            // its original two-row layout.
+            artClasses = "req with-land";
+            innerHTML =
+              plusRow(`<icon class='${presenceOptions.token} add-token'></icon>`) +
+              landRow() +
+              rangeHTML;
           } else {
-            presenceReqsIcons += "<span class='plus-text'>+ </span>";
-            presenceReqsIcons += "<icon class='" + presenceOptions.token + " add-token'></icon>";
+            artClasses = "req";
+            innerHTML =
+              plusRow() +
+              `<presence-req><span class='plus-text'>+ </span>` +
+              `<icon class='${presenceOptions.token} add-token'></icon></presence-req>` +
+              rangeHTML;
           }
           break;
         case "or":
-          //add presence or token — already one line, inside custom-presence-or
-          addPresenceOpen = `<custom-presence-req${wrapperClassOr}><custom-presence-or>`;
-          addPresenceClose = "</custom-presence-req>";
-          presenceReqsIcons = "{backslash}{" + presenceOptions.token + "}</custom-presence-or>";
-          presenceReqIsOpen = false;
+          // Presence or token on one line, inside its own row.
+          artClasses = hasLandRow ? "req with-land with-land-or" : "req";
+          innerHTML =
+            `<icon-row class="or">${plusRow()}{backslash}{${presenceOptions.token}}</icon-row>` +
+            landRow() +
+            rangeHTML;
           break;
         case "instead":
           // Legacy: superseded by the add-token(...) action. Kept so old
           // hand-written files render; not worth further icon work.
+          artClasses = "req";
+          innerHTML = plusRow() + "<presence-req></presence-req>" + rangeHTML;
           break;
       }
-      // "…to any Ocean": the land the presence/token goes in, on its own row
-      // under the token. Sits outside presenceReqsIcons because the 'or' form
-      // has already closed its own wrapper by here.
-      if (presenceOptions.reqs.length) {
-        landReqsHTML = `<presence-req>${_addPresenceReqsIcons(presenceOptions)}</presence-req>`;
-      }
-    } else if (presenceOptions.mode === "relative") {
-      presenceReqsIcons = "<add-relative>" + presenceReqsIcons;
-      presenceRangeHTML += "</add-relative>";
-      presenceReqsIcons += `{${presenceOptions.anchor.toLowerCase()}}`;
-      if (hasLandRow) {
-        // <add-relative> is display:flex, so the anchor and the range already
-        // share one line. That leaves room for the land requirement to take a
-        // row of its own between the presence and them, rather than riding the
-        // presence line the way the token form has to.
-        addPresenceOpen = `<custom-presence-req${wrapperClassRelative}>`;
-        presenceReqsIcons =
-          `<presence-req>${_addPresenceReqsIcons(presenceOptions)}</presence-req>` +
-          presenceReqsIcons;
-      }
-    } else {
-      // User wants an OR or an AND requirement
-      presenceReqsIcons += _addPresenceReqsIcons(presenceOptions);
-    }
-    if (presenceReqIsOpen) {
-      presenceReqsIcons += "</presence-req>";
-    }
+      break;
+    case "relative":
+      // <icon-row class="relative"> is display:flex, so the anchor and the
+      // range share one line. That leaves room for the land requirement to
+      // take a row of its own between the presence and them, rather than
+      // riding the presence line the way the token form has to.
+      artClasses = hasLandRow ? "req with-land with-land-relative" : "req";
+      innerHTML =
+        plusRow() +
+        landRow() +
+        `<icon-row class="relative"><presence-req>{${presenceOptions.anchor.toLowerCase()}}</presence-req>${rangeHTML}</icon-row>`;
+      break;
+    default:
+      // An OR or an AND land requirement on the presence itself.
+      artClasses = "req";
+      innerHTML =
+        plusRow() +
+        `<presence-req>${_addPresenceReqsIcons(presenceOptions)}</presence-req>` +
+        rangeHTML;
   }
 
-  const growthIcons =
-    addPresenceOpen +
-    `<plus-presence>+{presence}${plusPresenceExtra}</plus-presence>` +
-    presenceReqsIcons +
-    landReqsHTML +
-    presenceRangeHTML +
-    addPresenceClose;
+  const growthIcons = `<cell-icons class="add-presence ${artClasses}">${innerHTML}</cell-icons>`;
   return [growthIcons, IconName(growthAction)];
 }
 

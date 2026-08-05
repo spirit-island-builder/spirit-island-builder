@@ -13,8 +13,8 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g1a0">
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
@@ -30,8 +30,8 @@
 <growth-cell id="s0g2a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a1">
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-2}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-2}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 </growth-group>
@@ -39,11 +39,9 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g3a0">
-<custom-presence-no-range>
-<plus-presence>+{presence}</plus-presence>
-<range-growth-any>
-</range-growth-any>
-</custom-presence-no-range>
+<cell-icons class="add-presence any">
+<icon-row class="plus">+{presence}</icon-row>
+</cell-icons>
 <growth-text>Add a Presence to any Land</growth-text>
 </growth-cell>
 <growth-cell id="s0g3a1">

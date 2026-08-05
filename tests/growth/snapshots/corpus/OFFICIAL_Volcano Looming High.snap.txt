@@ -17,13 +17,13 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g1a0">
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-0}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-0}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-0}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-0}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 </growth-group>
@@ -33,8 +33,8 @@
 <growth-cell id="s0g2a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a1">
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-4}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-4}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a2">

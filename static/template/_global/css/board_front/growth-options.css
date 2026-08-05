@@ -13,7 +13,7 @@ presence-req {
   --icon-h: 37px;
 }
 
-custom-presence-req {
+cell-icons.add-presence.req {
   --icon-h: 43px;
 }
 
@@ -581,33 +581,39 @@ growth presence-track track-banner-art.growth-track {
   z-index: -1;
 }
 
-plus-presence {
+/* icon-row: THE horizontal row of icons inside a cell (growth vocabulary
+   consolidation — see renderer-css-improvement-plan.md). The bare form is a
+   plain inline row (was <display-custom>); .plus is the "+presence" line
+   (was <plus-presence>). */
+icon-row {
+  display: inline-flex;
+  flex-direction: row;
+}
+
+icon-row.plus {
   display: flex;
   position: relative;
   margin-bottom: 2px;
   align-items: flex-end;
 }
 
-plus-presence icon {
+icon-row.plus icon {
   margin: 0px;
 }
 
-plus-presence icon.presence {
+icon-row.plus icon.presence {
   left: 8px;
   --icon-scale: 1;
   --icon-h: 26px;
 }
 
-custom-presence plus-presence {
+cell-icons.add-presence.plain icon-row.plus {
   margin-top: 0px;
   margin-bottom: 5px;
 }
 
-custom-presence-or plus-presence {
-  display: inline-block;
-}
-
-custom-presence-no-range plus-presence {
+icon-row.or icon-row.plus,
+cell-icons.add-presence.any icon-row.plus {
   display: inline-block;
 }
 
@@ -669,8 +675,11 @@ growth-energy value {
   margin-left: 19px;
 }
 
-/* Complex add presence options */
-custom-presence-req {
+/* Add-presence cells: one <cell-icons class="add-presence"> wrapper; the mode
+   class carries the box differences the three old wrapper tags encoded
+   (.req was <custom-presence-req>, .plain was <custom-presence>, .any was
+   <custom-presence-no-range>). */
+cell-icons.add-presence.req {
   font-size: 26.66px;
   font-weight: bold;
   margin-bottom: 0px;
@@ -682,7 +691,7 @@ custom-presence-req {
   justify-content: flex-end;
 }
 
-custom-presence {
+cell-icons.add-presence.plain {
   font-size: 26.66px;
   font-weight: bold;
   font-style: normal;
@@ -696,7 +705,8 @@ custom-presence {
   justify-content: flex-end;
 }
 
-custom-presence-or {
+/* was <custom-presence-or>: the "presence or token" line */
+icon-row.or {
   display: block;
   /* height: 40px; */
   margin-bottom: -2px;
@@ -707,32 +717,32 @@ custom-presence-or {
    Ocean". Three rows: the presence and token share one line, then the land
    requirement, then the range.
 
-   The 'and' variant puts the token inside <plus-presence> ("+{presence}{beasts}")
+   The 'and' variant puts the token on the plus row ("+{presence}{beasts}")
    so it is no taller than the plain requirement form and needs no extra height.
-   The 'or' variant carries a <custom-presence-or> row instead, which is taller,
-   so it gets the bump. Starting values only — tune these two rules. */
-custom-presence-req.with-land presence-req {
+   The 'or' variant carries an <icon-row class="or"> row instead, which is
+   taller, so it gets the bump. Starting values only — tune these two rules. */
+cell-icons.add-presence.with-land presence-req {
   margin-top: -2px;
 }
 
-custom-presence-req.with-land plus-presence icon.add-token {
+cell-icons.add-presence.with-land icon-row.plus icon.add-token {
   margin-left: 4px;
   margin-bottom: 0px;
 }
 
-custom-presence-or icon.backslash {
+icon-row.or icon.backslash {
   margin-bottom: -3px;
   margin-left: 2px;
   margin-right: 2px;
   margin-top: -1px;
 }
 
-custom-presence-or icon {
+icon-row.or icon {
   margin: 0px;
   margin-bottom: -4px;
 }
 
-custom-presence-no-range {
+cell-icons.add-presence.any {
   font-size: 26.66px;
   font-weight: bold;
   display: block;
@@ -740,18 +750,6 @@ custom-presence-no-range {
   height: 40px;
   margin-bottom: 0px;
   margin-top: 52px;
-}
-
-custom-presence-no-range icon.range-any {
-  width: 0px;
-}
-
-custom-presence icon.range-0,
-custom-presence icon.range-1,
-custom-presence icon.range-2,
-custom-presence icon.range-3,
-custom-presence icon.range-4 {
-  margin-bottom: 10px;
 }
 
 growth-cell range,
@@ -846,20 +844,7 @@ move-growth > value > icon {
   display: inline-block;
 } */
 
-range-growth-any {
-  background-image: none;
-  font-size: 0px;
-}
-
-custom-presence-req icon.range-0,
-custom-presence-req icon.range-1,
-custom-presence-req icon.range-2,
-custom-presence-req icon.range-3,
-custom-presence-req icon.range-4 {
-  margin-bottom: -5px;
-}
-
-custom-presence-req icon.dahan {
+cell-icons.add-presence icon.dahan {
   margin-top: 0px;
   margin-bottom: -2px;
 }
@@ -932,24 +917,12 @@ presence-req {
   gap: 3px;
 }
 
-display-custom {
-  display: inline-flex;
-  flex-direction: row;
-}
-
-/* add-presence(x,text,...) with no trailing icons. The span is empty on purpose
-   — it exists only so the line-height reserves the vertical space an icon row
-   would have taken, keeping the cell aligned with its neighbours. Moved here
-   from an inline style in board_front.js; the declarations are carried over
-   verbatim, including a font-family that matches no @font-face in global.css
-   (the families are "Name Headings" / "Short Name Headings"). It is inert while
-   line-height is an explicit length, so it is left for a visual check rather
-   than dropped blind. */
-span.presence-text-spacer {
-  font-family: "DK Snemand";
-  font-size: 24pt;
-  line-height: 24pt;
-  font-style: normal;
+/* add-presence(x,text,...) with no trailing icons: the empty <presence-req>
+   still reserves the row the icons would have taken, keeping the cell aligned
+   with its neighbours. 32px matches the strut the old spacer span's 24pt
+   line-height produced. */
+cell-icons.add-presence.text presence-req:empty {
+  min-height: 32px;
 }
 
 growth-cell icon.make-fast {
@@ -2016,8 +1989,8 @@ growth icon.medium {
 growth icon.small {
 }
 
-/* For adding presence relative to other presence */
-add-relative {
+/* For adding presence relative to other presence (was <add-relative>) */
+icon-row.relative {
   display: flex;
   position: relative;
   height: 50px;

@@ -5,8 +5,8 @@
 <growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a1">
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-0}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-0}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 </growth-group>
@@ -16,8 +16,8 @@
 <growth-cell id="s0g1a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-1}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 </growth-group>
@@ -25,8 +25,8 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g2a0">
-<custom-presence>
-<plus-presence>+{presence}</plus-presence>{range-2}</custom-presence>
+<cell-icons class="add-presence plain">
+<icon-row class="plus">+{presence}</icon-row>{range-2}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a1">

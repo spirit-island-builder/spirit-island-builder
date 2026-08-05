@@ -22,20 +22,18 @@
 <growth-text>Push a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
+<cell-icons class="add-presence req text">
+<icon-row class="plus">+{presence}</icon-row>
 <presence-req>
-<span class="presence-text-spacer">
-</span>
-</presence-req>{range-2}</custom-presence-req>
+</presence-req>{range-2}</cell-icons>
 <growth-text>Add a Presence to a land shown on the Ravage card</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a2">
-<custom-presence-req>
-<plus-presence>+{presence}</plus-presence>
+<cell-icons class="add-presence req text">
+<icon-row class="plus">+{presence}</icon-row>
 <presence-req>
-<display-custom>{escalation}</display-custom>
-</presence-req>{range-2}</custom-presence-req>
+<icon-row>{escalation}</icon-row>
+</presence-req>{range-2}</cell-icons>
 <growth-text>Add a Presence to land matching a card with escalation</growth-text>
 </growth-cell>
 </growth-group>
