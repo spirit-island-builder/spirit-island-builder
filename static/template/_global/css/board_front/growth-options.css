@@ -1,3 +1,22 @@
+/* Icon size for this section. See the icon sizing engine in global.css. */
+growth {
+  --icon-h: 40px;
+}
+
+/* Contexts in this sheet that want a different icon size. Values are the
+   ones measured before the sizing rework; calibrate freely. */
+growth-cell {
+  --icon-h: 64px;
+}
+
+presence-req {
+  --icon-h: 37px;
+}
+
+custom-presence-req {
+  --icon-h: 43px;
+}
+
 growth {
   display: block;
   position: relative;
@@ -270,8 +289,6 @@ growth-cell-double {
 }
 
 growth-cell icon {
-  margin-bottom: 7px;
-  height: 90px;
 }
 
 growth-cell icon.presence {
@@ -283,10 +300,6 @@ growth-cell icon.presence {
 
 growth-cell icon.destroyed-presence,
 growth-cell icon.destroy-presence {
-  margin-left: 4px;
-  width: 50px;
-  height: 38px;
-  margin-bottom: 0px;
 }
 
 growth-cell destroy-wrap {
@@ -295,6 +308,7 @@ growth-cell destroy-wrap {
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
+  gap: 5px;
 }
 
 growth-cell icon.reclaim-all,
@@ -303,15 +317,12 @@ growth-cell icon.reclaim-none,
 growth-cell icon.reclaim-custom,
 growth-cell icon.reclaim-half {
   display: block;
-  height: 100px;
-  width: 100px;
   margin-top: -12px;
   margin-bottom: 2px;
+  --icon-h: 100px;
 }
 
 growth-cell icon.reclaim-num {
-  height: 80px;
-  width: 80px;
   margin: 0px;
   margin-bottom: 10px;
 }
@@ -325,15 +336,11 @@ growth-cell icon.reclaim-num value {
 }
 
 growth-cell icon.empower-incarna {
-  width: 110px;
-  height: 110px;
   margin: 0px -10px;
   margin-top: -20px;
 }
 
 growth-cell icon.incarna {
-  width: 65px;
-  height: 45px;
   margin-bottom: 0px;
   margin-top: -24px;
 }
@@ -345,7 +352,6 @@ growth-cell icon.incarna.move {
 
 growth-cell icon.incarna.add-move {
   margin-bottom: 10px;
-  height: 52px;
   z-index: 2;
 }
 
@@ -376,16 +382,9 @@ growth-cell add-token-lower {
 }
 
 growth-cell icon.add-token {
-  margin-left: 5px;
-  width: 35px;
-  height: 35px;
-  margin-bottom: -8px;
-  margin-right: -2px;
 }
 
 add-move-upper icon.backslash {
-  width: 8px;
-  height: 25px;
   margin-bottom: -3px;
   margin-left: 2px;
   margin-right: 5px;
@@ -393,8 +392,6 @@ add-move-upper icon.backslash {
 }
 
 add-move-upper icon.move-arrow {
-  width: 81px;
-  height: 25px;
   margin-bottom: -3px;
   margin-left: 2px;
   margin-right: 5px;
@@ -402,8 +399,6 @@ add-move-upper icon.move-arrow {
 }
 
 growth-cell icon.with-your {
-  width: 35px;
-  height: 35px;
   z-index: 0;
   margin-bottom: 0px;
   margin-left: -20px;
@@ -427,14 +422,12 @@ growth-cell icon.with-incarna icon {
 }
 
 growth-cell icon.reclaim-half {
-  width: 82px;
 }
 
 growth-cell icon.modified-reclaim icon {
   position: absolute;
   right: -8px;
   top: -28px;
-  width: 45px;
   filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
     drop-shadow(0px -1px 0px);
   color: #ead38d;
@@ -447,78 +440,95 @@ growth-cell icon.modified-reclaim icon.element {
 /* reclaim-element is an element exception */
 growth-cell icon.modified-reclaim .sun {
   background-image: url("../../images/board/Sun.png");
+  --icon-ratio: var(--art-sun-ratio);
 }
 growth-cell icon.modified-reclaim .moon {
   background-image: url("../../images/board/Moon.png");
+  --icon-ratio: var(--art-moon-ratio);
 }
 growth-cell icon.modified-reclaim .fire {
   background-image: url("../../images/board/Fire.png");
+  --icon-ratio: var(--art-fire-ratio);
 }
 growth-cell icon.modified-reclaim .air {
   background-image: url("../../images/board/Air.png");
+  --icon-ratio: var(--art-air-ratio);
 }
 growth-cell icon.modified-reclaim .plant {
   background-image: url("../../images/board/Plant.png");
+  --icon-ratio: var(--art-plant-ratio);
 }
 growth-cell icon.modified-reclaim .water {
   background-image: url("../../images/board/Water.png");
+  --icon-ratio: var(--art-water-ratio);
 }
 growth-cell icon.modified-reclaim .earth {
   background-image: url("../../images/board/Earth.png");
+  --icon-ratio: var(--art-earth-ratio);
 }
 growth-cell icon.modified-reclaim .animal {
   background-image: url("../../images/board/Animal.png");
+  --icon-ratio: var(--art-animal-ratio);
 }
 growth-cell icon.modified-reclaim .star {
   background-image: url("../../images/board/NewIcons/Element Star.png");
+  --icon-ratio: var(--art-element-star-ratio);
 }
 growth-cell icon.modified-reclaim .any {
   background-image: url("../../images/board/Any.png");
+  --icon-ratio: var(--art-any-ratio);
 }
 
 growth-cell icon.discard-element {
   position: relative;
   left: 50px;
   top: -32px;
-  width: 45px;
 }
 
 /* discard-element is an element exception */
 growth-cell icon.discard-element.sun {
   background-image: url("../../images/board/Sun.png");
+  --icon-ratio: var(--art-sun-ratio);
 }
 growth-cell icon.discard-element.moon {
   background-image: url("../../images/board/Moon.png");
+  --icon-ratio: var(--art-moon-ratio);
 }
 growth-cell icon.discard-element.fire {
   background-image: url("../../images/board/Fire.png");
+  --icon-ratio: var(--art-fire-ratio);
 }
 growth-cell icon.discard-element.air {
   background-image: url("../../images/board/Air.png");
+  --icon-ratio: var(--art-air-ratio);
 }
 growth-cell icon.discard-element.plant {
   background-image: url("../../images/board/Plant.png");
+  --icon-ratio: var(--art-plant-ratio);
 }
 growth-cell icon.discard-element.water {
   background-image: url("../../images/board/Water.png");
+  --icon-ratio: var(--art-water-ratio);
 }
 growth-cell icon.discard-element.earth {
   background-image: url("../../images/board/Earth.png");
+  --icon-ratio: var(--art-earth-ratio);
 }
 growth-cell icon.discard-element.animal {
   background-image: url("../../images/board/Animal.png");
+  --icon-ratio: var(--art-animal-ratio);
 }
 growth-cell icon.discard-element.star {
   background-image: url("../../images/board/NewIcons/Element Star.png");
+  --icon-ratio: var(--art-element-star-ratio);
 }
 growth-cell icon.discard-element.any {
   background-image: url("../../images/board/Any.png");
+  --icon-ratio: var(--art-any-ratio);
 }
 
 growth-cell icon.gain-card-pay-2 {
   display: block;
-  height: 100px;
-  width: 80px;
 }
 
 presence-node.growth {
@@ -583,10 +593,9 @@ plus-presence icon {
 }
 
 plus-presence icon.presence {
-  margin-left: 8px;
-  width: 43px;
-  height: 26px;
-  margin-bottom: 0px;
+  left: 8px;
+  --icon-scale: 1;
+  --icon-h: 26px;
 }
 
 custom-presence plus-presence {
@@ -707,15 +716,11 @@ custom-presence-req.with-land presence-req {
 }
 
 custom-presence-req.with-land plus-presence icon.add-token {
-  height: 30px;
-  width: 30px;
   margin-left: 4px;
   margin-bottom: 0px;
 }
 
 custom-presence-or icon.backslash {
-  width: 8px;
-  height: 25px;
   margin-bottom: -3px;
   margin-left: 2px;
   margin-right: 2px;
@@ -723,8 +728,6 @@ custom-presence-or icon.backslash {
 }
 
 custom-presence-or icon {
-  width: 33px;
-  height: 34px;
   margin: 0px;
   margin-bottom: -4px;
 }
@@ -796,8 +799,6 @@ growth-cell range-value > custom-energy > value-text {
 }
 
 growth-cell range > range-value.range-icon > icon {
-  width: 50px;
-  height: 35px;
   position: relative;
   top: 2px;
 }
@@ -827,8 +828,6 @@ move-growth > textvalue {
 move-growth > value > icon {
   top: -4px;
   left: 3px;
-  height: 35px;
-  width: 35px;
   margin: 0px;
 }
 
@@ -861,8 +860,6 @@ custom-presence-req icon.range-4 {
 }
 
 custom-presence-req icon.dahan {
-  height: 37px;
-  width: 37px;
   margin-top: 0px;
   margin-bottom: -2px;
 }
@@ -870,16 +867,12 @@ custom-presence-req icon.dahan {
 .non-icon icon,
 presence-req icon.presence {
   display: inline-block;
-  height: 45px;
-  width: 45px;
   margin-top: 7px;
   margin-bottom: -5px;
 }
 
 .non-icon icon,
 presence-req icon {
-  height: 37px;
-  width: 37px;
   margin-left: 3px;
   margin-right: 3px;
   margin-top: 0px;
@@ -887,8 +880,6 @@ presence-req icon {
 }
 
 presence-req icon.add-token {
-  height: 30px;
-  width: 30px;
   margin-left: 3px;
   margin-right: auto;
   margin-top: -1px;
@@ -896,49 +887,35 @@ presence-req icon.add-token {
 }
 
 presence-req icon.wilds {
-  width: 45px;
 }
 
 presence-req icon.town,
 presence-req icon.disease {
-  height: 37px;
-  width: 27px;
 }
 
 presence-req icon.presence {
-  width: 35px;
-  height: 27px;
   margin-top: 0px;
 }
 
 presence-req icon.blight {
-  width: 30px;
 }
 
 presence-req icon.invaders {
-  width: 70px;
-  height: 25px;
   margin-top: 22px;
 }
 
 presence-req icon.terrain-single,
 presence-req icon.terrain-double {
-  height: 37px;
-  width: 37px;
   margin-bottom: 0px;
   margin-right: 0px;
   margin-left: 0px;
 }
 
 presence-req icon.terrain-double {
-  width: 80px;
-  height: 41px;
   transform: translateY(0px) translateX(6px);
 }
 
 presence-req icon.ocean {
-  height: 46px;
-  width: 65px;
   margin-left: -3px;
 }
 
@@ -952,6 +929,7 @@ presence-req {
   margin-top: 0px;
   flex-direction: row;
   align-items: center;
+  gap: 3px;
 }
 
 display-custom {
@@ -979,11 +957,11 @@ growth-cell icon.make-fast {
 }
 
 growth-cell icon.isolate {
-  width: 70px;
   margin-bottom: 7px;
 }
 
 growth-cell icon.gain-power-card,
+growth-cell icon.take-power-card,
 growth-cell icon.forget-power-card,
 growth-cell icon.discard-cards,
 growth-cell icon.discard-2-cards,
@@ -992,22 +970,14 @@ growth-cell icon.discard-1-card,
 growth-cell icon.gain-card-play,
 growth-cell icon.gain-card-play-blank,
 growth-cell icon.days-never-were {
-  margin-bottom: 7px;
-  height: 90px;
-  width: 90px;
-}
-
-growth-cell icon.take-power-card {
-  margin-bottom: 7px;
-  height: 90px;
-  width: 110px;
+  --icon-h: 90px;
+  top: -7px;
 }
 
 growth-cell icon.energy-per-play {
-  margin-bottom: 0px;
-  margin-top: -20px;
-  width: 100px;
-  height: 110px;
+  --icon-h: 100px;
+  top: -7px;
+  margin-top: -10px;
 }
 
 /* 
@@ -1020,20 +990,15 @@ growth-cell icon.destroyed-presence, growth-cell icon.destroy-presence {
 growth-cell icon.ignorerange {
   margin-bottom: 10px;
   margin-top: -10px;
-  height: 90px;
-  width: 100px;
 }
 
 growth-cell icon.gain-1-time,
 growth-cell icon.gain-2-time {
-  height: 100px;
-  width: 100px;
   margin-top: -17px;
 }
 
 growth-cell icon.make-fast {
   margin-bottom: 3px;
-  width: 90px;
 }
 
 custom-icon {
@@ -1058,15 +1023,11 @@ custom-icon {
 } */
 
 token-wrap > icon {
-  width: 40px;
-  height: 35px;
   margin-bottom: -3px;
   margin-left: 0px;
 }
 
 icon.your-land.add-token {
-  height: 56px;
-  width: 73px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1078,8 +1039,6 @@ icon.your-land.add-token icon {
 
 custom-icon.add-token icon.terrain-single {
   margin-top: 2px;
-  width: 45px;
-  height: 45px;
 }
 
 custom-icon.add-token icon.terrain-double {
@@ -1099,13 +1058,10 @@ custom-icon .destroyed-presence {
 
 custom-icon icon.presence {
   margin-left: 8px;
-  width: 43px;
-  height: 26px;
   margin-bottom: 0px;
 }
 
 icon.gain-card-modifier {
-  width: 50px;
   position: absolute;
   left: -10px;
   top: -33px;
@@ -1119,12 +1075,10 @@ icon.gain-card-modifier {
    art from the global element icon layer. */
 
 icon.gain-card-modifier.minor {
-  width: 42px;
 }
 
 icon.take-power-card icon.gain-card-modifier {
   left: 30px;
-  width: 40px;
 }
 
 div.gain-card-second-modifier {
@@ -1135,7 +1089,6 @@ div.gain-card-second-modifier {
 }
 
 div.gain-card-second-modifier icon {
-  width: 35px;
 }
 
 token-wrap {
@@ -1159,8 +1112,6 @@ replace-wrap {
 
 replace-wrap {
   icon {
-    height: 40px;
-    width: 40px;
     top: -3px;
   }
   icon:first-child {
@@ -1178,8 +1129,6 @@ icon.replace-this-no-range,
 icon.replace-with.presence,
 icon.replace-this.presence,
 icon.replace-this-no-range.presence {
-  height: 40px;
-  width: 40px;
   margin-bottom: 0px;
   margin-top: -5px;
   top: 10px;
@@ -1207,7 +1156,6 @@ icon.replace-this-no-range {
 }
 
 custom-icon icon.isolate {
-  width: 50px;
   margin-bottom: -10px;
 }
 
@@ -1259,8 +1207,6 @@ growth-text icon.wilds,
 growth-text icon.disease,
 growth-text icon.strife,
 growth-text icon.beasts {
-  width: 24px;
-  height: 24px;
   margin-bottom: -3px;
   margin-left: -4px;
   margin-right: -4px;
@@ -1299,11 +1245,10 @@ plus-text::after {
 growth-cell icon.gather-arrow {
   margin-bottom: 7px;
   background-image: url("../../images/board/half_arrow_gather.png");
+  --icon-ratio: var(--art-half-arrow-gather-ratio);
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
-  height: 70px;
-  height: 17px;
   margin-left: 45px;
   margin-top: -34px;
 }
@@ -1311,18 +1256,15 @@ growth-cell icon.gather-arrow {
 growth-cell icon.push-arrow {
   margin-bottom: 7px;
   background-image: url("../../images/board/half_arrow_push.png");
+  --icon-ratio: var(--art-half-arrow-push-ratio);
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
-  height: 70px;
-  height: 17px;
   margin-left: 45px;
   margin-top: -34px;
 }
 
 growth-cell icon.push {
-  height: 62px;
-  width: 100px;
 }
 
 growth-cell icon.push > icon {
@@ -1334,13 +1276,10 @@ growth-cell icon.push > icon {
 growth-cell icon.push-from > .from {
   left: 43px;
   top: 8px;
-  width: 25px;
 }
 
 growth-cell icon.push-from {
   display: inline-block;
-  height: 62px;
-  width: 100px;
   margin-bottom: 7px;
 }
 
@@ -1350,8 +1289,6 @@ growth-cell icon.push-from > icon {
   text-align: unset;
   left: 8px;
   top: -6px;
-  width: 30px;
-  height: 35px;
   margin: 0px;
   padding: 0px;
 }
@@ -1368,8 +1305,6 @@ growth-cell icon.gather-into > icon {
 
 growth-cell icon.gather-into {
   display: inline-block;
-  height: 62px;
-  width: 100px;
   margin: 0px;
 }
 
@@ -1379,8 +1314,6 @@ growth-cell icon.gather-into > icon {
   text-align: unset;
   left: 82px;
   top: 12px;
-  width: 30px;
-  height: 35px;
   margin: 0px;
   padding: 0px;
 }
@@ -1388,11 +1321,9 @@ growth-cell icon.gather-into > icon {
 growth-cell icon.gather-into > .into {
   left: 16px;
   top: 10px;
-  width: 35px;
 }
 
 growth-cell icon.gather-into > icon.explorer {
-  height: 35px;
   margin-top: -10px;
   margin-bottom: -6px;
 }
@@ -1413,8 +1344,6 @@ icon-holder {
 icon-holder icon {
   position: relative;
   display: inline-block;
-  width: 25px;
-  height: 25px;
   margin: 0px;
 }
 
@@ -1476,8 +1405,6 @@ growth-cost.custom {
 }
 
 growth-cost.custom > icon {
-  height: 45px;
-  width: 45px;
   display: block;
   position: relative;
 }
@@ -1515,8 +1442,6 @@ growth-cost.nonscaling::after {
 }
 
 growth-cost.nonscaling > icon {
-  height: 45px;
-  width: 45px;
 }
 
 growth-cost-custom-nonscaling-description {
@@ -1572,7 +1497,6 @@ growth-damage value {
 
 growth-damage icon {
   top: 5px;
-  width: 33px;
   filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
     drop-shadow(0px -1px 0px);
   color: #ead38d;
@@ -1580,8 +1504,6 @@ growth-damage icon {
 
 growth icon.damage-1,
 growth icon.damage-2 {
-  height: 80px;
-  width: 80px;
   margin-bottom: 17px;
 }
 
@@ -1673,8 +1595,6 @@ push-gather {
 push-gather-range-req icon.terrain-gather,
 push-gather icon.terrain-gather {
   display: inline-block;
-  height: 62px;
-  width: 108px;
   margin-right: 20px;
   margin-bottom: 0px;
   margin-top: 0px;
@@ -1684,8 +1604,6 @@ push-gather icon.terrain-gather {
 push-gather-range-req icon.terrain-push,
 push-gather icon.terrain-push {
   display: inline-block;
-  height: 62px;
-  width: 108px;
   margin-right: 0px;
   margin-bottom: 7px;
   margin-top: 0px;
@@ -1699,8 +1617,6 @@ push-gather icon.terrain-gather > icon {
   display: block;
   position: relative;
   text-align: unset;
-  width: 30px;
-  height: 25px;
   margin: 0px;
   padding: 0px;
 }
@@ -1711,8 +1627,6 @@ push-gather icon.terrain-push > icon {
   top: 18px;
   position: relative;
   text-align: unset;
-  width: 30px;
-  height: 25px;
   margin: 0px;
   padding: 0px;
 }
@@ -1729,8 +1643,6 @@ push-gather icon.terrain-gather > icon.gather-arrow {
   top: 33px;
   position: relative;
   text-align: unset;
-  width: 60px;
-  height: 25px;
   margin: 0px;
   padding: 0px;
 }
@@ -1741,8 +1653,6 @@ push-gather icon.terrain-push > icon.push-arrow {
   top: 38px;
   position: relative;
   text-align: unset;
-  width: 40px;
-  height: 25px;
   margin: 0px;
   padding: 0px;
 }
@@ -1786,8 +1696,6 @@ growth-cell icon.push icon-holder icon {
 }
 
 growth-cell gain icon.element {
-  height: 64px;
-  width: 64px;
   margin: -30px;
 }
 
@@ -1795,8 +1703,6 @@ growth-cell gain icon.star {
   background-repeat: no-repeat;
   background-size: contain;
   display: inline-block;
-  height: 87px;
-  width: 87px;
   margin-top: -3px;
   margin-bottom: 7px;
 }
@@ -1863,7 +1769,6 @@ icon-multi-element card-icon {
 }
 
 icon-multi-element icon.star {
-  width: 80px;
   margin-top: -10px;
   margin-left: -5px;
 }
@@ -1894,8 +1799,6 @@ gain-per value {
 }
 
 gain-per-element icon {
-  height: 50px;
-  width: 50px;
   z-index: 1;
   position: relative;
   margin-left: 0px;
@@ -1914,8 +1817,6 @@ gain-per-element icon.custom-icon {
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
-  height: 60px;
-  width: 50px;
   z-index: 0;
 }
 
@@ -1948,14 +1849,10 @@ custom-growth-icon {
 }
 
 custom-growth-icon icon.explorer {
-  width: 50px;
-  height: 70px;
   margin-top: 0px;
 }
 
 icon.custom-growth-icon {
-  width: 80px;
-  height: 90px;
   margin-top: 0px;
   margin-bottom: 7px;
   background-position: bottom;
@@ -1970,7 +1867,6 @@ custom-growth-icon > * {
 }
 
 icon.custom-growth-icon.wide-growth {
-  width: 200px;
 }
 
 custom-growth-icon.wide-growth > * {
@@ -2051,8 +1947,6 @@ gain-per-fear icon.custom-icon {
   background-repeat: no-repeat;
   background-size: contain;
   display: block;
-  height: 60px;
-  width: 60px;
   z-index: 0;
   margin-left: 0px;
   margin-top: 0px;
@@ -2060,14 +1954,6 @@ gain-per-fear icon.custom-icon {
 }
 
 /* gain-per-fear uses the simple element art via the global element layer. */
-
-icon.slow {
-  background-image: url("../../images/board/slow_power.png");
-}
-
-icon.fast {
-  background-image: url("../../images/board/fast_power.png");
-}
 
 /* Starlight Type Nonsense */
 board.starlight growth {
@@ -2119,23 +2005,15 @@ rumu-right {
 
 /* sizing */
 growth icon.huge {
-  width: 120px;
-  height: 120px;
 }
 
 growth icon.large {
-  width: 100px;
-  height: 100px;
 }
 
 growth icon.medium {
-  width: 60px;
-  height: 60px;
 }
 
 growth icon.small {
-  width: 42px;
-  height: 42px;
 }
 
 /* For adding presence relative to other presence */

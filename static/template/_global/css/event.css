@@ -1,3 +1,8 @@
+/* Icon size for this component. See the icon sizing engine in global.css. */
+:root {
+  --icon-h: 25px;
+}
+
 @font-face {
   font-family: JosefinSans-Regular;
   src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf) format("truetype");
@@ -430,8 +435,6 @@ event-line {
 }
 
 icon.element {
-  width: 25px;
-  height: 25px;
   margin-top: -7px;
   margin-bottom: -4px;
 }
@@ -440,14 +443,23 @@ icon.element {
    via the element icon layer in global.css. */
 :root {
   --el-sun: var(--el-simple-sun);
+  --el-sun-ratio: var(--el-simple-sun-ratio);
   --el-moon: var(--el-simple-moon);
+  --el-moon-ratio: var(--el-simple-moon-ratio);
   --el-fire: var(--el-simple-fire);
+  --el-fire-ratio: var(--el-simple-fire-ratio);
   --el-air: var(--el-simple-air);
+  --el-air-ratio: var(--el-simple-air-ratio);
   --el-plant: var(--el-simple-plant);
+  --el-plant-ratio: var(--el-simple-plant-ratio);
   --el-water: var(--el-simple-water);
+  --el-water-ratio: var(--el-simple-water-ratio);
   --el-earth: var(--el-simple-earth);
+  --el-earth-ratio: var(--el-simple-earth-ratio);
   --el-animal: var(--el-simple-animal);
+  --el-animal-ratio: var(--el-simple-animal-ratio);
   --el-any: var(--el-simple-any);
+  --el-any-ratio: var(--el-simple-any-ratio);
 }
 
 event-card ul {
@@ -457,8 +469,6 @@ event-card ul {
 }
 
 icon {
-  width: 25px;
-  height: 25px;
   margin-top: -7px;
   margin-bottom: -4px;
 }

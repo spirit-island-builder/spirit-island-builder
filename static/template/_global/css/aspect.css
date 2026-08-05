@@ -4,6 +4,39 @@
 @import "board_front/presence-track-table.css";
 @import "board_front/icon.css";
 
+/* Icon size for this component. See the icon sizing engine in global.css. */
+:root {
+  --icon-h: 25px;
+}
+
+/* Contexts in this sheet that want a different icon size. Values are the
+   ones measured before the sizing rework; calibrate freely. */
+aspect effect {
+  --icon-h: 27px;
+}
+
+aspect growth-cell {
+  --icon-h: 60px;
+}
+
+aspect innate-info {
+  --icon-h: 30px;
+}
+
+aspect threshold {
+  --icon-h: 38px;
+}
+
+/* Aspects use the power-speed art throughout (see global.css). This used to
+   arrive implicitly, via growth-options.css redefining icon.fast/.slow
+   unscoped. */
+:root {
+  --speed-fast: var(--speed-power-fast);
+  --speed-fast-ratio: var(--speed-power-fast-ratio);
+  --speed-slow: var(--speed-power-slow);
+  --speed-slow-ratio: var(--speed-power-slow-ratio);
+}
+
 @font-face {
   font-family: JosefinSans-Regular;
   src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf);
@@ -324,10 +357,9 @@ aspect-back-title {
 div.aspect-back-name {
   position: absolute;
   display: flex;
-  top: 77px;
+  top: 82px;
   left: 39px;
   width: 324px;
-  /* height: 31.33333px; */
 }
 
 aspect-back-name {
@@ -351,11 +383,10 @@ aspect-back-name {
 
 icon.or {
   background-image: url(../images/or.PNG);
+  --icon-ratio: var(--art-or-ratio);
   background-size: 45%;
   mix-blend-mode: multiply;
   display: block;
-  height: 25px;
-  width: 300px;
   background-repeat: no-repeat;
   background-position: center;
   margin-top: 5px;
@@ -455,8 +486,6 @@ aspect threshold {
 }
 
 aspect threshold icon {
-  height: 38px;
-  width: 38px;
 }
 
 aspect threshold-num {

@@ -1,3 +1,8 @@
+/* Icon size for this component. See the icon sizing engine in global.css. */
+:root {
+  --icon-h: 30px;
+}
+
 @font-face {
   font-family: JosefinSans-Regular;
   src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf) format("truetype");
@@ -208,8 +213,6 @@ invader-card-stitching-double {
 }
 
 icon {
-  width: 30px;
-  height: 30px;
   margin: 0px;
   background-position: bottom;
 }

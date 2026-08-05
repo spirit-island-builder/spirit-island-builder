@@ -11,6 +11,7 @@
     "lint": "eslint . --fix",
     "writeFormatAndLint": "prettier --write --plugin-search-dir=. . && eslint .",
     "svelteCheck": "svelte-check",
+    "genIconRatios": "node scripts/gen-icon-ratios.js",
     "testGrowth": "node tests/growth/run.js",
     "testGrowthUpdate": "node tests/growth/run.js --update"
   },

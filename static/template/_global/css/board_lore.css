@@ -1,3 +1,14 @@
+/* Icon size for this component. See the icon sizing engine in global.css. */
+:root {
+  --icon-h: 64px;
+}
+
+/* Contexts in this sheet that want a different icon size. Values are the
+   ones measured before the sizing rework; calibrate freely. */
+second-section-container {
+  --icon-h: 32px;
+}
+
 @font-face {
   font-family: JosefinSans-Regular;
   src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf);
@@ -138,8 +149,6 @@ setup-description {
 }
 
 second-section-container icon {
-  width: 32px;
-  height: 32px;
   margin-bottom: -9px;
   margin-left: 0px;
   margin-right: 0px;
@@ -148,7 +157,6 @@ second-section-container icon {
 }
 
 second-section-container icon.sacred-site {
-  width: 55px;
 }
 
 complexity {
@@ -353,8 +361,6 @@ td.uses-icon {
 
 icon.uses-icon {
   display: block;
-  width: 70px;
-  height: 70px;
   margin: auto;
 }
 
@@ -373,8 +379,6 @@ tr.note-row {
 /* Icon Stuff */
 icon {
   display: block;
-  width: 70px;
-  height: 70px;
   margin: auto;
 }
 

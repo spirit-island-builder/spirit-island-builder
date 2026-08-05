@@ -1,3 +1,22 @@
+/* Icon size for this section. See the icon sizing engine in global.css. */
+presence-tracks {
+  --icon-h: 40px;
+}
+
+/* Contexts in this sheet that want a different icon size. Values are the
+   ones measured before the sizing rework; calibrate freely. */
+presence-node {
+  --icon-h: 68px;
+}
+
+presence-node-multi {
+  --icon-h: 68px;
+}
+
+track-move-presence {
+  --icon-h: 31px;
+}
+
 /* presence-tracks section-title.has-note {
 } */
 
@@ -226,19 +245,14 @@ presence-node ring-icon {
 
 presence-node icon.reclaim-one {
   background-image: url("../../images/board/Reclaimone-white.png");
+  --icon-ratio: var(--art-reclaimone-white-ratio);
   display: block;
-  height: 90px;
-  width: 75px;
 }
 
 presence-node icon.star {
-  width: 80px;
-  height: 80px;
 }
 
 presence-node icon.empower-incarna {
-  width: 93px;
-  height: 99px;
   margin-bottom: 3px;
 }
 
@@ -252,13 +266,9 @@ presence-node icon.discard-1-card,
 presence-node icon.gain-card-play,
 presence-node icon.gain-card-play-blank,
 presence-node icon.take-power-card-blank {
-  height: 90px;
-  width: 90px;
 }
 
 presence-node icon.gain-card-pay-2 {
-  height: 130px;
-  width: 92px;
 }
 
 presence-node card-icon {
@@ -287,15 +297,12 @@ presence-node-multi card-icon {
 presence-node-multi icon.gain-card-play,
 presence-node-multi icon.gain-power-card,
 presence-node-multi icon.gain-power-card-blank {
-  height: 80px;
-  width: 80px;
   margin-left: -7px;
   margin-right: -5px;
   margin-top: -14px;
 }
 
 presence-node-multi icon.gain-power-card-blank icon {
-  width: 38px;
 }
 
 presence-node energy-icon {
@@ -340,7 +347,6 @@ presence-node icon.gain-range-1,
 presence-node icon.gain-range-2,
 presence-node icon.gain-range-3 {
   margin-bottom: 2px;
-  height: 78px;
 }
 
 icon.energy-blank {
@@ -364,28 +370,20 @@ presence-node-multi card-icon value {
 }
 
 presence-node icon {
-  width: 68px;
-  height: 68px;
 }
 
 presence-node icon.isolate,
 presence-node icon.custom-icon {
-  height: 90px;
-  width: 90px;
   margin-top: -3px;
 }
 
 presence-node-multi icon.custom-icon {
-  height: 65px;
-  width: 65px;
   margin-top: -3px;
 }
 
 presence-node icon.gather {
   left: -12px;
   top: 5px;
-  width: 112px;
-  height: 68px;
   position: relative;
   margin-right: 0px;
   display: flex;
@@ -396,36 +394,28 @@ presence-node icon.gather > icon {
   top: -7px;
   filter: drop-shadow(0px 0px 0px #ead38d) drop-shadow(0px 0px 0px #ead38d)
     drop-shadow(0px 0px 1px #ead38d) drop-shadow(0px 0px 1px #ead38d);
-  height: 90px;
 }
 
 presence-node icon.gain-card-play > icon {
   position: relative;
   left: -39px;
   top: -28px;
-  height: 40px;
-  width: 60px;
 }
 
 presence-node > icon.deep-layers {
   position: relative;
   left: -22px;
   top: -135px;
-  height: 40px;
-  width: 60px;
 }
 
 presence-node > icon.energy-deep-layers,
 presence-node > icon.card-deep-layers {
   position: relative;
-  height: 35px;
-  width: 60px;
   float: left;
   background-position: center;
 }
 
 presence-node > icon.energy-blank {
-  height: 50px;
   margin-top: -10px;
 }
 
@@ -452,27 +442,26 @@ ring-icon.deep-layers {
 }
 
 deep-layers {
-  left: 0px;
-  top: -3px;
-  transform: translateX(50%);
+  left: 16px;
+  top: 16px;
   position: absolute;
   z-index: 2;
   align-self: flex-start;
 }
 
+deep-layers > icon {
+  --icon-h: 37px;
+  position: absolute;
+  background-position: center;
+  transform: translate(-50%, -50%);
+}
+
 deep-layers > icon.energy-deep-layers,
 deep-layers > icon.card-deep-layers,
 deep-layers > icon.growth-empty-deep-layers {
-  position: absolute;
-  height: 37px;
-  width: 60px;
-  background-position: center;
-  left: -13px;
-  margin: 0px;
 }
 
 deep-layers > icon.energy-blank {
-  height: 55px;
   margin-top: -10px;
 }
 
@@ -501,14 +490,11 @@ presence-node-multi.add-shadow track-move-presence {
 }
 
 track-move-presence icon {
-  width: 40px;
-  height: 30px;
   margin: 0px;
   position: relative;
 }
 
 track-move-presence icon.move-arrow {
-  width: 80px;
 }
 
 track-move-presence move-value {
@@ -539,8 +525,6 @@ presence-node-multi {
 }
 
 presence-node div.push > icon {
-  width: 25px;
-  height: 25px;
 }
 
 icon-multi {
@@ -548,8 +532,6 @@ icon-multi {
 }
 
 custom-presence-track-icon icon {
-  width: 65px;
-  height: 65px;
   margin-top: 0px;
 }
 
@@ -611,8 +593,6 @@ element-or-wrap icon.presence-or-second {
 
 presence-node-multi element-or-wrap icon.presence-or-first,
 presence-node-multi element-or-wrap icon.presence-or-second {
-  width: 40px;
-  height: 40px;
   margin: 0px;
 }
 
@@ -627,34 +607,26 @@ presence-node-multi element-or-wrap icon.presence-or-second {
 }
 
 element-or-wrap icon.backslash {
-  width: 35px;
-  height: 94px;
   z-index: 2;
   margin: 0px;
 }
 
 presence-node-multi element-or-wrap icon.backslash {
-  width: 20px;
-  height: 55px;
 }
 
 presence-node add-move-lower icon {
   display: block;
   position: absolute;
   transform: translateX(-50%) translateY(-50%);
-  width: 40px;
-  height: 60px;
 }
 
 presence-node add-move-lower icon.add-move {
   left: 35%;
-  width: 40px;
   top: 85px;
 }
 
 presence-node add-move-lower icon.with-your {
   left: 65%;
-  width: 40px;
   top: 85px;
 }
 
@@ -732,9 +704,8 @@ tr.has-split-node.has-split-node-tight:not(:first-child) td {
 
 presence-node icon.or {
   background-image: url(../../images/board/backslash.png);
+  --icon-ratio: var(--art-backslash-ratio);
   background-size: cover;
-  width: 15px;
-  height: 32px;
   margin-bottom: 22px;
   margin-top: 26px;
 }
@@ -742,18 +713,12 @@ presence-node icon.or {
 presence-node icon.gain-power-card-blank {
   display: flex;
   justify-content: center;
-  height: 90px;
-  width: 90px;
 }
 
 icon.gain-power-card-blank > icon {
-  height: 45px;
-  width: 45px;
 }
 
 icon.take-power-card-blank > icon {
-  width: 40px;
-  height: 40px;
   position: absolute;
   left: 43px;
   top: 20px;
@@ -764,23 +729,15 @@ presence-tracks.shadow subtext {
 }
 
 presence-node icon.huge {
-  width: 110px !important;
-  height: 110px !important;
 }
 
 presence-node icon.large {
-  width: 80px !important;
-  height: 80px !important;
 }
 
 presence-node icon.medium {
-  width: 68px !important;
-  height: 68px !important;
 }
 
 presence-node icon.small {
-  width: 42px !important;
-  height: 42px !important;
 }
 
 presence-node.top-subtext {
@@ -851,14 +808,10 @@ presence-node .range-token {
 }
 
 presence-node .range-token icon.misc-plus {
-  width: 14px;
-  height: 14px;
   margin-bottom: 1px;
 }
 
 presence-node .range-token icon {
-  width: 40px;
-  height: 35px;
 }
 
 presence-node .range-token range-value {

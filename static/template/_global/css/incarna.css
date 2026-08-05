@@ -1,5 +1,16 @@
 @import "board_front/icon.css";
 
+/* Icon size for this component. See the icon sizing engine in global.css. */
+:root {
+  --icon-h: 50px;
+}
+
+/* Contexts in this sheet that want a different icon size. Values are the
+   ones measured before the sizing rework; calibrate freely. */
+incarna {
+  --icon-h: 41px;
+}
+
 @font-face {
   font-family: JosefinSans-Regular;
   src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf) format("truetype");
@@ -138,12 +149,11 @@ incarna.empowered glow {
 incarna icon.presence {
   position: absolute;
   background-image: url(../images/incarna/presence_noglow.png);
+  --icon-ratio: var(--art-presence-noglow-ratio);
   transform: translateX(-50%);
 }
 
 incarna icon {
-  width: 50px;
-  height: 50px;
   position: absolute;
 }
 
@@ -177,8 +187,6 @@ contrast-wrapper.presence {
 
 incarna icon.token {
   position: absolute;
-  width: 68px;
-  height: 46px;
   margin: 0px;
   transform: translateX(-50%);
   filter: contrast(0.4);
@@ -203,42 +211,48 @@ incarna.empowered icon.not-both {
 }
 
 incarna icon.incarna {
-  width: 96px;
-  height: 82px;
   transform: translateX(-50%);
 }
 
 incarna icon.sun {
   background-image: url("../images/board/element_simple_sun.png");
+  --icon-ratio: var(--art-element-simple-sun-ratio);
   filter: contrast(1) !important;
 }
 
 incarna icon.moon {
   background-image: url("../images/board/element_simple_moon.png");
+  --icon-ratio: var(--art-element-simple-moon-ratio);
   filter: contrast(1) !important;
 }
 incarna icon.fire {
   background-image: url("../images/board/element_simple_fire.png");
+  --icon-ratio: var(--art-element-simple-fire-ratio);
   filter: contrast(1) !important;
 }
 incarna icon.air {
   background-image: url("../images/board/element_simple_air.png");
+  --icon-ratio: var(--art-element-simple-air-ratio);
   filter: contrast(1) !important;
 }
 incarna icon.plant {
   background-image: url("../images/board/element_simple_plant.png");
+  --icon-ratio: var(--art-element-simple-plant-ratio);
   filter: contrast(1) !important;
 }
 incarna icon.water {
   background-image: url("../images/board/element_simple_water.png");
+  --icon-ratio: var(--art-element-simple-water-ratio);
   filter: contrast(1) !important;
 }
 incarna icon.earth {
   background-image: url("../images/board/element_simple_earth.png");
+  --icon-ratio: var(--art-element-simple-earth-ratio);
   filter: contrast(1) !important;
 }
 incarna icon.animal {
   background-image: url("../images/board/element_simple_animal.png");
+  --icon-ratio: var(--art-element-simple-animal-ratio);
   filter: contrast(1) !important;
 }
 incarna icon.star {
@@ -247,5 +261,6 @@ incarna icon.star {
 }
 incarna icon.any {
   background-image: url("../images/board/element_simple_any.png");
+  --icon-ratio: var(--art-element-simple-any-ratio);
   filter: contrast(1) !important;
 }

@@ -5,10 +5,9 @@ icon {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  width: 25px;
-  height: 25px;
-  margin-top: -7px;
-  margin-bottom: -4px;
+
+  margin: 0px;
+  vertical-align: text-bottom;
 }
 
 icon.none {
@@ -17,9 +16,8 @@ icon.none {
 
 icon.backslash {
   background-image: url("../../images/board/backslash.png");
+  --icon-ratio: var(--art-backslash-ratio);
   background-size: cover;
-  width: 8px;
-  height: 28px;
   margin-bottom: 22px;
   margin-left: -2px;
   margin-right: -2px;
@@ -28,33 +26,38 @@ icon.backslash {
 
 icon.invaders {
   background-image: url("../../images/board/invaders.png");
+  --icon-ratio: var(--art-invaders-ratio);
 }
 
 icon.move-presence {
   background-image: url("../../images/board/75px_presence.png");
+  --icon-ratio: var(--art-75px-presence-ratio);
   display: block;
-  height: 18px;
   margin-top: 4px;
   margin-bottom: 8px;
 }
 
 icon.move-range-1 {
   background-image: url("../../images/board/move_range_1.png");
+  --icon-ratio: var(--art-move-range-1-ratio);
   display: block;
 }
 
 icon.move-range-2 {
   background-image: url("../../images/board/move_range_2.png");
+  --icon-ratio: var(--art-move-range-2-ratio);
   display: block;
 }
 
 icon.move-range-3 {
   background-image: url("../../images/board/move_range_3.png");
+  --icon-ratio: var(--art-move-range-3-ratio);
   display: block;
 }
 
 icon.move-range-4 {
   background-image: url("../../images/board/move_range_4.png");
+  --icon-ratio: var(--art-move-range-4-ratio);
   display: block;
 }
 
@@ -62,8 +65,6 @@ icon.move-range-1,
 icon.move-range-2,
 icon.move-range-3,
 icon.move-range-4 {
-  height: 55px;
-  width: 133px;
   margin-top: 5px;
   margin-bottom: 7px;
 }
@@ -72,7 +73,12 @@ icon.range-0,
 icon.range-1,
 icon.range-2,
 icon.range-3,
-icon.range-4,
+icon.range-4 {
+  margin-top: 0px;
+  display: inline-block;
+}
+
+/* A zero-width spacer, not art - keeps an explicit box. */
 icon.range-any {
   height: 45px;
   width: 130px;
@@ -91,13 +97,10 @@ icon.gain-range-X,
 icon.gain-range-1,
 icon.gain-range-2,
 icon.gain-range-3 {
-  width: 100px;
 }
 
 icon.resilience,
 icon.vitality {
-  width: 30px;
-  height: 30px;
   margin-bottom: -8px;
   margin-left: -3px;
   margin-right: -3px;
@@ -107,8 +110,7 @@ icon.player-spirit,
 icon.player,
 icon.spirit {
   background-image: url("../../images/board/player-spirit.png");
-  width: 30px;
-  height: 30px;
+  --icon-ratio: var(--art-player-spirit-ratio);
 }
 
 icon.move-presence-1,
@@ -116,8 +118,6 @@ icon.move-presence-2,
 icon.move-presence-3,
 icon.move-presence-4 {
   display: block;
-  height: 75px;
-  width: 130px;
   margin-top: 0px;
   margin-left: -3px;
   margin-bottom: 8px;
@@ -125,19 +125,24 @@ icon.move-presence-4 {
 
 icon.move-presence-1 {
   background-image: url("../../images/board/move_presence_1.png");
+  --icon-ratio: var(--art-move-presence-1-ratio);
 }
 icon.move-presence-2 {
   background-image: url("../../images/board/move_presence_2.png");
+  --icon-ratio: var(--art-move-presence-2-ratio);
 }
 icon.move-presence-3 {
   background-image: url("../../images/board/move_presence_3.png");
+  --icon-ratio: var(--art-move-presence-3-ratio);
 }
 icon.move-presence-4 {
   background-image: url("../../images/board/move_presence_4.png");
+  --icon-ratio: var(--art-move-presence-4-ratio);
 }
 
 icon.presence-ring {
   background-image: url("../../images/board/CardPlayRing.png");
+  --icon-ratio: var(--art-card-play-ring-ratio);
 }
 
 icon.no-blight {
@@ -148,6 +153,7 @@ icon.no-blight {
 
 icon.energy-blank {
   background-image: url("../../images/board/EnergyBlank.png");
+  --icon-ratio: var(--art-energy-blank-ratio);
 }
 
 icon.energy-blank value {
@@ -160,8 +166,6 @@ icon.your-land {
   background-repeat: no-repeat;
   background-size: contain;
   display: inline-block;
-  height: 67px;
-  width: 105px;
   margin-right: 0px;
   margin-bottom: -6px;
 }
@@ -172,30 +176,24 @@ icon.your-land > icon.custom-icon {
   text-align: unset;
   top: 17px;
   left: 29px;
-  width: 30px;
-  height: 25px;
   margin: 0px;
   padding: 0px;
 }
 
 icon.your-land > icon.misc-plus {
   left: 27px;
-  width: 14px;
 }
 
 icon.misc-plus {
   background-image: url("../../images/board/NewIcons/Misc Gain.png");
+  --icon-ratio: var(--art-misc-gain-ratio);
   background-repeat: no-repeat;
   background-size: contain;
   display: inline-block;
-  width: 30px;
-  height: 25px;
 }
 
 icon.gather {
   display: inline-block;
-  height: 62px;
-  width: 100px;
   margin-right: 0px;
   margin-bottom: 0px;
 }
@@ -205,16 +203,12 @@ icon.gather > icon {
   text-align: unset;
   top: 17px;
   left: 24px;
-  width: 30px;
-  height: 25px;
   margin: 0px;
   padding: 0px;
 }
 
 icon.push {
   display: inline-block;
-  height: 68px;
-  width: 110px;
   margin-bottom: 7px;
   margin-bottom: 0px;
   margin-left: 4px;
@@ -225,8 +219,6 @@ icon.push > icon {
   text-align: center;
   top: 17px;
   left: 24px;
-  width: 25px;
-  height: 30px;
   margin: 0px;
   padding: 0px;
 }
@@ -240,32 +232,23 @@ icon.push > div.push {
 }
 
 div.push > icon {
-  width: 25px;
-  height: 25px;
   margin: 0px;
   padding: 0px;
 }
 
 div.push > icon.incarna {
-  height: 40px;
-  width: 50px;
   margin-top: -10px;
 }
 
 div.push > icon.explorer {
   margin-top: -5px;
-  width: 28px;
-  height: 30px;
 }
 
 div.push > icon.backslash {
-  width: 10px;
 }
 
 icon.push > icon.backslash {
-  width: 10px;
 }
 
 icon.blank75 {
-  width: 75px;
 }
