@@ -34,7 +34,7 @@
 <presence-req>
 <span class="non-icon">INLAND</span>
 </presence-req>{range-4}</custom-presence-req>
-<growth-text>Add a Presence to Inland Land </growth-text>
+<growth-text>Add a Presence to Inland Land</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border double="">

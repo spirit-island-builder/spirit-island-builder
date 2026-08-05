@@ -25,7 +25,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>
-<span style="font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;">
+<span class="presence-text-spacer">
 </span>
 </presence-req>{range-2}</custom-presence-req>
 <growth-text>Add a Presence to a land shown on the Ravage card</growth-text>

@@ -43,7 +43,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{no-blight}</presence-req>{range-3}</custom-presence-req>
-<growth-text>Add a Presence to Land without Blight </growth-text>
+<growth-text>Add a Presence to Land without Blight</growth-text>
 </growth-cell>
 </growth-group>
 </growth-table>

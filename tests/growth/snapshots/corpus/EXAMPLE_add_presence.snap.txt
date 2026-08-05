@@ -39,7 +39,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{wetland-sands}</presence-req>{range-1}</custom-presence-req>
-<growth-text>Add a Presence to Sands or Wetland </growth-text>
+<growth-text>Add a Presence to Sands or Wetland</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a1">
 <custom-presence-req>
@@ -50,7 +50,7 @@
 <range-growth-any>
 </range-growth-any>
 </custom-presence-req>
-<growth-text>Add a Presence to any Mountain  or Land with Badlands</growth-text>
+<growth-text>Add a Presence to any Mountain or Land with Badlands</growth-text>
 </growth-cell>
 </growth-group>
 </growth-table>

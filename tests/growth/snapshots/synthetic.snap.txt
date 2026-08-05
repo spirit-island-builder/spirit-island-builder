@@ -363,7 +363,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{jungle}</presence-req>{range-1}</custom-presence-req>
-<growth-text>Add a Presence to Jungle </growth-text>
+<growth-text>Add a Presence to Jungle</growth-text>
 </growth-cell>
 </growth-group>
 
@@ -374,7 +374,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{jungle} or {wetland}</presence-req>{range-1}</custom-presence-req>
-<growth-text>Add a Presence to Jungle  or Wetland </growth-text>
+<growth-text>Add a Presence to Jungle or Wetland</growth-text>
 </growth-cell>
 </growth-group>
 
@@ -385,7 +385,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{sands} and {mountain}</presence-req>{range-1}</custom-presence-req>
-<growth-text>Add a Presence to Sands  and Mountain </growth-text>
+<growth-text>Add a Presence to Sands and Mountain</growth-text>
 </growth-cell>
 </growth-group>
 
@@ -398,7 +398,7 @@
 <presence-req>
 <span class='non-icon'>COASTAL</span>
 </presence-req>{range-2}</custom-presence-req>
-<growth-text>Add a Presence to Coastal Land </growth-text>
+<growth-text>Add a Presence to Coastal Land</growth-text>
 </growth-cell>
 </growth-group>
 
@@ -409,7 +409,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{no-presence}</presence-req>{range-1}</custom-presence-req>
-<growth-text>Add a Presence to Land without Own Presence </growth-text>
+<growth-text>Add a Presence to Land without Own Presence</growth-text>
 </growth-cell>
 </growth-group>
 
@@ -434,8 +434,7 @@
 <growth-cell id='s0g0a0'>
 <custom-presence-req>
 <custom-presence-or>
-<plus-presence>+{presence}</plus-presence>{backslash}{badlands}</custom-presence-or>
-</presence-req>{range-1}</custom-presence-req>
+<plus-presence>+{presence}</plus-presence>{backslash}{badlands}</custom-presence-or>{range-1}</custom-presence-req>
 <growth-text>Add a Presence or a Badlands</growth-text>
 </growth-cell>
 </growth-group>
@@ -472,7 +471,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>
-<span style='font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;'>
+<span class='presence-text-spacer'>
 </span>
 </presence-req>{range-2}</custom-presence-req>
 <growth-text>Add a Presence anywhere on the island</growth-text>
@@ -1431,7 +1430,7 @@
 <presence-req>{jungle}</presence-req>{range-1}</custom-presence-req>
 </ring-icon>
 </presence-node>
-<growth-text>Add a Presence to Jungle </growth-text>
+<growth-text>Add a Presence to Jungle</growth-text>
 </growth-cell>
 </growth-group>
 
@@ -2345,7 +2344,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{jungle}</presence-req>{range-1}</custom-presence-req>
-<growth-text>Add a Presence to Jungle </growth-text>
+<growth-text>Add a Presence to Jungle</growth-text>
 </growth-cell>
 </growth-group>
 

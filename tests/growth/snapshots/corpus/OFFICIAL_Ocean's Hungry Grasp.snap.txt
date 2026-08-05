@@ -31,7 +31,7 @@
 <range-growth-any>
 </range-growth-any>
 </custom-presence-req>
-<growth-text>Add a Presence to any Ocean </growth-text>
+<growth-text>Add a Presence to any Ocean</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
 <custom-presence-req>
@@ -42,7 +42,7 @@
 <range-growth-any>
 </range-growth-any>
 </custom-presence-req>
-<growth-text>Add a Presence to any Ocean </growth-text>
+<growth-text>Add a Presence to any Ocean</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a2">
 <growth-energy>
@@ -62,7 +62,7 @@
 <presence-req>
 <span class="non-icon">COASTAL</span>
 </presence-req>{range-1}</custom-presence-req>
-<growth-text>Add a Presence to Coastal Land </growth-text>
+<growth-text>Add a Presence to Coastal Land</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a2">
 <push-gather>

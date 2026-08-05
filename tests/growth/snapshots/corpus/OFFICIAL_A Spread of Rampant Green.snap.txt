@@ -20,7 +20,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{wetland-jungle}</presence-req>{range-2}</custom-presence-req>
-<growth-text>Add a Presence to Wetland or Jungle </growth-text>
+<growth-text>Add a Presence to Wetland or Jungle</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border double="">

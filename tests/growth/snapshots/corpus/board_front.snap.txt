@@ -40,7 +40,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{ocean}</presence-req>{range-2}</custom-presence-req>
-<growth-text>Add a Presence to Ocean </growth-text>
+<growth-text>Add a Presence to Ocean</growth-text>
 </growth-cell>
 <growth-cell id="s1g0a1">
 <gain>
@@ -58,7 +58,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{mountain-jungle}</presence-req>{range-3}</custom-presence-req>
-<growth-text>Add a Presence to Mountain or Jungle </growth-text>
+<growth-text>Add a Presence to Mountain or Jungle</growth-text>
 </growth-cell>
 <growth-cell id="s1g1a1">
 <custom-icon>{presence}<move-growth>

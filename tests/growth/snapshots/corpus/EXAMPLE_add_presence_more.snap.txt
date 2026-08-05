@@ -22,7 +22,7 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>
-<span style="font-family: DK Snemand; font-size: 24pt; line-height: 24pt; font-style: normal;">
+<span class="presence-text-spacer">
 </span>
 </presence-req>{range-2}</custom-presence-req>
 <growth-text>Add a Presence to a land shown on the Ravage card</growth-text>
@@ -40,7 +40,7 @@
 <presence-req>
 <span class="non-icon">COASTAL</span>
 </presence-req>{range-2}</custom-presence-req>
-<growth-text>Add a Presence to Coastal Land </growth-text>
+<growth-text>Add a Presence to Coastal Land</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a5">
 <custom-presence-req>
@@ -48,7 +48,7 @@
 <presence-req>
 <span class="non-icon">INLAND</span>
 </presence-req>{range-4}</custom-presence-req>
-<growth-text>Add a Presence to Inland Land </growth-text>
+<growth-text>Add a Presence to Inland Land</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border>
@@ -58,13 +58,13 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{no-disease} and {no-blight}</presence-req>{range-2}</custom-presence-req>
-<growth-text>Add a Presence to Land without Disease  and no Blight </growth-text>
+<growth-text>Add a Presence to Land without Disease and Blight</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{no-presence}</presence-req>{range-4}</custom-presence-req>
-<growth-text>Add a Presence to Land without Own Presence </growth-text>
+<growth-text>Add a Presence to Land without Own Presence</growth-text>
 </growth-cell>
 </growth-group>
 </growth-table>

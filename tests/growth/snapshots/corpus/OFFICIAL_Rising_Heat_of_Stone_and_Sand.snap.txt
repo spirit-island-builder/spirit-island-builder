@@ -20,13 +20,13 @@
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{mountain-sands}</presence-req>{range-3}</custom-presence-req>
-<growth-text>Add a Presence to Mountain or Sands </growth-text>
+<growth-text>Add a Presence to Mountain or Sands</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
 <custom-presence-req>
 <plus-presence>+{presence}</plus-presence>
 <presence-req>{mountain-sands}</presence-req>{range-3}</custom-presence-req>
-<growth-text>Add a Presence to Mountain or Sands </growth-text>
+<growth-text>Add a Presence to Mountain or Sands</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border>
