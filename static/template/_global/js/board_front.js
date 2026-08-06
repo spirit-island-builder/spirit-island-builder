@@ -7451,11 +7451,31 @@ function tagSectionHeadings() {
   }
 }
 
+// Where each non-default imgplacement value mounts. Special rules mount
+// inside <special-rules-container>, not the <special-rules> holder that
+// buildSpecialRules creates, so the art paints above
+// <special-rules-background> (a holder child outside the container's
+// stacking context).
+const _overlayPlacements = {
+  "special-rules": "special-rules-container",
+  "growth": "growth",
+  "presence-tracks": "presence-tracks",
+  "innate-powers": "innate-powers",
+};
+
 function addCustomOverlayImages(board) {
   const overlayImages = Array.from(board.querySelectorAll("overlay-image"));
   overlayImages.forEach((image) => {
     let overlayContainer = document.createElement("overlay-container");
-    board.appendChild(overlayContainer);
+    const sectionTag = _overlayPlacements[image.getAttribute("imgplacement")];
+    const section = sectionTag ? board.querySelector(sectionTag) : null;
+    if (section) {
+      // Behind the section's text and icons, in front of its background.
+      overlayContainer.classList.add("behind");
+      section.appendChild(overlayContainer);
+    } else {
+      board.appendChild(overlayContainer);
+    }
     overlayContainer.appendChild(image);
     image.style.top = image.getAttribute("imgy") + "px";
     image.style.left = image.getAttribute("imgx") + "px";

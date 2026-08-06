@@ -348,6 +348,9 @@
       overlayImage.setAttribute("imgy", image.y);
       overlayImage.setAttribute("imgwidth", image.w);
       overlayImage.setAttribute("imgheight", image.h);
+      if (image.placement) {
+        overlayImage.setAttribute("imgplacement", image.placement);
+      }
       board.appendChild(overlayImage);
     });
 
@@ -595,6 +598,7 @@
         y: image.getAttribute("imgy", image.y),
         w: image.getAttribute("imgwidth", image.w),
         h: image.getAttribute("imgheight", image.h),
+        placement: image.getAttribute("imgplacement") || "",
       });
     });
   }

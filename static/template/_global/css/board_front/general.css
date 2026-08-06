@@ -253,6 +253,14 @@ overlay-container {
   position: absolute;
   display: block;
   z-index: 100;
+  pointer-events: none;
+}
+
+/* Section placements: below the section's own text and icons, above its
+   background art. -1 ties with innate-powers-background; the overlay is
+   appended after it, so DOM order keeps the overlay on top. */
+overlay-container.behind {
+  z-index: -1;
 }
 
 board.flipboard {
