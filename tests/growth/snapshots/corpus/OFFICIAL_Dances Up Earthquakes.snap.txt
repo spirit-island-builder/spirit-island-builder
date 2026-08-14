@@ -2,27 +2,33 @@
 <section-title>Growth (Pick One)</section-title>
 <growth-table>
 <growth-group>
-<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+<growth-cell id="s0g0a0">
+<cell-icons>{reclaim-all}</cell-icons>
+<growth-text>Reclaim Cards</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a1">
-<growth-cell-double>
-<cell-icons class="add-presence plain">
-<icon-row class="plus">+{presence}</icon-row>{range-2}</cell-icons>or<icon class="gain-power-card">
+<cell-icons class="choice">
+<cell-icons class="add-presence">
+<icon-row class="plus">+{presence}</icon-row>{range-2}</cell-icons>or<cell-icons>
+<icon class="gain-power-card">
                             <icon class="major gain-card-modifier">
 </icon>
 <div class="gain-card-second-modifier">{noforget}</div>
 </icon>
-</growth-cell-double>
+</cell-icons>
+</cell-icons>
 <growth-text>Add a Presence or Gain Major Power Card without Forgetting</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border>
 </growth-border>
 <growth-group>
-<growth-cell id="s0g1a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s0g1a0">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
-<cell-icons class="add-presence plain">
+<cell-icons class="add-presence">
 <icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
@@ -31,15 +37,17 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g2a0">
-<cell-icons class="add-presence plain">
+<cell-icons class="add-presence">
 <icon-row class="plus">+{presence}</icon-row>{range-3}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a1">
-<custom-growth-icon class="wide-growth">{custom8}</custom-growth-icon>
+<cell-icons class="custom wide">{custom8}</cell-icons>
 <growth-text>Gain +/-1 Energy on up to 2 Impending Power Cards this turn</growth-text>
 </growth-cell>
-<growth-cell id="s0g2a2">{reclaim-one}<growth-text>Reclaim One</growth-text>
+<growth-cell id="s0g2a2">
+<cell-icons>{reclaim-one}</cell-icons>
+<growth-text>Reclaim One</growth-text>
 </growth-cell>
 </growth-group>
 </growth-table>

@@ -3,43 +3,55 @@
 <growth-table>
 <growth-group>
 <growth-cell id="s0g0a0">
+<cell-icons>
 <gain>
 <icon class="element air">
 </icon>
 </gain>
+</cell-icons>
 <growth-text>Gain Air</growth-text>
 </growth-cell>
-<growth-cell id="s0g0a1">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+<growth-cell id="s0g0a1">
+<cell-icons>{reclaim-all}</cell-icons>
+<growth-text>Reclaim Cards</growth-text>
 </growth-cell>
-<growth-cell id="s0g0a2">{gain-2-time}<growth-text>Gain 2 Time</growth-text>
+<growth-cell id="s0g0a2">
+<cell-icons>{gain-2-time}</cell-icons>
+<growth-text>Gain 2 Time</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border>
 </growth-border>
 <growth-group>
 <growth-cell id="s0g1a0">
+<cell-icons>
 <gain>
 <icon class="element moon">
 </icon>
 </gain>
+</cell-icons>
 <growth-text>Gain Moon</growth-text>
 </growth-cell>
-<growth-cell id="s0g1a1">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s0g1a1">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a2">
-<cell-icons class="add-presence plain">
+<cell-icons class="add-presence">
 <icon-row class="plus">+{presence}</icon-row>{range-2}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a3">
-<growth-cell-double>
-<repeat-wrapper>
-<repeat-growth>
+<cell-icons class="choice">
+<cell-icons>
+<badge class="repeat">
 <value>2</value>
-</repeat-growth>{gain-1-time}</repeat-wrapper>or<card-play-num>
+</badge>{gain-1-time}</cell-icons>or<cell-icons>
+<badge class="plays">
 <value>2</value>
-</card-play-num>
-</growth-cell-double>
+</badge>
+</cell-icons>
+</cell-icons>
 <growth-text>x2: Gain 1 Time or  +2 Card Plays this turn</growth-text>
 </growth-cell>
 </growth-group>
@@ -47,32 +59,34 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g2a0">
+<cell-icons>
 <gain>
 <icon class="element sun">
 </icon>
 </gain>
+</cell-icons>
 <growth-text>Gain Sun</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a1">
-<custom-icon>{presence}<move-growth>
-<value>
-          4
-          </value>
-</move-growth>
-</custom-icon>
+<cell-icons class="stack move-presence">
+<icon-row class="tokens">{presence}</icon-row>{range-4}</cell-icons>
 <growth-text>Move a Presence</growth-text>
 </growth-cell>
-<growth-cell id="s0g2a2">{days-never-were}<growth-text>Gain Power Card from Days That Never Were</growth-text>
+<growth-cell id="s0g2a2">
+<cell-icons>{days-never-were}</cell-icons>
+<growth-text>Gain Power Card from Days That Never Were</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a3">
-<growth-cell-double>
-<repeat-wrapper>
-<repeat-growth>
+<cell-icons class="choice">
+<cell-icons>
+<badge class="repeat">
 <value>3</value>
-</repeat-growth>{gain-1-time}</repeat-wrapper>or<growth-energy>
+</badge>{gain-1-time}</cell-icons>or<cell-icons>
+<badge class="energy">
 <value>2</value>
-</growth-energy>
-</growth-cell-double>
+</badge>
+</cell-icons>
+</cell-icons>
 <growth-text>x3: Gain 1 Time or Gain Energy</growth-text>
 </growth-cell>
 </growth-group>

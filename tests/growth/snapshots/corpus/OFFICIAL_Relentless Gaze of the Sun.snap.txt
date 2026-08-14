@@ -19,7 +19,7 @@
 <tint class="tint" style="background-color:red;">
 </tint>
 <growth-cell id="s0g0a0">
-<cell-icons class="add-presence plain">
+<cell-icons class="add-presence">
 <icon-row class="plus">+{presence}</icon-row>{range-2}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
@@ -27,40 +27,34 @@
 <growth-border double="">
 </growth-border>
 <growth-group header="1">
-<growth-cell id="s1g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+<growth-cell id="s1g0a0">
+<cell-icons>{reclaim-all}</cell-icons>
+<growth-text>Reclaim Cards</growth-text>
 </growth-cell>
 <growth-cell id="s1g0a1">
-<custom-icon class="add-token">
-<token-wrap>+{destroyed-presence}{destroyed-presence}{destroyed-presence}</token-wrap>
-<range-growth>
-<value>1</value>
-</range-growth>
-</custom-icon>
+<cell-icons class="stack add-token">
+<icon-row class="tokens">+{destroyed-presence}{destroyed-presence}{destroyed-presence}</icon-row>{range-1}</cell-icons>
 <growth-text>Add up to 3 Destroyed Presence together</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border header="1">
 </growth-border>
 <growth-group header="1">
-<growth-cell id="s1g1a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s1g1a0">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border header="1">
 </growth-border>
 <growth-group header="1">
 <growth-cell id="s1g2a0">
-<custom-growth-icon class="wide-growth">{custom1}</custom-growth-icon>
+<cell-icons class="custom wide">{custom1}</cell-icons>
 <growth-text>Gain Energy an Additional Time</growth-text>
 </growth-cell>
 <growth-cell id="s1g2a1">
-<custom-icon>
-<token-wrap>{presence}{presence}{presence}</token-wrap>
-<move-growth>
-<value>
-          3
-          </value>
-</move-growth>
-</custom-icon>
+<cell-icons class="stack move-presence">
+<icon-row class="tokens">{presence}{presence}{presence}</icon-row>{range-3}</cell-icons>
 <growth-text>Move up to 3 Presence together</growth-text>
 </growth-cell>
 </growth-group>

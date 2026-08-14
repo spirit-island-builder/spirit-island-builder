@@ -19,9 +19,11 @@
 <tint class="tint" style="background-color:purple;">
 </tint>
 <growth-cell id="s0g0a0">
-<growth-fear>
+<cell-icons>
+<badge class="fear">
 <value>2</value>
-</growth-fear>
+</badge>
+</cell-icons>
 <growth-text>Generate Fear</growth-text>
 </growth-cell>
 </growth-group>
@@ -29,42 +31,36 @@
 </growth-border>
 <growth-group header="1">
 <growth-cell id="s1g0a0">
-<growth-cell-double>
-<fear-per>
+<cell-icons class="combo">
+<badge class="fear per">
 <value>1</value>
-</fear-per>
-<gain-per-fear>
-<ring-icon>{moon}</ring-icon>
-</gain-per-fear>
-</growth-cell-double>
+</badge>
+<ring-icon class="per fear">{moon}</ring-icon>
+</cell-icons>
 <growth-text>Generate 1 Fear per Moon Showing</growth-text>
 </growth-cell>
 <growth-cell id="s1g0a1">
-<growth-cell-double>
-<growth-fear>
+<cell-icons class="combo">
+<badge class="fear">
 <value>3</value>
-</growth-fear>
-<fear-per>
+</badge>
+<badge class="fear per">
 <value>2</value>
-</fear-per>
-<gain-per-fear>
-<ring-icon>{air}</ring-icon>
-</gain-per-fear>
-</growth-cell-double>
+</badge>
+<ring-icon class="per fear">{air}</ring-icon>
+</cell-icons>
 <growth-text>Generate 3 Fear and +2 more per Air Showing</growth-text>
 </growth-cell>
 <growth-cell id="s1g0a2">
-<growth-cell-double>
-<growth-fear>
+<cell-icons class="combo">
+<badge class="fear">
 <value>4</value>
-</growth-fear>
-<fear-per>
+</badge>
+<badge class="fear per">
 <value>1</value>
-</fear-per>
-<gain-per-fear>
-<ring-icon>{sacred-site}</ring-icon>
-</gain-per-fear>
-</growth-cell-double>
+</badge>
+<ring-icon class="per fear">{sacred-site}</ring-icon>
+</cell-icons>
 <growth-text>Generate 4 Fear and +1 more per Sacred Site</growth-text>
 </growth-cell>
 </growth-group>
@@ -72,14 +68,12 @@
 </growth-border>
 <growth-group header="1">
 <growth-cell id="s1g1a0">
-<growth-cell-double>
-<fear-per>
+<cell-icons class="combo">
+<badge class="fear per">
 <value>1</value>
-</fear-per>
-<gain-per-fear>
-<ring-icon>{fear}</ring-icon>
-</gain-per-fear>
-</growth-cell-double>
+</badge>
+<ring-icon class="per fear">{fear}</ring-icon>
+</cell-icons>
 <growth-text>Generate 1 Fear per by fear itself [custom text &amp; icon]</growth-text>
 </growth-cell>
 </growth-group>

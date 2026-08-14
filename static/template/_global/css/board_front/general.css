@@ -141,11 +141,6 @@ spirit-image-holder {
   font-size: 24px;
 }
 
-range {
-  width: 50px;
-  margin-top: -10px;
-}
-
 range-plus-1 {
   background-image: url("../../images/board/range_plus_1.png");
 }

@@ -770,7 +770,7 @@ presence-node.right-subtext subtext {
   right: 0px;
 }
 
-presence-node card-play-num {
+presence-node badge.plays {
   width: 90px;
   height: 90px;
   margin: 0px;
@@ -780,7 +780,7 @@ presence-node card-play-num {
   left: 3px;
 }
 
-presence-node card-play-num value {
+presence-node badge.plays value {
   display: block;
   position: absolute;
   margin: 0px;
@@ -788,7 +788,7 @@ presence-node card-play-num value {
   top: 29px;
 }
 
-presence-node-multi card-play-num {
+presence-node-multi badge.plays {
   height: 80px;
   width: 80px;
   margin-left: -15px;
@@ -796,7 +796,7 @@ presence-node-multi card-play-num {
   margin-top: -8px;
 }
 
-presence-node-multi card-play-num value {
+presence-node-multi badge.plays value {
   font-size: 32px;
   top: 27px;
 }

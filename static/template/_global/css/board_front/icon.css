@@ -17,11 +17,7 @@ icon.none {
 icon.backslash {
   background-image: url("../../images/board/backslash.png");
   --icon-ratio: var(--art-backslash-ratio);
-  background-size: cover;
-  margin-bottom: 22px;
-  margin-left: -2px;
-  margin-right: -2px;
-  margin-top: 37px;
+  background-size: contain;
 }
 
 icon.invaders {
@@ -193,16 +189,13 @@ icon.misc-plus {
 }
 
 icon.gather {
-  display: inline-block;
-  margin-right: 0px;
-  margin-bottom: 0px;
 }
 
 icon.gather > icon {
   position: relative;
   text-align: unset;
-  top: 17px;
-  left: 24px;
+  top: -8px;
+  left: 90px;
   margin: 0px;
   padding: 0px;
 }

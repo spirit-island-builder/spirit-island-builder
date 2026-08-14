@@ -461,7 +461,7 @@ function writeGrowthErrorCell(growthAction, setIndex = 0, groupIndex = 0, action
   const growthActionID = `s${setIndex}g${groupIndex}a${actionIndex}`;
   return (
     `<growth-cell${attrHTML("id", growthActionID)}>` +
-    `<custom-growth-icon><div class='custom-scaling'></div></custom-growth-icon>` +
+    `<cell-icons class="custom"><div class='custom-scaling'></div></cell-icons>` +
     `<growth-text>error in: ${escapeHTML(growthAction)}</growth-text>` +
     `</growth-cell>`
   );
@@ -517,7 +517,7 @@ function writeGrowthAction(growthAction, setIndex = 0, groupIndex = 0, actionInd
 
   //Handle Ors
   if (isOr) {
-    growthIcons = `<growth-cell-double>${growthIcons}</growth-cell-double>`;
+    growthIcons = `<cell-icons class="choice">${growthIcons}</cell-icons>`;
   }
 
   //Check for blanks & relax constraint on growth-text if so
@@ -600,14 +600,14 @@ function getGrowthActionTextAndIcons(growthAction, nodeID = "s0g0a0") {
     const repeat = modifiers.split("^")[1];
     if (!isNaN(repeat)) {
       // Normal repeat
-      repeatOpen = `<repeat-growth><value>${repeat}</value></repeat-growth>`;
+      repeatOpen = `<badge class="repeat"><value>${repeat}</value></badge>`;
       repeatText = `x${repeat}: `;
     } else if (repeat.startsWith("cost(")) {
       // Energy Cost (syntax ^cost(-2) )
       const matches = _innerParenRegex.exec(repeat);
       if (matches) {
         let energy_cost = matches[1];
-        repeatOpen = `<repeat-growth class='energy-cost'><value>-${energy_cost}</value></repeat-growth>`;
+        repeatOpen = `<badge class="repeat cost"><value>-${energy_cost}</value></badge>`;
         repeatText = `You may pay ${energy_cost} Energy to `;
       } else {
         repeatText = "";
@@ -644,9 +644,22 @@ function getGrowthActionTextAndIcons(growthAction, nodeID = "s0g0a0") {
     growthText = IconName(growthActionType);
   }
 
-  //Handle Repeats
+  // The invariant cell structure is <growth-cell><cell-icons/><growth-text/>:
+  // every action's icons end as exactly one <cell-icons> root. Renderers that
+  // emit their own (with mode classes) pass through; presence-node/track
+  // cells get the .node escape (board hardware, taller than the standard
+  // band); everything else — bare icons, badges, <gain> — gets the bare band.
+  growthIcons = growthIcons.trim();
+  if (!growthIcons.startsWith("<cell-icons")) {
+    const isNodeCell = /^<(split-)?presence-(node|track)\b/.test(growthIcons);
+    growthIcons = `<cell-icons${isNodeCell ? ' class="node"' : ""}>${growthIcons}</cell-icons>`;
+  }
+
+  // Handle Repeats — the badge rides inside the cell-icons root, absolutely
+  // positioned, so it adds no width (see the repeat contract in
+  // renderer-css-improvement-plan.md).
   if (repeatText) {
-    growthIcons = "<repeat-wrapper>" + repeatOpen + growthIcons + "</repeat-wrapper>";
+    growthIcons = growthIcons.replace(">", ">" + repeatOpen);
     growthText = repeatText + growthText;
   }
 
@@ -869,7 +882,10 @@ const GROWTH_ACTION_RENDERERS = {
     return [growthIcons, growthText];
   },
   "gain-card-pay-2"(growthAction, growthActionType) {
-    return [`<custom-icon>{${growthActionType}}</custom-icon>`, IconName(growthActionType)];
+    return [
+      `<cell-icons class="stack gain-card-pay-2">{${growthActionType}}</cell-icons>`,
+      IconName(growthActionType),
+    ];
   },
   "take-power-card": _renderGainPowerCard,
   "gain-power-card": _renderGainPowerCard,
@@ -882,9 +898,9 @@ const GROWTH_ACTION_RENDERERS = {
     if (matches) {
       let isolateOptions = _splitOptions(matches[1]);
       let isolateRange = isolateOptions[0];
-      isolateReqOpen = "<custom-icon>";
-      isolateReqClose = "</custom-icon>";
-      isolateIcons += `<range-growth><value>${isolateRange}</value></range-growth>`;
+      isolateReqOpen = '<cell-icons class="stack isolate">';
+      isolateReqClose = "</cell-icons>";
+      isolateIcons += `{range-${isolateRange}}`;
     }
     growthIcons = isolateReqOpen + isolateIcons + isolateReqClose;
     let isolateText = IconName(growthAction);
@@ -898,17 +914,13 @@ const GROWTH_ACTION_RENDERERS = {
     let range = damageOptions[0];
     let damage = damageOptions[1];
     if (isNaN(damage)) {
-      growthIcons = `<custom-icon><growth-damage>
+      growthIcons = `<cell-icons class="stack damage"><badge class="damage">
           {${damage}}
-          </growth-damage><range-growth>
-          <value>${range}</value>
-          </range-growth></custom-icon>`;
+          </badge>{range-${range}}</cell-icons>`;
     } else {
-      growthIcons = `<custom-icon><growth-damage>
+      growthIcons = `<cell-icons class="stack damage"><badge class="damage">
           <value>${damage}</value>
-          </growth-damage><range-growth>
-          <value>${range}</value>
-          </range-growth></custom-icon>`;
+          </badge>{range-${range}}</cell-icons>`;
     }
     let damageText = IconName(growthAction);
     growthText = damageText;
@@ -916,19 +928,11 @@ const GROWTH_ACTION_RENDERERS = {
   },
   "gain-energy"(growthAction) {
     const matches = _outerParenRegex.exec(growthAction);
-    return getScalingGainTextAndIcons(
-      matches[1],
-      { flat: "growth-energy", per: "gain-per", perElement: "gain-per-element" },
-      "gain-energy"
-    );
+    return getScalingGainTextAndIcons(matches[1], "energy", "gain-energy");
   },
   "fear"(growthAction) {
     const matches = _innerParenRegex.exec(growthAction);
-    return getScalingGainTextAndIcons(
-      matches[1],
-      { flat: "growth-fear", per: "fear-per", perElement: "gain-per-fear" },
-      "growth-fear"
-    );
+    return getScalingGainTextAndIcons(matches[1], "fear", "growth-fear");
   },
   "add-presence": _renderAddPresence,
   "add-presence-custom"(growthAction) {
@@ -954,7 +958,7 @@ const GROWTH_ACTION_RENDERERS = {
     if (matches) {
       const cardplayOptions = _splitOptions(matches[1]);
       const num_card_plays = cardplayOptions[0];
-      growthIcons = `<card-play-num><value>${num_card_plays}</value></card-play-num>`;
+      growthIcons = `<badge class="plays"><value>${num_card_plays}</value></badge>`;
     }
     growthText = IconName("growth-" + growthAction);
     return [growthIcons, growthText];
@@ -1016,44 +1020,45 @@ const GROWTH_ACTION_RENDERERS = {
     let incarnaRangeOrToken = incarnaOptions[1] !== undefined ? incarnaOptions[1] : 0;
     let customIncarnaIcon = incarnaOptions[2] !== undefined ? incarnaOptions[2] : "incarna";
     switch (incarnaAction) {
-      case "move":
-        if (incarnaRangeOrToken.toLocaleLowerCase() === "any") {
-          incarnaRangeOrToken = "<textvalue>ANY</textvalue>";
-        } else {
-          incarnaRangeOrToken = "<value>" + incarnaRangeOrToken + "</value>";
-        }
+      case "move": {
+        // "any" has no brace token ({range-any} is the any-element icon), so
+        // that one arrow is written by hand.
+        const moveArrow =
+          incarnaRangeOrToken.toLocaleLowerCase() === "any"
+            ? '<range class="range"><textvalue>ANY</textvalue></range>'
+            : `{range-${incarnaRangeOrToken}}`;
         growthIcons =
-          '<custom-icon2><icon class="incarna move ' +
+          '<cell-icons class="stack incarna-move"><icon class="incarna move ' +
           customIncarnaIcon +
           '"></icon>' +
-          "<move-growth>" +
-          incarnaRangeOrToken +
-          "</move-growth></custom-icon2>";
+          moveArrow +
+          "</cell-icons>";
         break;
+      }
       case "empower":
         growthIcons = "{empower-incarna}";
         break;
       case "add-move":
         growthIcons =
-          '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
+          '<cell-icons class="stack incarna-add-move"><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
           customIncarnaIcon +
           '"></icon><icon class="' +
           incarnaRangeOrToken +
-          ' with-your"></icon></add-move-lower></custom-icon>';
+          ' with-your"></icon></add-move-lower></cell-icons>';
         break;
       case "replace":
         growthIcons =
-          `<custom-icon><icon class="incarna with-incarna ${customIncarnaIcon}">` +
+          `<cell-icons class="stack incarna-replace"><icon class="incarna with-incarna ${customIncarnaIcon}">` +
           `{no-${incarnaRangeOrToken}}</icon>` +
-          `</custom-icon>`;
+          `</cell-icons>`;
         break;
       case "add-token":
         growthIcons =
-          '<custom-icon><add-token-upper>+<icon class="add-token ' +
+          '<cell-icons class="stack incarna-add-token"><add-token-upper>+<icon class="add-token ' +
           incarnaRangeOrToken +
           '"></icon></add-token-upper><add-token-lower><icon class="incarna ' +
           customIncarnaIcon +
-          '"></icon></add-token-lower></custom-icon>';
+          '"></icon></add-token-lower></cell-icons>';
         break;
       default:
     }
@@ -1069,31 +1074,22 @@ const GROWTH_ACTION_RENDERERS = {
     const moveOptions = _splitOptions(matches[1]);
     let moveRange = moveOptions[0];
     let moveText = IconName(`growth-${growthAction}`);
-    let moveIcons = "";
-    if (isNaN(moveRange)) {
-      moveRange = `{${moveRange}}`;
-    }
-    if (!moveOptions[1]) {
-      // Move presence range X
-      moveIcons = `<custom-icon>{presence}<move-growth><value>
-          ${moveRange}
-          </value></move-growth></custom-icon>`;
-    } else if (!isNaN(moveOptions[1])) {
+    // {range-N} takes non-numeric ranges too (the expander's range-icon path),
+    // so moveRange goes in raw.
+    // The pieces being moved sit in one <icon-row class="tokens"> above the
+    // arrow, whether one presence, several, or presence + token.
+    let movedPieces = "{presence}";
+    if (moveOptions[1] && !isNaN(moveOptions[1])) {
       // Move X presence together
-      moveIcons = "<custom-icon><token-wrap>";
-      for (let i = 0; i < moveOptions[1]; i++) {
-        moveIcons += "{presence}";
-      }
-      moveIcons += `</token-wrap><move-growth><value>
-          ${moveRange}
-          </value></move-growth></custom-icon>`;
-    } else {
+      movedPieces = "{presence}".repeat(moveOptions[1]);
+    } else if (moveOptions[1]) {
       // Move presence + token together
-      moveIcons = `<custom-icon>
-        <token-wrap>{presence}<icon class="${moveOptions[1]} token"></icon></token-wrap>
-        <move-growth><value>${moveRange}</value></move-growth>
-        </custom-icon>`;
+      movedPieces = `{presence}<icon class="${moveOptions[1]} token"></icon>`;
     }
+    const moveIcons =
+      `<cell-icons class="stack move-presence">` +
+      `<icon-row class="tokens">${movedPieces}</icon-row>` +
+      `{range-${moveRange}}</cell-icons>`;
 
     growthIcons = moveIcons;
     growthText = moveText;
@@ -1113,7 +1109,7 @@ const GROWTH_ACTION_RENDERERS = {
         //Icons
         let elementIcons = "<gain class='or'>";
         for (let i = 0; i < elementOptions.length; i++) {
-          elementIcons += `<icon class='orelement element ${elementOptions[i]}'></icon>`;
+          elementIcons += `<icon class='element ${elementOptions[i]}'></icon>`;
           if (i < elementOptions.length - 1) {
             elementIcons += "{backslash}";
           }
@@ -1162,7 +1158,7 @@ const GROWTH_ACTION_RENDERERS = {
         blankWidth = blankOptions;
       }
     }
-    return [`<custom-growth-icon style='max-width:${blankWidth}px;'></custom-growth-icon>`, ""];
+    return [`<cell-icons class="custom" style='max-width:${blankWidth}px;'></cell-icons>`, ""];
   },
   "custom": _renderCustom,
   "custom-wide": _renderCustom,
@@ -1184,13 +1180,13 @@ const GROWTH_ACTION_RENDERERS = {
     }
     let tokenRange = "";
     if (range !== "any") {
-      tokenRange = `<range-growth><value>${range}</value></range-growth>`;
+      tokenRange = `{range-${range}}`;
       if (DEBUG) {
         console.log("token range isn't any");
       }
     }
-    let tokenReqOpen = `<custom-icon class="add-token">`;
-    let tokenReqClose = "</custom-icon>";
+    let tokenReqOpen = `<cell-icons class="stack add-token">`;
+    let tokenReqClose = "</cell-icons>";
     let tokenIcons = "";
     let tokenConditional = "";
     let operator = tokenOptions.at(-1);
@@ -1240,9 +1236,9 @@ const GROWTH_ACTION_RENDERERS = {
     }
     growthIcons =
       tokenReqOpen +
-      "<token-wrap>" +
+      '<icon-row class="tokens">' +
       tokenIcons +
-      "</token-wrap>" +
+      "</icon-row>" +
       tokenConditional +
       tokenRange +
       tokenReqClose;
@@ -1265,18 +1261,18 @@ const GROWTH_ACTION_RENDERERS = {
     iconNameVars += "," + replaceOptions[shift] + "," + replaceOptions[shift + 1];
     if (x_is_num) {
       // Ranged replace
-      replaceIcons = `<custom-icon><replace-wrap class="no-range">
+      replaceIcons = `<cell-icons class="stack replace"><icon-row class="replace">
           {no-${replaceOptions[shift]}}
           &#9658;{${replaceOptions[shift + 1]}}
-          </replace-wrap>
-          <range-growth><value>${range}</value></range-growth>
-          </custom-icon>`;
+          </icon-row>
+          {range-${range}}
+          </cell-icons>`;
     } else {
       // Local replace
-      replaceIcons = `<custom-icon><replace-wrap class="no-range">
+      replaceIcons = `<cell-icons class="stack replace"><icon-row class="replace">
           {no-${replaceOptions[shift]}}
           &#9658;{${replaceOptions[shift + 1]}}
-          </replace-wrap></custom-icon>`;
+          </icon-row></cell-icons>`;
     }
     return [replaceIcons, IconName(`replace(${iconNameVars})`)];
   },
@@ -1288,7 +1284,7 @@ const GROWTH_ACTION_RENDERERS = {
     for (let i = 0; i < num; i++) {
       destroyIcons += "{destroyed-presence}";
     }
-    destroyIcons = `<destroy-wrap>${destroyIcons}</destroy-wrap>`;
+    destroyIcons = `<icon-row class="destroy">${destroyIcons}</icon-row>`;
     return [destroyIcons, IconName(growthAction)];
   },
   "ignore-range"(growthAction, growthActionType) {
@@ -1300,13 +1296,14 @@ const GROWTH_ACTION_RENDERERS = {
 // tag names wrapping the flat and scaling (per-X) icons. Options are, in order:
 // an optional flat amount (0 = none), optionally "text" followed by custom text,
 // then an optional scaling entity and scaling amount.
-function getScalingGainTextAndIcons(optionsString, tags, iconNamePrefix) {
+// resource is the badge art class: "energy" or "fear".
+function getScalingGainTextAndIcons(optionsString, resource, iconNamePrefix) {
   const options = _splitOptions(optionsString);
   let manyIconOpen = "";
   let manyIconClose = "";
   if (isNaN(options[0]) || options.length !== 1) {
-    manyIconOpen = "<growth-cell-double>";
-    manyIconClose = "</growth-cell-double>";
+    manyIconOpen = '<cell-icons class="combo">';
+    manyIconClose = "</cell-icons>";
   }
   let gainIcons = "";
   let x_is_num = !isNaN(options[0]);
@@ -1338,14 +1335,14 @@ function getScalingGainTextAndIcons(optionsString, tags, iconNamePrefix) {
   let iconNamevars = "0";
   // Flat gain
   if (x_is_flat) {
-    gainIcons = `<${tags.flat}><value>${flatValue}</value></${tags.flat}>`;
+    gainIcons = `<badge class="${resource}"><value>${flatValue}</value></badge>`;
     iconNamevars = flatValue + "";
   }
 
   // Scaling gain
   if (scaling_entity || has_custom_text) {
-    gainIcons += `<${tags.per}><value>${scaling_value}</value></${tags.per}>`;
-    gainIcons += `<${tags.perElement}><ring-icon>${customScalingIcon}</ring-icon></${tags.perElement}>`;
+    gainIcons += `<badge class="${resource} per"><value>${scaling_value}</value></badge>`;
+    gainIcons += `<ring-icon class="per ${resource}">${customScalingIcon}</ring-icon>`;
     iconNamevars += "," + scaling_value + "," + scaling_entity;
     iconNamevars += has_custom_text ? "," + custom_text : "";
   }
@@ -1374,64 +1371,58 @@ function _renderGainPowerCard(growthAction, growthActionType) {
   return [growthIcons, growthText];
 }
 
-// Shared by push and gather, which differ in preposition and icon classes.
+// Shared by push and gather. Emits one <piece-move> scene: a land, the moved
+// pieces in an <icon-row class="pieces">, and — for terrain compositions
+// only — a separate half-arrow. The default land is the canonical Spirit
+// Island scene art (icon.land-push / icon.land-gather, arrow baked in);
+// token/board conditions overlay the land inside it.
 function _renderPushGather(growthAction, growthActionType) {
-  let growthIcons, growthText;
   const matches = _innerParenRegex.exec(growthAction);
 
-  let preposition = growthActionType === "push" ? "from" : "into";
-  let moveOptions = _splitOptions(matches[1]);
-  let moveTarget = isNaN(moveOptions[0]) ? moveOptions[0] : moveOptions[1];
-  let targetHTML = `{${moveTarget}}`;
-  if (moveTarget.includes("/")) {
-    // "Or" targets
-    let moveTargets = moveTarget.split("/");
-    targetHTML = "<icon-holder>";
-    moveTargets.forEach((target) => {
-      targetHTML += `{${target}}/`;
-    });
-    targetHTML = targetHTML.slice(0, -1); // Remove the last "/"
-    targetHTML = targetHTML.replaceAll("/", `{backslash}`);
-    targetHTML += "</icon-holder>";
-  }
-  let moveRange = isNaN(moveOptions[0]) ? 0 : moveOptions[0];
-  let moveTag = moveRange > 0 ? "push-gather-range-req" : "push-gather";
-  let rangeHTML = moveRange > 0 ? `<range-growth><value>${moveRange}</value></range-growth>` : ``;
+  const moveOptions = _splitOptions(matches[1]);
+  const moveTarget = isNaN(moveOptions[0]) ? moveOptions[0] : moveOptions[1];
+  const moveRange = isNaN(moveOptions[0]) ? 0 : moveOptions[0];
+  const moveClass = moveRange > 0 ? "stack push-gather with-range" : "stack push-gather";
+  const rangeHTML = moveRange > 0 ? `{range-${moveRange}}` : ``;
+  const shift = moveRange > 0 ? 1 : 0;
+
   let moveCondition;
   let iconNum = 1;
-  let moveArrowOrCondition = ``;
-  let landClass = growthActionType;
-  let shift = moveRange > 0 ? 1 : 0;
+  let landHTML = `<icon class="land-${growthActionType}"></icon>`;
   if (moveOptions[1 + shift]) {
-    if (DEBUG) {
-      console.log("conditions discovered");
-    }
     moveCondition = moveOptions[1 + shift];
     if (!isNaN(moveCondition)) {
       iconNum = moveCondition;
       moveCondition = ``;
-    } else if (terrains.has(moveCondition)) {
-      landClass = `${moveCondition} terrain-${growthActionType}`;
-      moveArrowOrCondition = `{${growthActionType}-arrow}`;
+    } else if (terrainDouble.has(moveCondition)) {
+      landHTML = `<icon class="${moveCondition} terrain-double">{${growthActionType}-arrow}</icon>`;
+    } else if (terrainSingle.has(moveCondition)) {
+      landHTML = `<icon class="${moveCondition} terrain-single">{${growthActionType}-arrow}</icon>`;
     } else {
-      landClass = `${growthActionType}-${preposition}`;
-      moveArrowOrCondition = `<icon class="${preposition} ${moveCondition}"></icon>`;
+      landHTML = `<icon class="land-${growthActionType}">{${moveCondition}}</icon>`;
     }
     if (moveOptions[2 + shift]) {
       iconNum = moveOptions[2 + shift];
     }
   }
 
-  if (iconNum > 1) {
-    targetHTML = `<icon-holder>`;
-    for (let i = 0; i < iconNum; i++) {
-      targetHTML += `<icon class="${moveTarget}"></icon>`;
-    }
-    targetHTML += `</icon-holder>`;
+  let piecesHTML = `{${moveTarget}}`;
+  if (moveTarget.includes("/")) {
+    // "Or" targets, joined by the backslash icon
+    piecesHTML = moveTarget
+      .split("/")
+      .map((target) => `{${target}}`)
+      .join("{backslash}");
+  } else if (iconNum > 1) {
+    piecesHTML = `{${moveTarget}}`.repeat(iconNum);
   }
 
-  growthIcons = `<${moveTag}><icon class="${landClass}">${moveArrowOrCondition}${targetHTML}</icon>${rangeHTML}</${moveTag}>`;
-  growthText = IconName(
+  const growthIcons =
+    `<cell-icons class="${moveClass}">` +
+    `<piece-move class="${growthActionType}">${landHTML}` +
+    `<icon-row class="pieces">${piecesHTML}</icon-row></piece-move>` +
+    `${rangeHTML}</cell-icons>`;
+  const growthText = IconName(
     `${growthActionType}(${moveRange},${moveTarget},${moveCondition},${iconNum})`
   );
   return [growthIcons, growthText];
@@ -1462,9 +1453,11 @@ function _renderGainLoseRange(growthAction, growthActionType) {
   let rangeOptions = _splitOptions(matches[1]);
   let range = rangeOptions[0];
   if (range < 0 || growthActionType.includes("lose")) {
-    growthIcons = `<growth-range>{lose-range-${Math.abs(range)}}</growth-range>`;
+    growthIcons = `<cell-icons class="stack gain-range">{lose-range-${Math.abs(
+      range
+    )}}</cell-icons>`;
   } else {
-    growthIcons = `<growth-range>{gain-range-${range}}</growth-range>`;
+    growthIcons = `<cell-icons class="stack gain-range">{gain-range-${range}}</cell-icons>`;
   }
   return [growthIcons, IconName(`growth-${growthAction}`)];
 }
@@ -1475,7 +1468,7 @@ function _renderCustom(growthAction, growthActionType) {
   let customOptions = _splitOptions(matches[1]);
   let customIcon = customOptions[1];
   let customText = customOptions[0];
-  let isWide = growthActionType === "custom-wide" ? "wide-growth" : "";
+  let isWide = growthActionType === "custom-wide" ? " wide" : "";
   let listIcons = "";
   if (customIcon) {
     if (customIcon === "text") {
@@ -1489,7 +1482,7 @@ function _renderCustom(growthAction, growthActionType) {
   } else {
     customIcon = "<div class='custom-scaling'></div>";
   }
-  return [`<custom-growth-icon class='${isWide}'>${customIcon}</custom-growth-icon>`, customText];
+  return [`<cell-icons class='custom${isWide}'>${customIcon}</cell-icons>`, customText];
 }
 
 // Parsed shape of an add-presence action, shared by the two renderers that need
@@ -1628,10 +1621,12 @@ function _parseAddPresenceReqs(options, start) {
 }
 
 // The icons for one land-requirement list, without the <presence-req> wrapper.
+// A 3+ 'or' list joins with the backslash icon (the text side keeps "/");
+// the 3+ 'and' list stays a text "&".
 function _addPresenceReqsIcons(presenceOptions) {
   const operator = presenceOptions.symbolic
     ? presenceOptions.isOr
-      ? "/"
+      ? "{backslash}"
       : "&"
     : " " + IconName(presenceOptions.operatorWord) + " ";
 
@@ -1704,11 +1699,14 @@ function _renderAddPresence(growthAction) {
   let innerHTML;
   switch (presenceOptions.mode) {
     case "plain":
-      artClasses = "plain";
+      // The bare add-presence(N) form: base cell-icons geometry, no mode class.
+      artClasses = "";
       innerHTML = plusRow() + rangeHTML;
       break;
     case "any":
-      artClasses = "any";
+      // add-presence(any): base geometry too — the absent range element is
+      // what distinguishes it, not a class.
+      artClasses = "";
       innerHTML = plusRow();
       break;
     case "text": {
@@ -1781,7 +1779,8 @@ function _renderAddPresence(growthAction) {
         rangeHTML;
   }
 
-  const growthIcons = `<cell-icons class="add-presence ${artClasses}">${innerHTML}</cell-icons>`;
+  const classAttr = artClasses ? `add-presence ${artClasses}` : "add-presence";
+  const growthIcons = `<cell-icons class="${classAttr}">${innerHTML}</cell-icons>`;
   return [growthIcons, IconName(growthAction)];
 }
 
@@ -2883,11 +2882,11 @@ function getPresenceNodeInnerHTML(
           case "add-move":
             addMoveHelper = incarnaOptions[1] ? incarnaOptions[1] : "presence";
             inner =
-              '<custom-icon><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
+              '<cell-icons class="stack incarna-add-move"><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
               customIncarnaIcon +
               '"></icon><icon class="' +
               addMoveHelper +
-              ' with-your"></icon></add-move-lower></custom-icon>';
+              ' with-your"></icon></add-move-lower></cell-icons>';
             break;
           default:
             inner = "{empower-incarna}";
@@ -2998,7 +2997,7 @@ function getPresenceNodeInnerHTML(
       case "gain-card-play": {
         const matches = regExp.exec(fullOption);
         const gainPlays = matches ? matches[1] : 1;
-        inner = "<card-play-num><value>" + gainPlays + "</value></card-play-num>";
+        inner = '<badge class="plays"><value>' + gainPlays + "</value></badge>";
         addEnergyRing = false;
         break;
       }

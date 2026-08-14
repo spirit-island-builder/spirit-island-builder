@@ -3,9 +3,13 @@
 <growth-table>
 <growth-group>
 <growth-cost>-1</growth-cost>
-<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+<growth-cell id="s0g0a0">
+<cell-icons>{reclaim-all}</cell-icons>
+<growth-text>Reclaim Cards</growth-text>
 </growth-cell>
-<growth-cell id="s0g0a1">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s0g0a1">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border>
@@ -21,12 +25,16 @@
 <growth-border>
 </growth-border>
 <growth-group>
-<growth-cell id="s0g2a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s0g2a0">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a1">
-<growth-energy>
+<cell-icons>
+<badge class="energy">
 <value>1</value>
-</growth-energy>
+</badge>
+</cell-icons>
 <growth-text>Gain Energy</growth-text>
 </growth-cell>
 </growth-group>
@@ -34,9 +42,11 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g3a0">
-<growth-energy>
+<cell-icons>
+<badge class="energy">
 <value>3</value>
-</growth-energy>
+</badge>
+</cell-icons>
 <growth-text>Gain Energy</growth-text>
 </growth-cell>
 </growth-group>

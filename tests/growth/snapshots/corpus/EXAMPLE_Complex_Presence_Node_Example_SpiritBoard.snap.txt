@@ -2,17 +2,17 @@
 <section-title>Growth (Pick One)</section-title>
 <growth-table>
 <growth-group new-row="true">
-<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+<growth-cell id="s0g0a0">
+<cell-icons>{reclaim-all}</cell-icons>
+<growth-text>Reclaim Cards</growth-text>
 </growth-cell>
-<growth-cell id="s0g0a1">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s0g0a1">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a2">
-<custom-icon>{presence}<move-growth>
-<value>
-          1
-          </value>
-</move-growth>
-</custom-icon>
+<cell-icons class="stack move-presence">
+<icon-row class="tokens">{presence}</icon-row>{range-1}</cell-icons>
 <growth-text>Move a Presence</growth-text>
 </growth-cell>
 </growth-group>
@@ -20,12 +20,12 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g1a0">
-<cell-icons class="add-presence plain">
+<cell-icons class="add-presence">
 <icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
-<cell-icons class="add-presence plain">
+<cell-icons class="add-presence">
 <icon-row class="plus">+{presence}</icon-row>{range-0}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
@@ -33,17 +33,21 @@
 <growth-border>
 </growth-border>
 <growth-group>
-<growth-cell id="s0g2a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s0g2a0">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a1">
-<cell-icons class="add-presence plain">
+<cell-icons class="add-presence">
 <icon-row class="plus">+{presence}</icon-row>{range-2}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a2">
-<growth-energy>
+<cell-icons>
+<badge class="energy">
 <value>1</value>
-</growth-energy>
+</badge>
+</cell-icons>
 <growth-text>Gain Energy</growth-text>
 </growth-cell>
 </growth-group>

@@ -16,20 +16,28 @@
 </sub-section-title>
 <growth-table>
 <growth-group header="0">
-<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+<growth-cell id="s0g0a0">
+<cell-icons>{reclaim-all}</cell-icons>
+<growth-text>Reclaim Cards</growth-text>
 </growth-cell>
-<growth-cell id="s0g0a1">{reclaim-one}<growth-text>Reclaim One</growth-text>
+<growth-cell id="s0g0a1">
+<cell-icons>{reclaim-one}</cell-icons>
+<growth-text>Reclaim One</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border double="">
 </growth-border>
 <growth-group header="1">
-<growth-cell id="s1g0a0">{reclaim-half}<growth-text>Reclaim Half <em>(round up)</em>
+<growth-cell id="s1g0a0">
+<cell-icons>{reclaim-half}</cell-icons>
+<growth-text>Reclaim Half <em>(round up)</em>
 </growth-text>
 </growth-cell>
 <growth-cell id="s1g0a1">
+<cell-icons>
 <icon class="reclaim-one modified-reclaim">
                 {air}</icon>
+</cell-icons>
 <growth-text>Reclaim One Card with Air</growth-text>
 </growth-cell>
 </growth-group>
@@ -40,15 +48,19 @@
 </growth-cost-custom-nonscaling-description>
 </growth-cost>
 <growth-cell id="s1g1a0">
+<cell-icons>
 <icon class="discard-card">
 <icon class="discard-element fire">
 </icon>
 </icon>
+</cell-icons>
 <growth-text>Discard a Power Card with fire</growth-text>
 </growth-cell>
 <growth-cell id="s1g1a1">
+<cell-icons>
 <icon class="reclaim-all modified-reclaim">
                 {fire}</icon>
+</cell-icons>
 <growth-text>Reclaim All Cards with Fire</growth-text>
 </growth-cell>
 </growth-group>

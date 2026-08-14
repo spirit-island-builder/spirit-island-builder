@@ -3,11 +3,11 @@
 <growth-table>
 <growth-group>
 <growth-cell id="s0g0a0">
-<custom-growth-icon class="">{dahan}</custom-growth-icon>
+<cell-icons class="custom">{dahan}</cell-icons>
 <growth-text>Add a Dahan to your Lands</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a1">
-<custom-growth-icon class="">{dahan}{dahan}</custom-growth-icon>
+<cell-icons class="custom">{dahan}{dahan}</cell-icons>
 <growth-text>Add a Two Dahan to your Lands</growth-text>
 </growth-cell>
 </growth-group>
@@ -15,10 +15,10 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g1a0">
-<custom-growth-icon class="">
+<cell-icons class="custom">
 <div class="custom-scaling">
 </div>
-</custom-growth-icon>
+</cell-icons>
 <growth-text>Push a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
@@ -41,7 +41,7 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g2a0">
-<custom-growth-icon class="">{custom1}</custom-growth-icon>
+<cell-icons class="custom">{custom1}</cell-icons>
 <growth-text>Check out the header section of the HTML for using custom icons</growth-text>
 </growth-cell>
 </growth-group>

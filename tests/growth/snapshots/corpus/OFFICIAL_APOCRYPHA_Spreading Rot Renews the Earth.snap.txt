@@ -4,12 +4,16 @@
 <growth-group>
 <growth-cost class="custom">{custom1}<value>-2</value>
 </growth-cost>
-<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+<growth-cell id="s0g0a0">
+<cell-icons>{reclaim-all}</cell-icons>
+<growth-text>Reclaim Cards</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a1">
-<growth-energy>
+<cell-icons>
+<badge class="energy">
 <value>1</value>
-</growth-energy>
+</badge>
+</cell-icons>
 <growth-text>Gain Energy</growth-text>
 </growth-cell>
 </growth-group>
@@ -28,7 +32,9 @@
 <growth-border>
 </growth-border>
 <growth-group>
-<growth-cell id="s0g2a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s0g2a0">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border>
@@ -36,13 +42,16 @@
 <growth-group>
 <growth-cost class="custom nonscaling">{forget-power-card}<growth-cost-custom-nonscaling-description>Cost: Forget a Power Card from Discard</growth-cost-custom-nonscaling-description>
 </growth-cost>
-<growth-cell id="s0g3a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s0g3a0">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g3a1">
-<custom-growth-icon class="">{custom1}{custom1}</custom-growth-icon>
+<cell-icons class="custom">{custom1}{custom1}</cell-icons>
 <growth-text>Gain 2 Rot</growth-text>
 </growth-cell>
 <growth-cell id="s0g3a2">
+<cell-icons>
 <gain>
 <icon-multi-element>
 <icon class="element moon" style="transform: translateY(-20.33272076910734px) translateX(-29.518307304544262px)">
@@ -61,6 +70,7 @@
 </icon>
 </icon-multi-element>
 </gain>
+</cell-icons>
 <growth-text>Gain Moon, Water, Earth and Plant</growth-text>
 </growth-cell>
 </growth-group>

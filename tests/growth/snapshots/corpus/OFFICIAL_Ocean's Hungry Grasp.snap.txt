@@ -2,20 +2,29 @@
 <section-title>Growth (Pick One)</section-title>
 <growth-table>
 <growth-group>
-<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+<growth-cell id="s0g0a0">
+<cell-icons>{reclaim-all}</cell-icons>
+<growth-text>Reclaim Cards</growth-text>
 </growth-cell>
-<growth-cell id="s0g0a1">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s0g0a1">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a2">
-<push-gather>
-<icon class="ocean terrain-gather">{gather-arrow}{presence}</icon>
-</push-gather>
+<cell-icons class="stack push-gather">
+<piece-move class="gather">
+<icon class="ocean terrain-double">{gather-arrow}</icon>
+<icon-row class="pieces">{presence}</icon-row>
+</piece-move>
+</cell-icons>
 <growth-text>Gather 1 Presence into Each Ocean</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a3">
-<growth-energy>
+<cell-icons>
+<badge class="energy">
 <value>2</value>
-</growth-energy>
+</badge>
+</cell-icons>
 <growth-text>Gain Energy</growth-text>
 </growth-cell>
 </growth-group>
@@ -37,16 +46,20 @@
 <growth-text>Add a Presence to any Ocean</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a2">
-<growth-energy>
+<cell-icons>
+<badge class="energy">
 <value>1</value>
-</growth-energy>
+</badge>
+</cell-icons>
 <growth-text>Gain Energy</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border>
 </growth-border>
 <growth-group>
-<growth-cell id="s0g2a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s0g2a0">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a1">
 <cell-icons class="add-presence req">
@@ -57,9 +70,12 @@
 <growth-text>Add a Presence to Coastal Land</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a2">
-<push-gather>
-<icon class="ocean terrain-push">{push-arrow}{presence}</icon>
-</push-gather>
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="ocean terrain-double">{push-arrow}</icon>
+<icon-row class="pieces">{presence}</icon-row>
+</piece-move>
+</cell-icons>
 <growth-text>Push 1 Presence from Each Ocean</growth-text>
 </growth-cell>
 </growth-group>

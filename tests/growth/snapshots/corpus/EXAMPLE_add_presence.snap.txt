@@ -3,12 +3,12 @@
 <growth-table>
 <growth-group>
 <growth-cell id="s0g0a0">
-<cell-icons class="add-presence plain">
+<cell-icons class="add-presence">
 <icon-row class="plus">+{presence}</icon-row>{range-3}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a1">
-<cell-icons class="add-presence any">
+<cell-icons class="add-presence">
 <icon-row class="plus">+{presence}</icon-row>
 </cell-icons>
 <growth-text>Add a Presence to any Land</growth-text>
@@ -20,7 +20,7 @@
 <growth-cell id="s0g1a0">
 <cell-icons class="add-presence req">
 <icon-row class="plus">+{presence}</icon-row>
-<presence-req>{town}/{city}/{disease}</presence-req>{range-2}</cell-icons>
+<presence-req>{town}{backslash}{city}{backslash}{disease}</presence-req>{range-2}</cell-icons>
 <growth-text>Add a Presence to Land with Town/City/Disease</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">

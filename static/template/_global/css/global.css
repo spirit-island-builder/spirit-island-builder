@@ -259,6 +259,9 @@ icon.star {
 icon.fear {
   --icon-scale: 1.2;
 }
+icon.blight {
+  --icon-scale: 1.1;
+}
 icon.terrain-double {
   --icon-scale: 1.2;
 }
@@ -546,7 +549,7 @@ threshold,
 rules,
 aspect-subtext,
 second-section-container,
-gain-per-fear,
+ring-icon.per.fear,
 icon.card-deep-layers,
 icon.energy-deep-layers {
   --el-sun: var(--el-simple-sun);
@@ -1031,11 +1034,16 @@ icon.push-from {
   background-image: url("../images/board/NewIcons/Land Push.png");
   --icon-ratio: var(--art-land-push-ratio);
 }
-icon.push {
+/* The canonical push/gather scene art (land with the arrow baked in).
+   icon.land-push/land-gather are the growth piece-move names; icon.push and
+   icon.gather are the legacy presence-track aliases for the same art. */
+icon.push,
+icon.land-push {
   background-image: url("../images/board/NewIcons/Land Push.png");
   --icon-ratio: var(--art-land-push-ratio);
 }
-icon.gather {
+icon.gather,
+icon.land-gather {
   background-image: url("../images/board/NewIcons/Track_Gather.png");
   --icon-ratio: var(--art-track-gather-ratio);
 }
@@ -1114,14 +1122,13 @@ icon.deeps {
 range {
   width: 50px;
   height: 32px;
-  margin-top: -20px;
-  margin-bottom: -20px;
+
   display: inline-flex;
   position: relative;
   text-align: center;
   background-image: url("../images/50px-Rangeicon.png");
   background-repeat: no-repeat;
-  background-position-y: 20px;
+  background-position: bottom;
   background-size: contain;
   font-family: "Antropos";
   font-size: 40px;

@@ -18,7 +18,7 @@
   --art-50px-slowicon-ratio: 128 / 104;
   --art-50px-spiriticon-ratio: 50 / 58;
   --art-50px-town-ratio: 50 / 43;
-  --art-75px-blight-ratio: 75 / 75;
+  --art-75px-blight-ratio: 69 / 75;
   --art-75px-city-ratio: 75 / 66;
   --art-75px-disease-ratio: 75 / 77;
   --art-75px-presence-ratio: 75 / 43;
@@ -26,7 +26,7 @@
   --art-air-ratio: 128 / 128;
   --art-animal-ratio: 124 / 128;
   --art-any-ratio: 95 / 91;
-  --art-backslash-ratio: 50 / 95;
+  --art-backslash-ratio: 24 / 80;
   --art-beast-ratio: 100 / 100;
   --art-berg-dschungel-ratio: 100 / 59;
   --art-berg-prasenz-ratio: 100 / 94;
@@ -74,8 +74,6 @@
   --art-forget-card-icon-ratio: 659 / 654;
   --art-forget-icon-ratio: 204 / 203;
   --art-gaincardicon-ratio: 92 / 131;
-  --art-half-arrow-gather-ratio: 49 / 15;
-  --art-half-arrow-push-ratio: 49 / 15;
   --art-incarna-breath-ratio: 500 / 516;
   --art-incarna-ember-ratio: 844 / 500;
   --art-incarna-lair-ratio: 582 / 500;
@@ -95,6 +93,7 @@
   --art-land-push-ratio: 180 / 112;
   --art-land-ratio: 124 / 86;
   --art-marker-question-ratio: 567 / 539;
+  --art-misc-arrow-gather-push-ratio: 661 / 169;
   --art-misc-gain-ratio: 147 / 139;
   --art-misc-major-ratio: 444 / 382;
   --art-misc-minor-ratio: 344 / 344;

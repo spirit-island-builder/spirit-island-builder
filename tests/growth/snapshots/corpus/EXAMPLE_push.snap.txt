@@ -3,32 +3,32 @@
 <growth-table>
 <growth-group>
 <growth-cell id="s0g0a0">
-<push-gather>
-<icon class="push">{explorer}</icon>
-</push-gather>
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="land-push">
+</icon>
+<icon-row class="pieces">{explorer}</icon-row>
+</piece-move>
+</cell-icons>
 <growth-text>Push 1 Explorer from 1 of your Lands</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a1">
-<push-gather>
-<icon class="push">
-<icon-holder>
-<icon class="badlands">
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="land-push">
 </icon>
-<icon class="badlands">
-</icon>
-<icon class="badlands">
-</icon>
-</icon-holder>
-</icon>
-</push-gather>
+<icon-row class="pieces">{badlands}{badlands}{badlands}</icon-row>
+</piece-move>
+</cell-icons>
 <growth-text>Push 3 Badlands from 1 of your Lands</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a2">
-<push-gather>
-<icon class="push-from">
-<icon class="from dahan">
-</icon>{beasts}</icon>
-</push-gather>
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="land-push">{dahan}</icon>
+<icon-row class="pieces">{beasts}</icon-row>
+</piece-move>
+</cell-icons>
 <growth-text>Push 1 Beasts from Dahan</growth-text>
 </growth-cell>
 </growth-group>
@@ -36,27 +36,30 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g1a0">
-<push-gather>
-<icon class="jungle terrain-push">{push-arrow}{presence}</icon>
-</push-gather>
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="jungle terrain-single">{push-arrow}</icon>
+<icon-row class="pieces">{presence}</icon-row>
+</piece-move>
+</cell-icons>
 <growth-text>Push 1 Presence from Each Jungle</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
-<push-gather>
-<icon class="ocean terrain-push">{push-arrow}<icon-holder>
-<icon class="blight">
-</icon>
-<icon class="blight">
-</icon>
-</icon-holder>
-</icon>
-</push-gather>
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="ocean terrain-double">{push-arrow}</icon>
+<icon-row class="pieces">{blight}{blight}</icon-row>
+</piece-move>
+</cell-icons>
 <growth-text>Push 2 Blight from Ocean</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a2">
-<push-gather>
-<icon class="jungle-sand terrain-push">{push-arrow}{city}</icon>
-</push-gather>
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="jungle-sand terrain-double">{push-arrow}</icon>
+<icon-row class="pieces">{city}</icon-row>
+</piece-move>
+</cell-icons>
 <growth-text>Push 1 City from Jungle or Sands</growth-text>
 </growth-cell>
 </growth-group>

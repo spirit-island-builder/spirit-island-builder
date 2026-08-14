@@ -18,38 +18,38 @@
 <growth-group header="0" tint="green">
 <tint class="tint" style="background-color:green;">
 </tint>
-<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+<growth-cell id="s0g0a0">
+<cell-icons>{reclaim-all}</cell-icons>
+<growth-text>Reclaim Cards</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border double="">
 </growth-border>
 <growth-group header="1">
 <growth-cell id="s1g0a0">
-<growth-energy>
+<cell-icons>
+<badge class="energy">
 <value>2</value>
-</growth-energy>
+</badge>
+</cell-icons>
 <growth-text>Gain Energy</growth-text>
 </growth-cell>
 <growth-cell id="s1g0a1">
-<growth-cell-double>
-<gain-per>
+<cell-icons class="combo">
+<badge class="energy per">
 <value>2</value>
-</gain-per>
-<gain-per-element>
-<ring-icon>{sacred-site}</ring-icon>
-</gain-per-element>
-</growth-cell-double>
+</badge>
+<ring-icon class="per energy">{sacred-site}</ring-icon>
+</cell-icons>
 <growth-text>Gain 2 Energy per Sacred Site</growth-text>
 </growth-cell>
 <growth-cell id="s1g0a2">
-<growth-cell-double>
-<gain-per>
+<cell-icons class="combo">
+<badge class="energy per">
 <value>3</value>
-</gain-per>
-<gain-per-element>
-<ring-icon>{city}</ring-icon>
-</gain-per-element>
-</growth-cell-double>
+</badge>
+<ring-icon class="per energy">{city}</ring-icon>
+</cell-icons>
 <growth-text>Gain 3 Energy per custom text &amp; chosen icon</growth-text>
 </growth-cell>
 </growth-group>
@@ -57,28 +57,24 @@
 </growth-border>
 <growth-group header="1">
 <growth-cell id="s1g1a0">
-<growth-cell-double>
-<gain-per>
+<cell-icons class="combo">
+<badge class="energy per">
 <value>2</value>
-</gain-per>
-<gain-per-element>
-<ring-icon>
+</badge>
+<ring-icon class="per energy">
 <div class="custom-scaling">
 </div>
 </ring-icon>
-</gain-per-element>
-</growth-cell-double>
+</cell-icons>
 <growth-text>Gain 2 Energy per custom text &amp; chosen icon</growth-text>
 </growth-cell>
 <growth-cell id="s1g1a1">
-<growth-cell-double>
-<gain-per>
+<cell-icons class="combo">
+<badge class="energy per">
 <value>2</value>
-</gain-per>
-<gain-per-element>
-<ring-icon>{dahan}</ring-icon>
-</gain-per-element>
-</growth-cell-double>
+</badge>
+<ring-icon class="per energy">{dahan}</ring-icon>
+</cell-icons>
 <growth-text>Gain 2 Energy per Dahan</growth-text>
 </growth-cell>
 </growth-group>

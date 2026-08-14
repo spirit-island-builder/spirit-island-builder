@@ -95,7 +95,7 @@ larger **power** art used inline in rule text.
     `level-info`, `div.level-difficulty`, `aspect.round-border`, …) — verify emitters, then
     delete.
 12. **Growth DOM vocabulary** — ~44 cell-interior element types that are really five shapes.
-    Mapped in full below ("Growth vocabulary consolidation"); batch 1 (add-presence) done.
+    Mapped in full below ("Growth vocabulary consolidation"); batches 1–7 done — see the status block there.
 
 ## Icon sizing rework
 
@@ -241,9 +241,71 @@ not the ratio layer.
 Verified pixel-identical: 87-file corpus, 85 identical / 0 changed / 2 noise (4 px and 5 px, versus
 the 300 px noise floor). Inert by construction anyway — nothing reads `--icon-ratio` until step 2.
 
-## Growth vocabulary consolidation (mapped 2026-08-04; batch 1 landed 2026-08-04)
+## Growth vocabulary consolidation (mapped 2026-08-04; batches 1–7 done, tuning in flight)
 
-**Batch 1 — add-presence (done).** `_renderAddPresence` now emits
+**Where it stands (2026-08-14).** ~44 cell-interior element types are down to a vocabulary of
+nine — `cell-icons`, `icon-row`, `badge`, `range`, `piece-move`, `presence-req`, `ring-icon`,
+`gain`, `icon` — plus the shared presence-node family and micro-tags (`value`, `range-value`,
+`textvalue`, `no-icon`). Committed: the icon-sizing/ratio landing, the suite rebaseline, and
+batch 1 (through `aab10ca6`). Uncommitted on top: batches 2–7, the follow-up fixes below, and
+resonant's tuning pass (≈70 files) — flagged for a checkpoint commit. Remaining work:
+(1) the incarna `add-move-upper/-lower` / `add-token-upper/-lower` pass — the last non-vocabulary
+tags in a cell; blocked on chosen values because their width/margin declarations are inert on
+inline elements today and conversion activates them; (2) join-glyph standardization
+(`span.plus-text` vs the `plus-text` element, remaining "+" text nodes in token rows);
+(3) deferred/adjacent: `growth-cost` typography into the badge family, the presence-track
+`div.push`/`icon.push` harmonization (icon.css's growth-dead offset blocks wait on it), and the
+`modified-reclaim`/`discard-element` element-art maps from the original audit.
+
+**Batch 7 follow-ups (calibration ergonomics + art).** `icon-row.pieces` and the terrain
+half-arrows are **center-anchored**: their left/bottom name the element's center point via a
+`translate(-50%, 50%)`, so rows grow outward symmetrically and the numbers mean "the arrow
+head". The terrain arrow **nests inside the terrain icon** and anchors in percentages of the
+terrain's own box (left 100% / bottom 40%), so single and double terrains share one rule. Both
+directions now paint one art file, `NewIcons/Misc Arrow Gather-Push.png` (ratio token
+`--art-misc-arrow-gather-push-ratio`, regenerated on each art update); the art points left
+(gather) and the push variant mirrors it with `scaleX(-1)` composed after the anchoring
+translate — keep the translate when tuning that rule. The orphaned `half_arrow_*` ratio tokens
+dropped out of the generated file automatically.
+
+**Post-batch fixes.** Badge digits were silently bolded by batch 6 (badges moved inside
+`cell-icons`, whose base is bold): `badge value` now resets to normal weight, with
+`badge.damage value` explicitly bold (its historical look), and the same reset applied to
+`icon.reclaim-num value` and the incarna ANY textvalue. Separately, 3+ 'or' land-requirement
+lists (Vengeance-style) now join with `{backslash}` icons instead of "/" text nodes, guarded by
+a load-bearing `presence-req icon.backslash { margin-bottom: 0 }` against icon.css's 22px.
+
+Each batch is two verifiable steps. **Step A — re-tag**: writers emit the new vocabulary, CSS
+declarations carried over verbatim; verified by the snapshot diff classified line-by-line (must
+be pure re-tagging). **Step B — factor**: hoist declarations shared by the new sibling classes
+into the base rule so each class states only its differences, and delete no-op declarations
+(margins restating the 0 default, `width: auto`, …) — CSS-only, so the check is the browser
+geometry probe alone. Probe: 45 renderable MySpirit boards, growth/table/cell/art/text rects at
+0.5px tolerance; every step so far has come out at zero differences, meaning row-wrap and width
+distribution are untouched. Hand verification by resonant on top.
+
+The factored base: `cell-icons` = 26.66px bold normal-style, `display: flex`, 90px
+bottom-justified column; mode classes carry deltas only (`.custom` a horizontal 100px box,
+`.incarna-move` top-justified; `.stack` is now a bare marker class for child rules). Both
+add-presence mode classes were then eliminated as unneeded (resonant, 2026-08-05): `.plain`
+(bare `add-presence(N)`) — its 88px height, 2px outer margin, and 5px plus-row gap normalized
+to the base, a deliberate ≤2px shift in 76 cells across 36 boards; and `.any`
+(`add-presence(any)`) — its 40px/52px-offset block dropped so the plus row bottom-aligns in
+the standard band like every other cell, a deliberate 52px shift in the 2 pure-any cells in
+the corpus. Zero width or row-wrap changes from either. On the JS side "plain"/"any" remain
+parser modes (they decide whether a range element is emitted) but emit no class — a bare
+`class="add-presence"`.
+Two historical asymmetries were judged accident, not design, and flattened (resonant's call,
+2026-08-05): `font-style: normal` moved to the base (previously only `.plain`/`.stack`; the one
+place this can show is a req-form nested in an italic `growth-cell-double` via `or(...)`), and
+`display` unified to `flex` (previously `inline-flex`/`flex` per tag — identical in flex-item
+positions; the non-flex context, cells inside `ring-icon` (inline-block) via
+`presence-node(blank)` / `presence-node(<action>)`, was measured element-by-element on a
+synthetic board with old-display overrides vs unified: zero differences). `.any` keeps
+`display: block` — that one is a real layout difference (~9px vertical shift if flattened),
+a tuning decision rather than a duplicate.
+
+**Batch 1 — add-presence (done, 915e4b20).** `_renderAddPresence` now emits
 `<cell-icons class="add-presence plain|any|req [text] [with-land …]">` containing
 `<icon-row class="plus">` / `.or` / `.relative` / bare `icon-row` (was `display-custom`),
 `presence-req` rows, and `{range-N}` (nothing for "any"). Retired: `custom-presence`,
@@ -253,12 +315,143 @@ the 300 px noise floor). Inert by construction anyway — nothing reads `--icon-
 deleted as verified-dead (no emitter anywhere): `custom-presence icon.range-0..4`,
 `custom-presence-req icon.range-0..4`, `custom-presence-no-range icon.range-any`. New
 fixtures cover the with-land token/relative forms and the req+any-range form, which had no
-snapshot coverage. Verified: snapshot diff is pure re-tagging (every changed line classified),
-and a browser geometry probe over the 45 renderable MySpirit boards showed \*\*0 differences
+snapshot coverage. Legacy note: the won't-fix `token …instead` form now renders an empty
+`<presence-req>` with no spacer span, same as before to the pixel.
 
-> 0.5px\*\* in growth/table/cell/art/text rects — row-wrap and width distribution unchanged.
-> Legacy note: the won't-fix `token …instead` form now renders an empty `<presence-req>` with
-> no spacer span, same as before to the pixel.
+**Batch 2 — the custom-icon column wrappers (done).** All 17 emitters of `custom-icon`,
+`custom-icon2` and `custom-growth-icon` (including the presence-track incarna add-move path at
+~board*front.js:2886, which shares the composite) now emit `<cell-icons class="stack …">` with a
+semantic per-action class as a tuning handle — `move-presence`, `incarna-move` (the old
+custom-icon2, which keeps its top-aligned quirk via `justify-content: flex-start`),
+`incarna-add-move`, `incarna-add-token`, `incarna-replace`, `isolate`, `damage`, `add-token`,
+`replace`, `gain-card-pay-2` — or `<cell-icons class="custom [wide]">` for custom()/custom-wide()/
+blank()/error cells (`.wide` was `.wide-growth`; the empty-`class` attribute artifact is gone).
+Retired: `custom-icon`, `custom-icon2`, `custom-growth-icon`; deleted as verified-dead:
+`icon.custom-growth-icon` (both rules — it's a class no writer ever puts on an icon). Kept
+deliberately unchanged for later batches: `token-wrap`, `add-move-upper/-lower`,
+`add-token-upper/-lower` (unknown elements are display:inline, so their width/margin-bottom
+declarations are inert — converting them to `icon-row` would \_activate* those and change layout;
+needs its own deliberate pass), `range-growth`/`move-growth` (arrow batch), `growth-damage`
+(badge batch), `replace-wrap`/`destroy-wrap` (row batch).
+
+**Batch 3 — the badge family (done).** One `<badge>` element (blank art + `<value>`) with a
+class picking art and size, replacing seven tags: `growth-energy` → `badge.energy`, `gain-per`
+→ `badge.energy.per`, `growth-fear` → `badge.fear`, `fear-per` → `badge.fear.per`,
+`card-play-num` → `badge.plays`, `growth-damage` → `badge.damage`, `repeat-growth`
+(+`.energy-cost`) → `badge.repeat` (+`.cost`). Base carries the shared art plumbing and
+"Energy Font" value typography; each class states art, box, and value offsets (damage keeps
+Antropos). The `gain-per-element`/`gain-per-fear` pass-through wrappers died outright — the
+writer now emits `<ring-icon class="per energy|fear">` directly, one DOM level less, with the
+two 8-selector icon lists collapsed into one `ring-icon.per icon` rule.
+`getScalingGainTextAndIcons`'s three-tag `tags` parameter became a single `resource` class.
+Cross-sheet: the four `presence-node[-multi] card-play-num` rules in presence-track-table.css
+re-keyed (the plays badge also renders inside track nodes — emitter at ~board_front.js:3008),
+and `gain-per-fear` in global.css's simple-art context list became `ring-icon.per.fear`. The
+`presence-node.growth` energy overrides gained `:not(.per)` to keep their historical flat-only
+scope. `background-position: center` moved to the badge base — safe for `.repeat`, whose two
+blank arts are square within 1% (67×68, 659×654 checked from the PNG headers). Verified:
+snapshot diff fully classified; geometry probe extended to presence-node internals — 49 boards,
+zero diffs in growth cells and node/value rects.
+
+**Batch 4 — the arrow family (done).** Growth now has one range arrow: every writer that
+hand-rolled `<range-growth><value>N</value></range-growth>` (isolate, damage, add-token,
+replace, push/gather) instead emits `{range-N}`, the same brace token add-presence always used,
+expanding to `<range class="range"><range-value>N</range-value></range>` — so `range-growth`
+died and the two shared arrow/value rules lost their second selector. `growth-range` (a 90px
+bottom-aligner around gain/lose-range) died in favor of the standard
+`<cell-icons class="stack gain-range">` wrapper, making those cells consistent with every other
+stack cell. `move-growth` renamed to `move` — which required deleting the dead legacy `move {}`
+element rule in the same change so it couldn't suddenly match; the rest of the verified-dead
+legacy block went with it (`growth-cell card-play`, `your-land`, `push`, `gather` element
+rules). Verified: snapshot diff fully classified (re-tags plus pretty-printer line rejoins
+around the new brace tokens); geometry probe zero diffs on every board exercising the
+conversions (Starlight, Many Minds, tokens/Relentless/Wounded Waters), gain-range confirmed on
+the synthetic board (no corpus coverage). Probe attribution note: resonant tunes live between
+captures (badge.repeat offsets, gain-time icon sizes landed mid-batch) — the probe flags those
+as diffs, so from here attribution means checking flagged rules against the batch's own edit
+list before assuming a regression; one 4–6px two-board blip during that window matched no edit
+on either side and reverted by the next capture (transient editor state, stable across 4
+consecutive renders after).
+
+**Batch 4b — move arrows are range arrows (resonant's call).** The `move` element (né
+`move-growth`) is gone: move-presence and incarna(move) emit the standard `{range-N}` token,
+and context swaps the art — `cell-icons.move-presence range, cell-icons.incarna-move range`
+carry move_arrow.png + the 62px/9px box, same pattern as the element icon layer. Non-numeric
+move ranges now ride the expander's existing range-icon path instead of a hand-rolled
+`<value>{icon}</value>`. One irregular case: `incarna(move,any)` has no brace token
+(`{range-any}` means the any-element icon), so it hand-writes
+`<range><textvalue>ANY</textvalue></range>` with its own context rule. Digit offsets in the
+context rules are starting values approximating the old line metrics (`line-height: 28px`,
+zeroed bottom/left) — calibrate; arrow boxes verified identical by probe. Follow-up (resonant):
+the moved pieces above the arrow all sit in one `<icon-row class="tokens">` — single presence,
+N-together, and presence+token alike. `.tokens` is the survivor name for the token-wrap row;
+`token-wrap` (still emitted by add-token) shares its two rules via selector lists until the row
+batch retires it. Single-presence move cells pick up the row's 4px bottom padding, so that icon
+sits ≤4px higher than before — now identical to the multi-piece forms; cell boxes and widths
+verified unchanged.
+
+**Batch 5 — the rows (done).** The last row tags fold into `icon-row`: `token-wrap` →
+`.tokens` (add-token, finishing the move-presence transition), `icon-holder` → `.cluster`
+(the wrapping pile of push/gather targets on the arrow art; its
+`icon.backslash { margin: 0 }` override is load-bearing against icon.css's 22px and says so in
+a comment), `replace-wrap` → `.replace` (dropping the always-emitted, empty-ruled `no-range`
+class and the empty `:first/:last-child` shells), `destroy-wrap` → `.destroy`.
+`growth-cell-double` became `cell-icons.choice` (or/then, join word as text node — hence the
+italic Lato) and `cell-icons.combo` (the flat+per composites of gain-energy/fear) —
+cell-icons, not icon-row, because they ARE the cell's art block (resonant's call): their
+contents are full-size action art that must size from the cell context, not the glyph-row
+tuning; the explicit height/justify/font lines in their rule neutralize the cell-icons column
+base. Tuning-layer lesson made concrete here: resonant's `icon-row { --icon-h: 42px }` rule
+(calibrated for the plus/or glyph rows) applies to every converted icon-row — an
+`--icon-h: inherit` escape on the converted rows was tried and deliberately reverted by
+resonant, who is tuning those sizes by hand instead (token rows currently render at 42px
+pending that pass). The standing rule for future conversions: check the target vocabulary's
+`--icon-h`/`--icon-scale` context rules before converting, and surface the interaction
+rather than silently escaping it.
+
+**Batch 6 — the invariant cell structure (resonant's call, done).** Every growth cell now
+renders as `<growth-cell><cell-icons …/><growth-text/></growth-cell>` — no exceptions. One
+normalization point in `getGrowthActionTextAndIcons` wraps whatever a renderer returns:
+already-`cell-icons` roots pass through; presence-node/track roots get
+`<cell-icons class="node">` (board hardware, `height: auto` escape from the 90px band);
+everything else — bare icons, badges, `<gain>` — gets the bare band. Two tags died as a
+consequence: `repeat-wrapper` (the `badge.repeat` now injects into the guaranteed root,
+absolutely positioned as the repeat contract requires) and the
+`push-gather`/`push-gather-range-req` pair (now `cell-icons.stack.push-gather[.with-range]`,
+collapsing seven two-selector rule pairs to one selector each; the rangeless form keeps its
+historical `display: block` inline-flow layout). A malformed never-matching two-selector rule
+(ocean push-arrow nudge, missing comma) was deleted rather than silently activated — noted in
+the sheet. Layout-engine safety verified before writing: `getGrowthActionIconWidth` reads
+`children[0]`'s rect (the band shrink-wraps to the same width) and `addGrowthTrackBanners`
+uses rect math against `closest("growth")` — both wrapper-independent. Measured impact: **zero
+row-wrap changes**; 201 cells across 43 boards shifted — 173 vertical-only (bare icons/badges
+settling onto the band's common bottom baseline, the intent of the change; up to 26px on tall
+icons like ignorerange/make-fast/empower-incarna), the rest width settling from bands absorbing
+negative horizontal icon margins plus dynamicResizing redistribution. Tuning knobs: the
+`cell-icons` base band, `.node`, and per-icon rules as before.
+
+**Batch 7 — push/gather redesigned as `<piece-move>` scenes (resonant's call: start fresh,
+recalibrate).** The old four-shape system (baked-art `icon.push/gather`, token-condition
+`icon.push-from/gather-into` with `icon.from/into`, terrain `terrain-push/gather` with layered
+half-arrows, counted `icon-row.cluster`) is gone. One scene element now:
+`<piece-move class="push|gather">` holding a land slot, the moved pieces in
+`<icon-row class="pieces">`, and — terrain compositions only — a separate half-arrow. The
+default land is the canonical Spirit Island scene art, renamed honestly:
+`icon.land-push` (Land Push.png) / `icon.land-gather` (Track*Gather.png), sharing one art rule
+in global.css with `icon.push`/`icon.gather`, which remain as the legacy presence-track aliases
+(the track `div.push` vocabulary is untouched — a future harmonization target). Token/board
+conditions overlay the land \_inside* the scene icon (the your-land pattern) instead of a
+hand-offset sibling. The writer collapsed to one template whose only branch picks the land;
+"or" targets join with `{backslash}` in the pieces row. CSS: ~25 rules of per-variant absolute
+nudges across three sheets became one `piece-move` section (~8 rules) where every position is
+an explicit left/bottom + `--icon-h` on a labeled slot — no margins, calibrate freely; starting
+values render sanely (150×90 scene; wide double-terrains spill toward the pieces zone until the
+land `--icon-h` is tuned). Retired: `icon.push-from`, `icon.gather-into`, `icon.from`,
+`icon.into`, `terrain-push`/`terrain-gather`, `icon-row.cluster`, the push-gather
+`display: block` wrapper quirk, and the old offset tables (icon.css's `icon.push/gather`
+child-offset blocks are now growth-dead but left in place pending the track harmonization).
+This is a redesign, not a parity pass: snapshots rebaselined to the new shapes; hand
+verification on Ocean's Hungry Grasp, Many Minds, and the push/gather examples.
 
 The rendered growth panel uses ~60 element types; inside a `growth-cell` there are ~44, and they
 reduce to five shapes, each reinvented several times: a vertical art-band stack, a horizontal

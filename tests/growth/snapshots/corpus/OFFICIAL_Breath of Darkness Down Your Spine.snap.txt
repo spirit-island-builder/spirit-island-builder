@@ -2,41 +2,47 @@
 <section-title>Growth (Pick One)</section-title>
 <growth-table>
 <growth-group>
-<growth-cell id="s0g0a0">{reclaim-all}<growth-text>Reclaim Cards</growth-text>
+<growth-cell id="s0g0a0">
+<cell-icons>{reclaim-all}</cell-icons>
+<growth-text>Reclaim Cards</growth-text>
 </growth-cell>
-<growth-cell id="s0g0a1">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s0g0a1">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a2">
-<custom-icon2>
+<cell-icons class="stack incarna-move">
 <icon class="incarna move custom1">
 </icon>
-<move-growth>
+<range class="range">
 <textvalue>ANY</textvalue>
-</move-growth>
-</custom-icon2>
+</range>
+</cell-icons>
 <growth-text>Move Incarna</growth-text>
 </growth-cell>
 <growth-cell id="s0g0a3">
-<custom-growth-icon class="">
+<cell-icons class="custom">
 <span class="non-icon">ALL ESCAPE</span>
-</custom-growth-icon>
+</cell-icons>
 <growth-text>All Pieces Escape</growth-text>
 </growth-cell>
 </growth-group>
 <growth-border>
 </growth-border>
 <growth-group>
-<growth-cell id="s0g1a0">{gain-power-card}<growth-text>Gain Power Card</growth-text>
+<growth-cell id="s0g1a0">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a1">
-<cell-icons class="add-presence plain">
+<cell-icons class="add-presence">
 <icon-row class="plus">+{presence}</icon-row>{range-3}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g1a2">
-<custom-growth-icon class="">
+<cell-icons class="custom">
 <span class="non-icon">TWO ESCAPE</span>
-</custom-growth-icon>
+</cell-icons>
 <growth-text>Two Pieces Escape</growth-text>
 </growth-cell>
 </growth-group>
@@ -44,12 +50,12 @@
 </growth-border>
 <growth-group>
 <growth-cell id="s0g2a0">
-<cell-icons class="add-presence plain">
+<cell-icons class="add-presence">
 <icon-row class="plus">+{presence}</icon-row>{range-1}</cell-icons>
 <growth-text>Add a Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a1">
-<custom-icon>
+<cell-icons class="stack incarna-add-move">
 <add-move-upper>+{backslash}{move-arrow}</add-move-upper>
 <add-move-lower>
 <icon class="incarna add-move custom1">
@@ -57,16 +63,18 @@
 <icon class="presence with-your">
 </icon>
 </add-move-lower>
-</custom-icon>
+</cell-icons>
 <growth-text>Add/Move Incarna to Land with Presence</growth-text>
 </growth-cell>
 <growth-cell id="s0g2a2">
-<custom-growth-icon class="">
+<cell-icons class="custom">
 <span class="non-icon">ONE ESCAPES</span>
-</custom-growth-icon>
+</cell-icons>
 <growth-text>One Piece Escapes</growth-text>
 </growth-cell>
-<growth-cell id="s0g2a3">{energy-per-play}<growth-text>Energy Per Play</growth-text>
+<growth-cell id="s0g2a3">
+<cell-icons>{energy-per-play}</cell-icons>
+<growth-text>Energy Per Play</growth-text>
 </growth-cell>
 </growth-group>
 </growth-table>
