@@ -26,13 +26,13 @@
 </growth-cell>
 <growth-cell id="s0g1a2">
 <cell-icons class="stack incarna-add-token">
-<add-token-upper>+<icon class="add-token vitality">
+<icon-row class="upper">+<icon class="add-token vitality">
 </icon>
-</add-token-upper>
-<add-token-lower>
+</icon-row>
+<icon-row class="lower">
 <icon class="incarna incarna-roots">
 </icon>
-</add-token-lower>
+</icon-row>
 </cell-icons>
 <growth-text>Add a Vitality at your Incarna</growth-text>
 </growth-cell>

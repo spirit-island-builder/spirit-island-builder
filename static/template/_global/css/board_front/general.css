@@ -269,3 +269,10 @@ board.flipboard {
     transform: scaleX(-1);
   }
 }
+
+/* Icon rules and Innate Power effects should have very similar rules, so collecting them here */
+special-rule icon,
+innate-power level effect icon,
+innate-power note icon {
+  margin-top: -5px;
+}

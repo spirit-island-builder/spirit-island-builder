@@ -337,6 +337,7 @@ icon.player-spirit {
 icon.badland {
   background-image: url("../images/board/48px_badlands.png");
   --icon-ratio: var(--art-48px-badlands-ratio);
+  top: -3px;
 }
 icon.badlands {
   background-image: url("../images/board/48px_badlands.png");
@@ -572,10 +573,15 @@ icon.energy-deep-layers {
   --el-any-ratio: var(--el-simple-any-ratio);
 }
 
-/* Nested contexts that revert to the fancy art. */
+/* Nested contexts that revert to the fancy art. icon.modified-reclaim and
+   icon.modified-discard are the reclaim(x,element) / discard(element) gems
+   riding their card icons — the element rides fancy inside growth's simple
+   context. */
 gain,
 special-rules-track,
-aspect growth-group {
+aspect growth-group,
+icon.modified-reclaim,
+icon.modified-discard {
   --el-sun: var(--el-fancy-sun);
   --el-sun-ratio: var(--el-fancy-sun-ratio);
   --el-moon: var(--el-fancy-moon);

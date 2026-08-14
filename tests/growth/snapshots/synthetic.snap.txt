@@ -1042,10 +1042,7 @@
 <growth-group>
 <growth-cell id='s0g0a0'>
 <cell-icons>
-<icon class='discard-card'>
-<icon class='discard-element fire'>
-</icon>
-</icon>
+<icon class='discard-card modified-discard'>{fire}</icon>
 </cell-icons>
 <growth-text>Discard a Power Card with fire</growth-text>
 </growth-cell>
@@ -1056,8 +1053,7 @@
 <growth-group>
 <growth-cell id='s0g0a0'>
 <cell-icons class="stack incarna-move">
-<icon class="incarna move incarna">
-</icon>{range-1}</cell-icons>
+<icon-row>{incarna-incarna}</icon-row>{range-1}</cell-icons>
 <growth-text>Move Incarna</growth-text>
 </growth-cell>
 </growth-group>
@@ -1067,12 +1063,7 @@
 <growth-group>
 <growth-cell id='s0g0a0'>
 <cell-icons class="stack incarna-move">
-<icon class="incarna move incarna">
-</icon>
-<range class="range">
-<textvalue>ANY</textvalue>
-</range>
-</cell-icons>
+<icon-row>{incarna-incarna}</icon-row>{range-any}</cell-icons>
 <growth-text>Move Incarna</growth-text>
 </growth-cell>
 </growth-group>
@@ -1091,13 +1082,13 @@
 <growth-group>
 <growth-cell id='s0g0a0'>
 <cell-icons class="stack incarna-add-move">
-<add-move-upper>+{backslash}{move-arrow}</add-move-upper>
-<add-move-lower>
+<icon-row class="upper">+{backslash}{move-arrow}</icon-row>
+<icon-row class="lower">
 <icon class="incarna add-move incarna">
 </icon>
 <icon class="badlands with-your">
 </icon>
-</add-move-lower>
+</icon-row>
 </cell-icons>
 <growth-text>Add/Move Incarna to Land with Badlands</growth-text>
 </growth-cell>
@@ -1119,13 +1110,13 @@
 <growth-group>
 <growth-cell id='s0g0a0'>
 <cell-icons class="stack incarna-add-token">
-<add-token-upper>+<icon class="add-token vitality">
+<icon-row class="upper">+<icon class="add-token vitality">
 </icon>
-</add-token-upper>
-<add-token-lower>
+</icon-row>
+<icon-row class="lower">
 <icon class="incarna incarna">
 </icon>
-</add-token-lower>
+</icon-row>
 </cell-icons>
 <growth-text>Add a Vitality at your Incarna</growth-text>
 </growth-cell>
@@ -1136,13 +1127,13 @@
 <growth-group>
 <growth-cell id='s0g0a0'>
 <cell-icons class="stack incarna-add-token">
-<add-token-upper>+<icon class="add-token vitality">
+<icon-row class="upper">+<icon class="add-token vitality">
 </icon>
-</add-token-upper>
-<add-token-lower>
+</icon-row>
+<icon-row class="lower">
 <icon class="incarna incarna-roots">
 </icon>
-</add-token-lower>
+</icon-row>
 </cell-icons>
 <growth-text>Add a Vitality at your Incarna</growth-text>
 </growth-cell>
@@ -2542,8 +2533,7 @@
 <growth-group>
 <growth-cell id='s0g0a0'>
 <cell-icons class="stack incarna-move">
-<icon class="incarna move incarna">
-</icon>{range-1}</cell-icons>
+<icon-row>{incarna-incarna}</icon-row>{range-1}</cell-icons>
 <growth-text>Move Incarna</growth-text>
 </growth-cell>
 </growth-group>

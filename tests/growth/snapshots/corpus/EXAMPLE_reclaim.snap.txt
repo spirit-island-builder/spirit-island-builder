@@ -49,10 +49,7 @@
 </growth-cost>
 <growth-cell id="s1g1a0">
 <cell-icons>
-<icon class="discard-card">
-<icon class="discard-element fire">
-</icon>
-</icon>
+<icon class="discard-card modified-discard">{fire}</icon>
 </cell-icons>
 <growth-text>Discard a Power Card with fire</growth-text>
 </growth-cell>

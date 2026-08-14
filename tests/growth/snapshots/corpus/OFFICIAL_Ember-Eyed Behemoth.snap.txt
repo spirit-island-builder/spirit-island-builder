@@ -48,10 +48,7 @@
 </growth-cell>
 <growth-cell id="s0g2a3">
 <cell-icons>
-<icon class="discard-card">
-<icon class="discard-element fire">
-</icon>
-</icon>
+<icon class="discard-card modified-discard">{fire}</icon>
 </cell-icons>
 <growth-text>Discard a Power Card with fire</growth-text>
 </growth-cell>
@@ -74,8 +71,7 @@
 </growth-cell>
 <growth-cell id="s0g3a2">
 <cell-icons class="stack incarna-move">
-<icon class="incarna move custom1">
-</icon>{range-1}</cell-icons>
+<icon-row>{incarna-custom1}</icon-row>{range-1}</cell-icons>
 <growth-text>Move Incarna</growth-text>
 </growth-cell>
 </growth-group>

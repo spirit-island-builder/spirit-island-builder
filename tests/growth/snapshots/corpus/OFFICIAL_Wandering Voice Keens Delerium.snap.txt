@@ -8,13 +8,13 @@
 </growth-cell>
 <growth-cell id="s0g0a1">
 <cell-icons class="stack incarna-add-move">
-<add-move-upper>+{backslash}{move-arrow}</add-move-upper>
-<add-move-lower>
+<icon-row class="upper">+{backslash}{move-arrow}</icon-row>
+<icon-row class="lower">
 <icon class="incarna add-move incarna-wvkd">
 </icon>
 <icon class="presence with-your">
 </icon>
-</add-move-lower>
+</icon-row>
 </cell-icons>
 <growth-text>Add/Move Incarna to Land with Presence</growth-text>
 </growth-cell>

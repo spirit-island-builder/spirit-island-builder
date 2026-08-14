@@ -149,7 +149,10 @@ function replaceIcon(html) {
     if (iconName.startsWith("range-")) {
       HTMLTag = "range";
       range_num = iconName.substring(6);
-      if (isNaN(range_num)) {
+      console.log(range_num);
+      if (range_num.toLowerCase() === "any") {
+        range_num = "<textvalue>ANY</textvalue>";
+      } else if (isNaN(range_num)) {
         // range_num = `<icon class="range-small-icon ${range_num}"></icon>`;
         range_num = getIconHTML(`{${range_num}}`);
         range_num = `<range-value class="range-icon">${range_num}</range-value>`;

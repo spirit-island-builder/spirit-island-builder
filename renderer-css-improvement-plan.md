@@ -25,8 +25,9 @@ growth-group`). Inheritance follows the DOM, so nesting works without specificit
   against the declaring stylesheet, and the component sheets live at different depths.
 - There is no simple star; `icon.star` is always the fancy art.
 - Not yet converted (still explicit URL rules, which win the cascade normally): incarna's element
-  table (coupled to per-rule `contrast` filters), the `modified-reclaim` / `discard-element`
-  fancy overrides inside growth, and the `:lang(de)` terrain block.
+  table (coupled to per-rule `contrast` filters) and the `:lang(de)` terrain block. (The
+  `modified-reclaim`/`modified-discard` gems converted 2026-08-14: both sit in the fancy revert
+  list, and their two 10-rule art blocks are gone — growth-options keeps only positioning.)
 
 ## The power-speed icon layer
 
@@ -241,7 +242,7 @@ not the ratio layer.
 Verified pixel-identical: 87-file corpus, 85 identical / 0 changed / 2 noise (4 px and 5 px, versus
 the 300 px noise floor). Inert by construction anyway — nothing reads `--icon-ratio` until step 2.
 
-## Growth vocabulary consolidation (mapped 2026-08-04; batches 1–7 done, tuning in flight)
+## Growth vocabulary consolidation (mapped 2026-08-04; batches 1–8 done, tuning in flight)
 
 **Where it stands (2026-08-14).** ~44 cell-interior element types are down to a vocabulary of
 nine — `cell-icons`, `icon-row`, `badge`, `range`, `piece-move`, `presence-req`, `ring-icon`,
@@ -249,13 +250,54 @@ nine — `cell-icons`, `icon-row`, `badge`, `range`, `piece-move`, `presence-req
 `textvalue`, `no-icon`). Committed: the icon-sizing/ratio landing, the suite rebaseline, and
 batch 1 (through `aab10ca6`). Uncommitted on top: batches 2–7, the follow-up fixes below, and
 resonant's tuning pass (≈70 files) — flagged for a checkpoint commit. Remaining work:
-(1) the incarna `add-move-upper/-lower` / `add-token-upper/-lower` pass — the last non-vocabulary
-tags in a cell; blocked on chosen values because their width/margin declarations are inert on
-inline elements today and conversion activates them; (2) join-glyph standardization
+(1) join-glyph standardization
 (`span.plus-text` vs the `plus-text` element, remaining "+" text nodes in token rows);
-(3) deferred/adjacent: `growth-cost` typography into the badge family, the presence-track
+(2) deferred/adjacent: `growth-cost` typography into the badge family, the presence-track
 `div.push`/`icon.push` harmonization (icon.css's growth-dead offset blocks wait on it), and the
 `modified-reclaim`/`discard-element` element-art maps from the original audit.
+
+**Sheet reorganization + empties sweep (done).** growth-options.css is reorganized into 15
+sections keyed to the vocabulary (contexts, frame, tables, cell-icons, icon-row, presence-req,
+arrows, badges, piece-move, gain, per-action calibration, cost, captions, nodes, board
+specials), with a table of contents up top. Cleared: 14 truly-empty rulesets, the
+`growth icon.huge/large/medium/small` placeholder block, the long-dead `presence-special-req` /
+`add-presence-req` rules (emitters re-verified absent), three stale commented-out rule
+sketches, and two duplicate rules merged (`icon-row` base pair; the twin
+`growth-cell icon.make-fast` rules kept the later-winning 3px). Comment-only tuning
+breadcrumbs survive as plain comments. Order-sensitive same-specificity pairs were preserved
+deliberately and the whole reshuffle verified by geometry probe: zero diffs on all 50
+renderable boards.
+
+**Element-exception maps retired (done).** `icon.modified-reclaim` and `icon.modified-discard`
+(resonant's writer rename of `discard-element`, completing the pattern match with
+modified-reclaim) joined the element layer's fancy revert list in global.css; the two 10-rule
+hard-URL art blocks in growth-options are gone, leaving only gem positioning. Verified: the
+reclaim gem renders identically to the decimal; the discard gem regained fancy art and
+position (it had been momentarily simple/unpositioned between the writer rename and this
+conversion).
+
+**Badges are flexboxes (done, resonant's call).** `badge` is `display: flex` with the value
+centered by layout; every variant's old margin-top/margin-left pair became a `left`/`top`
+nudge meaning "the digit's offset from the badge CENTER", with values measured empirically
+from the old rendering — all eight variants verified identical after conversion (a `^cost(2)`
+action was added to the synthetic boards for the previously-unmeasurable `repeat.cost`).
+Multi-digit values now stay centered on the blank instead of growing off it.
+
+**Design decision — presence-req stays an element.** Converting it to
+`icon-row.presence-req` was considered and declined: unlike every prior conversion it deletes
+no duplication (unique element, rules would re-key 1:1), and it is the one row that carries
+prose — the localized or/and join words and COASTAL/INLAND spans — i.e. the requirement
+clause, not a line of glyphs. The vocabulary keeps nine names, each carrying its meaning.
+
+**Batch 8 — incarna upper/lower rows (done).** The last non-vocabulary tags in a cell are
+gone: `add-move-upper/-lower` and `add-token-upper/-lower` became `icon-row.upper` (the
+"+ / arrow" or "+token" glyphs; keeps the old block/inline-flow layout since the "+" is a text
+node) and `icon-row.lower` (the incarna and companion), across all three emitters including
+the track-side add-move. The premise that deferred this in batch 5 was tested and found wrong:
+flex items are blockified, so the old tags' width/margin declarations were live all along —
+making this a pure parity re-tag (values carried verbatim; probe: zero geometry diffs on all
+50 renderable boards). The rows carry an explicit `--icon-h: 64px` starting value (previously
+inherited) so they sit outside the 42px icon-row glyph default, per the tuning-layer rule.
 
 **Batch 7 follow-ups (calibration ergonomics + art).** `icon-row.pieces` and the terrain
 half-arrows are **center-anchored**: their left/bottom name the element's center point via a

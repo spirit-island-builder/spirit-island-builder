@@ -1,22 +1,39 @@
-/* Icon size for this section. See the icon sizing engine in global.css. */
+/* growth-options.css — the growth panel of the spirit board.
+
+   Organized by the growth DOM vocabulary (see "Growth vocabulary
+   consolidation" in renderer-css-improvement-plan.md):
+
+     1. Icon sizing contexts        7. Range & move arrows
+     2. Panel frame                 8. Badges & per-rings
+     3. Tables, groups & borders    9. Push/gather scenes (piece-move)
+     4. Cells & art blocks         10. Element gains (gain)
+     5. Icon rows (icon-row)       11. Per-action icon calibration
+     6. Presence requirements      12. Growth cost
+                                   13. Captions & text glyphs
+                                   14. Presence nodes & tracks in growth
+                                   15. Board-specific layouts */
+
+/* ===== 1. Icon sizing contexts =====
+   See the icon sizing engine in global.css. Values are the ones measured
+   before the sizing rework; calibrate freely. (icon-row's own default lives
+   with its rules in section 5.) */
 growth {
   --icon-h: 40px;
 }
 
-/* Contexts in this sheet that want a different icon size. Values are the
-   ones measured before the sizing rework; calibrate freely. */
 growth-cell {
   --icon-h: 64px;
 }
 
 presence-req {
-  --icon-h: 37px;
+  --icon-h: 34px;
 }
 
 cell-icons.add-presence.req {
   --icon-h: 43px;
 }
 
+/* ===== 2. Panel frame ===== */
 growth {
   display: block;
   position: relative;
@@ -25,12 +42,12 @@ growth {
   flex-shrink: 0;
 }
 
-growth:hover section-title {
-  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
-}
-
 growth:hover {
   cursor: pointer;
+}
+
+growth:hover section-title {
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
 }
 
 board.printer-clean growth {
@@ -55,45 +72,6 @@ growth-background {
   pointer-events: none;
 }
 
-growth section-title {
-  margin-left: 47px;
-  pointer-events: none;
-}
-
-sub-growth {
-  display: inline-flex;
-}
-
-growth sub-section-title {
-  margin-top: -2px;
-  position: absolute;
-  display: flex;
-  z-index: 0;
-  font-family: "JosefinSans";
-  font-weight: bold;
-  font-style: italic;
-  font-size: 22.66px;
-  text-transform: uppercase;
-  letter-spacing: -2px;
-  word-spacing: 1px;
-}
-
-growth special-section-title {
-  position: absolute;
-  font-family: "JosefinSans";
-  font-size: 22.66px;
-  font-weight: bold;
-  font-style: italic;
-  text-transform: uppercase;
-  letter-spacing: -2px;
-  word-spacing: 1px;
-  z-index: 0;
-  transform: translateX(-50%);
-  left: 50%;
-  top: -46px;
-  width: 100%;
-}
-
 growth-bottom {
   display: block;
   position: absolute;
@@ -113,17 +91,76 @@ board.printer-clean growth-bottom {
   background-color: white;
 }
 
-/* growth special-section-title.title-left {
-  position: unset;
-  display: inline-block;
-  width: 215px;
-  transform: unset;
-  margin-top: 20px;
-  padding-right:5px;
-} */
+growth section-title {
+  margin-left: 47px;
+  pointer-events: none;
+}
 
-/* Element art: growth uses the simple set, <gain> flips back to fancy —
-   see the element icon layer in global.css. */
+/* The save-format grouping element; buildGrowthPanel flattens it away, so
+   this only styles the pre-render state. */
+sub-growth {
+  display: inline-flex;
+}
+
+growth sub-section-title {
+  margin-top: -2px;
+  position: absolute;
+  display: flex;
+  z-index: 0;
+  font-family: "JosefinSans";
+  font-weight: bold;
+  font-style: italic;
+  font-size: 22.66px;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  word-spacing: 1px;
+}
+
+growth sub-section-title > span {
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: block;
+  position: relative;
+}
+
+growth sub-section-header {
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: block;
+  position: relative;
+}
+
+growth sub-section-line {
+  display: block;
+  position: relative;
+  background-image: url("../../images/board/growth_underline.png");
+  height: 5px;
+  width: 100%;
+  background-size: 100% 100%;
+  flex-shrink: 99;
+  background-repeat: no-repeat;
+  margin-bottom: auto;
+  margin-top: auto;
+  margin-left: 8px;
+  margin-right: 8px;
+  z-index: 1;
+}
+
+growth special-section-title {
+  position: absolute;
+  font-family: "JosefinSans";
+  font-size: 22.66px;
+  font-weight: bold;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  word-spacing: 1px;
+  z-index: 0;
+  transform: translateX(-50%);
+  left: 50%;
+  top: -46px;
+  width: 100%;
+}
 
 growth-table.has-special-title {
   padding-top: 28px;
@@ -170,36 +207,7 @@ board.hide-text growth-text {
   visibility: hidden;
 }
 
-growth sub-section-title > span {
-  flex-grow: 0;
-  flex-shrink: 0;
-  display: block;
-  position: relative;
-}
-
-growth sub-section-header {
-  flex-grow: 0;
-  flex-shrink: 0;
-  display: block;
-  position: relative;
-}
-
-growth sub-section-line {
-  display: block;
-  position: relative;
-  background-image: url("../../images/board/growth_underline.png");
-  height: 5px;
-  width: 100%;
-  background-size: 100% 100%;
-  flex-shrink: 99;
-  background-repeat: no-repeat;
-  margin-bottom: auto;
-  margin-top: auto;
-  margin-left: 8px;
-  margin-right: 8px;
-  z-index: 1;
-}
-
+/* ===== 3. Tables, groups & borders ===== */
 growth-table {
   display: inline-flex;
   width: 1090px;
@@ -270,11 +278,43 @@ growth-row-line {
   margin-top: 0px;
 }
 
+/* ===== 4. Cells & art blocks =====
+   The invariant cell structure is <growth-cell><cell-icons/><growth-text/>. */
 growth-cell {
   position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+
+/* cell-icons: one wrapper for a cell's icon block — a 90px bottom-justified
+   flex column; each mode class states only its differences. The historical
+   tags unified here: .add-presence.req was <custom-presence-req>; the bare
+   add-presence(N) and add-presence(any) forms (were <custom-presence> /
+   <custom-presence-no-range>) ride the base; .stack was <custom-icon>, now a
+   marker for its child rules — each .stack emitter also carries a semantic
+   class (move-presence, incarna-*, isolate, damage, add-token, replace,
+   gain-card-pay-2, push-gather) as a tuning handle; .custom was
+   <custom-growth-icon>. The old tags disagreed on flex vs inline-flex vs
+   nothing; that read as accident, not design, so display is unified here —
+   the known place the difference was real is inside <ring-icon>
+   (inline-block), i.e. blank presence-nodes and presence-node(<growth
+   action>) rings. */
+cell-icons {
+  font-size: 26.66px;
+  font-weight: bold;
+  font-style: normal;
+  display: flex;
+  height: 90px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Board-hardware cells (presence nodes/tracks rendered in growth) are taller
+   than the standard band. */
+cell-icons.node {
+  height: auto;
 }
 
 /* Horizontal art blocks (was <growth-cell-double>): .choice carries an
@@ -297,434 +337,48 @@ cell-icons.combo {
   text-align: center;
 }
 
-growth-cell icon {
-}
-
-growth-cell icon.presence {
-  /* margin-left: 8px;
-  width: 43px;
-  height: 26px;
-  margin-bottom: 0px; */
-}
-
-growth-cell icon.destroyed-presence,
-growth-cell icon.destroy-presence {
-}
-
-growth-cell icon-row.destroy {
-  display: flex;
-  height: 90px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  gap: 5px;
-}
-
-growth-cell icon.reclaim-all,
-growth-cell icon.reclaim-one,
-growth-cell icon.reclaim-none,
-growth-cell icon.reclaim-custom,
-growth-cell icon.reclaim-half {
-  display: block;
-  margin-top: -12px;
-  margin-bottom: 2px;
-  --icon-h: 100px;
-  width: 100px;
-}
-
-growth-cell icon.reclaim-num {
-  margin: 0px;
-  margin-bottom: 10px;
-}
-
-growth-cell icon.reclaim-num value {
-  font-size: 43px;
-  font-family: "Antropos";
-  font-weight: normal;
-  bottom: 33px;
-  right: 57px;
-  position: absolute;
-}
-
-growth-cell icon.empower-incarna {
-  margin: 0px -10px;
-  margin-top: -20px;
-}
-
-growth-cell icon.incarna {
-  margin-bottom: 0px;
-  margin-top: -24px;
-}
-
-growth-cell icon.incarna.move {
-  /* left: -24px;
-  top: 15px; */
-}
-
-growth-cell icon.incarna.add-move {
-  margin-bottom: 10px;
-  z-index: 2;
-}
-
-growth-cell add-move-upper {
-  margin-bottom: 35px;
-  width: 124px;
-}
-
-growth-cell add-move-lower {
-  display: inline-flex;
-  height: 33px;
+/* Totally Custom Growth Options (icon, text, blank, error cells): a
+   horizontal 100px box, unlike the base's bottom-justified column. .wide is
+   custom-wide(...) (was .wide-growth). */
+cell-icons.custom {
   flex-direction: row;
-  align-items: flex-end;
-  margin-bottom: 5px;
-}
-
-growth-cell add-token-upper {
-  margin-bottom: 25px;
-  width: 100%;
-}
-
-growth-cell add-token-lower {
-  display: inline-flex;
-  height: 33px;
-  flex-direction: row;
-  align-items: flex-end;
-  margin-bottom: 20px;
-}
-
-growth-cell icon.add-token {
-}
-
-add-move-upper icon.backslash {
-  margin-bottom: -3px;
-  margin-left: 2px;
-  margin-right: 5px;
-  margin-top: -1px;
-}
-
-add-move-upper icon.move-arrow {
-  margin-bottom: -3px;
-  margin-left: 2px;
-  margin-right: 5px;
-  margin-top: -1px;
-}
-
-growth-cell icon.with-your {
-  z-index: 0;
-  margin-bottom: 0px;
-  margin-left: -20px;
-}
-
-/* growth-cell icon.replace-with-incarna {
-  position: relative;
-  left: 40px;
-  bottom: -32px;
-} */
-
-growth-cell icon.with-incarna {
-  margin-right: 35px;
-  margin-bottom: 24px;
-}
-
-growth-cell icon.with-incarna icon {
-  position: relative;
-  left: 40px;
-  bottom: -32px;
-}
-
-growth-cell icon.reclaim-half {
-}
-
-growth-cell icon.modified-reclaim icon {
-  position: absolute;
-  right: -8px;
-  top: -28px;
-  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
-    drop-shadow(0px -1px 0px);
-  color: #ead38d;
-}
-
-growth-cell icon.modified-reclaim icon.element {
-  filter: unset;
-}
-
-/* reclaim-element is an element exception */
-growth-cell icon.modified-reclaim .sun {
-  background-image: url("../../images/board/Sun.png");
-  --icon-ratio: var(--art-sun-ratio);
-}
-growth-cell icon.modified-reclaim .moon {
-  background-image: url("../../images/board/Moon.png");
-  --icon-ratio: var(--art-moon-ratio);
-}
-growth-cell icon.modified-reclaim .fire {
-  background-image: url("../../images/board/Fire.png");
-  --icon-ratio: var(--art-fire-ratio);
-}
-growth-cell icon.modified-reclaim .air {
-  background-image: url("../../images/board/Air.png");
-  --icon-ratio: var(--art-air-ratio);
-}
-growth-cell icon.modified-reclaim .plant {
-  background-image: url("../../images/board/Plant.png");
-  --icon-ratio: var(--art-plant-ratio);
-}
-growth-cell icon.modified-reclaim .water {
-  background-image: url("../../images/board/Water.png");
-  --icon-ratio: var(--art-water-ratio);
-}
-growth-cell icon.modified-reclaim .earth {
-  background-image: url("../../images/board/Earth.png");
-  --icon-ratio: var(--art-earth-ratio);
-}
-growth-cell icon.modified-reclaim .animal {
-  background-image: url("../../images/board/Animal.png");
-  --icon-ratio: var(--art-animal-ratio);
-}
-growth-cell icon.modified-reclaim .star {
-  background-image: url("../../images/board/NewIcons/Element Star.png");
-  --icon-ratio: var(--art-element-star-ratio);
-}
-growth-cell icon.modified-reclaim .any {
-  background-image: url("../../images/board/Any.png");
-  --icon-ratio: var(--art-any-ratio);
-}
-
-growth-cell icon.discard-element {
-  position: relative;
-  left: 50px;
-  top: -32px;
-}
-
-/* discard-element is an element exception */
-growth-cell icon.discard-element.sun {
-  background-image: url("../../images/board/Sun.png");
-  --icon-ratio: var(--art-sun-ratio);
-}
-growth-cell icon.discard-element.moon {
-  background-image: url("../../images/board/Moon.png");
-  --icon-ratio: var(--art-moon-ratio);
-}
-growth-cell icon.discard-element.fire {
-  background-image: url("../../images/board/Fire.png");
-  --icon-ratio: var(--art-fire-ratio);
-}
-growth-cell icon.discard-element.air {
-  background-image: url("../../images/board/Air.png");
-  --icon-ratio: var(--art-air-ratio);
-}
-growth-cell icon.discard-element.plant {
-  background-image: url("../../images/board/Plant.png");
-  --icon-ratio: var(--art-plant-ratio);
-}
-growth-cell icon.discard-element.water {
-  background-image: url("../../images/board/Water.png");
-  --icon-ratio: var(--art-water-ratio);
-}
-growth-cell icon.discard-element.earth {
-  background-image: url("../../images/board/Earth.png");
-  --icon-ratio: var(--art-earth-ratio);
-}
-growth-cell icon.discard-element.animal {
-  background-image: url("../../images/board/Animal.png");
-  --icon-ratio: var(--art-animal-ratio);
-}
-growth-cell icon.discard-element.star {
-  background-image: url("../../images/board/NewIcons/Element Star.png");
-  --icon-ratio: var(--art-element-star-ratio);
-}
-growth-cell icon.discard-element.any {
-  background-image: url("../../images/board/Any.png");
-  --icon-ratio: var(--art-any-ratio);
-}
-
-growth-cell icon.gain-card-pay-2 {
-  display: block;
-}
-
-presence-node.growth {
-  margin-top: -8px;
-}
-
-presence-node.growth icon {
-  margin-bottom: 0px;
-}
-
-/* :not(.per) — historically these matched only the flat energy badge tag,
-   never the per-X form. */
-presence-node.growth badge.energy:not(.per) {
-  margin-top: 0px;
-}
-
-presence-node.growth badge.energy:not(.per) value {
-  font-size: 32px;
-}
-
-/* split() in growth: the track's -65px pull is measured against a track row,
-   which a growth cell is not. Starting value — needs a look in the browser. */
-split-presence-node.growth {
-  margin-top: 0px;
-}
-
-/* presence-track(...): a row of nodes in one growth cell. position:relative
-   makes this the containing block for the track banner nested inside it — the
-   banner is absolutely positioned, so it takes its width from here and
-   addGrowthTrackBanners() only has to center it vertically. */
-growth presence-track {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 20px;
-  position: relative;
-}
-
-growth presence-track presence-node {
-  margin-left: 10px;
-}
-
-/* Height matches the real tracks' track-banner-art; the inline background-size
-   carries the user's banner-v-scale through. addGrowthTrackBanners runs the art
-   out to the growth panel's left edge, so it overlaps whatever sits to its left
-   — z-index puts it between the panel art (growth-bottom is -2,
-   growth-background -3) and the cells, which <growth> scopes as the stacking
-   context. */
-growth presence-track track-banner-art.growth-track {
-  height: 130px;
-  z-index: -1;
-}
-
-/* icon-row: THE horizontal row of icons inside a cell (growth vocabulary
-   consolidation — see renderer-css-improvement-plan.md). The bare form is a
-   plain inline row (was <display-custom>); .plus is the "+presence" line
-   (was <plus-presence>). */
-icon-row {
-  display: inline-flex;
-  flex-direction: row;
-}
-
-icon-row {
-  --icon-h: 42px;
-}
-
-icon-row.plus {
-  display: flex;
-  position: relative;
-  margin-bottom: 2px;
-  align-items: flex-end;
-}
-
-icon-row.plus icon {
-  margin: 0px;
-}
-
-icon-row.plus icon.presence {
-  left: 8px;
-}
-
-icon-row.or icon-row.plus {
-  display: inline-block;
-}
-
-/* badge: a blank-art counter — background art with a positioned <value>. The
-   class picks the art and size: .energy / .fear / .plays (+ .per for the
-   smaller per-X form beside a ring-icon.per), .damage, .repeat for ^N
-   (+ .cost for ^cost(n)). */
-badge {
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  display: block;
-}
-
-/* font-weight resets the bold that badges now inherit from the cell-icons
-   base — historically they sat outside any bold wrapper. */
-badge value {
-  font-family: "Energy Font";
-  font-style: normal;
-  font-weight: normal;
-  display: inline-block;
-}
-
-/* Repeating Growth Options (Fractured Days) */
-badge.repeat {
-  background-image: url("../../images/board/NewIcons/Growth Multiply Blank.png");
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  top: -20px;
-  left: -18px;
-}
-
-badge.repeat value {
-  font-size: 24px;
-  margin-top: 4px;
-  margin-left: 10px;
-  color: #52301e;
-}
-
-badge.repeat.cost {
-  background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
-}
-
-badge.repeat.cost value {
-  font-size: 22.66px;
-  margin-left: 0px;
-  color: #000000;
-}
-
-/* ^N repeats: the badge.repeat injects into the cell-icons root (absolutely
-   positioned, no width contribution) — the old <repeat-wrapper> is gone. */
-
-/* Gaining Flat Energy */
-badge.energy {
-  background-image: url("../../images/board/AddEnergyBlank.png");
-  height: 100px;
-  width: 100px;
+  justify-content: space-around;
   margin-top: -10px;
+  width: 100px;
+  height: 100px;
 }
 
-badge.energy value {
-  font-size: 32px;
-  margin-top: 31px;
-  margin-left: 19px;
+cell-icons.custom.wide {
+  width: 130px;
 }
 
-/* cell-icons: one wrapper for a cell's icon block — a 90px bottom-justified
-   flex column; each mode class states only its differences. The historical
-   tags unified here: .add-presence.req was <custom-presence-req>; the bare
-   add-presence(N) and add-presence(any) forms (were <custom-presence> /
-   <custom-presence-no-range>) ride the base; .stack was <custom-icon>, now a
-   marker for its child rules — each .stack emitter also carries a semantic
-   class (move-presence, incarna-*, isolate, damage, add-token, replace,
-   gain-card-pay-2) as a tuning handle; .custom was <custom-growth-icon>.
-   The old tags disagreed on flex vs inline-flex vs nothing; that read as
-   accident, not design, so display is unified here — the known place the
-   difference was real is inside <ring-icon> (inline-block), i.e. blank
-   presence-nodes and presence-node(<growth action>) rings. */
-cell-icons {
-  font-size: 26.66px;
-  font-weight: bold;
-  font-style: normal;
-  display: flex;
-  height: 90px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-/* Board-hardware cells (presence nodes/tracks rendered in growth) are taller
-   than the standard band. */
-cell-icons.node {
-  height: auto;
-}
-
-/* was <custom-presence-or>: the "presence or token" line */
-icon-row.or {
-  display: block;
-  /* height: 40px; */
-  margin-bottom: -2px;
+cell-icons.custom icon.explorer {
   margin-top: 0px;
+}
+
+cell-icons.custom > * {
+  width: 80px;
+  height: 90px;
+  margin-top: 0px;
+  margin-bottom: 7px;
+  background-position: bottom;
+}
+
+cell-icons.custom.wide > * {
+  width: 200px;
+}
+
+/* incarna(move,...) — was <custom-icon2>, which lacked the stack's
+   justify-content: flex-end, so its icon+arrow sit at the top. */
+cell-icons.incarna-move {
+  justify-content: flex-start;
+}
+
+/* push/gather cells: the wrapper is a standard stack; the scene layout lives
+   on <piece-move> (section 9). */
+cell-icons.push-gather.with-range {
+  height: 110px;
+  margin-top: -19px;
 }
 
 /* add-presence(x,token,y,and/or,z,...) — "Add a Presence or a Beasts to any
@@ -744,20 +398,236 @@ cell-icons.add-presence.with-land icon-row.plus icon.add-token {
   margin-bottom: 0px;
 }
 
-icon-row.or icon.backslash {
-  margin-bottom: -3px;
-  margin-left: 2px;
-  margin-right: 2px;
-  margin-top: -1px;
+cell-icons.add-presence icon.dahan {
+  margin-top: 0px;
+  margin-bottom: -2px;
 }
 
-icon-row.or icon {
+/* add-presence(x,text,...) with no trailing icons: the empty <presence-req>
+   still reserves the row the icons would have taken, keeping the cell aligned
+   with its neighbours. 32px matches the strut the old spacer span's 24pt
+   line-height produced. */
+cell-icons.add-presence.text presence-req:empty {
+  min-height: 32px;
+}
+
+/* ===== 5. Icon rows =====
+   icon-row: THE horizontal row of icons inside a cell. The bare form is a
+   plain inline row (was <display-custom>). Converted rows carry their own
+   --icon-h so the 42px default below stays scoped to the small glyph rows. */
+icon-row {
+  display: inline-flex;
+  position: relative;
+  flex-direction: row;
+  --icon-h: 42px;
+}
+
+/* the "+presence" line (was <plus-presence>) */
+icon-row.plus {
+  display: flex;
+  position: relative;
+  margin-bottom: 2px;
+  align-items: flex-end;
+}
+
+icon-row.plus icon {
   margin: 0px;
-  margin-bottom: -4px;
 }
 
-/* The one range arrow: every growth writer now emits {range-N}, which
-   expands to <range class="range"><range-value>N</range-value></range>
+icon-row.plus icon.presence {
+  margin-left: 8px;
+  --icon-h: 26px;
+  --icon-scale: 1;
+}
+
+icon-row.or {
+  display: block;
+  margin-bottom: -2px;
+  margin-top: 0px;
+  --icon-h: 34px;
+}
+
+icon-row.or icon-row.plus {
+  display: inline-block;
+}
+
+icon-row.tokens {
+  display: flex;
+  position: relative;
+  vertical-align: bottom;
+  align-content: flex-end;
+  bottom: 4px;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+/* For adding presence relative to other presence (was <add-relative>) */
+icon-row.relative {
+  display: flex;
+  position: relative;
+  height: 50px;
+  margin-top: 7px;
+}
+
+/* incarna add-move / add-token cells: two icon-rows — .upper the "+ / →" or
+   "+token" glyphs, .lower the incarna (and companion). Values carried from
+   the old add-*-upper/-lower tags. .upper keeps the old block/inline-flow
+   layout (the "+" is a text node, centered by the table's text-align);
+   --icon-h is an explicit starting value (these rows previously inherited
+   growth-cell's 64px) — calibrate freely. */
+icon-row.upper {
+  display: flex;
+  --icon-h: 24px;
+  justify-content: center;
+}
+
+cell-icons.incarna-add-move icon-row.upper {
+  width: 124px;
+}
+
+cell-icons.incarna-add-token icon-row.upper {
+  width: 100%;
+}
+
+/* margin-bottom is load-bearing against icon.backslash's 22px in icon.css */
+icon-row.upper icon.backslash,
+icon-row.upper icon.move-arrow {
+}
+
+icon-row.lower {
+  height: 60px;
+  flex-direction: row;
+  align-items: flex-end;
+  --icon-h: 42px;
+}
+
+cell-icons.incarna-add-move icon-row.lower {
+  margin-bottom: 5px;
+}
+
+cell-icons.incarna-add-token icon-row.lower {
+  margin-bottom: 20px;
+}
+
+/* destroy-presence (was <destroy-wrap>) */
+growth-cell icon-row.destroy {
+  display: flex;
+  height: 90px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 5px;
+}
+
+/* replace(...): "no-X ► Y" on one line (was <replace-wrap>; the font sizes
+   the ► arrow character). */
+icon-row.replace {
+  display: inline-flex;
+  flex-wrap: wrap;
+  vertical-align: bottom;
+  align-content: center;
+  justify-content: center;
+  font-size: 26.66px;
+  font-weight: bold;
+}
+
+icon-row.replace icon {
+  top: -3px;
+}
+
+icon.replace-with,
+icon.replace-this,
+icon.replace-this-no-range,
+icon.replace-with.presence,
+icon.replace-this.presence,
+icon.replace-this-no-range.presence {
+  margin-bottom: 0px;
+  margin-top: -5px;
+  top: 10px;
+}
+
+icon.replace-with.presence,
+icon.replace-this.presence,
+icon.replace-this-no-range.presence {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+icon.replace-with {
+  position: inherit;
+}
+
+icon.replace-this {
+  position: absolute;
+  transform: translate(6px, -33px);
+}
+
+icon.replace-this-no-range {
+  position: absolute;
+  transform: translate(6px, 7px);
+}
+
+/* ===== 6. Presence requirements ===== */
+presence-req {
+  font-family: "Lato SemiBold";
+  font-size: 18.66px;
+  line-height: 26px;
+  font-style: italic;
+  display: flex;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+}
+
+.non-icon icon,
+presence-req icon.presence {
+  display: inline-block;
+  margin-top: 7px;
+  margin-bottom: -5px;
+}
+
+presence-req icon.presence {
+  margin-top: 0px;
+}
+
+presence-req icon.add-token {
+  margin-left: 3px;
+  margin-right: auto;
+  margin-top: -1px;
+  margin-bottom: 0px;
+}
+
+/* The 3+ 'or' requirement separator. Load-bearing margin reset against
+   icon.backslash's 22px bottom margin in icon.css. */
+presence-req icon.backslash {
+  margin-bottom: 0px;
+}
+
+presence-req icon.invaders {
+  margin-top: 22px;
+}
+
+presence-req icon.terrain-single,
+presence-req icon.terrain-double {
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+presence-req icon.terrain-double {
+  transform: translateY(0px) translateX(6px);
+}
+
+presence-req icon.ocean {
+  margin-left: -3px;
+}
+
+/* ===== 7. Range & move arrows =====
+   The one range arrow: every growth writer emits {range-N}, which expands to
+   <range class="range"><range-value>N</range-value></range>
    (was also <range-growth>/<growth-range>). */
 growth-cell range {
   background-image: url("../../images/board/range_arrow.png");
@@ -817,6 +687,7 @@ cell-icons.move-presence range > range-value.range-icon > icon {
 }
 
 /* incarna(move,any): hand-written <range><textvalue>ANY</textvalue></range> */
+cell-icons.move-presence range textvalue,
 cell-icons.incarna-move range textvalue {
   font-size: 28px;
   line-height: 28px;
@@ -824,347 +695,184 @@ cell-icons.incarna-move range textvalue {
   font-weight: normal;
 }
 
-cell-icons.add-presence icon.dahan {
-  margin-top: 0px;
-  margin-bottom: -2px;
-}
-
-.non-icon icon,
-presence-req icon.presence {
-  display: inline-block;
-  margin-top: 7px;
-  margin-bottom: -5px;
-}
-
-.non-icon icon,
-presence-req icon {
-}
-
-presence-req icon.add-token {
-  margin-left: 3px;
-  margin-right: auto;
-  margin-top: -1px;
-  margin-bottom: 0px;
-}
-
-/* The 3+ 'or' requirement separator. Load-bearing margin reset against
-   icon.backslash's 22px bottom margin in icon.css. */
-presence-req icon.backslash {
-  margin-bottom: 0px;
-}
-
-presence-req icon.wilds {
-}
-
-presence-req icon.town,
-presence-req icon.disease {
-}
-
-presence-req icon.presence {
-  margin-top: 0px;
-}
-
-presence-req icon.blight {
-}
-
-presence-req icon.invaders {
-  margin-top: 22px;
-}
-
-presence-req icon.terrain-single,
-presence-req icon.terrain-double {
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-}
-
-presence-req icon.terrain-double {
-  transform: translateY(0px) translateX(6px);
-}
-
-presence-req icon.ocean {
-  margin-left: -3px;
-}
-
-presence-req {
-  font-family: "Lato SemiBold";
-  font-size: 18.66px;
-  line-height: 26px;
-  font-style: italic;
+/* ===== 8. Badges & per-rings =====
+   badge: a blank-art counter — background art with a positioned <value>. The
+   class picks the art and size: .energy / .fear / .plays (+ .per for the
+   smaller per-X form beside a ring-icon.per), .damage, .repeat for ^N
+   (+ .cost for ^cost(n)). */
+badge {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
   display: flex;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  flex-direction: row;
   align-items: center;
-  gap: 3px;
-}
-
-/* add-presence(x,text,...) with no trailing icons: the empty <presence-req>
-   still reserves the row the icons would have taken, keeping the cell aligned
-   with its neighbours. 32px matches the strut the old spacer span's 24pt
-   line-height produced. */
-cell-icons.add-presence.text presence-req:empty {
-  min-height: 32px;
-}
-
-growth-cell icon.make-fast {
-  margin-bottom: 7px;
-}
-
-growth-cell icon.isolate {
-  margin-bottom: 7px;
-}
-
-growth-cell icon.gain-power-card,
-growth-cell icon.take-power-card,
-growth-cell icon.forget-power-card,
-growth-cell icon.discard-cards,
-growth-cell icon.discard-2-cards,
-growth-cell icon.discard-card,
-growth-cell icon.discard-1-card,
-growth-cell icon.gain-card-play,
-growth-cell icon.gain-card-play-blank,
-growth-cell icon.days-never-were {
-  --icon-h: 90px;
-  top: -7px;
-}
-
-growth-cell icon.energy-per-play {
-  --icon-h: 100px;
-  top: -7px;
-  margin-top: -10px;
-}
-
-/* 
-growth-cell icon.destroyed-presence, growth-cell icon.destroy-presence {
-  margin-bottom: 7px;
-  height:90px;
-  width:100px;
-} */
-
-growth-cell icon.ignorerange {
-  margin-bottom: 10px;
-  margin-top: -10px;
-}
-
-growth-cell icon.gain-1-time,
-growth-cell icon.gain-2-time {
-  --icon-h: 90px;
-  top: -3px;
-}
-
-growth-cell icon.make-fast {
-  margin-bottom: 3px;
-}
-
-icon.your-land.add-token {
-  display: flex;
   justify-content: center;
-  align-items: center;
-}
-icon.your-land.add-token icon {
-  top: unset;
-  left: unset;
 }
 
-cell-icons.add-token icon.terrain-single {
-  margin-top: 2px;
+/* The value is flex-centered on the badge; each variant's left/top names the
+   digit's offset from the badge CENTER (values measured from the old margin
+   layout, so nothing moved — calibrate freely). font-weight resets the bold
+   inherited from the cell-icons base. */
+badge value {
+  font-family: "Energy Font";
+  font-style: normal;
+  font-weight: normal;
+  position: relative;
 }
 
-cell-icons.add-token icon.terrain-double {
-  margin-top: 1px;
+/* Gaining Flat Energy */
+badge.energy {
+  background-image: url("../../images/board/AddEnergyBlank.png");
+  height: 100px;
+  width: 100px;
+  margin-top: -10px;
 }
 
-cell-icons.add-token .non-icon {
-  margin-bottom: 8px;
+badge.energy value {
+  font-size: 32px;
+  left: 9.5px;
+  top: 2px;
 }
 
-icon.gain-card-modifier {
+/* Gaining Energy per Element/Icon: the small .per badge overlaps a
+   ring-icon.per carrying the scaling entity's icon. */
+badge.energy.per {
+  height: 75px;
+  width: 75px;
+  z-index: 4;
   position: absolute;
-  left: -10px;
-  top: -33px;
-  display: block;
+  top: -26px;
+  left: 73px;
+}
+
+badge.energy.per value {
+  font-size: 21.33px;
+  left: 5.5px;
+  top: 1.5px;
+}
+
+/* Gaining Fear */
+badge.fear {
+  background-image: url("../../images/board/fear.png");
+  height: 110px;
+  width: 80px;
+  margin-top: -20px;
+}
+
+badge.fear value {
+  font-size: 26.66px;
+  top: 10.5px;
+}
+
+badge.fear.per {
+  height: 75px;
+  width: 53px;
+  z-index: 1;
+  position: relative;
+  margin: -35px 0px 50px 0px;
+}
+
+badge.fear.per value {
+  font-size: 18.66px;
+  top: 7.5px;
+}
+
+badge.plays {
+  background-image: url("../../images/board/NewIcons/Cardplay Gain Blank.png");
+  height: 80px;
+  width: 80px;
+  z-index: 1;
+  position: relative;
+  margin: 0px -4px 10px 10px;
+}
+
+badge.plays value {
+  font-size: 32px;
+  top: 8px;
+}
+
+/* Deal Damage in Growth */
+badge.damage {
+  background-image: url("../../images/board/NewIcons/Damage Blank.png");
+  position: absolute;
+  width: 90px;
+  height: 60px;
+  top: -21px;
+}
+
+badge.damage value {
+  font-family: "Antropos";
+  font-size: 40px;
+  /* damage digits were historically bold (they lived inside <custom-icon>) */
+  font-weight: bold;
+  top: 10.5px;
+}
+
+badge.damage icon {
+  top: 5px;
   filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
     drop-shadow(0px -1px 0px);
   color: #ead38d;
 }
 
-/* gain-card-modifier sits inside growth, so it inherits the simple element
-   art from the global element icon layer. */
-
-icon.gain-card-modifier.minor {
-}
-
-icon.take-power-card icon.gain-card-modifier {
-  left: 30px;
-}
-
-div.gain-card-second-modifier {
+/* Repeating Growth Options (Fractured Days). The badge.repeat injects into
+   the cell-icons root (absolutely positioned, no width contribution) — the
+   old <repeat-wrapper> is gone. */
+badge.repeat {
+  background-image: url("../../images/board/NewIcons/Growth Multiply Blank.png");
   position: absolute;
-  right: 0px;
-  top: -35px;
-  display: block;
+  width: 40px;
+  height: 40px;
+  top: -20px;
+  left: -18px;
 }
 
-div.gain-card-second-modifier icon {
+badge.repeat value {
+  font-size: 24px;
+  left: 5px;
+  top: -0.5px;
+  color: #52301e;
 }
 
-/* The row of pieces added/moved together (was <token-wrap>). */
-icon-row.tokens {
+badge.repeat.cost {
+  background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
+}
+
+badge.repeat.cost value {
+  font-size: 22.66px;
+  left: 0px;
+  top: -1.5px;
+  color: #000000;
+}
+
+ring-icon.per {
+  background-image: url(../../images/board/CardPlayRing.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 70px;
+  width: 70px;
+  z-index: 1;
   display: flex;
-  vertical-align: bottom;
-  align-content: flex-end;
-  padding-bottom: 4px;
+  align-items: center;
   justify-content: center;
-  align-items: flex-end;
-  gap: 5px;
 }
 
-/* replace(...): "no-X ► Y" on one line (was <replace-wrap>; the font sizes
-   the ► arrow character). */
-icon-row.replace {
-  display: inline-flex;
-  flex-wrap: wrap;
-  vertical-align: bottom;
-  align-content: center;
-  justify-content: center;
-  font-size: 26.66px;
-  font-weight: bold;
-}
-
-icon-row.replace icon {
-  top: -3px;
-}
-
-icon.replace-with,
-icon.replace-this,
-icon.replace-this-no-range,
-icon.replace-with.presence,
-icon.replace-this.presence,
-icon.replace-this-no-range.presence {
-  margin-bottom: 0px;
-  margin-top: -5px;
-  top: 10px;
-}
-
-icon.replace-with.presence,
-icon.replace-this.presence,
-icon.replace-this-no-range.presence {
-  margin-right: 0px;
-  margin-left: 0px;
-}
-
-icon.replace-with {
-  position: inherit;
-}
-
-icon.replace-this {
-  position: absolute;
-  transform: translate(6px, -33px);
-}
-
-icon.replace-this-no-range {
-  position: absolute;
-  transform: translate(6px, 7px);
-}
-
-cell-icons.stack icon.isolate {
-  margin-bottom: -10px;
-}
-
-/* incarna(move,...) — was <custom-icon2>, which lacked the stack's
-   justify-content: flex-end, so its icon+arrow sit at the top. */
-cell-icons.incarna-move {
-  justify-content: flex-start;
-}
-
-cell-icons.incarna-move icon.move-range-1,
-cell-icons.incarna-move icon.move-range-2,
-cell-icons.incarna-move icon.move-range-3,
-cell-icons.incarna-move icon.move-range-4 {
-  margin-top: 8px;
-  margin-left: 0px;
-}
-
-growth-text {
-  display: inline-flex;
+/* ring-icon.per.fear keeps the simple element art via the global element
+   layer (it sits in the simple context list in global.css). */
+ring-icon.per icon {
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
   position: relative;
-  font-family: "Lato SemiBold";
-  font-size: 18.66px;
-  font-style: italic;
-  margin-top: 0px;
-  text-align: center;
-  /* width: 105%; */
-  box-sizing: border-box;
-  letter-spacing: 1px;
-  line-height: 19px;
-  min-width: 50px;
-  max-height: 60px;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  padding-left: 2px;
-  padding-right: 2px;
-  flex-wrap: wrap;
-  flex-direction: column;
+  z-index: 0;
+  margin: 0px;
+  --icon-h: 50px;
 }
 
-growth-text.blank-text {
-  min-width: unset;
-}
-
-growth-text icon.explorer,
-growth-text icon.town,
-growth-text icon.city,
-growth-text icon.wilds,
-growth-text icon.disease,
-growth-text icon.strife,
-growth-text icon.beasts {
-  margin-bottom: -3px;
-  margin-left: -4px;
-  margin-right: -4px;
-}
-
-.plus-text {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 26.66px;
-  font-weight: bold;
-  font-style: normal;
-}
-
-plus-text {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 26.66px;
-  font-weight: bold;
-  font-style: normal;
-}
-
-plus-text::after {
-  content: "+";
-}
-
-.non-icon {
-  font-family: "Name Headings";
-  font-size: 26.66px;
-  font-style: normal;
-  margin: auto;
-}
-
-.non-icon.small {
-  font-size: 21.33px;
-  margin: auto 3px auto 3px;
-}
-
-/* One arrow art for both directions; it points left (gather), and the push
-   variant mirrors it (see the piece-move flip rule). */
-growth-cell icon.gather-arrow,
-growth-cell icon.push-arrow {
-  background-image: url("../../images/board/NewIcons/Misc Arrow Gather-Push.png");
-  --icon-ratio: var(--art-misc-arrow-gather-push-ratio);
-}
-
-/* push/gather scenes. <piece-move class="push|gather"> is the one positioning
-   context: a land at the left, the moved pieces at the arrow head, and — for
-   terrain compositions only — a separate half-arrow (the canonical
+/* ===== 9. Push/gather scenes =====
+   <piece-move class="push|gather"> is the one positioning context: a land at
+   the left, the moved pieces at the arrow head, and — for terrain
+   compositions only — a separate half-arrow (the canonical
    land-push/land-gather scene art has its arrow baked in). Calibrate with the
    absolute positions and --icon-h values below; nothing here uses margins. */
 piece-move {
@@ -1174,6 +882,14 @@ piece-move {
   height: 90px;
 }
 
+/* One arrow art for both directions; it points left (gather), and the push
+   variant mirrors it (see the flip rule below). */
+growth-cell icon.gather-arrow,
+growth-cell icon.push-arrow {
+  background-image: url("../../images/board/NewIcons/Misc Arrow Gather-Push.png");
+  --icon-ratio: var(--art-misc-arrow-gather-push-ratio);
+}
+
 /* the land slot: canonical scene art or a plain terrain icon */
 piece-move > icon {
   position: absolute;
@@ -1181,6 +897,10 @@ piece-move > icon {
   bottom: 0px;
   margin: 0px;
   --icon-h: 70px;
+}
+
+piece-move icon.terrain-double {
+  --icon-scale: 1;
 }
 
 /* terrain compositions: the half-arrow nests inside the terrain icon and
@@ -1201,10 +921,6 @@ piece-move > icon > icon.gather-arrow {
    translate when changing this, it carries the center anchoring */
 piece-move > icon > icon.push-arrow {
   transform: translate(-50%, 50%) scaleX(-1);
-}
-
-piece-move icon.terrain-double {
-  --icon-scale: 1;
 }
 
 /* token/board conditions sit on the land inside the scene art */
@@ -1245,6 +961,277 @@ piece-move.push > icon > icon {
     drop-shadow(0px -1px 0px #e2d367) drop-shadow(0px 1px 0px #e2d367);
 }
 
+/* ===== 10. Element gains =====
+   <gain> is also the fancy-art revert hook in global.css's element layer. */
+gain {
+  height: 90px;
+  width: 95px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+growth-cell gain icon.star {
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  margin-top: -3px;
+  margin-bottom: 7px;
+}
+
+/* OR between multiple different elements */
+growth-cell gain.or {
+  display: flex;
+  flex-direction: row;
+  height: 90px;
+  width: 150px;
+  bottom: 13px;
+  align-items: flex-end;
+}
+
+growth-cell gain.or icon {
+  background-position: bottom;
+}
+
+growth-cell gain.or icon.element {
+  flex: 4 1 0;
+}
+
+growth-cell gain.or icon.backslash {
+  flex: 1 1 0;
+}
+
+/* N of the same element, arranged on a circle by the writer */
+icon-multi-element {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+icon-multi-element icon,
+icon-multi-element energy-icon,
+icon-multi-element card-icon {
+  display: inline-block;
+  position: relative;
+  margin: -30px;
+}
+
+icon-multi-element icon.star {
+  margin-top: -10px;
+  margin-left: -5px;
+}
+
+growth-cell div.custom-scaling {
+  font-family: "Name Headings";
+  font-size: 37.33px;
+  font-style: normal;
+}
+
+/* ===== 11. Per-action icon calibration ===== */
+/* growth-cell icon.presence — previous tuning, kept for reference:
+   margin-left: 8px; width: 43px; height: 26px; margin-bottom: 0px; */
+
+/* reclaim */
+growth-cell icon.reclaim-all,
+growth-cell icon.reclaim-one,
+growth-cell icon.reclaim-none,
+growth-cell icon.reclaim-custom,
+growth-cell icon.reclaim-half,
+growth-cell icon.reclaim-num {
+  display: block;
+  margin-top: -12px;
+  margin-bottom: 2px;
+  --icon-h: 100px;
+  width: 100px;
+}
+
+/* growth-cell icon.reclaim-num — previous tuning, kept for reference:
+   margin: 0px; margin-bottom: 10px; */
+
+growth-cell icon.reclaim-num value {
+  font-size: 43px;
+  font-family: "Antropos";
+  font-weight: normal;
+  top: 0px;
+  left: 8px;
+  position: absolute;
+}
+
+/* reclaim(x,element) / discard(element): the element gem rides the card
+   icon, fancy inside growth's simple context. The art comes from the global
+   element layer — icon.modified-reclaim and icon.modified-discard sit in its
+   fancy revert list in global.css, so there are no per-element art rules
+   here; only positioning. */
+growth-cell icon.modified-reclaim icon,
+growth-cell icon.modified-discard icon {
+  position: absolute;
+  left: -8px;
+  top: -13px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
+    drop-shadow(0px -1px 0px);
+  color: #ead38d;
+  --icon-h: 40px;
+}
+
+growth-cell icon.modified-reclaim icon.element,
+growth-cell icon.modified-discard icon.element {
+  filter: unset;
+  --icon-h: 45px;
+}
+
+growth-cell icon.modified-reclaim icon {
+  left: 86px;
+  top: 10px;
+}
+
+growth-cell icon.modified-discard icon {
+  left: 60px;
+  top: 5px;
+}
+
+/* incarna */
+growth-cell icon.incarna {
+  margin-bottom: 0px;
+  margin-top: -24px;
+}
+
+/* growth-cell icon.incarna.move — previous tuning, kept for reference:
+   left: -24px; top: 15px; */
+
+growth-cell icon.incarna.add-move {
+  margin-bottom: 10px;
+  z-index: 2;
+}
+
+growth-cell icon.empower-incarna {
+  margin: 0px -10px;
+  margin-top: -20px;
+}
+
+growth-cell icon.with-your {
+  z-index: 0;
+  margin-bottom: 0px;
+  margin-left: -20px;
+}
+
+growth-cell icon.with-incarna {
+  margin-right: 35px;
+  margin-bottom: 24px;
+}
+
+growth-cell icon.with-incarna icon {
+  position: relative;
+  left: 40px;
+  bottom: -32px;
+}
+
+cell-icons.incarna-move icon.move-range-1,
+cell-icons.incarna-move icon.move-range-2,
+cell-icons.incarna-move icon.move-range-3,
+cell-icons.incarna-move icon.move-range-4 {
+  margin-top: 8px;
+  margin-left: 0px;
+}
+
+/* cards */
+growth-cell icon.gain-power-card,
+growth-cell icon.take-power-card,
+growth-cell icon.forget-power-card,
+growth-cell icon.discard-cards,
+growth-cell icon.discard-2-cards,
+growth-cell icon.discard-card,
+growth-cell icon.discard-1-card,
+growth-cell icon.gain-card-play,
+growth-cell icon.gain-card-play-blank,
+growth-cell icon.days-never-were,
+growth-cell icon.gain-1-time,
+growth-cell icon.gain-2-time,
+growth-cell icon.isolate {
+  --icon-h: 90px;
+  top: -7px;
+}
+
+growth-cell icon.energy-per-play {
+  --icon-h: 100px;
+  top: -7px;
+  margin-top: -10px;
+}
+
+growth-cell icon.gain-card-pay-2 {
+  display: block;
+}
+
+/* gain-power-card(type, ...): the type gem riding the card icon. It sits
+   inside growth, so it inherits the simple element art from the global
+   element icon layer. */
+icon.gain-card-modifier {
+  position: absolute;
+  left: -10px;
+  top: -33px;
+  display: block;
+  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
+    drop-shadow(0px -1px 0px);
+  color: #ead38d;
+}
+
+icon.take-power-card icon.gain-card-modifier {
+  left: 30px;
+}
+
+div.gain-card-second-modifier {
+  position: absolute;
+  right: 0px;
+  top: -35px;
+  display: block;
+}
+
+/* misc single-icon actions */
+growth-cell icon.make-fast {
+  margin-bottom: 3px;
+}
+
+growth-cell icon.ignorerange {
+  margin-bottom: 10px;
+  margin-top: -10px;
+}
+
+growth-cell icon.gain-1-time,
+growth-cell icon.gain-2-time {
+  top: -3px;
+}
+
+growth icon.damage-1,
+growth icon.damage-2 {
+  margin-bottom: 17px;
+}
+
+/* add-token conditionals */
+icon.your-land.add-token {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+icon.your-land.add-token icon {
+  top: unset;
+  left: unset;
+}
+
+cell-icons.add-token icon.terrain-single {
+  margin-top: 2px;
+}
+
+cell-icons.add-token icon.terrain-double {
+  margin-top: 1px;
+}
+
+cell-icons.add-token .non-icon {
+  margin-bottom: 8px;
+}
+
+/* ===== 12. Growth cost ===== */
 growth-cost {
   background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
   font-family: "Energy Font";
@@ -1330,9 +1317,6 @@ growth-cost.nonscaling::after {
   content: none;
 }
 
-growth-cost.nonscaling > icon {
-}
-
 growth-cost-custom-nonscaling-description {
   font-family: "Lato SemiBold";
   font-size: 14px;
@@ -1345,250 +1329,135 @@ growth-cost-custom-nonscaling-description {
   top: -4px;
 }
 
-presence-special-req {
-  background-image: url("../../images/board/75px_presence.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  display: inline-block;
-  height: 25px;
-  width: 35px;
-  margin-bottom: -7px;
-}
-
-add-presence-req {
-  display: block;
-  font-weight: bold;
-  font-size: 24px;
-}
-
-/* Deal Damage in Growth */
-badge.damage {
-  background-image: url("../../images/board/NewIcons/Damage Blank.png");
-  position: absolute;
-  width: 90px;
-  height: 60px;
-  right: 9px;
-  top: -21px;
-}
-
-badge.damage value {
-  font-family: "Antropos";
-  font-size: 40px;
-  /* damage digits were historically bold (they lived inside <custom-icon>) */
-  font-weight: bold;
-  display: block;
+/* ===== 13. Captions & text glyphs ===== */
+growth-text {
+  display: inline-flex;
   position: relative;
-  top: 16px;
+  font-family: "Lato SemiBold";
+  font-size: 18.66px;
+  font-style: italic;
+  margin-top: 0px;
+  text-align: center;
+  /* width: 105%; */
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  line-height: 19px;
+  min-width: 50px;
+  max-height: 60px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  padding-left: 2px;
+  padding-right: 2px;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
-badge.damage icon {
-  top: 5px;
-  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
-    drop-shadow(0px -1px 0px);
-  color: #ead38d;
+growth-text.blank-text {
+  min-width: unset;
 }
 
-growth icon.damage-1,
-growth icon.damage-2 {
-  margin-bottom: 17px;
+growth-text icon.explorer,
+growth-text icon.town,
+growth-text icon.city,
+growth-text icon.wilds,
+growth-text icon.disease,
+growth-text icon.strife,
+growth-text icon.beasts {
+  margin-bottom: -3px;
+  margin-left: -4px;
+  margin-right: -4px;
 }
 
-badge.plays {
-  background-image: url("../../images/board/NewIcons/Cardplay Gain Blank.png");
-  height: 80px;
-  width: 80px;
-  z-index: 1;
-  position: relative;
-  margin: 0px -4px 10px 10px;
-}
-
-badge.plays value {
-  font-size: 32px;
-  margin-top: 27px;
-}
-
-/* push/gather cells: the wrapper is a standard stack; the scene layout lives
-   on <piece-move> (see its section above). */
-cell-icons.push-gather.with-range {
-  height: 110px;
-  margin-top: -19px;
-}
-
-growth-cell gain icon.element {
-}
-
-growth-cell gain icon.star {
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: inline-block;
-  margin-top: -3px;
-  margin-bottom: 7px;
-}
-
-/* Enables growth option - OR multiple different elements */
-growth-cell gain.or {
-  display: flex;
-  flex-direction: row;
-  height: 90px;
-  width: 150px;
-  bottom: 13px;
-  align-items: flex-end;
-}
-
-growth-cell gain.or icon {
-  background-position: bottom;
-}
-
-growth-cell gain.or icon.element {
-  flex: 4 1 0;
-}
-
-growth-cell gain.or icon.backslash {
-  flex: 1 1 0;
-}
-
-growth-cell div.custom-scaling {
-  font-family: "Name Headings";
-  font-size: 37.33px;
+.plus-text {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 26.66px;
+  font-weight: bold;
   font-style: normal;
 }
 
-gain {
-  height: 90px;
-  width: 95px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+plus-text {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 26.66px;
+  font-weight: bold;
+  font-style: normal;
 }
 
-/* Enables growth option - 2 of same element */
-icon-multi-element {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
+plus-text::after {
+  content: "+";
 }
 
-icon-multi-element icon,
-icon-multi-element energy-icon,
-icon-multi-element card-icon {
-  display: inline-block;
-  position: relative;
-  margin: -30px;
-}
-
-icon-multi-element icon.star {
-  margin-top: -10px;
-  margin-left: -5px;
-}
-
-/* Gaining Energy per Element/Icon: the small .per badge overlaps a
-   ring-icon.per carrying the scaling entity's icon. */
-badge.energy.per {
-  height: 75px;
-  width: 75px;
-  z-index: 1;
-  position: relative;
-  margin: -35px 0px 50px -27px;
-}
-
-badge.energy.per value {
-  font-size: 21.33px;
-  margin-top: 25px;
-  margin-left: 11px;
-}
-
-ring-icon.per {
-  background-image: url(../../images/board/CardPlayRing.png);
-  background-repeat: no-repeat;
-  background-size: contain;
-  height: 70px;
-  width: 70px;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-ring-icon.per.energy {
-  margin-left: -47px;
-}
-
-ring-icon.per.fear {
-  margin-left: -32px;
-}
-
-ring-icon.per icon {
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: block;
-  position: relative;
-  z-index: 0;
+cell-icons.custom > .non-icon {
+  width: unset;
+  height: unset;
   margin: 0px;
 }
 
-/* Totally Custom Growth Options (icon, text, blank, error cells): a
-   horizontal 100px box, unlike the base's bottom-justified column. .wide is
-   custom-wide(...) (was .wide-growth). */
-cell-icons.custom {
-  flex-direction: row;
-  justify-content: space-around;
-  margin-top: -10px;
-  width: 100px;
-  height: 100px;
-}
-
-cell-icons.custom.wide {
-  width: 130px;
-}
-
-cell-icons.custom icon.explorer {
-  margin-top: 0px;
-}
-
-cell-icons.custom > * {
-  width: 80px;
-  height: 90px;
-  margin-top: 0px;
-  margin-bottom: 7px;
-  background-position: bottom;
-}
-
-cell-icons.custom.wide > * {
-  width: 200px;
-}
-
-/* Gaining Fear */
-badge.fear {
-  background-image: url("../../images/board/fear.png");
-  height: 110px;
-  width: 80px;
-  margin-top: -20px;
-}
-
-badge.fear value {
+.non-icon {
+  font-family: "Name Headings";
   font-size: 26.66px;
-  margin-top: 48px;
+  font-style: normal;
+  margin: auto;
 }
 
-badge.fear.per {
-  height: 75px;
-  width: 53px;
-  z-index: 1;
+.non-icon.small {
+  font-size: 21.33px;
+  margin: auto 3px auto 3px;
+}
+
+/* ===== 14. Presence nodes & tracks in growth ===== */
+presence-node.growth {
+  margin-top: -8px;
+}
+
+presence-node.growth icon {
+  margin-bottom: 0px;
+}
+
+/* :not(.per) — historically these matched only the flat energy badge tag,
+   never the per-X form. */
+presence-node.growth badge.energy:not(.per) {
+  margin-top: 0px;
+}
+
+presence-node.growth badge.energy:not(.per) value {
+  font-size: 32px;
+}
+
+/* split() in growth: the track's -65px pull is measured against a track row,
+   which a growth cell is not. Starting value — needs a look in the browser. */
+split-presence-node.growth {
+  margin-top: 0px;
+}
+
+/* presence-track(...): a row of nodes in one growth cell. position:relative
+   makes this the containing block for the track banner nested inside it — the
+   banner is absolutely positioned, so it takes its width from here and
+   addGrowthTrackBanners() only has to center it vertically. */
+growth presence-track {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
   position: relative;
-  margin: -35px 0px 50px 0px;
 }
 
-badge.fear.per value {
-  font-size: 18.66px;
-  margin-top: 33px;
+growth presence-track presence-node {
+  margin-left: 10px;
 }
 
-/* ring-icon.per.fear keeps the simple element art via the global element
-   layer (it sits in the simple context list in global.css). */
+/* Height matches the real tracks' track-banner-art; the inline background-size
+   carries the user's banner-v-scale through. addGrowthTrackBanners runs the art
+   out to the growth panel's left edge, so it overlaps whatever sits to its left
+   — z-index puts it between the panel art (growth-bottom is -2,
+   growth-background -3) and the cells, which <growth> scopes as the stacking
+   context. */
+growth presence-track track-banner-art.growth-track {
+  height: 130px;
+  z-index: -1;
+}
 
+/* ===== 15. Board-specific layouts ===== */
 /* Starlight Type Nonsense */
 board.starlight growth {
   background-size: 100% 100%;
@@ -1635,25 +1504,4 @@ rumu-right {
   width: 1090px;
   height: 100%;
   /* overflow: hidden; */
-}
-
-/* sizing */
-growth icon.huge {
-}
-
-growth icon.large {
-}
-
-growth icon.medium {
-}
-
-growth icon.small {
-}
-
-/* For adding presence relative to other presence (was <add-relative>) */
-icon-row.relative {
-  display: flex;
-  position: relative;
-  height: 50px;
-  margin-top: 7px;
 }

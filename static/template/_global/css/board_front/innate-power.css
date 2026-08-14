@@ -285,6 +285,10 @@ innate-powers.tight-levels level {
   margin-bottom: 9px;
 }
 
+innate-powers.tight-levels effect icon {
+  margin-top: -10px;
+}
+
 innate-powers.really-tight-levels level {
   margin-bottom: 2px;
 }
@@ -335,13 +339,6 @@ note.single-squish {
 }
 
 note icon {
-  --icon-scale: 1;
-  height: calc(var(--icon-h) * var(--icon-scale));
-  width: calc(var(--icon-h) * var(--icon-scale) * var(--icon-ratio, 1));
-  margin: 0px;
-  margin-top: -5px;
-  background-position: bottom;
-  vertical-align: text-bottom;
 }
 
 note icon.town,
@@ -398,11 +395,6 @@ innate-powers.tight-line-height effect {
 }
 
 effect icon {
-  margin: 0px;
-  margin-top: -5px;
-  aspect-ratio: 1;
-  vertical-align: sub;
-  background-position: bottom;
 }
 
 effect icon.city {

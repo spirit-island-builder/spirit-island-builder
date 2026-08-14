@@ -997,10 +997,7 @@ const GROWTH_ACTION_RENDERERS = {
       if (isNaN(numDiscard)) {
         //handle element discards
         const discardElement = numDiscard;
-        growthIcons =
-          "<icon class='discard-card'><icon class='discard-element " +
-          discardElement +
-          "'></icon></icon>";
+        growthIcons = `<icon class='discard-card modified-discard'>{${discardElement}}</icon>`;
       } else {
         //handle number discards
         let discardAction = numDiscard > 1 ? "discard-cards" : "discard-card";
@@ -1023,14 +1020,10 @@ const GROWTH_ACTION_RENDERERS = {
       case "move": {
         // "any" has no brace token ({range-any} is the any-element icon), so
         // that one arrow is written by hand.
-        const moveArrow =
-          incarnaRangeOrToken.toLocaleLowerCase() === "any"
-            ? '<range class="range"><textvalue>ANY</textvalue></range>'
-            : `{range-${incarnaRangeOrToken}}`;
+        const moveArrow = `{range-${incarnaRangeOrToken}}`;
         growthIcons =
-          '<cell-icons class="stack incarna-move"><icon class="incarna move ' +
-          customIncarnaIcon +
-          '"></icon>' +
+          '<cell-icons class="stack incarna-move">' +
+          `<icon-row>{incarna-${customIncarnaIcon}}</icon-row>` +
           moveArrow +
           "</cell-icons>";
         break;
@@ -1040,11 +1033,11 @@ const GROWTH_ACTION_RENDERERS = {
         break;
       case "add-move":
         growthIcons =
-          '<cell-icons class="stack incarna-add-move"><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
+          '<cell-icons class="stack incarna-add-move"><icon-row class="upper">+{backslash}{move-arrow}</icon-row><icon-row class="lower"><icon class="incarna add-move ' +
           customIncarnaIcon +
           '"></icon><icon class="' +
           incarnaRangeOrToken +
-          ' with-your"></icon></add-move-lower></cell-icons>';
+          ' with-your"></icon></icon-row></cell-icons>';
         break;
       case "replace":
         growthIcons =
@@ -1054,11 +1047,11 @@ const GROWTH_ACTION_RENDERERS = {
         break;
       case "add-token":
         growthIcons =
-          '<cell-icons class="stack incarna-add-token"><add-token-upper>+<icon class="add-token ' +
+          '<cell-icons class="stack incarna-add-token"><icon-row class="upper">+<icon class="add-token ' +
           incarnaRangeOrToken +
-          '"></icon></add-token-upper><add-token-lower><icon class="incarna ' +
+          '"></icon></icon-row><icon-row class="lower"><icon class="incarna ' +
           customIncarnaIcon +
-          '"></icon></add-token-lower></cell-icons>';
+          '"></icon></icon-row></cell-icons>';
         break;
       default:
     }
@@ -2882,11 +2875,11 @@ function getPresenceNodeInnerHTML(
           case "add-move":
             addMoveHelper = incarnaOptions[1] ? incarnaOptions[1] : "presence";
             inner =
-              '<cell-icons class="stack incarna-add-move"><add-move-upper>+{backslash}{move-arrow}</add-move-upper><add-move-lower><icon class="incarna add-move ' +
+              '<cell-icons class="stack incarna-add-move"><icon-row class="upper">+{backslash}{move-arrow}</icon-row><icon-row class="lower"><icon class="incarna add-move ' +
               customIncarnaIcon +
               '"></icon><icon class="' +
               addMoveHelper +
-              ' with-your"></icon></add-move-lower></cell-icons>';
+              ' with-your"></icon></icon-row></cell-icons>';
             break;
           default:
             inner = "{empower-incarna}";
