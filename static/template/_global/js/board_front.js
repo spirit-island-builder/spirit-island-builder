@@ -1833,19 +1833,6 @@ function buildPresenceTracks() {
     note.innerHTML = presenceNote;
     title.after(note);
   }
-  //should add some kind of first check here
-
-  //detect & correct first circles when using middle
-  const energyTrack = document.getElementById("energy-track");
-  const energyNodes = energyTrack.getElementsByTagName("td");
-  const playsTrack = document.getElementById("plays-track");
-  const playsNodes = playsTrack.getElementsByTagName("td");
-  if (energyNodes[1].classList.contains("middle")) {
-    if (energyNodes[2].classList.contains("middle")) {
-      playsNodes[1].getElementsByTagName("presence-node")[0].classList.remove("first");
-    }
-  }
-
   const presenceBottom = document.createElement("presence-bottom");
   presenceTable.appendChild(presenceBottom);
 }
@@ -1889,20 +1876,29 @@ function parseEnergyTrackValues() {
 
   // This can be scaled to move the first presence icon.
   energyHTML += "<td class='spacer'></td>";
+  const isMiddleRowNode = (text) => text.startsWith("middle") || text.startsWith("bonus");
+  // The card-play track keeps its starting node unless the energy track opens
+  // with a run of two or more middle-row nodes (Wounded Waters) — then the
+  // first middle node is the board's only starting node. A single opening
+  // middle node (Hearth Vigil) or a middle node later in the track changes
+  // nothing on the plays track.
+  const playsNoFirstFlag =
+    energyOptions.length > 1 &&
+    isMiddleRowNode(energyOptions[0]) &&
+    isMiddleRowNode(energyOptions[1]);
   let firstIsMiddle = false;
   let isFirst = false;
-  let playsNoFirstFlag = false;
   for (let i = 0; i < energyOptions.length; i++) {
     // option allows for placing presence track icons in the "middle row"
     let nodeText = energyOptions[i];
     let isMiddle = "";
     let addRing = true;
     const regExpOuterParentheses = /\(\s*(.+)\s*\)/;
-    if (i === 0 || (firstIsMiddle && !nodeText.startsWith("middle"))) {
+    if (i === 0 || (firstIsMiddle && !isMiddleRowNode(nodeText))) {
       isFirst = true;
     }
     firstIsMiddle = false;
-    if (nodeText.startsWith("middle") || nodeText.startsWith("bonus")) {
+    if (isMiddleRowNode(nodeText)) {
       if (DEBUG) {
         console.log("found a middle node: " + nodeText);
       }
@@ -1917,8 +1913,6 @@ function parseEnergyTrackValues() {
       isMiddle = ` rowspan="2" class="${nodeClass}"`;
       if (i === 0) {
         firstIsMiddle = true;
-      } else {
-        playsNoFirstFlag = true;
       }
       addRing = false;
     }
