@@ -106,7 +106,7 @@
 <growth-group>
 <growth-cell id="s0g7a0">
 <cell-icons>
-<badge class="plays">
+<badge class="gain-plays">
 <value>1</value>
 </badge>
 </cell-icons>
@@ -217,7 +217,7 @@
 <growth-group>
 <growth-cell id="s0g11a0">
 <cell-icons>
-<badge class="plays">
+<badge class="gain-plays">
 <value>1</value>
 </badge>
 </cell-icons>

@@ -221,6 +221,13 @@ icon.range-3,
 icon.range-4 {
   --icon-scale: 0.903;
 }
+icon.sands-presence,
+icon.wetland-presence,
+icon.jungle-presence,
+icon.mountain-presence,
+icon.ocean-presence {
+  --icon-scale: 1.3;
+}
 icon.dahan {
   --icon-scale: 0.95;
 }
@@ -1040,15 +1047,11 @@ icon.push-from {
   background-image: url("../images/board/NewIcons/Land Push.png");
   --icon-ratio: var(--art-land-push-ratio);
 }
-/* The canonical push/gather scene art (land with the arrow baked in).
-   icon.land-push/land-gather are the growth piece-move names; icon.push and
-   icon.gather are the legacy presence-track aliases for the same art. */
-icon.push,
+/* The canonical push/gather scene art (land with the arrow baked in). */
 icon.land-push {
   background-image: url("../images/board/NewIcons/Land Push.png");
   --icon-ratio: var(--art-land-push-ratio);
 }
-icon.gather,
 icon.land-gather {
   background-image: url("../images/board/NewIcons/Track_Gather.png");
   --icon-ratio: var(--art-track-gather-ratio);
@@ -1263,4 +1266,124 @@ icon.is-no::after {
   height: 105%;
   margin: auto;
   opacity: 1;
+}
+
+/* ---- Shared board-hardware vocabulary ----
+   DOM vocabulary shared between the growth panel and the presence tracks
+   (and anything else that renders board hardware). global.css loads before
+   every component sheet, so context rules (growth-options.css,
+   presence-track-table.css) win every tie.
+
+   Rules here carry structure and genuinely shared defaults only; each
+   context owns its geometry — growth calibration is scoped to cell-icons in
+   growth-options.css, node calibration to presence-node in
+   presence-track-table.css. When both contexts match (growth's
+   presence-node(...) actions), the node sheet wins by import order. */
+
+/* ---- Push/gather scenes (piece-move) ----
+   <piece-move class="push|gather"> is the one positioning context: a land at
+   the left, the moved pieces at the arrow head, and — for terrain
+   compositions only — a separate half-arrow (the canonical
+   land-push/land-gather scene art has its arrow baked in). Boxes and
+   coordinates live with the contexts; nothing here uses margins. */
+piece-move {
+  position: relative;
+  display: block;
+}
+
+/* the land slot: canonical scene art or a plain terrain icon */
+piece-move > icon {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  margin: 0px;
+}
+
+/* terrain compositions: the half-arrow nests inside the terrain icon and
+   anchors to its box — left/bottom are percentages of the terrain, and the
+   translate centers the arrow on that point — so single and double terrains
+   share this one rule. */
+piece-move > icon > icon.push-arrow,
+piece-move > icon > icon.gather-arrow {
+  position: absolute;
+  left: 86%;
+  bottom: 25%;
+  transform: translate(-50%, 50%);
+  margin: 0px;
+  --icon-h: 16px;
+}
+
+/* the shared arrow art points left (gather); push mirrors it — keep the
+   translate when changing this, it carries the center anchoring */
+piece-move > icon > icon.push-arrow {
+  transform: translate(-50%, 50%) scaleX(-1);
+}
+
+/* token/board conditions sit on the land inside the scene art */
+piece-move icon.land-push > icon,
+piece-move icon.land-gather > icon {
+  position: absolute;
+  left: 64px;
+  top: 26px;
+  --icon-h: 25px;
+  transform: translate(-50%, -50%);
+}
+
+/* the moved pieces, centered on the arrow head: the context's left/bottom
+   name the row's CENTER point (the translate re-anchors it), so the row
+   grows outward symmetrically as the piece count or wrapping changes */
+piece-move > icon-row.pieces {
+  position: absolute;
+  transform: translate(-50%, 50%);
+  width: 70px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: flex-end;
+  gap: 2px;
+  --icon-h: 30px;
+}
+
+/* ---- Badges ----
+   badge: a blank-art counter — background art with a positioned <value>.
+   The class picks the art; sizes and value offsets live with the contexts.
+   Variants only growth emits (.energy, .fear, .repeat) keep their rules in
+   growth-options.css section 8. */
+badge {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The value is flex-centered on the badge; each context's left/top names the
+   digit's offset from the badge CENTER. font-weight resets the bold
+   inherited from the cell-icons base. */
+badge value {
+  font-family: "Energy Font";
+  font-style: normal;
+  font-weight: normal;
+  position: relative;
+}
+
+badge.damage {
+  background-image: url("../images/board/NewIcons/Damage Blank.png");
+}
+
+badge.gain-plays {
+  background-image: url("../images/board/NewIcons/Cardplay Gain Blank.png");
+}
+
+/* Icon rules and Innate Power effects should have very similar rules, so collecting them here */
+special-rule,
+innate-power level effect,
+innate-power note {
+  icon {
+    margin-top: -5px;
+  }
+  icon.element {
+    --icon-scale: 1.15;
+  }
 }

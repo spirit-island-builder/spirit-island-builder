@@ -13,7 +13,9 @@
     "svelteCheck": "svelte-check",
     "genIconRatios": "node scripts/gen-icon-ratios.js",
     "testGrowth": "node tests/growth/run.js",
-    "testGrowthUpdate": "node tests/growth/run.js --update"
+    "testGrowthUpdate": "node tests/growth/run.js --update",
+    "testPresence": "node tests/presence/run.js",
+    "testPresenceUpdate": "node tests/presence/run.js --update"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^2.0.1",

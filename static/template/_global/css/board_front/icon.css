@@ -88,20 +88,6 @@ icon.range-any {
   width: 0px;
 }
 
-icon.gain-range-x,
-icon.gain-range-X,
-icon.gain-range-1,
-icon.gain-range-2,
-icon.gain-range-3 {
-}
-
-icon.resilience,
-icon.vitality {
-  margin-bottom: -8px;
-  margin-left: -3px;
-  margin-right: -3px;
-}
-
 icon.player-spirit,
 icon.player,
 icon.spirit {
@@ -186,61 +172,6 @@ icon.misc-plus {
   background-repeat: no-repeat;
   background-size: contain;
   display: inline-block;
-}
-
-icon.gather {
-}
-
-icon.gather > icon {
-  position: relative;
-  text-align: unset;
-  top: -8px;
-  left: 90px;
-  margin: 0px;
-  padding: 0px;
-}
-
-icon.push {
-  display: inline-block;
-  margin-bottom: 7px;
-  margin-bottom: 0px;
-  margin-left: 4px;
-}
-
-icon.push > icon {
-  position: relative;
-  text-align: center;
-  top: 17px;
-  left: 24px;
-  margin: 0px;
-  padding: 0px;
-}
-
-icon.push > div.push {
-  position: relative;
-  text-align: center;
-  top: 20px;
-  left: 47%;
-  transform: translateX(-54%);
-}
-
-div.push > icon {
-  margin: 0px;
-  padding: 0px;
-}
-
-div.push > icon.incarna {
-  margin-top: -10px;
-}
-
-div.push > icon.explorer {
-  margin-top: -5px;
-}
-
-div.push > icon.backslash {
-}
-
-icon.push > icon.backslash {
 }
 
 icon.blank75 {

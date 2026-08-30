@@ -47,7 +47,7 @@
 <badge class="repeat">
 <value>2</value>
 </badge>{gain-1-time}</cell-icons>or<cell-icons>
-<badge class="plays">
+<badge class="gain-plays">
 <value>2</value>
 </badge>
 </cell-icons>

@@ -969,7 +969,7 @@
 <growth-group>
 <growth-cell id='s0g0a0'>
 <cell-icons>
-<badge class="plays">
+<badge class="gain-plays">
 <value>2</value>
 </badge>
 </cell-icons>
@@ -1428,9 +1428,9 @@
 <cell-icons class="node">
 <presence-node id="growth-s0g0a0" ttsinfo="2;;;" class="growth">
 <ring-icon>
-<energy-icon>
+<node-plate class="energy">
 <value>2</value>
-</energy-icon>
+</node-plate>
 </ring-icon>
 <subtext>2 Energy</subtext>
 </presence-node>
@@ -1498,7 +1498,7 @@
 </icon>
 </deep-layers>
 <ring-icon class="deep-layers">
-<badge class="plays">
+<badge class="gain-plays">
 <value>1</value>
 </badge>
 </ring-icon>
@@ -1557,7 +1557,7 @@
 <cell-icons class="node">
 <presence-node id="growth-s0g0a0" ttsinfo=";;;" class="growth">
 <ring-icon>
-<energy-icon>{reclaim-one}</energy-icon>
+<node-plate class="energy">{reclaim-one}</node-plate>
 </ring-icon>
 <subtext>Reclaim One</subtext>
 </presence-node>
@@ -1574,9 +1574,9 @@
 <cell-icons class="node">
 <presence-node id="growth-s0g0a0" class="first force-first growth" ttsinfo=";;2;">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>Card Plays</subtext>
 </presence-node>
@@ -1609,14 +1609,14 @@
 <presence-node id="growth-s0g0a0" ttsinfo="1;;1;" class="growth">
 <ring-icon>
 <presence-node-multi style="top:36%; left:36%;">
-<energy-icon>
+<node-plate class="energy">
 <value>1</value>
-</energy-icon>
+</node-plate>
 </presence-node-multi>
 <presence-node-multi style="top:64%; left:64%;">
-<card-icon>
+<node-plate class="plays">
 <value>1</value>
-</card-icon>
+</node-plate>
 </presence-node-multi>
 </ring-icon>
 <subtext>1 Energy, 1 Card Play</subtext>
@@ -1669,9 +1669,9 @@
 <cell-icons class="node">
 <presence-node id="growth-s0g0a0" ttsinfo=";;;" class="growth">
 <ring-icon>
-<icon-shadow>
+<node-plate class="shadow">
 <custom-presence-track-icon>{custom1}</custom-presence-track-icon>
-</icon-shadow>
+</node-plate>
 </ring-icon>
 <subtext>Gain 1 Rot</subtext>
 </presence-node>
@@ -1747,9 +1747,9 @@
 <cell-icons class="node">
 <presence-node id="growth-s0g0a1" ttsinfo=";;2;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>2</subtext>
 </presence-node>
@@ -1781,25 +1781,25 @@
 </track-banner-art>
 <presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>1</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>1</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>2</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n2" ttsinfo=";;3;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>3</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>3</subtext>
 </presence-node>
@@ -1820,9 +1820,9 @@
 </track-banner-art>
 <presence-node id="growth-s0g0a0n0" ttsinfo=";;2;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>2</subtext>
 </presence-node>
@@ -1903,25 +1903,25 @@
 </track-banner-art>
 <presence-node id="growth-s0g0a0n0" class="first force-first growth" ttsinfo=";;1;">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>1</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>Card Plays</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>2</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n2" ttsinfo=";;3;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>3</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>3</subtext>
 </presence-node>
@@ -1946,7 +1946,7 @@
 </icon>
 </deep-layers>
 <ring-icon class="deep-layers">
-<badge class="plays">
+<badge class="gain-plays">
 <value>1</value>
 </badge>
 </ring-icon>
@@ -1955,14 +1955,14 @@
 <presence-node id="growth-s0g0a0n1" ttsinfo="1;;1;" class="growth">
 <ring-icon>
 <presence-node-multi style="top:36%; left:36%;">
-<energy-icon>
+<node-plate class="energy">
 <value>1</value>
-</energy-icon>
+</node-plate>
 </presence-node-multi>
 <presence-node-multi style="top:64%; left:64%;">
-<card-icon>
+<node-plate class="plays">
 <value>1</value>
-</card-icon>
+</node-plate>
 </presence-node-multi>
 </ring-icon>
 <subtext>1 Energy, 1 Card Play</subtext>
@@ -1988,17 +1988,17 @@
 </track-banner-art>
 <presence-node id="growth-s0g0a0n0" ttsinfo=";;2;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>2</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n1" ttsinfo=";;;" class="growth">
 <ring-icon>
-<icon-shadow>
+<node-plate class="shadow">
 <custom-presence-track-icon>{custom1}</custom-presence-track-icon>
-</icon-shadow>
+</node-plate>
 </ring-icon>
 <subtext>Gain 1 Rot</subtext>
 </presence-node>
@@ -2053,25 +2053,25 @@
 </track-banner-art>
 <presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>1</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>1</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>2</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n2" ttsinfo=";;3;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>3</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>3</subtext>
 </presence-node>
@@ -2092,17 +2092,17 @@
 </track-banner-art>
 <presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>1</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>1</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>2</subtext>
 </presence-node>
@@ -2123,17 +2123,17 @@
 </track-banner-art>
 <presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>1</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>1</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>2</subtext>
 </presence-node>
@@ -2152,17 +2152,17 @@
 <presence-track>
 <presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>1</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>1</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>2</subtext>
 </presence-node>
@@ -2181,17 +2181,17 @@
 <presence-track>
 <presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>1</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>1</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>2</subtext>
 </presence-node>
@@ -2227,17 +2227,17 @@
 </track-banner-art>
 <presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>1</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>1</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>2</subtext>
 </presence-node>
@@ -2257,17 +2257,17 @@
 </track-banner-art>
 <presence-node id="growth-s0g0a0n0" ttsinfo=";;1;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>1</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>1</subtext>
 </presence-node>
 <presence-node id="growth-s0g0a0n1" ttsinfo=";;2;" class="growth">
 <ring-icon>
-<card-icon>
+<node-plate class="plays">
 <value>2</value>
-</card-icon>
+</node-plate>
 </ring-icon>
 <subtext>2</subtext>
 </presence-node>

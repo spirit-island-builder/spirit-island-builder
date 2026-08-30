@@ -662,6 +662,179 @@ Open decisions: final tag names; whether `value`/`range-value` unify (cross-comp
 emits `range-value` for cards/innates too); `gain` stays an element (it is the fancy-art revert
 hook); `icon-multi-element` kept vs folded into `icon-row.cluster`.
 
+## Presence-track vocabulary consolidation (2026-08-15; batches P0–P5 + R1 done, tuning pending)
+
+Same method as growth: harness first, then per-writer batches of parity re-tag (snapshot diff
+classified against the declared tag map) and CSS factoring (snapshot-byte-identical; geometry is
+browser-probe territory). `presence-track-table.css` went **835 → ~600 lines**. Renders were
+already known-not-final before this pass; hand tuning happens on the new vocabulary.
+
+### Harness (P0)
+
+`tests/presence/{run,fixtures}.js`, `npm run testPresence` / `testPresenceUpdate`. Shared
+mechanics extracted to `tests/lib/harness.js` (jsdom context, pretty-print, compare/update,
+stale-baseline sweep); the growth runner imports it — verified green with zero baseline changes
+before anything else. Presence snapshots = `<presence-tracks>` outerHTML **plus** the
+`board > track-banner-art` elements the writers park on `<board>` (adopted only at layout time
+by `addTrackBanners`, so they're writer output). 60 corpus boards, 66 node fixtures
+(`getPresenceNodeHtml` directly — every switch case and `+`/`split()`/`^`/`_`/`~`/`*` modifier),
+14 track fixtures (`buildPresenceTracks` — middle/bonus/split/additional/banner/note/customname).
+Note: snapshot files are untracked until first commit — `git diff` misses them, so batch
+classification compared against a HEAD-rendered snapshot tree.
+
+Latent bug found while fixturing: bare `move-presence` (no parens) crashes
+`getPresenceNodeInnerHTML` (`regExp.exec` null at the `matches[1]` check). Not fixed, not
+covered — noted here.
+
+### Target vocabulary landed
+
+- **`node-plate`** (P1): the "art plate with centered content" family — was `energy-icon`
+  (wrapper *and* value-plate roles), `card-icon`, `icon-shadow`, `track-damage`,
+  `special-track-presence`, and `custom()`'s constructed `<{trackType}-icon>` (which emitted a
+  phantom `<special-ring-icon>` on the special track — fixed by the one normalization site).
+  Base = flex-centered square at `var(--plate-h, 130px)` + `background-size: contain`; classes
+  carry art + box deltas (`.plays` 75×53; `.damage` was here too until it moved to the badge
+  family — see "Damage → badge" below). Deliberately **not** merged with growth's `badge` (growth-calibrated
+  plumbing in its base; same reasoning that kept `presence-req` an element). Cross-sheet
+  re-keys: `special-rules.css` (`.special` in special-rules-track), growth-options'
+  `icon-multi-element energy-icon/card-icon` lines deleted (verified: that writer only ever
+  wraps element icons).
+- **Multi deltas as tokens + center nudges** (P2): `presence-node-multi { --plate-h: 90px }`,
+  shadow 94px; the ~14 negative-margin recenter pairs became `position: relative` `left`/`top`
+  nudges via the flex identity *offset = ((ml−mr)/2, (mt−mb)/2)* — the abspos shadow uses
+  `calc(50% − x)` + `translate(-50%,-50%)` with the same numbers. `--icon-h` stays 68px in both
+  contexts (pure element icons genuinely don't shrink); first knob to turn when tuning. The
+  `translate(-49%, -46%)` anchor fudge kept at parity; tuning candidate.
+- **Row rhythm** (P3): `#energy-track/#plays-track presence-node { margin-bottom: 43/9px }` and
+  the vertical-tight triple → `--row-gap` on the `<tr>`, consumed as
+  `presence-tracks table td { padding-bottom: var(--row-gap, 0px) }`. Same td heights, so
+  `addTrackBanners` rect math is unmoved. Two wrinkles: the id selector forms are load-bearing
+  (a bare `tr.vertical-tight` would lose to `#energy-track`), and split stacks need
+  `split-presence-node presence-node:not(:last-child) { margin-bottom: var(--row-gap) }` to keep
+  the intra-split gap the per-node margins used to supply (the energy first-child `margin: 0`
+  override still wins by specificity). `td.middle` inherits the energy row's padding-bottom —
+  inert (rowspan requirement stays below the two-row sum) but on the probe watch list.
+- **Interior stacks** (P4): `token(r;x)` → `cell-icons.stack.range-token` >
+  `icon-row.plus` + `{range-N}` (carried geometry: 100×68 box, `--icon-h: 25px` on the row —
+  the old size came from the `icon icon` nesting rule — `justify-content: flex-start` vs the
+  90px band). `move-value`/`move-text` → `value`/`textvalue` micro-tags;
+  `track-move-presence value` restates Antropos 40px so `presence-node value` (Energy Font 48px)
+  can't reach in. **Skipped**: `icon.take-power-card-blank > icon` center-anchoring — the
+  offsets depend on ratio-derived runtime size, so parity values aren't computable analytically;
+  left as an absolute pair with a comment.
+- **Dead-rule sweep** (P5): `presence-node.tight`, both `.adjust-subtext` rules,
+  `presence-tracks.shadow subtext`, `icon-multi`, the whole `presence-node > icon.*deep-layers`
+  child-combinator family (writer nests inside `<deep-layers>`), the `add-move-upper/-lower`
+  blocks (dead since growth batch 8), `presence-node icon.gain-card-play > icon`,
+  `custom-presence-track-icon icon { margin-top: 0 }` (no-op — the −3px custom-icon rule wins by
+  specificity anyway), the duplicate `presence-node ring-icon` art rule (merged; `.first` wins
+  by specificity, not order), and every empty shell. Each verified emitter-free by grep over
+  `_global/js` + `src/` before deletion; snapshots byte-identical after.
+
+### Sheet reorganization (move-only)
+
+`presence-track-table.css` reordered into 16 vocabulary-keyed sections with a TOC (mirrors the
+growth batch-8 reorganization). Verified move-only by parsing old and new into
+selector→declaration multisets: identical. `damage range` initially tied with
+`presence-node range` on specificity (overlapping `margin-top`/`line-height`, order decided) —
+since rescoped to `presence-node damage range`, which outranks it order-independently with the
+same winner. (A leftover note here about `presence-node-multi badge.gain-plays` needing to
+keep margins is superseded — see "Damage → badge": the badge was positioned all along via a
+leak from the growth rule, and the margins are now center nudges.)
+
+### Shared vocabulary moved to global.css (2026-08-15, resonant's call)
+
+The cross-context vocabulary R1 and the badge work created had been living in
+growth-options.css, making the presence tracks silently depend on a sheet named "growth" and
+turning that sheet into a hidden commons. It now lives in **global.css** (the "Shared
+board-hardware vocabulary" section at the end) — global.css is already the shared-vocabulary
+sheet (icon engine, element layers, land-push/land-gather art) and loads before every
+component sheet, so bases lose every tie to context rules automatically. (A standalone
+`board_front/vocabulary.css` existed for one intermediate commit-less step; folded into
+global.css at resonant's direction. It could NOT have been general.css: aspect.css doesn't
+import general.css and can't safely — it carries spirit-board frame geometry like the `right`
+panel box.)
+
+Partition rule: global.css holds structure and genuinely shared defaults — piece-move's
+positioning contract (land slot, arrow anchoring + push flip, land-condition nesting,
+pieces-row centering/width/gap), the badge base + value base, and the shared badge art
+(.damage, .gain-plays). Context geometry is scoped: `cell-icons piece-move …` in
+growth-options (box 150×90, land 70px, pieces at 130/30) vs the existing
+`presence-node piece-move …` rules in presence-track-table. The pieces-row width:70px/gap the
+track used to inherit by accident is now an explicit shared default. Growth-only badge
+variants (.energy, .fear, .repeat) stay in growth-options section 8 with their geometry
+unscoped (no other emitter exists). Where both contexts match (growth's presence-node(...)
+actions), the node sheet still wins by import order — same winners as before throughout.
+
+### general.css → layout.css rename (2026-08-15, resonant's call)
+
+`board_front/general.css` renamed to `board_front/layout.css` — it holds the spirit-board
+frame/layout (board box, left/right panels, flipboard scaling), and "general" was the same
+kind of name this cleanup keeps retiring. Only referent was the board_front.css import
+(updated). Not to be confused with the historical `_global/js/general.js` → `common.js` rename
+(14 stale template references to THAT are a known, separate gotcha — see CLAUDE.md).
+
+### Damage → badge (2026-08-15, resonant's call)
+
+`node-plate.damage` and the `<damage>` wrapper are gone: the track's `damage(n)` /
+`damage(r;n)` now emit `<badge class="damage">` / `<badge class="damage with-range">` — it is
+art with a number, i.e. a badge — with the range as a `{range-N}` token inside the badge
+(the old `<range class="small">` sibling and the dead `presence-node damage range` rule went
+with the wrapper). This surfaced a scoping rule for badges shared across contexts: the bare
+`badge.damage` rule in growth-options carries ONLY the shared art; growth geometry is scoped
+to `cell-icons badge.damage` (growth damage badges always sit inside
+`<cell-icons class="stack damage">`) and node geometry to `presence-node badge.damage` here.
+Before scoping, the two unscoped rule sets leaked into each other in both directions (import
+order decided). `badge.gain-plays` has since been converted to the same shape: art-only base
+in growth-options, `cell-icons badge.gain-plays` for growth geometry,
+`presence-node badge.gain-plays` for node geometry. The node rule now carries
+`position: relative` + `z-index: 1` explicitly — they used to leak in from the growth rule,
+and the badge's absolutely positioned value anchors to the badge box (an earlier note here
+claimed the badge was static and the value anchored to the multi box — wrong; the leak was
+supplying position all along). With that corrected, the multi badge margins became ordinary
+center nudges too (`left`/`top`, resonant's values). When both node and growth cell-icons
+contexts match (growth's presence-node(...) actions), the node sheet wins the specificity tie
+by import order — same winner as before the scoping. Track badge boxes and value typography
+are starting geometry; calibrate.
+
+### Badge rename: `badge.plays` → `badge.gain-plays` (2026-08-15, resonant's call)
+
+Both emitters — growth's `gain-card-play` action and the track's `gain-card-play(n)` case — are
+the same glyph (`Cardplay Gain Blank.png`, "+N card plays"), so the name now says so; `plays`
+read as if it were the plays-track number plate (`node-plate.plays`), which is a different
+shape. Pure re-tag across both writers + growth-options + presence-track-table; snapshot diff
+classified. Growth batch-3 text above records the original `badge.plays` name — historical.
+
+### R1 — push/gather harmonization (redesign, not parity)
+
+Closes the item the growth cleanup deferred. Track `push(...)`/`gather(...)` now emit growth's
+scene vocabulary — `<piece-move class="push|gather"><icon class="land-push|land-gather"/>
+<icon-row class="pieces">…</icon-row></piece-move>` — with track-context sizing in
+`presence-track-table.css` (110×68 scene, 68px art, 25px pieces; gather keeps the old
+drop-shadow glow on its pieces; **starting geometry only — calibrate**). Retired:
+`icon.css`'s `icon.push`/`icon.gather`/`div.push` offset blocks, and the `icon.push`/
+`icon.gather` legacy aliases in `global.css` (`land-push`/`land-gather`/`gather-into` remain;
+no `{push}`/`{gather}` brace token appears anywhere in corpus, examples, or autocomplete — those
+labels are the track *functions*). Snapshots rebaselined; the changed set was verified to be
+exactly the 10 corpus boards whose track values contain `push(`/`gather(` plus the synthetic
+node fixtures.
+
+### Not converted, on purpose
+
+`element-or-wrap`, `custom-presence-track-icon`, `track-move-presence`, the `damage` wrapper,
+`gain/take-power-card-blank` nests — unique shapes; renaming deletes no duplication (the
+`presence-req` precedent). Converting `damage` to `icon-row` would *activate* flex on a
+display-inline element (growth batch-2 lesson). `ring-icon` 130px, `split-presence-node`'s
+−65px pull, and the `has-split-node` padding-top ladder are load-bearing
+(`PRESENCE_NODE_HEIGHT`, `addTrackBanners` reads the padding by name) — margins reduced to
+where the geometry stops being margin-shaped, not to zero.
+
+### Verification state
+
+Snapshot suites green (growth + presence). Browser geometry probe and hand verification by
+resonant still pending — multi/split/middle/banner/additional-track boards are the watch list
+(Finder, the Complex Presence Node example, Stone's, EXAMPLE_middle_presence_tracks).
+
 ## Decided against — don't "fix" these
 
 - **`rules icon.sacred-site rules icon.wetland-presence`** (the fused selector in `card.css`) was

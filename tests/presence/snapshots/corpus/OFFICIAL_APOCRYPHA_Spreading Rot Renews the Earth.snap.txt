@@ -1,0 +1,162 @@
+<presence-tracks banner="" banner-v-scale="null" banner-h-scale="null">
+<presence-title>
+<section-title>Presence</section-title>
+</presence-title>
+<table id="presence-table">
+<tbody>
+<tr id="energy-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="energy0" class="first" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>Energy/Turn</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy1" ttsinfo=";;;water">
+<ring-icon>
+<node-plate class="energy">
+<presence-node-multi class="add-shadow" style="top:36%; left:36%;">
+<custom-presence-track-icon>{custom1}</custom-presence-track-icon>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{water}</presence-node-multi>
+</node-plate>
+</ring-icon>
+<subtext>Gain 1 Rot, Water</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy2" ttsinfo="3;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy3" ttsinfo=";;;plant">
+<ring-icon>
+<node-plate class="energy">
+<presence-node-multi class="add-shadow" style="top:36%; left:36%;">
+<custom-presence-track-icon>{custom1}</custom-presence-track-icon>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{plant}</presence-node-multi>
+</node-plate>
+</ring-icon>
+<subtext>Gain 1 Rot, Plant</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy4" ttsinfo=";;;earth">
+<ring-icon>
+<node-plate class="energy">
+<presence-node-multi class="add-shadow" style="top:36%; left:36%;">
+<custom-presence-track-icon>{custom1}</custom-presence-track-icon>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{earth}</presence-node-multi>
+</node-plate>
+</ring-icon>
+<subtext>Gain 1 Rot, Earth</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy5" ttsinfo="4;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>4</value>
+</node-plate>
+</ring-icon>
+<subtext>4</subtext>
+</presence-node>
+</td>
+</tr>
+<tr id="plays-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="card0" class="first" ttsinfo=";;1;">
+<ring-icon>
+<node-plate class="plays">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>Card Plays</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card1" ttsinfo=";;2;">
+<ring-icon>
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card2" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="shadow">
+<custom-presence-track-icon>{custom1}</custom-presence-track-icon>
+</node-plate>
+</ring-icon>
+<subtext>Gain 1 Rot</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card3" ttsinfo=";;3;">
+<ring-icon>
+<node-plate class="plays">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card4" ttsinfo=";;;moon">
+<ring-icon>{moon}</ring-icon>
+<subtext>Moon</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card5" ttsinfo=";;4;">
+<ring-icon>
+<node-plate class="plays">
+<value>4</value>
+</node-plate>
+</ring-icon>
+<subtext>4</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card6" ttsinfo=";;5;">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="plays">
+<value>5</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{reclaim-one}</presence-node-multi>
+</ring-icon>
+<subtext>5, Reclaim One</subtext>
+</presence-node>
+</td>
+</tr>
+</tbody>
+</table>
+<presence-bottom>
+</presence-bottom>
+</presence-tracks>
+=== board > track-banner-art
+<track-banner-art class="energy-track" style="background-image: url(/template/MyCustomContent/BannerExamples/banner-greengrass.png); background-size: 100% 50%;">
+</track-banner-art>
+<track-banner-art class="plays-track" style="background-image: url(/template/MyCustomContent/BannerExamples/banner-greengrass.png); background-size: 100% 50%;">
+</track-banner-art>

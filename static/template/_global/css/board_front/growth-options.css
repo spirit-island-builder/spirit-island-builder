@@ -1,4 +1,4 @@
-/* growth-options.css — the growth panel of the spirit board.
+﻿/* growth-options.css — the growth panel of the spirit board.
 
    Organized by the growth DOM vocabulary (see "Growth vocabulary
    consolidation" in renderer-css-improvement-plan.md):
@@ -371,7 +371,6 @@ cell-icons.custom.wide > * {
 /* incarna(move,...) — was <custom-icon2>, which lacked the stack's
    justify-content: flex-end, so its icon+arrow sit at the top. */
 cell-icons.incarna-move {
-  justify-content: flex-start;
 }
 
 /* push/gather cells: the wrapper is a standard stack; the scene layout lives
@@ -419,7 +418,7 @@ icon-row {
   display: inline-flex;
   position: relative;
   flex-direction: row;
-  --icon-h: 42px;
+  --icon-h: 35px;
 }
 
 /* the "+presence" line (was <plus-presence>) */
@@ -459,7 +458,7 @@ icon-row.tokens {
   bottom: 4px;
   justify-content: center;
   align-items: flex-end;
-  gap: 5px;
+  gap: 3px;
 }
 
 /* For adding presence relative to other presence (was <add-relative>) */
@@ -696,29 +695,13 @@ cell-icons.incarna-move range textvalue {
 }
 
 /* ===== 8. Badges & per-rings =====
-   badge: a blank-art counter — background art with a positioned <value>. The
-   class picks the art and size: .energy / .fear / .plays (+ .per for the
-   smaller per-X form beside a ring-icon.per), .damage, .repeat for ^N
-   (+ .cost for ^cost(n)). */
-badge {
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* The value is flex-centered on the badge; each variant's left/top names the
-   digit's offset from the badge CENTER (values measured from the old margin
-   layout, so nothing moved — calibrate freely). font-weight resets the bold
-   inherited from the cell-icons base. */
-badge value {
-  font-family: "Energy Font";
-  font-style: normal;
-  font-weight: normal;
-  position: relative;
-}
+   The badge base and family art shared with the presence tracks live in
+   global.css. This section holds the growth-only variants (.energy /
+   .fear + .per for the smaller per-X form beside a ring-icon.per, .repeat
+   for ^N + .cost for ^cost(n)) and the growth geometry of the shared ones
+   (.damage, .gain-plays), scoped to cell-icons. Each variant's value
+   left/top names the digit's offset from the badge CENTER (values measured
+   from the old margin layout — calibrate freely). */
 
 /* Gaining Flat Energy */
 badge.energy {
@@ -777,8 +760,8 @@ badge.fear.per value {
   top: 7.5px;
 }
 
-badge.plays {
-  background-image: url("../../images/board/NewIcons/Cardplay Gain Blank.png");
+/* Gain Card Plays (art in global.css) */
+cell-icons badge.gain-plays {
   height: 80px;
   width: 80px;
   z-index: 1;
@@ -786,21 +769,21 @@ badge.plays {
   margin: 0px -4px 10px 10px;
 }
 
-badge.plays value {
+cell-icons badge.gain-plays value {
   font-size: 32px;
   top: 8px;
 }
 
-/* Deal Damage in Growth */
-badge.damage {
-  background-image: url("../../images/board/NewIcons/Damage Blank.png");
+/* Deal Damage (art in global.css; growth damage badges always sit
+   inside <cell-icons class="stack damage">) */
+cell-icons badge.damage {
   position: absolute;
   width: 90px;
   height: 60px;
   top: -21px;
 }
 
-badge.damage value {
+cell-icons badge.damage value {
   font-family: "Antropos";
   font-size: 40px;
   /* damage digits were historically bold (they lived inside <custom-icon>) */
@@ -808,7 +791,7 @@ badge.damage value {
   top: 10.5px;
 }
 
-badge.damage icon {
+cell-icons badge.damage icon {
   top: 5px;
   filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
     drop-shadow(0px -1px 0px);
@@ -870,20 +853,17 @@ ring-icon.per icon {
 }
 
 /* ===== 9. Push/gather scenes =====
-   <piece-move class="push|gather"> is the one positioning context: a land at
-   the left, the moved pieces at the arrow head, and — for terrain
-   compositions only — a separate half-arrow (the canonical
-   land-push/land-gather scene art has its arrow baked in). Calibrate with the
-   absolute positions and --icon-h values below; nothing here uses margins. */
-piece-move {
-  position: relative;
-  display: block;
+   The scene structure (positioning contract, arrow anchoring and flip,
+   pieces-row centering) lives in global.css — this section holds the
+   growth calibration, scoped to cell-icons. Calibrate with the absolute
+   positions and --icon-h values below; nothing here uses margins. */
+cell-icons piece-move {
   width: 150px;
   height: 90px;
 }
 
 /* One arrow art for both directions; it points left (gather), and the push
-   variant mirrors it (see the flip rule below). */
+   variant mirrors it (see the flip rule in global.css). */
 growth-cell icon.gather-arrow,
 growth-cell icon.push-arrow {
   background-image: url("../../images/board/NewIcons/Misc Arrow Gather-Push.png");
@@ -891,74 +871,25 @@ growth-cell icon.push-arrow {
 }
 
 /* the land slot: canonical scene art or a plain terrain icon */
-piece-move > icon {
-  position: absolute;
-  left: 0px;
-  bottom: 0px;
-  margin: 0px;
+cell-icons piece-move > icon {
   --icon-h: 70px;
 }
 
-piece-move icon.terrain-double {
+cell-icons piece-move icon.terrain-double {
   --icon-scale: 1;
 }
 
-/* terrain compositions: the half-arrow nests inside the terrain icon and
-   anchors to its box — left/bottom are percentages of the terrain, and the
-   translate centers the arrow on that point — so single and double terrains
-   share this one rule. */
-piece-move > icon > icon.push-arrow,
-piece-move > icon > icon.gather-arrow {
-  position: absolute;
-  left: 86%;
-  bottom: 25%;
-  transform: translate(-50%, 50%);
-  margin: 0px;
-  --icon-h: 16px;
-}
-
-/* the shared arrow art points left (gather); push mirrors it — keep the
-   translate when changing this, it carries the center anchoring */
-piece-move > icon > icon.push-arrow {
-  transform: translate(-50%, 50%) scaleX(-1);
-}
-
-/* token/board conditions sit on the land inside the scene art */
-piece-move icon.land-push > icon,
-piece-move icon.land-gather > icon {
-  position: absolute;
-  left: 14px;
-  top: 20px;
-  margin: 0px;
-  --icon-h: 30px;
-}
-
-/* the moved pieces, centered on the arrow head: left/bottom name the row's
-   CENTER point (the translate re-anchors it), so the row grows outward
-   symmetrically as the piece count or wrapping changes */
-piece-move > icon-row.pieces {
-  position: absolute;
+/* the moved pieces: the center point of the row, at the arrow head */
+cell-icons piece-move.gather > icon-row.pieces {
   left: 130px;
   bottom: 30px;
-  transform: translate(-50%, 50%);
-  width: 70px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  --icon-h: 30px;
-  gap: 2px;
 }
 
-piece-move > icon-row.pieces icon {
-  margin: 0px;
-}
-
-/* pieces keep the gold outline that reads against the push arrow art (the
-   gather side historically had none — add it here if wanted) */
-piece-move.push > icon-row.pieces icon,
-piece-move.push > icon > icon {
-  filter: drop-shadow(-1px 0px 0px #e2d367) drop-shadow(1px 0px 0px #e2d367)
-    drop-shadow(0px -1px 0px #e2d367) drop-shadow(0px 1px 0px #e2d367);
+cell-icons piece-move.push > icon-row.pieces {
+  left: 33px;
+  bottom: 33px;
+  filter: drop-shadow(-1px 0px 0px #f1e680) drop-shadow(1px 0px 0px #f1e680)
+    drop-shadow(0px -1px 0px #f1e680) drop-shadow(0px 1px 0px #f1e680);
 }
 
 /* ===== 10. Element gains =====
@@ -1010,9 +941,7 @@ icon-multi-element {
   justify-content: center;
 }
 
-icon-multi-element icon,
-icon-multi-element energy-icon,
-icon-multi-element card-icon {
+icon-multi-element icon {
   display: inline-block;
   position: relative;
   margin: -30px;
@@ -1088,7 +1017,7 @@ growth-cell icon.modified-reclaim icon {
 }
 
 growth-cell icon.modified-discard icon {
-  left: 60px;
+  left: 70px;
   top: 5px;
 }
 
@@ -1107,8 +1036,8 @@ growth-cell icon.incarna.add-move {
 }
 
 growth-cell icon.empower-incarna {
-  margin: 0px -10px;
   margin-top: -20px;
+  --icon-h: 110px;
 }
 
 growth-cell icon.with-your {
@@ -1151,6 +1080,7 @@ growth-cell icon.gain-1-time,
 growth-cell icon.gain-2-time,
 growth-cell icon.isolate {
   --icon-h: 90px;
+  min-width: 90px;
   top: -7px;
 }
 
@@ -1194,8 +1124,7 @@ growth-cell icon.make-fast {
 }
 
 growth-cell icon.ignorerange {
-  margin-bottom: 10px;
-  margin-top: -10px;
+  --icon-h: 100px;
 }
 
 growth-cell icon.gain-1-time,

@@ -1,0 +1,154 @@
+<presence-tracks banner="" banner-v-scale="" banner-h-scale="">
+<presence-title>
+<section-title>Presence</section-title>
+</presence-title>
+<table id="presence-table">
+<tbody>
+<tr id="energy-track">
+<td class="spacer">
+</td>
+<td rowspan="2" class="middle">
+<presence-node id="energy0" class="first" ttsinfo="0;;1;">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>0</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">
+<node-plate class="plays">
+<value>1</value>
+</node-plate>
+</presence-node-multi>
+</ring-icon>
+<subtext>0 Energy, 1 Card Play</subtext>
+</presence-node>
+</td>
+<td rowspan="2" class="middle">
+<presence-node id="energy1" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<element-or-wrap>
+<icon class="water presence-or-first">
+</icon>{backslash}<icon class="animal presence-or-second">
+</icon>
+</element-or-wrap>
+</node-plate>
+</ring-icon>
+<subtext>Water OR Animal</subtext>
+</presence-node>
+</td>
+<td rowspan="2" class="middle">
+<presence-node id="energy2" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<piece-move class="gather">
+<icon class="land-gather">
+</icon>
+<icon-row class="pieces">{blight}</icon-row>
+</piece-move>
+</node-plate>
+</ring-icon>
+<subtext>Gather 1 Blight into 1 of your Lands</subtext>
+</presence-node>
+</td>
+<td rowspan="2" class="middle">
+<presence-node id="energy3" ttsinfo="1;;2;">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>1</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</presence-node-multi>
+</ring-icon>
+<subtext>1 Energy, 2 Card Plays</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy4" ttsinfo="3;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy5" ttsinfo="4;;;">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>4</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">
+<element-or-wrap>
+<icon class="fire presence-or-first">
+</icon>{backslash}<icon class="plant presence-or-second">
+</icon>
+</element-or-wrap>
+</presence-node-multi>
+</ring-icon>
+<subtext>4, Fire OR Plant</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy6" ttsinfo="5;;;">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>5</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{any}</presence-node-multi>
+</ring-icon>
+<subtext>5, Any</subtext>
+</presence-node>
+</td>
+</tr>
+<tr id="plays-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="card0" ttsinfo=";;3;">
+<ring-icon>
+<node-plate class="plays">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card1" ttsinfo=";;;">
+<ring-icon>{reclaim-one}</ring-icon>
+<subtext>Reclaim One</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card2" ttsinfo=";;4;">
+<ring-icon>
+<node-plate class="plays">
+<value>4</value>
+</node-plate>
+</ring-icon>
+<subtext>4</subtext>
+</presence-node>
+</td>
+</tr>
+</tbody>
+</table>
+<presence-bottom>
+</presence-bottom>
+</presence-tracks>
+=== board > track-banner-art
+<track-banner-art class="energy-track" style="background-image: url(http://localhost:5174/template/MyCustomContent/MySpirit/null); background-size: 100% 100px;">
+</track-banner-art>
+<track-banner-art class="plays-track" style="background-image: url(http://localhost:5174/template/MyCustomContent/MySpirit/null); background-size: 100% 100px;">
+</track-banner-art>

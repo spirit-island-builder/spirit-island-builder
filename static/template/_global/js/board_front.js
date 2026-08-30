@@ -31,7 +31,7 @@ async function startMain() {
     // outlives the body swap — start each render with an empty cache.
     _iconNameCache.clear();
 
-    setupCustomIcons();
+    await setupCustomIcons();
 
     buildGrowthPanel();
 
@@ -958,7 +958,7 @@ const GROWTH_ACTION_RENDERERS = {
     if (matches) {
       const cardplayOptions = _splitOptions(matches[1]);
       const num_card_plays = cardplayOptions[0];
-      growthIcons = `<badge class="plays"><value>${num_card_plays}</value></badge>`;
+      growthIcons = `<badge class="gain-plays"><value>${num_card_plays}</value></badge>`;
     }
     growthText = IconName("growth-" + growthAction);
     return [growthIcons, growthText];
@@ -2639,10 +2639,10 @@ function getPresenceNodeHtml(
 
   if (!forceNone) {
     if ((addEnergyRing || forceEnergyRing) && !forceShadow) {
-      inner = "<energy-icon>" + inner + "</energy-icon>";
+      inner = '<node-plate class="energy">' + inner + "</node-plate>";
     }
     if (addIconShadow || forceShadow) {
-      inner = "<icon-shadow>" + inner + "</icon-shadow>";
+      inner = '<node-plate class="shadow">' + inner + "</node-plate>";
     }
   }
   ring.innerHTML = inner;
@@ -2769,37 +2769,38 @@ function getPresenceNodeInnerHTML(
       case "push": {
         const matches = regExp.exec(fullOption);
         const moveTarget = matches[1];
-        let moveIcons = "<div class='push'>";
+        let pieces = "";
         if (moveTarget.split(";")[0].toLocaleLowerCase() === "incarna") {
           if (moveTarget.split(";")[1]) {
-            moveIcons += `<icon class="incarna ${moveTarget.split(";")[1]}"></icon>`;
+            pieces = `<icon class="incarna ${moveTarget.split(";")[1]}"></icon>`;
           } else {
-            moveIcons += "{incarna}";
+            pieces = "{incarna}";
           }
         } else {
-          for (let i = 0; i < moveTarget.split(";").length; i++) {
-            moveIcons += "{" + moveTarget.split(";")[i] + "}";
-            if (i < moveTarget.split(";").length - 1) {
-              moveIcons += "{backslash}";
-            }
-          }
+          pieces = moveTarget
+            .split(";")
+            .map((piece) => `{${piece}}`)
+            .join("{backslash}");
         }
-        moveIcons += "</div>";
-        inner = "<icon class='push'>" + moveIcons + "</icon>";
+        inner =
+          '<piece-move class="push"><icon class="land-push"></icon>' +
+          `<icon-row class="pieces">${pieces}</icon-row></piece-move>`;
         splitOptions[i] = "track-" + fullOption; // rename the option
         break;
       }
       case "gather": {
         const matches = regExp.exec(fullOption);
         const moveTarget = matches[1];
-        inner = "<icon class='gather'><icon class='" + moveTarget + "'></icon></icon>";
+        inner =
+          '<piece-move class="gather"><icon class="land-gather"></icon>' +
+          `<icon-row class="pieces">{${moveTarget}}</icon-row></piece-move>`;
         splitOptions[i] = "track-" + fullOption; // rename the option
         break;
       }
       case "energy": {
         const matches = regExp.exec(fullOption);
         const num = matches[1];
-        inner = `<energy-icon><value>${num}</value></energy-icon>`;
+        inner = `<node-plate class="energy"><value>${num}</value></node-plate>`;
         splitOptions[i] = `energy-special(${num})`; // rename the option
         addEnergyRing = false; //adds its own
         addIconShadow = false;
@@ -2809,7 +2810,7 @@ function getPresenceNodeInnerHTML(
       case "energy-default": {
         const matches = regExp.exec(fullOption);
         const num = matches[1];
-        inner = `<energy-icon><value>${num}</value></energy-icon>`;
+        inner = `<node-plate class="energy"><value>${num}</value></node-plate>`;
         splitOptions[i] = first ? `energy-first(${num})` : num; // rename the option
         addEnergyRing = false; //adds its own
         addIconShadow = false;
@@ -2819,7 +2820,7 @@ function getPresenceNodeInnerHTML(
       case "bonusenergy": {
         const matches = regExp.exec(fullOption);
         const num = matches[1];
-        inner = `<energy-icon><value>+${num}</value></energy-icon>`;
+        inner = `<node-plate class="energy"><value>+${num}</value></node-plate>`;
         addEnergyRing = false; //adds its own
         addIconShadow = false;
         ttsInfo[1].push(num);
@@ -2828,7 +2829,9 @@ function getPresenceNodeInnerHTML(
       case "plays": {
         const matches = regExp.exec(fullOption);
         const num = matches[1];
-        inner = `<card-icon><value>${numLocalize[lang][num] || num}</value></card-icon>`;
+        inner = `<node-plate class="plays"><value>${
+          numLocalize[lang][num] || num
+        }</value></node-plate>`;
         splitOptions[i] = `plays-special(${num})`;
         addEnergyRing = false;
         addIconShadow = false;
@@ -2838,7 +2841,9 @@ function getPresenceNodeInnerHTML(
       case "plays-default": {
         const matches = regExp.exec(fullOption);
         const num = matches[1];
-        inner = `<card-icon><value>${numLocalize[lang][num] || num}</value></card-icon>`;
+        inner = `<node-plate class="plays"><value>${
+          numLocalize[lang][num] || num
+        }</value></node-plate>`;
         splitOptions[i] = first ? `plays-first(${num})` : num; // rename the option
         addEnergyRing = false;
         addIconShadow = false;
@@ -2848,9 +2853,9 @@ function getPresenceNodeInnerHTML(
       case "special-default": {
         const matches = regExp.exec(fullOption);
         const num = matches[1];
-        inner = `<special-track-presence><value>${
+        inner = `<node-plate class="special"><value>${
           numLocalize[lang][num] || num
-        }</value></special-track-presence>`;
+        }</value></node-plate>`;
         addEnergyRing = false;
         addIconShadow = false;
         break;
@@ -2890,7 +2895,7 @@ function getPresenceNodeInnerHTML(
         } else {
           const range = options[0];
           const tokenAdd = options[1];
-          inner = `<icon class='range-token'><div>{misc-plus}{${tokenAdd}}</div><div>{range-${range}}</div></icon>`;
+          inner = `<cell-icons class="stack range-token"><icon-row class="plus">{misc-plus}{${tokenAdd}}</icon-row>{range-${range}}</cell-icons>`;
           splitOptions[i] = `add-token(${range},and,${tokenAdd})`;
           addEnergyRing = false;
           addIconShadow = true;
@@ -2918,7 +2923,12 @@ function getPresenceNodeInnerHTML(
           }
           inner += "</custom-presence-track-icon>";
         } else {
-          inner = "<" + trackType + "-icon><value></value></" + trackType + "-icon>";
+          // One plate class per track type (special used to emit a phantom
+          // <special-ring-icon> tag no CSS ever matched).
+          const plateClass =
+            { "energy": "energy", "card": "plays", "special-ring": "special" }[trackType] ||
+            "plays";
+          inner = `<node-plate class="${plateClass}"><value></value></node-plate>`;
           addEnergyRing = false;
         }
         break;
@@ -2927,21 +2937,21 @@ function getPresenceNodeInnerHTML(
         const matches = regExp.exec(fullOption);
         let moveRange = 1;
         inner =
-          "<track-move-presence>{presence}<move-value>" +
+          "<track-move-presence>{presence}<value>" +
           moveRange +
-          "</move-value>{move-arrow}</track-move-presence>";
+          "</value>{move-arrow}</track-move-presence>";
         if (matches[1]) {
           moveRange = matches[1];
           if (isNaN(moveRange)) {
             inner =
-              "<track-move-presence>{presence}<move-text>" +
+              "<track-move-presence>{presence}<textvalue>" +
               moveRange +
-              "</move-text>{move-arrow}</track-move-presence>";
+              "</textvalue>{move-arrow}</track-move-presence>";
           } else {
             inner =
-              "<track-move-presence>{presence}<move-value>" +
+              "<track-move-presence>{presence}<value>" +
               moveRange +
-              "</move-value>{move-arrow}</track-move-presence>";
+              "</value>{move-arrow}</track-move-presence>";
           }
           addIconShadow = true;
           if (addEnergyRing && splitOptions.length === 1) {
@@ -2977,14 +2987,14 @@ function getPresenceNodeInnerHTML(
         addEnergyRing = false;
         addIconShadow = true;
         if (numLocs > 1) {
-          inner = "<icon-shadow>" + inner + "</icon-shadow>";
+          inner = '<node-plate class="shadow">' + inner + "</node-plate>";
         }
         break;
       }
       case "gain-card-play": {
         const matches = regExp.exec(fullOption);
         const gainPlays = matches ? matches[1] : 1;
-        inner = '<badge class="plays"><value>' + gainPlays + "</value></badge>";
+        inner = '<badge class="gain-plays"><value>' + gainPlays + "</value></badge>";
         addEnergyRing = false;
         break;
       }
@@ -2995,11 +3005,11 @@ function getPresenceNodeInnerHTML(
           // damage at range
           let range = damageOptions[0];
           let damage = damageOptions[1];
-          inner = `<damage><track-damage><value>${damage}</value></track-damage><range class="small">${range}</range></damage>`;
+          inner = `<badge class="damage with-range"><value>${damage}</value>{range-${range}}</badge>`;
         } else {
           // damage in one of your lands
           let damage = damageOptions[0];
-          inner = `<track-damage><value>${damage}</value></track-damage>`;
+          inner = `<badge class="damage"><value>${damage}</value></badge>`;
         }
         addIconShadow = true;
         break;
@@ -5911,7 +5921,7 @@ function ListLocalize(list, conjuction = "and") {
   return listText;
 }
 
-function setupCustomIcons() {
+async function setupCustomIcons() {
   const spiritStyle = document.querySelectorAll("style")[0];
   let styleText = spiritStyle.textContent;
   if (styleText) {
@@ -5934,7 +5944,37 @@ function setupCustomIcons() {
       customIconHTML.classList.add("custom" + (i + 1));
       customIconHolder.appendChild(customIconHTML);
     });
+
+    await measureCustomIconRatios(spiritStyle);
   }
+}
+
+// Custom icon art is user-supplied, so its ratio can't be pre-generated into
+// icon-ratios.css the way stock art is. Measure each image and set
+// --icon-ratio on the user's own icon.customN rule; awaited before layout so
+// the sizing engine sees real widths on the first pass. Art that fails to
+// load keeps the square fallback. The rules live in the saved <style> block,
+// which is replaced on every body swap, so nothing persists across renders.
+function measureCustomIconRatios(spiritStyle) {
+  const rules = Array.from((spiritStyle.sheet && spiritStyle.sheet.cssRules) || []);
+  return Promise.all(
+    rules
+      .filter((rule) => /^icon\.custom[1-9]$/.test(rule.selectorText))
+      .map((rule) => {
+        const url = (rule.style.backgroundImage || "").split(/['"]/)[1];
+        if (!url) {
+          return null;
+        }
+        const img = new Image();
+        img.src = url;
+        return img
+          .decode()
+          .then(() => {
+            rule.style.setProperty("--icon-ratio", `${img.naturalWidth} / ${img.naturalHeight}`);
+          })
+          .catch(() => {});
+      })
+  );
 }
 
 function getCustomIconName(iconName) {

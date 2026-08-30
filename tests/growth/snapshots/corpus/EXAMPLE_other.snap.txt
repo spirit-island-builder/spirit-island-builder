@@ -58,7 +58,7 @@
 <badge class="repeat">
 <value>2</value>
 </badge>
-<badge class="plays">
+<badge class="gain-plays">
 <value>3</value>
 </badge>
 </cell-icons>

@@ -25,7 +25,7 @@
 </growth-cell>
 <growth-cell id="s0g1a1">
 <cell-icons>
-<badge class="plays">
+<badge class="gain-plays">
 <value>1</value>
 </badge>
 </cell-icons>

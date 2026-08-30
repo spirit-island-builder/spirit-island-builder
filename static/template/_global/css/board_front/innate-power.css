@@ -213,6 +213,7 @@ innate-info-target {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1px;
 }
 
 innate-power range {
@@ -338,51 +339,6 @@ note.single-squish {
   margin-left: 472px;
 }
 
-note icon {
-}
-
-note icon.town,
-note icon.blight,
-note icon.dahan,
-note icon.presence,
-note icon.wilds,
-note icon.beasts,
-note icon.disease,
-note icon.strife,
-note icon.explorer,
-note icon.badlands,
-note icon.fear,
-note icon.range-plus-1,
-note icon.range-plus-2,
-note icon.range-plus-3,
-note icon.destroyed-presence,
-note icon.major,
-note icon.minor,
-note icon.star,
-note icon.isolate {
-}
-
-note icon.range-0,
-note icon.range-1,
-note icon.range-2,
-note icon.range-3,
-note icon.range-4,
-note icon.range-X,
-note icon.range-x {
-}
-
-note icon.star {
-}
-
-note icon.beasts {
-}
-
-note icon.beasts {
-}
-
-note icon.presence {
-}
-
 effect {
   white-space: pre-line;
   line-height: 1.15;
@@ -392,75 +348,6 @@ effect {
 
 innate-powers.tight-line-height effect {
   line-height: 1;
-}
-
-effect icon {
-}
-
-effect icon.city {
-}
-
-effect icon.town {
-}
-
-effect icon.blight,
-effect icon.fear {
-  margin-top: -5px;
-}
-
-effect icon.dahan {
-}
-
-effect icon.slow,
-effect icon.fast,
-effect icon.fear {
-  margin-top: -10px;
-}
-
-effect icon.fear {
-}
-
-effect icon.explorer {
-}
-
-effect icon.badlands,
-effect icon.wilds {
-}
-
-effect icon.range-0,
-effect icon.range-1,
-effect icon.range-2,
-effect icon.range-3,
-effect icon.range-4,
-effect icon.range-X,
-effect icon.range-x {
-}
-
-effect icon.gain-range-1,
-effect icon.gain-range-2,
-effect icon.gain-range-3,
-effect icon.gain-range-x,
-effect icon.gain-range-X {
-}
-
-effect icon.element {
-  vertical-align: text-bottom;
-  margin-top: -5px;
-  margin-bottom: -2px;
-}
-
-effect.single-line icon.element {
-  vertical-align: text-top;
-  margin-top: -19px;
-}
-
-/* Element art: innate-power (incl. threshold and note) uses the simple set —
-   see the element icon layer in global.css. */
-
-effect icon.presence {
-}
-
-effect icon.sacred-site {
 }
 
 description-container range {
@@ -522,15 +409,6 @@ icon-count {
   vertical-align: text-bottom;
 }
 
-note icon.city {
-}
-
-note icon.sacred-site {
-}
-
-note icon.destroyed-presence {
-}
-
 level {
   display: inline;
   height: auto;
@@ -566,18 +444,6 @@ level.description-wrap effect {
   padding-left: 0px;
 }
 
-innate-info icon.range-0,
-innate-info icon.range-1,
-innate-info icon.range-2,
-innate-info icon.range-3,
-innate-info icon.range-4 {
-  margin-left: -10px;
-  margin-bottom: 10px;
-}
-
-info-range icon {
-}
-
 innate-info-range icon.sand,
 innate-info-range icon.sands {
   background-image: url("../../images/board/sands-presence.png");
@@ -601,31 +467,19 @@ innate-info-range icon.ocean {
   --icon-ratio: var(--art-ocean-presence-ratio);
 }
 
-innate-info-target icon.terrain-single {
-}
-
-innate-info-target icon.terrain-double {
-}
-
-info-target icon {
-}
-
 info-target spirit {
   width: 32px;
   height: 28px;
 }
 
 innate-info icon {
-  margin-bottom: 0px;
-  margin-top: 0px;
+  /* margin-bottom: 0px;
+  margin-top: 0px; */
 }
 
 innate-info icon.incarna {
   margin-top: -13px;
   margin-bottom: -10px;
-}
-
-innate-info icon.wilds {
 }
 
 innate-info icon.sacred-site {
@@ -645,9 +499,9 @@ innate-info-range icon.mountain-presence,
 innate-info-range icon.mountain,
 innate-info-range icon.ocean,
 innate-info-range icon.ocean-presence {
-  margin-top: 4px;
+  /* margin-top: 4px;
   margin-left: 0px;
-  margin-right: 10px;
+  margin-right: 10px; */
 }
 
 innate-info-range icon.ocean,
@@ -740,22 +594,9 @@ threshold-num-double {
   display: inline-block;
 }
 
-threshold icon.wilds,
-threshold icon.disease,
-threshold icon.strife,
-threshold icon.badlands,
-threshold icon.blight,
-threshold icon.destroyed-presence,
-threshold icon.sacred-site {
-}
-
 threshold icon.wilds {
   margin-top: -8px;
   margin-bottom: -2px;
-}
-
-threshold icon.destroyed-presence,
-threshold icon.badlands {
 }
 
 threshold icon.star {
@@ -794,13 +635,6 @@ threshold-or {
   height: 33px;
 }
 
-effect icon.incarna {
-}
-
-/* innate-power:only-child level {
-  width: 1000px;
-} */
-
 innate-power:only-child description-container {
   width: 1000px;
 }
@@ -815,23 +649,9 @@ innate-power innate-info-range range-value {
   font-size: 40px;
 }
 
-innate-power innate-info-range range {
-}
-
 range-value icon.element {
   vertical-align: text-bottom;
   margin: 0px;
-}
-
-effect icon.tiny {
-}
-effect icon.small {
-}
-effect icon.medium {
-}
-effect icon.large {
-}
-effect icon.huge {
 }
 
 binder icon-count {
