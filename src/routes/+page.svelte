@@ -636,6 +636,7 @@
     scenarioFront: {
       isVisible: false,
       lore: "",
+      loreLeft: false,
       panels: [
         {
           id: 0,

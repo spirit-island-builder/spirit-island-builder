@@ -86,6 +86,9 @@
       console.log("adding lore");
       lorePanel.innerHTML = scenario.scenarioFront.lore;
     }
+    if (scenario.scenarioFront.loreLeft) {
+      lorePanel.setAttribute("position", "left");
+    }
     scenarioRight.append(lorePanel);
     scenario.scenarioFront.panels.forEach((panel, i) => {
       let panelHTML = document.createElement("panel");
@@ -160,6 +163,7 @@
     const lorePanel = scenarioFront.querySelectorAll("lore-panel")[0];
     if (lorePanel) {
       scenario.scenarioFront.lore = lorePanel.innerHTML;
+      scenario.scenarioFront.loreLeft = lorePanel.getAttribute("position") === "left";
     }
     scenario.scenarioFront.panels.splice(0, scenario.scenarioFront.panels.length); //Clear the Form first
     const frontPanels = scenarioFront.querySelectorAll("panel");

@@ -143,6 +143,25 @@ scenario-front lore-panel {
   flex: 1 0 auto;
 }
 
+/* Lore placed on the left: overlays the bottom of the art area. */
+scenario-front > lore-panel[position="left"] {
+  background-image: url(../images/cards/Scenario/ScenarioLeft.png);
+  position: absolute;
+  left: 22px;
+  bottom: 22px;
+  width: 568px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 22px;
+  z-index: 1;
+  flex: none;
+  padding: 22px 29px;
+}
+
+/* Without a lore panel above it, the first right-hand panel keeps the column's top padding. */
+scenario-right > panel:first-child {
+  margin-top: 0px;
+}
+
 scenario comment {
   display: block;
   position: relative;
@@ -291,6 +310,9 @@ scenario.printer-clean scenario-heading {
 }
 scenario.printer-clean scenario-art-holder {
   z-index: -1;
+}
+scenario.printer-clean scenario-front > lore-panel[position="left"] {
+  background-color: white;
 }
 
 scenario icon.escalation {
