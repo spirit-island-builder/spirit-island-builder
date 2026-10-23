@@ -246,7 +246,7 @@
   function printToPDF(pageType = "letter") {
     const fileNames = [spiritBoardBack.nameImage.name.replaceAll(" ", "_") + "_SpiritLore.pdf"];
     const elementNamesInIframe = ["board"];
-    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 9, 6, true);
+    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 9, 6, "back");
   }
 
   function printToPDFLetter() {

@@ -811,7 +811,7 @@
   function printToPDF(pageType = "letter") {
     const fileNames = [spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.pdf"];
     const elementNamesInIframe = ["board"];
-    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType);
+    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 9, 6, "front");
   }
 
   function printToPDFLetter() {
