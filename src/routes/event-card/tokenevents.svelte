@@ -67,6 +67,7 @@
             class="input  is-small"
             type="text"
             placeholder="Subevent name"
+            data-next-field={`tokenEventTokens${i}`}
             on:keydown={nextNode}
             bind:value={event.name} />
         </div>
@@ -81,6 +82,7 @@
             class="input  is-small"
             type="text"
             placeholder="Tokens, use commas (ie. disease,strife)"
+            data-next-field={`tokenEventEffects${i}`}
             on:keydown={nextNode}
             bind:value={event.tokens} />
         </div>
@@ -96,6 +98,7 @@
           elementType="textarea"
           classNames="is-small"
           placeholder="Effects"
+          nextField="tokenEventName{i + 1}"
           validAutoCompleteValues={iconValuesSorted}
           bind:value={event.effect} />
       </div>

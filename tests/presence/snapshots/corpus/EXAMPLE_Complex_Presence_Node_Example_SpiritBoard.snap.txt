@@ -1,0 +1,151 @@
+<presence-tracks banner="" banner-v-scale="" banner-h-scale="">
+<presence-title>
+<section-title>Presence</section-title>
+</presence-title>
+<table id="presence-table">
+<tbody>
+<tr id="energy-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="energy0" shift="translate(150%,35%)" class="top-subtext" ttsinfo="4;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>4</value>
+</node-plate>
+</ring-icon>
+<subtext>4 Energy</subtext>
+</presence-node>
+</td>
+</tr>
+<tr id="plays-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="card0" shift="translate(0%,23%)" class="top-subtext" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="shadow">
+<track-move-presence>{presence}<value>1</value>{move-arrow}</track-move-presence>
+</node-plate>
+</ring-icon>
+<subtext>Move a Presence 1</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card1" shift="translate(0%,23%)" class="top-subtext" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2 Energy   </subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card2" shift="translate(0%,23%)" class="top-subtext" ttsinfo=";;;moon">
+<ring-icon>{moon}</ring-icon>
+<subtext>   Moon</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card3" shift="translate(0%,23%)" class="top-subtext" ttsinfo=";1;;animal">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>+1</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{animal}</presence-node-multi>
+</ring-icon>
+<subtext>+1 Energy, Animal</subtext>
+</presence-node>
+</td>
+</tr>
+<tr id="additional-track0" class="additional-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="card0" shift="translate(50%,12%)" class="left-subtext" ttsinfo=";;;air">
+<ring-icon>{air}</ring-icon>
+<subtext>Air</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card1" shift="translate(50%,12%)" class="first force-first" ttsinfo="1;;1;">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>1</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">
+<node-plate class="plays">
+<value>1</value>
+</node-plate>
+</presence-node-multi>
+</ring-icon>
+<subtext> </subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card2" shift="translate(50%,12%)" class="right-subtext" ttsinfo=";;;animal">
+<ring-icon>{animal}</ring-icon>
+<subtext>Animal</subtext>
+</presence-node>
+</td>
+</tr>
+<tr id="additional-track1" class="additional-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="card0" shift="translate(0%,0%)" ttsinfo=";;;">
+<ring-icon>
+<badge class="gain-plays">
+<value>1</value>
+</badge>
+</ring-icon>
+<subtext>+1 Card Play/Turn</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card1" shift="translate(0%,0%)" ttsinfo=";;2;">
+<ring-icon>
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2 Plays   </subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card2" shift="translate(0%,0%)" ttsinfo=";;;fire">
+<ring-icon>{fire}</ring-icon>
+<subtext>   Fire</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card3" shift="translate(0%,0%)" ttsinfo=";;;">
+<ring-icon>{any}</ring-icon>
+<subtext>Any</subtext>
+</presence-node>
+</td>
+</tr>
+<tr id="additional-track2" class="additional-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="card0" shift="translate(150%,-32%)" ttsinfo=";;3;">
+<ring-icon>
+<node-plate class="plays">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3 Card Plays</subtext>
+</presence-node>
+</td>
+</tr>
+</tbody>
+</table>
+<presence-bottom>
+</presence-bottom>
+</presence-tracks>

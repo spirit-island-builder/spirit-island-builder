@@ -1,0 +1,236 @@
+<growth>
+<section-title>Growth (Pick Three)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">
+<cell-icons>{reclaim-one}</cell-icons>
+<growth-text>Reclaim One</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<cell-icons class="add-presence">
+<icon-row class="plus">+{presence}</icon-row>{range-0}</cell-icons>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g2a0">
+<cell-icons>
+<badge class="energy">
+<value>1</value>
+</badge>
+</cell-icons>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g3a0">
+<cell-icons class="stack move-presence">
+<icon-row class="tokens">{presence}</icon-row>{range-3}</cell-icons>
+<growth-text>Move a Presence</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group new-row="true">
+<growth-cell id="s0g4a0">
+<cell-icons class="node">
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(http://localhost:5173/template/MyCustomContent/BannerExamples/banner-purplesmoke.png); background-size: 100% 50%;">
+</track-banner-art>
+<presence-node id="growth-s0g4a0n0" ttsinfo=";;;" class="growth blank">
+<ring-icon>{empty}</ring-icon>
+<subtext>
+</subtext>
+</presence-node>
+</presence-track>
+</cell-icons>
+<growth-text class="blank-text">
+</growth-text>
+</growth-cell>
+<growth-cell id="s0g4a1">
+<cell-icons>{reclaim-half}</cell-icons>
+<growth-text>Reclaim Half <em>(round up)</em>
+</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g5a0">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id="s0g5a1">
+<cell-icons class="stack move-presence">
+<icon-row class="tokens">{presence}</icon-row>{range-1}</cell-icons>
+<growth-text>Move a Presence</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group new-row="true">
+<growth-cell id="s0g6a0">
+<cell-icons class="node">
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(http://localhost:5173/template/MyCustomContent/BannerExamples/banner-purplesmoke.png); background-size: 100% 50%;">
+</track-banner-art>
+<presence-node id="growth-s0g6a0n0" ttsinfo=";;;" class="growth blank">
+<ring-icon>{empty}</ring-icon>
+<subtext>
+</subtext>
+</presence-node>
+</presence-track>
+</cell-icons>
+<growth-text class="blank-text">
+</growth-text>
+</growth-cell>
+<growth-cell id="s0g6a1">
+<cell-icons>
+<badge class="energy">
+<value>3</value>
+</badge>
+</cell-icons>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g7a0">
+<cell-icons>
+<badge class="gain-plays">
+<value>1</value>
+</badge>
+</cell-icons>
+<growth-text> +1 Card Play this turn</growth-text>
+</growth-cell>
+<growth-cell id="s0g7a1">
+<cell-icons class="stack move-presence">
+<icon-row class="tokens">{presence}</icon-row>{range-2}</cell-icons>
+<growth-text>Move a Presence</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group new-row="true">
+<growth-cell id="s0g8a0">
+<cell-icons class="node">
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(http://localhost:5173/template/MyCustomContent/BannerExamples/banner-purplesmoke.png); background-size: 100% 50%;">
+</track-banner-art>
+<presence-node id="growth-s0g8a0n0" ttsinfo=";;;" class="growth blank">
+<deep-layers>
+<icon class="energy-blank growth-empty-deep-layers">
+<value>+1</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">{empty}</ring-icon>
+<subtext>
+</subtext>
+</presence-node>
+<presence-node id="growth-s0g8a0n1" ttsinfo=";;;" class="growth">
+<deep-layers>
+<icon class="energy-blank card-deep-layers">
+<value>+1</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">{star}</ring-icon>
+<subtext>Element</subtext>
+</presence-node>
+</presence-track>
+</cell-icons>
+<growth-text class="blank-text">
+</growth-text>
+</growth-cell>
+<growth-cell id="s0g8a1">
+<cell-icons>{reclaim-all}</cell-icons>
+<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g9a0">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id="s0g9a1">
+<cell-icons>
+<badge class="energy">
+<value>1</value>
+</badge>
+</cell-icons>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group new-row="true">
+<growth-cell id="s0g10a0">
+<cell-icons class="node">
+<presence-track>
+<track-banner-art class="growth-track" style="background-image: url(http://localhost:5173/template/MyCustomContent/BannerExamples/banner-purplesmoke.png); background-size: 100% 50%;">
+</track-banner-art>
+<presence-node id="growth-s0g10a0n0" ttsinfo=";;;" class="growth blank">
+<deep-layers>
+<icon class="energy-blank growth-empty-deep-layers">
+<value>+1</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">{empty}</ring-icon>
+<subtext>
+</subtext>
+</presence-node>
+<presence-node id="growth-s0g10a0n1" ttsinfo=";;;" class="growth blank">
+<deep-layers>
+<icon class="energy-blank growth-empty-deep-layers">
+<value>+1</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">{empty}</ring-icon>
+<subtext>
+</subtext>
+</presence-node>
+</presence-track>
+</cell-icons>
+<growth-text class="blank-text">
+</growth-text>
+</growth-cell>
+<growth-cell id="s0g10a1">
+<cell-icons class="stack damage">
+<badge class="damage">
+          <value>2</value>
+          </badge>{range-0}</cell-icons>
+<growth-text>2 Damage at Range 0</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g11a0">
+<cell-icons>
+<badge class="gain-plays">
+<value>1</value>
+</badge>
+</cell-icons>
+<growth-text> +1 Card Play this turn</growth-text>
+</growth-cell>
+<growth-cell id="s0g11a1">
+<cell-icons>{make-fast}</cell-icons>
+<growth-text>One of your Powers may be Fast</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

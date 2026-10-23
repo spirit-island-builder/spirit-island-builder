@@ -7,11 +7,26 @@
     setSaveLocation,
     subscribeSaveLocation,
   } from "$lib/download.js";
-  import { onMount, onDestroy } from "svelte";
+  import { markSaved } from "$lib/unsaved-changes.js";
+  import { onMount, onDestroy, tick } from "svelte";
 
   export let accept;
   export let loadObjectURL;
   export let loadDataURL;
+  /**
+   * Component keys this load replaces wholesale. Freshly loaded state matches
+   * the file it came from, so it starts clean. Only meaningful alongside
+   * `loadObjectURL`; loading an image via `loadDataURL` is an edit, not a load.
+   * @type {string[]}
+   */
+  export let savedKeys = [];
+
+  /** State loaded from a file is, by definition, saved. */
+  const markLoadedAsSaved = async () => {
+    // Let the load's assignments propagate into the revision counters first.
+    await tick();
+    markSaved(savedKeys);
+  };
 
   let fileInput;
   let files;
@@ -50,7 +65,9 @@
 
     if (loadObjectURL) {
       const url = URL.createObjectURL(file);
-      Promise.resolve(loadObjectURL(url)).finally(() => URL.revokeObjectURL(url));
+      Promise.resolve(loadObjectURL(url))
+        .then(markLoadedAsSaved)
+        .finally(() => URL.revokeObjectURL(url));
     }
 
     if (loadDataURL) {
@@ -58,6 +75,7 @@
       reader.onload = (e) => loadDataURL(e.target.result);
       reader.readAsDataURL(file);
     }
+    fileInput.value = "";
   }
 
   async function loadFromDrive() {
@@ -71,6 +89,7 @@
         const url = URL.createObjectURL(blob);
         await loadObjectURL(url);
         URL.revokeObjectURL(url);
+        await markLoadedAsSaved();
       }
 
       if (loadDataURL) {

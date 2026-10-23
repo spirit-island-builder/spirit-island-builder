@@ -44,10 +44,6 @@ function buildScenario(quickScenario) {
   }
   let panels = scenarioFront.querySelectorAll("panel");
   let scenarioRight = getElement("scenario-right");
-  let scenarioLore = scenarioFront.querySelectorAll("lore-panel")[0];
-  if (scenarioLore && quickScenario.getAttribute("shiftLore") === true) {
-    scenarioFront.appendChild(scenarioLore);
-  }
   let scenarioHeadingFront = document.createElement("scenario-heading");
   scenarioHeadingFront.innerHTML = "Scenario";
 
@@ -56,6 +52,18 @@ function buildScenario(quickScenario) {
   scenarioFront.appendChild(scenarioName);
   scenarioFront.appendChild(scenarioHeadingFront);
   scenarioFront.appendChild(scenarioRight);
+
+  // Lore placement: position="left" lifts the lore panel out of the right
+  // column and overlays it on the art. An empty left lore panel is dropped so
+  // no bare parchment strip covers the art.
+  let scenarioLore = scenarioFront.querySelectorAll("lore-panel")[0];
+  if (scenarioLore && scenarioLore.getAttribute("position") === "left") {
+    if (scenarioLore.innerHTML.trim().length > 0) {
+      scenarioFront.appendChild(scenarioLore);
+    } else {
+      scenarioLore.remove();
+    }
+  }
 
   // Stack panels
   let allPanels = Array.from(scenarioFront.querySelectorAll("panel"));
@@ -125,7 +133,7 @@ function buildScenario(quickScenario) {
       if (comment.classList.contains("image")) {
         comment.innerHTML = "";
         console.log(comment);
-        commentImage = document.createElement("img");
+        let commentImage = document.createElement("img");
         comment.appendChild(commentImage);
         commentImage.setAttribute("src", comment.getAttribute("imgsrc"));
       }
@@ -137,6 +145,7 @@ function buildScenario(quickScenario) {
 }
 
 function resize() {
+  shrinkLeftLore();
   dynamicSizing(
     document.querySelectorAll("scenario-right")[0],
     document.querySelectorAll("scenario-front")[0]
@@ -177,6 +186,29 @@ function dynamicSizing(panel, scope, maxSize = panel.offsetHeight) {
       bullet.style.lineHeight = lineHeightPara - 1 + "px";
       bullet.style.fontSize = fontSizePara - 1 + "px";
     });
+    j += 1;
+    if (j > 20) {
+      console.log("safety");
+      break;
+    }
+  }
+}
+
+// A left-placed lore panel sits over the art; if it grows taller than the art
+// area, step its font down until it fits.
+function shrinkLeftLore() {
+  let lore = document.querySelectorAll('scenario-front > lore-panel[position="left"]')[0];
+  let artHolder = document.querySelectorAll("scenario-art-holder")[0];
+  if (!lore || !artHolder) {
+    return;
+  }
+  let j = 0;
+  while (lore.offsetHeight > artHolder.offsetHeight) {
+    let fontSize = parseFloat(window.getComputedStyle(lore, null).getPropertyValue("font-size"));
+    if (fontSize <= 12) {
+      break;
+    }
+    lore.style.fontSize = fontSize - 1 + "px";
     j += 1;
     if (j > 20) {
       console.log("safety");

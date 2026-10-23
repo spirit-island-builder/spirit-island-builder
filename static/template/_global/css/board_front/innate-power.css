@@ -1,3 +1,22 @@
+/* Icon size for this section. See the icon sizing engine in global.css. */
+innate-powers {
+  --icon-h: 30px;
+}
+
+/* Contexts in this sheet that want a different icon size. Values are the
+   ones measured before the sizing rework; calibrate freely. */
+note {
+  --icon-h: 24px;
+}
+
+innate-info {
+  --icon-h: 35px;
+}
+
+threshold {
+  --icon-h: 50px;
+}
+
 innate-powers {
   display: block;
   position: relative;
@@ -48,7 +67,6 @@ innate-powers:hover {
 
 innate-powers section-title {
   margin-left: 25px;
-  padding-top: 0px;
   flex: 0 1 auto;
 }
 
@@ -67,9 +85,8 @@ board.devwrap innate-power-container {
 innate-power {
   display: inline-block;
   flex-direction: column;
-  flex-shrink: 1;
-  flex-grow: 1;
-  margin-left: 25px;
+  margin-left: 27px;
+  width: 507px;
 }
 
 innate-power.two-column {
@@ -196,6 +213,7 @@ innate-info-target {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1px;
 }
 
 innate-power range {
@@ -268,15 +286,22 @@ innate-powers.tight-levels level {
   margin-bottom: 9px;
 }
 
+innate-powers.tight-levels effect icon {
+  margin-top: -10px;
+}
+
 innate-powers.really-tight-levels level {
   margin-bottom: 2px;
 }
 
-innate-powers.wide-levels #ip0 level {
+innate-powers.wide-levels innate-power:first-of-type level {
+  width: 507px;
+}
+innate-powers.wide-levels innate-power:first-of-type description-container {
   width: 507px;
 }
 /* innate-powers.wide-levels innate-power:last-of-type level{ */
-innate-powers.wide-levels #ip1 level {
+innate-powers.wide-levels innate-power level {
   width: 494px;
 }
 
@@ -314,76 +339,6 @@ note.single-squish {
   margin-left: 472px;
 }
 
-note icon {
-  width: 24px;
-  margin-top: -5px;
-}
-
-note icon.town,
-note icon.blight,
-note icon.dahan,
-note icon.presence,
-note icon.wilds,
-note icon.beasts,
-note icon.disease,
-note icon.strife,
-note icon.explorer,
-note icon.badlands,
-note icon.fear,
-note icon.range-plus-1,
-note icon.range-plus-2,
-note icon.range-plus-3,
-note icon.destroyed-presence,
-note icon.major,
-note icon.minor,
-note icon.star,
-note icon.isolate {
-  width: 24px;
-  height: 26px;
-  margin-bottom: -4px;
-  background-position: bottom;
-}
-
-note icon.range-0,
-note icon.range-1,
-note icon.range-2,
-note icon.range-3,
-note icon.range-4,
-note icon.range-X,
-note icon.range-x {
-  width: 50px;
-  height: 30px;
-  margin-left: 0px;
-  margin-top: -20px;
-  margin-bottom: -7px;
-}
-
-note icon.star {
-  margin-bottom: -9px;
-  margin-top: -9px;
-  margin-left: -3px;
-  margin-right: -3px;
-  width: 33px;
-  height: 33px;
-}
-
-note icon.beasts {
-  width: 28px;
-  margin-bottom: -6px;
-}
-
-note icon.beasts {
-  margin-bottom: -4px;
-}
-
-note icon.presence {
-  margin-bottom: -1px;
-  margin-top: -12px;
-  width: 26px;
-  margin-left: -2px;
-  margin-right: -2px;
-}
-
 effect {
   white-space: pre-line;
   line-height: 1.15;
@@ -393,137 +348,6 @@ effect {
 
 innate-powers.tight-line-height effect {
   line-height: 1;
-}
-
-effect icon {
-  width: 30px;
-  height: unset;
-  /* height: 27px; */
-  margin: 0px;
-  margin-top: -5px;
-  aspect-ratio: 1;
-  vertical-align: sub;
-  background-position: bottom;
-}
-
-effect icon.city {
-  width: 37px;
-  height: 32px;
-}
-
-effect icon.town {
-  width: 30px;
-}
-
-effect icon.blight,
-effect icon.fear {
-  margin-top: -5px;
-}
-
-effect icon.dahan {
-  width: 27px;
-}
-
-effect icon.slow,
-effect icon.fast,
-effect icon.fear {
-  width: 45px;
-  margin-top: -5px;
-  height: 35px;
-}
-
-effect icon.fear {
-  width: 35px;
-}
-
-effect icon.explorer {
-  height: 35px;
-  width: 20px;
-}
-
-effect icon.badlands,
-effect icon.wilds {
-  width: 40px;
-  height: 35px;
-}
-
-effect icon.range-0,
-effect icon.range-1,
-effect icon.range-2,
-effect icon.range-3,
-effect icon.range-4,
-effect icon.range-X,
-effect icon.range-x {
-  width: 50px;
-  height: 30px;
-}
-
-effect icon.gain-range-1,
-effect icon.gain-range-2,
-effect icon.gain-range-3,
-effect icon.gain-range-x,
-effect icon.gain-range-X {
-  width: 45px;
-  height: 40px;
-}
-
-effect icon.element {
-  width: 38px;
-  vertical-align: text-bottom;
-  margin-top: -5px;
-  margin-bottom: -2px;
-}
-
-effect.single-line icon.element {
-  width: 45px;
-  vertical-align: text-top;
-  margin-top: -19px;
-}
-
-innate-power effect icon.fast {
-  background-image: url("../../images/board/fast_power.png");
-}
-
-innate-power effect icon.slow {
-  background-image: url("../../images/board/slow_power.png");
-}
-
-innate-power icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-innate-power icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-innate-power icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-innate-power icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-innate-power icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-innate-power icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-innate-power icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-innate-power icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-innate-power icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
-
-effect icon.presence {
-  height: 20px;
-  width: 32px;
-}
-
-effect icon.sacred-site {
-  height: 30px;
-  width: 50px;
 }
 
 description-container range {
@@ -585,35 +409,10 @@ icon-count {
   vertical-align: text-bottom;
 }
 
-note icon.city {
-  width: 32px;
-  height: 35px;
-  margin-bottom: -11px;
-  margin-left: 2px;
-  margin-right: 2px;
-  margin-top: -10px;
-}
-
-note icon.sacred-site {
-  width: 46px;
-  height: 31px;
-  margin-bottom: -11px;
-  margin-left: -2px;
-  margin-right: -2px;
-  margin-top: -10px;
-}
-
-note icon.destroyed-presence {
-  width: 30px;
-  margin-bottom: -1px;
-  margin-left: -2px;
-  margin-right: -2px;
-}
-
 level {
   display: inline;
   height: auto;
-  width: 500px;
+  /* width: 500px; */
   font-family: "JosefinSans-Regular";
   font-size: 22.66px;
   margin-top: 5px;
@@ -632,6 +431,7 @@ threshold {
   position: relative;
   display: inline-flex;
   align-items: center;
+  gap: 5px;
 }
 
 threshold.no-wrap {
@@ -644,53 +444,27 @@ level.description-wrap effect {
   padding-left: 0px;
 }
 
-innate-info icon.range-0,
-innate-info icon.range-1,
-innate-info icon.range-2,
-innate-info icon.range-3,
-innate-info icon.range-4 {
-  width: 75px;
-  height: 75px;
-  margin-left: -10px;
-  margin-bottom: 10px;
-}
-
-info-range icon {
-  width: 40px;
-  height: 32px;
-}
-
 innate-info-range icon.sand,
 innate-info-range icon.sands {
   background-image: url("../../images/board/sands-presence.png");
+  --icon-ratio: var(--art-sands-presence-ratio);
 }
 innate-info-range icon.wetland,
 innate-info-range icon.wetlands {
   background-image: url("../../images/board/wetland-presence.png");
+  --icon-ratio: var(--art-wetland-presence-ratio);
 }
 innate-info-range icon.mountain {
   background-image: url("../../images/board/mountain-presence.png");
+  --icon-ratio: var(--art-mountain-presence-ratio);
 }
 innate-info-range icon.jungle {
   background-image: url("../../images/board/jungle-presence.png");
+  --icon-ratio: var(--art-jungle-presence-ratio);
 }
 innate-info-range icon.ocean {
   background-image: url("../../images/board/ocean-presence.png");
-}
-
-innate-info-target icon.terrain-single {
-  width: 45px;
-  height: 45px;
-}
-
-innate-info-target icon.terrain-double {
-  width: 78px;
-  height: 45px;
-}
-
-info-target icon {
-  width: 70px;
-  height: 32px;
+  --icon-ratio: var(--art-ocean-presence-ratio);
 }
 
 info-target spirit {
@@ -699,25 +473,16 @@ info-target spirit {
 }
 
 innate-info icon {
-  height: 38px;
-  width: 38px;
-  margin-bottom: 0px;
-  margin-top: 0px;
+  /* margin-bottom: 0px;
+  margin-top: 0px; */
 }
 
 innate-info icon.incarna {
-  width: 40px;
-  height: 40px;
   margin-top: -13px;
   margin-bottom: -10px;
 }
 
-innate-info icon.wilds {
-  width: 36px;
-}
-
 innate-info icon.sacred-site {
-  width: 50px;
   margin-bottom: -10px;
   margin-left: 0px;
 }
@@ -734,16 +499,13 @@ innate-info-range icon.mountain-presence,
 innate-info-range icon.mountain,
 innate-info-range icon.ocean,
 innate-info-range icon.ocean-presence {
-  width: 50px;
-  height: 50px;
-  margin-top: 4px;
+  /* margin-top: 4px;
   margin-left: 0px;
-  margin-right: 10px;
+  margin-right: 10px; */
 }
 
 innate-info-range icon.ocean,
 innate-info-range icon.ocean-presence {
-  width: 60px;
   margin-right: 5px;
 }
 
@@ -756,8 +518,6 @@ innate-info icon.no-blight {
 }
 
 innate-info icon.spirit {
-  height: 35px;
-  width: 35px;
   margin-bottom: 0px;
   margin-top: 0px;
 }
@@ -819,10 +579,9 @@ cost-threshold value {
 }
 
 threshold icon {
+  background-position: center;
   width: 50px;
-  height: 50px;
-  margin: 0px 5px;
-  background-position: bottom;
+  --icon-h: 50px;
 }
 
 threshold-num {
@@ -835,62 +594,12 @@ threshold-num-double {
   display: inline-block;
 }
 
-threshold icon.wilds,
-threshold icon.disease,
-threshold icon.strife,
-threshold icon.badlands,
-threshold icon.blight,
-threshold icon.destroyed-presence,
-threshold icon.sacred-site {
-  width: 45px;
-  height: 45px;
-  margin-bottom: -8px;
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
 threshold icon.wilds {
   margin-top: -8px;
   margin-bottom: -2px;
 }
 
-threshold icon.destroyed-presence,
-threshold icon.badlands {
-  margin-bottom: 0px;
-  margin-top: -10px;
-}
-
-threshold icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-threshold icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-threshold icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-threshold icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-threshold icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-threshold icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-threshold icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-threshold icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-threshold icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
-
 threshold icon.star {
-  width: 53px;
-  height: 53px;
   margin-bottom: -9px;
   margin-top: -9px;
   margin-left: 1px;
@@ -898,8 +607,6 @@ threshold icon.star {
 }
 
 cost-threshold icon.cost-custom {
-  width: 45px;
-  height: 45px;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -928,42 +635,7 @@ threshold-or {
   height: 33px;
 }
 
-note icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-note icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-note icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-note icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-note icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-note icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-note icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-note icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-note icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
-
-effect icon.incarna {
-  width: 40px;
-  height: 35px;
-  margin-top: -10px;
-  margin-bottom: -5px;
-}
-
-innate-power:only-child level {
+innate-power:only-child description-container {
   width: 1000px;
 }
 
@@ -977,38 +649,47 @@ innate-power innate-info-range range-value {
   font-size: 40px;
 }
 
-innate-power innate-info-range range {
-}
-
 range-value icon.element {
-  width: 33px;
   vertical-align: text-bottom;
   margin: 0px;
-}
-
-effect icon.tiny {
-  width: 20px;
-  height: 20px;
-}
-effect icon.small {
-  width: 25px;
-  height: 25px;
-}
-effect icon.medium {
-  width: 35px;
-  height: 35px;
-}
-effect icon.large {
-  width: 45px;
-  height: 45px;
-}
-effect icon.huge {
-  width: 55px;
-  height: 55px;
 }
 
 binder icon-count {
   vertical-align: bottom;
   font-family: unset;
   font-size: unset;
+}
+
+/* Rumu & Starlight */
+board.rumu,
+board.starlight {
+  innate-power-container {
+    flex-direction: column;
+  }
+  innate-powers {
+    margin-left: 0px;
+    height: inherit;
+  }
+  innate-powers level,
+  innate-powers.wide-levels innate-power:first-of-type level {
+    width: 485px;
+  }
+  innate-power,
+  innate-powers section-title {
+    margin-left: 10px;
+  }
+  info-container {
+    margin-bottom: 5px;
+  }
+  note {
+    width: 484px;
+  }
+}
+
+board.rumu rumu-right innate-powers {
+  height: inherit;
+  z-index: 2;
+  position: relative;
+  margin-left: 0px;
+  border-left: 5px solid #6b552a;
 }

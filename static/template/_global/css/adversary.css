@@ -1,16 +1,11 @@
+/* Icon size for this component. See the icon sizing engine in global.css. */
+:root {
+  --icon-h: 25px;
+}
+
 @font-face {
   font-family: JosefinSans-Regular;
   src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf);
-}
-
-html,
-body {
-  padding: 0px;
-  margin: 0px;
-  height: 100%;
-  width: 100%;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 14px;
 }
 
 * {
@@ -18,6 +13,8 @@ body {
 }
 
 body {
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -343,35 +340,29 @@ level-difficulty num {
 }
 
 icon {
-  height: 25px;
-  width: 25px;
   margin-bottom: -6px;
   margin-top: -20px;
   background-position: center;
 }
 
-icon.fast {
-  background-image: url("../images/board/fast_power.png");
-}
-icon.slow {
-  background-image: url("../images/board/slow_power.png");
+/* Adversary pages use the power-speed art throughout (see global.css). */
+:root {
+  --speed-fast: var(--speed-power-fast);
+  --speed-fast-ratio: var(--speed-power-fast-ratio);
+  --speed-slow: var(--speed-power-slow);
+  --speed-slow-ratio: var(--speed-power-slow-ratio);
 }
 
 icon.city {
-  height: 30px;
-  width: 30px;
   margin-top: -8px;
 }
 
 icon.escalation {
-  height: 23px;
-  width: 15px;
   margin-bottom: -2px;
   margin-top: -10px;
 }
 
 escalation icon.escalation {
-  height: 23px;
   margin-bottom: -2px;
   margin-top: -10px;
 }
@@ -381,50 +372,35 @@ icon.presence {
 }
 
 icon.town {
-  height: 25px;
-  width: 25px;
 }
 
-icon.sun {
-  background-image: url(../images/board/element_simple_sun.png);
-}
-icon.earth {
-  background-image: url(../images/board/element_simple_earth.png);
-}
-icon.plant {
-  background-image: url(../images/board/element_simple_plant.png);
-}
-icon.fire {
-  background-image: url(../images/board/element_simple_fire.png);
-}
-icon.air {
-  background-image: url(../images/board/element_simple_air.png);
-}
-icon.moon {
-  background-image: url(../images/board/element_simple_moon.png);
-}
-icon.animal {
-  background-image: url(../images/board/element_simple_animal.png);
-}
-icon.water {
-  background-image: url(../images/board/element_simple_water.png);
-}
-icon.any {
-  background-image: url(../images/board/element_simple_any.png);
+/* Adversary cards use the simple element art everywhere — flip the whole
+   page via the element icon layer in global.css. */
+:root {
+  --el-sun: var(--el-simple-sun);
+  --el-sun-ratio: var(--el-simple-sun-ratio);
+  --el-moon: var(--el-simple-moon);
+  --el-moon-ratio: var(--el-simple-moon-ratio);
+  --el-fire: var(--el-simple-fire);
+  --el-fire-ratio: var(--el-simple-fire-ratio);
+  --el-air: var(--el-simple-air);
+  --el-air-ratio: var(--el-simple-air-ratio);
+  --el-plant: var(--el-simple-plant);
+  --el-plant-ratio: var(--el-simple-plant-ratio);
+  --el-water: var(--el-simple-water);
+  --el-water-ratio: var(--el-simple-water-ratio);
+  --el-earth: var(--el-simple-earth);
+  --el-earth-ratio: var(--el-simple-earth-ratio);
+  --el-animal: var(--el-simple-animal);
+  --el-animal-ratio: var(--el-simple-animal-ratio);
+  --el-any: var(--el-simple-any);
+  --el-any-ratio: var(--el-simple-any-ratio);
 }
 
 adversary dev-overlay {
-  display: block;
   width: 100%;
   height: 100%;
-  position: absolute;
-  top: 0px;
-  left: 0px;
   background-size: 100% 100%;
-  opacity: 0.5;
-  filter: invert(1) saturate(0);
-  pointer-events: none;
-  z-index: 101;
 }
 
 adversary.printer-clean,
@@ -445,6 +421,11 @@ top-info.no-loss-condition loss-condition {
   display: block;
 }
 
+top-info.no-escalation escalation {
+  width: 165px;
+  flex: none;
+}
+
 adversary range {
   width: 40px;
 }
@@ -455,8 +436,6 @@ adversary range-value {
 }
 
 icon.range-small-icon {
-  width: 30px;
-  height: 20px;
   position: absolute;
   margin: 0px;
   display: block;
@@ -470,22 +449,12 @@ adversary rule-line {
 
 /* Icon sizing */
 adversary icon.tiny {
-  width: 20px;
-  height: 20px;
 }
 adversary icon.small {
-  width: 25px;
-  height: 25px;
 }
 adversary icon.medium {
-  width: 30px;
-  height: 30px;
 }
 adversary icon.large {
-  width: 40px;
-  height: 40px;
 }
 adversary icon.huge {
-  width: 50px;
-  height: 50px;
 }

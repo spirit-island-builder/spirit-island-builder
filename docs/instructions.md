@@ -83,17 +83,19 @@ Growth is broken into Growth Sets, Groups, and Actions.
   - Remove: Deletes the Growth Action.
 
 #### Supported Growth Actions
-
 | Category | Action | Usage | Details | Examples |
 | ------------------------------------ | ---------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | Reclaim | Reclaim All, Reclaim One, Reclaim Half | reclaim(x) | x can be all, one, half, or custom |  |
+|  | Reclaim a number of cards | reclaim(x) | x is a number | reclaim(2) |
 |  | Reclaim Element Specific | reclaim(x,y) | Reclaim x (all or one) cards with element y | Ember-Eyed Behemoth: reclaim(all,fire) |
 |  | Reclaim Custom | reclaim(custom,_your custom reclaim text_) | Custom reclaim text with a unique icon. | reclaim(custom,your Unique Power Cards) |
 | Adding Presence | Add Presence at Range | add-presence(x) | At range x, add a Presence. x can be a number, 'any', or any element (scaling range) |  |
 |  | Add Presence with Condition | add-presence(x,y) | At range x, add a Presence to a land with y conditions. y can be terrains, tokens, invaders, invader pieces, dahan, blight, etc. |  |
 |  | Add Presence with Multiple Conditions | add-presence(x,y,z,...,and/or) | At range x, add a Presence with multiple conditions y, z, etc, the last parameter must be 'or' or 'and'. | Sharp Fangs: <br>add-presence(3,jungle,beast,or)<br>Vengeance: <br>add-presence(2,town,city,blight,or) |
 |  | Add Presence and/or Tokens | add-presence(x,token,y,and/or) | At range x, add a Presence and/or a token y (beasts, disease, etc). Use add-token if only adding tokens. | Many Minds: <br>add-presence(3,token,beast,and)<br>Vengeance: <br>add-presence(1,token,disease,or) |
+|  | Add Presence and/or Tokens to Land Conditionals | add-presence(x,token,y,and/or,z,...) | As above, but only to a land meeting conditions z, etc. ie. add-presence(any,token,beasts,or,ocean) is 'Add a Presence or a Beasts to any Ocean'. |  |
 |  | Add Presence relative to an Entity | add-presence(x,relative,y) | At range x relative to y, add a Presence. | Covets (Apocrypha ): add-presence(1,relative,custom1) where custom1 is Lair |
+|  | Add Presence to Land Conditions relative to an Entity | add-presence(x,relative,y,z,...) | As above, but only to a land meeting conditions z, etc. ie. add-presence(1,relative,sacred-site,jungle) is 'Add a Presence to Jungle from Sacred Site'. |  |
 |  | Add Presence with Custom Text | add-presence(x,text,*your_text_here*) | At range x, add a Presence with text 'Add a Presence *your_text*'. No icon. |  |
 |  | Add Presence with Custom Text and Icon(s) | add-presence(x,text,*your_text_here*,y,...) | At range x, add a Presence with text 'Add a Presence *your_text*'. The growth icon will be y and any number of additional icons separated by commas |  |
 | Gaining Elements | Gain One Element | gain-element(x) | Gain Element x, which can be any of the elements or 'any' or 'star' | 'star' is the Starlight element icon |
@@ -142,7 +144,7 @@ Growth is broken into Growth Sets, Groups, and Actions.
 |  | Replaces Token with another at range | replace(x,y,z) | At range x, Replace entity y with entity z. | replace(2,wilds,destroyed-presence) |
 | Gain Power Card | Gain a Power Card | gain-power-card() | Gain a Power Card |  |
 |  | Gain a Minor/Major/Other Power Card | gain-power-card(x) | Gain x Power Card. x is minor, major, or something else (icon appears in top left). It can also be blank | gain-power-card(minor) |
-|  | Gain a Minor/Major/Other Power Card with Other Note | gain-power-card(x,y) | Gain x Power Card with y condition. y is text to follow 'Gain x Power Card y'. x can be blank. | gain-power-card(minor, from discard) |
+|  | Gain a Minor/Major/Other Power Card with Other Note | gain-power-card(x,y) | Gain x Power Card with y condition. y is text to follow 'Gain x Power Card y'. x can be blank | gain-power-card(minor, from discard) |
 |  | Gain a Minor/Major/Other Power Card with Note&Icon | gain-power-card(x,y,z) | Gain x Power Card with y condition. z is an icon that appears in the top right of the Power Card | Dances Up Earthquakes: or(add-presence(2),gain-power-card(major, without Forgetting,noforget)) |
 | Take Power Card | Take a Power Card | take-power-card() | Take a Power Card |  |
 |  | Take a Minor/Major/Other Power Card | take-power-card(x) | Take x Power Card. x is minor, major, or something else (icon appears in top left) | take-power-card(minor) |
@@ -158,6 +160,8 @@ Growth is broken into Growth Sets, Groups, and Actions.
 | Ignore Range | Ignore Range this Turn | ignore-range() | Ignore Range this turn (as seen on Finder) |  |
 | Gain Range | Gain Range this Turn | gain-range(x) | Gain +x range for Powers this turn | gain-range(1) |
 |  | Gain Range this Turn for... | gain-range(x,y) | Gain +x range for y effects (powers, power cards, innate powers, everything) this turn | gain-range(2,powers) |
+| Lose Range | Lose Range this Turn | lose-range(x) | Lose -x range for Powers this turn | lose-range(1) |
+|  | Lose Range this Turn for... | lose-range(x,y) | Lose -x range for y effects (powers, power cards, innate powers, everything) this turn | lose-range(2,powers) |
 | Isolate | Isolate one of your Lands | isolate() | Isolate one of your Lands |  |
 |  | Isolate a land at Range | isolate(x) | At range x, Isolate a land |  |
 | Destroy Presence | Destroy a Presence | destroy-presence(x) | Destroy x of your Presence |  |
@@ -175,14 +179,15 @@ Growth is broken into Growth Sets, Groups, and Actions.
 |  | Replace with Incarna | incarna(replace,x,y) | Replaces icon x with incarna. y is the incarna icon | Towering Roots: incarna(replace,presence) |
 |  | Add Token at Incarna | incarna(add-token,x,y) | Adds token/icon x at incarna. y is the incarna icon | Towering Roots: incarna(add-token,vitality) |
 | Growth Action Cost | Adds a cost to a specific growth action (vs group) | ^cost(x) | Adds an energy cost to the growth option | gain-power-card^cost(3) |
-| Custom | Custom Text with !!! Icon | custom(*your_text*) | A custom growth option with the image !!! |  |
+| Custom | Custom text on the end of any growth action | Add *Your text here to the end of any growth | Custom growth text on any growth action | add-presence(1)*Here is my custom text |
+|  | Custom Text with !!! Icon | custom(*your_text*) | A custom growth option with the image !!! |  |
 |  | Custom Text with Any Icon | custom(*your_text*,x,...) | A custom growth option with the x icon of your choice (ie. town, dahan, element, etc). Can use more than 1 icon and they will appear in a row. | custom(Deal 1 Damage in each of your Sacred Sites,sacred-site,damage-1) |
 |  | Custom Text with Text In Place of Icons | custom(*your_text*,text,x) | A custom growth option with the your custom text x in place of an icon. |  |
 | Blank Space | Creates a blank space in growth | blank() | Creates a blank space. Default is 75px |  |
 |  | Creates a blanks space of x pixels | blank(x) | Creates a blank space roughly x px wide. |  |
 | **OR** Growth Options | Allows pair of two growth options | or(x,y) | x and y are growth options (like the ones above) | Fractured Days's growth: or(gain-1-time^2,gain-card-play(2)) |
-| **then** Growth Options | Allows one growth option to occur before another | then(x,y) | x and y are growth options (like the ones above) |  |
-| Presence Track Node | Puts the growth option inside a presence track ring | presence-node(x) | x is a growth option (like the ones above) | presence-node(reclaim-one) |
+| Presence Track Node | Puts x inside a presence track ring in growth. | presence-node(x) | x uses the Presence Track options (see the Presence Tracks section), so 2, moon, reclaim-one, and star^energy(1) all work. | presence-node(reclaim-one) |
+| Presence Track | Puts a presence track inside growth. | presence-track(x,y,z,...) | A row of presence track nodes in one growth cell. Each of x, y, z is a presence-node input, comma separated like a real track's nodes. | Starlight's Growth tracks: "presence-track(empty^energy(+1),star^energy(+1))" |
 | Custom text on anything | Useful for translating, replaces pre-gen text | *_your_text_here_ | At the end of any growth action, put * and whatever text you want. Useful when creating boards in other langauges | reclaim(all)*Alle Karten wiedererlangen |
 [Home](#index)
 

@@ -1,29 +1,26 @@
+/* Icon size for this component. See the icon sizing engine in global.css. */
+:root {
+  --icon-h: 25px;
+}
+
+/* Contexts in this sheet that want a different icon size. Values are the
+   ones measured before the sizing rework; calibrate freely. */
+info-range {
+  --icon-h: 24px;
+}
+
+info-target {
+  --icon-h: 32px;
+}
+
+threshold-condition {
+  --icon-h: 32px;
+}
+
 @font-face {
   font-family: JosefinSans-Regular;
   src: url(../fonts/josefin-sans/JosefinSans-Regular.ttf) format("truetype");
   font-weight: normal;
-}
-
-html,
-body {
-  padding: 0px;
-  margin: 0px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 14px;
-}
-
-html {
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
-}
-
-body {
-  /* display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  align-content: center; */
 }
 
 * {
@@ -333,7 +330,7 @@ card-art {
 info-title {
   position: absolute;
   left: 105px;
-  top: 341px;
+  top: 342px;
   height: 11px;
   width: 357px;
   z-index: 7;
@@ -362,15 +359,20 @@ info-title-target {
 
 info-title-speed,
 info-speed {
+  display: block;
   width: 109px;
+  padding-right: 1px;
 }
 info-title-range,
 info-range {
+  display: block;
   width: 123px;
   padding-right: 1px;
 }
 info-title-target,
 info-target {
+  display: block;
+  width: 122px;
   flex-grow: 1;
 }
 
@@ -386,73 +388,90 @@ info-range {
 info-range icon.sand,
 info-range icon.sands {
   background-image: url("../images/board/sands-presence.png");
+  --icon-ratio: var(--art-sands-presence-ratio);
 }
 info-range icon.wetland,
 info-range icon.wetlands {
   background-image: url("../images/board/wetland-presence.png");
+  --icon-ratio: var(--art-wetland-presence-ratio);
 }
 info-range icon.mountain {
   background-image: url("../images/board/mountain-presence.png");
+  --icon-ratio: var(--art-mountain-presence-ratio);
 }
 info-range icon.jungle {
   background-image: url("../images/board/jungle-presence.png");
+  --icon-ratio: var(--art-jungle-presence-ratio);
 }
 info-range icon.ocean {
   background-image: url("../images/board/ocean-presence.png");
-  width: 45px;
+  --icon-ratio: var(--art-ocean-presence-ratio);
 }
 
 info-range icon.jungle-wetland,
 info-range icon.wetland-jungle {
   background-image: url("../images/board/junglewetland-presence.png");
+  --icon-ratio: var(--art-junglewetland-presence-ratio);
 }
 info-range icon.jungle-wetlands,
 info-range icon.wetlands-jungle {
   background-image: url("../images/board/junglewetland-presence.png");
+  --icon-ratio: var(--art-junglewetland-presence-ratio);
 }
 info-range icon.jungle-sand,
 info-range icon.sand-jungle {
   background-image: url("../images/board/junglesand-presence.png");
+  --icon-ratio: var(--art-junglesand-presence-ratio);
 }
 info-range icon.jungle-sands,
 info-range icon.sands-jungle {
   background-image: url("../images/board/junglesand-presence.png");
+  --icon-ratio: var(--art-junglesand-presence-ratio);
 }
 info-range icon.sand-wetland,
 info-range icon.wetland-sand {
   background-image: url("../images/board/sandwetland-presence.png");
+  --icon-ratio: var(--art-sandwetland-presence-ratio);
 }
 info-range icon.sand-wetlands,
 info-range icon.wetlands-sand {
   background-image: url("../images/board/sandwetland-presence.png");
+  --icon-ratio: var(--art-sandwetland-presence-ratio);
 }
 info-range icon.sands-wetland,
 info-range icon.wetland-sands {
   background-image: url("../images/board/sandwetland-presence.png");
+  --icon-ratio: var(--art-sandwetland-presence-ratio);
 }
 info-range icon.sands-wetlands,
 info-range icon.wetlands-sands {
   background-image: url("../images/board/sandwetland-presence.png");
+  --icon-ratio: var(--art-sandwetland-presence-ratio);
 }
 info-range icon.mountain-jungle,
 info-range icon.jungle-mountain {
   background-image: url("../images/board/mountainjungle-presence.png");
+  --icon-ratio: var(--art-mountainjungle-presence-ratio);
 }
 info-range icon.mountain-wetland,
 info-range icon.wetland-mountain {
   background-image: url("../images/board/mountainwetland-presence.png");
+  --icon-ratio: var(--art-mountainwetland-presence-ratio);
 }
 info-range icon.mountain-wetlands,
 info-range icon.wetlands-mountain {
   background-image: url("../images/board/mountainwetland-presence.png");
+  --icon-ratio: var(--art-mountainwetland-presence-ratio);
 }
 info-range icon.mountain-sand,
 info-range icon.sand-mountain {
   background-image: url("../images/board/mountainsand-presence.png");
+  --icon-ratio: var(--art-mountainsand-presence-ratio);
 }
 info-range icon.mountain-sands,
 info-range icon.sands-mountain {
   background-image: url("../images/board/mountainsand-presence.png");
+  --icon-ratio: var(--art-mountainsand-presence-ratio);
 }
 
 info-target {
@@ -461,6 +480,8 @@ info-target {
   justify-content: center;
   text-align: center;
   font-size: 20px;
+  margin-top: -2px;
+  line-height: 1;
 }
 
 info-target icon {
@@ -469,7 +490,6 @@ info-target icon {
 }
 
 info-target icon.terrain-double {
-  width: 60px;
 }
 
 rules-container {
@@ -611,8 +631,6 @@ threshold-condition icon {
   margin-left: 0px;
   margin-right: 0px;
   margin-top: -15px;
-  width: 32px;
-  height: 32px;
 }
 
 artist-name {
@@ -650,21 +668,15 @@ or {
 }
 
 icon {
-  width: 25px;
-  height: 25px;
   margin-top: -7px;
   margin-bottom: -4px;
 }
 
 icon.bigger {
-  height: 30px;
-  width: 30px;
   margin-bottom: -10px;
 }
 
 info-range icon {
-  width: 40px;
-  height: 32px;
 }
 
 info-range range {
@@ -675,44 +687,34 @@ info-range range {
 }
 
 info-target icon {
-  width: 45px;
-  height: 32px;
 }
 
 info-target icon.spirit {
-  width: 32px;
-  height: 28px;
 }
 
 icon.range {
-  width: 50px;
   margin-top: -10px;
 }
 
 icon.presence {
-  height: 20px;
 }
 
 rules icon.sacred-site {
-  width: 39px;
-  height: 37px;
   margin-top: -12px;
   margin-bottom: -12px;
 }
 
 rules-container icon.fast,
 rules-container icon.slow {
-  height: 32px;
-  width: 40px;
   margin-bottom: -7px;
 }
 
-rules-container icon.fast {
-  background-image: url("../images/board/fast_power.png");
-}
-
-rules-container icon.slow {
-  background-image: url("../images/board/slow_power.png");
+/* Cards use the power-speed art only inside rule text (see global.css). */
+rules-container {
+  --speed-fast: var(--speed-power-fast);
+  --speed-fast-ratio: var(--speed-power-fast-ratio);
+  --speed-slow: var(--speed-power-slow);
+  --speed-slow-ratio: var(--speed-power-slow-ratio);
 }
 
 icon.sun,
@@ -724,8 +726,6 @@ icon.earth,
 icon.plant,
 icon.animal,
 icon.any-element {
-  width: 40px;
-  height: 40px;
   margin-bottom: -13px;
   margin-left: -5px;
   margin-right: -5px;
@@ -739,9 +739,7 @@ rules icon.ocean,
 rules icon.jungle-presence,
 rules icon.mountain-presence,
 rules icon.sand-presence,
-rules icon.sacred-site rules icon.wetland-presence {
-  width: 30px;
-  height: 30px;
+rules icon.wetland-presence {
   margin-bottom: -10px;
 }
 
@@ -759,40 +757,13 @@ rules icon.sand-wetland {
 } */
 
 rules-container icon.terrain-double {
-  width: 68px;
-  height: 39px;
   margin-bottom: -14px;
   margin-left: -4px;
   margin-right: -4px;
 }
 
-rules icon.sun {
-  background-image: url(../images/board/element_simple_sun.png);
-}
-rules icon.earth {
-  background-image: url(../images/board/element_simple_earth.png);
-}
-rules icon.plant {
-  background-image: url(../images/board/element_simple_plant.png);
-}
-rules icon.fire {
-  background-image: url(../images/board/element_simple_fire.png);
-}
-rules icon.air {
-  background-image: url(../images/board/element_simple_air.png);
-}
-rules icon.moon {
-  background-image: url(../images/board/element_simple_moon.png);
-}
-rules icon.animal {
-  background-image: url(../images/board/element_simple_animal.png);
-}
-rules icon.water {
-  background-image: url(../images/board/element_simple_water.png);
-}
-rules icon.any {
-  background-image: url(../images/board/element_simple_any.png);
-}
+/* Element art: rules and threshold use the simple set — see the element
+   icon layer in global.css. */
 
 rules icon.sun,
 rules icon.moon,
@@ -803,44 +774,16 @@ rules icon.earth,
 rules icon.plant,
 rules icon.animal,
 rules icon.any {
-  width: 28px;
-  height: 28px;
   margin-bottom: -3px;
   margin-left: 0px;
   margin-right: 0px;
 }
 
-threshold icon.sun {
-  background-image: url(../images/board/element_simple_sun.png);
-}
-threshold icon.earth {
-  background-image: url(../images/board/element_simple_earth.png);
-}
-threshold icon.plant {
-  background-image: url(../images/board/element_simple_plant.png);
-}
-threshold icon.fire {
-  background-image: url(../images/board/element_simple_fire.png);
-}
-threshold icon.air {
-  background-image: url(../images/board/element_simple_air.png);
-}
-threshold icon.moon {
-  background-image: url(../images/board/element_simple_moon.png);
-}
-threshold icon.animal {
-  background-image: url(../images/board/element_simple_animal.png);
-}
-threshold icon.water {
-  background-image: url(../images/board/element_simple_water.png);
-}
-threshold icon.any {
-  background-image: url(../images/board/element_simple_any.png);
+rules icon.explorer,
+threshold icon.explorer {
 }
 
 threshold icon.element {
-  width: 32px;
-  height: 32px;
   margin-bottom: -5px;
   margin-left: 1px;
   margin-right: 1px;
@@ -928,4 +871,13 @@ rules-container range.range {
   justify-content: center;
   width: 50px;
   bottom: 4px;
+}
+
+rules-container threshold-or {
+  font-family: "Short Name Headings";
+  text-transform: uppercase;
+  font-size: 24px;
+  display: inline-flex;
+  position: relative;
+  top: -3px;
 }

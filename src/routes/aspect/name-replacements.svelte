@@ -1,6 +1,7 @@
 <script>
   import Section from "$lib/section.svelte";
   import ImageInput from "$lib/image-input.svelte";
+  import AutoComplete from "$lib/auto-complete/index.svelte";
   import * as Lib from "../lib";
 
   export let aspect;
@@ -65,6 +66,8 @@
             class="input"
             type="text"
             placeholder="Name"
+            data-next-field="part0ReplacesInput0"
+            data-next-field-default="aspectSpiritName"
             on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={aspect.info.aspectName} />
@@ -134,7 +137,7 @@
     {#if aspect.info.hasBack}
       <button class="button is-warning is-light is-small row-button" on:click={setBack}
         >Remove Card Back</button>
-      <label class="label is-flex is-justify-content-space-between" for="rulesReplacedInput"
+      <label class="label is-flex is-justify-content-space-between" for="aspectSpiritName"
         >Spirit Name
       </label>
       <div class="field is-flex is-small mb-0">
@@ -147,6 +150,16 @@
             on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={aspect.info.spiritName} />
+        </div>
+      </div>
+      <label class="label is-flex is-justify-content-space-between" for="aspectLore">Lore </label>
+      <div class="field is-flex is-small mb-0">
+        <div class="control" style="width:100%">
+          <AutoComplete
+            id={`aspectLore`}
+            elementType="textarea"
+            placeholder="Lore (optional)"
+            bind:value={aspect.info.lore} />
         </div>
       </div>
       <ImageInput id="backArt" title="Art" bind:imageURL={aspect.info.spiritImage} />

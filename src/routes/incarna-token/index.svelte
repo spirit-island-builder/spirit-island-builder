@@ -241,13 +241,15 @@
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
+        savedKeys={["incarnaToken"]}
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(incarnaToken)}
         fileName={`${incarnaToken.incarna.name.replaceAll(" ", "_")}_incarnaToken.html`}
-        saveType="html" />
+        saveType="html"
+        savedKeys={["incarnaToken"]} />
       <button class="button is-success mt-1  mr-1" on:click={screenshotSetUp}
         >Download Image</button>
       <div class="dropdown is-hoverable is-up">

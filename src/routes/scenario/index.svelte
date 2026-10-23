@@ -86,6 +86,9 @@
       console.log("adding lore");
       lorePanel.innerHTML = scenario.scenarioFront.lore;
     }
+    if (scenario.scenarioFront.loreLeft) {
+      lorePanel.setAttribute("position", "left");
+    }
     scenarioRight.append(lorePanel);
     scenario.scenarioFront.panels.forEach((panel, i) => {
       let panelHTML = document.createElement("panel");
@@ -160,6 +163,7 @@
     const lorePanel = scenarioFront.querySelectorAll("lore-panel")[0];
     if (lorePanel) {
       scenario.scenarioFront.lore = lorePanel.innerHTML;
+      scenario.scenarioFront.loreLeft = lorePanel.getAttribute("position") === "left";
     }
     scenario.scenarioFront.panels.splice(0, scenario.scenarioFront.panels.length); //Clear the Form first
     const frontPanels = scenarioFront.querySelectorAll("panel");
@@ -291,13 +295,15 @@
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
+        savedKeys={["scenario"]}
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(scenario)}
         fileName={`${scenario.info.name.replaceAll(" ", "_")}_Scenario.html`}
-        saveType="html" />
+        saveType="html"
+        savedKeys={["scenario"]} />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

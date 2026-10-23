@@ -1,16 +1,4 @@
-html,
-body {
-  padding: 0px;
-  margin: 0px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 14px;
-  font-variant-ligatures: none;
-}
-
 html {
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
   background-color: transparent;
 }
 
@@ -84,7 +72,6 @@ spirit-name-text {
   word-spacing: -10px;
   font-size: 45px;
   text-indent: 20px;
-  margin-bottom: 16px;
   width: 650px;
 }
 
@@ -154,11 +141,6 @@ spirit-image-holder {
   font-size: 24px;
 }
 
-range {
-  width: 50px;
-  margin-top: -10px;
-}
-
 range-plus-1 {
   background-image: url("../../images/board/range_plus_1.png");
 }
@@ -197,8 +179,8 @@ section-title {
   font-family: "Name Headings";
   text-transform: uppercase;
   font-size: 33.33px;
-  padding-top: 10px;
-  line-height: 40px;
+  padding-top: 5px;
+  height: 40px;
   pointer-events: none;
 }
 
@@ -248,20 +230,6 @@ custom-energy value {
   position: relative;
 }
 
-board dev-overlay {
-  display: block;
-  width: inherit;
-  height: inherit;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  background-size: inherit;
-  opacity: 0.5;
-  filter: invert(1) saturate(0);
-  pointer-events: none;
-  z-index: 101;
-}
-
 overlay-image {
   background-size: contain;
   background-repeat: no-repeat;
@@ -278,7 +246,16 @@ overlay-container {
   top: 0px;
   left: 0px;
   position: absolute;
+  display: block;
   z-index: 100;
+  pointer-events: none;
+}
+
+/* Section placements: below the section's own text and icons, above its
+   background art. -1 ties with innate-powers-background; the overlay is
+   appended after it, so DOM order keeps the overlay on top. */
+overlay-container.behind {
+  z-index: -1;
 }
 
 board.flipboard {

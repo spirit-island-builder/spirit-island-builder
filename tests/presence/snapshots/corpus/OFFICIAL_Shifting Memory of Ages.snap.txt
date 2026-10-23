@@ -1,0 +1,162 @@
+<presence-tracks banner="" banner-v-scale="null" banner-h-scale="null">
+<presence-title>
+<section-title>Presence</section-title>
+</presence-title>
+<table id="presence-table">
+<tbody>
+<tr id="energy-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="energy0" class="first" ttsinfo="0;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>0</value>
+</node-plate>
+</ring-icon>
+<subtext>Energy/Turn</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy1" ttsinfo="1;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>1</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy2" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy3" ttsinfo="3;;;">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>3</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{markerplus}</presence-node-multi>
+</ring-icon>
+<subtext>3, Prepare 1 Element Marker</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy4" ttsinfo="4;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>4</value>
+</node-plate>
+</ring-icon>
+<subtext>4</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy5" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">{reclaim-one}</node-plate>
+</ring-icon>
+<subtext>Reclaim One</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy6" ttsinfo="5;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>5</value>
+</node-plate>
+</ring-icon>
+<subtext>5</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy7" ttsinfo="6;;;">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>6</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{markerplus}</presence-node-multi>
+</ring-icon>
+<subtext>6, Prepare 1 Element Marker</subtext>
+</presence-node>
+</td>
+</tr>
+<tr id="plays-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="card0" class="first" ttsinfo=";;1;">
+<ring-icon>
+<node-plate class="plays">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>Card Plays</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card1" ttsinfo=";;2;">
+<ring-icon>
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card2" ttsinfo=";;2;">
+<ring-icon>
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card3" ttsinfo=";;;">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">{markerminus}</presence-node-multi>
+<presence-node-multi style="top:45%; left:69%;">{markerminus}</presence-node-multi>
+<presence-node-multi style="top:69%; left:45%;">
+<badge class="gain-plays">
+<value>1</value>
+</badge>
+</presence-node-multi>
+</ring-icon>
+<subtext>Discard 2 Element Markers, +1 Card Play/Turn</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card4" ttsinfo=";;3;">
+<ring-icon>
+<node-plate class="plays">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</td>
+</tr>
+</tbody>
+</table>
+<presence-bottom>
+</presence-bottom>
+</presence-tracks>
+=== board > track-banner-art
+<track-banner-art class="energy-track" style="background-image: url(/template/MyCustomContent/BannerExamples/banner-brownearth.png); background-size: 100% 50%;">
+</track-banner-art>
+<track-banner-art class="plays-track" style="background-image: url(/template/MyCustomContent/BannerExamples/banner-brownearth.png); background-size: 100% 50%;">
+</track-banner-art>

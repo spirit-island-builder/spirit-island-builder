@@ -213,6 +213,7 @@
       fragment.append(aspectBackHTML);
       aspectBackHTML.setAttribute("spirit-name", aspect.info.spiritName);
       aspectBackHTML.setAttribute("src", aspect.info.spiritImage);
+      aspectBackHTML.setAttribute("lore", aspect.info.lore);
       if (aspect.info.profile) {
         aspectBackHTML.classList.add("profile");
       }
@@ -264,6 +265,7 @@
     const aspectBackHTML = htmlElement.querySelectorAll("aspect-back")[0];
     if (aspectBackHTML) {
       aspect.info.spiritName = aspectBackHTML.getAttribute("spirit-name");
+      aspect.info.lore = aspectBackHTML.getAttribute("lore") || "";
       aspect.info.spiritImage = Lib.maybeResolveURL(aspectBackHTML.getAttribute("src"), baseURI);
       aspect.info.hasBack = true;
     } else {
@@ -336,7 +338,7 @@
         if (ruleGrowthGroup) {
           aspect.aspectEffects[i].specialRules.rules[j].hasGrowth = true;
           aspect.aspectEffects[i].specialRules.rules[j].growthActions = [];
-          let values = ruleGrowthGroup.getAttribute("values").split(";");
+          let values = Lib.splitGrowthValues(ruleGrowthGroup.getAttribute("values"));
           console.log(values);
           values.forEach((growthValue, k) => {
             console.log(growthValue);
@@ -604,13 +606,15 @@
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
+        savedKeys={["aspect"]}
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(aspect)}
         fileName={`${aspect.info.aspectName.replaceAll(" ", "_")}_Aspect.html`}
-        saveType="html" />
+        saveType="html"
+        savedKeys={["aspect"]} />
 
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>

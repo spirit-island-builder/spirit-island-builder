@@ -1,21 +1,40 @@
-presence-tracks section-title {
-  padding-top: 0px;
-  margin-top: -3px;
+/* presence-track-table.css — the presence tracks panel of the spirit board.
+   Also imported by aspect.css; special-rules.css reuses the node vocabulary
+   for special-rules tracks.
+
+   Organized by the track DOM vocabulary (see "Presence-track vocabulary
+   consolidation" in renderer-css-improvement-plan.md):
+
+     1. Sizing contexts             9. Move presence
+     2. Panel frame                10. Push/gather scenes (piece-move)
+     3. Table & row rhythm         11. Or-choices (element-or-wrap)
+     4. Banner art                 12. Per-icon calibration
+     5. Node core & subtext        13. Damage & badges
+     6. Multi-node anchor          14. Tokens & power cards
+     7. Plates (node-plate)        15. Split nodes
+     8. Deep layers (^ notation)   16. Custom text & board layouts */
+
+/* ===== 1. Sizing contexts =====
+   See the icon sizing engine in global.css. Values are the ones measured
+   before the sizing rework; calibrate freely. */
+presence-tracks {
+  --icon-h: 40px;
 }
 
-/* presence-tracks section-title.has-note {
-} */
-
-presence-tracks presence-note {
-  font-family: "JosefinSans-Regular";
-  font-size: 18.66px;
-  margin-left: 8px;
-  letter-spacing: -0.75px;
-  position: relative;
-  display: block;
-  margin-top: 10px;
+presence-node {
+  --icon-h: 68px;
 }
 
+presence-node-multi {
+  --icon-h: 68px;
+  --plate-h: 90px;
+}
+
+track-move-presence {
+  --icon-h: 31px;
+}
+
+/* ===== 2. Panel frame ===== */
 presence-tracks {
   display: block;
   position: relative;
@@ -45,7 +64,7 @@ presence-tracks:hover {
 
 presence-tracks presence-title {
   margin-left: 39px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   padding-top: 0px;
   pointer-events: none;
   /* height: 37px; */
@@ -58,27 +77,14 @@ presence-tracks presence-title.tight {
   margin-bottom: 0px;
 }
 
-presence-tracks table {
-  display: inline-block;
-  border-collapse: collapse;
+presence-tracks presence-note {
+  font-family: "JosefinSans-Regular";
+  font-size: 18.66px;
+  margin-left: 8px;
+  letter-spacing: -0.75px;
   position: relative;
-  pointer-events: none;
-  z-index: 2;
-}
-
-board.devwrap presence-tracks table {
-  pointer-events: all;
-}
-
-presence-tracks table td {
-  padding: 0px;
-  vertical-align: top;
-  padding-right: 4px;
-}
-
-presence-tracks table td[rowspan="2"] {
-  vertical-align: top;
-  position: relative;
+  display: block;
+  margin-top: 10px;
 }
 
 presence-bottom {
@@ -99,6 +105,70 @@ board.printer-clean presence-bottom {
   background-color: white;
 }
 
+/* ===== 3. Table & row rhythm ===== */
+presence-tracks table {
+  display: inline-block;
+  border-collapse: collapse;
+  position: relative;
+  pointer-events: none;
+  z-index: 2;
+}
+
+board.devwrap presence-tracks table {
+  pointer-events: all;
+}
+
+presence-tracks table td {
+  padding: 0px;
+  vertical-align: top;
+  padding-right: 4px;
+  /* Row rhythm: each track row owns its gap below via --row-gap (set on the
+     <tr>), consumed here as cell padding instead of per-node bottom margins.
+     Nodes stacked inside a split keep the gap between them — see the
+     split-presence-node rules. */
+  padding-bottom: var(--row-gap, 0px);
+}
+
+presence-tracks table td[rowspan="2"] {
+  vertical-align: top;
+  position: relative;
+}
+
+#energy-track {
+  --row-gap: 43px;
+}
+
+#plays-track {
+  --row-gap: 9px;
+}
+
+/* The id forms are load-bearing: a bare class selector would lose the
+   specificity fight against the per-track id rules above. */
+tr.vertical-tight,
+#plays-track.vertical-tight,
+#energy-track.vertical-tight {
+  --row-gap: 10px;
+}
+
+tr > td:last-of-type {
+  padding-right: 0px;
+}
+
+td.tight {
+  padding-right: 0px;
+}
+
+td.spacer {
+  width: 42px;
+  display: block;
+}
+
+td.spacer.tight {
+  width: 10px;
+}
+
+/* dynamicResizing writes an inline `top` on the middle node — this
+   position: relative is that contract, don't fold it into the base. */
 td.middle > presence-node {
   position: relative;
 }
@@ -113,57 +183,13 @@ td.middle.bonus::before {
   font-size: 26.66px;
 }
 
-td.spacer {
-  width: 42px;
-  display: block;
-}
-
-td.spacer.tight {
-  width: 10px;
-}
-
-presence-node {
-  display: inline-flex;
-  max-width: 130px;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
-#energy-track presence-node {
-  margin-bottom: 43px;
-}
-
-#plays-track presence-node {
-  margin-bottom: 5px;
-}
-
-tr.vertical-tight presence-node,
-#plays-track.vertical-tight presence-node,
-#energy-track.vertical-tight presence-node {
-  margin-bottom: 5px;
-}
-
-presence-node.tight {
-  margin-bottom: 20px;
-}
-
-tr > td:last-of-type {
-  padding-right: 0px;
-}
-
-td.tight {
-  padding-right: 0px;
-}
-
-/* tr.plays-track {
-  height: 174px;
-} */
-
+/* clears presence-bottom */
 presence-tracks tr:last-of-type {
-  height: 174px;
+  height: 160px;
 }
 
+/* ===== 4. Banner art =====
+   Writers park these on <board>; addTrackBanners adopts and measures them. */
 track-banner-art {
   display: flex;
   position: absolute;
@@ -182,6 +208,47 @@ track-banner-art.combined-track {
   height: 100%;
 }
 
+/* ===== 5. Node core & subtext =====
+   <presence-node><ring-icon>…</ring-icon><subtext/></presence-node>.
+   The 130px ring box is the PRESENCE_NODE_HEIGHT contract in board_front.js. */
+presence-node {
+  display: inline-flex;
+  max-width: 130px;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+presence-node ring-icon {
+  background-image: url("../../images/board/CardPlayRing.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 130px;
+  width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Higher specificity than the base art above, so order is irrelevant. */
+presence-node.first ring-icon,
+presence-node.force-first ring-icon {
+  background-image: url("../../images/board/PresenceInitialRing.png");
+}
+
+ring-icon.blank-ring {
+  background-image: none;
+}
+
+/* Number typography for the whole node family; scoped rules below restate
+   their own fonts where this must not reach in. */
+presence-node value {
+  font-family: "Energy Font";
+  font-size: 48px;
+  display: inline-block;
+}
+
 subtext {
   font-family: "Lato SemiBold";
   font-size: 18.66px;
@@ -196,156 +263,135 @@ board.hide-text subtext {
   visibility: hidden;
 }
 
-.adjust-subtext {
-  margin-left: -20px;
-  margin-right: -20px;
+/* ~top / ~left / ~right subtext placement */
+presence-node.top-subtext {
+  flex-direction: column-reverse;
 }
 
-td.middle .adjust-subtext {
-  margin-left: 0px;
-  margin-right: 0px;
+presence-node.top-subtext subtext {
+  position: absolute;
+  transform: translateY(-100%);
+  top: 0px;
 }
 
-presence-node ring-icon {
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: inline-block;
-  height: 130px;
-  width: 130px;
+presence-node.left-subtext {
+  flex-direction: row-reverse;
+}
+
+presence-node.left-subtext subtext {
+  position: absolute;
+  transform: translateX(-100%);
+  left: -5px;
+}
+
+presence-node.right-subtext {
+  flex-direction: row;
+}
+
+presence-node.right-subtext subtext {
+  position: absolute;
+  transform: translateX(100%);
+  right: 0px;
+}
+
+/* ===== 6. Multi-node anchor =====
+   One per `+`-joined option; the writer sets the polar top/left inline.
+   Children are flex-centered in the 130px anchor box, so the per-family
+   deltas below express nudges as left/top from CENTER. */
+presence-node-multi {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-49%, -46%);
+  height: inherit;
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== 7. Plates (node-plate) =====
+   The "art plate with centered content" family (energy plate, plays plate,
+   shadow backing, special-track plate — .special lives in special-rules.css;
+   damage is a badge, see section 13). The base carries the shared square box
+   and flex centering; classes state art and box deltas only. --plate-h is
+   the size knob contexts override. */
+node-plate {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-}
-
-presence-node.first ring-icon {
-  background-image: url("../../images/board/PresenceInitialRing.png");
-}
-presence-node.force-first ring-icon {
-  background-image: url("../../images/board/PresenceInitialRing.png");
-}
-
-presence-node ring-icon {
-  background-image: url("../../images/board/CardPlayRing.png");
-}
-
-presence-node icon.reclaim-one {
-  background-image: url("../../images/board/Reclaimone-white.png");
-  display: block;
-  height: 90px;
-  width: 75px;
-}
-
-presence-node icon.star {
-  width: 80px;
-  height: 80px;
-}
-
-presence-node icon.empower-incarna {
-  width: 93px;
-  height: 99px;
-  margin-bottom: 3px;
-}
-
-presence-node icon.gain-power-card,
-presence-node icon.take-power-card,
-presence-node icon.forget-power-card,
-presence-node icon.discard-cards,
-presence-node icon.discard-2-cards,
-presence-node icon.discard-card,
-presence-node icon.discard-1-card,
-presence-node icon.gain-card-play,
-presence-node icon.gain-card-play-blank,
-presence-node icon.take-power-card-blank {
-  height: 90px;
-  width: 90px;
-}
-
-presence-node icon.gain-card-pay-2 {
-  height: 130px;
-  width: 92px;
-}
-
-presence-node card-icon {
-  background-image: url("../../images/board/CardPlayBlank.png");
   background-repeat: no-repeat;
   background-size: contain;
+  height: var(--plate-h, 130px);
+  width: var(--plate-h, 130px);
+}
+
+node-plate.energy {
+  background-image: url("../../images/board/EnergyBlank.png");
+}
+
+node-plate.shadow {
+  background-image: url("../../images/customIcons/Presence Track Back.png");
+}
+
+node-plate.plays {
+  background-image: url("../../images/board/CardPlayBlank.png");
   height: 75px;
   width: 53px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-presence-node-multi icon.reclaim-one {
-  margin-left: -5px;
-  margin-right: 0px;
-  margin-top: -25px;
+presence-node-multi node-plate.energy {
+  position: relative;
+  left: -5px;
+  top: -10px;
 }
 
-presence-node-multi card-icon {
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-top: -10px;
+presence-node-multi node-plate.energy value {
+  font-size: 34.66px;
 }
 
-presence-node-multi icon.gain-card-play,
-presence-node-multi icon.gain-power-card,
-presence-node-multi icon.gain-power-card-blank {
-  height: 80px;
-  width: 80px;
-  margin-left: -7px;
-  margin-right: -5px;
-  margin-top: -14px;
+presence-node-multi node-plate.plays {
+  position: relative;
+  top: -5px;
 }
 
-presence-node-multi icon.gain-power-card-blank icon {
-  width: 38px;
+presence-node-multi node-plate.plays value {
+  font-size: 46.66px;
 }
 
-presence-node energy-icon {
-  background-image: url("../../images/board/EnergyBlank.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  height: 130px;
-  width: 130px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-presence-node-multi energy-icon {
-  height: 90px;
-  width: 90px;
-  margin-left: -10px;
-  margin-top: -20px;
-}
-
-presence-node icon-shadow {
-  background-image: url("../../images/customIcons/Presence Track Back.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  height: 130px;
-  width: 130px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-presence-node-multi icon-shadow {
-  height: 94px;
-  width: 94px;
-  margin-left: -5px;
-  margin-top: -16px;
-  z-index: 0;
+presence-node-multi node-plate.shadow {
+  --plate-h: 94px;
   position: absolute;
+  left: calc(50% - 2.5px);
+  top: calc(50% - 8px);
+  transform: translate(-50%, -50%);
+  z-index: 0;
 }
 
-presence-node icon.gain-range-1,
-presence-node icon.gain-range-2,
-presence-node icon.gain-range-3 {
-  margin-bottom: 2px;
-  height: 78px;
+/* ===== 8. Deep layers (^ notation) =====
+   Element art: the deep-layers icons use the simple set — see the element
+   icon layer in global.css. */
+ring-icon.deep-layers {
+  background-image: url("../../images/board/CardPlayRing_DeepLayers.png");
+}
+
+deep-layers {
+  left: 16px;
+  top: 16px;
+  position: absolute;
+  z-index: 2;
+  align-self: flex-start;
+}
+
+deep-layers > icon {
+  --icon-h: 37px;
+  position: absolute;
+  background-position: center;
+  transform: translate(-50%, -50%);
+}
+
+deep-layers > icon.energy-blank {
+  margin-top: -10px;
 }
 
 icon.energy-blank {
@@ -354,133 +400,7 @@ icon.energy-blank {
   justify-content: center;
 }
 
-presence-node value {
-  font-family: "Energy Font";
-  font-size: 48px;
-  display: inline-block;
-}
-
-presence-node-multi energy-icon value {
-  font-size: 34.66px;
-}
-
-presence-node-multi card-icon value {
-  font-size: 46.66px;
-}
-
-presence-node icon {
-  width: 68px;
-  height: 68px;
-}
-
-presence-node icon.isolate,
-presence-node icon.custom-icon {
-  height: 90px;
-  width: 90px;
-  margin-top: -3px;
-}
-
-presence-node-multi icon.custom-icon {
-  height: 65px;
-  width: 65px;
-  margin-top: -3px;
-}
-
-presence-node icon.gather {
-  left: -12px;
-  top: 5px;
-  width: 112px;
-  height: 68px;
-  position: relative;
-  margin-right: 0px;
-  display: flex;
-}
-
-presence-node icon.gather > icon {
-  left: 90px;
-  top: -7px;
-  filter: drop-shadow(0px 0px 0px #ead38d) drop-shadow(0px 0px 0px #ead38d)
-    drop-shadow(0px 0px 1px #ead38d) drop-shadow(0px 0px 1px #ead38d);
-  height: 90px;
-}
-
-presence-node icon.gain-card-play > icon {
-  position: relative;
-  left: -39px;
-  top: -28px;
-  height: 40px;
-  width: 60px;
-}
-
-presence-node > icon.deep-layers {
-  position: relative;
-  left: -22px;
-  top: -135px;
-  height: 40px;
-  width: 60px;
-}
-
-presence-node > icon.energy-deep-layers,
-presence-node > icon.card-deep-layers {
-  position: relative;
-  height: 35px;
-  width: 60px;
-  float: left;
-  background-position: center;
-}
-
-presence-node > icon.energy-blank {
-  height: 50px;
-  margin-top: -10px;
-}
-
-presence-node > icon.energy-deep-layers {
-  left: -44px;
-  top: -4px;
-  margin-bottom: -90px;
-  transform: translateX(50%);
-}
-
-presence-node > icon.card-deep-layers {
-  left: -45px;
-  top: -4px;
-  margin-bottom: -90px;
-  transform: translateX(50%);
-}
-
-ring-icon.blank-ring {
-  background-image: none;
-}
-
-ring-icon.deep-layers {
-  background-image: url("../../images/board/CardPlayRing_DeepLayers.png");
-}
-
-deep-layers {
-  left: 0px;
-  top: -3px;
-  transform: translateX(50%);
-  position: absolute;
-  z-index: 2;
-  align-self: flex-start;
-}
-
-deep-layers > icon.energy-deep-layers,
-deep-layers > icon.card-deep-layers,
-deep-layers > icon.growth-empty-deep-layers {
-  position: absolute;
-  height: 37px;
-  width: 60px;
-  background-position: center;
-  left: -13px;
-  margin: 0px;
-}
-
-deep-layers > icon.energy-blank {
-  height: 55px;
-  margin-top: -10px;
-}
-
+/* ===== 9. Move presence ===== */
 track-move-presence {
   display: flex;
   flex-direction: column;
@@ -506,151 +426,56 @@ presence-node-multi.add-shadow track-move-presence {
 }
 
 track-move-presence icon {
-  width: 40px;
-  height: 30px;
   margin: 0px;
   position: relative;
 }
 
-track-move-presence icon.move-arrow {
-  width: 80px;
-}
-
-track-move-presence move-value {
+track-move-presence value {
   position: relative;
   left: -1px;
-  position: relative;
+  /* restate the container typography — the presence-node value rule
+     (Energy Font 48px) would otherwise reach in */
+  font-family: "Antropos";
+  font-size: 40px;
 }
 
-track-move-presence move-text {
+track-move-presence textvalue {
   position: relative;
   left: -1px;
-  position: relative;
   font-size: 28px;
   line-height: 28px;
   font-family: "NAME HEADINGS";
 }
 
-presence-node-multi {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-49%, -46%);
-  height: inherit;
-  width: inherit;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* ===== 10. Push/gather scenes (piece-move) =====
+   The shared piece-move vocabulary (see global.css) at ring scale.
+   Starting geometry approximates the old track scenes; calibrate freely. */
+presence-node piece-move {
+  width: 110px;
+  height: 68px;
 }
 
-presence-node div.push > icon {
-  width: 25px;
-  height: 25px;
+presence-node piece-move > icon {
+  --icon-h: 68px;
 }
 
-icon-multi {
-  position: absolute;
+presence-node piece-move > icon-row.pieces {
+  --icon-h: 25px;
 }
 
-custom-presence-track-icon icon {
-  width: 65px;
-  height: 65px;
-  margin-top: 0px;
+presence-node piece-move.gather > icon-row.pieces {
+  left: 98px;
+  bottom: 40px;
+  filter: drop-shadow(0px 0px 0px #ead38d) drop-shadow(0px 0px 0px #ead38d)
+    drop-shadow(0px 0px 1px #ead38d) drop-shadow(0px 0px 1px #ead38d);
 }
 
-custom-presence-track-icon {
-  position: absolute;
-  display: block;
-  font-family: "Energy Font";
-  font-size: 32px;
-  color: #431e0aff;
+presence-node piece-move.push > icon-row.pieces {
+  left: 45px;
+  bottom: 38px;
 }
 
-presence-node range {
-  height: 43px;
-  width: 80px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  line-height: 28px;
-  background-position-y: 29px;
-}
-
-presence-node-multi range {
-  width: 64px;
-}
-
-icon.card-deep-layers.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-
-icon.card-deep-layers.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-icon.card-deep-layers.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-icon.card-deep-layers.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-icon.card-deep-layers.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-icon.card-deep-layers.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-icon.card-deep-layers.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-icon.card-deep-layers.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-icon.card-deep-layers.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
-
-icon.energy-deep-layers.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-
-icon.energy-deep-layers.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-icon.energy-deep-layers.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-icon.energy-deep-layers.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-icon.energy-deep-layers.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-icon.energy-deep-layers.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-icon.energy-deep-layers.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-icon.energy-deep-layers.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-icon.energy-deep-layers.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
-
+/* ===== 11. Or-choices (element-or-wrap) ===== */
 element-or-wrap {
   display: flex;
   justify-content: center;
@@ -685,8 +510,6 @@ element-or-wrap icon.presence-or-second {
 
 presence-node-multi element-or-wrap icon.presence-or-first,
 presence-node-multi element-or-wrap icon.presence-or-second {
-  width: 40px;
-  height: 40px;
   margin: 0px;
 }
 
@@ -701,84 +524,167 @@ presence-node-multi element-or-wrap icon.presence-or-second {
 }
 
 element-or-wrap icon.backslash {
-  width: 35px;
-  height: 94px;
   z-index: 2;
   margin: 0px;
 }
 
-presence-node-multi element-or-wrap icon.backslash {
-  width: 20px;
-  height: 55px;
-}
-
-presence-node add-move-lower icon {
+/* ===== 12. Per-icon calibration ===== */
+presence-node icon.reclaim-one {
+  background-image: url("../../images/board/Reclaimone-white.png");
+  --icon-ratio: var(--art-reclaimone-white-ratio);
   display: block;
-  position: absolute;
-  transform: translateX(-50%) translateY(-50%);
-  width: 40px;
-  height: 60px;
 }
 
-presence-node add-move-lower icon.add-move {
-  left: 35%;
-  width: 40px;
-  top: 85px;
+presence-node-multi icon.reclaim-one {
+  position: relative;
+  left: -2.5px;
+  top: -12.5px;
 }
 
-presence-node add-move-lower icon.with-your {
-  left: 65%;
-  width: 40px;
-  top: 85px;
+presence-node icon.empower-incarna {
+  margin-bottom: 3px;
 }
 
-presence-node add-move-upper {
-  position: absolute;
-  display: block;
-  top: 33px;
-  margin-left: 4px;
+presence-node icon.gain-range-1,
+presence-node icon.gain-range-2,
+presence-node icon.gain-range-3 {
+  margin-bottom: 2px;
 }
 
-presence-node add-move-upper icon.backslash {
-  margin-right: 0px;
+presence-node icon.isolate,
+presence-node icon.custom-icon {
+  margin-top: -3px;
 }
 
-presence-node add-move-upper icon.move-arrow {
-  margin-left: 0px;
+presence-node icon.or {
+  background-image: url(../../images/board/backslash.png);
+  --icon-ratio: var(--art-backslash-ratio);
+  background-size: cover;
+  margin-bottom: 22px;
+  margin-top: 26px;
 }
 
-track-damage {
-  background-image: url(../../images/board/NewIcons/Damage\ Blank.png);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  font-size: 26.66px;
-  font-weight: bold;
-  display: block;
-  text-align: center;
-  margin-top: -11px;
+presence-node-multi icon.gain-card-play,
+presence-node-multi icon.gain-power-card,
+presence-node-multi icon.gain-power-card-blank {
+  position: relative;
+  left: -1px;
+  top: -7px;
+}
+
+presence-node range {
+  height: 43px;
+  width: 80px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  line-height: 28px;
+  background-position-y: 29px;
+}
+
+presence-node-multi range {
+  width: 64px;
+}
+
+/* ===== 13. Damage & badges ===== */
+/* damage(n) / damage(r;n): the shared damage badge — art from the badge
+   family base in global.css; the node-scale geometry lives here.
+   Starting box carries the old damage-plate size; calibrate freely.
+   .with-range marks the damage-at-range form (its {range-N} token rides
+   inside the badge). */
+presence-node badge.damage {
   width: 80px;
   height: 80px;
-  margin-bottom: 1px;
-  margin-right: -3px;
 }
 
-track-damage value {
+presence-node badge.damage value {
   font-family: "Energy Font";
+  font-weight: bold;
   font-size: 29.33px;
   display: inline-block;
-  margin-top: 36px;
-  margin-left: 0px;
-  font-style: normal;
-  text-align: center;
+  position: relative;
+  top: 13px;
 }
 
-damage range {
-  margin-top: -17px;
-  margin-left: 25px;
-  line-height: 30px;
+/* gain-card-play(n): the shared gain-plays badge — art from the badge family
+   base in global.css, node geometry here. The absolutely positioned
+   value anchors to the badge, so position stays with the box. */
+presence-node badge.gain-plays {
+  width: 90px;
+  height: 90px;
+  margin: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  left: 3px;
 }
 
+presence-node badge.gain-plays value {
+  display: block;
+  position: absolute;
+  margin: 0px;
+  font-size: 36px;
+  top: 29px;
+}
+
+presence-node-multi badge.gain-plays {
+  height: 80px;
+  width: 80px;
+  left: -2px;
+  top: -2px;
+}
+
+presence-node-multi badge.gain-plays value {
+  font-size: 32px;
+  top: 27px;
+}
+
+/* ===== 14. Tokens & power cards ===== */
+
+/* token(range;X): the growth add-token stack shape rendered in a node.
+   Values carry the old icon.range-token geometry: the 100x68 icon box,
+   25px nested-icon size, and range spacing. */
+presence-node cell-icons.range-token {
+  height: 68px;
+  width: 100px;
+  justify-content: flex-start;
+}
+
+presence-node cell-icons.range-token icon-row.plus {
+  --icon-h: 25px;
+  margin-bottom: 0px;
+}
+
+presence-node cell-icons.range-token icon.misc-plus {
+  margin-bottom: 1px;
+}
+
+presence-node cell-icons.range-token range-value {
+  top: 0px;
+  font-size: 40px;
+}
+
+presence-node cell-icons.range-token range {
+  margin-top: 2px;
+}
+
+presence-node icon.gain-power-card-blank {
+  display: flex;
+  justify-content: center;
+}
+
+/* Absolute offset pair, not center-anchored: the equivalent center-relative
+   values depend on the icon's ratio-derived runtime size. Tuning candidate. */
+icon.take-power-card-blank > icon {
+  position: absolute;
+  left: 43px;
+  top: 20px;
+}
+
+/* ===== 15. Split nodes =====
+   The -65px pull and the padding-top ladder are load-bearing row geometry:
+   addTrackBanners reads the row's padding-top by name. */
 split-presence-node {
   display: block;
   max-width: 130px;
@@ -800,146 +706,31 @@ tr.has-split-node.has-split-node-tight:not(:first-child) td {
   padding-top: 0px;
 }
 
+/* Stacked split nodes keep the row gap between them (the old per-node
+   margin-bottom used to supply this). */
+split-presence-node presence-node:not(:last-child) {
+  margin-bottom: var(--row-gap, 0px);
+}
+
 #energy-track.has-split-node split-presence-node presence-node:first-child {
   margin-bottom: 0px;
 }
 
-presence-node icon.or {
-  background-image: url(../../images/board/backslash.png);
-  background-size: cover;
-  width: 15px;
-  height: 32px;
-  margin-bottom: 22px;
-  margin-top: 26px;
-}
-
-presence-node icon.gain-power-card-blank {
-  display: flex;
-  justify-content: center;
-  height: 90px;
-  width: 90px;
-}
-
-icon.gain-power-card-blank > icon {
-  height: 45px;
-  width: 45px;
-}
-
-icon.take-power-card-blank > icon {
-  width: 40px;
-  height: 40px;
+/* ===== 16. Custom text & board layouts ===== */
+custom-presence-track-icon {
   position: absolute;
-  left: 43px;
-  top: 20px;
-}
-
-presence-tracks.shadow subtext {
-  text-shadow: 1px 0 #f1decc, 1px 1px 0 #f1decc, 1px -1px 0 #f1decc, -1px -1px 0 #f1decc;
-}
-
-presence-node icon.huge {
-  width: 110px !important;
-  height: 110px !important;
-}
-
-presence-node icon.large {
-  width: 80px !important;
-  height: 80px !important;
-}
-
-presence-node icon.medium {
-  width: 68px !important;
-  height: 68px !important;
-}
-
-presence-node icon.small {
-  width: 42px !important;
-  height: 42px !important;
-}
-
-presence-node.top-subtext {
-  flex-direction: column-reverse;
-}
-
-presence-node.top-subtext subtext {
-  position: absolute;
-  transform: translateY(-100%);
-  top: 0px;
-}
-
-presence-node.left-subtext {
-  flex-direction: row-reverse;
-}
-
-presence-node.left-subtext subtext {
-  position: absolute;
-  transform: translateX(-100%);
-  left: -5px;
-}
-
-presence-node.right-subtext {
-  flex-direction: row;
-}
-
-presence-node.right-subtext subtext {
-  position: absolute;
-  transform: translateX(100%);
-  right: 0px;
-}
-
-presence-node card-play-num {
-  width: 90px;
-  height: 90px;
-  margin: 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  left: 3px;
-}
-
-presence-node card-play-num value {
   display: block;
-  position: absolute;
-  margin: 0px;
-  font-size: 36px;
-  top: 29px;
-}
-
-presence-node-multi card-play-num {
-  height: 80px;
-  width: 80px;
-  margin-left: -15px;
-  margin-right: -5px;
-  margin-top: -8px;
-}
-
-presence-node-multi card-play-num value {
+  font-family: "Energy Font";
   font-size: 32px;
-  top: 27px;
+  color: #431e0aff;
 }
 
-presence-node .range-token {
-  display: flex;
-  flex-direction: column;
-  width: 100px;
+board.starlight presence-tracks {
+  margin-left: 145px;
+  flex-grow: 1;
 }
 
-presence-node .range-token icon.misc-plus {
-  width: 14px;
-  height: 14px;
-  margin-bottom: 1px;
-}
-
-presence-node .range-token icon {
-  width: 40px;
-  height: 35px;
-}
-
-presence-node .range-token range-value {
-  top: 0px;
-  font-size: 40px;
-}
-
-presence-node .range-token range {
-  margin-top: 2px;
+rumu-right presence-tracks {
+  height: 100%;
+  width: 575px;
 }

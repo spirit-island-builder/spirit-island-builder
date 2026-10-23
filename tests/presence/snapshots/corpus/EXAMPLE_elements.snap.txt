@@ -1,0 +1,200 @@
+<presence-tracks>
+<presence-title>
+<section-title>Presence</section-title>
+</presence-title>
+<table id="presence-table">
+<tbody>
+<tr id="energy-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="energy0" class="first" ttsinfo="1;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>Energy/Turn</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy1" ttsinfo="2;;;moon">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{moon}</presence-node-multi>
+</ring-icon>
+<subtext>2, Moon</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy2" ttsinfo=";;;earth">
+<ring-icon>
+<node-plate class="energy">{earth}</node-plate>
+</ring-icon>
+<subtext>Earth</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy3" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">{star}</node-plate>
+</ring-icon>
+<subtext>Element</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy4" ttsinfo=";;;earth">
+<ring-icon>
+<node-plate class="energy">
+<presence-node-multi style="top:36%; left:36%;">{earth}</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{star}</presence-node-multi>
+</node-plate>
+</ring-icon>
+<subtext>Earth, Element</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy5" ttsinfo=";;;fire">
+<ring-icon>
+<node-plate class="energy">
+<presence-node-multi class="add-shadow" style="top:36%; left:36%;">
+<track-move-presence>{presence}<value>1</value>{move-arrow}</track-move-presence>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{fire}</presence-node-multi>
+</node-plate>
+</ring-icon>
+<subtext>Move a Presence 1, Fire</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy6" ttsinfo=";;;fire,water,plant">
+<ring-icon>
+<node-plate class="energy">
+<presence-node-multi style="top:36%; left:36%;">{fire}</presence-node-multi>
+<presence-node-multi style="top:45%; left:69%;">{water}</presence-node-multi>
+<presence-node-multi style="top:69%; left:45%;">{plant}</presence-node-multi>
+</node-plate>
+</ring-icon>
+<subtext>Fire, Water, Plant</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy7" ttsinfo="3;;;moon,sun">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>3</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:45%; left:69%;">{moon}</presence-node-multi>
+<presence-node-multi style="top:69%; left:45%;">{sun}</presence-node-multi>
+</ring-icon>
+<subtext>3, Moon, Sun</subtext>
+</presence-node>
+</td>
+</tr>
+<tr id="plays-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="card0" class="first" ttsinfo=";;1;">
+<ring-icon>
+<node-plate class="plays">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>Card Plays</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card1" ttsinfo=";;;">
+<ring-icon>{star}</ring-icon>
+<subtext>Element</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card2" ttsinfo=";;2;sun">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{sun}</presence-node-multi>
+</ring-icon>
+<subtext>2, Sun</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card3" ttsinfo=";;;">
+<ring-icon>
+<element-or-wrap>
+<icon class="air presence-or-first">
+</icon>{backslash}<icon class="fire presence-or-second">
+</icon>
+</element-or-wrap>
+</ring-icon>
+<subtext>Air OR Fire</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card4" ttsinfo=";;3;">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="plays">
+<value>3</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{any}</presence-node-multi>
+</ring-icon>
+<subtext>3, Any</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card5" ttsinfo=";;4;water">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="plays">
+<value>4</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:45%; left:69%;">{water}</presence-node-multi>
+<presence-node-multi style="top:69%; left:45%;">{reclaim-one}</presence-node-multi>
+</ring-icon>
+<subtext>4, Water, Reclaim One</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card6" ttsinfo=";;;">
+<ring-icon>{markerplus}</ring-icon>
+<subtext>Prepare 1 Element Marker</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card7" ttsinfo=";;5;">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="plays">
+<value>5</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{markerplus}</presence-node-multi>
+</ring-icon>
+<subtext>5, Prepare 1 Element Marker</subtext>
+</presence-node>
+</td>
+</tr>
+</tbody>
+</table>
+<presence-bottom>
+</presence-bottom>
+</presence-tracks>
+=== board > track-banner-art
+<track-banner-art class="energy-track" style="background-image: url(example2.png); background-size: 100% 50%;">
+</track-banner-art>
+<track-banner-art class="plays-track" style="background-image: url(example2.png); background-size: 100% 50%;">
+</track-banner-art>

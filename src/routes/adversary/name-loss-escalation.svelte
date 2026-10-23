@@ -41,6 +41,7 @@
           class="input"
           type="text"
           placeholder="Name"
+          data-next-field="baseDifficulty"
           on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={adversary.nameLossEscalation.name} />
@@ -51,6 +52,7 @@
           class="input"
           type="text"
           placeholder="Difficulty"
+          data-next-field="LossConditionInput"
           on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={adversary.nameLossEscalation.baseDif} />
@@ -81,6 +83,7 @@
           class="input"
           type="text"
           placeholder="Name"
+          data-next-field="lossConditionEffectInput"
           on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={adversary.nameLossEscalation.lossCondition.name} />
@@ -92,6 +95,7 @@
         elementType="textarea"
         placeholder="Effect"
         classNames="is-small"
+        nextField="EscalationInput"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={adversary.nameLossEscalation.lossCondition.effect} />
     </div>
@@ -108,6 +112,7 @@
           class="input"
           type="text"
           placeholder="Name"
+          data-next-field="escalationEffectInput"
           on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={adversary.nameLossEscalation.escalation.name} />

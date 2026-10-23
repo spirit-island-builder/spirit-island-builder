@@ -1,15 +1,53 @@
+﻿/* growth-options.css — the growth panel of the spirit board.
+
+   Organized by the growth DOM vocabulary (see "Growth vocabulary
+   consolidation" in renderer-css-improvement-plan.md):
+
+     1. Icon sizing contexts        7. Range & move arrows
+     2. Panel frame                 8. Badges & per-rings
+     3. Tables, groups & borders    9. Push/gather scenes (piece-move)
+     4. Cells & art blocks         10. Element gains (gain)
+     5. Icon rows (icon-row)       11. Per-action icon calibration
+     6. Presence requirements      12. Growth cost
+                                   13. Captions & text glyphs
+                                   14. Presence nodes & tracks in growth
+                                   15. Board-specific layouts */
+
+/* ===== 1. Icon sizing contexts =====
+   See the icon sizing engine in global.css. Values are the ones measured
+   before the sizing rework; calibrate freely. (icon-row's own default lives
+   with its rules in section 5.) */
+growth {
+  --icon-h: 40px;
+}
+
+growth-cell {
+  --icon-h: 64px;
+}
+
+presence-req {
+  --icon-h: 34px;
+}
+
+cell-icons.add-presence.req {
+  --icon-h: 43px;
+}
+
+/* ===== 2. Panel frame ===== */
 growth {
   display: block;
   position: relative;
   z-index: 3;
-}
-
-growth:hover section-title {
-  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
+  min-height: 208px;
+  flex-shrink: 0;
 }
 
 growth:hover {
   cursor: pointer;
+}
+
+growth:hover section-title {
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
 }
 
 board.printer-clean growth {
@@ -34,46 +72,6 @@ growth-background {
   pointer-events: none;
 }
 
-growth section-title {
-  margin-left: 47px;
-  margin-top: -12px;
-  pointer-events: none;
-}
-
-sub-growth {
-  display: inline-flex;
-}
-
-growth sub-section-title {
-  margin-top: -2px;
-  position: absolute;
-  display: flex;
-  z-index: 0;
-  font-family: "JosefinSans";
-  font-weight: bold;
-  font-style: italic;
-  font-size: 22.66px;
-  text-transform: uppercase;
-  letter-spacing: -2px;
-  word-spacing: 1px;
-}
-
-growth special-section-title {
-  position: absolute;
-  font-family: "JosefinSans";
-  font-size: 22.66px;
-  font-weight: bold;
-  font-style: italic;
-  text-transform: uppercase;
-  letter-spacing: -2px;
-  word-spacing: 1px;
-  z-index: 0;
-  transform: translateX(-50%);
-  left: 50%;
-  top: -46px;
-  width: 100%;
-}
-
 growth-bottom {
   display: block;
   position: absolute;
@@ -93,82 +91,75 @@ board.printer-clean growth-bottom {
   background-color: white;
 }
 
-/* growth special-section-title.title-left {
-  position: unset;
-  display: inline-block;
-  width: 215px;
-  transform: unset;
-  margin-top: 20px;
-  padding-right:5px;
-} */
-
-/* In most cases, we want simple element icons. */
-growth icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
+growth section-title {
+  margin-left: 47px;
+  pointer-events: none;
 }
 
-growth icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
+/* The save-format grouping element; buildGrowthPanel flattens it away, so
+   this only styles the pre-render state. */
+sub-growth {
+  display: inline-flex;
 }
 
-growth icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
+growth sub-section-title {
+  margin-top: -2px;
+  position: absolute;
+  display: flex;
+  z-index: 0;
+  font-family: "JosefinSans";
+  font-weight: bold;
+  font-style: italic;
+  font-size: 22.66px;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  word-spacing: 1px;
 }
 
-growth icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
+growth sub-section-title > span {
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: block;
+  position: relative;
 }
 
-growth icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
+growth sub-section-header {
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: block;
+  position: relative;
 }
 
-growth icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
+growth sub-section-line {
+  display: block;
+  position: relative;
+  background-image: url("../../images/board/growth_underline.png");
+  height: 5px;
+  width: 100%;
+  background-size: 100% 100%;
+  flex-shrink: 99;
+  background-repeat: no-repeat;
+  margin-bottom: auto;
+  margin-top: auto;
+  margin-left: 8px;
+  margin-right: 8px;
+  z-index: 1;
 }
 
-growth icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-growth icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-growth icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
-
-/* Gain is the exception */
-growth gain icon.sun {
-  background-image: url("../../images/board/Sun.png");
-}
-growth gain icon.moon {
-  background-image: url("../../images/board/Moon.png");
-}
-growth gain icon.fire {
-  background-image: url("../../images/board/Fire.png");
-}
-growth gain icon.air {
-  background-image: url("../../images/board/Air.png");
-}
-growth gain icon.plant {
-  background-image: url("../../images/board/Plant.png");
-}
-growth gain icon.water {
-  background-image: url("../../images/board/Water.png");
-}
-growth gain icon.earth {
-  background-image: url("../../images/board/Earth.png");
-}
-growth gain icon.animal {
-  background-image: url("../../images/board/Animal.png");
-}
-growth gain icon.star {
-  background-image: url("../../images/board/NewIcons/Element Star.png");
-}
-growth gain icon.any {
-  background-image: url("../../images/board/Any.png");
+growth special-section-title {
+  position: absolute;
+  font-family: "JosefinSans";
+  font-size: 22.66px;
+  font-weight: bold;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  word-spacing: 1px;
+  z-index: 0;
+  transform: translateX(-50%);
+  left: 50%;
+  top: -46px;
+  width: 100%;
 }
 
 growth-table.has-special-title {
@@ -216,36 +207,7 @@ board.hide-text growth-text {
   visibility: hidden;
 }
 
-growth sub-section-title > span {
-  flex-grow: 0;
-  flex-shrink: 0;
-  display: block;
-  position: relative;
-}
-
-growth sub-section-header {
-  flex-grow: 0;
-  flex-shrink: 0;
-  display: block;
-  position: relative;
-}
-
-growth sub-section-line {
-  display: block;
-  position: relative;
-  background-image: url("../../images/board/growth_underline.png");
-  height: 5px;
-  width: 100%;
-  background-size: 100% 100%;
-  flex-shrink: 99;
-  background-repeat: no-repeat;
-  margin-bottom: auto;
-  margin-top: auto;
-  margin-left: 8px;
-  margin-right: 8px;
-  z-index: 1;
-}
-
+/* ===== 3. Tables, groups & borders ===== */
 growth-table {
   display: inline-flex;
   width: 1090px;
@@ -295,6 +257,8 @@ growth-border {
   display: inline;
   margin-bottom: -10px;
   min-width: 15px;
+  position: relative;
+  left: 3px;
 }
 
 growth-border[double] {
@@ -314,6 +278,8 @@ growth-row-line {
   margin-top: 0px;
 }
 
+/* ===== 4. Cells & art blocks =====
+   The invariant cell structure is <growth-cell><cell-icons/><growth-text/>. */
 growth-cell {
   position: relative;
   display: flex;
@@ -321,793 +287,252 @@ growth-cell {
   flex-direction: column;
 }
 
-growth-cell-double {
-  position: relative;
+/* cell-icons: one wrapper for a cell's icon block — a 90px bottom-justified
+   flex column; each mode class states only its differences. The historical
+   tags unified here: .add-presence.req was <custom-presence-req>; the bare
+   add-presence(N) and add-presence(any) forms (were <custom-presence> /
+   <custom-presence-no-range>) ride the base; .stack was <custom-icon>, now a
+   marker for its child rules — each .stack emitter also carries a semantic
+   class (move-presence, incarna-*, isolate, damage, add-token, replace,
+   gain-card-pay-2, push-gather) as a tuning handle; .custom was
+   <custom-growth-icon>. The old tags disagreed on flex vs inline-flex vs
+   nothing; that read as accident, not design, so display is unified here —
+   the known place the difference was real is inside <ring-icon>
+   (inline-block), i.e. blank presence-nodes and presence-node(<growth
+   action>) rings. */
+cell-icons {
+  font-size: 26.66px;
+  font-weight: bold;
+  font-style: normal;
   display: flex;
+  height: 90px;
+  flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
+}
+
+/* Board-hardware cells (presence nodes/tracks rendered in growth) are taller
+   than the standard band. */
+cell-icons.node {
+  height: auto;
+}
+
+/* Horizontal art blocks (was <growth-cell-double>): .choice carries an
+   or()/then() pair with its join word as a text node (hence the italic Lato),
+   .combo the flat+per badge composites of gain-energy/fear. These are the
+   cell's art block — cell-icons, not an inner icon-row — so their contents
+   size from the cell context, not the glyph-row tuning. The explicit
+   height/justify/font lines neutralize the cell-icons column base. */
+cell-icons.choice,
+cell-icons.combo {
+  position: relative;
   flex-direction: row;
+  justify-content: flex-start;
+  height: auto;
+  width: unset;
   font-family: "Lato SemiBold";
   font-size: 18.66px;
+  font-weight: normal;
   font-style: italic;
   text-align: center;
 }
 
-growth-cell icon {
-  margin-bottom: 7px;
+/* Totally Custom Growth Options (icon, text, blank, error cells): a
+   horizontal 100px box, unlike the base's bottom-justified column. .wide is
+   custom-wide(...) (was .wide-growth). */
+cell-icons.custom {
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: -10px;
+  width: 100px;
+  height: 100px;
+}
+
+cell-icons.custom.wide {
+  width: 130px;
+}
+
+cell-icons.custom icon.explorer {
+  margin-top: 0px;
+}
+
+cell-icons.custom > * {
+  width: 80px;
   height: 90px;
+  margin-top: 0px;
+  margin-bottom: 7px;
+  background-position: bottom;
 }
 
-growth-cell icon.presence {
-  /* margin-left: 8px;
-  width: 43px;
-  height: 26px;
-  margin-bottom: 0px; */
+cell-icons.custom.wide > * {
+  width: 200px;
 }
 
-growth-cell icon.destroyed-presence,
-growth-cell icon.destroy-presence {
+/* incarna(move,...) — was <custom-icon2>, which lacked the stack's
+   justify-content: flex-end, so its icon+arrow sit at the top. */
+cell-icons.incarna-move {
+}
+
+/* push/gather cells: the wrapper is a standard stack; the scene layout lives
+   on <piece-move> (section 9). */
+cell-icons.push-gather.with-range {
+  height: 110px;
+  margin-top: -19px;
+}
+
+/* add-presence(x,token,y,and/or,z,...) — "Add a Presence or a Beasts to any
+   Ocean". Three rows: the presence and token share one line, then the land
+   requirement, then the range.
+
+   The 'and' variant puts the token on the plus row ("+{presence}{beasts}")
+   so it is no taller than the plain requirement form and needs no extra height.
+   The 'or' variant carries an <icon-row class="or"> row instead, which is
+   taller, so it gets the bump. Starting values only — tune these two rules. */
+cell-icons.add-presence.with-land presence-req {
+  margin-top: -2px;
+}
+
+cell-icons.add-presence.with-land icon-row.plus icon.add-token {
   margin-left: 4px;
-  width: 50px;
-  height: 38px;
   margin-bottom: 0px;
 }
 
-growth-cell destroy-wrap {
+cell-icons.add-presence icon.dahan {
+  margin-top: 0px;
+  margin-bottom: -2px;
+}
+
+/* add-presence(x,text,...) with no trailing icons: the empty <presence-req>
+   still reserves the row the icons would have taken, keeping the cell aligned
+   with its neighbours. 32px matches the strut the old spacer span's 24pt
+   line-height produced. */
+cell-icons.add-presence.text presence-req:empty {
+  min-height: 32px;
+}
+
+/* ===== 5. Icon rows =====
+   icon-row: THE horizontal row of icons inside a cell. The bare form is a
+   plain inline row (was <display-custom>). Converted rows carry their own
+   --icon-h so the 42px default below stays scoped to the small glyph rows. */
+icon-row {
+  display: inline-flex;
+  position: relative;
+  flex-direction: row;
+  --icon-h: 35px;
+}
+
+/* the "+presence" line (was <plus-presence>) */
+icon-row.plus {
+  display: flex;
+  position: relative;
+  margin-bottom: 2px;
+  align-items: flex-end;
+}
+
+icon-row.plus icon {
+  margin: 0px;
+}
+
+icon-row.plus icon.presence {
+  margin-left: 8px;
+  --icon-h: 26px;
+  --icon-scale: 1;
+}
+
+icon-row.or {
+  display: block;
+  margin-bottom: -2px;
+  margin-top: 0px;
+  --icon-h: 34px;
+}
+
+icon-row.or icon-row.plus {
+  display: inline-block;
+}
+
+icon-row.tokens {
+  display: flex;
+  position: relative;
+  vertical-align: bottom;
+  align-content: flex-end;
+  bottom: 4px;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+/* For adding presence relative to other presence (was <add-relative>) */
+icon-row.relative {
+  display: flex;
+  position: relative;
+  height: 50px;
+  margin-top: 7px;
+}
+
+/* incarna add-move / add-token cells: two icon-rows — .upper the "+ / →" or
+   "+token" glyphs, .lower the incarna (and companion). Values carried from
+   the old add-*-upper/-lower tags. .upper keeps the old block/inline-flow
+   layout (the "+" is a text node, centered by the table's text-align);
+   --icon-h is an explicit starting value (these rows previously inherited
+   growth-cell's 64px) — calibrate freely. */
+icon-row.upper {
+  display: flex;
+  --icon-h: 24px;
+  justify-content: center;
+}
+
+cell-icons.incarna-add-move icon-row.upper {
+  width: 124px;
+}
+
+cell-icons.incarna-add-token icon-row.upper {
+  width: 100%;
+}
+
+/* margin-bottom is load-bearing against icon.backslash's 22px in icon.css */
+icon-row.upper icon.backslash,
+icon-row.upper icon.move-arrow {
+}
+
+icon-row.lower {
+  height: 60px;
+  flex-direction: row;
+  align-items: flex-end;
+  --icon-h: 42px;
+}
+
+cell-icons.incarna-add-move icon-row.lower {
+  margin-bottom: 5px;
+}
+
+cell-icons.incarna-add-token icon-row.lower {
+  margin-bottom: 20px;
+}
+
+/* destroy-presence (was <destroy-wrap>) */
+growth-cell icon-row.destroy {
   display: flex;
   height: 90px;
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
+  gap: 5px;
 }
 
-growth-cell icon.reclaim-all,
-growth-cell icon.reclaim-one,
-growth-cell icon.reclaim-none,
-growth-cell icon.reclaim-custom,
-growth-cell icon.reclaim-half {
-  display: block;
-  height: 90px;
-  width: 90px;
-}
-
-growth-cell icon.empower-incarna {
-  width: 95px;
-  height: 110px;
-  margin-top: -26px;
-}
-
-growth-cell icon.incarna {
-  width: 65px;
-  height: 45px;
-  margin-bottom: 0px;
-  margin-top: -24px;
-}
-
-growth-cell icon.incarna.move {
-  left: -24px;
-  top: 15px;
-}
-
-growth-cell icon.incarna.add-move {
-  margin-bottom: 10px;
-  height: 52px;
-  z-index: 2;
-}
-
-growth-cell add-move-upper {
-  margin-bottom: 35px;
-  width: 124px;
-}
-
-growth-cell add-move-lower {
-  display: inline-flex;
-  height: 33px;
-  flex-direction: row;
-  align-items: flex-end;
-  margin-bottom: 5px;
-}
-
-growth-cell add-token-upper {
-  margin-bottom: 25px;
-}
-
-growth-cell add-token-lower {
-  display: inline-flex;
-  height: 33px;
-  flex-direction: row;
-  align-items: flex-end;
-  margin-bottom: 20px;
-}
-
-growth-cell icon.add-token {
-  margin-left: 5px;
-  width: 35px;
-  height: 35px;
-  margin-bottom: -8px;
-  margin-right: -2px;
-}
-
-add-move-upper icon.backslash {
-  width: 8px;
-  height: 25px;
-  margin-bottom: -3px;
-  margin-left: 2px;
-  margin-right: 5px;
-  margin-top: -1px;
-}
-
-add-move-upper icon.move-arrow {
-  width: 81px;
-  height: 25px;
-  margin-bottom: -3px;
-  margin-left: 2px;
-  margin-right: 5px;
-  margin-top: -1px;
-}
-
-growth-cell icon.with-your {
-  width: 35px;
-  height: 35px;
-  z-index: 0;
-  margin-bottom: 0px;
-  margin-left: -20px;
-}
-
-growth-cell icon.replace-with-incarna {
-  position: relative;
-  left: 40px;
-  bottom: -32px;
-}
-
-growth-cell icon.with-incarna {
-  margin-right: 35px;
-  margin-bottom: 24px;
-}
-
-growth-cell icon.reclaim-half {
-  width: 82px;
-}
-
-growth-cell icon.reclaim-element {
-  position: relative;
-  left: 28px;
-  top: -28px;
-  width: 40px;
-}
-
-growth-cell icon.discard-element {
-  position: relative;
-  left: 47px;
-  top: -28px;
-  width: 40px;
-}
-
-growth-cell icon.gain-card-pay-2 {
-  display: block;
-  height: 100px;
-  width: 80px;
-}
-
-presence-node.growth {
-  margin-top: -39px;
-}
-
-presence-node.growth icon {
-  margin-bottom: 0px;
-}
-
-presence-node.growth growth-energy {
-  margin-top: 0px;
-}
-
-presence-node.growth growth-energy value {
-  font-size: 32px;
-}
-
-presence-node.growth.blank {
-  margin-top: -8px;
-}
-
-plus-presence {
-  display: flex;
-  position: relative;
-  line-height: 20px;
-  margin-bottom: 1px;
-}
-
-plus-presence icon.presence {
-  margin-left: 8px;
-  width: 43px;
-  height: 26px;
-  margin-bottom: 0px;
-}
-
-custom-presence plus-presence {
-  margin-top: 0px;
-  margin-bottom: 5px;
-}
-
-custom-presence-or plus-presence {
-  display: inline-block;
-}
-
-custom-presence-no-range plus-presence {
-  display: inline-block;
-}
-
-/* Repeating Growth Options (Fractured Days) */
-repeat-growth {
-  background-image: url("../../images/board/NewIcons/Growth Multiply Blank.png");
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  top: -30px;
-  left: -12px;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-repeat-growth value {
-  font-family: "Energy Font";
-  font-size: 24px;
-  display: inline-block;
-  font-style: normal;
-  margin-top: 4px;
-  margin-left: 10px;
-  color: #52301e;
-}
-
-repeat-growth.energy-cost {
-  background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
-}
-
-repeat-growth.energy-cost value {
-  font-size: 22.66px;
-  margin-left: 0px;
-  color: #000000;
-}
-
-repeat-wrapper {
-  height: 90px;
-  display: flex;
-}
-
-/* Gaining Flat Energy */
-growth-energy {
-  background-image: url("../../images/board/AddEnergyBlank.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  display: block;
-  height: 100px;
-  width: 100px;
-  margin-top: -10px;
-}
-
-growth-energy value {
-  font-family: "Energy Font";
-  font-size: 32px;
-  font-style: normal;
-  display: inline-block;
-  margin-top: 31px;
-  margin-left: 19px;
-}
-
-/* Complex add presence options */
-custom-presence-req {
-  font-size: 26.66px;
-  font-weight: bold;
-  margin-top: -24px;
-  margin-bottom: 0px;
-  width: auto;
-  height: 115px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-custom-presence {
-  font-size: 26.66px;
-  font-weight: bold;
-  font-style: normal;
-  display: flex;
-  width: auto;
-  height: 88px;
-  margin-bottom: 2px;
-  margin-top: 0px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-custom-presence-or {
-  display: block;
-  height: 40px;
-  margin-bottom: 0px;
-  margin-top: 0px;
-}
-
-custom-presence-or icon.backslash {
-  width: 8px;
-  height: 25px;
-  margin-bottom: -3px;
-  margin-left: 2px;
-  margin-right: 5px;
-  margin-top: -1px;
-}
-
-custom-presence-or icon {
-  margin-bottom: -5px;
-  width: 33px;
-  height: 34px;
-  margin-left: -4px;
-}
-
-custom-presence-no-range {
-  font-size: 26.66px;
-  font-weight: bold;
-  display: block;
-  width: auto;
-  height: 40px;
-  margin-bottom: 0px;
-  margin-top: 52px;
-}
-
-custom-presence-no-range icon.range-any {
-  width: 0px;
-}
-
-custom-presence icon.range-0,
-custom-presence icon.range-1,
-custom-presence icon.range-2,
-custom-presence icon.range-3,
-custom-presence icon.range-4 {
-  margin-bottom: 10px;
-}
-
-growth-cell range,
-range-growth {
-  background-image: url("../../images/board/range_arrow.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: bottom;
-  height: 50px;
-  width: 106px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  display: inline-block;
-}
-
-growth-range {
-  height: 90px;
-  display: flex;
-  align-items: flex-end;
-}
-
-growth-cell range.gain-range {
-  margin-bottom: 20px;
-}
-
-growth-cell range > range-value,
-range-growth > value {
-  font-size: 40px;
-  font-family: "Antropos";
-  bottom: 8px;
-  left: 2px;
-  position: relative;
-  text-align: center;
-  font-weight: normal;
-  top: unset;
-}
-
-growth-cell range-value > custom-energy {
-  height: 50px;
-}
-
-growth-cell range-value > custom-energy > value,
-growth-cell range-value > custom-energy > value-text {
-  font-size: 24px;
-}
-
-growth-cell range > range-value.range-icon > icon {
-  width: 50px;
-  height: 35px;
-  position: relative;
-  top: 2px;
-}
-
-move-growth {
-  background-image: url("../../images/board/move_arrow.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: bottom;
-  font-size: 40px;
-  line-height: 28px;
-  font-family: "Antropos";
-  text-align: center;
-  height: 62px;
-  width: 106px;
-  margin-top: 9px;
-  margin-bottom: 0px;
-  display: block;
-}
-
-move-growth > textvalue {
-  font-size: 28px;
-  line-height: 28px;
-  font-family: "NAME HEADINGS";
-}
-
-move-growth > value > icon {
-  top: -4px;
-  left: 3px;
-  height: 35px;
-  width: 35px;
-  margin: 0px;
-}
-
-/* growth-cell range {
-  background-image: url("../../images/board/range_arrow.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: bottom;
-  font-size: 40px;
-  line-height: 28px;
-  font-family: "Antropos";
-  height: 45px;
-  width: 106px;
-  margin-top: 42px;
-  margin-bottom: 4px;
-  display: inline-block;
-} */
-
-range-growth-any {
-  background-image: none;
-  font-size: 0px;
-}
-
-custom-presence-req icon.range-0,
-custom-presence-req icon.range-1,
-custom-presence-req icon.range-2,
-custom-presence-req icon.range-3,
-custom-presence-req icon.range-4 {
-  margin-bottom: -5px;
-}
-
-custom-presence-req icon.dahan {
-  height: 37px;
-  width: 37px;
-  margin-top: 0px;
-  margin-bottom: -2px;
-}
-
-.non-icon icon,
-presence-req icon.presence {
-  display: inline-block;
-  height: 45px;
-  width: 45px;
-  margin-top: 7px;
-  margin-bottom: -5px;
-}
-
-.non-icon icon,
-presence-req icon {
-  height: 37px;
-  width: 37px;
-  margin-left: 3px;
-  margin-right: 3px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-presence-req icon.add-token {
-  height: 30px;
-  width: 30px;
-  margin-left: 3px;
-  margin-right: auto;
-  margin-top: -1px;
-  margin-bottom: 0px;
-}
-
-presence-req icon.wilds {
-  width: 45px;
-}
-
-presence-req icon.town,
-presence-req icon.disease {
-  height: 37px;
-  width: 27px;
-}
-
-presence-req icon.presence {
-  width: 35px;
-  height: 27px;
-  margin-top: 0px;
-}
-
-presence-req icon.blight {
-  width: 30px;
-}
-
-presence-req icon.invaders {
-  width: 70px;
-  height: 25px;
-  margin-top: 22px;
-}
-
-presence-req icon.terrain-single,
-presence-req icon.terrain-double {
-  height: 37px;
-  width: 37px;
-  margin-top: -1px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-}
-
-presence-req icon.terrain-double {
-  width: 80px;
-  height: 41px;
-  transform: translateY(0px) translateX(6px);
-}
-
-presence-req icon.ocean {
-  height: 46px;
-  width: 65px;
-  margin-top: -3px;
-  margin-left: -3px;
-}
-
-presence-req {
-  font-family: "Lato SemiBold";
-  font-size: 18.66px;
-  line-height: 26px;
-  font-style: italic;
-  display: flex;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  flex-direction: row;
-  align-items: center;
-}
-
-display-custom {
-  display: inline-flex;
-  flex-direction: row;
-}
-
-growth-cell icon.make-fast {
-  margin-bottom: 7px;
-}
-
-growth-cell icon.reclaim-all {
-  margin-bottom: 7px;
-}
-
-growth-cell icon.reclaim-custom {
-  margin-bottom: 7px;
-}
-
-growth-cell icon.isolate {
-  width: 70px;
-  margin-bottom: 7px;
-}
-
-growth-cell icon.gain-power-card,
-growth-cell icon.forget-power-card,
-growth-cell icon.discard-cards,
-growth-cell icon.discard-2-cards,
-growth-cell icon.discard-card,
-growth-cell icon.discard-1-card,
-growth-cell icon.gain-card-play,
-growth-cell icon.gain-card-play-blank,
-growth-cell icon.days-never-were {
-  margin-bottom: 7px;
-  height: 90px;
-  width: 90px;
-}
-
-growth-cell icon.take-power-card {
-  margin-bottom: 7px;
-  height: 90px;
-  width: 110px;
-}
-
-growth-cell icon.energy-per-play {
-  margin-bottom: 0px;
-  margin-top: -20px;
-  width: 100px;
-  height: 110px;
-}
-
-/* 
-growth-cell icon.destroyed-presence, growth-cell icon.destroy-presence {
-  margin-bottom: 7px;
-  height:90px;
-  width:100px;
-} */
-
-growth-cell icon.reclaim-one {
-  margin-bottom: 7px;
-}
-
-growth-cell icon.reclaim-none {
-  margin-bottom: 7px;
-}
-
-growth-cell icon.ignore-range {
-  margin-bottom: 10px;
-  margin-top: -10px;
-  height: 90px;
-  width: 100px;
-}
-
-growth-cell icon.gain-1-time,
-growth-cell icon.gain-2-time {
-  height: 100px;
-  width: 100px;
-  margin-top: -17px;
-}
-
-growth-cell icon.make-fast {
-  margin-bottom: 3px;
-  width: 90px;
-}
-
-custom-icon {
-  font-size: 26.66px;
-  font-weight: bold;
-  font-style: normal;
-  display: flex;
-  margin-top: -31px;
-  width: auto;
-  height: 122px;
-  margin-bottom: 0px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-/* custom-icon .token {
-  width: 40px;
-  height: 35px;
-  margin-bottom: -3px;
-  margin-left: 0px;
-} */
-
-token-wrap > icon {
-  width: 40px;
-  height: 35px;
-  margin-bottom: -3px;
-  margin-left: 0px;
-}
-
-icon.your-land.add-token {
-  height: 56px;
-  width: 73px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-icon.your-land.add-token icon {
-  top: unset;
-  left: unset;
-}
-
-custom-icon.add-token icon.terrain-single {
-  margin-top: 2px;
-  width: 45px;
-  height: 45px;
-}
-
-custom-icon.add-token icon.terrain-double {
-  margin-top: 1px;
-}
-
-custom-icon.add-token .non-icon {
-  margin-bottom: 8px;
-}
-
-custom-icon .destroyed-presence {
-  width: 55px;
-  height: 34px;
-  margin-bottom: -3px;
-  margin-left: 1px;
-}
-
-custom-icon icon.presence {
-  margin-left: 8px;
-  width: 43px;
-  height: 26px;
-  margin-bottom: 0px;
-}
-
-icon.gain-card-modifier {
-  width: 50px;
-  position: absolute;
-  left: -10px;
-  top: -33px;
-  display: block;
-  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
-    drop-shadow(0px -1px 0px);
-  color: #ead38d;
-}
-
-icon.gain-card-modifier.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-
-icon.gain-card-modifier.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-icon.gain-card-modifier.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-icon.gain-card-modifier.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-icon.gain-card-modifier.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-icon.gain-card-modifier.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-icon.gain-card-modifier.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-icon.gain-card-modifier.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-icon.gain-card-modifier.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
-
-icon.gain-card-modifier.minor {
-  width: 42px;
-}
-
-icon.take-power-card icon.gain-card-modifier {
-  left: 30px;
-  width: 40px;
-}
-
-div.gain-card-second-modifier {
-  position: absolute;
-  right: 0px;
-  top: -35px;
-  display: block;
-}
-
-div.gain-card-second-modifier icon {
-  width: 35px;
-}
-
-token-wrap {
-  display: flex;
-  vertical-align: bottom;
-  align-content: flex-end;
-  padding-bottom: 2px;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-replace-wrap {
+/* replace(...): "no-X ► Y" on one line (was <replace-wrap>; the font sizes
+   the ► arrow character). */
+icon-row.replace {
   display: inline-flex;
   flex-wrap: wrap;
   vertical-align: bottom;
-  align-content: flex-end;
-  height: 69px;
-  padding-bottom: 2px;
+  align-content: center;
   justify-content: center;
   font-size: 26.66px;
   font-weight: bold;
+}
+
+icon-row.replace icon {
+  top: -3px;
 }
 
 icon.replace-with,
@@ -1116,8 +541,6 @@ icon.replace-this-no-range,
 icon.replace-with.presence,
 icon.replace-this.presence,
 icon.replace-this-no-range.presence {
-  height: 40px;
-  width: 40px;
   margin-bottom: 0px;
   margin-top: -5px;
   top: 10px;
@@ -1144,226 +567,600 @@ icon.replace-this-no-range {
   transform: translate(6px, 7px);
 }
 
-custom-icon icon.isolate {
-  width: 50px;
-  margin-bottom: -10px;
+/* ===== 6. Presence requirements ===== */
+presence-req {
+  font-family: "Lato SemiBold";
+  font-size: 18.66px;
+  line-height: 26px;
+  font-style: italic;
+  display: flex;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
 }
 
-custom-icon2 {
+.non-icon icon,
+presence-req icon.presence {
+  display: inline-block;
+  margin-top: 7px;
+  margin-bottom: -5px;
+}
+
+presence-req icon.presence {
+  margin-top: 0px;
+}
+
+presence-req icon.add-token {
+  margin-left: 3px;
+  margin-right: auto;
+  margin-top: -1px;
+  margin-bottom: 0px;
+}
+
+/* The 3+ 'or' requirement separator. Load-bearing margin reset against
+   icon.backslash's 22px bottom margin in icon.css. */
+presence-req icon.backslash {
+  margin-bottom: 0px;
+}
+
+presence-req icon.invaders {
+  margin-top: 22px;
+}
+
+presence-req icon.terrain-single,
+presence-req icon.terrain-double {
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+presence-req icon.terrain-double {
+  transform: translateY(0px) translateX(6px);
+}
+
+presence-req icon.ocean {
+  margin-left: -3px;
+}
+
+/* ===== 7. Range & move arrows =====
+   The one range arrow: every growth writer emits {range-N}, which expands to
+   <range class="range"><range-value>N</range-value></range>
+   (was also <range-growth>/<growth-range>). */
+growth-cell range {
+  background-image: url("../../images/board/range_arrow.png");
+  height: 50px;
+  width: 106px;
+}
+
+growth-cell range.gain-range {
+  margin-bottom: 20px;
+}
+
+growth-cell range > range-value {
+  font-size: 40px;
+  font-family: "Antropos";
+  bottom: 8px;
+  left: 2px;
+  position: relative;
+  text-align: center;
+  font-weight: normal;
+  top: unset;
+}
+
+growth-cell range-value > custom-energy {
+  height: 50px;
+}
+
+growth-cell range-value > custom-energy > value,
+growth-cell range-value > custom-energy > value-text {
+  font-size: 24px;
+}
+
+growth-cell range > range-value.range-icon > icon {
+  position: relative;
+  top: 2px;
+}
+
+/* Move arrows: the same range arrow wearing move art — context swaps the
+   art, like the element icon layer. The digit offsets are starting values
+   approximating the old <move> line metrics; calibrate freely. */
+cell-icons.move-presence range,
+cell-icons.incarna-move range {
+  background-image: url("../../images/board/move_arrow.png");
+  height: 62px;
+}
+
+cell-icons.move-presence range > range-value,
+cell-icons.incarna-move range > range-value {
+  line-height: 28px;
+  bottom: 0px;
+  left: 0px;
+}
+
+cell-icons.move-presence range > range-value.range-icon > icon {
+  top: -4px;
+  left: 3px;
+  margin: 0px;
+}
+
+/* incarna(move,any): hand-written <range><textvalue>ANY</textvalue></range> */
+cell-icons.move-presence range textvalue,
+cell-icons.incarna-move range textvalue {
+  font-size: 28px;
+  line-height: 28px;
+  font-family: "NAME HEADINGS";
+  font-weight: normal;
+}
+
+/* ===== 8. Badges & per-rings =====
+   The badge base and family art shared with the presence tracks live in
+   global.css. This section holds the growth-only variants (.energy /
+   .fear + .per for the smaller per-X form beside a ring-icon.per, .repeat
+   for ^N + .cost for ^cost(n)) and the growth geometry of the shared ones
+   (.damage, .gain-plays), scoped to cell-icons. Each variant's value
+   left/top names the digit's offset from the badge CENTER (values measured
+   from the old margin layout — calibrate freely). */
+
+/* Gaining Flat Energy */
+badge.energy {
+  background-image: url("../../images/board/AddEnergyBlank.png");
+  height: 100px;
+  width: 100px;
+  margin-top: -10px;
+}
+
+badge.energy value {
+  font-size: 32px;
+  left: 9.5px;
+  top: 2px;
+}
+
+/* Gaining Energy per Element/Icon: the small .per badge overlaps a
+   ring-icon.per carrying the scaling entity's icon. */
+badge.energy.per {
+  height: 75px;
+  width: 75px;
+  z-index: 4;
+  position: absolute;
+  top: -26px;
+  left: 73px;
+}
+
+badge.energy.per value {
+  font-size: 21.33px;
+  left: 5.5px;
+  top: 1.5px;
+}
+
+/* Gaining Fear */
+badge.fear {
+  background-image: url("../../images/board/fear.png");
+  height: 110px;
+  width: 80px;
+  margin-top: -20px;
+}
+
+badge.fear value {
+  font-size: 26.66px;
+  top: 10.5px;
+}
+
+badge.fear.per {
+  height: 75px;
+  width: 53px;
+  z-index: 1;
+  position: relative;
+  margin: -35px 0px 50px 0px;
+}
+
+badge.fear.per value {
+  font-size: 18.66px;
+  top: 7.5px;
+}
+
+/* Gain Card Plays (art in global.css) */
+cell-icons badge.gain-plays {
+  height: 80px;
+  width: 80px;
+  z-index: 1;
+  position: relative;
+  margin: 0px -4px 10px 10px;
+}
+
+cell-icons badge.gain-plays value {
+  font-size: 32px;
+  top: 8px;
+}
+
+/* Deal Damage (art in global.css; growth damage badges always sit
+   inside <cell-icons class="stack damage">) */
+cell-icons badge.damage {
+  position: absolute;
+  width: 90px;
+  height: 60px;
+  top: -21px;
+}
+
+cell-icons badge.damage value {
+  font-family: "Antropos";
+  font-size: 40px;
+  /* damage digits were historically bold (they lived inside <custom-icon>) */
+  font-weight: bold;
+  top: 10.5px;
+}
+
+cell-icons badge.damage icon {
+  top: 5px;
+  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
+    drop-shadow(0px -1px 0px);
+  color: #ead38d;
+}
+
+/* Repeating Growth Options (Fractured Days). The badge.repeat injects into
+   the cell-icons root (absolutely positioned, no width contribution) — the
+   old <repeat-wrapper> is gone. */
+badge.repeat {
+  background-image: url("../../images/board/NewIcons/Growth Multiply Blank.png");
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: -20px;
+  left: -18px;
+}
+
+badge.repeat value {
+  font-size: 24px;
+  left: 5px;
+  top: -0.5px;
+  color: #52301e;
+}
+
+badge.repeat.cost {
+  background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
+}
+
+badge.repeat.cost value {
+  font-size: 22.66px;
+  left: 0px;
+  top: -1.5px;
+  color: #000000;
+}
+
+ring-icon.per {
+  background-image: url(../../images/board/CardPlayRing.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 70px;
+  width: 70px;
+  z-index: 1;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ring-icon.per.fear keeps the simple element art via the global element
+   layer (it sits in the simple context list in global.css). */
+ring-icon.per icon {
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  position: relative;
+  z-index: 0;
+  margin: 0px;
+  --icon-h: 50px;
+}
+
+/* ===== 9. Push/gather scenes =====
+   The scene structure (positioning contract, arrow anchoring and flip,
+   pieces-row centering) lives in global.css — this section holds the
+   growth calibration, scoped to cell-icons. Calibrate with the absolute
+   positions and --icon-h values below; nothing here uses margins. */
+cell-icons piece-move {
+  width: 150px;
+  height: 90px;
+}
+
+/* One arrow art for both directions; it points left (gather), and the push
+   variant mirrors it (see the flip rule in global.css). */
+growth-cell icon.gather-arrow,
+growth-cell icon.push-arrow {
+  background-image: url("../../images/board/NewIcons/Misc Arrow Gather-Push.png");
+  --icon-ratio: var(--art-misc-arrow-gather-push-ratio);
+}
+
+/* the land slot: canonical scene art or a plain terrain icon */
+cell-icons piece-move > icon {
+  --icon-h: 70px;
+}
+
+cell-icons piece-move icon.terrain-double {
+  --icon-scale: 1;
+}
+
+/* the moved pieces: the center point of the row, at the arrow head */
+cell-icons piece-move.gather > icon-row.pieces {
+  left: 130px;
+  bottom: 30px;
+}
+
+cell-icons piece-move.push > icon-row.pieces {
+  left: 33px;
+  bottom: 33px;
+  filter: drop-shadow(-1px 0px 0px #f1e680) drop-shadow(1px 0px 0px #f1e680)
+    drop-shadow(0px -1px 0px #f1e680) drop-shadow(0px 1px 0px #f1e680);
+}
+
+/* ===== 10. Element gains =====
+   <gain> is also the fancy-art revert hook in global.css's element layer. */
+gain {
+  height: 90px;
+  width: 95px;
+  position: relative;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-custom-icon2 icon.move-range-1,
-custom-icon2 icon.move-range-2,
-custom-icon2 icon.move-range-3,
-custom-icon2 icon.move-range-4 {
+growth-cell gain icon.star {
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  margin-top: -3px;
+  margin-bottom: 7px;
+}
+
+/* OR between multiple different elements */
+growth-cell gain.or {
+  display: flex;
+  flex-direction: row;
+  height: 90px;
+  width: 150px;
+  bottom: 13px;
+  align-items: flex-end;
+}
+
+growth-cell gain.or icon {
+  background-position: bottom;
+}
+
+growth-cell gain.or icon.element {
+  flex: 4 1 0;
+}
+
+growth-cell gain.or icon.backslash {
+  flex: 1 1 0;
+}
+
+/* N of the same element, arranged on a circle by the writer */
+icon-multi-element {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+icon-multi-element icon {
+  display: inline-block;
+  position: relative;
+  margin: -30px;
+}
+
+icon-multi-element icon.star {
+  margin-top: -10px;
+  margin-left: -5px;
+}
+
+growth-cell div.custom-scaling {
+  font-family: "Name Headings";
+  font-size: 37.33px;
+  font-style: normal;
+}
+
+/* ===== 11. Per-action icon calibration ===== */
+/* growth-cell icon.presence — previous tuning, kept for reference:
+   margin-left: 8px; width: 43px; height: 26px; margin-bottom: 0px; */
+
+/* reclaim */
+growth-cell icon.reclaim-all,
+growth-cell icon.reclaim-one,
+growth-cell icon.reclaim-none,
+growth-cell icon.reclaim-custom,
+growth-cell icon.reclaim-half,
+growth-cell icon.reclaim-num {
+  display: block;
+  margin-top: -12px;
+  margin-bottom: 2px;
+  --icon-h: 100px;
+  width: 100px;
+}
+
+/* growth-cell icon.reclaim-num — previous tuning, kept for reference:
+   margin: 0px; margin-bottom: 10px; */
+
+growth-cell icon.reclaim-num value {
+  font-size: 43px;
+  font-family: "Antropos";
+  font-weight: normal;
+  top: 0px;
+  left: 8px;
+  position: absolute;
+}
+
+/* reclaim(x,element) / discard(element): the element gem rides the card
+   icon, fancy inside growth's simple context. The art comes from the global
+   element layer — icon.modified-reclaim and icon.modified-discard sit in its
+   fancy revert list in global.css, so there are no per-element art rules
+   here; only positioning. */
+growth-cell icon.modified-reclaim icon,
+growth-cell icon.modified-discard icon {
+  position: absolute;
+  left: -8px;
+  top: -13px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
+    drop-shadow(0px -1px 0px);
+  color: #ead38d;
+  --icon-h: 40px;
+}
+
+growth-cell icon.modified-reclaim icon.element,
+growth-cell icon.modified-discard icon.element {
+  filter: unset;
+  --icon-h: 45px;
+}
+
+growth-cell icon.modified-reclaim icon {
+  left: 86px;
+  top: 10px;
+}
+
+growth-cell icon.modified-discard icon {
+  left: 70px;
+  top: 5px;
+}
+
+/* incarna */
+growth-cell icon.incarna {
+  margin-bottom: 0px;
+  margin-top: -24px;
+}
+
+/* growth-cell icon.incarna.move — previous tuning, kept for reference:
+   left: -24px; top: 15px; */
+
+growth-cell icon.incarna.add-move {
+  margin-bottom: 10px;
+  z-index: 2;
+}
+
+growth-cell icon.empower-incarna {
+  margin-top: -20px;
+  --icon-h: 110px;
+}
+
+growth-cell icon.with-your {
+  z-index: 0;
+  margin-bottom: 0px;
+  margin-left: -20px;
+}
+
+growth-cell icon.with-incarna {
+  margin-right: 35px;
+  margin-bottom: 24px;
+}
+
+growth-cell icon.with-incarna icon {
+  position: relative;
+  left: 40px;
+  bottom: -32px;
+}
+
+cell-icons.incarna-move icon.move-range-1,
+cell-icons.incarna-move icon.move-range-2,
+cell-icons.incarna-move icon.move-range-3,
+cell-icons.incarna-move icon.move-range-4 {
   margin-top: 8px;
   margin-left: 0px;
 }
 
-growth-text {
-  display: inline-flex;
-  position: relative;
-  font-family: "Lato SemiBold";
-  font-size: 18.66px;
-  font-style: italic;
-  margin-top: 0px;
-  text-align: center;
-  /* width: 105%; */
-  box-sizing: border-box;
-  letter-spacing: 1px;
-  line-height: 19px;
-  min-width: 50px;
-  max-height: 60px;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  padding-left: 2px;
-  padding-right: 2px;
-  flex-wrap: wrap;
-  flex-direction: column;
+/* cards */
+growth-cell icon.gain-power-card,
+growth-cell icon.take-power-card,
+growth-cell icon.forget-power-card,
+growth-cell icon.discard-cards,
+growth-cell icon.discard-2-cards,
+growth-cell icon.discard-card,
+growth-cell icon.discard-1-card,
+growth-cell icon.gain-card-play,
+growth-cell icon.gain-card-play-blank,
+growth-cell icon.days-never-were,
+growth-cell icon.gain-1-time,
+growth-cell icon.gain-2-time,
+growth-cell icon.isolate {
+  --icon-h: 90px;
+  min-width: 90px;
+  top: -7px;
 }
 
-growth-text.blank-text {
-  min-width: unset;
-}
-
-growth-text icon.explorer,
-growth-text icon.town,
-growth-text icon.city,
-growth-text icon.wilds,
-growth-text icon.disease,
-growth-text icon.strife,
-growth-text icon.beasts {
-  width: 24px;
-  height: 24px;
-  margin-bottom: -3px;
-  margin-left: -4px;
-  margin-right: -4px;
-}
-
-.plus-text {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 26.66px;
-  font-weight: bold;
-  font-style: normal;
-}
-
-plus-text {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 26.66px;
-  font-weight: bold;
-  font-style: normal;
-}
-
-plus-text::after {
-  content: "+";
-}
-
-.non-icon {
-  font-family: "Name Headings";
-  font-size: 26.66px;
-  font-style: normal;
-  margin: auto;
-}
-
-.non-icon.small {
-  font-size: 21.33px;
-  margin: auto 3px auto 3px;
-}
-
-growth-cell icon.gather-arrow {
-  margin-bottom: 7px;
-  background-image: url("../../images/board/half_arrow_gather.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: block;
-  height: 70px;
-  height: 17px;
-  margin-left: 45px;
-  margin-top: -34px;
-}
-
-growth-cell icon.push-arrow {
-  margin-bottom: 7px;
-  background-image: url("../../images/board/half_arrow_push.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: block;
-  height: 70px;
-  height: 17px;
-  margin-left: 45px;
-  margin-top: -34px;
-}
-
-growth-cell icon.push {
-  height: 62px;
-  width: 100px;
-}
-
-growth-cell icon.push > icon {
-  left: 16px;
-  top: 17px;
-  display: block;
-}
-
-growth-cell icon.push-from > .from {
-  left: 43px;
-  top: 8px;
-  width: 25px;
-}
-
-growth-cell icon.push-from {
-  display: inline-block;
-  height: 62px;
-  width: 100px;
-  margin-bottom: 7px;
-}
-
-growth-cell icon.push-from > icon {
-  position: relative;
-  display: block;
-  text-align: unset;
-  left: 8px;
-  top: -6px;
-  width: 30px;
-  height: 35px;
-  margin: 0px;
-  padding: 0px;
-}
-
-growth-cell icon.gather > icon {
-  left: 48px;
-  top: 12px;
-}
-
-growth-cell icon.gather-into > icon {
-  left: 79px;
-  top: 23px;
-}
-
-growth-cell icon.gather-into {
-  display: inline-block;
-  height: 62px;
-  width: 100px;
-  margin: 0px;
-}
-
-growth-cell icon.gather-into > icon {
-  position: absolute;
-  display: block;
-  text-align: unset;
-  left: 82px;
-  top: 12px;
-  width: 30px;
-  height: 35px;
-  margin: 0px;
-  padding: 0px;
-}
-
-growth-cell icon.gather-into > .into {
-  left: 16px;
-  top: 10px;
-  width: 35px;
-}
-
-growth-cell icon.gather-into > icon.explorer {
-  height: 35px;
+growth-cell icon.energy-per-play {
+  --icon-h: 100px;
+  top: -7px;
   margin-top: -10px;
-  margin-bottom: -6px;
 }
 
-icon-holder {
-  margin: 0px;
+growth-cell icon.gain-card-pay-2 {
+  display: block;
+}
+
+/* gain-power-card(type, ...): the type gem riding the card icon. It sits
+   inside growth, so it inherits the simple element art from the global
+   element icon layer. */
+icon.gain-card-modifier {
+  position: absolute;
+  left: -10px;
+  top: -33px;
+  display: block;
+  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
+    drop-shadow(0px -1px 0px);
+  color: #ead38d;
+}
+
+icon.take-power-card icon.gain-card-modifier {
+  left: 30px;
+}
+
+div.gain-card-second-modifier {
+  position: absolute;
+  right: 0px;
+  top: -35px;
+  display: block;
+}
+
+/* misc single-icon actions */
+growth-cell icon.make-fast {
+  margin-bottom: 3px;
+}
+
+growth-cell icon.ignorerange {
+  --icon-h: 100px;
+}
+
+growth-cell icon.gain-1-time,
+growth-cell icon.gain-2-time {
+  top: -3px;
+}
+
+growth icon.damage-1,
+growth icon.damage-2 {
+  margin-bottom: 17px;
+}
+
+/* add-token conditionals */
+icon.your-land.add-token {
   display: flex;
-  position: relative;
-  left: 86px;
-  top: 12px;
-  width: 60px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: center;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
+}
+icon.your-land.add-token icon {
+  top: unset;
+  left: unset;
 }
 
-icon-holder icon {
-  position: relative;
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  margin: 0px;
+cell-icons.add-token icon.terrain-single {
+  margin-top: 2px;
 }
 
-icon-holder icon.backslash {
-  margin: 0px;
+cell-icons.add-token icon.terrain-double {
+  margin-top: 1px;
 }
 
-.terrain-gather > icon-holder {
-  left: 94px;
-  top: -10px;
+cell-icons.add-token .non-icon {
+  margin-bottom: 8px;
 }
 
+/* ===== 12. Growth cost ===== */
 growth-cost {
   background-image: url("../../images/board/NewIcons/Energy Blank Small.png");
   font-family: "Energy Font";
@@ -1413,8 +1210,6 @@ growth-cost.custom {
 }
 
 growth-cost.custom > icon {
-  height: 45px;
-  width: 45px;
   display: block;
   position: relative;
 }
@@ -1451,11 +1246,6 @@ growth-cost.nonscaling::after {
   content: none;
 }
 
-growth-cost.nonscaling > icon {
-  height: 45px;
-  width: 45px;
-}
-
 growth-cost-custom-nonscaling-description {
   font-family: "Lato SemiBold";
   font-size: 14px;
@@ -1468,571 +1258,135 @@ growth-cost-custom-nonscaling-description {
   top: -4px;
 }
 
-presence-special-req {
-  background-image: url("../../images/board/75px_presence.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  display: inline-block;
-  height: 25px;
-  width: 35px;
-  margin-bottom: -7px;
-}
-
-add-presence-req {
-  display: block;
-  font-weight: bold;
-  font-size: 24px;
-}
-
-/* Deal Damage in Growth */
-growth-damage {
-  background-image: url("../../images/board/NewIcons/Damage Blank.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  font-size: 26.66px;
-  font-weight: bold;
-  display: block;
-  text-align: center;
-  margin-top: -11px;
-  width: 80px;
-  height: 80px;
-  margin-bottom: 1px;
-  margin-right: -10px;
-}
-
-growth-damage value {
-  font-family: "Energy Font";
-  font-size: 29.33px;
-  display: inline-block;
-  margin-top: 36px;
-  margin-left: 0px;
-  font-style: normal;
-  text-align: center;
-}
-
-growth icon.damage-1,
-growth icon.damage-2 {
-  height: 80px;
-  width: 80px;
-  margin-bottom: 17px;
-}
-
-card-play-num {
-  background-image: url("../../images/board/NewIcons/Cardplay Gain Blank.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  height: 80px;
-  width: 80px;
-  display: block;
-  z-index: 1;
+/* ===== 13. Captions & text glyphs ===== */
+growth-text {
+  display: inline-flex;
   position: relative;
-  margin-left: 10px;
-  margin-bottom: 10px;
+  font-family: "Lato SemiBold";
+  font-size: 18.66px;
+  font-style: italic;
   margin-top: 0px;
+  text-align: center;
+  /* width: 105%; */
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  line-height: 19px;
+  min-width: 50px;
+  max-height: 60px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  padding-left: 2px;
+  padding-right: 2px;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+growth-text.blank-text {
+  min-width: unset;
+}
+
+growth-text icon.explorer,
+growth-text icon.town,
+growth-text icon.city,
+growth-text icon.wilds,
+growth-text icon.disease,
+growth-text icon.strife,
+growth-text icon.beasts {
+  margin-bottom: -3px;
+  margin-left: -4px;
   margin-right: -4px;
 }
 
-card-play-num value {
-  font-family: "Energy Font";
-  font-size: 32px;
+.plus-text {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 26.66px;
+  font-weight: bold;
   font-style: normal;
-  display: inline-block;
-  margin-top: 27px;
-  margin-left: 0px;
 }
 
-growth-cell card-play {
-  background-image: url("../../images/board/card_play.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: block;
-  height: 70px;
-  margin-left: 25px;
-  margin-top: -39px;
-}
-
-your-land {
-  background-image: url("../../images/board/NeutralBoard.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: block;
-  height: 70px;
-  margin-top: 35px;
-  margin-left: 12px;
-  margin-bottom: -8px;
-}
-
-move {
-  display: inline-block;
-  height: 75px;
-  width: 75px;
-  margin-left: 13px;
-  text-align: center;
-}
-
-push {
-  background-image: url("../../images/board/half_arrow_push.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: block;
-  height: 70px;
-  height: 17px;
-  margin-left: 45px;
-  margin-top: -34px;
-}
-
-gather {
-  background-image: url("../../images/board/half_arrow_gather.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: block;
-  height: 70px;
-  height: 17px;
-  margin-left: 45px;
-  margin-top: -34px;
-}
-
-push-gather {
+plus-text {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 26.66px;
   font-weight: bold;
-  display: block;
-  position: relative;
-  width: auto;
-  height: 90px;
+  font-style: normal;
 }
 
-push-gather-range-req icon.terrain-gather,
-push-gather icon.terrain-gather {
-  display: inline-block;
-  height: 62px;
-  width: 108px;
-  margin-right: 20px;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  margin-left: 0px;
+plus-text::after {
+  content: "+";
 }
 
-push-gather-range-req icon.terrain-push,
-push-gather icon.terrain-push {
-  display: inline-block;
-  height: 62px;
-  width: 108px;
-  margin-right: 0px;
-  margin-bottom: 7px;
-  margin-top: 0px;
-  margin-left: 0px;
-}
-
-push-gather-range-req icon.terrain-gather > icon,
-push-gather icon.terrain-gather > icon {
-  left: 90px;
-  top: -10px;
-  display: block;
-  position: relative;
-  text-align: unset;
-  width: 30px;
-  height: 25px;
-  margin: 0px;
-  padding: 0px;
-}
-
-push-gather-range-req icon.terrain-push > icon,
-push-gather icon.terrain-push > icon {
-  left: -22px;
-  top: 18px;
-  position: relative;
-  text-align: unset;
-  width: 30px;
-  height: 25px;
-  margin: 0px;
-  padding: 0px;
-}
-
-push-gather-range-req icon.terrain-push.ocean > icon.from,
-push-gather icon.terrain-push.ocean > icon.from {
-  left: -8px;
-  top: -8px;
-}
-
-push-gather-range-req icon.terrain-gather > icon.gather-arrow,
-push-gather icon.terrain-gather > icon.gather-arrow {
-  left: 60px;
-  top: 33px;
-  position: relative;
-  text-align: unset;
-  width: 60px;
-  height: 25px;
-  margin: 0px;
-  padding: 0px;
-}
-
-push-gather-range-req icon.terrain-push > icon.push-arrow,
-push-gather icon.terrain-push > icon.push-arrow {
-  left: 60px;
-  top: 38px;
-  position: relative;
-  text-align: unset;
-  width: 40px;
-  height: 25px;
-  margin: 0px;
-  padding: 0px;
-}
-
-push-gather-range-req
-  icon.terrain-push.ocean
-  > icon.push-arrow
-  push-gather
-  icon.terrain-push.ocean
-  > icon.push-arrow {
-  left: 63px;
-  top: 17px;
-}
-
-push-gather-range-req {
-  font-size: 26.66px;
-  font-weight: bold;
-  margin-top: -19px;
-  margin-bottom: 0px;
-  width: auto;
-  height: 110px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-icon.terrain-push icon-holder,
-icon.push-from icon-holder,
-icon.push icon-holder {
-  left: 14px;
-  top: 17px;
-}
-
-growth-cell icon.terrain-push icon,
-growth-cell icon.push-from icon,
-growth-cell icon.push icon,
-growth-cell icon.push icon-holder icon {
-  filter: drop-shadow(-1px 0px 0px #e2d367) drop-shadow(1px 0px 0px #e2d367)
-    drop-shadow(0px -1px 0px #e2d367) drop-shadow(0px 1px 0px #e2d367);
-}
-
-growth-cell gain icon.element {
-  height: 60px;
-  width: 60px;
-  margin: -30px;
-}
-
-growth-cell gain icon.star {
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: inline-block;
-  height: 87px;
-  width: 87px;
-  margin-top: -3px;
-  margin-bottom: 7px;
-}
-
-/* Enables growth option - OR multiple different elements */
-growth-cell gain icon.orelement {
-  margin-right: 1px;
-  margin-left: 1px;
-  margin-top: -15px;
-  max-height: 60px;
-  min-width: 42px;
-  max-width: 60px;
-  flex: 4 1 0;
-}
-
-gain.or icon.backslash {
-  min-width: 8px;
-  z-index: 2;
-  margin-bottom: 13px;
-  flex: 1 1 0;
+cell-icons.custom > .non-icon {
+  width: unset;
   height: unset;
-  aspect-ratio: 3/10;
-  margin-left: -3px;
-  margin-right: -3px;
+  margin: 0px;
 }
 
-gain.or {
-  display: flex;
-  flex-direction: row;
-  height: 90px;
-  margin-top: 0px;
-  width: 140px;
-}
-
-growth-cell div.custom-scaling {
+.non-icon {
   font-family: "Name Headings";
-  font-size: 37.33px;
-  font-style: normal;
-}
-
-gain {
-  height: 90px;
-  width: 95px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Enables growth option - 2 of same element */
-icon-multi-element {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-
-icon-multi-element icon,
-icon-multi-element energy-icon,
-icon-multi-element card-icon {
-  display: inline-block;
-  position: relative;
-  margin: -30px;
-}
-
-icon-multi-element icon.star {
-  width: 80px;
-  margin-top: -10px;
-  margin-left: -5px;
-}
-
-/* Gaining Energy per Element/Icon */
-gain-per {
-  background-image: url("../../images/board/AddEnergyBlank.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  height: 75px;
-  width: 75px;
-  display: block;
-  z-index: 1;
-  position: relative;
-  margin-left: -27px;
-  margin-bottom: 50px;
-  margin-top: -35px;
-}
-
-gain-per value {
-  font-family: "Energy Font";
-  font-size: 21.33px;
-  font-style: normal;
-  display: inline-block;
-  margin-top: 25px;
-  margin-left: 11px;
-}
-
-gain-per-element icon {
-  height: 50px;
-  width: 50px;
-  z-index: 1;
-  position: relative;
-  margin-left: 0px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-gain-per-element icon,
-gain-per-element icon.element,
-gain-per-element icon.sacred-site,
-gain-per-element icon.destroyed-presence,
-gain-per-element icon.explorer,
-gain-per-element icon.town,
-gain-per-element icon.city,
-gain-per-element icon.custom-icon {
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: block;
-  height: 60px;
-  width: 50px;
-  z-index: 0;
-}
-
-gain-per-element ring-icon {
-  background-image: url(../../images/board/CardPlayRing.png);
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: inline-block;
-  height: 70px;
-  width: 70px;
-  z-index: 2;
-  margin-left: -47px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Totally Custom Growth Options (Icon, text, etc) */
-custom-growth-icon {
   font-size: 26.66px;
-  font-weight: bold;
-  margin-top: -10px;
+  font-style: normal;
+  margin: auto;
+}
+
+.non-icon.small {
+  font-size: 21.33px;
+  margin: auto 3px auto 3px;
+}
+
+/* ===== 14. Presence nodes & tracks in growth ===== */
+presence-node.growth {
+  margin-top: -8px;
+}
+
+presence-node.growth icon {
   margin-bottom: 0px;
-  width: 100px;
-  height: 100px;
+}
+
+/* :not(.per) — historically these matched only the flat energy badge tag,
+   never the per-X form. */
+presence-node.growth badge.energy:not(.per) {
+  margin-top: 0px;
+}
+
+presence-node.growth badge.energy:not(.per) value {
+  font-size: 32px;
+}
+
+/* split() in growth: the track's -65px pull is measured against a track row,
+   which a growth cell is not. Starting value — needs a look in the browser. */
+split-presence-node.growth {
+  margin-top: 0px;
+}
+
+/* presence-track(...): a row of nodes in one growth cell. position:relative
+   makes this the containing block for the track banner nested inside it — the
+   banner is absolutely positioned, so it takes its width from here and
+   addGrowthTrackBanners() only has to center it vertically. */
+growth presence-track {
   display: inline-flex;
   flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-}
-
-custom-growth-icon icon.explorer {
-  width: 50px;
-  height: 70px;
-  margin-top: 0px;
-}
-
-icon.custom-growth-icon {
-  width: 80px;
-  height: 90px;
-  margin-top: 0px;
-  margin-bottom: 7px;
-  background-position: bottom;
-}
-
-custom-growth-icon > * {
-  width: 80px;
-  height: 90px;
-  margin-top: 0px;
-  margin-bottom: 7px;
-  background-position: bottom;
-}
-
-icon.custom-growth-icon.wide-growth {
-  width: 200px;
-}
-
-custom-growth-icon.wide-growth > * {
-  width: 200px;
-}
-
-/* custom-growth-icon.wide-growth {
-  height: 100px;
-} */
-
-/* Gaining Fear */
-growth-fear {
-  background-image: url("../../images/board/fear.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  display: block;
-  height: 110px;
-  width: 80px;
-  margin-top: -20px;
-}
-
-growth-fear value {
-  font-family: "Energy Font";
-  font-size: 26.66px;
-  display: inline-block;
-  font-style: normal;
-  margin-top: 48px;
-  margin-left: 0px;
-}
-
-fear-per {
-  background-image: url("../../images/board/fear.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  height: 75px;
-  width: 53px;
-  display: block;
-  z-index: 1;
-  position: relative;
-  margin-left: 0px;
-  margin-bottom: 50px;
-  margin-top: -35px;
-}
-
-fear-per value {
-  font-family: "Energy Font";
-  font-size: 18.66px;
-  display: inline-block;
-  font-style: normal;
-  margin-top: 33px;
-  margin-left: 0px;
-}
-
-gain-per-fear ring-icon {
-  background-image: url("../../images/board/CardPlayRing.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: inline-block;
-  height: 70px;
-  width: 70px;
-  z-index: 2;
-  margin-left: -32px;
-  display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  gap: 20px;
+  position: relative;
 }
 
-gain-per-fear icon,
-gain-per-fear icon.element,
-gain-per-fear icon.sacred-site,
-gain-per-fear icon.destroyed-presence,
-gain-per-fear icon.explorer,
-gain-per-fear icon.town,
-gain-per-fear icon.city,
-gain-per-fear icon.custom-icon {
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: block;
-  height: 60px;
-  width: 60px;
-  z-index: 0;
-  margin-left: 0px;
-  margin-top: 0px;
-  margin-bottom: 0px;
+growth presence-track presence-node {
+  margin-left: 10px;
 }
 
-gain-per-fear icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
+/* Height matches the real tracks' track-banner-art; the inline background-size
+   carries the user's banner-v-scale through. addGrowthTrackBanners runs the art
+   out to the growth panel's left edge, so it overlaps whatever sits to its left
+   — z-index puts it between the panel art (growth-bottom is -2,
+   growth-background -3) and the cells, which <growth> scopes as the stacking
+   context. */
+growth presence-track track-banner-art.growth-track {
+  height: 130px;
+  z-index: -1;
 }
 
-gain-per-fear icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-gain-per-fear icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-gain-per-fear icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-gain-per-fear icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-gain-per-fear icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-gain-per-fear icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-gain-per-fear icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-icon.slow {
-  background-image: url("../../images/board/slow_power.png");
-}
-
-icon.fast {
-  background-image: url("../../images/board/fast_power.png");
-}
-
+/* ===== 15. Board-specific layouts ===== */
 /* Starlight Type Nonsense */
 board.starlight growth {
   background-size: 100% 100%;
@@ -2071,29 +1425,6 @@ right-right {
   left: 1250px;
 }
 
-right-right innate-powers {
-  margin-left: 0px;
-  height: inherit;
-}
-
-right-right innate-power,
-right-right innate-powers section-title {
-  margin-left: 10px;
-}
-
-board.starlight presence-tracks {
-  margin-left: 145px;
-  flex-grow: 1;
-}
-
-board.starlight right-right level {
-  width: 485px;
-}
-
-board.starlight info-container {
-  margin-bottom: 5px;
-}
-
 /* Rumu even more nonsense */
 rumu-right {
   position: relative;
@@ -2102,67 +1433,4 @@ rumu-right {
   width: 1090px;
   height: 100%;
   /* overflow: hidden; */
-}
-
-rumu-right innate-powers {
-  height: inherit;
-  z-index: 2;
-  position: relative;
-  /* width: 480px; */
-  margin-left: 0px;
-  border-left: 5px solid #6b552a;
-}
-
-rumu-right presence-tracks {
-  height: 100%;
-  width: 580px;
-}
-rumu-right innate-power,
-rumu-right innate-powers section-title {
-  margin-left: 10px;
-}
-
-rumu-right innate-power-container {
-  flex-direction: column;
-}
-
-board.rumu rumu-right level {
-  width: 485px;
-}
-
-board.rumu info-container {
-  margin-bottom: 5px;
-}
-
-board.rumu description-container note {
-  width: 475px;
-}
-
-/* sizing */
-growth icon.huge {
-  width: 120px;
-  height: 120px;
-}
-
-growth icon.large {
-  width: 100px;
-  height: 100px;
-}
-
-growth icon.medium {
-  width: 60px;
-  height: 60px;
-}
-
-growth icon.small {
-  width: 42px;
-  height: 42px;
-}
-
-/* For adding presence relative to other presence */
-add-relative {
-  display: flex;
-  position: relative;
-  height: 50px;
-  margin-top: 7px;
 }

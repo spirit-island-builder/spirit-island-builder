@@ -20,6 +20,14 @@
       {
         "name": "Ocean",
         "imageURL": "/template/_global/images/cards/Invader/Ocean_Terrain.png"
+      },
+      {
+        "name": "Adversary Reminder",
+        "imageURL": "/template/_global/images/cards/Invader/Adversary_Reminder.png"
+      },
+      {
+        "name": "Effect Reminder",
+        "imageURL": "/template/_global/images/cards/Invader/Effect_Reminder.png"
       }
     ]
   }
