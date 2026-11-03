@@ -111,8 +111,12 @@ function addImages(board) {
   const spiritBorder = board.getAttribute("spirit-border");
   board.removeAttribute("spirit-border");
   const spiritNamePanel = board.querySelectorAll("spirit-name")[0];
-  const imageSize = board.getAttribute("spirit-image-scale");
+  let imageSize = board.getAttribute("spirit-image-scale");
   board.removeAttribute("spirit-image-scale");
+  // A bare number (no units) is assumed to be a percentage
+  if (imageSize && /^\s*\d*\.?\d+\s*$/.test(imageSize)) {
+    imageSize = imageSize.trim() + "%";
+  }
 
   const spiritNameText = document.createElement("spirit-name-text");
   spiritNameText.innerHTML = spiritNamePanel.innerHTML;
