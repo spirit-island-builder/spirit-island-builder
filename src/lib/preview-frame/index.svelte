@@ -41,22 +41,38 @@
     );
   };
 
-  export const takeScreenshot = (
+  /** Canvas pixels per CSS pixel for PNG downloads. */
+  const PNG_SCALE = 1.8;
+
+  /** Download each element as a PNG. `options` is a class added to the
+   *  element while it is captured, so CSS can lay it out for export
+   *  (e.g. rotating landscape aspects upright). */
+  export const takeScreenshot = async (
     fileNames,
     elementNamesInIframe,
     options = "for-image-download"
   ) => {
-    console.log("screenshot with " + options);
-    elementNamesInIframe.forEach((elementNameInIframe, index) => {
-      let element = previewIframe.contentDocument.querySelector(elementNameInIframe);
-      console.log(element);
-      element.classList.add(options);
-      let scale = 1.8;
-      previewIframe.contentWindow.takeScreenshot(elementNameInIframe, scale).then((imageURL) => {
-        downloadImage(imageURL, fileNames[index]);
-        element.classList.remove(options);
-      });
-    });
+    const elements = elementNamesInIframe
+      .map((name) => previewIframe.contentDocument.querySelector(name))
+      .filter(Boolean);
+    elements.forEach((element) => element.classList.add(options));
+    try {
+      await Promise.all(
+        elementNamesInIframe.map(async (elementNameInIframe, index) => {
+          const imageURL = await previewIframe.contentWindow.takeScreenshot(
+            elementNameInIframe,
+            PNG_SCALE
+          );
+          downloadImage(imageURL, fileNames[index]);
+        })
+      );
+    } catch (err) {
+      console.error(err);
+      showToast(`❌ Image export failed: ${err.message}`);
+    } finally {
+      // Whatever happened, don't leave the preview in its export layout.
+      elements.forEach((element) => element.classList.remove(options));
+    }
   };
 
   // Guides for printing fronts and backs onto the two sides of one sheet.
@@ -186,14 +202,23 @@
     const y0 = (ph - rows * hit) / 2;
 
     const scale = large ? 2 : 1.5;
-    const takeShot = (el) => previewIframe.contentWindow.takeScreenshot(el, scale);
+    // JPEG: a sheet of cards prints on white paper, so the transparent
+    // corners gain nothing from PNG, and the file is several times smaller.
+    const takeShot = (el) => previewIframe.contentWindow.takeScreenshot(el, scale, "jpeg");
     if (!backElement) mode = "fronts";
     const printFronts = mode !== "backs";
     const printBacks = mode !== "fronts";
-    const [backImage, ...frontImages] = await Promise.all([
-      printBacks ? takeShot(backElement) : null,
-      ...(printFronts ? frontElements.map(takeShot) : []),
-    ]);
+    let backImage, frontImages;
+    try {
+      [backImage, ...frontImages] = await Promise.all([
+        printBacks ? takeShot(backElement) : null,
+        ...(printFronts ? frontElements.map(takeShot) : []),
+      ]);
+    } catch (err) {
+      console.error(err);
+      showToast(`❌ PDF export failed: ${err.message}`);
+      return;
+    }
 
     let firstPage = true;
     const nextPage = () => {
@@ -213,7 +238,7 @@
           const col = n % cols;
           const row = Math.floor(n / cols);
           const image = frontImages[s * perSheet + n];
-          doc.addImage(image, "PNG", x0 + col * wid, y0 + row * hit, wid, hit);
+          doc.addImage(image, "JPEG", x0 + col * wid, y0 + row * hit, wid, hit);
         });
       }
 
@@ -225,14 +250,15 @@
           const col = cols - 1 - (n % cols);
           const row = Math.floor(n / cols);
           // Same alias each time, so the back image is embedded only once.
-          doc.addImage(backImage, "PNG", x0 + col * wid, y0 + row * hit, wid, hit, "cardBack");
+          doc.addImage(backImage, "JPEG", x0 + col * wid, y0 + row * hit, wid, hit, "cardBack");
         });
       }
     }
     doc.save(fileName);
   };
 
-  export const getPDF = (
+  /** One or more elements tiled onto pages at wid x hit inches each. */
+  export const getPDF = async (
     fileName,
     elementNamesInIframe,
     pageType,
@@ -241,66 +267,45 @@
     duplexSide = null, // "front" | "back": center the board and add a back-to-back print guide
     orientation = "landscape"
   ) => {
-    const doc = new jsPDF({
-      orientation: orientation,
-      unit: "in",
-      format: pageType,
-    });
+    showToast(`💾 Saving file locally`);
+    const doc = new jsPDF({ orientation, unit: "in", format: pageType });
+    const pw = doc.getPageWidth();
+    const ph = doc.getPageHeight();
+    const margin = 0.5;
+    const colperpage = Math.floor((pw - 2 * margin) / wid);
+    const rowperpage = Math.floor((ph - 2 * margin) / hit);
+    const cardperpage = colperpage * rowperpage;
 
-    let i = 0;
-    let xi = 0.5;
-    let x = xi;
-    let yi = 0.5;
-    let y = yi;
-    let pw = doc.getPageWidth();
-    let ph = doc.getPageHeight();
-    let count = elementNamesInIframe.length;
-    console.log(`${pw},${ph}`);
-
-    //figure out number of pages and rows per page
-    let rowperpage = Math.floor((ph - 2 * yi) / hit);
-    let colperpage = Math.floor((pw - 2 * xi) / wid);
-    let cardperpage = rowperpage * colperpage;
-    let numpages = Math.ceil(elementNamesInIframe.length / cardperpage);
-    for (let i = 1; i < numpages; i++) {
-      doc.addPage();
+    const scale = large ? 2 : 1.5;
+    let images;
+    try {
+      images = await Promise.all(
+        elementNamesInIframe.map((name) => previewIframe.contentWindow.takeScreenshot(name, scale))
+      );
+    } catch (err) {
+      console.error(err);
+      showToast(`❌ PDF export failed: ${err.message}`);
+      return;
     }
-    doc.setPage(1);
 
     if (duplexSide) {
       drawPrintGuide(doc, DUPLEX_GUIDE[duplexSide], (pw - wid) / 2, (ph - hit) / 2, wid, hit);
     }
 
-    elementNamesInIframe.forEach((elementNameInIframe, n) => {
-      previewIframe.contentWindow
-        .takeScreenshot(elementNameInIframe, large ? 2 : 1.5)
-        .then((imageURL) => {
-          //page focus
-          let pagefocus = Math.ceil((n + 1) / cardperpage);
-          doc.setPage(pagefocus);
-          console.log(`Focusing page ${pagefocus} for ${elementNameInIframe}, n=${n}`);
+    images.forEach((imageURL, n) => {
+      const page = Math.floor(n / cardperpage) + 1;
+      if (page > doc.getNumberOfPages()) doc.addPage();
+      doc.setPage(page);
 
-          // x & y location
-          const col_n = n % Math.floor((pw - 2 * xi) / wid);
-          x = xi + col_n * wid;
-
-          const row_n = Math.floor(n / colperpage) % rowperpage;
-          y = yi + row_n * hit;
-
-          if (duplexSide) {
-            x = (pw - wid) / 2;
-            y = (ph - hit) / 2;
-          }
-
-          doc.addImage(imageURL, "PNG", x, y, wid, hit);
-          console.log("add card " + elementNameInIframe + " to " + x + "," + y);
-
-          if (++i === count) {
-            doc.save(fileName);
-          }
-        });
+      let x = margin + (n % colperpage) * wid;
+      let y = margin + (Math.floor(n / colperpage) % rowperpage) * hit;
+      if (duplexSide) {
+        x = (pw - wid) / 2;
+        y = (ph - hit) / 2;
+      }
+      doc.addImage(imageURL, "PNG", x, y, wid, hit);
     });
-    showToast(`💾 Saving file locally`);
+    doc.save(fileName);
   };
 
   //startMain also handles clicks

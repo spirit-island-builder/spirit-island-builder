@@ -218,9 +218,9 @@
   }
 
   function printToPDF(pageType = "letter") {
-    const fileNames = [adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.pdf"];
+    const fileName = adversary.nameLossEscalation.name.replaceAll(" ", "_") + "_Adversary.pdf";
     const elementNamesInIframe = ["adversary"];
-    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 6, 4);
+    previewFrame.getPDF(fileName, elementNamesInIframe, pageType, 6, 4);
   }
 
   function printToPDFLetter() {

@@ -529,13 +529,11 @@ aspect-back:not(.profile).for-image-download {
   height: 786px;
 }
 
-aspect-back:not(.profile).for-image-download {
-  aspect-back-container {
-    transform-origin: top left;
-    transform: translateX(567px) rotate(90deg);
-    width: 786px;
-    height: 567px;
-  }
+aspect-back:not(.profile).for-image-download aspect-back-container {
+  transform-origin: top left;
+  transform: translateX(567px) rotate(90deg);
+  width: 786px;
+  height: 567px;
 }
 
 aspect-lore {

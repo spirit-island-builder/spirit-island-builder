@@ -185,12 +185,12 @@
     if (eventName === "none" || eventName === "") {
       eventName = eventCard.subevents.event[0].name;
     }
-    const fileNames = [`${eventName.replaceAll(" ", "_")}_EventCard.pdf`];
+    const fileName = `${eventName.replaceAll(" ", "_")}_EventCard.pdf`;
     const elementNamesInIframe = ["event-card"];
     if (eventCard.showBack) {
       elementNamesInIframe.push("event-back");
     }
-    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 2.48, 3.465);
+    previewFrame.getPDF(fileName, elementNamesInIframe, pageType, 2.48, 3.465);
   }
 
   function printToPDFLetter() {

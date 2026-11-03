@@ -253,11 +253,11 @@
   }
 
   function printToPDF(pageType = "letter") {
-    const fileNames = [scenario.info.name.replaceAll(" ", "_") + "_Scenario.pdf"];
+    const fileName = scenario.info.name.replaceAll(" ", "_") + "_Scenario.pdf";
     const elementNamesInIframe = [];
     elementNamesInIframe.push("scenario-front");
     elementNamesInIframe.push("scenario-back");
-    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 6, 4, false, "portrait");
+    previewFrame.getPDF(fileName, elementNamesInIframe, pageType, 6, 4, false, "portrait");
   }
 
   function printToPDFLetter() {
