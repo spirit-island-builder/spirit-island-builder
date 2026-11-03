@@ -1,4 +1,4 @@
-/* presence-track-table.css — the presence tracks panel of the spirit board.
+﻿/* presence-track-table.css — the presence tracks panel of the spirit board.
    Also imported by aspect.css; special-rules.css reuses the node vocabulary
    for special-rules tracks.
 
@@ -32,6 +32,7 @@ presence-node-multi {
 
 track-move-presence {
   --icon-h: 31px;
+  --move-arrow-w: 80px; /* the arrow is width-driven; see section 9 */
 }
 
 /* ===== 2. Panel frame ===== */
@@ -391,7 +392,7 @@ deep-layers > icon {
 }
 
 deep-layers > icon.energy-blank {
-  margin-top: -10px;
+  --icon-h: 50px;
 }
 
 icon.energy-blank {
@@ -410,6 +411,7 @@ track-move-presence {
   font-family: "Antropos";
   line-height: 0.6;
   margin-bottom: 5px;
+  gap: 4px;
 }
 
 presence-node-multi track-move-presence {
@@ -428,6 +430,21 @@ presence-node-multi.add-shadow track-move-presence {
 track-move-presence icon {
   margin: 0px;
   position: relative;
+}
+
+/* The stack is two sizing contexts, not one: the shared --icon-h would grow
+   the presence and widen the arrow together. Each icon gets its own knob. */
+track-move-presence icon.presence {
+  --icon-h: 24px; /* the presence glyph's height in the stack */
+  --icon-scale: 1; /* 0.58 is the inline-text calibration */
+  top: 0; /* global.css nudges icon.presence up 3px for inline use */
+}
+
+/* Width-driven: pin --move-arrow-w and let the art ratio produce the height. */
+track-move-presence icon.move-arrow {
+  width: var(--move-arrow-w);
+  height: auto;
+  aspect-ratio: var(--icon-ratio);
 }
 
 track-move-presence value {
@@ -680,6 +697,24 @@ icon.take-power-card-blank > icon {
   position: absolute;
   left: 43px;
   top: 20px;
+}
+
+/* cards */
+presence-node icon.gain-power-card,
+presence-node icon.take-power-card,
+presence-node icon.forget-power-card,
+presence-node icon.discard-cards,
+presence-node icon.discard-2-cards,
+presence-node icon.discard-card,
+presence-node icon.discard-1-card,
+presence-node icon.gain-card-play,
+presence-node icon.gain-card-play-blank,
+presence-node icon.days-never-were,
+presence-node icon.gain-1-time,
+presence-node icon.gain-2-time,
+presence-node icon.isolate,
+presence-node icon.reclaim-one {
+  --icon-h: 90px;
 }
 
 /* ===== 15. Split nodes =====
