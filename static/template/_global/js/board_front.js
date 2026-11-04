@@ -1356,10 +1356,14 @@ function _renderGainPowerCard(growthAction, growthActionType) {
     let gainPowerCardOptions = _splitOptions(matches[1]);
     let gainPowerCardType = gainPowerCardOptions[0] || "";
     let gainPCModifierIcon = gainPowerCardOptions[2];
+    // Each modifier is a nested <icon> riding the card art: the shared
+    // gain-card-modifier class carries size/shadow/colour, modifier-left /
+    // modifier-right carry the position. The type gem (minor/major) sits on
+    // the left; the optional third option (e.g. noforget) sits on the right.
     gainPowerCardIcon = `<icon class='${growthActionType}'>
-                            <icon class='${gainPowerCardType.toLowerCase()} gain-card-modifier'></icon>`;
+                            <icon class='${gainPowerCardType.toLowerCase()} gain-card-modifier modifier-left'></icon>`;
     if (gainPCModifierIcon) {
-      gainPowerCardIcon += `<div class="gain-card-second-modifier">{${gainPCModifierIcon}}</div>`;
+      gainPowerCardIcon += `<icon class='${gainPCModifierIcon.toLowerCase()} gain-card-modifier modifier-right'></icon>`;
     }
     gainPowerCardIcon += `</icon>`;
   }

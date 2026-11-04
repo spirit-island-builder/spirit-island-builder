@@ -1094,28 +1094,37 @@ growth-cell icon.gain-card-pay-2 {
   display: block;
 }
 
-/* gain-power-card(type, ...): the type gem riding the card icon. It sits
-   inside growth, so it inherits the simple element art from the global
-   element icon layer. */
+/* gain-power-card(type, text, mod) / take-power-card(...): small icons riding
+   the card art. Every modifier is a nested <icon class="X gain-card-modifier
+   modifier-left|modifier-right">; this block is the shared look (size, outline,
+   colour), the side classes below only place it. left/top name the CENTRE of
+   the modifier because of the translate(-50%, -50%). */
 icon.gain-card-modifier {
   position: absolute;
-  left: -10px;
-  top: -33px;
   display: block;
-  filter: drop-shadow(1px 0px 0px) drop-shadow(-1px 0px 0px) drop-shadow(0px 1px 0px)
-    drop-shadow(0px -1px 0px);
+  --icon-h: 43px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0.5px 0px 0px) drop-shadow(-0.5px 0px 0px) drop-shadow(0px 0.5px 0px)
+    drop-shadow(0px -0.5px 0px);
   color: #ead38d;
 }
 
-icon.take-power-card icon.gain-card-modifier {
+/* The type gem (minor/major) on the card's top-left corner. */
+icon.gain-card-modifier.modifier-left {
+  left: 16px;
+  top: 4px;
+}
+
+icon.take-power-card icon.gain-card-modifier.modifier-left {
   left: 30px;
 }
 
-div.gain-card-second-modifier {
-  position: absolute;
-  right: 0px;
-  top: -35px;
-  display: block;
+/* The optional third option (e.g. noforget) on the card's top-right corner,
+   mirroring the left gem's inset. */
+icon.gain-card-modifier.modifier-right {
+  right: -18px;
+  top: 4px;
+  --icon-h: 36px;
 }
 
 /* misc single-icon actions */
