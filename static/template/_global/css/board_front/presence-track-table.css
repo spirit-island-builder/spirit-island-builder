@@ -626,23 +626,18 @@ presence-node badge.damage value {
    base in global.css, node geometry here. The absolutely positioned
    value anchors to the badge, so position stays with the box. */
 presence-node badge.gain-plays {
-  width: 90px;
-  height: 90px;
-  margin: 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 80px;
+  height: 80px;
   position: relative;
   z-index: 1;
-  left: 3px;
+  left: 4px;
 }
 
 presence-node badge.gain-plays value {
   display: block;
   position: absolute;
-  margin: 0px;
-  font-size: 36px;
-  top: 29px;
+  font-size: 30px;
+  top: 28px;
 }
 
 presence-node-multi badge.gain-plays {

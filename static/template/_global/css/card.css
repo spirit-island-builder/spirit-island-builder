@@ -6,11 +6,11 @@
 /* Contexts in this sheet that want a different icon size. Values are the
    ones measured before the sizing rework; calibrate freely. */
 info-range {
-  --icon-h: 24px;
+  --icon-h: 30px;
 }
 
 info-target {
-  --icon-h: 32px;
+  --icon-h: 30px;
 }
 
 threshold-condition {

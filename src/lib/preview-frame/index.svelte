@@ -4,7 +4,7 @@
   let classList;
   export { classList as class };
 
-  import { tick, onMount } from "svelte";
+  import { tick, onMount, onDestroy, createEventDispatcher } from "svelte";
   import { browser } from "$app/environment";
   import { installHotReloadEvent } from "$lib/hmr-helper.js";
   import { jsPDF } from "jspdf";
@@ -34,7 +34,19 @@
     });
   };
 
+  // Tabs render in two calls: copyHTMLFrom(...).then(startMain). startMain
+  // rewrites the custom tags in place, so a second copy that lands between a
+  // first copy and its startMain leaves the first startMain running against
+  // the second body, and the second startMain against an already-processed
+  // one (board_front.js then trips on a <growth-group> with no `values`).
+  // The custom-icons re-render below can arrive in exactly that window, so
+  // it waits until no render is in flight.
+  let renderInFlight = false;
+  let rerenderRequested = false;
+  const dispatch = createEventDispatcher();
+
   export const copyHTMLFrom = async (fragment) => {
+    renderInFlight = true;
     await updateSrc();
     previewIframe.contentDocument.body.replaceChildren(
       previewIframe.contentDocument.importNode(fragment, true)
@@ -309,7 +321,7 @@
   };
 
   //startMain also handles clicks
-  export const startMain = async () => {
+  const runStartMain = async () => {
     const status = await previewIframe.contentWindow.startMain();
     if (status === 1) {
       const specialRulesSectionElement =
@@ -385,6 +397,18 @@
     }
   };
 
+  export const startMain = async () => {
+    try {
+      await runStartMain();
+    } finally {
+      renderInFlight = false;
+      if (rerenderRequested) {
+        rerenderRequested = false;
+        dispatch("hot-reload");
+      }
+    }
+  };
+
   export const writeGrowthAction = (action) => {
     return previewIframe.contentWindow.writeGrowthAction(action);
   };
@@ -418,6 +442,28 @@
   onMount(updateSrc);
 
   installHotReloadEvent();
+
+  // Lib.loadCustomIconsFromHTML measures icons from older files asynchronously,
+  // after the tab has already rendered. It announces completion on `document`;
+  // we forward it on the same "hot-reload" channel every tab already wires to
+  // its reloadPreview, so the preview re-renders from state with the ratios in.
+  // Only the mounted tab's frame hears it, since tabs mount one at a time.
+  // If a render is still in flight, startMain dispatches once it is done.
+  const onCustomIconsMeasured = () => {
+    if (renderInFlight) {
+      rerenderRequested = true;
+    } else {
+      dispatch("hot-reload");
+    }
+  };
+  if (browser) {
+    document.addEventListener("custom-icons-measured", onCustomIconsMeasured);
+  }
+  onDestroy(() => {
+    if (browser) {
+      document.removeEventListener("custom-icons-measured", onCustomIconsMeasured);
+    }
+  });
 </script>
 
 <div {id} class={"preview-wrap " + classList} class:large bind:this={wrapper}>
