@@ -256,9 +256,11 @@ icon.gain-range-x,
 icon.gain-range-X {
   --icon-scale: 1.277;
 }
-icon.ocean,
-icon.incarna {
+icon.ocean {
   --icon-scale: 1.333;
+}
+icon.incarna {
+  --icon-scale: 1.2;
 }
 icon.star {
   --icon-scale: 1.367;
@@ -1376,14 +1378,87 @@ badge.gain-plays {
   background-image: url("../images/board/NewIcons/Cardplay Gain Blank.png");
 }
 
-/* Icon rules and Innate Power effects should have very similar rules, so collecting them here */
-special-rule,
-innate-power level effect,
-innate-power note {
+/* ---- Inline rules text ----
+   Icons sitting in running text. The box model (display, background-*) comes
+   from the bare `icon` rule above; this layer only holds what running text
+   adds: the baseline margin and the per-icon nudges that keep each glyph
+   sitting on the line.
+
+   Contexts: special-rule (board front, aspect), second-section-container
+   (board lore), innate power effects and notes, and rules-container (power
+   card rules + threshold; only card.js emits that tag). The per-side sheets
+   layer specifics on top: special-rules.css, innate-power.css, board_lore.css
+   and card.css all load after this file, and a `<context> icon` selector
+   there ties this block on specificity (0,0,2), so the later sheet wins.
+
+   The selector is built to land on exactly (0,0,2): the block scores as its
+   most specific :is() argument plus `icon`. Every argument must therefore be
+   worth one type selector. :where() would drop the whole thing to (0,0,1) and
+   lose the tie to the bare `icon` rule in board_front/icon.css, which also
+   loads later and resets margin. A multi-part context (`level effect`,
+   `innate-power note`) would lift it to (0,0,3) and override every per-sheet
+   rule, so the qualifying part of those two is wrapped in :where(), which
+   still constrains the match but counts for nothing. Bare `level` and `note`
+   are not usable here: the adversary emits its own <level> rows and the lore
+   summary table its own <note>, both carrying icons. */
+:is(
+    special-rule,
+    second-section-container,
+    rules-container,
+    :where(level) effect,
+    :where(innate-power) note
+  ) {
   icon {
+    --icon-scale: 1;
+    margin: 0px;
     margin-top: -5px;
+    vertical-align: text-bottom;
   }
   icon.element {
     --icon-scale: 1.15;
+  }
+  icon.terrain-single {
+    margin-bottom: -10px;
+  }
+  icon.ocean,
+  icon.terrain-double {
+    margin-bottom: -0.3em;
+    margin-top: -20px;
+    --icon-scale: 1.5;
+  }
+  icon.range-0,
+  icon.range-1,
+  icon.range-2,
+  icon.range-3,
+  icon.range-4 {
+    margin-bottom: -13px;
+    margin-top: -20px;
+    margin-left: -2px;
+    margin-right: -2px;
+  }
+  icon.range,
+  icon.gain-range-1,
+  icon.gain-range-2,
+  icon.gain-range-3,
+  icon.gain-range-x,
+  icon.gain-range-X {
+    margin-bottom: -13px;
+    margin-left: -2px;
+    margin-right: -2px;
+  }
+  em icon {
+    margin-left: 1px;
+    margin-right: -2px;
+  }
+  em icon.presence {
+    margin-left: 0px;
+    margin-right: -4px;
+  }
+  em icon.dahan {
+    margin-left: 1px;
+    margin-right: -4px;
+  }
+  table icon {
+    margin-top: 0px;
   }
 }

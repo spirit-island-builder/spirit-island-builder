@@ -72,7 +72,7 @@ function constructCard(data, cardIndex) {
   </info-title>
 
   <info>
-    <info-speed></info-speed>
+    <info-speed><icon class="${data.speed}"></icon></info-speed>
     <info-range id='${card.id}range'>
       ${data.range}
     </info-range>

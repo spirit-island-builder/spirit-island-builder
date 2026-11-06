@@ -13,6 +13,20 @@ info-target {
   --icon-h: 30px;
 }
 
+/* The speed pip used to be painted as a 40x30 background of <info-speed>;
+   28px puts the fast/slow icon (scale ~1.05) at about that height. */
+info-speed {
+  --icon-h: 28px;
+}
+
+/* Rules text is the one card region card.js shrinks to fit (resize(): -1px
+   font-size and line-height per pass). em resolves on the <icon>, which
+   inherits the rules font-size, so icons ride the same shrink with no JS.
+   1.2245em = the previous 30px at the 24.5px rules-container font. */
+rules-container {
+  --icon-h: 1.2245em;
+}
+
 threshold-condition {
   --icon-h: 32px;
 }
@@ -84,21 +98,6 @@ card.minor card-frame {
 
 card.round-border {
   border-radius: 22px;
-}
-
-card.fast info-speed {
-  background-image: url("../images/50px-Fasticon.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-size: 40px 30px;
-}
-
-card.slow info-speed {
-  background-image: url("../images/50px-Slowicon.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 40px 30px;
 }
 
 card-back {
@@ -212,7 +211,7 @@ card.minor type-watermark {
 name {
   position: relative;
   width: 100%;
-  font-size: 28px;
+  font-size: 33px;
   line-height: 32px;
   word-spacing: -3px;
   font-family: "Short Name Headings";
@@ -363,6 +362,24 @@ info-speed {
   width: 109px;
   padding-right: 1px;
 }
+
+/* card.js nests <icon class="fast|slow"> here; global.css supplies the art. */
+info-speed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+info-speed icon {
+  margin: 0;
+}
+info-speed icon.slow {
+  --icon-h: 34px;
+  margin-right: 5px;
+}
+info-speed icon.fast {
+  --icon-h: 33px;
+}
+
 info-title-range,
 info-range {
   display: block;
@@ -502,9 +519,10 @@ rules-container {
   flex-direction: column;
   text-align: center;
   font-family: "JosefinSans-Regular";
-  font-size: 23px;
+  font-size: 24.5px;
   line-height: 30px;
-  letter-spacing: -0.5px;
+  letter-spacing: -1.3px;
+  word-spacing: -0.5px;
 }
 
 /* rules-container::after {
@@ -667,16 +685,12 @@ or {
   background-image: url("../images/or_de.png");
 }
 
-icon {
-  margin-top: -7px;
-  margin-bottom: -4px;
-}
+/* Card-wide icon default (cost box, info row, ...). Inside rules-container
+   the shared "Inline rules text" block in global.css outranks this; card
+   deviations from that base are the `rules-container icon.X` rules below. */
 
 icon.bigger {
   margin-bottom: -10px;
-}
-
-info-range icon {
 }
 
 info-range range {
@@ -686,27 +700,8 @@ info-range range {
   top: 2px;
 }
 
-info-target icon {
-}
-
-info-target icon.spirit {
-}
-
 icon.range {
   margin-top: -10px;
-}
-
-icon.presence {
-}
-
-rules icon.sacred-site {
-  margin-top: -12px;
-  margin-bottom: -12px;
-}
-
-rules-container icon.fast,
-rules-container icon.slow {
-  margin-bottom: -7px;
 }
 
 /* Cards use the power-speed art only inside rule text (see global.css). */
@@ -717,25 +712,9 @@ rules-container {
   --speed-slow-ratio: var(--speed-power-slow-ratio);
 }
 
-icon.sun,
-icon.moon,
-icon.fire,
-icon.air,
-icon.water,
-icon.earth,
-icon.plant,
-icon.animal,
-icon.any-element {
-  margin-bottom: -13px;
-  margin-left: -5px;
-  margin-right: -5px;
-}
-
-rules icon.jungle,
-rules icon.mountain,
-rules icon.sand,
-rules icon.wetland,
-rules icon.ocean,
+/* Single terrains and ocean take their nudge from the shared block
+   (terrain-single / ocean); the land-with-presence variants have no shared
+   rule yet. */
 rules icon.jungle-presence,
 rules icon.mountain-presence,
 rules icon.sand-presence,
@@ -743,45 +722,8 @@ rules icon.wetland-presence {
   margin-bottom: -10px;
 }
 
-/* rules icon.jungle-sand,
-rules icon.jungle-wetland,
-rules icon.mountain-jungle,
-rules icon.mountain-sand,
-rules icon.mountain-wetland,
-rules icon.sand-wetland {
-  width: 50px;
-  height: 28px;
-  margin-bottom: -8px;
-  margin-left: -4px;
-  margin-right: -4px;
-} */
-
-rules-container icon.terrain-double {
-  margin-bottom: -14px;
-  margin-left: -4px;
-  margin-right: -4px;
-}
-
 /* Element art: rules and threshold use the simple set — see the element
    icon layer in global.css. */
-
-rules icon.sun,
-rules icon.moon,
-rules icon.fire,
-rules icon.air,
-rules icon.water,
-rules icon.earth,
-rules icon.plant,
-rules icon.animal,
-rules icon.any {
-  margin-bottom: -3px;
-  margin-left: 0px;
-  margin-right: 0px;
-}
-
-rules icon.explorer,
-threshold icon.explorer {
-}
 
 threshold icon.element {
   margin-bottom: -5px;
@@ -815,6 +757,10 @@ power-subtitle {
   left: 105px;
   border-top-right-radius: 23px;
   line-height: 28px;
+}
+
+card dev-overlay {
+  background-size: 100% 100%;
 }
 
 card.printer-clean power-subtitle {

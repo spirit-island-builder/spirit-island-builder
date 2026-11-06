@@ -90,82 +90,12 @@ special-rule-line:last-child {
   padding-bottom: 0px;
 }
 
-/* ---- Icon sizing: one knob per context (EXPERIMENT) ----
-   Every icon in a special rule takes its height from --icon-h and derives its
-   width from the art's own proportions, via the generated --icon-ratio token
-   (see icon-ratios.css). Change --icon-h and every icon below scales together;
-   --icon-scale nudges one icon relative to that.
-
-   The scales were computed to reproduce today's PAINTED art exactly, so this
-   starts from the current look. Element BOXES are tighter than before: the old
-   width/height pairs left dead space that background-size:contain never used,
-   so inline spacing shifts a little.
-
-   Icons with no art of their own fall back to ratio 1, i.e. square. Three
-   rules further down keep explicit boxes because they are non-square AND have
-   no art to take a ratio from - see the note there. */
+/* Icon size for this context. See the icon sizing engine in global.css.
+   The inline-text icon rules themselves (baseline margin, per-icon nudges)
+   live in the "Inline rules text" block in global.css, shared with the lore
+   side's second-section-container; anything front-only goes here. */
 special-rule {
   --icon-h: 30px;
-}
-
-/* Margin-top negative threshold ensures icons never cause the line above them to adjust. */
-special-rule icon {
-  --icon-scale: 1;
-  height: calc(var(--icon-h) * var(--icon-scale));
-  width: calc(var(--icon-h) * var(--icon-scale) * var(--icon-ratio, 1));
-  margin: 0px;
-  margin-top: -50px;
-  vertical-align: text-bottom;
-  /* margin-top: -7px;
-  margin-bottom: -7px; */
-}
-
-/* Scales that differ from the context default, smallest first. */
-/* The size modifiers, now relative to --icon-h instead of absolute. */
-special-rule icon.presence {
-  top: -3px;
-}
-
-special-rule icon.terrain-single {
-  margin-bottom: -10px;
-}
-
-special-rule icon.ocean {
-  margin-bottom: -10px;
-  margin-top: -20px;
-}
-
-/* No --icon-ratio for these: the art comes from a sibling element, so there is
-   nothing to derive a width from. They keep an explicit box. */
-special-rule icon.terrain-double {
-  margin-bottom: -10px;
-  margin-top: -20px;
-}
-
-special-rule icon.ocean {
-  margin-left: 0px;
-}
-
-special-rule icon.range-0,
-special-rule icon.range-1,
-special-rule icon.range-2,
-special-rule icon.range-3,
-special-rule icon.range-4 {
-  margin-bottom: -13px;
-  margin-top: -20px;
-  margin-left: -2px;
-  margin-right: -2px;
-}
-
-special-rule icon.range,
-special-rule icon.gain-range-1,
-special-rule icon.gain-range-2,
-special-rule icon.gain-range-3,
-special-rule icon.gain-range-x,
-special-rule icon.gain-range-X {
-  margin-bottom: -13px;
-  margin-left: -2px;
-  margin-right: -2px;
 }
 
 special-rule range-plus-1,
@@ -185,50 +115,6 @@ div.description range-4 {
   margin-left: 0px;
   margin-right: 0px;
   margin-top: -10px;
-}
-
-special-rule icon.fast,
-special-rule icon.slow {
-  margin-bottom: -7px;
-}
-
-special-rule icon.disease {
-}
-
-special-rule icon.incarna-ember {
-}
-
-special-rule icon.dahan {
-}
-
-special-rule icon.sacred-site {
-}
-
-special-rule icon.city {
-}
-
-special-rule dahan {
-}
-
-special-rule em icon {
-  margin-left: 1px;
-  margin-right: -2px;
-}
-
-special-rule em icon.presence {
-  margin-left: 0px;
-  margin-right: -4px;
-}
-
-special-rule em icon.dahan {
-  margin-left: 1px;
-  margin-right: -4px;
-}
-
-special-rule icon.element {
-}
-
-special-rule icon.star {
 }
 
 /* Element art: special-rule uses the simple set, special-rules-track flips
@@ -271,18 +157,17 @@ special-rules-track icon.element {
 }
 
 special-rule range {
-  width: 45px;
+  width: 57px;
   margin-bottom: -20px;
   margin-top: -7px;
-  height: 30px;
-  font-family: "Antropos";
+  height: 37px;
   font-size: 20px;
   vertical-align: top;
-  position: relative;
-  display: inline-flex;
-  justify-content: center;
   align-items: center;
-  background-position: bottom;
+}
+
+special-rule range-value {
+  font-size: 29px;
 }
 
 special-rule range.gain-range {
@@ -325,10 +210,6 @@ special-rule custom-energy.gain value {
   left: 21px;
 }
 
-special-rule icon.incarna {
-  margin-top: -2px;
-}
-
 /* table stuff */
 special-rule {
   table,
@@ -336,10 +217,6 @@ special-rule {
   td {
     border: 1px solid black;
     border-collapse: collapse;
-  }
-
-  table icon {
-    margin-top: 0px;
   }
 
   td {

@@ -1,10 +1,12 @@
 <script>
   import { onMount } from "svelte";
+  import { dev } from "$app/environment";
 
   import * as Lib from "../lib";
   import { downloadHTML, downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadDropdown from "$lib/load-dropdown.svelte";
+  import LoadButton from "$lib/load-button.svelte";
   import SaveDropdown from "$lib/save-dropdown.svelte";
   import Examples from "$lib/example-modal.svelte";
   import PrintModal from "$lib/print-modal.svelte";
@@ -505,6 +507,18 @@
     });
   }
 
+  // Dev-only: lay a half-transparent greyscale reference image over the first card.
+  let overlayImage;
+  function addOverlay() {
+    if (!overlayImage) return;
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let firstCard = previewFrame.document.getElementsByTagName("card")[0];
+    if (!firstCard) return;
+    const overlay = previewFrame.document.createElement("dev-overlay");
+    firstCard.appendChild(overlay);
+    overlay.style.backgroundImage = `url('${overlayImage}')`;
+  }
+
   function setStackView() {
     let previewFrame = document.getElementById("preview-iframe").contentWindow;
     let cardHolder = previewFrame.document.getElementsByTagName("cards")[0];
@@ -619,6 +633,17 @@
         class="button is-warning mt-1 mr-1 is-small"
         on:click={() => setCardsPerRow("fourCard")}>4</button>
     </div>
+    {#if dev}
+      <div class="field has-addons mb-1 is-flex-wrap-wrap">
+        <LoadButton
+          accept="image/png, image/jpeg"
+          class="button is-file-load is-small mt-1"
+          loadDataURL={(url) => {
+            overlayImage = url;
+          }}>Load Overlay</LoadButton>
+        <button class="button is-danger mt-1 mr-1" on:click={addOverlay}>Add Overlay</button>
+      </div>
+    {/if}
   </div>
 </div>
 <Examples bind:this={exampleModal} {loadExample} title="Load Examples" {examples} />

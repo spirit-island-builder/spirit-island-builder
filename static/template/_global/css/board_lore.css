@@ -149,11 +149,7 @@ setup-description {
 }
 
 second-section-container icon {
-  margin-bottom: -9px;
-  margin-left: 0px;
-  margin-right: 0px;
   margin-top: -10px;
-  display: inline-block;
 }
 
 second-section-container icon.sacred-site {
@@ -374,12 +370,6 @@ uses-icon-holder {
 
 tr.note-row {
   margin-top: 10px;
-}
-
-/* Icon Stuff */
-icon {
-  display: block;
-  margin: auto;
 }
 
 /* Element art: second-section-container uses the simple set — see the

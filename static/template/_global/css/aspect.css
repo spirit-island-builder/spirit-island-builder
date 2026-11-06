@@ -430,6 +430,10 @@ aspect-subtext icon.incarna {
   filter: invert(0);
 }
 
+aspect icon.incarna {
+  --icon-scale: 1;
+}
+
 aspect-subtext icon.element {
   filter: invert(0);
 }
