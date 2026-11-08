@@ -490,10 +490,12 @@ aspect threshold {
 }
 
 aspect threshold icon {
+  --icon-h: 38px;
+  width: 38px;
 }
 
 aspect threshold-num {
-  width: 15px;
+  width: 10px;
 }
 
 aspect info-title-speed,
