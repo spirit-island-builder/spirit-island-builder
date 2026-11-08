@@ -495,7 +495,6 @@ icon-row.upper icon.move-arrow {
 }
 
 icon-row.lower {
-  height: 60px;
   flex-direction: row;
   align-items: flex-end;
   --icon-h: 42px;

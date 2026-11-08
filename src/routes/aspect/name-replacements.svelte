@@ -29,13 +29,6 @@
     aspect = aspect;
   }
 
-  function toggleProfile() {
-    aspect.info.profile = !aspect.info.profile;
-    aspect = aspect;
-
-    document.getElementById("updateButton").click();
-  }
-
   function toggleShowparts() {
     aspect.info.showparts = !aspect.info.showparts;
     aspect = aspect;
@@ -96,41 +89,18 @@
       </div>
     </div>
     <div class="field is-flex is-flex-direction-row has-addons">
-      <label class="label is-flex is-justify-content-space-between" for="aspectInput"
-        >Format:
-      </label>
-      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 ml-2">
-        {#if aspect.info.profile}
-          <button class="button is-success is-small button-hold mb-0" id="fast-button"
-            >Portrait</button>
-          <button
-            class="button is-success is-light is-small button-hold mb-0"
-            id="slow-button"
-            on:click={toggleProfile}>Landscape</button>
-        {:else}
-          <button
-            class="button is-success is-light is-small button-hold mb-0"
-            id="fast-button"
-            on:click={toggleProfile}>Portrait</button>
-          <button class="button is-success is-small button-hold mb-0" id="slow-button"
-            >Landscape</button>
-        {/if}
-      </div>
-      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 ml-2">
+      <label class="label is-unselectable mr-1 mt-1" for="">Part numbers: </label>
+      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
         {#if aspect.info.showparts}
-          <button class="button is-success is-small button-hold mb-0" id="fast-button"
-            >Show "Part"</button>
+          <button class="button is-success is-small button-hold mb-0">Show "Part"</button>
           <button
             class="button is-success is-light is-small button-hold mb-0"
-            id="slow-button"
             on:click={toggleShowparts}>Hide "Part"</button>
         {:else}
           <button
             class="button is-success is-light is-small button-hold mb-0"
-            id="fast-button"
             on:click={toggleShowparts}>Show "Part"</button>
-          <button class="button is-success is-small button-hold mb-0" id="slow-button"
-            >Hide "Part"</button>
+          <button class="button is-success is-small button-hold mb-0">Hide "Part"</button>
         {/if}
       </div>
     </div>

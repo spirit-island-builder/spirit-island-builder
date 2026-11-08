@@ -2569,7 +2569,7 @@ function getPresenceNodeHtml(
   }
 
   //Correct any inclusion of commas (now that override is done)
-  nodeText = nodeText.replace(",", ";");
+  nodeText = nodeText.replaceAll(",", ";");
 
   //Handle ^ (node notation)
   let addDeepLayers = false;

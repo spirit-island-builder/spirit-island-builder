@@ -56,11 +56,6 @@
     previewFrame.copyHTMLFrom(generateHTML(aspect)).then(() => {
       previewFrame.startMain();
     });
-    // if(aspect.info.profile){
-    //   previewFrame.classList.add('portrait')
-    // }else{
-    //   previewFrame.classList.remove('portrait')
-    // }
   }
 
   const openEditorHeading = (e) => {
@@ -131,8 +126,8 @@
         }
       }
 
-      //Profile or Landscape
-      if (aspect.info.profile) {
+      //Portrait ("profile") or Landscape, per part
+      if (aspectPart.profile) {
         aspectHTML.setAttribute("profile", "");
       }
 
@@ -214,7 +209,8 @@
       aspectBackHTML.setAttribute("spirit-name", aspect.info.spiritName);
       aspectBackHTML.setAttribute("src", aspect.info.spiritImage);
       aspectBackHTML.setAttribute("lore", aspect.info.lore);
-      if (aspect.info.profile) {
+      // The back has no orientation of its own; it follows part 1.
+      if (aspect.aspectEffects[0]?.profile) {
         aspectBackHTML.classList.add("profile");
       }
     }
@@ -274,10 +270,6 @@
 
     aspect.aspectEffects.splice(0, aspect.aspectEffects.length); //Clear the Form first
     aspectHTML.forEach((aspectHTMLpart, i) => {
-      //Profile or Landscape
-      if (aspectHTMLpart.hasAttribute("profile")) {
-        aspect.info.profile = true;
-      }
       let aspectName = aspectHTMLpart.querySelectorAll("aspect-name")[0];
       let nameoverride = "";
       if (aspectName.hasAttribute("nameoverride")) {
@@ -288,7 +280,7 @@
       aspect.aspectEffects.push({
         id: aspect.aspectEffects.length,
         isVisible: false,
-        profile: false,
+        profile: aspectHTMLpart.hasAttribute("profile"),
         nameOverride: nameoverride,
         replacements: [],
         specialRules: {
@@ -456,82 +448,54 @@
   }
 
   async function downloadTTSJSON() {
-    let previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
-    const aspectHTML = previewFrameDoc.querySelectorAll("aspect")[0];
-    let LUAScript = "";
-    let aspectUniqueName = aspect.info.aspectName + "-" + aspect.info.spiritName;
+    const previewFrameDoc = document.getElementById("preview-iframe").contentWindow.document;
+    const aspectParts = Array.from(previewFrameDoc.querySelectorAll("aspect"));
+    const baseName = aspect.info.aspectName.replaceAll(" ", "_");
+    const aspectUniqueName = aspect.info.aspectName + "-" + aspect.info.spiritName;
+    const elementNames = ["sun", "moon", "fire", "air", "water", "earth", "plant", "animal"];
 
-    // landscape vs portrait
-    let isLandscape = !aspect.info.profile;
-    console.log("isLandscape = " + isLandscape);
+    // One TTS card per part. The "for TTS" image of every part is portrait
+    // (landscape parts are rotated by aspect.css .for-image-download), and
+    // SidewaysCard tells TTS which ones to turn back.
+    const cards = aspectParts.map((aspectHTML, index) => {
+      // startMain() turns the profile attribute into a class.
+      const isLandscape = !aspectHTML.classList.contains("profile");
+      let LUAScript = "";
 
-    // elements
-    let bonusNode = aspectHTML.getElementsByTagName("presence-node")[0];
-    if (bonusNode) {
-      let ttsInfo = bonusNode.getAttribute("ttsInfo");
-      let ttsInfoArr = ttsInfo.split(";");
-
+      // elements
+      const bonusNode = aspectHTML.getElementsByTagName("presence-node")[0];
+      const ttsInfoArr = bonusNode ? bonusNode.getAttribute("ttsInfo").split(";") : [];
       if (ttsInfoArr[3]) {
-        // has elements, count them
-        let elementList = ttsInfoArr[3].split(",");
-        let elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
-        for (let i = 0; i < elementList.length; i++) {
-          if (elementList[i].startsWith("sun")) {
-            elementCounts[0]++;
-          }
-          if (elementList[i].startsWith("moon")) {
-            elementCounts[1]++;
-          }
-          if (elementList[i].startsWith("fire")) {
-            elementCounts[2]++;
-          }
-          if (elementList[i].startsWith("air")) {
-            elementCounts[3]++;
-          }
-          if (elementList[i].startsWith("water")) {
-            elementCounts[4]++;
-          }
-          if (elementList[i].startsWith("earth")) {
-            elementCounts[5]++;
-          }
-          if (elementList[i].startsWith("plant")) {
-            elementCounts[6]++;
-          }
-          if (elementList[i].startsWith("animal")) {
-            elementCounts[7]++;
-          }
-        }
+        const elementCounts = [0, 0, 0, 0, 0, 0, 0, 0];
+        ttsInfoArr[3].split(",").forEach((element) => {
+          const found = elementNames.findIndex((name) => element.startsWith(name));
+          if (found >= 0) elementCounts[found]++;
+        });
         LUAScript += "elements={" + elementCounts.join("") + "}\n";
       }
-    }
 
-    // thresholds (see tts.js)
-    let thresholds = getThresholdTTSJSON(aspectHTML);
-    if (thresholds.length) {
-      console.log("thresolds detected");
-      LUAScript +=
-        'function onLoad(saved_data)\n    if saved_data ~= "" then\n        local loaded_data = JSON.decode(saved_data)\n        self.setTable("thresholds", loaded_data.thresholds)\n    end\nend\n-- card loading end';
-      console.log(LUAScript);
-    }
+      // thresholds (see tts.js)
+      const thresholds = getThresholdTTSJSON(aspectHTML);
+      if (thresholds.length) {
+        LUAScript +=
+          'function onLoad(saved_data)\n    if saved_data ~= "" then\n        local loaded_data = JSON.decode(saved_data)\n        self.setTable("thresholds", loaded_data.thresholds)\n    end\nend\n-- card loading end';
+      }
 
-    //default image
-    let defaultImage = "https://i.imgur.com/jR8jpcD.png"; //vert
-    // if(isLandscape){
-    //   defaultImage = "https://i.imgur.com/knMsIXM.png"
-    // }
-
-    let aspectJSON = jsone(aspectJSONTemplate, {
-      guid: aspect.info.aspectName.replaceAll(" ", "_"),
-      isLandscape: isLandscape,
-      defaultImage: defaultImage,
-      LUAScript: LUAScript,
-      aspectUniqueName: aspectUniqueName,
-      thresholds,
+      const partSuffix = aspectParts.length > 1 ? `_${index + 1}` : "";
+      return jsone(aspectJSONTemplate, {
+        guid: baseName + partSuffix,
+        isLandscape,
+        defaultImage: "https://i.imgur.com/jR8jpcD.png", // portrait placeholder
+        LUAScript,
+        aspectUniqueName:
+          aspectUniqueName +
+          (aspectParts.length > 1 ? ` (${index + 1} of ${aspectParts.length})` : ""),
+        thresholds,
+      });
     });
-    let ttsSave = createTTSSave([aspectJSON]);
 
-    const jsonFileName = aspect.info.aspectName.replaceAll(" ", "_") + "_TTS.json";
-    downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
+    const ttsSave = createTTSSave(cards);
+    downloadString(ttsSaveMIMEType, ttsSave, baseName + "_TTS.json");
   }
 
   let overlayImage;
@@ -545,16 +509,30 @@
     overlay.style.backgroundImage = `url('${overlayImage}')`;
   }
 
-  function printToPDF(pageType = "letter") {
-    let fileNamesElementNames = getFileNameAndElementNames("pdf");
+  async function printToPDF(pageType = "letter") {
+    const [fileNames, elementNames] = getFileNameAndElementNames("pdf");
+    const profiles = aspect.aspectEffects.map((part) => part.profile);
+    const mixed = profiles.some((profile) => profile !== profiles[0]);
 
+    // The PDF tiles every card at one size. When parts differ in orientation
+    // they are all captured in the TTS (portrait) layout; which way a card
+    // faces on the sheet stops mattering once it's cut out.
     let w = 3.465;
     let h = 2.48;
-    if (aspect.info.profile) {
+    if (mixed || profiles[0]) {
       w = 2.48;
       h = 3.465;
     }
-    previewFrame.getPDF(fileNamesElementNames[0][0], fileNamesElementNames[1], pageType, w, h);
+    const previewDoc = document.getElementById("preview-iframe").contentWindow.document;
+    const rotated = mixed
+      ? elementNames.map((name) => previewDoc.querySelector(name)).filter(Boolean)
+      : [];
+    rotated.forEach((element) => element.classList.add("for-image-download"));
+    try {
+      await previewFrame.getPDF(fileNames[0], elementNames, pageType, w, h);
+    } finally {
+      rotated.forEach((element) => element.classList.remove("for-image-download"));
+    }
   }
 
   function printToPDFLetter() {
@@ -589,7 +567,7 @@
       bind:this={previewFrame}
       on:hot-reload={reloadPreview}
       clickFunction={() => openEditorHeading}
-      class={aspect.info.profile ? "portrait" : ""}>
+      class={aspect.aspectEffects.some((part) => part.profile) ? "portrait" : ""}>
       <svelte:fragment slot="head">
         <link href="/template/_global/css/global.css" rel="stylesheet" />
         <link href="/template/_global/css/aspect.css" rel="stylesheet" />
@@ -628,11 +606,11 @@
           <button
             class="button mt-1 mr-1 is-success"
             aria-haspopup="true"
-            aria-controls="dropdown-menu4">
+            aria-controls="aspect-image-menu">
             <span>Download Image...</span>
           </button>
         </div>
-        <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+        <div class="dropdown-menu" id="aspect-image-menu" role="menu">
           <div class="dropdown-content">
             <button
               class="button is-success mr-1 dropdown-item"
@@ -650,11 +628,11 @@
           <button
             class="button mt-1 mr-1 is-success"
             aria-haspopup="true"
-            aria-controls="dropdown-menu4">
+            aria-controls="aspect-pdf-menu">
             <span>Create PDF...</span>
           </button>
         </div>
-        <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+        <div class="dropdown-menu" id="aspect-pdf-menu" role="menu">
           <div class="dropdown-content">
             <button class="button is-success mr-1 dropdown-item" on:click={printToPDFLetter}
               >Letter size</button>
