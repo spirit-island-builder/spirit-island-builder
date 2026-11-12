@@ -57,14 +57,12 @@ function replaceIcon(html) {
 
     var iconNamePieces = iconName.split(",");
     let elementCount = "";
-    let elementCountText = "";
     if (iconNamePieces[1]) {
       iconName = iconNamePieces[0];
-      elementCount = iconNamePieces[1];
-      elementCountText += "<icon-count>" + elementCount + "</icon-count>";
+      elementCount = iconNamePieces[1].trim();
     }
 
-    iconHtml = elementCountText;
+    iconHtml = "";
 
     // Catch "/" options to merge into single icon
     var iconSplit = iconName.split("/");
@@ -76,8 +74,8 @@ function replaceIcon(html) {
           finalIcon += "/";
         }
       });
-      iconHtml = "<binder>" + elementCountText + finalIcon + "</binder>";
-      return iconHtml;
+      const allElements = iconSplit.every((n) => elementNames.has(n));
+      return bind(elementCount, finalIcon, allElements);
     }
 
     let HTMLTag = "icon";
@@ -208,9 +206,20 @@ function replaceIcon(html) {
       iconClass.push(iconName);
       iconHtml +=
         `<${HTMLTag} class="${iconClass.join(" ")}">` + num_val + no_icon + `</${HTMLTag}>`;
+      if (elementCount) {
+        iconHtml = bind(elementCount, iconHtml, iconClass.includes("element"));
+      }
     }
 
     return iconHtml;
+  }
+
+  // Wrap a count + icon(s) so they never break across lines. Element counts
+  // get the Energy Font via binder.element (see global.css).
+  function bind(count, inner, isElement) {
+    const cls = isElement ? ' class="element"' : "";
+    const countHtml = count ? `<icon-count>${count}</icon-count>` : "";
+    return `<binder${cls}>${countHtml}${inner}</binder>`;
   }
 }
 

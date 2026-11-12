@@ -111,7 +111,7 @@ let localize = {
   },
 };
 
-function startMain() {
+async function startMain() {
   let quickAdversary = document.querySelectorAll("quick-adversary")[0];
 
   if (quickAdversary) {
@@ -124,11 +124,21 @@ function startMain() {
 
   processRules();
 
-  var html = document.querySelectorAll("adversary")[0].innerHTML;
-  document.querySelectorAll("adversary")[0].innerHTML = replaceIcon(html);
-  setTimeout(() => {
-    resize();
-  }, 200);
+  var adversaryEl = document.querySelectorAll("adversary")[0];
+  adversaryEl.innerHTML = replaceIcon(adversaryEl.innerHTML);
+
+  // resize() shrinks text until it fits, measured in the final fonts. The
+  // rules' <strong> and the deck-order <i> use faces that only start loading
+  // when this content first renders, so force one layout pass to kick off the
+  // fetches and wait for them (same approach as board_front.js). Re-renders
+  // reuse the iframe document, so this resolves instantly after the first.
+  void adversaryEl.offsetHeight;
+  if (document.fonts) {
+    await document.fonts.ready;
+  } else {
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  resize();
 
   return 4;
 }

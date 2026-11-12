@@ -70,35 +70,64 @@
   font-style: italic;
 }
 
+/* Josefin Sans comes from Google's two variable files (wght axis 100–700,
+   upright + italic, v2.001). The weight descriptor on each face below pins the
+   instance the family renders at; a face declared at a single weight renders
+   that instance for any requested weight (Chromium does not synthesize bold
+   on top of it), so `font-weight: bold` on "JosefinSans-SemiBold" text still
+   draws the 600 cut, as it did with the old static file. */
+
+/* Bold Italic (700): board section headings, adversary headers. */
 @font-face {
   font-family: "JosefinSans";
-  src: url(../fonts/josefin-sans/JosefinSans-BoldItalic.ttf) format("truetype");
+  src: url(../fonts/josefin-sans/JosefinSans-Italic-VariableFont_wght.ttf) format("truetype");
   font-weight: bold;
   font-style: italic;
-  letter-spacing: -0.5px;
 }
 
+/* SemiBold (600): lore board setup / play-style text. */
 @font-face {
   font-family: "JosefinSans-SemiBold";
-  src: url(../fonts/josefin-sans/JosefinSans-SemiBold.ttf) format("truetype");
-  font-weight: bold;
+  src: url(../fonts/josefin-sans/JosefinSans-VariableFont_wght.ttf) format("truetype");
+  font-weight: 600;
   font-style: normal;
-  letter-spacing: -0.5px;
+}
+
+/* SemiBold Italic (600): lore board description. */
+@font-face {
+  font-family: "JosefinSansLore";
+  src: url(../fonts/josefin-sans/JosefinSans-Italic-VariableFont_wght.ttf) format("truetype");
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* The body-text family. Its upright Regular (400) is declared in each
+   component sheet — see the NOTE below — and is deliberately the older
+   v2.000 static file: every text fit against the official scans was measured
+   with it, and the v2.001 outlines are 0.12% narrower. The faces here give
+   that same family real bold, italic and bold-italic cuts, so <strong> and
+   <i> inside rules text no longer fall back to synthetic (smeared / slanted)
+   Regular. Weights 500–700 upright come from the variable file; 400 is left
+   out of its range so the per-sheet Regular always wins at 400. */
+@font-face {
+  font-family: "JosefinSans-Regular";
+  src: url(../fonts/josefin-sans/JosefinSans-VariableFont_wght.ttf) format("truetype");
+  font-weight: 500 700;
+  font-style: normal;
 }
 
 @font-face {
-  font-family: "JosefinSansLore";
-  src: url(../fonts/josefin-sans/JosefinSans-SemiBoldItalic.ttf) format("truetype");
-  font-weight: bold;
+  font-family: "JosefinSans-Regular";
+  src: url(../fonts/josefin-sans/JosefinSans-Italic-VariableFont_wght.ttf) format("truetype");
+  font-weight: 100 700;
   font-style: italic;
-  letter-spacing: -0.5px;
 }
 
-/* NOTE: JosefinSans-Regular's @font-face deliberately stays in each component
-   sheet, NOT here. Declaring it earlier (in this file) changes when the fetch
-   starts and makes text-measuring JS (card title squish, adversary level
-   sizing) race the font load — bistable renders. Hoist it only after those
-   scripts await document.fonts.ready the way board_front.js does. */
+/* NOTE: JosefinSans-Regular's upright 400 @font-face deliberately stays in
+   each component sheet, NOT here. Declaring it earlier (in this file) changes
+   when the fetch starts and makes text-measuring JS (card title squish) race
+   the font load — bistable renders. Hoist it only after those scripts await
+   document.fonts.ready the way board_front.js and adversary.js do. */
 
 /* Shared page bootstrap — every component sheet builds on this. Per-sheet
    body layout (display, sizing) and box-sizing policy stay in each sheet. */
@@ -1218,6 +1247,10 @@ custom-energy {
   margin-top: -10px;
 }
 
+/* {icon,N} and {a/b,N} emit <binder><icon-count>N</icon-count><icon>...</binder>
+   (common.js replaceIcon). nowrap keeps the count glued to its icon at a line
+   end. Element counts take the threshold face; a context sheet can retune the
+   size through --element-count-size. */
 binder {
   white-space: nowrap;
 }
@@ -1227,11 +1260,19 @@ icon-count {
   margin-right: 4px;
 }
 
-binder icon:first-child {
+binder.element icon-count {
+  font-family: "Energy Font";
+  font-size: var(--element-count-size, 1.1em);
+  vertical-align: baseline;
+}
+
+/* Slash groups ({town/city}): tighten the icons around the "/". The
+   :not() guards keep a lone counted icon ({town,1}) at its context margins. */
+binder > icon:first-of-type:not(:last-of-type) {
   margin-right: 2px !important;
 }
 
-binder icon:last-child {
+binder > icon:last-of-type:not(:first-of-type) {
   margin-left: 2px !important;
 }
 

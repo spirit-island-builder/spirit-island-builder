@@ -299,8 +299,19 @@ adversary-levels level div:last-child {
 }
 
 adversary-levels level rule {
-  line-height: 30px;
+  font-size: 24px;
+  letter-spacing: -0.9px; /* was -1 */
+  word-spacing: -1.2px; /* was 0 */
+  line-height: 29.5px;
   padding-top: 6px;
+}
+
+/* Rule names render in the real Josefin Sans Bold (global.css), whose
+   advances are ~6% wider than Regular's; the official's bold sits on
+   Regular-width advances, so tighten it to match (L3/L4 word widths 0.99–1.00
+   of the scan at -1.5 to -1.6). */
+adversary-levels level rule strong {
+  letter-spacing: -1.55px;
 }
 
 adversary-levels line {
@@ -339,39 +350,12 @@ level-difficulty num {
   padding-right: 2px;
 }
 
-icon {
-  margin-bottom: -6px;
-  margin-top: -20px;
-  background-position: center;
-}
-
 /* Adversary pages use the power-speed art throughout (see global.css). */
 :root {
   --speed-fast: var(--speed-power-fast);
   --speed-fast-ratio: var(--speed-power-fast-ratio);
   --speed-slow: var(--speed-power-slow);
   --speed-slow-ratio: var(--speed-power-slow-ratio);
-}
-
-icon.city {
-  margin-top: -8px;
-}
-
-icon.escalation {
-  margin-bottom: -2px;
-  margin-top: -10px;
-}
-
-escalation icon.escalation {
-  margin-bottom: -2px;
-  margin-top: -10px;
-}
-
-icon.presence {
-  margin-bottom: -5px;
-}
-
-icon.town {
 }
 
 /* Adversary cards use the simple element art everywhere — flip the whole
@@ -427,11 +411,13 @@ top-info.no-escalation escalation {
 }
 
 adversary range {
-  width: 40px;
+  margin-top: -20px;
+  width: 60px;
+  height: 36px;
 }
 
 adversary range-value {
-  font-size: 25px;
+  font-size: 34px;
   line-height: 1;
 }
 
@@ -445,6 +431,34 @@ icon.range-small-icon {
 adversary rule-line {
   display: inline-block;
   width: 100%;
+}
+
+/* Icons */
+adversary-levels {
+  --icon-h: 1.25em;
+}
+
+icon {
+  margin-bottom: -6px;
+  margin-top: -20px;
+  background-position: center;
+}
+
+icon.escalation {
+  margin-bottom: -2px;
+  margin-top: -10px;
+}
+
+escalation icon.escalation {
+  margin-bottom: -2px;
+  margin-top: -10px;
+}
+
+icon.presence {
+  margin-bottom: -5px;
+}
+
+icon.town {
 }
 
 /* Icon sizing */
