@@ -133,20 +133,39 @@ innate-power-title {
 info-container {
   width: 468px;
   height: 76px;
-  background-color: rgba(255, 255, 255, 0.5);
+  --info-border: 3px;
+  --info-title-h: 20px;
+  /* The brown title band is painted here, on the outer box, rather than on
+     info-title, and the black frame is an inset box-shadow drawn over that
+     fill instead of a real border. A border and a child background are two
+     separately anti-aliased edges meeting at the same line; at fractional
+     device-pixel ratios (Windows 125%/150% scaling, browser zoom) they
+     conflate and a pale seam of whatever lies beneath shows through. One
+     continuous fill with the frame painted on top has no such edge. */
+  background: linear-gradient(
+    #986839 0 calc(var(--info-border) + var(--info-title-h)),
+    rgba(255, 255, 255, 0.5) calc(var(--info-border) + var(--info-title-h))
+  );
+  box-shadow: inset 0 0 0 var(--info-border) black;
+  padding: var(--info-border);
   position: relative;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   margin-bottom: 10px;
-  border: 3px solid black;
 }
 
 info-title {
-  height: 20px;
+  /* Fixed height so innate-info shrinks to an integer 50px instead of both
+     children going fractional. Background comes from info-container. Keep this
+     as height (not flex-basis): a definite height caps the flex item's automatic
+     minimum, so taller cells (aspects pad them to 23px) overflow as they always
+     did instead of growing the row. */
+  height: var(--info-title-h);
+  flex-shrink: 0;
   font-size: 16px;
   white-space: normal;
-  background-color: #986839;
+  background-color: transparent;
   box-sizing: content-box;
 }
 

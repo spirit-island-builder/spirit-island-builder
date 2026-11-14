@@ -417,6 +417,11 @@ aspect innate-power-title {
   letter-spacing: -1.5px;
 }
 
+aspect effect range {
+  height: 31px;
+  width: 53px;
+}
+
 aspect growth-cell {
   margin-right: 10px;
   line-height: normal;
