@@ -11,7 +11,10 @@
   export let id;
   export let classNames = "";
   export let showListImmediately = false;
+  export let selectAnyway = false;
   export let additionalOnBlurFunction = () => {};
+  export let nextField = "";
+  export let nextFieldDefault = "";
 
   let initialOnBlurFunction = () => {};
 
@@ -28,6 +31,7 @@
   let currentAutoCompleteTermLength = 0;
   let inputElementThatWasCompleted;
   let initialValue = "";
+  let justFocused = false;
 
   afterUpdate(() => {
     console.log("afterUpdate");
@@ -60,8 +64,11 @@
     console.log("handleInputAndFocus");
     initialValue = event.target.value;
     // select all for 'input' type fields
-    if (event.target.tagName === "INPUT" && event.type === "focus") {
-      document.getElementById(event.target.id).select();
+    if ((event.target.tagName === "INPUT" || selectAnyway) && event.type === "focus") {
+      event.target.select();
+    }
+    if (event.type === "focus") {
+      justFocused = true;
     }
 
     const inputValue = event.target.value;
@@ -330,6 +337,20 @@
     }
   }
 
+  function handleInputMouseDown(event) {
+    // If already focused, cancel the pending "keep selection" so cursor can be placed freely
+    if (document.activeElement === event.target) {
+      justFocused = false;
+    }
+  }
+
+  function handleMouseUp(event) {
+    if (justFocused) {
+      justFocused = false;
+      event.preventDefault(); // preserve the select-all; browser would otherwise place cursor at click position
+    }
+  }
+
   function nextNode(event) {
     console.log("nextNode, isAutoCompleteListOpen() = " + isAutoCompleteListOpen());
     Lib.nextNode(event);
@@ -348,10 +369,14 @@
       type="text"
       {placeholder}
       autocomplete="off"
+      data-next-field={nextField}
+      data-next-field-default={nextFieldDefault}
       on:input={handleInputAndFocus}
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
+      on:mousedown={handleInputMouseDown}
+      on:mouseup={handleMouseUp}
       bind:value />
   {:else if elementType === "textarea"}
     <textarea
@@ -359,10 +384,14 @@
       class={`textarea ${classNames}`}
       {placeholder}
       autocomplete="off"
+      data-next-field={nextField}
+      data-next-field-default={nextFieldDefault}
       on:input={handleInputAndFocus}
       on:focus={handleInputAndFocus}
       on:blur={closeAutoComplete}
       on:keydown={handleAutoCompleteKeyboardInput}
+      on:mousedown={handleInputMouseDown}
+      on:mouseup={handleMouseUp}
       bind:value />
     <!-- removing       on:keyup={nextNode} for now -->
   {/if}

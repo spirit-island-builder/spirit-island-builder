@@ -55,6 +55,7 @@ h6 {
 
 .button.navbar-item {
   font-family: "Lato Regular";
+  font-size: 15px;
 }
 
 @font-face {
@@ -271,6 +272,9 @@ button.side-menu:hover {
   body,
   .box {
     color: #e6e6e6;
+  }
+  .textarea::placeholder {
+    color: #606060;
   }
   .growth-group-title,
   .note,

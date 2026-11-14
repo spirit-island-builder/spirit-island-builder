@@ -185,12 +185,12 @@
     if (eventName === "none" || eventName === "") {
       eventName = eventCard.subevents.event[0].name;
     }
-    const fileNames = [`${eventName.replaceAll(" ", "_")}_EventCard.pdf`];
+    const fileName = `${eventName.replaceAll(" ", "_")}_EventCard.pdf`;
     const elementNamesInIframe = ["event-card"];
     if (eventCard.showBack) {
       elementNamesInIframe.push("event-back");
     }
-    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType, 2.48, 3.465);
+    previewFrame.getPDF(fileName, elementNamesInIframe, pageType, 2.48, 3.465);
   }
 
   function printToPDFLetter() {
@@ -251,13 +251,15 @@
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
+        savedKeys={["eventCard"]}
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(eventCard)}
         fileName={`${eventCard.card.name.replaceAll(" ", "_")}_EventCard.html`}
-        saveType="html" />
+        saveType="html"
+        savedKeys={["eventCard"]} />
       <button class="button is-warning  mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}

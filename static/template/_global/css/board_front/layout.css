@@ -1,0 +1,271 @@
+html {
+  background-color: transparent;
+}
+
+bullet {
+  margin-left: 30px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  width: 1766px;
+  height: 1177px;
+}
+
+board {
+  background-image: url("../../images/board/Frame.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 15.1px;
+  display: flex;
+  padding-left: 16px;
+  padding-top: 17.75px;
+  padding-bottom: 15px;
+  padding-right: 16px;
+  justify-content: end;
+  flex-direction: column;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+spirit-name-text:hover {
+  text-shadow: -2px 2px 0 #ffffff, 2px 2px 0 #ffffff, 2px -2px 0 #ffffff, -2px -2px 0 #ffffff;
+  color: #000;
+  cursor: pointer;
+}
+
+board.round-border {
+  border-radius: 15.1px;
+}
+
+spirit-name {
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  position: relative;
+}
+
+spirit-name-text {
+  display: block;
+  position: absolute;
+  font-family: "Name Headings";
+  text-transform: uppercase;
+  color: white;
+  text-shadow: 1px 0px 0 #ffffff, -2px 2px 0 #000, 2px -2px 0 #000, 2px 2px 0 #000, -2px -2px 0 #000;
+  text-align: left;
+  z-index: 2;
+  white-space: nowrap;
+  letter-spacing: 3px;
+  word-spacing: -10px;
+  font-size: 45px;
+  text-indent: 20px;
+  width: 650px;
+}
+
+spirit-name-art {
+  display: block;
+  position: absolute;
+  margin-left: 0px;
+  height: 100px;
+  width: 666.25px;
+}
+
+artist-name {
+  position: absolute;
+  left: 22px;
+  top: 1163px;
+  height: 0px;
+  width: 666.25px;
+  font-size: 10px;
+  font-family: "Lato SemiBold";
+  color: #d1c5a6;
+  text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+  text-align: left;
+  z-index: 1;
+  display: none;
+  white-space: normal;
+}
+
+.spirit-border {
+  margin-left: -15px;
+  margin-right: -8px;
+  margin-top: -50px;
+  margin-bottom: -2px;
+  height: 100px;
+  z-index: 1;
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 705px 100%;
+}
+
+spirit-image.spirit-image {
+  margin-bottom: -32.75px;
+  z-index: 0;
+  flex-grow: 1;
+  background-repeat: no-repeat;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-size: contain;
+}
+
+spirit-image-holder {
+  margin-bottom: -32.75px;
+  /* width: 667.5px; */
+  z-index: 0;
+  flex-grow: 1;
+  overflow: visible;
+}
+
+#single-line {
+  padding-top: 12px;
+  padding-bottom: 4px;
+}
+
+.note {
+  font-family: "JosefinSans-Regular";
+  font-size: 24px;
+}
+
+range-plus-1 {
+  background-image: url("../../images/board/range_plus_1.png");
+}
+range-plus-2 {
+  background-image: url("../../images/board/range_plus_2.png");
+}
+range-plus-3 {
+  background-image: url("../../images/board/range_plus_3.png");
+}
+range-plus-4 {
+  background-image: url("../../images/board/range_plus_4.png");
+}
+
+range-plus-1,
+range-plus-2,
+range-plus-3,
+range-plus-4 {
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  margin-bottom: -13px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+none {
+  display: block;
+  height: 3px;
+}
+
+section-title {
+  display: block;
+  position: relative;
+  font-family: "Name Headings";
+  text-transform: uppercase;
+  font-size: 33.33px;
+  padding-top: 5px;
+  height: 40px;
+  pointer-events: none;
+}
+
+board.devwrap section-title {
+  pointer-events: all;
+}
+
+section-title:hover {
+  text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
+  cursor: pointer;
+}
+
+right {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  left: 660px;
+  bottom: 15px;
+  top: 18px;
+  width: 1090px;
+  overflow: hidden;
+}
+
+custom-energy {
+  background-image: url("../../images/board/EnergyBlank.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: flex;
+  position: relative;
+  height: 55px;
+  width: 100px;
+  top: 7px;
+  justify-content: center;
+  align-items: center;
+}
+
+custom-energy.gain {
+  background-image: url("../../images/board/AddEnergyBlank.png");
+}
+
+custom-energy value {
+  font-family: "Energy Font";
+  font-size: 32px;
+  font-style: normal;
+  display: inline-block;
+  position: relative;
+}
+
+overlay-image {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  width: auto;
+  height: auto;
+  display: block;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+overlay-container {
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  display: block;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Section placements: below the section's own text and icons, above its
+   background art. -1 ties with innate-powers-background; the overlay is
+   appended after it, so DOM order keeps the overlay on top. */
+overlay-container.behind {
+  z-index: -1;
+}
+
+board.flipboard {
+  transform: scaleX(-1);
+  spirit-name-art,
+  spirit-name-text,
+  special-rules,
+  presence-tracks,
+  growth,
+  innate-powers {
+    transform: scaleX(-1);
+  }
+}

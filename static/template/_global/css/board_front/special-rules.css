@@ -8,7 +8,7 @@ special-rules {
 
 special-rules-container {
   min-height: 250px;
-  padding-bottom: 19px;
+  padding-bottom: 29px;
   width: 667px;
   display: flex;
   flex-direction: column;
@@ -90,93 +90,12 @@ special-rule-line:last-child {
   padding-bottom: 0px;
 }
 
-special-rule icon {
-  width: 30px;
-  height: 30px;
-  margin-top: -7px;
-  margin-bottom: -7px;
-}
-
-special-rule icon.element {
-  height: 25px;
-  width: 25px;
-}
-
-special-rule icon.town,
-special-rule icon.blight,
-special-rule icon.dahan,
-special-rule icon.presence,
-special-rule icon.wilds,
-special-rule icon.disease,
-special-rule icon.strife,
-special-rule icon.badlands,
-special-rule icon.fear,
-special-rule icon.range-plus-1,
-special-rule icon.range-plus-2,
-special-rule icon.range-plus-3,
-special-rule icon.fast,
-special-rule icon.slow,
-special-rule icon.minor,
-special-rule icon.major,
-special-rule icon.range,
-special-rule icon.isolate {
-  width: 30px;
-  height: 30px;
-}
-
-special-rule icon.explorer {
-  height: 35px;
-  width: 20px;
-}
-
-special-rule icon.presence {
-  margin-bottom: -8px;
-  margin-left: 1px;
-  margin-right: 1px;
-}
-
-special-rule icon.terrain-single {
-  width: 38px;
-  height: 35px;
-  margin-bottom: -10px;
-}
-
-special-rule icon.ocean,
-special-rule icon.terrain-double {
-  width: 62px;
-  height: 40px;
-  margin-bottom: -10px;
-  margin-top: -20px;
-}
-
-special-rule icon.ocean {
-  margin-left: 0px;
-}
-
-special-rule icon.range-0,
-special-rule icon.range-1,
-special-rule icon.range-2,
-special-rule icon.range-3,
-special-rule icon.range-4 {
-  width: 63px;
-  height: 39px;
-  margin-bottom: -13px;
-  margin-top: -20px;
-  margin-left: -2px;
-  margin-right: -2px;
-}
-
-special-rule icon.range,
-special-rule icon.gain-range-1,
-special-rule icon.gain-range-2,
-special-rule icon.gain-range-3,
-special-rule icon.gain-range-x,
-special-rule icon.gain-range-X {
-  width: 43px;
-  height: 40px;
-  margin-bottom: -13px;
-  margin-left: -2px;
-  margin-right: -2px;
+/* Icon size for this context. See the icon sizing engine in global.css.
+   The inline-text icon rules themselves (baseline margin, per-icon nudges)
+   live in the "Inline rules text" block in global.css, shared with the lore
+   side's second-section-container; anything front-only goes here. */
+special-rule {
+  --icon-h: 30px;
 }
 
 special-rule range-plus-1,
@@ -198,137 +117,12 @@ div.description range-4 {
   margin-top: -10px;
 }
 
-special-rule icon.fast,
-special-rule icon.slow {
-  height: 32px;
-  width: 40px;
-  margin-bottom: -7px;
-}
-
-special-rule icon.fast {
-  background-image: url("../../images/board/fast_power.png");
-}
-
-special-rule icon.slow {
-  background-image: url("../../images/board/slow_power.png");
-}
-
-special-rule icon.disease {
-  margin-left: 2px;
-}
-
-special-rule icon.wilds {
-  width: 36px;
-}
-
-special-rule icon.incarna-ember {
-  width: 54px;
-  height: 48px;
-  margin-left: -1px;
-  margin-right: -1px;
-  margin-bottom: -15px;
-  margin-top: -20px;
-}
-
-special-rule icon.dahan {
-  margin-left: 1px;
-  margin-right: -2px;
-  margin-top: -10px;
-  margin-bottom: -5px;
-}
-
-special-rule icon.sacred-site {
-  width: 50px;
-  height: 30px;
-  margin-bottom: -11px;
-  margin-left: 1px;
-  margin-right: -1px;
-}
-
-special-rule icon.city {
-  width: 40px;
-  height: 30px;
-  margin-bottom: -7px;
-}
-
-special-rule dahan {
-  width: 25px;
-  margin-left: 0px;
-  margin-top: -10px;
-}
-
-special-rule em icon {
-  margin-left: 1px;
-  margin-right: -2px;
-}
-
-special-rule em icon.presence {
-  margin-left: 0px;
-  margin-right: -4px;
-}
-
-special-rule em icon.dahan {
-  margin-left: 1px;
-  margin-right: -4px;
-}
-
-special-rule icon.element {
-  width: 35px;
-  height: 35px;
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-bottom: -8px;
-}
-
-special-rule icon.star {
-  width: 41px;
-  height: 41px;
-  margin-left: -3px;
-  margin-right: -3px;
-  margin-bottom: -11px;
-  margin-top: -10px;
-}
-
-special-rule icon.sun {
-  background-image: url(../../images/board/element_simple_sun.png);
-}
-
-special-rule icon.earth {
-  background-image: url(../../images/board/element_simple_earth.png);
-}
-
-special-rule icon.plant {
-  background-image: url(../../images/board/element_simple_plant.png);
-}
-
-special-rule icon.fire {
-  background-image: url(../../images/board/element_simple_fire.png);
-}
-
-special-rule icon.air {
-  background-image: url(../../images/board/element_simple_air.png);
-}
-
-special-rule icon.moon {
-  background-image: url(../../images/board/element_simple_moon.png);
-}
-
-special-rule icon.animal {
-  background-image: url(../../images/board/element_simple_animal.png);
-}
-
-special-rule icon.water {
-  background-image: url(../../images/board/element_simple_water.png);
-}
-
-special-rule icon.any {
-  background-image: url(../../images/board/element_simple_any.png);
-}
+/* Element art: special-rule uses the simple set, special-rules-track flips
+   back to fancy — see the element icon layer in global.css. */
 
 icon.presence-ring {
   background-image: url("../../images/board/CardPlayRing.png");
-  height: 130px;
-  width: 130px;
+  --icon-ratio: var(--art-card-play-ring-ratio);
 }
 
 special-rules-track {
@@ -344,15 +138,11 @@ special-rules-track presence-node {
   background-position: center;
 }
 
-special-rules-track presence-node special-track-presence {
+special-rules-track presence-node node-plate.special {
   background-image: url(../../images/board/50px_presence_transparent.png);
-  background-repeat: no-repeat;
   background-position: center;
   background-size: 80%;
-  align-items: center;
-  display: flex;
   position: relative;
-  justify-content: center;
   width: 100%;
   height: 100%;
 }
@@ -363,64 +153,21 @@ special-rule ul {
   padding-inline-start: 30px;
 }
 
-special-rules-track icon.sun {
-  background-image: url("../../images/board/Sun.png");
-}
-
-special-rules-track icon.moon {
-  background-image: url("../../images/board/Moon.png");
-}
-
-special-rules-track icon.fire {
-  background-image: url("../../images/board/Fire.png");
-}
-
-special-rules-track icon.air {
-  background-image: url("../../images/board/Air.png");
-}
-
-special-rules-track icon.plant {
-  background-image: url("../../images/board/Plant.png");
-}
-
-special-rules-track icon.water {
-  background-image: url("../../images/board/Water.png");
-}
-
-special-rules-track icon.earth {
-  background-image: url("../../images/board/Earth.png");
-}
-
-special-rules-track icon.animal {
-  background-image: url("../../images/board/Animal.png");
-}
-
-special-rules-track icon.star {
-  background-image: url("../../images/board/NewIcons/Element Star.png");
-}
-
-special-rules-track icon.any {
-  background-image: url("../../images/board/Any.png");
-}
-
 special-rules-track icon.element {
-  width: 65px;
-  height: 65px;
 }
 
 special-rule range {
-  width: 45px;
+  width: 57px;
   margin-bottom: -20px;
   margin-top: -7px;
-  height: 30px;
-  font-family: "Antropos";
+  height: 37px;
   font-size: 20px;
   vertical-align: top;
-  position: relative;
-  display: inline-flex;
-  justify-content: center;
   align-items: center;
-  background-position: bottom;
+}
+
+special-rule range-value {
+  font-size: 29px;
 }
 
 special-rule range.gain-range {
@@ -429,8 +176,6 @@ special-rule range.gain-range {
 
 special-rule icon.range-small-icon,
 special-rule range > range-value.range-icon > icon {
-  width: 33px;
-  height: 22px;
   position: relative;
   top: -4px;
 }
@@ -465,34 +210,6 @@ special-rule custom-energy.gain value {
   left: 21px;
 }
 
-special-rule icon.incarna {
-  width: 40px;
-  height: 40px;
-  margin-top: -13px;
-  margin-bottom: -10px;
-}
-
-special-rule icon.tiny {
-  width: 20px;
-  height: 20px;
-}
-special-rule icon.small {
-  width: 25px;
-  height: 25px;
-}
-special-rule icon.medium {
-  width: 35px;
-  height: 35px;
-}
-special-rule icon.large {
-  width: 45px;
-  height: 45px;
-}
-special-rule icon.huge {
-  width: 55px;
-  height: 55px;
-}
-
 /* table stuff */
 special-rule {
   table,
@@ -501,10 +218,15 @@ special-rule {
     border: 1px solid black;
     border-collapse: collapse;
   }
-  table icon {
-    margin-top: 0px;
-  }
+
   td {
     padding: 2px;
+  }
+}
+
+board.rumu,
+board.starlight {
+  special-rules-container {
+    width: 654px;
   }
 }

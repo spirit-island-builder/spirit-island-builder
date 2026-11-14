@@ -1,9 +1,22 @@
-@import "board_front/general.css";
+@import "board_front/layout.css";
 @import "board_front/icon.css";
 @import "board_front/special-rules.css";
 @import "board_front/growth-options.css";
 @import "board_front/presence-track-table.css";
 @import "board_front/innate-power.css";
+
+/* Icon size for this component. See the icon sizing engine in global.css. */
+:root {
+  --icon-h: 25px;
+}
+
+/* Spirit boards use the power-speed art throughout (see global.css). */
+:root {
+  --speed-fast: var(--speed-power-fast);
+  --speed-fast-ratio: var(--speed-power-fast-ratio);
+  --speed-slow: var(--speed-power-slow);
+  --speed-slow-ratio: var(--speed-power-slow-ratio);
+}
 
 @font-face {
   font-family: JosefinSans-Regular;

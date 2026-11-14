@@ -111,8 +111,8 @@ let localize = {
   },
 };
 
-function startMain() {
-  quickAdversary = document.querySelectorAll("quick-adversary")[0];
+async function startMain() {
+  let quickAdversary = document.querySelectorAll("quick-adversary")[0];
 
   if (quickAdversary) {
     var adversary = document.createElement("adversary");
@@ -124,26 +124,36 @@ function startMain() {
 
   processRules();
 
-  var html = document.querySelectorAll("adversary")[0].innerHTML;
-  document.querySelectorAll("adversary")[0].innerHTML = replaceIcon(html);
-  setTimeout(() => {
-    resize();
-  }, 200);
+  var adversaryEl = document.querySelectorAll("adversary")[0];
+  adversaryEl.innerHTML = replaceIcon(adversaryEl.innerHTML);
+
+  // resize() shrinks text until it fits, measured in the final fonts. The
+  // rules' <strong> and the deck-order <i> use faces that only start loading
+  // when this content first renders, so force one layout pass to kick off the
+  // fetches and wait for them (same approach as board_front.js). Re-renders
+  // reuse the iframe document, so this resolves instantly after the first.
+  void adversaryEl.offsetHeight;
+  if (document.fonts) {
+    await document.fonts.ready;
+  } else {
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  resize();
 
   return 4;
 }
 
 function buildAdversary(quickAdversary) {
   lang = quickAdversary.getAttribute("lang");
-  adversaryName = quickAdversary.getAttribute("name");
-  flagImage = quickAdversary.getAttribute("flag-image");
-  baseDifficulty = quickAdversary.getAttribute("base-difficulty");
+  let adversaryName = quickAdversary.getAttribute("name");
+  let flagImage = quickAdversary.getAttribute("flag-image");
+  let baseDifficulty = quickAdversary.getAttribute("base-difficulty");
   let baseDifficultyText = "";
   if (baseDifficulty) {
     baseDifficultyText = `<adversary-base-dif>${localize[lang]["baseDifficulty"]}  <num>${baseDifficulty}</num></adversary-base-dif>`;
   }
 
-  lossCondition = quickAdversary.querySelectorAll("loss-condition")[0];
+  let lossCondition = quickAdversary.querySelectorAll("loss-condition")[0];
   let lossConditionTitle = lossCondition.getAttribute("name");
   let lossConditionAlt = lossCondition.getAttribute("alternate") ? true : false;
   let lossConditionHeading = localize[lang]["additionalLossCondition"];
@@ -152,7 +162,7 @@ function buildAdversary(quickAdversary) {
     lossConditionHeading = localize[lang]["specialRule"];
   }
   if (lossConditionTitle) {
-    lossConditionTitle = lossConditionTitle + "<strong>:</strong> ";
+    lossConditionTitle = lossConditionTitle + ": ";
   }
   let lossConditionRules = lossCondition.getAttribute("rules");
   let topInfoClass = "";
@@ -161,11 +171,20 @@ function buildAdversary(quickAdversary) {
     topInfoClass = "class='no-loss-condition'";
     lossConditionRules = localize[lang]["none"];
   }
-  escalation = quickAdversary.querySelectorAll("escalation-effect")[0];
+  let escalation = quickAdversary.querySelectorAll("escalation-effect")[0];
+  let escalationTitle = escalation.getAttribute("name");
+  let escalationEffect = escalation.getAttribute("rules");
+  if (escalationTitle) {
+    escalationTitle = escalationTitle + ": ";
+  }
+  if (!escalationEffect || escalationEffect === "None") {
+    // If none, create more space for escalation
+    escalationEffect = localize[lang]["none"];
+    topInfoClass = "class='no-escalation'";
+  }
+  let levels = quickAdversary.querySelectorAll("level");
 
-  levels = quickAdversary.querySelectorAll("level");
-
-  html = `
+  let html = `
     <adversary-title>${adversaryName}</adversary-title>
     <img class="flag" src="${flagImage}" />
     ${baseDifficultyText}
@@ -181,14 +200,14 @@ function buildAdversary(quickAdversary) {
           localize[lang]["escalation"]
         } <icon class="escalation"></icon></section-title>
         <div>
-          <strong>${escalation.getAttribute("name")}:</strong> ${escalation.getAttribute("rules")}
+          <strong>${escalationTitle}</strong>${escalationEffect}
         </div>
       </escalation>
     </top-info>
     <adversary-levels>
       <header>
         <header-level>${localize[lang]["level"]}<br>${
-    localize[lang]["difficulty"] ? "(" + localize[lang]["difficulty"] + ")" : ""
+    localize[lang]["difficulty"] ? `(${localize[lang]["difficulty"]})` : ""
   }</header-level>
         <div>${localize[lang]["fearCards"]}</div>
         <div>${localize[lang]["gameEffects"]} <span class="cumulative">(${
@@ -209,7 +228,7 @@ function buildAdversary(quickAdversary) {
 }
 
 function buildLevel(quickLevel) {
-  fearCards = quickLevel.getAttribute("fear-cards");
+  let fearCards = quickLevel.getAttribute("fear-cards");
   fearCards = fearCards.replaceAll(",", "/");
   let pullNumbersRegex = /\d+/g;
   let fearCardNum = "";
@@ -228,7 +247,7 @@ function buildLevel(quickLevel) {
     )}:</strong> ${quickLevel.getAttribute("rules2")}</rule>`;
   }
 
-  levelHTML = `<level>
+  let levelHTML = `<level>
         <div>${quickLevel.tagName.at(-1)}<level-difficulty>(<num>${quickLevel.getAttribute(
     "difficulty"
   )}</num>)</level-difficulty></div>

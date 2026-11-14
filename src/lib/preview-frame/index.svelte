@@ -4,7 +4,7 @@
   let classList;
   export { classList as class };
 
-  import { tick, onMount } from "svelte";
+  import { tick, onMount, onDestroy, createEventDispatcher } from "svelte";
   import { browser } from "$app/environment";
   import { installHotReloadEvent } from "$lib/hmr-helper.js";
   import { jsPDF } from "jspdf";
@@ -34,99 +34,294 @@
     });
   };
 
+  // Tabs render in two calls: copyHTMLFrom(...).then(startMain). startMain
+  // rewrites the custom tags in place, so a second copy that lands between a
+  // first copy and its startMain leaves the first startMain running against
+  // the second body, and the second startMain against an already-processed
+  // one (board_front.js then trips on a <growth-group> with no `values`).
+  // The custom-icons re-render below can arrive in exactly that window, so
+  // it waits until no render is in flight.
+  let renderInFlight = false;
+  let rerenderRequested = false;
+  const dispatch = createEventDispatcher();
+
   export const copyHTMLFrom = async (fragment) => {
+    renderInFlight = true;
     await updateSrc();
     previewIframe.contentDocument.body.replaceChildren(
       previewIframe.contentDocument.importNode(fragment, true)
     );
   };
 
-  export const takeScreenshot = (
+  /** Canvas pixels per CSS pixel for PNG downloads. */
+  const PNG_SCALE = 1.8;
+
+  /** Download each element as a PNG. `options` is a class added to the
+   *  element while it is captured, so CSS can lay it out for export
+   *  (e.g. rotating landscape aspects upright). */
+  export const takeScreenshot = async (
     fileNames,
     elementNamesInIframe,
     options = "for-image-download"
   ) => {
-    console.log("screenshot with " + options);
-    elementNamesInIframe.forEach((elementNameInIframe, index) => {
-      let element = previewIframe.contentDocument.querySelector(elementNameInIframe);
-      console.log(element);
-      element.classList.add(options);
-      let scale = 1.8;
-      previewIframe.contentWindow.takeScreenshot(elementNameInIframe, scale).then((imageURL) => {
-        downloadImage(imageURL, fileNames[index]);
-        element.classList.remove(options);
-      });
-    });
+    const elements = elementNamesInIframe
+      .map((name) => previewIframe.contentDocument.querySelector(name))
+      .filter(Boolean);
+    elements.forEach((element) => element.classList.add(options));
+    try {
+      await Promise.all(
+        elementNamesInIframe.map(async (elementNameInIframe, index) => {
+          const imageURL = await previewIframe.contentWindow.takeScreenshot(
+            elementNameInIframe,
+            PNG_SCALE
+          );
+          downloadImage(imageURL, fileNames[index]);
+        })
+      );
+    } catch (err) {
+      console.error(err);
+      showToast(`❌ Image export failed: ${err.message}`);
+    } finally {
+      // Whatever happened, don't leave the preview in its export layout.
+      elements.forEach((element) => element.classList.remove(options));
+    }
   };
 
-  export const getPDF = (
+  // Guides for printing fronts and backs onto the two sides of one sheet.
+  // Everything is centered on the page, so the two sides line up no matter
+  // which edge the sheet is flipped on, on both Letter and A4.
+  const DUPLEX_GUIDE = {
+    front: [
+      "SIDE 1 of 2 (Play side). Print at Actual Size / 100% - turn off 'Fit to page'.",
+      "Then put this sheet back in the printer and print the Lore side PDF on the back.",
+      "Flip it like turning a book page, so the TOP edge stays on the same side.",
+    ],
+    back: [
+      "SIDE 2 of 2 (Lore side). Print on the back of the Play side, at Actual Size / 100%.",
+      "The TOP marks on both sides should be on the same edge of the sheet.",
+      "Not sure how your printer feeds? Pencil an X in one corner of a test sheet and see where it lands.",
+    ],
+  };
+
+  // Keyed by print mode ("duplex" | "fronts" | "backs"), then by side.
+  const CARD_GUIDE = {
+    duplex: {
+      front: (sheet, sheets) => [
+        `FRONTS (sheet ${sheet} of ${sheets}). Print at Actual Size / 100% - turn off 'Fit to page'.`,
+        "Print the whole PDF double-sided with 'Flip on short edge', so each backs page lands behind its fronts.",
+        "No duplex printer? Create the 'Fronts only' and 'Backs only' PDFs instead.",
+      ],
+      back: (sheet, sheets) => [
+        `BACKS (sheet ${sheet} of ${sheets}). These print on the back of the fronts page before this one.`,
+        "The TOP marks on both sides should be on the same edge of the sheet.",
+        "If the backs come out upside down, switch to 'Flip on long edge'.",
+      ],
+    },
+    fronts: {
+      front: (sheet, sheets) => [
+        `PRINT THE FRONTS (sheet ${sheet} of ${sheets}). Print at Actual Size / 100% - turn off 'Fit to page'.`,
+        "Then put the printed sheets back in the printer and print the 'Backs only' PDF on the other side.",
+        "Flip them like turning a book page, so the TOP edge stays on the same side.",
+      ],
+    },
+    backs: {
+      back: (sheet, sheets) => [
+        `PRINT THE BACKS (sheet ${sheet} of ${sheets}). Print on the back of the fronts, at Actual Size / 100%.`,
+        "The TOP marks on both sides should be on the same edge. Back sheet 1 goes on front sheet 1, and so on.",
+        "Not sure how your printer feeds? Pencil an X in one corner of a test sheet and see where it lands.",
+      ],
+    },
+  };
+
+  /** Crop marks around a cols x rows grid of wid x hit cells at (x, y), plus a
+   *  TOP marker and guide text in the top margin. Holding the sheet to a light
+   *  shows how well the two sides lined up. */
+  const drawPrintGuide = (doc, lines, x, y, wid, hit, cols = 1, rows = 1) => {
+    const pw = doc.getPageWidth();
+    const gw = cols * wid;
+    const gh = rows * hit;
+    // A card grid leaves too little top margin for both the guide text and
+    // crop marks, so there the column marks only go below the grid.
+    const roomy = y > 0.95;
+    const gap = roomy ? 0.06 : 0.04;
+    const len = roomy ? 0.25 : 0.15;
+
+    doc.setDrawColor(150);
+    doc.setFillColor(150);
+    doc.setTextColor(110);
+    doc.setLineWidth(0.01);
+
+    for (let c = 0; c <= cols; c++) {
+      const cx = x + c * wid;
+      if (roomy) doc.line(cx, y - gap, cx, y - gap - len);
+      doc.line(cx, y + gh + gap, cx, y + gh + gap + len);
+    }
+    for (let r = 0; r <= rows; r++) {
+      const cy = y + r * hit;
+      doc.line(x - gap, cy, x - gap - len, cy);
+      doc.line(x + gw + gap, cy, x + gw + gap + len, cy);
+    }
+
+    if (!lines.length) return;
+    const tx = pw / 2;
+    if (roomy) {
+      // TOP marker centered above the text, pointing at the top edge.
+      const ty = 0.2;
+      doc.triangle(tx - 0.09, ty + 0.12, tx + 0.09, ty + 0.12, tx, ty, "F");
+      doc.setFontSize(8);
+      doc.text("TOP", tx, ty + 0.25, { align: "center" });
+      doc.setFontSize(7.5);
+      lines.forEach((line, n) => {
+        doc.text(line, tx, ty + 0.42 + n * 0.13, { align: "center" });
+      });
+    } else {
+      // Compact: TOP marker to the left of the text block.
+      doc.setFontSize(7);
+      const ty = 0.3;
+      const textW = Math.max(...lines.map((line) => doc.getTextWidth(line)));
+      const mx = tx - textW / 2 - 0.25;
+      doc.triangle(mx - 0.08, ty + 0.06, mx + 0.08, ty + 0.06, mx, ty - 0.05, "F");
+      doc.text("TOP", mx, ty + 0.18, { align: "center" });
+      lines.forEach((line, n) => {
+        doc.text(line, tx, ty + n * 0.12, { align: "center" });
+      });
+    }
+  };
+
+  /** Power cards. mode "duplex": each sheet of fronts is followed by its sheet
+   *  of backs; "fronts" / "backs": just that side, for printers that can't
+   *  print both. Every back is mirrored left-right so it lands behind its own
+   *  front. */
+  export const getCardSheetPDF = async (
+    fileName,
+    frontElements,
+    backElement,
+    pageType,
+    mode = "duplex",
+    wid = 2.48,
+    hit = 3.465
+  ) => {
+    showToast(`💾 Saving file locally`);
+    const doc = new jsPDF({ orientation: "landscape", unit: "in", format: pageType });
+    const pw = doc.getPageWidth();
+    const ph = doc.getPageHeight();
+    const margin = 0.5;
+    const cols = Math.floor((pw - 2 * margin) / wid);
+    const rows = Math.floor((ph - 2 * margin) / hit);
+    const perSheet = cols * rows;
+    const sheets = Math.ceil(frontElements.length / perSheet);
+    const x0 = (pw - cols * wid) / 2;
+    const y0 = (ph - rows * hit) / 2;
+
+    const scale = large ? 2 : 1.5;
+    // JPEG: a sheet of cards prints on white paper, so the transparent
+    // corners gain nothing from PNG, and the file is several times smaller.
+    const takeShot = (el) => previewIframe.contentWindow.takeScreenshot(el, scale, "jpeg");
+    if (!backElement) mode = "fronts";
+    const printFronts = mode !== "backs";
+    const printBacks = mode !== "fronts";
+    let backImage, frontImages;
+    try {
+      [backImage, ...frontImages] = await Promise.all([
+        printBacks ? takeShot(backElement) : null,
+        ...(printFronts ? frontElements.map(takeShot) : []),
+      ]);
+    } catch (err) {
+      console.error(err);
+      showToast(`❌ PDF export failed: ${err.message}`);
+      return;
+    }
+
+    let firstPage = true;
+    const nextPage = () => {
+      if (!firstPage) doc.addPage();
+      firstPage = false;
+    };
+
+    for (let s = 0; s < sheets; s++) {
+      const onSheet = frontElements.slice(s * perSheet, (s + 1) * perSheet);
+
+      if (printFronts) {
+        nextPage();
+        // Without backs there's nothing to line up, so just the crop marks.
+        const guide = backElement ? CARD_GUIDE[mode].front(s + 1, sheets) : [];
+        drawPrintGuide(doc, guide, x0, y0, wid, hit, cols, rows);
+        onSheet.forEach((_, n) => {
+          const col = n % cols;
+          const row = Math.floor(n / cols);
+          const image = frontImages[s * perSheet + n];
+          doc.addImage(image, "JPEG", x0 + col * wid, y0 + row * hit, wid, hit);
+        });
+      }
+
+      if (printBacks) {
+        nextPage();
+        const guide = CARD_GUIDE[mode].back(s + 1, sheets);
+        drawPrintGuide(doc, guide, x0, y0, wid, hit, cols, rows);
+        onSheet.forEach((_, n) => {
+          const col = cols - 1 - (n % cols);
+          const row = Math.floor(n / cols);
+          // Same alias each time, so the back image is embedded only once.
+          doc.addImage(backImage, "JPEG", x0 + col * wid, y0 + row * hit, wid, hit, "cardBack");
+        });
+      }
+    }
+    doc.save(fileName);
+  };
+
+  /** One or more elements tiled onto pages at wid x hit inches each. */
+  export const getPDF = async (
     fileName,
     elementNamesInIframe,
     pageType,
     wid = 9,
     hit = 6,
-    flip = false,
+    duplexSide = null, // "front" | "back": center the board and add a back-to-back print guide
     orientation = "landscape"
   ) => {
-    const doc = new jsPDF({
-      orientation: orientation,
-      unit: "in",
-      format: pageType,
-    });
-
-    let i = 0;
-    let xi = 0.5;
-    let x = xi;
-    let yi = 0.5;
-    let y = yi;
-    let pw = doc.getPageWidth();
-    let ph = doc.getPageHeight();
-    let count = elementNamesInIframe.length;
-    console.log(`${pw},${ph}`);
-
-    //figure out number of pages and rows per page
-    let rowperpage = Math.floor((ph - 2 * yi) / hit);
-    let colperpage = Math.floor((pw - 2 * xi) / wid);
-    let cardperpage = rowperpage * colperpage;
-    let numpages = Math.ceil(elementNamesInIframe.length / cardperpage);
-    for (let i = 1; i < numpages; i++) {
-      doc.addPage();
-    }
-    doc.setPage(1);
-
-    elementNamesInIframe.forEach((elementNameInIframe, n) => {
-      previewIframe.contentWindow
-        .takeScreenshot(elementNameInIframe, large ? 2 : 1.5)
-        .then((imageURL) => {
-          //page focus
-          let pagefocus = Math.ceil((n + 1) / cardperpage);
-          doc.setPage(pagefocus);
-          console.log(`Focusing page ${pagefocus} for ${elementNameInIframe}, n=${n}`);
-
-          // x & y location
-          const col_n = n % Math.floor((pw - 2 * xi) / wid);
-          x = xi + col_n * wid;
-
-          const row_n = Math.floor(n / colperpage) % rowperpage;
-          y = yi + row_n * hit;
-
-          if (flip) {
-            x = pw - wid - 2 * xi;
-          }
-
-          doc.addImage(imageURL, "PNG", x, y, wid, hit);
-          console.log("add card " + elementNameInIframe + " to " + x + "," + y);
-
-          if (++i === count) {
-            doc.save(fileName);
-          }
-        });
-    });
     showToast(`💾 Saving file locally`);
+    const doc = new jsPDF({ orientation, unit: "in", format: pageType });
+    const pw = doc.getPageWidth();
+    const ph = doc.getPageHeight();
+    const margin = 0.5;
+    const colperpage = Math.floor((pw - 2 * margin) / wid);
+    const rowperpage = Math.floor((ph - 2 * margin) / hit);
+    const cardperpage = colperpage * rowperpage;
+
+    const scale = large ? 2 : 1.5;
+    let images;
+    try {
+      images = await Promise.all(
+        elementNamesInIframe.map((name) => previewIframe.contentWindow.takeScreenshot(name, scale))
+      );
+    } catch (err) {
+      console.error(err);
+      showToast(`❌ PDF export failed: ${err.message}`);
+      return;
+    }
+
+    if (duplexSide) {
+      drawPrintGuide(doc, DUPLEX_GUIDE[duplexSide], (pw - wid) / 2, (ph - hit) / 2, wid, hit);
+    }
+
+    images.forEach((imageURL, n) => {
+      const page = Math.floor(n / cardperpage) + 1;
+      if (page > doc.getNumberOfPages()) doc.addPage();
+      doc.setPage(page);
+
+      let x = margin + (n % colperpage) * wid;
+      let y = margin + (Math.floor(n / colperpage) % rowperpage) * hit;
+      if (duplexSide) {
+        x = (pw - wid) / 2;
+        y = (ph - hit) / 2;
+      }
+      doc.addImage(imageURL, "PNG", x, y, wid, hit);
+    });
+    doc.save(fileName);
   };
 
   //startMain also handles clicks
-  export const startMain = async () => {
+  const runStartMain = async () => {
     const status = await previewIframe.contentWindow.startMain();
     if (status === 1) {
       const specialRulesSectionElement =
@@ -202,6 +397,18 @@
     }
   };
 
+  export const startMain = async () => {
+    try {
+      await runStartMain();
+    } finally {
+      renderInFlight = false;
+      if (rerenderRequested) {
+        rerenderRequested = false;
+        dispatch("hot-reload");
+      }
+    }
+  };
+
   export const writeGrowthAction = (action) => {
     return previewIframe.contentWindow.writeGrowthAction(action);
   };
@@ -235,6 +442,28 @@
   onMount(updateSrc);
 
   installHotReloadEvent();
+
+  // Lib.loadCustomIconsFromHTML measures icons from older files asynchronously,
+  // after the tab has already rendered. It announces completion on `document`;
+  // we forward it on the same "hot-reload" channel every tab already wires to
+  // its reloadPreview, so the preview re-renders from state with the ratios in.
+  // Only the mounted tab's frame hears it, since tabs mount one at a time.
+  // If a render is still in flight, startMain dispatches once it is done.
+  const onCustomIconsMeasured = () => {
+    if (renderInFlight) {
+      rerenderRequested = true;
+    } else {
+      dispatch("hot-reload");
+    }
+  };
+  if (browser) {
+    document.addEventListener("custom-icons-measured", onCustomIconsMeasured);
+  }
+  onDestroy(() => {
+    if (browser) {
+      document.removeEventListener("custom-icons-measured", onCustomIconsMeasured);
+    }
+  });
 </script>
 
 <div {id} class={"preview-wrap " + classList} class:large bind:this={wrapper}>

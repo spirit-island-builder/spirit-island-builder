@@ -37,6 +37,7 @@
           class="input"
           type="text"
           placeholder="Name"
+          data-next-field="incarnaTokenIcon"
           on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={incarnaToken.incarna.name} />
@@ -62,6 +63,7 @@
           class="input"
           type="text"
           placeholder="Incarna Icon"
+          data-next-field="incarnaTokenToken"
           on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={incarnaToken.incarna.icon} />
@@ -75,6 +77,7 @@
           class="input"
           type="text"
           placeholder="Token (ie. beasts or sacred-site, etc)"
+          data-next-field="incarnaTokenEmpoweredToken"
           on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={incarnaToken.incarna.token} />

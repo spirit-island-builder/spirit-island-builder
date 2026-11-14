@@ -24,6 +24,11 @@
     document.getElementById("updateButton").click();
   }
 
+  function toggleLoreLeft() {
+    scenario.scenarioFront.loreLeft = !scenario.scenarioFront.loreLeft;
+    document.getElementById("updateButton").click();
+  }
+
   function addField(zone, type = "", text = "") {
     let focusId = `panel${zone.id}comment${zone.comments.length}Front`;
     console.log(focusId);
@@ -80,7 +85,14 @@
   </div>
 
   <div class="field">
-    <label class="label is-unselectable mr-1 mt-1" for="">Lore: </label>
+    <div class="field is-flex is-justify-content-space-between mb-0">
+      <label class="label is-unselectable mr-1 mt-1" for="commentLore">Lore: </label>
+      <button
+        class:is-light={!scenario.scenarioFront.loreLeft}
+        class="button is-info is-small button-hold mb-1"
+        title="Place the lore on the left side of the front, in front of the art"
+        on:click={toggleLoreLeft}>Left</button>
+    </div>
     <AutoComplete
       id={`commentLore`}
       elementType="textarea"

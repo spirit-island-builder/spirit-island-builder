@@ -103,6 +103,15 @@ export const addGrowthAction = (spiritBoard, setIndex, groupIndex, actionEffect 
   return spiritBoard;
 };
 
+// Splits a <growth-group values="..."> list back into one string per growth
+// action. Semicolons inside parentheses belong to the action's own options
+// (presence-node(split(fire;animal))), so only the ones outside count. Must stay
+// in step with _semicolonOutsideParensRegex in _global/js/board_front.js — the
+// inner page splits the same attribute the same way.
+export const splitGrowthValues = (values) => {
+  return values.split(/;(?![^(]*\))/);
+};
+
 export const addEnergyTrackNode = (spiritBoard, nodeEffect = "") => {
   let focusId = "energy" + spiritBoard.presenceTrack.energyNodes.length;
   spiritBoard.presenceTrack.energyNodes.push({
@@ -235,11 +244,43 @@ export const addLevel = (
   return spiritBoard;
 };
 
-export const addCustomIcon = (customIcons, iconName = "", customIconName = "") => {
+// A custom icon's proportions belong to its image, like every built-in icon's
+// (see the --icon-ratio tokens in _global/css/icon-ratios.css). Built-in art is
+// measured at build time; a user upload can only be measured once it exists, so
+// width/height ride on the icon object and are written into its style rule.
+export const measureImage = (url) => {
+  return new Promise((resolve) => {
+    if (!url) {
+      resolve(null);
+      return;
+    }
+    const image = new Image();
+    image.onload = () => resolve({ width: image.naturalWidth, height: image.naturalHeight });
+    image.onerror = () => resolve(null);
+    image.src = url;
+  });
+};
+
+const parseIconRatio = (ratioText) => {
+  // "640 / 480" as written by getCustomIconHTML; tolerate a bare number too.
+  const match = /^\s*(\d+(?:\.\d+)?)\s*(?:\/\s*(\d+(?:\.\d+)?))?\s*$/.exec(ratioText || "");
+  if (!match) return null;
+  return { width: Number(match[1]), height: match[2] === undefined ? 1 : Number(match[2]) };
+};
+
+export const addCustomIcon = (
+  customIcons,
+  iconName = "",
+  customIconName = "",
+  width = null,
+  height = null
+) => {
   customIcons.icons.push({
     id: customIcons.icons.length,
     name: iconName,
     displayName: customIconName ?? "custom" + customIcons.icons.length,
+    width,
+    height,
   });
   return customIcons;
 };
@@ -253,6 +294,7 @@ export const loadCustomIconsFromHTML = (htmlElement, customIcons, baseURI) => {
       let iconStyles = Array.from(spiritStyle.sheet.cssRules);
       let iconsText = spiritStyle.textContent.split(/icon.custom\d+{/);
       iconsText.shift();
+      const measurements = [];
       iconStyles.forEach((iconStyle, i) => {
         let customIconURI = iconStyle.style.backgroundImage.split(/['"]/)[1];
         let customIconName = "";
@@ -264,7 +306,38 @@ export const loadCustomIconsFromHTML = (htmlElement, customIcons, baseURI) => {
             .replaceAll("'", "");
         }
         let customIcon = maybeResolveURL(customIconURI, baseURI);
-        customIcons = addCustomIcon(customIcons, customIcon, customIconName);
+        // data-iconname is an invalid property the parser drops, hence the text
+        // split above; --icon-ratio is a real custom property and survives.
+        const ratio = parseIconRatio(iconStyle.style.getPropertyValue("--icon-ratio"));
+        customIcons = addCustomIcon(
+          customIcons,
+          customIcon,
+          customIconName,
+          ratio ? ratio.width : null,
+          ratio ? ratio.height : null
+        );
+        if (!ratio) {
+          // Older files predate the ratio token: measure the image instead.
+          const icon = customIcons.icons[customIcons.icons.length - 1];
+          measurements.push(
+            measureImage(customIcon).then((size) => {
+              if (!size) return false;
+              icon.width = size.width;
+              icon.height = size.height;
+              return true;
+            })
+          );
+        }
+      });
+      // The caller renders synchronously right after this returns, so the first
+      // paint is square. Once the measurements land, ask the mounted
+      // PreviewFrame to re-render from state (it forwards this to the tab's
+      // reloadPreview). One event for the whole batch, and none if nothing
+      // could be measured.
+      Promise.all(measurements).then((results) => {
+        if (results.some(Boolean)) {
+          document.dispatchEvent(new CustomEvent("custom-icons-measured"));
+        }
       });
     }
   }
@@ -275,10 +348,15 @@ export const getCustomIconHTML = (customIcons) => {
   console.log("Saving Custom Icons to HTML...");
   let customIconText = "";
   customIcons.icons.forEach((icon) => {
+    // Same shape as the generated rules in _global/css: the ratio sits in the
+    // rule that sets the background-image, so the sizing engine in global.css
+    // can give the icon its art's proportions instead of a square.
+    const ratioText =
+      icon.width && icon.height ? ` --icon-ratio: ${icon.width} / ${icon.height};` : "";
     customIconText +=
       "icon.custom" +
       (icon.id + 1) +
-      `{data-iconname:'${icon.displayName}'; background-image: url('${icon.name}'); }\n`;
+      `{data-iconname:'${icon.displayName}'; background-image: url('${icon.name}');${ratioText} }\n`;
   });
   return customIconText;
 };
@@ -289,6 +367,27 @@ export const selectNode = (event) => {
 };
 
 export const nextNode = (event) => {
+  if (event.key === "Enter") {
+    console.log(event);
+    if (!event.srcElement.classList.contains("textarea") || event.shiftKey) {
+      event.preventDefault();
+      const el = event.target;
+      let focusID = el.dataset.nextField;
+      if (!focusID) return;
+      if (document.getElementById(focusID) === null) {
+        focusID = el.dataset.nextFieldDefault || "";
+      }
+      if (focusID && document.getElementById(focusID) !== null) {
+        document.getElementById(focusID).focus();
+      } else {
+        console.log("No next node");
+      }
+    }
+  }
+};
+
+// eslint-disable-next-line no-unused-vars
+const nextNode_DEPRECATED = (event) => {
   if (event.key === "Enter") {
     console.log(event);
     if (!event.srcElement.classList.contains("textarea") || event.shiftKey) {

@@ -1,0 +1,71 @@
+<growth>
+<section-title>Growth (Pick One)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="land-push">
+</icon>
+<icon-row class="pieces">{explorer}</icon-row>
+</piece-move>
+</cell-icons>
+<growth-text>Push 1 Explorer from 1 of your Lands</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="land-push">
+</icon>
+<icon-row class="pieces">{badlands}{badlands}{badlands}</icon-row>
+</piece-move>
+</cell-icons>
+<growth-text>Push 3 Badlands from 1 of your Lands</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a2">
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="land-push">{dahan}</icon>
+<icon-row class="pieces">{beasts}</icon-row>
+</piece-move>
+</cell-icons>
+<growth-text>Push 1 Beasts from Dahan</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="jungle terrain-single">{push-arrow}</icon>
+<icon-row class="pieces">{presence}</icon-row>
+</piece-move>
+</cell-icons>
+<growth-text>Push 1 Presence from Each Jungle</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="ocean terrain-double">{push-arrow}</icon>
+<icon-row class="pieces">{blight}{blight}</icon-row>
+</piece-move>
+</cell-icons>
+<growth-text>Push 2 Blight from Ocean</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a2">
+<cell-icons class="stack push-gather">
+<piece-move class="push">
+<icon class="jungle-sand terrain-double">{push-arrow}</icon>
+<icon-row class="pieces">{city}</icon-row>
+</piece-move>
+</cell-icons>
+<growth-text>Push 1 City from Jungle or Sands</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

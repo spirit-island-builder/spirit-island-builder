@@ -1,0 +1,66 @@
+<growth>
+<section-title>Growth</section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>Always...</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>Plus pick one:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<growth-table>
+<growth-group header="0" tint="red">
+<tint class="tint" style="background-color:red;">
+</tint>
+<growth-cell id="s0g0a0">
+<cell-icons class="add-presence">
+<icon-row class="plus">+{presence}</icon-row>{range-2}</cell-icons>
+<growth-text>Add a Presence</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border double="">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g0a0">
+<cell-icons>{reclaim-all}</cell-icons>
+<growth-text>Reclaim Cards</growth-text>
+</growth-cell>
+<growth-cell id="s1g0a1">
+<cell-icons class="stack add-token">
+<icon-row class="tokens">+{destroyed-presence}{destroyed-presence}{destroyed-presence}</icon-row>{range-1}</cell-icons>
+<growth-text>Add up to 3 Destroyed Presence together</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="1">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g1a0">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="1">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g2a0">
+<cell-icons class="custom wide">{custom1}</cell-icons>
+<growth-text>Gain Energy an Additional Time</growth-text>
+</growth-cell>
+<growth-cell id="s1g2a1">
+<cell-icons class="stack move-presence">
+<icon-row class="tokens">{presence}{presence}{presence}</icon-row>{range-3}</cell-icons>
+<growth-text>Move up to 3 Presence together</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

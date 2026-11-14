@@ -1,0 +1,161 @@
+<presence-tracks>
+<presence-title>
+<section-title>Presence</section-title>
+</presence-title>
+<table id="presence-table">
+<tbody>
+<tr id="energy-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="energy0" class="first" ttsinfo="0;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>0</value>
+</node-plate>
+</ring-icon>
+<subtext>Energy/Turn</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy1" ttsinfo="1;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>1</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy2" ttsinfo=";;;air">
+<ring-icon>
+<node-plate class="energy">{air}</node-plate>
+</ring-icon>
+<subtext>Air</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy3" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy4" ttsinfo=";;;animal">
+<ring-icon>
+<node-plate class="energy">{animal}</node-plate>
+</ring-icon>
+<subtext>Animal</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy5" ttsinfo="3;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy6" ttsinfo="4;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>4</value>
+</node-plate>
+</ring-icon>
+<subtext>4</subtext>
+</presence-node>
+</td>
+</tr>
+<tr id="plays-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="card0" class="first" ttsinfo=";;1;">
+<ring-icon>
+<node-plate class="plays">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>Card Plays</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card1" ttsinfo=";;2;">
+<ring-icon>
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card2" ttsinfo=";;;">
+<deep-layers>
+<icon class="energy-blank card-deep-layers">
+<value>-2</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">{gain-power-card}</ring-icon>
+<subtext>Pay 2 Energy to Gain Power Card</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card3" ttsinfo=";;3;">
+<ring-icon>
+<node-plate class="plays">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card4" ttsinfo=";;3;">
+<ring-icon>
+<node-plate class="plays">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card5" ttsinfo=";;4;">
+<ring-icon>
+<node-plate class="plays">
+<value>4</value>
+</node-plate>
+</ring-icon>
+<subtext>4</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card6" ttsinfo=";;5;">
+<ring-icon>
+<node-plate class="plays">
+<value>5</value>
+</node-plate>
+</ring-icon>
+<subtext>5</subtext>
+</presence-node>
+</td>
+</tr>
+</tbody>
+</table>
+<presence-bottom>
+</presence-bottom>
+</presence-tracks>
+=== board > track-banner-art
+<track-banner-art class="energy-track" style="background-image: url(https://spiritislandbuilder.com/template/MyCustomContent/BannerExamples/banner-smoke.png); background-size: 100% 100%;">
+</track-banner-art>
+<track-banner-art class="plays-track" style="background-image: url(https://spiritislandbuilder.com/template/MyCustomContent/BannerExamples/banner-smoke.png); background-size: 100% 100%;">
+</track-banner-art>

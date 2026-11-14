@@ -22,6 +22,7 @@ module.exports = {
   rules: {
     "no-var": "error",
     "eqeqeq": "error",
+    "no-useless-escape": "off"
   },
   reportUnusedDisableDirectives: true,
 };

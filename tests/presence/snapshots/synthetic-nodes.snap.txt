@@ -1,0 +1,802 @@
+=== energy-first
+--- {"nodeText":"1","first":true,"trackType":"energy","addRing":true}
+<presence-node id="energy0" class="first" ttsinfo="1;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>Energy/Turn</subtext>
+</presence-node>
+
+=== energy-number
+--- {"nodeText":"3","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo="3;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+
+=== plays-first
+--- {"nodeText":"1","first":true,"trackType":"card","addRing":false}
+<presence-node id="card0" class="first" ttsinfo=";;1;">
+<ring-icon>
+<node-plate class="plays">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>Card Plays</subtext>
+</presence-node>
+
+=== plays-number
+--- {"nodeText":"2","first":false,"trackType":"card","addRing":false}
+<presence-node id="card0" ttsinfo=";;2;">
+<ring-icon>
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+
+=== special-number
+--- {"nodeText":"2","first":false,"trackType":"special","addRing":false}
+<presence-node id="special0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="special">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+
+=== bonus-plus-shorthand
+--- {"nodeText":"+2","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";2;;">
+<ring-icon>
+<node-plate class="energy">
+<value>+2</value>
+</node-plate>
+</ring-icon>
+<subtext>+2 Energy</subtext>
+</presence-node>
+
+=== energy-paren-plus
+--- {"nodeText":"energy(+1)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";1;;">
+<ring-icon>
+<node-plate class="energy">
+<value>+1</value>
+</node-plate>
+</ring-icon>
+<subtext>+1 Energy</subtext>
+</presence-node>
+
+=== plays-paren-plus
+--- {"nodeText":"plays(+2)","first":false,"trackType":"card","addRing":false}
+<presence-node id="card0" ttsinfo=";;;">
+<ring-icon>
+<badge class="gain-plays">
+<value>2</value>
+</badge>
+</ring-icon>
+<subtext>+2 Card Plays/Turn</subtext>
+</presence-node>
+
+=== energy-explicit
+--- {"nodeText":"energy(3)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo="3;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3 Energy</subtext>
+</presence-node>
+
+=== plays-explicit
+--- {"nodeText":"plays(2)","first":false,"trackType":"card","addRing":false}
+<presence-node id="card0" ttsinfo=";;2;">
+<ring-icon>
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2 Card Plays</subtext>
+</presence-node>
+
+=== push-single
+--- {"nodeText":"push(town)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<piece-move class="push">
+<icon class="land-push">
+</icon>
+<icon-row class="pieces">{town}</icon-row>
+</piece-move>
+</node-plate>
+</ring-icon>
+<subtext>Push 1 Town from 1 of your Lands</subtext>
+</presence-node>
+
+=== push-double
+--- {"nodeText":"push(town;city)","first":false,"trackType":"card","addRing":false}
+<presence-node id="card0" ttsinfo=";;;">
+<ring-icon>
+<piece-move class="push">
+<icon class="land-push">
+</icon>
+<icon-row class="pieces">{town}{backslash}{city}</icon-row>
+</piece-move>
+</ring-icon>
+<subtext>Push 1 Town/City from 1 of your Lands</subtext>
+</presence-node>
+
+=== push-incarna
+--- {"nodeText":"push(incarna)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<piece-move class="push">
+<icon class="land-push">
+</icon>
+<icon-row class="pieces">{incarna}</icon-row>
+</piece-move>
+</node-plate>
+</ring-icon>
+<subtext>Push Your Incarna</subtext>
+</presence-node>
+
+=== push-incarna-custom
+--- {"nodeText":"push(incarna;beasts)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<piece-move class="push">
+<icon class="land-push">
+</icon>
+<icon-row class="pieces">
+<icon class="incarna beasts">
+</icon>
+</icon-row>
+</piece-move>
+</node-plate>
+</ring-icon>
+<subtext>Push Your Incarna</subtext>
+</presence-node>
+
+=== gather
+--- {"nodeText":"gather(beasts)","first":false,"trackType":"card","addRing":false}
+<presence-node id="card0" ttsinfo=";;;">
+<ring-icon>
+<piece-move class="gather">
+<icon class="land-gather">
+</icon>
+<icon-row class="pieces">{beasts}</icon-row>
+</piece-move>
+</ring-icon>
+<subtext>Gather 1 Beasts into 1 of your Lands</subtext>
+</presence-node>
+
+=== incarna-empower
+--- {"nodeText":"incarna(empower)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">{empower-incarna}</node-plate>
+</ring-icon>
+<subtext>Empower Incarna</subtext>
+</presence-node>
+
+=== incarna-add-move
+--- {"nodeText":"incarna(add-move)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<cell-icons class="stack incarna-add-move">
+<icon-row class="upper">+{backslash}{move-arrow}</icon-row>
+<icon-row class="lower">
+<icon class="incarna add-move incarna">
+</icon>
+<icon class="presence with-your">
+</icon>
+</icon-row>
+</cell-icons>
+</node-plate>
+</ring-icon>
+<subtext>Add/Move Incarna to Land with </subtext>
+</presence-node>
+
+=== incarna-add-move-custom
+--- {"nodeText":"incarna(addmove;presence;custom1)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<cell-icons class="stack incarna-add-move">
+<icon-row class="upper">+{backslash}{move-arrow}</icon-row>
+<icon-row class="lower">
+<icon class="incarna add-move custom1">
+</icon>
+<icon class="presence with-your">
+</icon>
+</icon-row>
+</cell-icons>
+</node-plate>
+</ring-icon>
+<subtext>Add/Move Incarna to Land with Presence</subtext>
+</presence-node>
+
+=== token-your-land
+--- {"nodeText":"token(badlands)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<icon class="your-land">{misc-plus}{badlands}</icon>
+</node-plate>
+</ring-icon>
+<subtext>Add 1 Badlands to 1 of your Lands</subtext>
+</presence-node>
+
+=== token-range
+--- {"nodeText":"token(2;badlands)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="shadow">
+<cell-icons class="stack range-token">
+<icon-row class="plus">{misc-plus}{badlands}</icon-row>{range-2}</cell-icons>
+</node-plate>
+</ring-icon>
+<subtext>Add a Badlands</subtext>
+</presence-node>
+
+=== custom-icon-shorthand
+--- {"nodeText":"custom(Gain fire;{fire})","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="shadow">
+<node-plate class="energy">
+<custom-presence-track-icon>{fire}</custom-presence-track-icon>
+</node-plate>
+</node-plate>
+</ring-icon>
+<subtext>Gain fire</subtext>
+</presence-node>
+
+=== custom-icon-names
+--- {"nodeText":"custom(Gain elements;fire;water)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="shadow">
+<node-plate class="energy">
+<custom-presence-track-icon>{fire}{water}</custom-presence-track-icon>
+</node-plate>
+</node-plate>
+</ring-icon>
+<subtext>Gain elements</subtext>
+</presence-node>
+
+=== custom-bare-energy
+--- {"nodeText":"custom(Some text)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="shadow">
+<node-plate class="energy">
+<value>
+</value>
+</node-plate>
+</node-plate>
+</ring-icon>
+<subtext>Some text</subtext>
+</presence-node>
+
+=== custom-bare-card
+--- {"nodeText":"custom(Some text)","first":false,"trackType":"card","addRing":false}
+<presence-node id="card0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="shadow">
+<node-plate class="plays">
+<value>
+</value>
+</node-plate>
+</node-plate>
+</ring-icon>
+<subtext>Some text</subtext>
+</presence-node>
+
+=== custom-bare-special
+--- {"nodeText":"custom(Some text)","first":false,"trackType":"special","addRing":false}
+<presence-node id="special0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="shadow">
+<node-plate class="special">
+<value>
+</value>
+</node-plate>
+</node-plate>
+</ring-icon>
+<subtext>Some text</subtext>
+</presence-node>
+
+=== move-presence-range
+--- {"nodeText":"move-presence(2)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<track-move-presence>{presence}<value>2</value>{move-arrow}</track-move-presence>
+</node-plate>
+</ring-icon>
+<subtext>Move a Presence 2</subtext>
+</presence-node>
+
+=== move-presence-text
+--- {"nodeText":"move-presence(x)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<track-move-presence>{presence}<textvalue>x</textvalue>{move-arrow}</track-move-presence>
+</node-plate>
+</ring-icon>
+<subtext>Move a Presence to X land</subtext>
+</presence-node>
+
+=== elements-pair
+--- {"nodeText":"elements(sun;moon)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<element-or-wrap>
+<icon class="sun presence-or-first">
+</icon>{backslash}<icon class="moon presence-or-second">
+</icon>
+</element-or-wrap>
+</node-plate>
+</ring-icon>
+<subtext>Sun OR Moon</subtext>
+</presence-node>
+
+=== elements-single
+--- {"nodeText":"elements(sun)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">{sun}</node-plate>
+</ring-icon>
+<subtext>Sun OR </subtext>
+</presence-node>
+
+=== or-pair
+--- {"nodeText":"or(fire;water)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<element-or-wrap>
+<icon class="fire presence-or-first">
+</icon>{backslash}<icon class="water presence-or-second">
+</icon>
+</element-or-wrap>
+</node-plate>
+</ring-icon>
+<subtext>Fire OR Water</subtext>
+</presence-node>
+
+=== gain-range
+--- {"nodeText":"gain-range(2)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="shadow">{gain-range-2}</node-plate>
+</ring-icon>
+<subtext>+2 Range</subtext>
+</presence-node>
+
+=== gain-range-custom
+--- {"nodeText":"gain-range(1;everything)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="shadow">{gain-range-1}</node-plate>
+</ring-icon>
+<subtext>+1 Range on everything</subtext>
+</presence-node>
+
+=== gain-card-play-bare
+--- {"nodeText":"gain-card-play","first":false,"trackType":"card","addRing":false}
+<presence-node id="card0" ttsinfo=";;;">
+<ring-icon>
+<badge class="gain-plays">
+<value>1</value>
+</badge>
+</ring-icon>
+<subtext>+1 Card Play/Turn</subtext>
+</presence-node>
+
+=== gain-card-play-num
+--- {"nodeText":"gain-card-play(2)","first":false,"trackType":"card","addRing":false}
+<presence-node id="card0" ttsinfo=";;;">
+<ring-icon>
+<badge class="gain-plays">
+<value>2</value>
+</badge>
+</ring-icon>
+<subtext>+2 Card Plays/Turn</subtext>
+</presence-node>
+
+=== damage-your-land
+--- {"nodeText":"damage(2)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="shadow">
+<node-plate class="energy">
+<badge class="damage">
+<value>2</value>
+</badge>
+</node-plate>
+</node-plate>
+</ring-icon>
+<subtext>2 Damage in one of your Lands</subtext>
+</presence-node>
+
+=== damage-range
+--- {"nodeText":"damage(1;2)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="shadow">
+<node-plate class="energy">
+<badge class="damage with-range">
+<value>2</value>{range-1}</badge>
+</node-plate>
+</node-plate>
+</ring-icon>
+<subtext>2 Damage at Range 1</subtext>
+</presence-node>
+
+=== gain-power-card-bare
+--- {"nodeText":"gain-power-card","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">{gain-power-card}</node-plate>
+</ring-icon>
+<subtext>Gain Power Card</subtext>
+</presence-node>
+
+=== gain-power-card-type
+--- {"nodeText":"gain-power-card(minor)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<icon class="gain-power-card-blank">{minor}</icon>
+</node-plate>
+</ring-icon>
+<subtext>Gain Minor Power Card</subtext>
+</presence-node>
+
+=== take-power-card-type
+--- {"nodeText":"take-power-card(minor)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<icon class="take-power-card-blank">{minor}</icon>
+</node-plate>
+</ring-icon>
+<subtext>Take Minor Power Card</subtext>
+</presence-node>
+
+=== reclaim-bare
+--- {"nodeText":"reclaim","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">{reclaim}</node-plate>
+</ring-icon>
+<subtext>Reclaim Cards</subtext>
+</presence-node>
+
+=== reclaim-one
+--- {"nodeText":"reclaim(one)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">{reclaim-one}</node-plate>
+</ring-icon>
+<subtext>Reclaim Cards</subtext>
+</presence-node>
+
+=== blank
+--- {"nodeText":"blank","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon class="blank-ring">
+</ring-icon>
+<subtext>
+<br>
+</subtext>
+</presence-node>
+
+=== element-bare
+--- {"nodeText":"moon","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;moon">
+<ring-icon>
+<node-plate class="energy">{moon}</node-plate>
+</ring-icon>
+<subtext>Moon</subtext>
+</presence-node>
+
+=== unknown-icon
+--- {"nodeText":"mystery-icon","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">{mystery-icon}</node-plate>
+</ring-icon>
+<subtext>Mystery Icon</subtext>
+</presence-node>
+
+=== deep-layers-icon
+--- {"nodeText":"2^minor","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo="2;;;">
+<deep-layers>
+<icon class="minor energy-deep-layers">
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+
+=== deep-layers-energy
+--- {"nodeText":"reclaim-one^energy(2)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<deep-layers>
+<icon class="energy-blank energy-deep-layers">
+<value>2</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">
+<node-plate class="energy">{reclaim-one}</node-plate>
+</ring-icon>
+<subtext>Reclaim One</subtext>
+</presence-node>
+
+=== deep-layers-pay
+--- {"nodeText":"reclaim-one^pay(2)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;">
+<deep-layers>
+<icon class="energy-blank energy-deep-layers">
+<value>-2</value>
+</icon>
+</deep-layers>
+<ring-icon class="deep-layers">
+<node-plate class="energy">{reclaim-one}</node-plate>
+</ring-icon>
+<subtext>Pay 2 Energy to Reclaim One</subtext>
+</presence-node>
+
+=== force-energy
+--- {"nodeText":"moon_energy","first":false,"trackType":"card","addRing":false}
+<presence-node id="card0" ttsinfo=";;;moon">
+<ring-icon>
+<node-plate class="energy">{moon}</node-plate>
+</ring-icon>
+<subtext>Moon</subtext>
+</presence-node>
+
+=== force-shadow
+--- {"nodeText":"moon_shadow","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;moon">
+<ring-icon>
+<node-plate class="shadow">{moon}</node-plate>
+</ring-icon>
+<subtext>Moon</subtext>
+</presence-node>
+
+=== force-none
+--- {"nodeText":"moon_none","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;moon">
+<ring-icon>{moon}</ring-icon>
+<subtext>Moon</subtext>
+</presence-node>
+
+=== force-first
+--- {"nodeText":"3_first","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" class="first force-first" ttsinfo="3;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>Energy/Turn</subtext>
+</presence-node>
+
+=== force-nofirst
+--- {"nodeText":"1_nofirst","first":true,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo="1;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>1</subtext>
+</presence-node>
+
+=== shift
+--- {"nodeText":"2_shift(50;-12)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" shift="translate(50%,12%)" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+
+=== subtext-top
+--- {"nodeText":"2~top","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" class="top-subtext" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+
+=== subtext-left
+--- {"nodeText":"2~left","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" class="left-subtext" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+
+=== subtext-right
+--- {"nodeText":"2~right","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" class="right-subtext" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+
+=== override-text
+--- {"nodeText":"2*Custom Words","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>Custom Words</subtext>
+</presence-node>
+
+=== modifier-combo
+--- {"nodeText":"air_shift(50;-12)nofirst~left","first":true,"trackType":"energy","addRing":true}
+<presence-node id="energy0" shift="translate(50%,12%)" class="left-subtext" ttsinfo=";;;air">
+<ring-icon>
+<node-plate class="energy">{air}</node-plate>
+</ring-icon>
+<subtext>Air</subtext>
+</presence-node>
+
+=== multi-2
+--- {"nodeText":"1+moon","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo="1;;;moon">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>1</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{moon}</presence-node-multi>
+</ring-icon>
+<subtext>1, Moon</subtext>
+</presence-node>
+
+=== multi-3
+--- {"nodeText":"sun+moon+fire","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;sun,moon,fire">
+<ring-icon>
+<node-plate class="energy">
+<presence-node-multi style="top:36%; left:36%;">{sun}</presence-node-multi>
+<presence-node-multi style="top:45%; left:69%;">{moon}</presence-node-multi>
+<presence-node-multi style="top:69%; left:45%;">{fire}</presence-node-multi>
+</node-plate>
+</ring-icon>
+<subtext>Sun, Moon, Fire</subtext>
+</presence-node>
+
+=== multi-4
+--- {"nodeText":"sun+moon+fire+water","first":false,"trackType":"card","addRing":false}
+<presence-node id="card0" ttsinfo=";;;sun,moon,fire,water">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">{sun}</presence-node-multi>
+<presence-node-multi style="top:36%; left:64%;">{moon}</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{fire}</presence-node-multi>
+<presence-node-multi style="top:64%; left:36%;">{water}</presence-node-multi>
+</ring-icon>
+<subtext>Sun, Moon, Fire, Water</subtext>
+</presence-node>
+
+=== multi-shadow
+--- {"nodeText":"token(1;badlands)+moon","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;moon">
+<ring-icon>
+<presence-node-multi class="add-shadow" style="top:36%; left:36%;">
+<cell-icons class="stack range-token">
+<icon-row class="plus">{misc-plus}{badlands}</icon-row>{range-1}</cell-icons>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{moon}</presence-node-multi>
+</ring-icon>
+<subtext>Add a Badlands, Moon</subtext>
+</presence-node>
+
+=== multi-gain-range
+--- {"nodeText":"+1+gain-range(1;everything)","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";1;;">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>+1</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi class="add-shadow" style="top:64%; left:64%;">
+<node-plate class="shadow">{gain-range-1}</node-plate>
+</presence-node-multi>
+</ring-icon>
+<subtext>+1 Energy, +1 Range on everything</subtext>
+</presence-node>
+
+=== multi-move
+--- {"nodeText":"move-presence(1)+air","first":false,"trackType":"energy","addRing":true}
+<presence-node id="energy0" ttsinfo=";;;air">
+<ring-icon>
+<node-plate class="energy">
+<presence-node-multi class="add-shadow" style="top:36%; left:36%;">
+<track-move-presence>{presence}<value>1</value>{move-arrow}</track-move-presence>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{air}</presence-node-multi>
+</node-plate>
+</ring-icon>
+<subtext>Move a Presence 1, Air</subtext>
+</presence-node>
+
+=== split-basic
+--- {"nodeText":"split(2;moon)","first":false,"trackType":"energy","addRing":true}
+<split-presence-node>
+<presence-node id="energy0-0" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+</presence-node>
+<presence-node id="energy0-1" ttsinfo=";;;moon">
+<ring-icon>
+<node-plate class="energy">{moon}</node-plate>
+</ring-icon>
+<subtext>2/Moon</subtext>
+</presence-node>
+</split-presence-node>
+
+=== split-numbers
+--- {"nodeText":"split(1;2)","first":false,"trackType":"card","addRing":false}
+<split-presence-node>
+<presence-node id="card0-0" ttsinfo=";;1;">
+<ring-icon>
+<node-plate class="plays">
+<value>1</value>
+</node-plate>
+</ring-icon>
+</presence-node>
+<presence-node id="card0-1" ttsinfo=";;2;">
+<ring-icon>
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>1/2</subtext>
+</presence-node>
+</split-presence-node>

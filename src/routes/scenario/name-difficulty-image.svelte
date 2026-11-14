@@ -30,6 +30,7 @@
           class="input"
           type="text"
           placeholder="Name"
+          data-next-field="baseDifficulty"
           on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={scenario.info.name} />

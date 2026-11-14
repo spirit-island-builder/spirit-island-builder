@@ -1,0 +1,173 @@
+<presence-tracks>
+<presence-title>
+<section-title>Presence</section-title>
+</presence-title>
+<table id="presence-table">
+<tbody>
+<tr id="energy-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="energy0" class="first" ttsinfo="1;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>Energy/Turn</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy1" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy2" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<piece-move class="push">
+<icon class="land-push">
+</icon>
+<icon-row class="pieces">{town}</icon-row>
+</piece-move>
+</node-plate>
+</ring-icon>
+<subtext>Push 1 Town from 1 of your Lands</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy3" ttsinfo="3;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy4" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<piece-move class="gather">
+<icon class="land-gather">
+</icon>
+<icon-row class="pieces">{beasts}</icon-row>
+</piece-move>
+</node-plate>
+</ring-icon>
+<subtext>Gather 1 Beasts into 1 of your Lands</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy5" ttsinfo="4;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>4</value>
+</node-plate>
+</ring-icon>
+<subtext>4</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy6" ttsinfo="5;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>5</value>
+</node-plate>
+</ring-icon>
+<subtext>5</subtext>
+</presence-node>
+</td>
+</tr>
+<tr id="plays-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="card0" class="first" ttsinfo=";;1;">
+<ring-icon>
+<node-plate class="plays">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>Card Plays</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card1" ttsinfo=";;;">
+<ring-icon>
+<piece-move class="push">
+<icon class="land-push">
+</icon>
+<icon-row class="pieces">{city}</icon-row>
+</piece-move>
+</ring-icon>
+<subtext>Push 1 City from 1 of your Lands</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card2" ttsinfo=";;2;">
+<ring-icon>
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card3" ttsinfo=";;;">
+<ring-icon>
+<piece-move class="gather">
+<icon class="land-gather">
+</icon>
+<icon-row class="pieces">{town}</icon-row>
+</piece-move>
+</ring-icon>
+<subtext>Gather 1 Town into 1 of your Lands</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card4" ttsinfo=";;3;">
+<ring-icon>
+<node-plate class="plays">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card5" ttsinfo=";;;">
+<ring-icon>
+<piece-move class="gather">
+<icon class="land-gather">
+</icon>
+<icon-row class="pieces">{blight}</icon-row>
+</piece-move>
+</ring-icon>
+<subtext>Gather 1 Blight into 1 of your Lands</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card6" ttsinfo=";;4;">
+<ring-icon>
+<node-plate class="plays">
+<value>4</value>
+</node-plate>
+</ring-icon>
+<subtext>4</subtext>
+</presence-node>
+</td>
+</tr>
+</tbody>
+</table>
+<presence-bottom>
+</presence-bottom>
+</presence-tracks>

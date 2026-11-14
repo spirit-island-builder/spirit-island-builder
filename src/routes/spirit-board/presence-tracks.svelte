@@ -144,6 +144,8 @@
               id={`energy${i}builder`}
               class="input is-small presence-input-block"
               type="text"
+              data-next-field="energy{i + 1}builder"
+              data-next-field-default="energy{i}builderadd"
               on:focus={selectNode}
               on:blur={() => updatePresenceNodeLocal()}
               on:keydown={nextNode}
@@ -163,6 +165,13 @@
             </div>
           </div>
         </div>
+      {:else}
+        <button
+          class="presence-track-add-node button is-light is-primary presence-track-button "
+          id={`energy${0}builderadd`}
+          on:click={insertEnergyTrackNode(0)}
+          ><span style="margin-top:11px;pointer-events: none;">+</span>
+        </button>
       {/each}
     </div>
   </div>
@@ -178,6 +187,8 @@
               id={`plays${i}builder`}
               class="input is-small presence-input-block"
               type="text"
+              data-next-field="plays{i + 1}builder"
+              data-next-field-default="plays{i}builderadd"
               on:blur={() => updatePresenceNodeLocal}
               on:focus={selectNode}
               on:keydown={nextNode}
@@ -197,6 +208,13 @@
             </div>
           </div>
         </div>
+      {:else}
+        <button
+          class="presence-track-add-node button is-light is-primary presence-track-button "
+          id={`plays${0}builderadd`}
+          on:click={insertPlaysTrackNode(0)}
+          ><span style="margin-top:11px;pointer-events: none;">+</span>
+        </button>
       {/each}
     </div>
   </div>
@@ -218,6 +236,8 @@
                   id={`additional${t}node${i}builder`}
                   class="input is-small presence-input-block"
                   type="text"
+                  data-next-field="additional{t}node{i + 1}builder"
+                  data-next-field-default="additional{t}node{i}builderadd"
                   on:focus={selectNode}
                   on:keydown={nextNode}
                   bind:value={additionalNode.effect} />
@@ -236,6 +256,13 @@
                 </div>
               </div>
             </div>
+          {:else}
+            <button
+              class="presence-track-add-node button is-light is-primary presence-track-button "
+              id={`additional${t}node${0}builderadd`}
+              on:click={insertAdditionalTrackNode(t, 0)}
+              ><span style="margin-top:11px;pointer-events: none;">+</span>
+            </button>
           {/each}
         </div>
       {/each}

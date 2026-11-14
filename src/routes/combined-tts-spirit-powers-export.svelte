@@ -1,5 +1,6 @@
 <script>
   import Section from "$lib/section.svelte";
+  import jsone from "json-e";
   import InstructionsLink from "$lib/instructions/link.svelte";
   import { downloadString } from "$lib/download";
   import { createTTSSave, ttsSaveMIMEType } from "$lib/tts.js";
@@ -21,6 +22,13 @@
   import wildsJSON from "../routes/spirit-board-back/token-json/wilds.json";
   import blightJSON from "../routes/spirit-board-back/token-json/blight.json";
   import vitalityJSON from "../routes/spirit-board-back/token-json/vitality.json";
+  import startingEnergyJSONTemplate from "../routes/spirit-board-back/tts-starting-energy.json";
+
+  function unlock() {
+    combinedTTS.spiritBoardFront.tts.saved = false;
+    combinedTTS.spiritBoardBack.tts.saved = false;
+    combinedTTS.powers.tts.saved = false;
+  }
 
   function clearAll() {
     if (window.confirm("Are you sure? This will clear the combined export.")) {
@@ -125,6 +133,15 @@
             }
           });
         }
+        if (combinedTTS.spiritBoardBack.tts.startingEnergy) {
+          let spiritName = bagTemplate.ObjectStates[0]["Nickname"];
+          let luaScript = `spiritName = \"${spiritName}\"\n\nlocal startingEnergy = ${combinedTTS.spiritBoardBack.tts.startingEnergy}\n\nfunction doSetup(params)\n    local color = params.color\n    Global.call(\"giveEnergy\", {color=color, energy=startingEnergy, ignoreDebt=false})\n    self.destruct()\n    return true\nend`;
+          let startingEnergyJSON = jsone(startingEnergyJSONTemplate, {
+            spiritName: spiritName,
+            luaScript: luaScript,
+          });
+          bagTemplate.ObjectStates[0]["ContainedObjects"].push(startingEnergyJSON);
+        }
       }
       bagTemplate.ObjectStates[0]["ContainedObjects"].push(spiritBoardJSON);
     }
@@ -152,8 +169,6 @@
       console.log(incarnaJSON);
     }
     let saveFile = createTTSSave(bagTemplate.ObjectStates);
-    console.log(saveFile);
-    console.log([saveFile]);
     let jsonFileName = combinedTTS.spiritBoardFront.tts.content["Nickname"] || "mySpiritBag";
     jsonFileName = jsonFileName.replaceAll(" ", "_") + "_TTS.json";
     downloadString(ttsSaveMIMEType, saveFile, jsonFileName);
@@ -234,6 +249,17 @@
             class="input is-small"
             type="text"
             bind:value={combinedTTS.spiritBoardBack.tts.tokenList} />
+        </div>
+      </div>
+      <div class="field" class:is-hidden={currentPage !== "spiritBoardBack"}>
+        <div class="content is-small mb-0">Starting Energy:</div>
+        <div class="control">
+          <input
+            id="spiritLoreStartingEnergy"
+            placeholder="ie. 1"
+            class="input is-small"
+            type="text"
+            bind:value={combinedTTS.spiritBoardBack.tts.startingEnergy} />
         </div>
       </div>
       <div class="field combined-tts-buttons">
@@ -320,13 +346,19 @@
     </div>
     <div class="field is-flex is-flex-direction-row is-justify-content-space-evenly">
       <button
-        class="button is-info big-buttons"
+        class="button is-info"
         disabled={!combinedTTS.spiritBoardFront.tts.saved ||
           !combinedTTS.spiritBoardBack.tts.saved ||
           !combinedTTS.powers.tts.saved}
         on:click={() => buildBag()}>Export</button>
-      <button class="button is-warning big-buttons" on:click={() => clearAll()}>Restart</button>
+      <button class="button is-warning" on:click={() => unlock()}>Unlock</button>
+      <button class="button is-danger" on:click={() => clearAll()}>Restart</button>
     </div>
+    <div class="content is-small mb-0">
+      You can save or load a file to quickly restore you combined export. Note, this does not accept
+      the TTS export file, but a separate save:
+    </div>
+    <div class="field is-flex is-flex-direction-row is-justify-content-space-evenly" />
   </div>
 </Section>
 

@@ -1,0 +1,73 @@
+<growth>
+<section-title>Growth (Pick One)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>
+<span class="plus-text">+ </span>
+<icon class="beasts add-token">
+</icon>
+</presence-req>{range-3}</cell-icons>
+<growth-text>Add a Presence and a Beasts</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<cell-icons class="add-presence req">
+<icon-row class="or">
+<icon-row class="plus">+{presence}</icon-row>{backslash}{wilds}</icon-row>{range-1}</cell-icons>
+<growth-text>Add a Presence or a Wilds</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a2">
+<cell-icons class="add-presence req text">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>
+</presence-req>{range-2}</cell-icons>
+<growth-text>Add a Presence to a land shown on the Ravage card</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a3">
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>
+<span class="non-icon small">INVADERS</span> or {dahan}</presence-req>{range-2}</cell-icons>
+<growth-text>Add a Presence to Land with Invaders or Dahan</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a4">
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>
+<span class="non-icon">COASTAL</span>
+</presence-req>{range-2}</cell-icons>
+<growth-text>Add a Presence to Coastal Land</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a5">
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>
+<span class="non-icon">INLAND</span>
+</presence-req>{range-4}</cell-icons>
+<growth-text>Add a Presence to Inland Land</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{no-disease} and {no-blight}</presence-req>{range-2}</cell-icons>
+<growth-text>Add a Presence to Land without Disease and Blight</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{no-presence}</presence-req>{range-4}</cell-icons>
+<growth-text>Add a Presence to Land without Own Presence</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>
