@@ -1447,7 +1447,10 @@ badge.gain-plays {
     second-section-container,
     rules-container,
     :where(level) effect,
-    :where(innate-power) note
+    :where(innate-power) note,
+    scenario,
+    top-info,
+    adversary-levels
   ) {
   icon {
     --icon-scale: 1;

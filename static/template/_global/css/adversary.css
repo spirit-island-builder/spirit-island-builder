@@ -421,13 +421,6 @@ adversary range-value {
   line-height: 1;
 }
 
-icon.range-small-icon {
-  position: absolute;
-  margin: 0px;
-  display: block;
-  top: 2px;
-}
-
 adversary rule-line {
   display: inline-block;
   width: 100%;
@@ -450,15 +443,7 @@ icon.escalation {
 }
 
 escalation icon.escalation {
-  margin-bottom: -2px;
-  margin-top: -10px;
-}
-
-icon.presence {
-  margin-bottom: -5px;
-}
-
-icon.town {
+  vertical-align: baseline;
 }
 
 /* Icon sizing */
