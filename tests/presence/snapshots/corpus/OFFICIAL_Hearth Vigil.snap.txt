@@ -1,0 +1,154 @@
+<presence-tracks banner="" banner-v-scale="" banner-h-scale="">
+<presence-title>
+<section-title>Presence</section-title>
+</presence-title>
+<table id="presence-table">
+<tbody>
+<tr id="energy-track">
+<td class="spacer">
+</td>
+<td rowspan="2" class="middle bonus">
+<presence-node id="energy0" class="first" ttsinfo=";;;">
+<ring-icon>
+<node-plate class="energy">
+<piece-move class="gather">
+<icon class="land-gather">
+</icon>
+<icon-row class="pieces">{dahan}</icon-row>
+</piece-move>
+</node-plate>
+</ring-icon>
+<subtext>Gather 1 Dahan into 1 of your Lands</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy1" class="first" ttsinfo="0;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>0</value>
+</node-plate>
+</ring-icon>
+<subtext>Energy/Turn</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy2" ttsinfo="1;;;sun">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>1</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{sun}</presence-node-multi>
+</ring-icon>
+<subtext>1, Sun</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy3" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy4" ttsinfo="3;;;animal">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>3</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{animal}</presence-node-multi>
+</ring-icon>
+<subtext>3, Animal</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy5" ttsinfo="4;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>4</value>
+</node-plate>
+</ring-icon>
+<subtext>4</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy6" ttsinfo="5;;;sun">
+<ring-icon>
+<presence-node-multi style="top:36%; left:36%;">
+<node-plate class="energy">
+<value>5</value>
+</node-plate>
+</presence-node-multi>
+<presence-node-multi style="top:64%; left:64%;">{sun}</presence-node-multi>
+</ring-icon>
+<subtext>5, Sun</subtext>
+</presence-node>
+</td>
+</tr>
+<tr id="plays-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="card0" class="first" ttsinfo=";;1;">
+<ring-icon>
+<node-plate class="plays">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>Card Plays</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card1" ttsinfo=";;2;">
+<ring-icon>
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card2" ttsinfo=";;;air">
+<ring-icon>{air}</ring-icon>
+<subtext>Air</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card3" ttsinfo=";;3;">
+<ring-icon>
+<node-plate class="plays">
+<value>3</value>
+</node-plate>
+</ring-icon>
+<subtext>3</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card4" ttsinfo=";;;animal">
+<ring-icon>{animal}</ring-icon>
+<subtext>Animal</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card5" ttsinfo=";;4;">
+<ring-icon>
+<node-plate class="plays">
+<value>4</value>
+</node-plate>
+</ring-icon>
+<subtext>4</subtext>
+</presence-node>
+</td>
+</tr>
+</tbody>
+</table>
+<presence-bottom>
+</presence-bottom>
+</presence-tracks>

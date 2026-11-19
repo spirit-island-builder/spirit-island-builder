@@ -1,12 +1,15 @@
 <script>
   import { onMount } from "svelte";
+  import { dev } from "$app/environment";
 
   import * as Lib from "../lib";
   import { downloadHTML, downloadString } from "$lib/download";
   import PreviewFrame from "$lib/preview-frame/index.svelte";
   import LoadDropdown from "$lib/load-dropdown.svelte";
+  import LoadButton from "$lib/load-button.svelte";
   import SaveDropdown from "$lib/save-dropdown.svelte";
   import Examples from "$lib/example-modal.svelte";
+  import PrintModal from "$lib/print-modal.svelte";
   import examples from "./examples.json";
 
   import PowerCard from "./power-card.svelte";
@@ -28,6 +31,7 @@
 
   let previewFrame;
   let exampleModal;
+  let printModal;
 
   async function loadHTMLFromURL(url) {
     url = new URL(url, document.baseURI);
@@ -471,29 +475,18 @@
     hideAll();
   }
 
-  function printToPDF(pageType = "letter") {
-    let fileName = "";
+  function printToPDF(pageType, mode) {
+    const baseName = powerCards.spiritName
+      ? powerCards.spiritName.replaceAll(" ", "_") + "_PowerCardSet"
+      : "Custom_PowerCardSet";
+    const suffix = { duplex: "", fronts: "_Fronts", backs: "_Backs" }[mode];
+    const fileName = baseName + suffix + ".pdf";
     const elementNamesInIframe = [];
-    if (powerCards.spiritName) {
-      fileName = powerCards.spiritName.replaceAll(" ", "_") + "_PowerCardSet.pdf";
-    } else {
-      fileName = "Custom_PowerCardSet.pdf";
-    }
     for (let i = 0; i < powerCards.cards.length; i++) {
       elementNamesInIframe.push(`#card${i}`);
-      if (powerCards.cardBackImage) {
-        elementNamesInIframe.push(`#cardBack`);
-      }
     }
-    previewFrame.getPDF(fileName, elementNamesInIframe, pageType, 2.48, 3.465);
-  }
-
-  function printToPDFLetter() {
-    printToPDF("letter");
-  }
-
-  function printToPDFA4() {
-    printToPDF("a4");
+    const backElement = powerCards.cardBackImage ? "#cardBack" : null;
+    previewFrame.getCardSheetPDF(fileName, elementNamesInIframe, backElement, pageType, mode);
   }
 
   function getFileName(powerCards) {
@@ -512,6 +505,18 @@
     cards.forEach((card) => {
       card.classList.add("printer-clean");
     });
+  }
+
+  // Dev-only: lay a half-transparent greyscale reference image over the first card.
+  let overlayImage;
+  function addOverlay() {
+    if (!overlayImage) return;
+    let previewFrame = document.getElementById("preview-iframe").contentWindow;
+    let firstCard = previewFrame.document.getElementsByTagName("card")[0];
+    if (!firstCard) return;
+    const overlay = previewFrame.document.createElement("dev-overlay");
+    firstCard.appendChild(overlay);
+    overlay.style.backgroundImage = `url('${overlayImage}')`;
   }
 
   function setStackView() {
@@ -575,6 +580,7 @@
         <link href="/template/_global/css/global.css" rel="stylesheet" />
         <link href="/template/_global/css/card.css" rel="stylesheet" />
         <script type="text/javascript" src="/template/_global/js/common.js"></script>
+        <script type="text/javascript" src="/template/_global/js/board_front.js"></script>
         <script type="text/javascript" src="/template/_global/js/card.js"></script>
       </svelte:fragment>
     </PreviewFrame>
@@ -586,13 +592,15 @@
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
+        savedKeys={["powerCards"]}
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(powerCards)}
         fileName={getFileName(powerCards)}
-        saveType="html" />
+        saveType="html"
+        savedKeys={["powerCards"]} />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
@@ -602,24 +610,8 @@
         >Download Image</button>
       <button class="button is-success mt-1  mr-1" on:click={downloadTTSJSON}
         >Export TTS file</button>
-      <div class="dropdown is-hoverable is-up">
-        <div class="dropdown-trigger">
-          <button
-            class="button mt-1 mr-1 is-success"
-            aria-haspopup="true"
-            aria-controls="dropdown-menu4">
-            <span>Create PDF...</span>
-          </button>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-          <div class="dropdown-content">
-            <button class="button is-success mr-1 dropdown-item" on:click={printToPDFLetter}
-              >Letter size</button>
-            <button class="button is-success mt-1 mr-1 dropdown-item" on:click={printToPDFA4}
-              >A4 size</button>
-          </div>
-        </div>
-      </div>
+      <button class="button is-success mt-1 mr-1" aria-haspopup="dialog" on:click={printModal.open}
+        >Create PDF...</button>
     </div>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
       <button class="button is-warning mt-1 mr-1 is-small" on:click={togglePrinterClean}
@@ -641,6 +633,21 @@
         class="button is-warning mt-1 mr-1 is-small"
         on:click={() => setCardsPerRow("fourCard")}>4</button>
     </div>
+    {#if dev}
+      <div class="field has-addons mb-1 is-flex-wrap-wrap">
+        <LoadButton
+          accept="image/png, image/jpeg"
+          class="button is-file-load is-small mt-1"
+          loadDataURL={(url) => {
+            overlayImage = url;
+          }}>Load Overlay</LoadButton>
+        <button class="button is-danger mt-1 mr-1" on:click={addOverlay}>Add Overlay</button>
+      </div>
+    {/if}
   </div>
 </div>
 <Examples bind:this={exampleModal} {loadExample} title="Load Examples" {examples} />
+<PrintModal
+  bind:this={printModal}
+  onPrint={printToPDF}
+  hasBacks={Boolean(powerCards.cardBackImage)} />

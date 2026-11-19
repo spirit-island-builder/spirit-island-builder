@@ -1,6 +1,7 @@
 <script>
   import Section from "$lib/section.svelte";
   import LoadButton from "$lib/load-button.svelte";
+  import { measureImage } from "./lib.js";
   export let customIcons;
 
   function addCustomIcon() {
@@ -9,6 +10,8 @@
       name: "",
       displayName: "",
       incarna: false,
+      width: null,
+      height: null,
     });
     customIcons = customIcons;
     console.log("adding custom icon");
@@ -66,6 +69,16 @@
           class="button is-file-load is-small"
           loadDataURL={(url) => {
             icon.name = url;
+            icon.width = null;
+            icon.height = null;
+            // The art's proportions are only knowable once it's uploaded; the
+            // style rule generateHTML writes carries them as --icon-ratio.
+            measureImage(url).then((size) => {
+              if (!size || icon.name !== url) return;
+              icon.width = size.width;
+              icon.height = size.height;
+              customIcons = customIcons;
+            });
           }}>Load</LoadButton>
 
         <button

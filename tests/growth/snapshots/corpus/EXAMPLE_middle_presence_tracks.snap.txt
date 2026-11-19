@@ -1,0 +1,84 @@
+<growth>
+<section-title>Growth</section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>pick one of:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<sub-section-title>
+<sub-section-line>
+</sub-section-line>
+<sub-section-header>and one of:</sub-section-header>
+<sub-section-line>
+</sub-section-line>
+</sub-section-title>
+<growth-table>
+<growth-group header="0">
+<growth-cell id="s0g0a0">
+<cell-icons>{reclaim-one}</cell-icons>
+<growth-text>Reclaim One</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="0">
+</growth-border>
+<growth-group header="0">
+<growth-cell id="s0g1a0">
+<cell-icons>{gain-power-card}</cell-icons>
+<growth-text>Gain Power Card</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<cell-icons>
+<badge class="energy">
+<value>3</value>
+</badge>
+</cell-icons>
+<growth-text>Gain Energy</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border double="">
+</growth-border>
+<growth-group header="1">
+<growth-cell id="s1g0a0">
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{ocean}</presence-req>{range-2}</cell-icons>
+<growth-text>Add a Presence to Ocean</growth-text>
+</growth-cell>
+<growth-cell id="s1g0a1">
+<cell-icons>
+<gain>
+<icon class="element fire">
+</icon>
+</gain>
+</cell-icons>
+<growth-text>Gain Fire</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border header="1">
+</growth-border>
+<growth-group header="1">
+<growth-cost>-3</growth-cost>
+<growth-cell id="s1g1a0">
+<cell-icons class="add-presence req">
+<icon-row class="plus">+{presence}</icon-row>
+<presence-req>{mountain-jungle}</presence-req>{range-3}</cell-icons>
+<growth-text>Add a Presence to Mountain or Jungle</growth-text>
+</growth-cell>
+<growth-cell id="s1g1a1">
+<cell-icons class="stack move-presence">
+<icon-row class="tokens">{presence}</icon-row>{range-4}</cell-icons>
+<growth-text>Move a Presence</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

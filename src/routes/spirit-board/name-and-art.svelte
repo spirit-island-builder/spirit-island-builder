@@ -49,6 +49,7 @@
       y: `${1176 / 2}`,
       w: `${250}`,
       h: "",
+      placement: "",
     });
     spiritBoard = spiritBoard;
   }
@@ -189,6 +190,12 @@
       <li>Everything is in pixels (no units). The board is 1766px wide by 1177px tall.</li>
       <li>x is from the left side, and y is from the top (ie it will move your image down).</li>
       <li>The coordinates to go the center of your image.</li>
+      <li>
+        Placement puts the image on top of the whole panel, or inside one section — behind that
+        section's text and icons but in front of its background. For a section, x and y are measured
+        from the section's top-left corner.
+      </li>
+      <li>Overlays never block the mouse; click-to-edit still works through them.</li>
     </ul>
   </div>
   {#each spiritBoard.nameAndArt.overlayImages as image, i (image.id)}
@@ -203,6 +210,20 @@
         <button
           class="button is-warning is-light is-small row-button"
           on:click={removeCustomOverlayImage(i)}>Remove</button>
+      </div>
+      <div class="field is-flex is-small mb-0">
+        <label class="label overlay-custom-label" for={`overlayPlacement${i}`}>placement: </label>
+        <div class="control">
+          <div class="select is-small">
+            <select id={`overlayPlacement${i}`} bind:value={image.placement}>
+              <option value="">Full Panel (on top)</option>
+              <option value="special-rules">Special Rules</option>
+              <option value="growth">Growth</option>
+              <option value="presence-tracks">Presence Tracks</option>
+              <option value="innate-powers">Innate Powers</option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="field is-flex is-small mb-0">
         <label class="label overlay-custom-label" for={`incarnaTokenToken`}>x: </label>

@@ -1,0 +1,64 @@
+<presence-tracks banner="" banner-v-scale="" banner-h-scale="">
+<presence-title>
+<section-title>Presence</section-title>
+</presence-title>
+<table id="presence-table">
+<tbody>
+<tr id="energy-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="energy0" class="first" ttsinfo="1;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>Energy/Turn</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="energy1" ttsinfo="2;;;">
+<ring-icon>
+<node-plate class="energy">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</td>
+</tr>
+<tr id="plays-track">
+<td class="spacer">
+</td>
+<td>
+<presence-node id="card0" class="first" ttsinfo=";;1;">
+<ring-icon>
+<node-plate class="plays">
+<value>1</value>
+</node-plate>
+</ring-icon>
+<subtext>Card Plays</subtext>
+</presence-node>
+</td>
+<td>
+<presence-node id="card1" ttsinfo=";;2;">
+<ring-icon>
+<node-plate class="plays">
+<value>2</value>
+</node-plate>
+</ring-icon>
+<subtext>2</subtext>
+</presence-node>
+</td>
+</tr>
+</tbody>
+</table>
+<presence-bottom>
+</presence-bottom>
+</presence-tracks>
+=== board > track-banner-art
+<track-banner-art class="energy-track" style="background-image: url(null); background-size: 100% nullpx;">
+</track-banner-art>
+<track-banner-art class="plays-track" style="background-image: url(null); background-size: 100% nullpx;">
+</track-banner-art>

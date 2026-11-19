@@ -25,6 +25,7 @@
   import InstructionsLink from "$lib/instructions/link.svelte";
   import LoadDropdown from "$lib/load-dropdown.svelte";
   import SaveDropdown from "$lib/save-dropdown.svelte";
+  import DownloadImageModal from "./download-image-modal.svelte";
 
   export let spiritBoard;
   export let emptySpiritBoard;
@@ -83,6 +84,7 @@
 
   let previewFrame;
   let exampleModal;
+  let downloadImageModal;
 
   async function loadHTMLFromURL(url) {
     url = new URL(url, document.baseURI);
@@ -348,6 +350,9 @@
       overlayImage.setAttribute("imgy", image.y);
       overlayImage.setAttribute("imgwidth", image.w);
       overlayImage.setAttribute("imgheight", image.h);
+      if (image.placement) {
+        overlayImage.setAttribute("imgplacement", image.placement);
+      }
       board.appendChild(overlayImage);
     });
 
@@ -462,7 +467,7 @@
           group.getAttribute("special-title-left"),
           group.getAttribute("new-row")
         );
-        let values = group.getAttribute("values").split(";");
+        let values = Lib.splitGrowthValues(group.getAttribute("values"));
         values.forEach((growthValue) => {
           spiritBoard = Lib.addGrowthAction(spiritBoard, i, j, growthValue);
         });
@@ -595,6 +600,7 @@
         y: image.getAttribute("imgy", image.y),
         w: image.getAttribute("imgwidth", image.w),
         h: image.getAttribute("imgheight", image.h),
+        placement: image.getAttribute("imgplacement") || "",
       });
     });
   }
@@ -619,8 +625,12 @@
     const rightSide = previewFrameDoc.querySelectorAll("right")[0];
     const boardRect = board.getBoundingClientRect();
 
-    //Snap Points
-    let presenceNodes = Array.from(rightSide.getElementsByTagName("presence-node"));
+    //Snap Points — presence tracks and growth's presence-node(...)/presence-track(...)
+    //rings are real placement spots. A special-rules-track is illustration, so it
+    //gets no snap points (it lives outside <right>, but filter explicitly).
+    let presenceNodes = Array.from(rightSide.getElementsByTagName("presence-node")).filter(
+      (node) => !node.closest("special-rules-track")
+    );
     let snapPoints = [];
     if (debug) {
       console.log("TTS Export");
@@ -664,8 +674,13 @@
     let trackElements = [];
     let trackEnergy = [];
     let bonusEnergy = [];
-    let boardNodes = Array.from(board.getElementsByTagName("presence-node"));
-    let lowestEnergy = -1;
+    // Growth's presence nodes export like track nodes (Starlight's growth
+    // tracks are real positions). A special-rules-track is illustration and
+    // must not feed the Lua energy / element tables.
+    let boardNodes = Array.from(board.getElementsByTagName("presence-node")).filter(
+      (node) => !node.closest("special-rules-track")
+    );
+    // let lowestEnergy = -1;
 
     boardNodes.forEach((node) => {
       let ttsInfo = node.getAttribute("ttsInfo");
@@ -742,22 +757,33 @@
       // check if node has energy
       if (ttsInfoArr[0]) {
         let energyNum = ttsInfoArr[0];
-        if (energyNum > lowestEnergy) {
-          lowestEnergy = energyNum;
-          trackEnergy.push({
-            count: Number(lowestEnergy),
-            position: {
-              x: xLoc,
-              y: 0,
-              z: zLoc,
-            },
-          });
-        }
+        trackEnergy.push({
+          count: Number(energyNum),
+          position: {
+            x: xLoc,
+            y: 0,
+            z: zLoc,
+          },
+        });
       }
+
+      // if (ttsInfoArr[0]) {
+      //   let energyNum = ttsInfoArr[0];
+      //   if (energyNum > lowestEnergy) {
+      //     lowestEnergy = energyNum;
+      //     trackEnergy.push({
+      //       count: Number(lowestEnergy),
+      //       position: {
+      //         x: xLoc,
+      //         y: 0,
+      //         z: zLoc,
+      //       },
+      //     });
+      //   }
+      // }
     });
 
-    // trackEnergy needs to be logged in reverse order by convention
-    trackEnergy.reverse();
+    trackEnergy.sort((a, b) => b.count - a.count);
 
     let spiritBoardJson = jsone(spiritBoardJsonTemplate, {
       guid: spiritBoard.nameAndArt.name.replaceAll(" ", "_"),
@@ -779,16 +805,31 @@
     downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
 
-  function screenshotSetUp() {
-    const fileNames = [spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.png"];
-    const elementNamesInIframe = ["board"];
-    previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
+  /** File-name suffix and the `board` class that selects each image layer
+   *  (see _global/css/board_front/layers.css). "full" is the plain board. */
+  const IMAGE_LAYERS = {
+    full: { suffix: "", layerClass: null },
+    background: { suffix: "_background", layerClass: "layer-background" },
+    foreground: { suffix: "_foreground", layerClass: "layer-foreground" },
+  };
+
+  /** Download the board as PNG, one file per requested layer. Layers are
+   *  captured one after another: they all toggle classes on the same
+   *  <board>, so they can't be in flight at the same time. */
+  async function downloadImages(layers) {
+    const baseName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard";
+    for (const layer of layers) {
+      const { suffix, layerClass } = IMAGE_LAYERS[layer];
+      const classes = ["for-image-download"];
+      if (layerClass) classes.push(layerClass);
+      await previewFrame.takeScreenshot([`${baseName}${suffix}.png`], ["board"], classes);
+    }
   }
 
   function printToPDF(pageType = "letter") {
-    const fileNames = [spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.pdf"];
+    const fileName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.pdf";
     const elementNamesInIframe = ["board"];
-    previewFrame.getPDF(fileNames, elementNamesInIframe, pageType);
+    previewFrame.getPDF(fileName, elementNamesInIframe, pageType, 9, 6, "front");
   }
 
   function printToPDFLetter() {
@@ -833,6 +874,101 @@
     let spiritBoard = previewFrame.document.getElementsByTagName("board")[0];
     spiritBoard.classList.add("transparent");
   }
+
+  function devExportLayoutToSI() {
+    function extractSpiritLayout() {
+      let previewFrame = document.getElementById("preview-iframe").contentWindow;
+      const board = previewFrame.document.getElementsByTagName("board")[0];
+      if (!board) {
+        console.error("No <board> element found");
+        return null;
+      }
+
+      const boardRect = board.getBoundingClientRect();
+      const W = boardRect.width;
+      const H = boardRect.height;
+
+      function region(el, id) {
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        const x = r.left - boardRect.left;
+        const y = r.top - boardRect.top;
+        return {
+          id,
+          xPct: +((x / W) * 100).toFixed(3),
+          yPct: +((y / H) * 100).toFixed(3),
+          wPct: +((r.width / W) * 100).toFixed(3),
+          hPct: +((r.height / H) * 100).toFixed(3),
+        };
+      }
+
+      const result = {
+        spiritName: `${spiritBoard.nameAndArt.name}`,
+        imageWidth: Math.round(W),
+        imageHeight: Math.round(H),
+        growthGroups: [],
+        presenceNodes: [],
+        specialRules: [],
+        innates: [],
+      };
+
+      // Growth groups and their individual action cells
+      board.querySelectorAll("growth-group").forEach((group, gi) => {
+        const cells = [];
+        group.querySelectorAll("growth-cell[id]").forEach((cell) => {
+          cells.push(region(cell, cell.id));
+        });
+        result.growthGroups.push({ ...region(group, `growth_group_${gi}`), cells });
+      });
+
+      // Special Rules effect boxes (ids like "sr0effect")
+      board.querySelectorAll("special-rule[id]").forEach((sr) => {
+        const nameEl = board.querySelector(`#${sr.id.replace("effect", "name")}`);
+        result.specialRules.push({
+          ...region(sr, sr.id),
+          name: nameEl?.textContent?.trim() ?? "",
+        });
+      });
+
+      // Presence track nodes (energy + card plays tracks). Growth cells own
+      // their own regions above, so skip the presence nodes living inside them.
+      board.querySelectorAll("presence-node[id]").forEach((node) => {
+        if (node.closest("growth")) return;
+        const ring = node.querySelectorAll("ring-icon")[0];
+        const track = node.closest("#energy-track") ? "energy" : "card";
+        result.presenceNodes.push({ track, ...region(ring, node.id) });
+      });
+
+      // Innate powers and their threshold levels
+      board.querySelectorAll("innate-power[id]").forEach((ip) => {
+        const levels = [];
+        ip.querySelectorAll("level").forEach((level, li) => {
+          levels.push({
+            ...region(level, `${ip.id}L${li}`),
+            thresholdId: level.querySelector("threshold[id]")?.id ?? null,
+            effectId: level.querySelector("effect[id]")?.id ?? null,
+          });
+        });
+        result.innates.push({
+          ...region(ip, ip.id),
+          title: ip.querySelector("innate-power-title")?.textContent?.trim() ?? "",
+          levels,
+        });
+      });
+
+      return result;
+    }
+    console.log("we are here");
+    const layout = extractSpiritLayout();
+    console.log(JSON.stringify(layout, null, 2));
+    try {
+      // copy(JSON.stringify(layout, null, 2));
+      console.log("Copied to clipboard!");
+      return JSON.stringify(layout, null, 2);
+    } catch (e) {
+      console.log("error in json export");
+    }
+  }
 </script>
 
 <div class="columns ml-4 mt-0 mb-1">
@@ -873,13 +1009,15 @@
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
+        savedKeys={["spiritBoard"]}
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(spiritBoard)}
         fileName={`${spiritBoard.nameAndArt.name.replaceAll(" ", "_")}_SpiritBoard.html`}
-        saveType="html" />
+        saveType="html"
+        savedKeys={["spiritBoard"]} />
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>
       <!-- <button class="button is-warning mt-1 mr-1" on:click={previewFrame.toggleSize}
@@ -887,7 +1025,10 @@
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
     </div>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
-      <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button
+        class="button is-success mt-1 mr-1"
+        aria-haspopup="dialog"
+        on:click={downloadImageModal.open}>Download Image...</button>
       <button class="button is-success mt-1 mr-1" on:click={downloadTTSJSON}
         >Export TTS file</button>
       <div class="dropdown is-hoverable is-up">
@@ -924,6 +1065,11 @@
             overlayImage = url;
           }}>Load Overlay</LoadButton>
         <button class="button is-danger mt-1 mr-1" on:click={addOverlay}>Add Overlay</button>
+        <SaveDropdown
+          saveAction={devExportLayoutToSI}
+          fileName={`${spiritBoard.nameAndArt.name.toLowerCase().replaceAll(" ", "_")}-layout.json`}
+          saveType="string"
+          mimeType="application/json;charset=utf-8" />
       {/if}
     </div>
   </div>
@@ -933,3 +1079,4 @@
   {loadExample}
   title="Load Examples & Official Spirits"
   {examples} />
+<DownloadImageModal bind:this={downloadImageModal} onDownload={downloadImages} />

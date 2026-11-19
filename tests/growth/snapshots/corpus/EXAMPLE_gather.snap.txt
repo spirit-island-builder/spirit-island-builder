@@ -1,0 +1,71 @@
+<growth>
+<section-title>Growth (Pick One)</section-title>
+<growth-table>
+<growth-group>
+<growth-cell id="s0g0a0">
+<cell-icons class="stack push-gather">
+<piece-move class="gather">
+<icon class="land-gather">
+</icon>
+<icon-row class="pieces">{blight}</icon-row>
+</piece-move>
+</cell-icons>
+<growth-text>Gather 1 Blight into 1 of your Lands</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a1">
+<cell-icons class="stack push-gather">
+<piece-move class="gather">
+<icon class="land-gather">
+</icon>
+<icon-row class="pieces">{disease}{disease}{disease}</icon-row>
+</piece-move>
+</cell-icons>
+<growth-text>Gather 3 Disease into 1 of your Lands</growth-text>
+</growth-cell>
+<growth-cell id="s0g0a2">
+<cell-icons class="stack push-gather">
+<piece-move class="gather">
+<icon class="jungle terrain-single">{gather-arrow}</icon>
+<icon-row class="pieces">{beasts}</icon-row>
+</piece-move>
+</cell-icons>
+<growth-text>Gather 1 Beasts into Jungle</growth-text>
+</growth-cell>
+</growth-group>
+<growth-border>
+</growth-border>
+<growth-group>
+<growth-cell id="s0g1a0">
+<cell-icons class="stack push-gather">
+<piece-move class="gather">
+<icon class="land-gather">{sacred-site}</icon>
+<icon-row class="pieces">{presence}</icon-row>
+</piece-move>
+</cell-icons>
+<growth-text>Gather 1 Presence into Each Sacred Site</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a1">
+<cell-icons class="stack push-gather">
+<piece-move class="gather">
+<icon class="ocean terrain-double">{gather-arrow}</icon>
+<icon-row class="pieces">{presence}{presence}</icon-row>
+</piece-move>
+</cell-icons>
+<growth-text>Gather 2 Presence into Ocean</growth-text>
+</growth-cell>
+<growth-cell id="s0g1a2">
+<cell-icons class="stack push-gather">
+<piece-move class="gather">
+<icon class="mountain-wetland terrain-double">{gather-arrow}</icon>
+<icon-row class="pieces">{beasts}{beasts}{beasts}</icon-row>
+</piece-move>
+</cell-icons>
+<growth-text>Gather 3 Beasts into Mountain or Wetland</growth-text>
+</growth-cell>
+</growth-group>
+</growth-table>
+<growth-bottom>
+</growth-bottom>
+<growth-background>
+</growth-background>
+</growth>

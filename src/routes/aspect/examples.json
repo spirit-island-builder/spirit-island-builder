@@ -7,6 +7,10 @@
         "url": "/template/MyCustomContent/MyAspect/Lair_Aspect.html"
       },
       {
+        "name": "Locus - Serpent",
+        "url": "/template/MyCustomContent/MyAspect/Locus_Aspect.html"
+      },
+      {
         "name": "Tactician - Thunderspeaker",
         "url": "/template/MyCustomContent/MyAspect/Tactician_Aspect.html"
       },

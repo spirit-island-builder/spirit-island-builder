@@ -97,8 +97,10 @@ export const downloadImage = (imageURL, fileName) => {
  * @param {string} mimeType
  * @param {string} fileContent
  * @param {string} fileName
+ * @returns {Promise<boolean>} Whether the file actually reached its destination.
+ *   Callers must not treat the content as saved unless this resolves true.
  */
-export const downloadString = (
+export const downloadString = async (
   mimeType,
   fileContent,
   fileName,
@@ -106,7 +108,7 @@ export const downloadString = (
 ) => {
   if (shouldDivertDownload) {
     downloadData.set({ fileContent, fileName });
-    return;
+    return true;
   }
 
   const location = saveLocationOverride ?? SaveLocation.LOCAL;
@@ -114,18 +116,31 @@ export const downloadString = (
   // Local download
   if (location === SaveLocation.LOCAL) {
     downloadFile(`data:${mimeType},${encodeURIComponent(fileContent)}`, fileName);
+    return true;
   }
 
   // Google Drive upload
   if (location === SaveLocation.DRIVE) {
-    saveToDrive(fileContent, fileName).catch((err) => {
+    try {
+      const result = await saveToDrive(fileContent, fileName);
+      // Dismissing the Drive save dialog resolves to null rather than
+      // throwing, so a falsy result is a cancellation, not a save.
+      if (!result) {
+        showToast("📁 Save cancelled");
+        return false;
+      }
+      return true;
+    } catch (err) {
       if (err.message.includes("cancelled")) {
         showToast("📁 Save cancelled");
       } else {
         showToast(`❌ Save failed: ${err.message}`);
       }
-    });
+      return false;
+    }
   }
+
+  return false;
 };
 
 /**
@@ -133,9 +148,19 @@ export const downloadString = (
  *
  * @param {DocumentFragment} fragment
  * @param {string} fileName
+ * @returns {Promise<boolean>} Whether the file actually reached its destination.
  */
-export const downloadHTML = (fragment, fileName, saveLocationOverride = SaveLocation.LOCAL) => {
+export const downloadHTML = async (
+  fragment,
+  fileName,
+  saveLocationOverride = SaveLocation.LOCAL
+) => {
   const helper = document.createElement("helper");
   helper.append(fragment);
-  downloadString("text/html;charset=utf-8", helper.innerHTML, fileName, saveLocationOverride);
+  return downloadString(
+    "text/html;charset=utf-8",
+    helper.innerHTML,
+    fileName,
+    saveLocationOverride
+  );
 };

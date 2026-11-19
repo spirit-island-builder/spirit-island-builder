@@ -34,6 +34,7 @@
           class="input"
           type="text"
           placeholder="Name"
+          data-next-field="fearCardEffect1"
           on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={fearCard.card.cardName} />
@@ -52,6 +53,7 @@
         elementType="textarea"
         classNames="is-small"
         placeholder="Effect"
+        nextField="fearCardEffect2"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={fearCard.card.level1} />
     </div>
@@ -61,6 +63,7 @@
         elementType="textarea"
         classNames="is-small"
         placeholder="Effect"
+        nextField="fearCardEffect3"
         validAutoCompleteValues={iconValuesSorted}
         bind:value={fearCard.card.level2} />
     </div>

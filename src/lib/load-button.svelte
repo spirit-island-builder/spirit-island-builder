@@ -28,6 +28,7 @@
         fileReader.readAsDataURL(file);
       }
     }
+    fileInput.value = "";
   };
 </script>
 

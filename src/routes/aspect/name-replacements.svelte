@@ -1,6 +1,7 @@
 <script>
   import Section from "$lib/section.svelte";
   import ImageInput from "$lib/image-input.svelte";
+  import AutoComplete from "$lib/auto-complete/index.svelte";
   import * as Lib from "../lib";
 
   export let aspect;
@@ -26,13 +27,6 @@
   function setBack() {
     aspect.info.hasBack = !aspect.info.hasBack;
     aspect = aspect;
-  }
-
-  function toggleProfile() {
-    aspect.info.profile = !aspect.info.profile;
-    aspect = aspect;
-
-    document.getElementById("updateButton").click();
   }
 
   function toggleShowparts() {
@@ -65,6 +59,8 @@
             class="input"
             type="text"
             placeholder="Name"
+            data-next-field="part0ReplacesInput0"
+            data-next-field-default="aspectSpiritName"
             on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={aspect.info.aspectName} />
@@ -93,48 +89,25 @@
       </div>
     </div>
     <div class="field is-flex is-flex-direction-row has-addons">
-      <label class="label is-flex is-justify-content-space-between" for="aspectInput"
-        >Format:
-      </label>
-      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 ml-2">
-        {#if aspect.info.profile}
-          <button class="button is-success is-small button-hold mb-0" id="fast-button"
-            >Portrait</button>
-          <button
-            class="button is-success is-light is-small button-hold mb-0"
-            id="slow-button"
-            on:click={toggleProfile}>Landscape</button>
-        {:else}
-          <button
-            class="button is-success is-light is-small button-hold mb-0"
-            id="fast-button"
-            on:click={toggleProfile}>Portrait</button>
-          <button class="button is-success is-small button-hold mb-0" id="slow-button"
-            >Landscape</button>
-        {/if}
-      </div>
-      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0 ml-2">
+      <label class="label is-unselectable mr-1 mt-1" for="">Part numbers: </label>
+      <div class="buttons has-addons is-flex is-flex-direction-row is-flex-wrap-nowrap mb-0">
         {#if aspect.info.showparts}
-          <button class="button is-success is-small button-hold mb-0" id="fast-button"
-            >Show "Part"</button>
+          <button class="button is-success is-small button-hold mb-0">Show "Part"</button>
           <button
             class="button is-success is-light is-small button-hold mb-0"
-            id="slow-button"
             on:click={toggleShowparts}>Hide "Part"</button>
         {:else}
           <button
             class="button is-success is-light is-small button-hold mb-0"
-            id="fast-button"
             on:click={toggleShowparts}>Show "Part"</button>
-          <button class="button is-success is-small button-hold mb-0" id="slow-button"
-            >Hide "Part"</button>
+          <button class="button is-success is-small button-hold mb-0">Hide "Part"</button>
         {/if}
       </div>
     </div>
     {#if aspect.info.hasBack}
       <button class="button is-warning is-light is-small row-button" on:click={setBack}
         >Remove Card Back</button>
-      <label class="label is-flex is-justify-content-space-between" for="rulesReplacedInput"
+      <label class="label is-flex is-justify-content-space-between" for="aspectSpiritName"
         >Spirit Name
       </label>
       <div class="field is-flex is-small mb-0">
@@ -147,6 +120,16 @@
             on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={aspect.info.spiritName} />
+        </div>
+      </div>
+      <label class="label is-flex is-justify-content-space-between" for="aspectLore">Lore </label>
+      <div class="field is-flex is-small mb-0">
+        <div class="control" style="width:100%">
+          <AutoComplete
+            id={`aspectLore`}
+            elementType="textarea"
+            placeholder="Lore (optional)"
+            bind:value={aspect.info.lore} />
         </div>
       </div>
       <ImageInput id="backArt" title="Art" bind:imageURL={aspect.info.spiritImage} />

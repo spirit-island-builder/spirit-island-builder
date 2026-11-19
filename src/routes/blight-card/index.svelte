@@ -178,13 +178,15 @@
       <LoadDropdown
         accept="text/html"
         class="button is-success mt-1 mr-1"
+        savedKeys={["blightCard"]}
         loadObjectURL={loadHTMLFromURL}>
         Load
       </LoadDropdown>
       <SaveDropdown
         saveAction={() => generateHTML(blightCard)}
         fileName={`${blightCard.card.cardName.replaceAll(" ", "_")}_BlightCard.html`}
-        saveType="html" />
+        saveType="html"
+        savedKeys={["blightCard"]} />
       <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
       <button class="button is-warning mt-1 mr-1" id="updateButton" on:click={reloadPreview}
         >Update Preview</button>

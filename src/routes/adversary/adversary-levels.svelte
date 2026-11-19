@@ -87,6 +87,7 @@
             class="input is-small"
             type="text"
             placeholder="Name"
+            data-next-field="levelDifficultyInput{i}"
             on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={level.name} />
@@ -97,6 +98,7 @@
             class="input is-small"
             type="text"
             placeholder="Difficulty"
+            data-next-field="levelFearInput{i}"
             on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={level.difficulty} />
@@ -107,6 +109,7 @@
             class="input is-small"
             type="text"
             placeholder="Fear Cards"
+            data-next-field="levelEffectInput{i}"
             on:keydown={nextNode}
             on:focus={selectNode}
             bind:value={level.fearCards} />
@@ -118,6 +121,8 @@
           elementType="textarea"
           classNames="is-small"
           placeholder="Effect"
+          nextField="levelSecondNameInput{i}"
+          nextFieldDefault="levelNameInput{i + 1}"
           validAutoCompleteValues={iconValuesSorted}
           bind:value={level.effect} />
       </div>
@@ -128,6 +133,7 @@
               id={`levelSecondNameInput${i}`}
               class="input is-small"
               type="text"
+              data-next-field="levelSecondEffectInput{i}"
               on:keydown={nextNode}
               on:focus={selectNode}
               placeholder="2nd Rule Name"
@@ -144,6 +150,7 @@
             elementType="textarea"
             classNames="is-small"
             placeholder="2nd Rule Effect"
+            nextField="levelNameInput{i + 1}"
             validAutoCompleteValues={iconValuesSorted}
             bind:value={level.effect2} />
         </div>

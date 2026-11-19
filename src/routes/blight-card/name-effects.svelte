@@ -43,6 +43,7 @@
           class="input"
           type="text"
           placeholder="Name"
+          data-next-field="blightCardBlightPerPlayer"
           on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={blightCard.card.cardName} />
@@ -53,6 +54,7 @@
           class="input"
           type="text"
           placeholder="Blight Per Player"
+          data-next-field="blightCardEffect"
           on:keydown={nextNode}
           on:focus={selectNode}
           bind:value={blightCard.card.blightPerPlayer} />
