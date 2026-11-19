@@ -16,6 +16,178 @@
 
     <div class="month-section">
       <div class="month-header">
+        <span class="month-label">November 2026</span>
+        <span class="month-rule" />
+      </div>
+      <ul class="entry-list">
+        <li class="entry">
+          <span class="tag tag-export">Export</span> The spirit board's
+          <strong>Download Image</strong>
+          button now opens a dialog. Download the whole board as before, or split it into a
+          <strong>background</strong> layer (frame, art, parchments, banners) and a transparent
+          <strong>foreground</strong> layer (text, icons, presence nodes) that stack back together pixel
+          for pixel, with room for your own effects in between
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> Aspect parts can each be <strong>Landscape</strong>
+          or
+          <strong>Portrait</strong>, set per part. A new part starts in the same orientation as the
+          one before it, and the back follows part 1
+        </li>
+        <li class="entry">
+          <span class="tag tag-export">Export</span> Aspect TTS export now produces one card per part
+          instead of only the first
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> Every field in a multipart aspect now has its own id,
+          so clicking a label or tabbing through the form no longer jumps to the same-named field in
+          another open part
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> Adversary icons scale with the text — rules and top-info
+          icons are sized from the surrounding font, so shrink-to-fit text keeps its icon proportions.
+          Element counts use the Energy font and never break from their icon, and text fitting now waits
+          for fonts to load before measuring
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> Custom icons keep their proportions — the builder measures
+          each uploaded icon and hands its aspect ratio to the renderer, so wide or tall art is no longer
+          squashed into a square. The preview re-renders once the measurement lands
+        </li>
+        <li class="entry">
+          <span class="tag tag-export">Export</span> Exports fail loudly — if a PNG or PDF screenshot
+          fails you get an error toast rather than a silently missing file
+        </li>
+        <li class="entry">
+          <span class="tag tag-export">Export</span> Power card sheet PDFs are now roughly a quarter
+          of the size: cards are embedded as JPEG at the same pixel size, about 250 KB per card instead
+          of 1.1 MB
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> A bare number in the spirit image scale field (e.g.
+          <code>80</code>) is now read as a percentage instead of being ignored. Official Many Minds
+          Move as One template corrected
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> Innate powers: the hairline of light that showed between
+          the brown title band and the black border at fractional zoom levels (Windows 125%/150% scaling,
+          worst in Firefox) is gone
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> <code>gain-power-card</code> modifiers: the
+          Minor/Major gem sits on the left of the card art and the optional third modifier (e.g.
+          <code>noforget</code>) on the right, sized and shadowed consistently
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> Presence track tuning: the presence glyph and the arrow
+          in move-presence nodes are sized independently, and card icons in nodes (gain, forget, discard,
+          reclaim, isolate, Days That Never Were) are drawn larger
+        </li>
+      </ul>
+    </div>
+
+    <div class="month-section">
+      <div class="month-header">
+        <span class="month-label">October 2026</span>
+        <span class="month-rule" />
+      </div>
+      <ul class="entry-list">
+        <li class="entry">
+          <span class="tag tag-new">New</span> <strong>Create PDF</strong> dialog for power cards
+          replaces the Letter/A4 dropdown. Pick the paper size (Letter or A4, remembered between
+          sessions) and what to print: <em>Fronts only</em>, <em>Backs only</em> (for a second pass
+          through the printer), or <em>Duplex</em> with fronts and backs on alternating pages in one
+          PDF. The back options appear once a card back image is loaded
+        </li>
+      </ul>
+    </div>
+
+    <div class="month-section">
+      <div class="month-header">
+        <span class="month-label">September 2026</span>
+        <span class="month-rule" />
+      </div>
+      <ul class="entry-list">
+        <li class="entry">
+          <span class="tag tag-new">New</span> Scenario lore can sit on the <strong>left</strong> of
+          the front, over the art — toggle with the "Left" button beside the Lore field. The text steps
+          its font down to fit the art area, and an empty left lore panel is dropped rather than leaving
+          a bare parchment strip
+        </li>
+      </ul>
+    </div>
+
+    <div class="month-section">
+      <div class="month-header">
+        <span class="month-label">August 2026</span>
+        <span class="month-rule" />
+      </div>
+      <ul class="entry-list">
+        <li class="entry">
+          <span class="tag tag-new">New</span> <strong>Art overlay placement</strong> — each overlay
+          image on a spirit board can be placed over the whole panel or inside Special Rules, Growth,
+          Presence Tracks, or Innate Powers, rendering behind that section's text and icons but in front
+          of its background art. Existing files are unchanged, and overlays no longer block clicking
+          on the preview
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span>
+          <code>add-presence(x,token,y,and/or,z,...)</code> takes land requirements after the join
+          word, so <code>add-presence(any,token,beasts,or,ocean)</code> reads "Add a Presence or a Beasts
+          to any Ocean". Those slots used to be silently discarded
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> <code>add-presence(x,relative,y,z,...)</code> takes
+          land requirements too: <code>add-presence(1,relative,sacred-site,jungle)</code> reads "Add
+          a Presence to Jungle from Sacred Site"
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> Negated land requirements read as a group — "Land without
+          Blight and Disease" rather than "...and no Blight" — and are sorted after the positive ones
+          so the icons and the subtext always agree. Three or more "or" requirements are joined with
+          backslash icons
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> Push and gather growth actions redrawn as piece-move
+          scenes with proper land-push/land-gather art; move arrows now appear on move-presence
+          rows;
+          <code>incarna(move,any)</code> shows the any-range icon; badge digits (energy, fear, card plays,
+          repeat) are no longer bold while damage stays bold
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> A <code>middle()</code> or <code>bonus()</code> node
+          in the middle of the energy track no longer strips the card play track's starting node —
+          its ring art and "Card Plays" subtext are back on Finder, Serpent, and the middle-tracks
+          example. Only a track that <em>opens</em> with two or more middle-row nodes (Wounded Waters)
+          suppresses it
+        </li>
+        <li class="entry">
+          <span class="tag tag-lang">Lang</span> Arabic and Chinese no longer append a spurious "at Range"
+          to every numeric add-presence, and the relative form says "from" rather than "at". German "Präsenh
+          oder eine" corrected to "Präsenz oder ein"
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> Requirement phrases are joined rather than concatenated,
+          fixing "Mountain or Land with Badlands" and "Blight /Disease". A token add-presence with no
+          and/or now says what is missing instead of dying
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> Reference boards added to the template library:
+          Bringer of Enticing Dreams, Bringer of Nightmares of Violence, Hungry Grasp of the Deeps,
+          Serpent Regards Its Locus, Sharp Fangs Encircle Prey, and Shifty Mentor of Sages.
+          <em>Locus</em>
+          (Serpent) added as an aspect example
+        </li>
+        <li class="entry">
+          <span class="tag tag-perf">Perf</span> Renderer stylesheets reworked: icon sizes come from
+          a generated ratio layer so every icon keeps its art's proportions at any size, and growth cells
+          share one invariant structure. Verified pixel-for-pixel against the full template corpus
+        </li>
+      </ul>
+    </div>
+
+    <div class="month-section">
+      <div class="month-header">
         <span class="month-label">July 2026</span>
         <span class="month-rule" />
       </div>
@@ -46,13 +218,103 @@
           <code>add-presence(1)*My text</code> overrides now behave the same way for every action
         </li>
         <li class="entry">
-          <span class="tag tag-export">Export</span> Presence nodes used as growth artwork are no longer
-          mistaken for real track nodes: they no longer add stray snap points or energy and element entries
-          to the Tabletop Simulator export
+          <span class="tag tag-export">Export</span> Tabletop Simulator export: presence nodes in a special
+          rules track are illustration and no longer add snap points or energy and element entries, while
+          presence nodes and tracks inside growth export as real track positions
         </li>
         <li class="entry">
           <span class="tag tag-fix">Fix</span> Starlight Seeks Its Form's growth panel now renders its
           two notated presence nodes, and aspect special rules no longer read from the wrong container
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> The browser now
+          <strong>warns before closing the tab</strong> with unsaved changes. Tracking is per component,
+          so saving the spirit board does not dismiss unsaved power cards; PNG, PDF, and TTS exports
+          do not count as saves, and neither does a cancelled Google Drive save
+        </li>
+        <li class="entry">
+          <span class="tag tag-perf">Perf</span> Re-renders no longer wait a fixed fraction of a second
+          — the renderer waits for fonts to be ready instead, so edits show up instantly and slow font
+          loads no longer mis-measure text
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> <code>gain-energy(0,x)</code> and
+          <code>fear(0,x)</code>
+          no longer render a flat +0 icon; a single over-wide growth group renders instead of crashing
+          the whole board; quotes in special rule titles and <code>rgb(...)</code> tints with spaces
+          no longer break the generated tag
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> <code>add-presence(x,token,y,instead)</code> had never
+          rendered — it always fell back to an error cell. It now renders in all nine languages. Error
+          cells also name the failing growth action
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> Growth inputs trim stray whitespace at the edges, fixing
+          a stray space in the official Breath of Darkness template. Switching the board language no
+          longer serves cached text from the previous language
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> Aspect subtext elements and the custom energy icon were
+          rendering blank from broken image paths; power card wetland presence icon was never sized;
+          the tall DK Snemand font swapped for a re-centered cut to fix its baseline
+        </li>
+      </ul>
+    </div>
+
+    <div class="month-section">
+      <div class="month-header">
+        <span class="month-label">May 2026</span>
+        <span class="month-rule" />
+      </div>
+      <ul class="entry-list">
+        <li class="entry">
+          <span class="tag tag-new">New</span> <strong>Builder Save</strong> tab — save the whole Builder
+          to one JSON file instead of component by component, with toggles for which components to include,
+          and load it back the same way
+        </li>
+        <li class="entry">
+          <span class="tag tag-export">Export</span> Combined TTS export: a Starting Energy field on
+          the spirit board back page adds a starting energy object named for your spirit; an Unlock button
+          lets you re-stage pieces; the combined export state is included in Builder Save
+        </li>
+        <li class="entry">
+          <span class="tag tag-export">Export</span> TTS presence tracks now export every energy node's
+          value, highest first, rather than only values that increased along the track
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> <code>reclaim(x)</code> growth action takes a number
+          —
+          <code>reclaim(2)</code> renders a numbered reclaim icon with "Reclaim 2 Cards", localized in
+          all nine languages. Autocomplete and instructions updated
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> <code>damage(x,y)</code> accepts a token in place of the
+          number, reading "1 Damage per Beasts in a Land" with the token's icon on the damage badge
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> <code>replace(x,y)</code> growth action redrawn as the
+          removed piece, an arrow, and its replacement using the standard icon shorthand
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> Aspects can carry <strong>Lore</strong> text on the back
+          card
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> Adversary escalation set to "None" prints None and gives
+          the top info the extra room; an escalation without a name no longer prints a stray colon
+        </li>
+        <li class="entry">
+          <span class="tag tag-new">New</span> The lore side switches to a taller board when the text
+          runs long
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> Power card thresholds are drawn by the same code as spirit
+          board innate thresholds, so the two now match
+        </li>
+        <li class="entry">
+          <span class="tag tag-fix">Fix</span> Innate power layout fixes for Starlight- and Rumu-style
+          boards, growth option spacing, and the growth border
         </li>
       </ul>
     </div>

@@ -1,0 +1,63 @@
+/* Layer-split for the spirit board's "Download Image" dialog.
+ *
+ * board.layer-background — art only: board frame, spirit art, name banner,
+ *   panel parchments (growth / presence / innate / special-rules), track
+ *   banners, growth tints.
+ * board.layer-foreground — content only: all text, presence nodes, growth
+ *   icons, innate power boxes + thresholds, special rules, energy values.
+ *
+ * Both modes use visibility (never display) so layout is untouched and the
+ * two screenshots align pixel-perfect: compositing the foreground PNG over
+ * the background PNG reproduces the whole board.
+ *
+ * If a new art element appears in board_front/, add it to BOTH rule sets.
+ */
+
+/* ---------- background pass: hide content, keep art ---------- */
+
+board.layer-background spirit-name-text,
+board.layer-background artist-name,
+board.layer-background created-with,
+board.layer-background custom-meeple,
+board.layer-background special-rules-container > *:not(special-rules-background),
+board.layer-background growth > *:not(growth-background):not(growth-bottom),
+board.layer-background presence-tracks > *:not(track-banner-art):not(presence-bottom),
+board.layer-background innate-powers > *:not(innate-powers-background) {
+  visibility: hidden !important;
+}
+
+/* Art nested INSIDE the growth content subtree — re-show it under the hidden
+   growth children (visibility on a descendant overrides the hidden ancestor):
+   - .tint: colored art washes
+   - track-banner-art.growth-track: banner behind a growth presence-track()
+     row (Starlight), nested in its growth cell rather than parked on
+     <presence-tracks> like the real track banners */
+board.layer-background growth .tint,
+board.layer-background growth track-banner-art {
+  visibility: visible !important;
+}
+
+/* ---------- foreground pass: hide art, keep content ---------- */
+
+board.layer-foreground {
+  background-image: none !important; /* Frame.png */
+}
+
+board.layer-foreground spirit-image-holder,
+board.layer-foreground spirit-image.spirit-image,
+board.layer-foreground .spirit-border,
+board.layer-foreground spirit-name-art,
+board.layer-foreground growth-background,
+board.layer-foreground growth-bottom,
+board.layer-foreground growth .tint,
+board.layer-foreground track-banner-art,
+board.layer-foreground presence-bottom,
+board.layer-foreground innate-powers-background,
+board.layer-foreground special-rules-background,
+board.layer-foreground overlay-container {
+  visibility: hidden !important;
+}
+
+board.layer-foreground presence-tracks {
+  background-image: none !important; /* Presence_Without_Text.png parchment */
+}

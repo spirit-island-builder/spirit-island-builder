@@ -56,18 +56,20 @@
   /** Canvas pixels per CSS pixel for PNG downloads. */
   const PNG_SCALE = 1.8;
 
-  /** Download each element as a PNG. `options` is a class added to the
-   *  element while it is captured, so CSS can lay it out for export
-   *  (e.g. rotating landscape aspects upright). */
+  /** Download each element as a PNG. `options` is a class, or a list of
+   *  classes, added to the element while it is captured, so CSS can lay it
+   *  out for export (e.g. rotating landscape aspects upright) or hide part
+   *  of it (the spirit board's background/foreground layers). */
   export const takeScreenshot = async (
     fileNames,
     elementNamesInIframe,
     options = "for-image-download"
   ) => {
+    const classes = Array.isArray(options) ? options : [options];
     const elements = elementNamesInIframe
       .map((name) => previewIframe.contentDocument.querySelector(name))
       .filter(Boolean);
-    elements.forEach((element) => element.classList.add(options));
+    elements.forEach((element) => element.classList.add(...classes));
     try {
       await Promise.all(
         elementNamesInIframe.map(async (elementNameInIframe, index) => {
@@ -83,7 +85,7 @@
       showToast(`❌ Image export failed: ${err.message}`);
     } finally {
       // Whatever happened, don't leave the preview in its export layout.
-      elements.forEach((element) => element.classList.remove(options));
+      elements.forEach((element) => element.classList.remove(...classes));
     }
   };
 

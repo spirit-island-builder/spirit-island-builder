@@ -25,6 +25,7 @@
   import InstructionsLink from "$lib/instructions/link.svelte";
   import LoadDropdown from "$lib/load-dropdown.svelte";
   import SaveDropdown from "$lib/save-dropdown.svelte";
+  import DownloadImageModal from "./download-image-modal.svelte";
 
   export let spiritBoard;
   export let emptySpiritBoard;
@@ -83,6 +84,7 @@
 
   let previewFrame;
   let exampleModal;
+  let downloadImageModal;
 
   async function loadHTMLFromURL(url) {
     url = new URL(url, document.baseURI);
@@ -623,10 +625,11 @@
     const rightSide = previewFrameDoc.querySelectorAll("right")[0];
     const boardRect = board.getBoundingClientRect();
 
-    //Snap Points — track nodes only; growth's presence-node(...) rings are
-    //artwork and would drop snap points in the middle of the growth panel.
+    //Snap Points — presence tracks and growth's presence-node(...)/presence-track(...)
+    //rings are real placement spots. A special-rules-track is illustration, so it
+    //gets no snap points (it lives outside <right>, but filter explicitly).
     let presenceNodes = Array.from(rightSide.getElementsByTagName("presence-node")).filter(
-      (node) => !node.closest("growth")
+      (node) => !node.closest("special-rules-track")
     );
     let snapPoints = [];
     if (debug) {
@@ -671,11 +674,11 @@
     let trackElements = [];
     let trackEnergy = [];
     let bonusEnergy = [];
-    // Growth can hold presence nodes too (presence-node(...)); those are
-    // artwork, not track positions, so they must not feed the Lua energy /
-    // element tables.
+    // Growth's presence nodes export like track nodes (Starlight's growth
+    // tracks are real positions). A special-rules-track is illustration and
+    // must not feed the Lua energy / element tables.
     let boardNodes = Array.from(board.getElementsByTagName("presence-node")).filter(
-      (node) => !node.closest("growth")
+      (node) => !node.closest("special-rules-track")
     );
     // let lowestEnergy = -1;
 
@@ -802,10 +805,25 @@
     downloadString(ttsSaveMIMEType, ttsSave, jsonFileName);
   }
 
-  function screenshotSetUp() {
-    const fileNames = [spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard.png"];
-    const elementNamesInIframe = ["board"];
-    previewFrame.takeScreenshot(fileNames, elementNamesInIframe);
+  /** File-name suffix and the `board` class that selects each image layer
+   *  (see _global/css/board_front/layers.css). "full" is the plain board. */
+  const IMAGE_LAYERS = {
+    full: { suffix: "", layerClass: null },
+    background: { suffix: "_background", layerClass: "layer-background" },
+    foreground: { suffix: "_foreground", layerClass: "layer-foreground" },
+  };
+
+  /** Download the board as PNG, one file per requested layer. Layers are
+   *  captured one after another: they all toggle classes on the same
+   *  <board>, so they can't be in flight at the same time. */
+  async function downloadImages(layers) {
+    const baseName = spiritBoard.nameAndArt.name.replaceAll(" ", "_") + "_SpiritBoard";
+    for (const layer of layers) {
+      const { suffix, layerClass } = IMAGE_LAYERS[layer];
+      const classes = ["for-image-download"];
+      if (layerClass) classes.push(layerClass);
+      await previewFrame.takeScreenshot([`${baseName}${suffix}.png`], ["board"], classes);
+    }
   }
 
   function printToPDF(pageType = "letter") {
@@ -1007,7 +1025,10 @@
       <button class="button is-danger mt-1 mr-1" on:click={clearAllFields}>Clear All Fields</button>
     </div>
     <div class="field has-addons mb-0 is-flex-wrap-wrap">
-      <button class="button is-success mt-1 mr-1" on:click={screenshotSetUp}>Download Image</button>
+      <button
+        class="button is-success mt-1 mr-1"
+        aria-haspopup="dialog"
+        on:click={downloadImageModal.open}>Download Image...</button>
       <button class="button is-success mt-1 mr-1" on:click={downloadTTSJSON}
         >Export TTS file</button>
       <div class="dropdown is-hoverable is-up">
@@ -1058,3 +1079,4 @@
   {loadExample}
   title="Load Examples & Official Spirits"
   {examples} />
+<DownloadImageModal bind:this={downloadImageModal} onDownload={downloadImages} />
