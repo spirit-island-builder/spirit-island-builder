@@ -1,3 +1,5 @@
+/* global attrHTML, cssURL */
+
 function startMain() {
   console.log("Start Main cards");
 
@@ -53,7 +55,10 @@ function constructCard(data, cardIndex) {
     targetType = "land";
   }
   card.innerHTML = `
-  <card-art><div class="image" style="background-image:url(${data.image});"></div></card-art>
+  <card-art><div class="image"${attrHTML(
+    "style",
+    `background-image:${cssURL(data.image)};`
+  )}></div></card-art>
   <card-frame></card-frame>
   <power-subtitle>${data.subtitle || ""}</power-subtitle>
   <cost></cost>
@@ -72,7 +77,7 @@ function constructCard(data, cardIndex) {
   </info-title>
 
   <info>
-    <info-speed><icon class="${data.speed}"></icon></info-speed>
+    <info-speed><icon${attrHTML("class", data.speed)}></icon></info-speed>
     <info-range id='${card.id}range'>
       ${data.range}
     </info-range>
@@ -209,7 +214,7 @@ function getThresholdElements(conditions) {
 function getElementHtml(elements) {
   var result = "";
   for (var element of elements) {
-    result += `<element class="${element}"></element>`;
+    result += `<element${attrHTML("class", element)}></element>`;
   }
 
   return result;

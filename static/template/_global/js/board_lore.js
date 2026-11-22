@@ -1,3 +1,5 @@
+/* global attrHTML */
+
 let lang = "en";
 
 function startMain() {
@@ -110,19 +112,31 @@ function buildLoreBoard() {
                             <div class="summary-of-powers-title">${localize[lang]["summary"]}
                         </div></td>
                         <td valign="bottom">
-                            <power-bar class="offense" value="${offenseValue}"></power-bar>
+                            <power-bar class="offense"${attrHTML(
+                              "value",
+                              offenseValue
+                            )}></power-bar>
                         </td>
                         <td valign="bottom">
-                            <power-bar class="control" value="${controlValue}"></power-bar>
+                            <power-bar class="control"${attrHTML(
+                              "value",
+                              controlValue
+                            )}></power-bar>
                         </td>
                         <td valign="bottom">
-                            <power-bar class="fear" value="${fearValue}"></power-bar>
+                            <power-bar class="fear"${attrHTML("value", fearValue)}></power-bar>
                         </td>
                         <td valign="bottom">
-                            <power-bar class="defense" value="${defenseValue}"></power-bar>
+                            <power-bar class="defense"${attrHTML(
+                              "value",
+                              defenseValue
+                            )}></power-bar>
                         </td>
                         <td valign="bottom">
-                            <power-bar class="utility" value="${utilityValue}"></power-bar>
+                            <power-bar class="utility"${attrHTML(
+                              "value",
+                              utilityValue
+                            )}></power-bar>
                         </td>
                     </tr>
                     <tr>

@@ -17,6 +17,12 @@ const config = {
       allow: ["docs/"],
     },
   },
+  // ionicons imports the directory `@stencil/core/internal/client`, which
+  // Node ESM rejects when vite externalizes it during dev SSR (vite >= 4.5).
+  // Bundling both packages for SSR lets vite resolve the directory import.
+  ssr: {
+    noExternal: ["ionicons", "@stencil/core"],
+  },
 };
 
 export default config;
