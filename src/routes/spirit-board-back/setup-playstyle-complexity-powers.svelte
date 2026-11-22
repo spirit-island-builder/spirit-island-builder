@@ -100,7 +100,7 @@
             id="spiritLoreOffense"
             class="input"
             type="text"
-            placeholder="Offense Value (1-10)"
+            placeholder="Offense Value (1-10, or negative)"
             data-next-field="spiritLoreControl"
             on:focus={selectNode}
             on:keydown={nextNode}
@@ -119,7 +119,7 @@
             id="spiritLoreControl"
             class="input"
             type="text"
-            placeholder="Control Value (1-10)"
+            placeholder="Control Value (1-10, or negative)"
             data-next-field="spiritLoreFear"
             on:focus={selectNode}
             on:keydown={nextNode}
@@ -138,7 +138,7 @@
             id="spiritLoreFear"
             class="input"
             type="text"
-            placeholder="Fear Value (1-10)"
+            placeholder="Fear Value (1-10, or negative)"
             data-next-field="spiritLoreDefense"
             on:focus={selectNode}
             on:keydown={nextNode}
@@ -157,7 +157,7 @@
             id="spiritLoreDefense"
             class="input"
             type="text"
-            placeholder="Defense Value (1-10)"
+            placeholder="Defense Value (1-10, or negative)"
             data-next-field="spiritLoreUtility"
             on:focus={selectNode}
             on:keydown={nextNode}
@@ -176,7 +176,7 @@
             id="spiritLoreUtility"
             class="input"
             type="text"
-            placeholder="Utility Value (1-10)"
+            placeholder="Utility Value (1-10, or negative)"
             data-next-field="spiritLoreUses"
             on:focus={selectNode}
             on:keydown={nextNode}

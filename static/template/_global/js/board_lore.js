@@ -169,17 +169,15 @@ function buildLoreBoard() {
   var defenseTag = summaryOfPowers.getElementsByClassName("defense")[0];
   var utilityTag = summaryOfPowers.getElementsByClassName("utility")[0];
 
-  var offenseValue = offenseTag.getAttribute("value");
-  var controlValue = controlTag.getAttribute("value");
-  var fearValue = fearTag.getAttribute("value");
-  var defenseValue = defenseTag.getAttribute("value");
-  var utilityValue = utilityTag.getAttribute("value");
-
-  offenseTag.style.height = offenseValue * 10 + "%";
-  controlTag.style.height = controlValue * 10 + "%";
-  fearTag.style.height = fearValue * 10 + "%";
-  defenseTag.style.height = defenseValue * 10 + "%";
-  utilityTag.style.height = utilityValue * 10 + "%";
+  // Any negative value renders as a fixed-size stub hanging below the baseline (sized in CSS); it does not scale.
+  [offenseTag, controlTag, fearTag, defenseTag, utilityTag].forEach((barTag) => {
+    var barValue = Number(barTag.getAttribute("value"));
+    if (barValue < 0) {
+      barTag.classList.add("negative");
+    } else {
+      barTag.style.height = barValue * 10 + "%";
+    }
+  });
 
   let uses = document.getElementsByTagName("summary-of-powers")[0].getAttribute("uses");
   let table = document.getElementsByClassName("powers-summary")[0];

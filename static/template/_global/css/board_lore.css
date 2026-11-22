@@ -320,6 +320,13 @@ summary-of-powers .utility {
   background-size: cover;
 }
 
+/* Negative value: a fixed stub hanging below the baseline, flipped so it reads as growing downward */
+summary-of-powers power-bar.negative {
+  height: 36px;
+  opacity: 0.5;
+  transform: translateY(100%) scaleY(-1);
+}
+
 .offense {
   background-image: url("../images/customIcons/Offense_Bar.png");
 }
