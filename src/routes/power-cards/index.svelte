@@ -479,7 +479,9 @@
     const baseName = powerCards.spiritName
       ? powerCards.spiritName.replaceAll(" ", "_") + "_PowerCardSet"
       : "Custom_PowerCardSet";
-    const suffix = { duplex: "", fronts: "_Fronts", backs: "_Backs" }[mode];
+    const suffix = { duplex: "", fronts: "_Fronts", backs: "_Backs", stacked: "_FrontsAboveBacks" }[
+      mode
+    ];
     const fileName = baseName + suffix + ".pdf";
     const elementNamesInIframe = [];
     for (let i = 0; i < powerCards.cards.length; i++) {

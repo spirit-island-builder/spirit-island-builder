@@ -1,3 +1,5 @@
+/* global attrHTML, cssURL */
+
 // const { base } = require("$app/paths");
 
 function startMain() {
@@ -38,9 +40,12 @@ function buildScenario(quickScenario) {
   scenarioName.innerHTML = quickScenario.getAttribute("name");
   let scenarioArtHolder = document.createElement("scenario-art-holder");
   if (quickScenario.getAttribute("image")) {
-    scenarioArtHolder.innerHTML = `<div class="image" style="background-image:url(${quickScenario.getAttribute(
-      "image"
-    )});"></div>`;
+    // Escaped attribute: a quote in the image URL must not break out of style="".
+    const imageStyle = attrHTML(
+      "style",
+      `background-image:${cssURL(quickScenario.getAttribute("image"))};`
+    );
+    scenarioArtHolder.innerHTML = `<div class="image"${imageStyle}></div>`;
   }
   let panels = scenarioFront.querySelectorAll("panel");
   let scenarioRight = getElement("scenario-right");

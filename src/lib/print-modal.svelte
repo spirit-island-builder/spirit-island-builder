@@ -22,6 +22,11 @@
       label: "Duplex (one PDF)",
       help: "Fronts and backs on alternating pages, for printers that print both sides.",
     },
+    {
+      value: "stacked",
+      label: "Fronts above backs (single-sided)",
+      help: "Each card's back is printed directly below its front, on the same side of the sheet.",
+    },
   ];
 
   let modal;

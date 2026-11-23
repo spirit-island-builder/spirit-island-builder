@@ -1,3 +1,5 @@
+import { sanitizeDocument } from "../lib/sanitize.js";
+
 export const addSpecialRule = (spiritBoard, ruleName = "", ruleEffect = "") => {
   let focusId = "ruleNameInput" + spiritBoard.specialRules.rules.length;
   spiritBoard.specialRules.rules.push({
@@ -691,10 +693,14 @@ const nextNode_DEPRECATED = (event) => {
   }
 };
 
+/**
+ * Fetch and parse a component file. The result is sanitized before any
+ * readHTML() sees it: loaded files are untrusted (see $lib/sanitize.js).
+ */
 export async function loadHTML(url) {
   let response = await fetch(url);
   let parser = new DOMParser();
-  return parser.parseFromString(await response.text(), "text/html");
+  return sanitizeDocument(parser.parseFromString(await response.text(), "text/html"));
 }
 
 /**

@@ -5,6 +5,7 @@
 /* global checkOverflowWidth */
 /* global processRulesText */
 /* global getRangeModel */
+/* global escapeHTML, attrHTML, cssURL */
 
 let lang = "en";
 
@@ -149,13 +150,19 @@ function addImages(board) {
     const spiritBorderSize = board.getAttribute("spirit-border-scale");
     const spiritNameArt = document.createElement("spirit-name-art");
     spiritNamePanel.appendChild(spiritNameArt);
-    spiritNameArt.style.backgroundImage = `url(${spiritBorder})`;
+    spiritNameArt.style.backgroundImage = cssURL(spiritBorder);
     const borderHeight = spiritBorderSize !== null ? spiritBorderSize : "100px";
     spiritNameArt.style.backgroundSize = `705px ${borderHeight}`;
   }
   if (spiritImage) {
     //Image now scales to fill gap. 'imageSize' allows the user to specify what % of the gap to cover
-    board.innerHTML = `<spirit-image-holder><spirit-image class="spirit-image" style="height:${imageSize}; background-image: url(${spiritImage});" >
+    // Both values come from the loaded file: serialize them as an escaped
+    // attribute so a quote in either cannot break out of the style="".
+    const spiritImageStyle = attrHTML(
+      "style",
+      `height:${imageSize}; background-image: ${cssURL(spiritImage)};`
+    );
+    board.innerHTML = `<spirit-image-holder><spirit-image class="spirit-image"${spiritImageStyle}>
       </spirit-image></spirit-image-holder>${board.innerHTML}`;
     artistCredit[0].style.display = "block";
     artistCredit[0].innerHTML = "Artist Credit: " + artistCredit[0].innerHTML;
@@ -269,17 +276,7 @@ function addGrowthTrackBanners(board) {
   });
 }
 
-// Entity-escape user-supplied text for use as element content in generated markup.
-function escapeHTML(value) {
-  return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-}
-
-// Serialize one attribute for generated markup: always double-quoted, with the
-// value entity-escaped so user-supplied text (quotes, ampersands, brackets)
-// cannot break out of the tag. Returns a leading space for easy concatenation.
-function attrHTML(name, value) {
-  return ` ${name}="${escapeHTML(value).replaceAll('"', "&quot;")}"`;
-}
+// escapeHTML() and attrHTML() live in common.js (shared with the other renderers).
 
 function buildGrowthPanel() {
   if (DEBUG) {

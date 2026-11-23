@@ -1,3 +1,5 @@
+/* global attrHTML */
+
 let lang = "en";
 
 function startMain() {
@@ -110,19 +112,31 @@ function buildLoreBoard() {
                             <div class="summary-of-powers-title">${localize[lang]["summary"]}
                         </div></td>
                         <td valign="bottom">
-                            <power-bar class="offense" value="${offenseValue}"></power-bar>
+                            <power-bar class="offense"${attrHTML(
+                              "value",
+                              offenseValue
+                            )}></power-bar>
                         </td>
                         <td valign="bottom">
-                            <power-bar class="control" value="${controlValue}"></power-bar>
+                            <power-bar class="control"${attrHTML(
+                              "value",
+                              controlValue
+                            )}></power-bar>
                         </td>
                         <td valign="bottom">
-                            <power-bar class="fear" value="${fearValue}"></power-bar>
+                            <power-bar class="fear"${attrHTML("value", fearValue)}></power-bar>
                         </td>
                         <td valign="bottom">
-                            <power-bar class="defense" value="${defenseValue}"></power-bar>
+                            <power-bar class="defense"${attrHTML(
+                              "value",
+                              defenseValue
+                            )}></power-bar>
                         </td>
                         <td valign="bottom">
-                            <power-bar class="utility" value="${utilityValue}"></power-bar>
+                            <power-bar class="utility"${attrHTML(
+                              "value",
+                              utilityValue
+                            )}></power-bar>
                         </td>
                     </tr>
                     <tr>
@@ -155,17 +169,15 @@ function buildLoreBoard() {
   var defenseTag = summaryOfPowers.getElementsByClassName("defense")[0];
   var utilityTag = summaryOfPowers.getElementsByClassName("utility")[0];
 
-  var offenseValue = offenseTag.getAttribute("value");
-  var controlValue = controlTag.getAttribute("value");
-  var fearValue = fearTag.getAttribute("value");
-  var defenseValue = defenseTag.getAttribute("value");
-  var utilityValue = utilityTag.getAttribute("value");
-
-  offenseTag.style.height = offenseValue * 10 + "%";
-  controlTag.style.height = controlValue * 10 + "%";
-  fearTag.style.height = fearValue * 10 + "%";
-  defenseTag.style.height = defenseValue * 10 + "%";
-  utilityTag.style.height = utilityValue * 10 + "%";
+  // Any negative value renders as a fixed-size stub hanging below the baseline (sized in CSS); it does not scale.
+  [offenseTag, controlTag, fearTag, defenseTag, utilityTag].forEach((barTag) => {
+    var barValue = Number(barTag.getAttribute("value"));
+    if (barValue < 0) {
+      barTag.classList.add("negative");
+    } else {
+      barTag.style.height = barValue * 10 + "%";
+    }
+  });
 
   let uses = document.getElementsByTagName("summary-of-powers")[0].getAttribute("uses");
   let table = document.getElementsByClassName("powers-summary")[0];

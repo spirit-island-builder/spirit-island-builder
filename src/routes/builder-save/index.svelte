@@ -3,6 +3,7 @@
   import LoadDropdown from "$lib/load-dropdown.svelte";
   import { builderSaveFileName } from "$lib/builder-save-store.js";
   import { markSaved } from "$lib/unsaved-changes.js";
+  import { sanitizeSaveData } from "$lib/sanitize.js";
   import { tick } from "svelte";
 
   export let spiritBoard;
@@ -85,7 +86,8 @@
     let parsed;
     try {
       const text = await fetch(url).then((r) => r.text());
-      parsed = JSON.parse(text);
+      // Loaded saves are untrusted; strip anything executable from rich text.
+      parsed = sanitizeSaveData(JSON.parse(text));
     } catch {
       alert("Could not parse save file — make sure it's a valid builder JSON file.");
       return;

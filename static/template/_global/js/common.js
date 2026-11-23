@@ -2,6 +2,25 @@ function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+// Entity-escape user-supplied text for use as element content in generated markup.
+function escapeHTML(value) {
+  return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+}
+
+// Serialize one attribute for generated markup: always double-quoted, with the
+// value entity-escaped so user-supplied text (quotes, ampersands, brackets)
+// cannot break out of the tag. Returns a leading space for easy concatenation.
+function attrHTML(name, value) {
+  return ` ${name}="${escapeHTML(value).replaceAll('"', "&quot;")}"`;
+}
+
+// A CSS url() token for a user-supplied URL: quoted, with the characters that
+// would end the string escaped, so ")" or quotes in the URL cannot start
+// further declarations. Use attrHTML() around it when it goes into a style="".
+function cssURL(url) {
+  return `url("${String(url).replaceAll("\\", "\\\\").replaceAll('"', '\\"')}")`;
+}
+
 function replaceIcon(html) {
   var result = html;
 

@@ -133,6 +133,12 @@
         "Not sure how your printer feeds? Pencil an X in one corner of a test sheet and see where it lands.",
       ],
     },
+    stacked: {
+      front: (sheet, sheets) => [
+        `FRONTS ABOVE BACKS (sheet ${sheet} of ${sheets}). Print single-sided at Actual Size / 100% - turn off 'Fit to page'.`,
+        "Each card's back is directly below its front.",
+      ],
+    },
   };
 
   /** Crop marks around a cols x rows grid of wid x hit cells at (x, y), plus a
@@ -193,7 +199,8 @@
   /** Power cards. mode "duplex": each sheet of fronts is followed by its sheet
    *  of backs; "fronts" / "backs": just that side, for printers that can't
    *  print both. Every back is mirrored left-right so it lands behind its own
-   *  front. */
+   *  front. "stacked": single-sided, each row of fronts has a row of backs
+   *  directly below it. */
   export const getCardSheetPDF = async (
     fileName,
     frontElements,
@@ -209,8 +216,12 @@
     const ph = doc.getPageHeight();
     const margin = 0.5;
     const cols = Math.floor((pw - 2 * margin) / wid);
-    const rows = Math.floor((ph - 2 * margin) / hit);
-    const perSheet = cols * rows;
+    if (!backElement) mode = "fronts";
+    const stacked = mode === "stacked";
+    // Stacked sheets spend every second row on backs.
+    const allRows = Math.floor((ph - 2 * margin) / hit);
+    const rows = stacked ? allRows - (allRows % 2) : allRows;
+    const perSheet = stacked ? (cols * rows) / 2 : cols * rows;
     const sheets = Math.ceil(frontElements.length / perSheet);
     const x0 = (pw - cols * wid) / 2;
     const y0 = (ph - rows * hit) / 2;
@@ -219,7 +230,6 @@
     // JPEG: a sheet of cards prints on white paper, so the transparent
     // corners gain nothing from PNG, and the file is several times smaller.
     const takeShot = (el) => previewIframe.contentWindow.takeScreenshot(el, scale, "jpeg");
-    if (!backElement) mode = "fronts";
     const printFronts = mode !== "backs";
     const printBacks = mode !== "fronts";
     let backImage, frontImages;
@@ -242,6 +252,20 @@
 
     for (let s = 0; s < sheets; s++) {
       const onSheet = frontElements.slice(s * perSheet, (s + 1) * perSheet);
+
+      if (stacked) {
+        nextPage();
+        const guide = CARD_GUIDE[mode].front(s + 1, sheets);
+        drawPrintGuide(doc, guide, x0, y0, wid, hit, cols, rows);
+        onSheet.forEach((_, n) => {
+          const x = x0 + (n % cols) * wid;
+          const y = y0 + Math.floor(n / cols) * 2 * hit;
+          doc.addImage(frontImages[s * perSheet + n], "JPEG", x, y, wid, hit);
+          // Same alias each time, so the back image is embedded only once.
+          doc.addImage(backImage, "JPEG", x, y + hit, wid, hit, "cardBack");
+        });
+        continue;
+      }
 
       if (printFronts) {
         nextPage();
